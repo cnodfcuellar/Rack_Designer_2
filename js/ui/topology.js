@@ -38,9 +38,9 @@ function initTopology() {
   ctx = canvas.getContext('2d');
   
   canvas.addEventListener('mousedown', e => {
-    const zoom = store._raw.zoom || 1;
-    const px   = store._raw.panX || 0;
-    const py   = store._raw.panY || 0;
+    const zoom = store._raw.topoZoom || 1;
+    const px   = store._raw.topoPanX || 0;
+    const py   = store._raw.topoPanY || 0;
     const mx = (e.offsetX - px) / zoom;
     const my = (e.offsetY - py) / zoom;
 
@@ -99,13 +99,14 @@ function initTopology() {
     }
     // Pan
     panStart = { x: e.clientX, y: e.clientY };
-    panOrig  = { x: store._raw.panX || 0, y: store._raw.panY || 0 };
+    panOrig  = { x: store._raw.topoPanX || 0, y: store._raw.topoPanY || 0 };
+    mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
   });
 
   canvas.addEventListener('mousemove', e => {
-    const zoom = store._raw.zoom || 1;
-    const px   = store._raw.panX || 0;
-    const py   = store._raw.panY || 0;
+    const zoom = store._raw.topoZoom || 1;
+    const px   = store._raw.topoPanX || 0;
+    const py   = store._raw.topoPanY || 0;
     const mx = (e.offsetX - px) / zoom;
     const my = (e.offsetY - py) / zoom;
 
@@ -240,8 +241,8 @@ function initTopology() {
     }
     
     if (panStart) {
-      store._raw.panX = panOrig.x + (e.clientX - panStart.x);
-      store._raw.panY = panOrig.y + (e.clientY - panStart.y);
+      store._raw.topoPanX = panOrig.x + (e.clientX - panStart.x);
+      store._raw.topoPanY = panOrig.y + (e.clientY - panStart.y);
       return;
     }
 
@@ -305,9 +306,9 @@ function initTopology() {
   });
 
   canvas.addEventListener('dblclick', e => {
-    const zoom = store._raw.zoom || 1;
-    const px   = store._raw.panX || 0;
-    const py   = store._raw.panY || 0;
+    const zoom = store._raw.topoZoom || 1;
+    const px   = store._raw.topoPanX || 0;
+    const py   = store._raw.topoPanY || 0;
     const mx = (e.offsetX - px) / zoom;
     const my = (e.offsetY - py) / zoom;
     for (const dev of store._raw.devices) {
@@ -324,7 +325,7 @@ function initTopology() {
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    store._raw.zoom = Math.min(3, Math.max(0.1, (store._raw.zoom || 1) * delta));
+    store._raw.topoZoom = Math.min(3, Math.max(0.1, (store._raw.topoZoom || 1) * delta));
     updateZoomLabel();
   });
 }
@@ -400,9 +401,9 @@ function drawTopo() {
     ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
   }
 
-  const zoom = store._raw.zoom || 1;
-  const px   = store._raw.panX || 0;
-  const py   = store._raw.panY || 0;
+  const zoom = store._raw.topoZoom || 1;
+  const px   = store._raw.topoPanX || 0;
+  const py   = store._raw.topoPanY || 0;
 
   ctx.save();
   ctx.translate(px, py);
@@ -620,5 +621,16 @@ function stopTopo() {
 
 function updateZoomLabel() {
   const lbl = document.getElementById('zoom-level');
-  if (lbl) lbl.textContent = Math.round((store._raw.zoom || 1) * 100) + '%';
+  const pfx = currentView === 'physical' ? 'phys' : 'topo';
+  const z = store._raw[pfx+'Zoom'] || 1;
+  const px = store._raw[pfx+'PanX'] || 0;
+  const py = store._raw[pfx+'PanY'] || 0;
+  if (lbl) lbl.textContent = Math.round(z * 100) + '%';
+  
+  if (currentView === 'physical') {
+    const phys = document.getElementById('view-physical-content');
+    if (phys) {
+      phys.style.transform = `scale(${z}) translate(${px}px, ${py}px)`;
+    }
+  }
 }

@@ -136,7 +136,7 @@ html, body { height: 100%; overflow: hidden; background: var(--bg-main); color: 
 .spacer { flex: 1; }
 
 /* Physical view */
-#view-physical { position: absolute; inset: 0; overflow: auto; padding: 24px; display: flex; gap: 20px; align-items: flex-start; z-index: 1; }
+#view-physical { padding: 24px; overflow: auto; height: 100%; position: relative; z-index: 1; }
 #view-physical.hidden, #view-topology.hidden { display: none !important; }
 
 /* Topology canvas */

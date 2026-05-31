@@ -17,15 +17,18 @@ store.on('change', renderAll);
 
 function initGlobalEvents() {
   document.getElementById('btn-zoom-in').addEventListener('click', () => {
-    store._raw.zoom = Math.min(3, (store._raw.zoom||1) * 1.2);
+    const pfx = currentView === 'physical' ? 'phys' : 'topo';
+    store._raw[pfx+'Zoom'] = Math.min(3, (store._raw[pfx+'Zoom']||1) * 1.2);
     updateZoomLabel();
   });
   document.getElementById('btn-zoom-out').addEventListener('click', () => {
-    store._raw.zoom = Math.max(0.2, (store._raw.zoom||1) / 1.2);
+    const pfx = currentView === 'physical' ? 'phys' : 'topo';
+    store._raw[pfx+'Zoom'] = Math.max(0.2, (store._raw[pfx+'Zoom']||1) / 1.2);
     updateZoomLabel();
   });
   document.getElementById('btn-zoom-reset').addEventListener('click', () => {
-    store._raw.zoom = 1; store._raw.panX = 0; store._raw.panY = 0;
+    const pfx = currentView === 'physical' ? 'phys' : 'topo';
+    store._raw[pfx+'Zoom'] = 1; store._raw[pfx+'PanX'] = 0; store._raw[pfx+'PanY'] = 0;
     updateZoomLabel();
   });
 
@@ -37,13 +40,13 @@ function initGlobalEvents() {
     viewPhysical.addEventListener('mousedown', e => {
       if (e.target.closest('.device-faceplate') || e.target.closest('.rack')) return;
       physPanStart = { x: e.clientX, y: e.clientY };
-      panOrig = { x: store._raw.panX || 0, y: store._raw.panY || 0 };
+      panOrig = { x: store._raw.physPanX || 0, y: store._raw.physPanY || 0 };
     });
     window.addEventListener('mousemove', e => {
       if (physPanStart && currentView === 'physical') {
-        const z = store._raw.zoom || 1;
-        store._raw.panX = panOrig.x + (e.clientX - physPanStart.x) / z;
-        store._raw.panY = panOrig.y + (e.clientY - physPanStart.y) / z;
+        const z = store._raw.physZoom || 1;
+        store._raw.physPanX = panOrig.x + (e.clientX - physPanStart.x) / z;
+        store._raw.physPanY = panOrig.y + (e.clientY - physPanStart.y) / z;
         updateZoomLabel();
       }
     });
@@ -56,6 +59,7 @@ function initGlobalEvents() {
       document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       currentView = tab.dataset.view;
+      updateZoomLabel();
       const phys = document.getElementById('view-physical');
       const topo = document.getElementById('topology-canvas');
       if (currentView === 'physical') {

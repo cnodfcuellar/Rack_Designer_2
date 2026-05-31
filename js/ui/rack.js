@@ -10,15 +10,18 @@ function renderPhysical() {
   const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
 
   if (!racks.length) {
-    container.innerHTML = `<div class="empty-state" style="margin:auto">
-      <div class="icon">🗄️</div>
-      <p>No hay gabinetes en esta sala.</p>
-      <p>Haz clic en "+ Rack" para agregar uno.</p>
+    container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; justify-content:center;">
+      <div class="empty-state">
+        <div class="icon">🗄️</div>
+        <p>No hay gabinetes en esta sala.</p>
+        <p>Haz clic en "+ Rack" para agregar uno.</p>
+      </div>
     </div>`;
+    updateZoomLabel();
     return;
   }
 
-  container.innerHTML = racks.map(rack => {
+  const racksHTML = racks.map(rack => {
     const devices = store.allDevicesInRack(rack.id);
     const deviceMap = {};
     devices.forEach(d => { for (let u = d.slotStart; u < d.slotStart + d.size; u++) deviceMap[u] = d; });
@@ -85,7 +88,12 @@ function renderPhysical() {
     </div>`;
   }).join('');
 
+  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start;">
+    ${racksHTML}
+  </div>`;
+
   bindRackEvents(container);
+  updateZoomLabel();
 }
 
 function bindRackEvents(container) {
