@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ RACK Designer — Consola del Datacenter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- ============================
+     HTML SKELETON
+============================= -->
+<div id="app">
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <div>
+        RACK Designer
+        <span class="logo-sub">DATACENTER CONSOLE</span>
+      </div>
+    </div>
+    <div class="h-divider"></div>
+    <div class="room-tabs" id="room-tabs"></div>
+    <button class="room-tab-add" id="btn-add-room" title="Nueva sala">+</button>
+    <div class="h-divider"></div>
+    <div class="h-search">
+      <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
+    </div>
+    <div class="h-btn-group">
+      <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩ Deshacer</button>
+      <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪ Rehacer</button>
+    </div>
+    <div class="h-divider"></div>
+    <button class="h-btn" id="btn-export-csv">⬇ CSV</button>
+    <button class="h-btn" id="btn-export-json">⬇ JSON</button>
+    <button class="h-btn" id="btn-import-json">⬆ Cargar</button>
+    <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
+    <input type="file" id="file-import" accept=".json" style="display:none">
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sb-title" id="toggle-stats">
+      <span>ESTADÍSTICAS</span>
+      <span id="stats-chevron">▼</span>
+    </div>
+    <div class="sb-header" id="stats-container">
+      <div class="sb-stats" id="sidebar-stats">
+        <div class="stat-pill">
+          <div class="label">Gabinetes</div>
+          <div class="value green" id="stat-racks">0</div>
+        </div>
+        <div class="stat-pill">
+          <div class="label">Equipos</div>
+          <div class="value" id="stat-devices">0</div>
+        </div>
+        <div class="stat-pill">
+          <div class="label">Unidades U</div>
+          <div class="value amber" id="stat-units">0/0</div>
+        </div>
+        <div class="stat-pill">
+          <div class="label">Conexiones</div>
+          <div class="value" id="stat-connections">0</div>
+        </div>
+      </div>
+      <div class="cap-bar-wrap">
+        <div class="cap-bar-labels"><span>RACK CAPACITY</span><span id="cap-rack-pct">0%</span></div>
+        <div class="cap-bar"><div class="cap-bar-fill rack" id="cap-rack-bar" style="width:0%"></div></div>
+      </div>
+      <div class="cap-bar-wrap">
+        <div class="cap-bar-labels"><span>POWER</span><span id="cap-power-val">0 W</span></div>
+        <div class="cap-bar"><div class="cap-bar-fill power" id="cap-power-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="sb-actions" style="border-top: 1px solid var(--border);">
+      <button class="btn-primary" id="btn-add-rack">+ Rack</button>
+      <button class="btn-secondary" id="btn-add-device-modal">+ Equipo</button>
+    </div>
+    <div class="sb-search">
+      <input type="text" id="catalog-search" placeholder="Buscar por nombre o tipo…">
+    </div>
+    <div class="sb-filter-tabs">
+      <button class="filter-tab active" data-filter="all">Todos</button>
+      <button class="filter-tab" data-filter="server">Servers</button>
+      <button class="filter-tab" data-filter="switch">Red</button>
+      <button class="filter-tab" data-filter="storage">Storage</button>
+    </div>
+    <div class="catalog" id="catalog"></div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main id="main">
+    <div class="main-toolbar">
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="physical">⬛ Vista Física</button>
+        <button class="view-tab" data-view="topology">◎ Topología</button>
+      </div>
+      <div class="spacer"></div>
+      <button class="h-btn" id="btn-zoom-out">－</button>
+      <span class="zoom-label" id="zoom-label">100%</span>
+      <button class="h-btn" id="btn-zoom-in">＋</button>
+      <button class="h-btn" id="btn-zoom-reset">⊙ 1:1</button>
+      <div class="h-divider"></div>
+      <button class="h-btn" id="btn-expand-main">⛶ Expandir</button>
+      <button class="h-btn" id="btn-export-png">📸 PNG</button>
+    </div>
+    <div id="view-physical"></div>
+    <canvas id="topology-canvas"></canvas>
+    <div id="view-topology" class="hidden"></div>
+  </main>
+
+  <!-- BOTTOM PANEL -->
+  <div id="bottom">
+    <div class="bottom-header">
+      <div class="tab-pills">
+        <button class="tab-pill active" data-tab="inventory">Inventario</button>
+        <button class="tab-pill" data-tab="connections">Conexiones</button>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn-primary" id="table-btn-add-device" style="margin-right:8px; display:none;">+ Equipo</button>
+      <button class="btn-primary" id="table-btn-add-conn" style="margin-right:8px; display:none;">+ Conexión</button>
+      <div class="h-search" style="margin-right:8px">
+        <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
+      </div>
+      <button class="h-btn" id="btn-expand-bottom">⛶ Expandir</button>
+      <button class="h-btn" id="btn-collapse-bottom">▼</button>
+    </div>
+    <div class="table-wrap" id="bottom-table-wrap"></div>
+  </div>
+</div>
+
+<!-- DRAG GHOST -->
+<div id="drag-ghost"></div>
+
+<!-- NOTIFICATIONS -->
+<div id="notif-area"></div>
+
+<!-- CONTEXT MENU -->
+<div id="ctx-menu" class="hidden"></div>
+
+<!-- MODALS -->
+<div class="modal-overlay hidden" id="modal-rack">
+  <div class="modal">
+    <div class="modal-title">🗄️ <span id="modal-rack-title">Nuevo Gabinete</span></div>
+    <div class="modal-sub">Configura las propiedades del gabinete físico</div>
+    <div class="form-row"><label>Nombre del Gabinete</label><input type="text" id="rack-name" placeholder="Rack A1 — Producción"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Altura (U)</label><input type="number" id="rack-height" value="24" min="4" max="48"></div>
+      <div class="form-row"><label>Color</label>
+        <div class="color-input-wrap">
+          <input type="color" id="rack-color-picker" value="#0ea5e9">
+          <input type="text" id="rack-color" value="#0ea5e9" maxlength="7">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-rack-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-rack-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-device">
+  <div class="modal">
+    <div class="modal-title">🖥️ <span id="modal-device-title">Editar Equipo</span></div>
+    <div class="modal-sub" id="modal-device-sub">Datos técnicos del equipo</div>
+    <div class="form-row"><label>Nombre del Equipo</label><input type="text" id="dev-name" placeholder="Server HP ProLiant DL380"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tipo</label>
+        <select id="dev-type">
+          <option value="server">🖥 Servidor</option>
+          <option value="switch">🔀 Switch</option>
+          <option value="router">🌐 Router</option>
+          <option value="firewall">🔥 Firewall</option>
+          <option value="ups">🔋 UPS</option>
+          <option value="storage">💾 Storage</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Tamaño (U)</label>
+        <select id="dev-size">
+          <option value="1">1U</option><option value="2" selected>2U</option>
+          <option value="4">4U</option><option value="8">8U</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Dirección IP</label><input type="text" id="dev-ip" placeholder="192.168.1.10"></div>
+      <div class="form-row"><label>Dirección MAC</label><input type="text" id="dev-mac" placeholder="AA:BB:CC:DD:EE:FF"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Número de Serie</label><input type="text" id="dev-serial" placeholder="SRV-2024-001"></div>
+      <div class="form-row"><label>Consumo (W)</label><input type="number" id="dev-power" value="200" min="0"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
+      <div class="form-row"><label>Contraseña</label><input type="password" id="dev-pass" placeholder="••••••••"></div>
+    </div>
+    <div class="form-row"><label>Notas</label><textarea id="dev-notes" rows="2" placeholder="Observaciones técnicas…" style="resize:vertical"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-device-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-device-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-room">
+  <div class="modal">
+    <div class="modal-title">🏢 Nueva Sala</div>
+    <div class="modal-sub">Agregar una sala al centro de datos</div>
+    <div class="form-row"><label>Nombre de la Sala</label><input type="text" id="room-name" placeholder="Sala A — Centro de Datos Principal"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-room-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-room-save">Crear Sala</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-cable">
+  <div class="modal">
+    <div class="modal-title">🔌 Editor de Cable</div>
+    <div class="modal-sub">Conectar puertos entre equipos</div>
+    <div class="form-grid">
+      <div class="form-row"><label>Equipo Origen</label>
+        <select id="cable-src-dev"></select>
+      </div>
+      <div class="form-row"><label>Puerto Origen</label>
+        <input type="text" id="cable-src-port" placeholder="Eth0/1">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Equipo Destino</label>
+        <select id="cable-dst-dev"></select>
+      </div>
+      <div class="form-row"><label>Puerto Destino</label>
+        <input type="text" id="cable-dst-port" placeholder="Eth0/2">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tipo de Cable</label>
+        <select id="cable-type">
+          <option value="Cobre">🟦 Cobre (Cat6/Cat6A)</option>
+          <option value="Fibra SM">🔴 Fibra Monomodo</option>
+          <option value="Fibra MM">🟡 Fibra Multimodo</option>
+          <option value="DAC">🟢 DAC (Direct Attach)</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Color del Cable</label>
+        <div class="color-input-wrap">
+          <input type="color" id="cable-color-picker" value="#3b82f6">
+          <input type="text" id="cable-color" value="#3b82f6">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cable-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-cable-save">Conectar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-export-png">
+  <div class="modal">
+    <div class="modal-title">📸 Exportar Rack a PNG</div>
+    <div class="modal-sub">Selecciona el gabinete que deseas exportar</div>
+    <div id="png-rack-list"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-png-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
