@@ -164,3 +164,67 @@ function renderConnectionsTable(wrap, query) {
     });
   });
 }
+
+function getInventoryData() {
+  const data = [['Rack', 'Unidad U', 'Nombre', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
+  store._raw.devices.forEach(d => {
+    const rack = store.rackById(d.rackId);
+    data.push([rack?.name||'', d.slotStart, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power]);
+  });
+  return data;
+}
+
+function getConnectionsData() {
+  const data = [['Origen', 'Puerto Origen', 'Destino', 'Puerto Destino', 'Tipo Cable', 'Color']];
+  store._raw.connections.forEach(c => {
+    const src = store.deviceById(c.sourceDeviceId);
+    const dst = store.deviceById(c.targetDeviceId);
+    data.push([src?.name||'?', c.sourcePort, dst?.name||'?', c.targetPort, c.cableType, c.color]);
+  });
+  return data;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnCsv = document.getElementById('btn-table-csv');
+  const btnExcel = document.getElementById('btn-table-excel');
+  
+  if (btnCsv) {
+    btnCsv.addEventListener('click', () => {
+      let data, filename;
+      if (activeTab === 'inventory') {
+        data = getInventoryData();
+        filename = 'Inventario.csv';
+      } else {
+        data = getConnectionsData();
+        filename = 'Conexiones.csv';
+      }
+      const csvContent = data.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      notify(`CSV de ${activeTab === 'inventory' ? 'Inventario' : 'Conexiones'} exportado con éxito`, 'success');
+    });
+  }
+
+  if (btnExcel) {
+    btnExcel.addEventListener('click', () => {
+      if (typeof XLSX === 'undefined') {
+        notify('Librería Excel no cargada. Actualiza la página o revisa la red.', 'error');
+        return;
+      }
+      const wb = XLSX.utils.book_new();
+      
+      const wsInv = XLSX.utils.aoa_to_sheet(getInventoryData());
+      XLSX.utils.book_append_sheet(wb, wsInv, "Inventario");
+      
+      const wsConn = XLSX.utils.aoa_to_sheet(getConnectionsData());
+      XLSX.utils.book_append_sheet(wb, wsConn, "Conexiones");
+      
+      XLSX.writeFile(wb, 'Rack_Designer_Completo.xlsx');
+      notify('Excel exportado con éxito', 'success');
+    });
+  }
+});

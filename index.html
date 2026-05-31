@@ -36,10 +36,6 @@
       <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩ Deshacer</button>
       <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪ Rehacer</button>
     </div>
-    <div class="h-divider"></div>
-    <button class="h-btn" id="btn-export-csv">⬇ CSV</button>
-    <button class="h-btn" id="btn-export-json">⬇ JSON</button>
-    <button class="h-btn" id="btn-import-json">⬆ Cargar</button>
     <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
     <input type="file" id="file-import" accept=".json" style="display:none">
   </header>
@@ -128,6 +124,8 @@
       <div class="h-search" style="margin-right:8px">
         <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
       </div>
+      <button class="h-btn" id="btn-table-csv" style="margin-right:4px">⬇ CSV</button>
+      <button class="h-btn" id="btn-table-excel" style="margin-right:8px">⬇ Excel</button>
       <button class="h-btn" id="btn-expand-bottom">⛶ Expandir</button>
       <button class="h-btn" id="btn-collapse-bottom">▼</button>
     </div>
@@ -275,6 +273,7 @@
   </div>
 </div>
 
+  <script src="js/xlsx.full.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/store.js"></script>
   <script src="js/ui/catalog.js"></script>

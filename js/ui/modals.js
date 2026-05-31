@@ -408,9 +408,16 @@ function initModals() {
     document.getElementById('modal-export-png').classList.add('hidden');
   });
 
-  document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
-  document.getElementById('btn-export-json').addEventListener('click', exportJSON);
-  document.getElementById('btn-import-json').addEventListener('click', () => document.getElementById('file-import').click());
-  document.getElementById('file-import').addEventListener('change', importJSON);
+  const btnExportCsv = document.getElementById('btn-export-csv');
+  if(btnExportCsv) btnExportCsv.addEventListener('click', exportCSV);
+
+  const btnExportJson = document.getElementById('btn-export-json');
+  if(btnExportJson) btnExportJson.addEventListener('click', exportJSON);
+
+  const btnImportJson = document.getElementById('btn-import-json');
+  if(btnImportJson) btnImportJson.addEventListener('click', () => document.getElementById('file-import').click());
+
+  const fileImport = document.getElementById('file-import');
+  if(fileImport) fileImport.addEventListener('change', importJSON);
   document.getElementById('btn-export-png').addEventListener('click', openPNGModal);
 }
