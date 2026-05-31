@@ -10,8 +10,8 @@ function buildFaceplate(device, heightPx) {
       <div class="ear"></div>
       <div class="vent"></div>
       <div class="fp-mid">
-        <div class="dev-name">${device.name}</div>
-        <div class="lcd">${brand} · ${device.ip || 'NO IP'}</div>
+        <div class="dev-name">${escapeHTML(device.name)}</div>
+        <div class="lcd">${escapeHTML(brand)} · ${escapeHTML(device.ip) || 'NO IP'}</div>
       </div>
       <div class="fp-right">
         <div class="power-btn"></div>
@@ -65,8 +65,8 @@ function buildFaceplate(device, heightPx) {
     return `<div class="fp-firewall" style="height:${h}px">
       <div class="fw-icon">🔥</div>
       <div class="fw-mid">
-        <div class="fw-name">${device.name}</div>
-        <div class="fw-status">${device.ip || 'NO IP'} │ ACTIVE</div>
+        <div class="fw-name">${escapeHTML(device.name)}</div>
+        <div class="fw-status">${escapeHTML(device.ip) || 'NO IP'} │ ACTIVE</div>
       </div>
       <div class="fw-leds">
         <div class="fw-led g"></div>
@@ -92,5 +92,5 @@ function buildFaceplate(device, heightPx) {
     </div>`;
   }
   // Default
-  return `<div style="height:${h}px;display:flex;align-items:center;padding:0 8px;background:#111;font-size:10px;color:#666">${device.name}</div>`;
+  return `<div style="height:${h}px;display:flex;align-items:center;padding:0 8px;background:#111;font-size:10px;color:#666">${escapeHTML(device.name)}</div>`;
 }

@@ -43,10 +43,10 @@ function renderCatalog() {
   cat.innerHTML = list.map(item => `
     <div class="catalog-item" draggable="true" data-catalog-id="${item.id}"
          style="border-left: 3px solid ${TYPE_COLORS[item.type]||'#444'}">
-      <div class="cat-icon" style="background:${TYPE_COLORS[item.type]}22;color:${TYPE_COLORS[item.type]}">${item.icon}</div>
+      <div class="cat-icon" style="background:${TYPE_COLORS[item.type]}22;color:${TYPE_COLORS[item.type]}">${escapeHTML(item.icon)}</div>
       <div class="cat-info">
-        <div class="cat-name">${item.name}</div>
-        <div class="cat-meta">${item.type.toUpperCase()} │ ${item.power}W</div>
+        <div class="cat-name">${escapeHTML(item.name)}</div>
+        <div class="cat-meta">${escapeHTML(item.type).toUpperCase()} │ ${escapeHTML(String(item.power))}W</div>
       </div>
       <div class="cat-size">${item.size}U</div>
       <div class="cat-actions" style="display:flex; flex-direction:column; gap:2px; margin-left:4px;">
@@ -83,9 +83,9 @@ function renderRoomTabs() {
   const tabs = document.getElementById('room-tabs');
   if(!tabs) return;
   tabs.innerHTML = store._raw.rooms.map(r => `
-    <button class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${r.id}">
-      🏢 ${r.name}
-      ${store._raw.rooms.length > 1 ? `<span class="close-btn" data-del-room="${r.id}">✕</span>` : ''}
+    <button class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}">
+      🏢 ${escapeHTML(r.name)}
+      ${store._raw.rooms.length > 1 ? `<span class="close-btn" data-del-room="${escapeHTML(r.id)}">✕</span>` : ''}
     </button>
   `).join('');
   tabs.querySelectorAll('.room-tab').forEach(btn => {

@@ -63,12 +63,12 @@ function renderPhysical() {
       <div class="rack-card" data-rack-id="${rack.id}">
         <div class="rack-header">
           <div class="rack-title">
-            <div class="rack-color-dot" style="background:${rack.color}; box-shadow:0 0 6px ${rack.color}88"></div>
-            ${rack.name}
+            <div class="rack-color-dot" style="background:${escapeHTML(rack.color)}; box-shadow:0 0 6px ${escapeHTML(rack.color)}88"></div>
+            ${escapeHTML(rack.name)}
           </div>
           <div class="rack-hdr-btns">
-            <button class="rack-btn" data-edit-rack="${rack.id}" title="Editar">✎</button>
-            <button class="rack-btn del" data-del-rack="${rack.id}" title="Eliminar">🗑</button>
+            <button class="rack-btn" data-edit-rack="${escapeHTML(rack.id)}" title="Editar">✎</button>
+            <button class="rack-btn del" data-del-rack="${escapeHTML(rack.id)}" title="Eliminar">🗑</button>
           </div>
         </div>
         <div class="rack-body">
@@ -263,10 +263,10 @@ function showContextMenu(x, y, devId) {
   if(!menu) return;
   const dev = store.deviceById(devId);
   menu.innerHTML = `
-    <div class="ctx-item" data-action="edit" data-id="${devId}">✎ Editar equipo</div>
-    <div class="ctx-item" data-action="cable" data-id="${devId}">🔌 Agregar cable</div>
+    <div class="ctx-item" data-action="edit" data-id="${escapeHTML(devId)}">✎ Editar equipo</div>
+    <div class="ctx-item" data-action="cable" data-id="${escapeHTML(devId)}">🔌 Agregar cable</div>
     <div class="ctx-sep"></div>
-    <div class="ctx-item danger" data-action="delete" data-id="${devId}">🗑 Eliminar ${dev?.name || ''}</div>
+    <div class="ctx-item danger" data-action="delete" data-id="${escapeHTML(devId)}">🗑 Eliminar ${escapeHTML(dev?.name || '')}</div>
   `;
   menu.style.cssText = `left:${x}px; top:${y}px`;
   menu.classList.remove('hidden');

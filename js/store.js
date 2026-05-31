@@ -57,6 +57,7 @@ class Store {
     if (typeof obj !== 'object' || obj === null) return obj;
     return new Proxy(obj, {
       set: (target, key, value) => {
+        if (['__proto__', 'constructor', 'prototype'].includes(key)) return true;
         target[key] = typeof value === 'object' && value !== null ? this._makeProxy(value, `${path}.${key}`) : value;
         this._save();
         this._emit('change', { path: `${path}.${key}`, key, value });
@@ -224,6 +225,14 @@ class Store {
     this._raw.connections.push({ id: uid(), ...conn });
     this._save(); 
     this._emit('change', { source: 'addConnection' });
+  }
+
+  updateConnection(id, props) {
+    this.snapshot();
+    const c = this._raw.connections.find(c => c.id === id);
+    if (c) Object.assign(c, props);
+    this._save();
+    this._emit('change', { source: 'updateConnection' });
   }
 
   deleteConnection(id) {

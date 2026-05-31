@@ -40,20 +40,20 @@ function renderInventoryTable(wrap, query) {
     <tbody>
     ${devices.map(d => {
       const rack = store.rackById(d.rackId);
-      return `<tr data-dev-id="${d.id}">
-        <td>${rack?.name || '-'}</td>
+      return `<tr data-dev-id="${escapeHTML(d.id)}">
+        <td>${escapeHTML(rack?.name || '-')}</td>
         <td>${d.slotStart}</td>
-        <td class="editable" data-field="name" data-dev="${d.id}">${d.name}</td>
-        <td><span class="type-badge ${d.type}">${d.type}</span></td>
-        <td class="editable" data-field="ip"  data-dev="${d.id}">${d.ip  || '-'}</td>
-        <td class="editable" data-field="mac" data-dev="${d.id}">${d.mac || '-'}</td>
-        <td class="editable" data-field="serial" data-dev="${d.id}">${d.serial || '-'}</td>
-        <td class="editable" data-field="user" data-dev="${d.id}">${d.user || '-'}</td>
-        <td class="editable" data-field="pass" data-dev="${d.id}">${d.pass || '-'}</td>
-        <td class="editable" data-field="power" data-dev="${d.id}">${d.power || 0}</td>
-        <td>
-          <button class="tbl-action" data-del-dev="${d.id}">✕ Eliminar</button>
-          <button class="tbl-action" data-edit-dev="${d.id}" style="border-color:var(--accent);color:var(--accent)">✎ Editar</button>
+        <td class="editable" data-field="name" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.name)}</td>
+        <td><span class="type-badge ${escapeHTML(d.type)}">${escapeHTML(d.type)}</span></td>
+        <td class="editable" data-field="ip"  data-dev="${escapeHTML(d.id)}">${escapeHTML(d.ip)  || '-'}</td>
+        <td class="editable" data-field="mac" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.mac) || '-'}</td>
+        <td class="editable" data-field="serial" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.serial) || '-'}</td>
+        <td class="editable" data-field="user" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.user) || '-'}</td>
+        <td class="editable" data-field="pass" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.pass) || '-'}</td>
+        <td class="editable" data-field="power" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.power)) || 0}</td>
+        <td style="white-space:nowrap;">
+          <button class="tbl-action" data-edit-dev="${escapeHTML(d.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar">✎</button>
+          <button class="tbl-action" data-del-dev="${escapeHTML(d.id)}" style="padding:4px 8px" title="Eliminar">🗑</button>
         </td>
       </tr>`;
     }).join('')}
@@ -94,6 +94,8 @@ function finishCellEdit(input, td, orig) {
   const field = input.dataset.field;
   const devId = input.dataset.dev;
   const val   = input.value.trim();
+  const allowedFields = ['name', 'ip', 'mac', 'serial', 'user', 'pass', 'power'];
+  if (!allowedFields.includes(field)) return;
   if (field === 'ip') {
     if (val && !/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(val)) {
       input.classList.add('error');
@@ -135,13 +137,16 @@ function renderConnectionsTable(wrap, query) {
       const src = store.deviceById(c.sourceDeviceId);
       const dst = store.deviceById(c.targetDeviceId);
       return `<tr>
-        <td><span class="type-badge ${src?.type||''}">${src?.name||'?'}</span></td>
-        <td>${c.sourcePort}</td>
-        <td><span class="type-badge ${dst?.type||''}">${dst?.name||'?'}</span></td>
-        <td>${c.targetPort}</td>
-        <td>${c.cableType}</td>
-        <td><span class="cable-dot" style="background:${c.color};box-shadow:0 0 4px ${c.color}"></span> ${c.color}</td>
-        <td><button class="tbl-action" data-del-conn="${c.id}">✕ Eliminar</button></td>
+        <td><span class="type-badge ${escapeHTML(src?.type||'')}">${escapeHTML(src?.name||'?')}</span></td>
+        <td>${escapeHTML(c.sourcePort)}</td>
+        <td><span class="type-badge ${escapeHTML(dst?.type||'')}">${escapeHTML(dst?.name||'?')}</span></td>
+        <td>${escapeHTML(c.targetPort)}</td>
+        <td>${escapeHTML(c.cableType)}</td>
+        <td><span class="cable-dot" style="background:${escapeHTML(c.color)};box-shadow:0 0 4px ${escapeHTML(c.color)}"></span> ${escapeHTML(c.color)}</td>
+        <td style="white-space:nowrap;">
+          <button class="tbl-action" data-edit-conn="${escapeHTML(c.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar">✎</button>
+          <button class="tbl-action" data-del-conn="${escapeHTML(c.id)}" style="padding:4px 8px" title="Eliminar">🗑</button>
+        </td>
       </tr>`;
     }).join('')}
     </tbody>
@@ -151,6 +156,11 @@ function renderConnectionsTable(wrap, query) {
     btn.addEventListener('click', () => {
       store.deleteConnection(btn.dataset.delConn);
       notify('Conexión eliminada', 'warn');
+    });
+  });
+  wrap.querySelectorAll('[data-edit-conn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openEditCableModal(btn.dataset.editConn);
     });
   });
 }

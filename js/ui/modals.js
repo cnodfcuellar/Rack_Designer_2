@@ -1,6 +1,7 @@
 let editingRackId   = null;
 let editingDeviceId = null;
 let editingCatalogId = null;
+let editingConnectionId = null;
 
 function openAddRackModal() {
   editingRackId = null;
@@ -80,8 +81,11 @@ function openEditDeviceModal(id) {
 }
 
 function openCableModal(defaultSrcId = null) {
+  editingConnectionId = null;
+  const titleEl = document.getElementById('modal-cable-title');
+  if (titleEl) titleEl.textContent = 'Conectar Equipos';
   const devices = store._raw.devices;
-  const opts = devices.map(d => `<option value="${d.id}">${d.name} (${d.type})</option>`).join('');
+  const opts = devices.map(d => `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`).join('');
   document.getElementById('cable-src-dev').innerHTML = opts;
   document.getElementById('cable-dst-dev').innerHTML = opts;
   if (defaultSrcId) document.getElementById('cable-src-dev').value = defaultSrcId;
@@ -92,12 +96,35 @@ function openCableModal(defaultSrcId = null) {
   document.getElementById('modal-cable').classList.remove('hidden');
 }
 
+function openEditCableModal(connId) {
+  editingConnectionId = connId;
+  const conn = store._raw.connections.find(c => c.id === connId);
+  if (!conn) return;
+
+  const titleEl = document.getElementById('modal-cable-title');
+  if (titleEl) titleEl.textContent = 'Editar Conexión';
+
+  const devices = store._raw.devices;
+  const opts = devices.map(d => `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`).join('');
+  document.getElementById('cable-src-dev').innerHTML = opts;
+  document.getElementById('cable-dst-dev').innerHTML = opts;
+
+  document.getElementById('cable-src-dev').value = conn.sourceDeviceId;
+  document.getElementById('cable-dst-dev').value = conn.targetDeviceId;
+  document.getElementById('cable-src-port').value = conn.sourcePort;
+  document.getElementById('cable-dst-port').value = conn.targetPort;
+  document.getElementById('cable-type').value = conn.cableType;
+  document.getElementById('cable-color').value = conn.color;
+  document.getElementById('cable-color-picker').value = conn.color;
+  document.getElementById('modal-cable').classList.remove('hidden');
+}
+
 function openPNGModal() {
   const list = document.getElementById('png-rack-list');
   const racks = store.currentRacks;
   list.innerHTML = racks.map(r => `
-    <button class="btn-secondary" style="width:100%;margin-bottom:8px;justify-content:flex-start" data-export-rack="${r.id}">
-      📸 Exportar: ${r.name} (${r.height}U)
+    <button class="btn-secondary" style="width:100%;margin-bottom:8px;justify-content:flex-start" data-export-rack="${escapeHTML(r.id)}">
+      📸 Exportar: ${escapeHTML(r.name)} (${r.height}U)
     </button>
   `).join('');
   list.querySelectorAll('[data-export-rack]').forEach(btn => {
@@ -256,8 +283,24 @@ function initModals() {
     const height = parseInt(document.getElementById('rack-height').value);
     const color  = document.getElementById('rack-color').value;
     if (!name) { notify('Ingresa un nombre para el gabinete', 'error'); return; }
-    if (editingRackId) store.updateRack(editingRackId, { name, height, color });
-    else store.addRack({ name, height, color });
+    
+    if (editingRackId) {
+      const devices = store.allDevicesInRack(editingRackId);
+      const overflowingDevices = devices.filter(d => d.slotStart + d.size - 1 > height);
+
+      if (overflowingDevices.length > 0) {
+        const confirmMsg = `Al reducir a ${height}U, se perderán ${overflowingDevices.length} equipo(s) y sus conexiones porque quedan fuera de límite. ¿Deseas continuar y eliminarlos?`;
+        if (!confirm(confirmMsg)) {
+          return;
+        }
+        // User confirmed: remove the devices (and their connections implicitly)
+        overflowingDevices.forEach(d => store.deleteDevice(d.id));
+      }
+
+      store.updateRack(editingRackId, { name, height, color });
+    } else {
+      store.addRack({ name, height, color });
+    }
     document.getElementById('modal-rack').classList.add('hidden');
     notify(editingRackId ? 'Gabinete actualizado' : 'Gabinete creado', 'success');
     editingRackId = null;
@@ -345,9 +388,17 @@ function initModals() {
     const type    = document.getElementById('cable-type').value;
     const color   = document.getElementById('cable-color').value;
     if (!srcId || !dstId || srcId === dstId) { notify('Selecciona dos equipos distintos', 'error'); return; }
-    store.addConnection({ sourceDeviceId: srcId, sourcePort: srcPort, targetDeviceId: dstId, targetPort: dstPort, cableType: type, color });
+    
+    if (editingConnectionId) {
+      store.updateConnection(editingConnectionId, { sourceDeviceId: srcId, sourcePort: srcPort, targetDeviceId: dstId, targetPort: dstPort, cableType: type, color });
+      notify('Conexión actualizada', 'success');
+    } else {
+      store.addConnection({ sourceDeviceId: srcId, sourcePort: srcPort, targetDeviceId: dstId, targetPort: dstPort, cableType: type, color });
+      notify('Cable conectado', 'success');
+    }
+    
     document.getElementById('modal-cable').classList.add('hidden');
-    notify('Cable conectado', 'success');
+    editingConnectionId = null;
   });
   document.getElementById('modal-cable-cancel').addEventListener('click', () => {
     document.getElementById('modal-cable').classList.add('hidden');
