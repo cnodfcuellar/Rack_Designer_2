@@ -122,6 +122,8 @@ function bindRackEvents(container) {
     fp.addEventListener('dragend',   onDeviceDragEnd);
     fp.addEventListener('dblclick',  onDeviceDoubleClick);
     fp.addEventListener('contextmenu', onDeviceContextMenu);
+    fp.addEventListener('mouseenter', onDeviceMouseEnter);
+    fp.addEventListener('mouseleave', onDeviceMouseLeave);
   });
   container.querySelectorAll('.dev-btn.edit').forEach(btn => {
     btn.addEventListener('click', e => {
@@ -294,3 +296,39 @@ document.addEventListener('click', () => {
   const menu = document.getElementById('ctx-menu');
   if(menu) menu.classList.add('hidden');
 });
+
+function onDeviceMouseEnter(e) {
+  const devId = e.currentTarget.dataset.deviceId;
+  const dev = store.deviceById(devId);
+  if(!dev) return;
+
+  const tooltip = document.getElementById('device-tooltip');
+  if(!tooltip) return;
+
+  tooltip.innerHTML = `
+    <div class="tt-title">${escapeHTML(dev.name)}</div>
+    <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(dev.type.toUpperCase())}</span></div>
+    <div class="tt-row"><span>IP:</span> <span>${escapeHTML(dev.ip || 'N/A')}</span></div>
+    <div class="tt-row"><span>User:</span> <span>${escapeHTML(dev.user || 'N/A')}</span></div>
+    <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(dev.pass || 'N/A')}</span></div>
+  `;
+  
+  const rackEl = e.currentTarget.closest('.rack-wrapper');
+  if(rackEl) {
+    const rect = rackEl.getBoundingClientRect();
+    const fpRect = e.currentTarget.getBoundingClientRect();
+    
+    tooltip.style.left = `${rect.right + 20}px`;
+    let top = fpRect.top + (fpRect.height / 2) - (tooltip.offsetHeight / 2);
+    if(top < 20) top = 20;
+    if(top + tooltip.offsetHeight > window.innerHeight - 20) top = window.innerHeight - tooltip.offsetHeight - 20;
+    tooltip.style.top = `${top}px`;
+  }
+
+  tooltip.classList.add('visible');
+}
+
+function onDeviceMouseLeave(e) {
+  const tooltip = document.getElementById('device-tooltip');
+  if(tooltip) tooltip.classList.remove('visible');
+}

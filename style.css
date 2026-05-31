@@ -388,6 +388,14 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 .sb-title { padding: 8px 14px; font-size: 10px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; background: var(--bg-card1); border-bottom: 1px solid var(--border); }
 .sb-title:hover { color: var(--text-primary); }
 
-/* Fullscreen toggle class */
 .fullscreen { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 9999 !important; background: var(--bg-main) !important; margin: 0 !important; border: none !important; border-radius: 0 !important; max-height: none !important; }
+
+/* ============================================================
+   TOOLTIPS FLOTANTES
+============================================================ */
+#device-tooltip { position: fixed; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 10000; pointer-events: none; width: 220px; transition: opacity 0.2s ease, transform 0.2s ease; opacity: 0; transform: translateX(-10px); }
+#device-tooltip.visible { opacity: 1; transform: translateX(0); }
+#device-tooltip .tt-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+#device-tooltip .tt-row { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; display: flex; justify-content: space-between; }
+#device-tooltip .tt-row span:first-child { color: var(--text-muted); }
 
