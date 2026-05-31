@@ -74,6 +74,91 @@ function initGlobalEvents() {
     });
   });
 
+  // Project Menu Dropdown
+  const btnMenu = document.getElementById('btn-project-menu');
+  const dropdown = document.getElementById('project-dropdown');
+  if (btnMenu && dropdown) {
+    btnMenu.addEventListener('click', e => {
+      e.stopPropagation();
+      dropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', e => {
+      if (!dropdown.contains(e.target)) dropdown.classList.add('hidden');
+    });
+
+    document.getElementById('menu-open')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      document.getElementById('import-file').click();
+    });
+    document.getElementById('menu-save')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      const data = { version: 1, project: store._raw, catalog: CATALOG };
+      downloadJSON(data, 'datacenter.rack');
+    });
+    document.getElementById('menu-clear')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (confirm('¿Estás seguro de que deseas limpiar el proyecto? Perderás todos los datos no guardados.')) {
+        const roomId = uid();
+        store.loadData({
+          rooms: [{ id: roomId, name: 'Sala A1' }],
+          racks: [],
+          devices: [],
+          connections: [],
+          currentRoomId: roomId,
+          selectedDeviceId: null,
+          topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
+          topoZoom: 1, topoPanX: 0, topoPanY: 0,
+          physZoom: 1, physPanX: 0, physPanY: 0
+        });
+        notify('Proyecto limpiado. Nueva sala A1 creada.', 'success');
+      }
+    });
+    document.getElementById('menu-demo')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      loadDemoData();
+    });
+    document.getElementById('menu-export-cat')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      downloadJSON(CATALOG, 'catalog_backup.json');
+    });
+    document.getElementById('menu-import-cat')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      alert('Funcionalidad de importar catálogo (Próximamente)');
+    });
+
+    const importFile = document.getElementById('import-file');
+    if (importFile) {
+      importFile.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (data.project) {
+              store.loadData(data.project);
+              if (data.catalog) {
+                CATALOG.length = 0;
+                data.catalog.forEach(c => CATALOG.push(c));
+                renderCatalog();
+              }
+              notify('Proyecto cargado', 'success');
+            } else if (data.rooms) { // old format support
+              store.loadData(data);
+              notify('Proyecto cargado (formato antiguo)', 'success');
+            } else {
+              notify('Archivo inválido', 'error');
+            }
+          } catch(err) {
+            notify('Error al leer el archivo', 'error');
+          }
+          importFile.value = '';
+        };
+        reader.readAsText(file);
+      });
+    }
+  }
+
   // Bottom panel tabs
   document.querySelectorAll('.tab-pill').forEach(pill => {
     pill.addEventListener('click', () => {

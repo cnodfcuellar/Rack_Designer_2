@@ -26,6 +26,25 @@
           <span class="logo-sub">DATACENTER CONSOLE</span>
         </div>
       </div>
+      <div class="project-menu-wrap">
+        <button class="menu-btn" id="btn-project-menu">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+        <div class="dropdown-menu hidden" id="project-dropdown">
+          <div class="dropdown-item" id="menu-open">📂 Abrir proyecto</div>
+          <div class="dropdown-item" id="menu-save">💾 Guardar proyecto</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="menu-clear" style="color: var(--red);">🧹 Limpiar proyecto</div>
+          <div class="dropdown-item" id="menu-demo">✨ Cargar demos</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="menu-export-cat">📤 Exportar catálogo</div>
+          <div class="dropdown-item" id="menu-import-cat">📥 Importar catálogo</div>
+        </div>
+      </div>
     </div>
     <div class="header-main-area">
       <div class="room-tabs" id="room-tabs"></div>
@@ -281,6 +300,7 @@
   </div>
 </div>
 
+  <input type="file" id="import-file" accept=".rack,.json" class="hidden">
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/store.js"></script>

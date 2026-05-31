@@ -248,6 +248,16 @@ class Store {
     this._save();
   }
 
+  loadData(data) {
+    this._undoStack = [];
+    this._redoStack = [];
+    Object.keys(this._raw).forEach(k => delete this._raw[k]);
+    Object.assign(this._raw, data);
+    this._save();
+    this._emit('change', { source: 'loadData' });
+    this._updateHistoryButtons();
+  }
+
   /** Estadísticas calculadas */
   getStats() {
     const racks = this.currentRacks;
