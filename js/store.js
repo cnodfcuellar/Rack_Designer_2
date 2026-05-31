@@ -242,6 +242,12 @@ class Store {
     this._emit('change', { source: 'deleteConnection' });
   }
 
+  saveTopologyState(data) {
+    if (!this._raw.topology) this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
+    Object.assign(this._raw.topology, data);
+    this._save();
+  }
+
   /** Estadísticas calculadas */
   getStats() {
     const racks = this.currentRacks;

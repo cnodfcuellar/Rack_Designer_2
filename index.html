@@ -18,26 +18,29 @@
 
   <!-- HEADER -->
   <header id="header">
-    <div class="logo">
-      <span class="logo-icon">⚡</span>
-      <div>
-        RACK Designer
-        <span class="logo-sub">DATACENTER CONSOLE</span>
+    <div class="header-logo-area">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <div>
+          RACK Designer
+          <span class="logo-sub">DATACENTER CONSOLE</span>
+        </div>
       </div>
     </div>
-    <div class="h-divider"></div>
-    <div class="room-tabs" id="room-tabs"></div>
-    <button class="room-tab-add" id="btn-add-room" title="Nueva sala">+</button>
-    <div class="h-divider"></div>
-    <div class="h-search">
-      <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
+    <div class="header-main-area">
+      <div class="room-tabs" id="room-tabs"></div>
+      <button class="room-tab-add" id="btn-add-room" title="Nueva sala">+</button>
+      <div class="spacer"></div>
+      <div class="h-search">
+        <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
+      </div>
+      <div class="h-btn-group">
+        <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩ Deshacer</button>
+        <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪ Rehacer</button>
+      </div>
+      <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
+      <input type="file" id="file-import" accept=".json" style="display:none">
     </div>
-    <div class="h-btn-group">
-      <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩ Deshacer</button>
-      <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪ Rehacer</button>
-    </div>
-    <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
-    <input type="file" id="file-import" accept=".json" style="display:none">
   </header>
 
   <!-- SIDEBAR -->
@@ -93,18 +96,18 @@
   <!-- MAIN AREA -->
   <main id="main">
     <div class="main-toolbar">
-      <div class="view-tabs">
-        <button class="view-tab active" data-view="physical">⬛ Vista Física</button>
-        <button class="view-tab" data-view="topology">◎ Topología</button>
-      </div>
-      <div class="spacer"></div>
       <button class="h-btn" id="btn-zoom-out">－</button>
-      <span class="zoom-label" id="zoom-label">100%</span>
+      <span class="zoom-label" id="zoom-level">100%</span>
       <button class="h-btn" id="btn-zoom-in">＋</button>
       <button class="h-btn" id="btn-zoom-reset">⊙ 1:1</button>
       <div class="h-divider"></div>
       <button class="h-btn" id="btn-expand-main">⛶ Expandir</button>
       <button class="h-btn" id="btn-export-png">📸 PNG</button>
+      <div class="spacer"></div>
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="physical">⬛ Vista Física</button>
+        <button class="view-tab" data-view="topology">◎ Topología</button>
+      </div>
     </div>
     <div id="view-physical"></div>
     <canvas id="topology-canvas"></canvas>
