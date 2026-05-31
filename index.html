@@ -19,11 +19,14 @@
   <!-- HEADER -->
   <header id="header">
     <div class="header-logo-area">
-      <div class="logo">
-        <span class="logo-icon">⚡</span>
-        <div>
-          RACK Designer
-          <span class="logo-sub">DATACENTER CONSOLE</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="mobile-menu-btn" class="menu-btn" style="display: none;">☰</button>
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <div>
+            RACK Designer
+            <span class="logo-sub">DATACENTER CONSOLE</span>
+          </div>
         </div>
       </div>
       <div class="project-menu-wrap">
@@ -302,6 +305,16 @@
 
   <div id="device-tooltip"></div>
   <input type="file" id="import-file" accept=".rack,.json" class="hidden">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css">
+  <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/scroll-behaviour.min.js"></script>
+  <script>
+    MobileDragDrop.polyfill({
+        dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+    });
+  </script>
+
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/store.js"></script>

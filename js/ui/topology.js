@@ -37,7 +37,7 @@ function initTopology() {
   if(!canvas) return;
   ctx = canvas.getContext('2d');
   
-  canvas.addEventListener('mousedown', e => {
+  canvas.addEventListener('pointerdown', e => {
     const zoom = store._raw.topoZoom || 1;
     const px   = store._raw.topoPanX || 0;
     const py   = store._raw.topoPanY || 0;
@@ -103,7 +103,7 @@ function initTopology() {
     mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
   });
 
-  canvas.addEventListener('mousemove', e => {
+  canvas.addEventListener('pointermove', e => {
     const zoom = store._raw.topoZoom || 1;
     const px   = store._raw.topoPanX || 0;
     const py   = store._raw.topoPanY || 0;
@@ -293,13 +293,19 @@ function initTopology() {
     if (canvas.style.cursor !== newCursor) canvas.style.cursor = newCursor;
   });
 
-  canvas.addEventListener('mouseup', e => {
+  canvas.addEventListener('pointerup', e => {
     if (draggingNode && e.detail === 2) {
       openCableModal(draggingNode);
     }
     if (draggingNode || draggingRack || draggingRoom || resizingRack || resizingRoom) {
       saveTopo(); // Guardar cualquier cambio de posición o tamaño
     }
+    draggingNode = null; draggingRack = null; draggingRoom = null; 
+    resizingRack = null; resizingRoom = null;
+    panStart = null;
+  });
+
+  canvas.addEventListener('pointercancel', e => {
     draggingNode = null; draggingRack = null; draggingRoom = null; 
     resizingRack = null; resizingRoom = null;
     panStart = null;

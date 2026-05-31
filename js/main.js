@@ -37,12 +37,12 @@ function initGlobalEvents() {
   let panOrig = { x: 0, y: 0 };
   const viewPhysical = document.getElementById('view-physical');
   if(viewPhysical) {
-    viewPhysical.addEventListener('mousedown', e => {
+    viewPhysical.addEventListener('pointerdown', e => {
       if (e.target.closest('.device-faceplate') || e.target.closest('.rack')) return;
       physPanStart = { x: e.clientX, y: e.clientY };
       panOrig = { x: store._raw.physPanX || 0, y: store._raw.physPanY || 0 };
     });
-    window.addEventListener('mousemove', e => {
+    window.addEventListener('pointermove', e => {
       if (physPanStart && currentView === 'physical') {
         const z = store._raw.physZoom || 1;
         store._raw.physPanX = panOrig.x + (e.clientX - physPanStart.x) / z;
@@ -50,7 +50,8 @@ function initGlobalEvents() {
         updateZoomLabel();
       }
     });
-    window.addEventListener('mouseup', () => { physPanStart = null; });
+    window.addEventListener('pointerup', () => { physPanStart = null; });
+    window.addEventListener('pointercancel', () => { physPanStart = null; });
   }
 
   // View switching
@@ -155,6 +156,13 @@ function initGlobalEvents() {
           importFile.value = '';
         };
         reader.readAsText(file);
+      });
+    }
+
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
       });
     }
   }
