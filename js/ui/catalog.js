@@ -1,8 +1,4 @@
-import { store } from '../store.js';
-import { onCatalogDragStart, onCatalogDragEnd } from './rack.js';
-import { openEditCatalogModal, deleteRoom } from './modals.js';
-
-export let CATALOG = [
+let CATALOG = [
   { id:'c1', name:'Server HP ProLiant', type:'server',   size:2, power:460, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#0ea5e9' },
   { id:'c2', name:'Server Dell R740',   type:'server',   size:2, power:550, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#0ea5e9' },
   { id:'c3', name:'Server 1U',          type:'server',   size:1, power:200, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#0ea5e9' },
@@ -15,19 +11,19 @@ export let CATALOG = [
   { id:'c10',name:'NAS 2U',             type:'storage',  size:2, power:150, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💾', color:'#06b6d4' },
 ];
 
-export const TYPE_COLORS = { server:'#0ea5e9', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4' };
+const TYPE_COLORS = { server:'#0ea5e9', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4' };
 
-export function addCatalogItem(item) {
+function addCatalogItem(item) {
   CATALOG.push(item);
   renderCatalog();
 }
-export function updateCatalogItem(id, props) {
+function updateCatalogItem(id, props) {
   const c = CATALOG.find(x => x.id === id);
   if(c) Object.assign(c, props);
   renderCatalog();
 }
 
-export function renderCatalog() {
+function renderCatalog() {
   const searchInput = document.getElementById('catalog-search');
   if(!searchInput) return;
   const query  = searchInput.value.toLowerCase();
@@ -83,7 +79,7 @@ export function renderCatalog() {
   });
 }
 
-export function renderRoomTabs() {
+function renderRoomTabs() {
   const tabs = document.getElementById('room-tabs');
   if(!tabs) return;
   tabs.innerHTML = store._raw.rooms.map(r => `
@@ -102,7 +98,7 @@ export function renderRoomTabs() {
   });
 }
 
-export function renderStats() {
+function renderStats() {
   const s = store.getStats();
   const elRacks = document.getElementById('stat-racks');
   if(!elRacks) return;

@@ -1,19 +1,15 @@
-import { store } from '../store.js';
-import { TYPE_COLORS } from './catalog.js';
-import { openCableModal } from './modals.js';
-
 let canvas, ctx;
 let topoAnim = null;
 let panStart = null;
 let panOrig = { x: 0, y: 0 };
-export const nodePositions = {};
-export const rackPositions = {};
+const nodePositions = {};
+const rackPositions = {};
 let flowT = 0;
 
 let draggingNode = null, draggingRack = null;
 let nodeOrig = null;
 
-export function initTopology() {
+function initTopology() {
   canvas = document.getElementById('topology-canvas');
   if(!canvas) return;
   ctx = canvas.getContext('2d');
@@ -115,7 +111,7 @@ export function initTopology() {
   });
 }
 
-export function initTopoPositions() {
+function initTopoPositions() {
   const racks = store.currentRacks;
   const margin = 60;
   const rackW  = 180;
@@ -135,13 +131,13 @@ export function initTopoPositions() {
   });
 }
 
-export function resizeCanvas() {
+function resizeCanvas() {
   if(!canvas) return;
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
 }
 
-export function drawTopo() {
+function drawTopo() {
   if(!canvas || !ctx) return;
   const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
@@ -261,19 +257,19 @@ function bezierPoint(p0, p1, p2, p3, t) {
   return mt*mt*mt*p0 + 3*mt*mt*t*p1 + 3*mt*t*t*p2 + t*t*t*p3;
 }
 
-export function startTopo() {
+function startTopo() {
   resizeCanvas();
   initTopoPositions();
   if (topoAnim) cancelAnimationFrame(topoAnim);
   drawTopo();
 }
 
-export function stopTopo() {
+function stopTopo() {
   if (topoAnim) cancelAnimationFrame(topoAnim);
   topoAnim = null;
 }
 
-export function updateZoomLabel() {
+function updateZoomLabel() {
   const lbl = document.getElementById('zoom-level');
   if (lbl) lbl.textContent = Math.round((store._raw.zoom || 1) * 100) + '%';
 }

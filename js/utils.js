@@ -1,8 +1,8 @@
-export const uid = () => Math.random().toString(36).slice(2, 10);
-export const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
-export const lerp = (a, b, t) => a + (b - a) * t;
+const uid = () => Math.random().toString(36).slice(2, 10);
+const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
+const lerp = (a, b, t) => a + (b - a) * t;
 
-export function notify(msg, type = 'info', duration = 3000) {
+function notify(msg, type = 'info', duration = 3000) {
   const el = document.createElement('div');
   el.className = `notif ${type}`;
   const icons = { info: '●', success: '✓', error: '✗', warn: '⚠' };

@@ -1,16 +1,6 @@
-import { store } from './store.js';
-import { notify } from './utils.js';
-import { renderCatalog, renderRoomTabs, renderStats } from './ui/catalog.js';
-import { renderPhysical } from './ui/rack.js';
-import { initTopology, startTopo, stopTopo, updateZoomLabel, initTopoPositions, resizeCanvas } from './ui/topology.js';
-import { renderBottomPanel, setActiveTab } from './ui/tables.js';
-import { 
-  initModals, openAddRackModal, openAddDeviceModal, openCableModal 
-} from './ui/modals.js';
-
 let currentView = 'physical';
 
-export function renderAll() {
+function renderAll() {
   renderRoomTabs();
   renderStats();
   renderCatalog();

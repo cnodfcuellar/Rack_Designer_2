@@ -1,12 +1,8 @@
-import { store } from '../store.js';
-import { notify } from '../utils.js';
-import { CATALOG, renderCatalog, TYPE_COLORS } from './catalog.js';
+let editingRackId   = null;
+let editingDeviceId = null;
+let editingCatalogId = null;
 
-export let editingRackId   = null;
-export let editingDeviceId = null;
-export let editingCatalogId = null;
-
-export function openAddRackModal() {
+function openAddRackModal() {
   editingRackId = null;
   document.getElementById('modal-rack-title').textContent = 'Nuevo Gabinete';
   document.getElementById('rack-name').value = '';
@@ -16,7 +12,7 @@ export function openAddRackModal() {
   document.getElementById('modal-rack').classList.remove('hidden');
 }
 
-export function openEditRackModal(id) {
+function openEditRackModal(id) {
   editingRackId = id;
   const rack = store.rackById(id);
   if (!rack) return;
@@ -28,7 +24,7 @@ export function openEditRackModal(id) {
   document.getElementById('modal-rack').classList.remove('hidden');
 }
 
-export function openAddDeviceModal() {
+function openAddDeviceModal() {
   editingDeviceId = null;
   editingCatalogId = null;
   document.getElementById('modal-device-title').textContent = 'Nuevo Equipo';
@@ -43,7 +39,7 @@ export function openAddDeviceModal() {
   document.getElementById('modal-device').classList.remove('hidden');
 }
 
-export function openEditCatalogModal(id) {
+function openEditCatalogModal(id) {
   editingCatalogId = id;
   editingDeviceId = null;
   const dev = CATALOG.find(c => c.id === id);
@@ -63,7 +59,7 @@ export function openEditCatalogModal(id) {
   document.getElementById('modal-device').classList.remove('hidden');
 }
 
-export function openEditDeviceModal(id) {
+function openEditDeviceModal(id) {
   editingCatalogId = null;
   editingDeviceId = id;
   const dev = store.deviceById(id);
@@ -83,7 +79,7 @@ export function openEditDeviceModal(id) {
   document.getElementById('modal-device').classList.remove('hidden');
 }
 
-export function openCableModal(defaultSrcId = null) {
+function openCableModal(defaultSrcId = null) {
   const devices = store._raw.devices;
   const opts = devices.map(d => `<option value="${d.id}">${d.name} (${d.type})</option>`).join('');
   document.getElementById('cable-src-dev').innerHTML = opts;
@@ -96,7 +92,7 @@ export function openCableModal(defaultSrcId = null) {
   document.getElementById('modal-cable').classList.remove('hidden');
 }
 
-export function openPNGModal() {
+function openPNGModal() {
   const list = document.getElementById('png-rack-list');
   const racks = store.currentRacks;
   list.innerHTML = racks.map(r => `
@@ -113,7 +109,7 @@ export function openPNGModal() {
   document.getElementById('modal-export-png').classList.remove('hidden');
 }
 
-export function deleteRoom(id) {
+function deleteRoom(id) {
   if (store._raw.rooms.length <= 1) { notify('No puedes eliminar la única sala', 'warn'); return; }
   if (!confirm('¿Eliminar esta sala y todos sus gabinetes?')) return;
   store.snapshot();
@@ -129,7 +125,7 @@ export function deleteRoom(id) {
   notify('Sala eliminada', 'warn');
 }
 
-export function exportCSV() {
+function exportCSV() {
   const header = 'Rack,Unidad U,Nombre,Tipo,IP,MAC,Serie,Usuario,Consumo(W)\n';
   const rows = store._raw.devices.map(d => {
     const rack = store.rackById(d.rackId);
@@ -139,13 +135,13 @@ export function exportCSV() {
   notify('CSV exportado', 'success');
 }
 
-export function exportJSON() {
+function exportJSON() {
   const json = JSON.stringify(store._raw, null, 2);
   downloadBlob(json, 'Rack_Designer_Backup.json', 'application/json');
   notify('Proyecto exportado como JSON', 'success');
 }
 
-export function importJSON(e) {
+function importJSON(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -254,7 +250,7 @@ function downloadBlob(content, filename, type) {
 }
 
 // Bind modal UI events
-export function initModals() {
+function initModals() {
   document.getElementById('modal-rack-save').addEventListener('click', () => {
     const name   = document.getElementById('rack-name').value.trim();
     const height = parseInt(document.getElementById('rack-height').value);

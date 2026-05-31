@@ -1,6 +1,4 @@
-import { store } from '../store.js';
-
-export function buildFaceplate(device, heightPx) {
+function buildFaceplate(device, heightPx) {
   const h = heightPx;
   const type = device.type;
 

@@ -1,13 +1,9 @@
-import { store } from '../store.js';
-import { notify } from '../utils.js';
-import { openEditDeviceModal } from './modals.js';
-
-export let activeTab = 'inventory';
-export function setActiveTab(tab) {
+let activeTab = 'inventory';
+function setActiveTab(tab) {
   activeTab = tab;
 }
 
-export function renderBottomPanel() {
+function renderBottomPanel() {
   const wrap = document.getElementById('bottom-table-wrap');
   if(!wrap) return;
   const searchInput = document.getElementById('table-search');

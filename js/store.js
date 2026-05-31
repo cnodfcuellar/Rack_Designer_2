@@ -1,4 +1,3 @@
-import { uid, deepClone } from './utils.js';
 
 class Store {
   constructor() {
@@ -245,4 +244,4 @@ class Store {
   }
 }
 
-export const store = new Store();
+const store = new Store();

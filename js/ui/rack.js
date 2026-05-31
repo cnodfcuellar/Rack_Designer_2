@@ -1,13 +1,7 @@
-import { store } from '../store.js';
-import { deepClone, notify } from '../utils.js';
-import { buildFaceplate } from './faceplates.js';
-import { CATALOG } from './catalog.js';
-import { openEditRackModal, openEditDeviceModal, openCableModal } from './modals.js';
-
-export const UNIT_H = 24; // px por U
+const UNIT_H = 24; // px por U
 let dragState = null;
 
-export function renderPhysical() {
+function renderPhysical() {
   const container = document.getElementById('view-physical');
   if(!container) return;
   const racks = store.currentRacks;
@@ -138,7 +132,7 @@ function bindRackEvents(container) {
   });
 }
 
-export function onCatalogDragStart(e) {
+function onCatalogDragStart(e) {
   const id = e.currentTarget.dataset.catalogId;
   const item = CATALOG.find(c => c.id === id);
   dragState = { type: 'catalog', item: deepClone(item) };
@@ -154,7 +148,7 @@ export function onCatalogDragStart(e) {
   e.dataTransfer.effectAllowed = 'copy';
 }
 
-export function onCatalogDragEnd(e) {
+function onCatalogDragEnd(e) {
   e.currentTarget.classList.remove('dragging');
   dragState = null;
   clearDropHighlights();
