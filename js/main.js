@@ -116,13 +116,16 @@ function initGlobalEvents() {
     });
     document.getElementById('menu-demo')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
-      const wantSave = confirm('¡Atención! Cargar la demostración sobrescribirá tu proyecto actual.\n\n¿Deseas exportar (guardar) tu trabajo actual antes de continuar?');
+      const wantSave = confirm('¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
       if (wantSave) {
         if (typeof exportJSON === 'function') exportJSON();
-      }
-      const proceed = confirm('¿Proceder a cargar los datos de demostración?');
-      if (proceed) {
-        loadDemoData();
+        // Dar un pequeño respiro para que el navegador inicie la descarga
+        setTimeout(() => { loadDemoData(); }, 1500);
+      } else {
+        const proceed = confirm('⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
+        if (proceed) {
+          loadDemoData();
+        }
       }
     });
     document.getElementById('menu-export-cat')?.addEventListener('click', () => {
