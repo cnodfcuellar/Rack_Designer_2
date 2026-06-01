@@ -419,5 +419,11 @@ function initModals() {
 
   const fileImport = document.getElementById('file-import');
   if(fileImport) fileImport.addEventListener('change', importJSON);
-  document.getElementById('btn-export-png').addEventListener('click', openPNGModal);
+  document.getElementById('btn-export-png').addEventListener('click', () => {
+    if (typeof currentView !== 'undefined' && currentView === 'topology') {
+      if (typeof exportTopologyToPNG === 'function') exportTopologyToPNG();
+    } else {
+      openPNGModal();
+    }
+  });
 }
