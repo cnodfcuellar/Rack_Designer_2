@@ -80,12 +80,44 @@ function openEditDeviceModal(id) {
   document.getElementById('modal-device').classList.remove('hidden');
 }
 
+function buildDeviceOptionsGrouped() {
+  const rooms = store._raw.rooms;
+  const racks = store._raw.racks;
+  const devices = store._raw.devices;
+  let html = '';
+
+  rooms.forEach(room => {
+    const roomRacks = racks.filter(r => r.roomId === room.id);
+    roomRacks.forEach(rack => {
+      const rackDevs = devices.filter(d => d.rackId === rack.id);
+      if (rackDevs.length > 0) {
+        html += `<optgroup label="${escapeHTML(room.name)} — ${escapeHTML(rack.name)}">`;
+        rackDevs.forEach(d => {
+          html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
+        });
+        html += `</optgroup>`;
+      }
+    });
+  });
+
+  const orphaned = devices.filter(d => !d.rackId);
+  if (orphaned.length > 0) {
+    html += `<optgroup label="Sin Gabinete">`;
+    orphaned.forEach(d => {
+      html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
+    });
+    html += `</optgroup>`;
+  }
+
+  return html || '<option value="">No hay equipos disponibles</option>';
+}
+
 function openCableModal(defaultSrcId = null) {
   editingConnectionId = null;
   const titleEl = document.getElementById('modal-cable-title');
   if (titleEl) titleEl.textContent = 'Conectar Equipos';
-  const devices = store._raw.devices;
-  const opts = devices.map(d => `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`).join('');
+  
+  const opts = buildDeviceOptionsGrouped();
   document.getElementById('cable-src-dev').innerHTML = opts;
   document.getElementById('cable-dst-dev').innerHTML = opts;
   if (defaultSrcId) document.getElementById('cable-src-dev').value = defaultSrcId;
@@ -104,8 +136,7 @@ function openEditCableModal(connId) {
   const titleEl = document.getElementById('modal-cable-title');
   if (titleEl) titleEl.textContent = 'Editar Conexión';
 
-  const devices = store._raw.devices;
-  const opts = devices.map(d => `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`).join('');
+  const opts = buildDeviceOptionsGrouped();
   document.getElementById('cable-src-dev').innerHTML = opts;
   document.getElementById('cable-dst-dev').innerHTML = opts;
 
