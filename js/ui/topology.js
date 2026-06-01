@@ -529,17 +529,28 @@ function drawTopo() {
     ctx.restore();
   });
 
+  const searchInput = document.getElementById('global-search');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
   // Draw Device Nodes
   store._raw.devices.forEach(dev => {
     const pos = nodePositions[dev.id];
     if (!pos) return;
     const col = TYPE_COLORS[dev.type] || '#888';
     const r = 22;
-    const isActive = hoveredNode ? connectedNodes.has(dev.id) : true;
+    
+    let isActive = true;
+    if (searchTerm) {
+      const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
+      isActive = fields.includes(searchTerm);
+    } else {
+      isActive = hoveredNode ? connectedNodes.has(dev.id) : true;
+    }
+    
     const isHoverTarget = hoveredNode === dev.id;
 
     ctx.save();
-    ctx.globalAlpha = isActive ? 1 : 0.4;
+    ctx.globalAlpha = isActive ? 1 : 0.15; // Dim significantly if not matching
     
     if (isHoverTarget) {
       ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 6, 0, Math.PI*2);
