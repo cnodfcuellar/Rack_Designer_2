@@ -447,3 +447,165 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   .modal { min-width: 0; width: 92%; padding: 16px; margin: 0 auto; max-height: 90vh; overflow-y: auto; }
   .form-grid { grid-template-columns: 1fr; gap: 10px; }
 }
+
+/* ============================================================
+   FLOOR DEVICES SECTION
+============================================================ */
+.floor-section {
+  width: 100%;
+  margin-top: 32px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floor-section:hover {
+  border-color: var(--border);
+}
+
+.floor-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(21, 28, 46, 0.6);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.floor-device-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.floor-devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  min-height: 90px;
+  transition: all 0.2s ease;
+}
+
+.floor-devices-grid.drag-over {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.floor-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.floor-device-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--floor-color, var(--accent));
+  border-radius: var(--radius);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.floor-device-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02) 50%, transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.floor-device-card:hover::before {
+  transform: translateX(100%);
+}
+
+.floor-device-card:hover {
+  border-color: var(--floor-color, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--floor-color) 20%, transparent), 0 0 1px var(--floor-color);
+}
+
+.floor-device-icon {
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--floor-color) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--floor-color) 20%, transparent);
+  color: var(--floor-color);
+  transition: transform 0.2s ease;
+}
+
+.floor-device-card:hover .floor-device-icon {
+  transform: scale(1.1) rotate(3deg);
+}
+
+.floor-device-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.floor-device-name {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.floor-device-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Catalog tab color accent for floor filter */
+.filter-tab[data-filter="floor"] {
+  border-color: rgba(139, 92, 246, 0.3);
+}
+.filter-tab[data-filter="floor"]:hover {
+  border-color: var(--purple);
+  color: var(--text-primary);
+  background: rgba(139, 92, 246, 0.15);
+}
+.filter-tab[data-filter="floor"].active {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: var(--purple);
+  color: var(--purple);
+}
+

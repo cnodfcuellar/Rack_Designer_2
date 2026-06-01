@@ -9,9 +9,15 @@ let CATALOG = [
   { id:'c8', name:'UPS APC 2U',         type:'ups',      size:2, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔋', color:'#8b5cf6' },
   { id:'c9', name:'SAN Storage 4U',     type:'storage',  size:4, power:300, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💾', color:'#06b6d4' },
   { id:'c10',name:'NAS 2U',             type:'storage',  size:2, power:150, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💾', color:'#06b6d4' },
+  { id:'c11', name:'PC Desktop',         type:'pc',       size:0, power:250, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💻', color:'#0ea5e9' },
+  { id:'c12', name:'Cámara IP',          type:'camera',   size:0, power:15,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📷', color:'#8b5cf6' },
+  { id:'c13', name:'Access Point Wifi',  type:'ap',       size:0, power:20,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📶', color:'#10b981' },
+  { id:'c14', name:'Controlador Puerta', type:'door',     size:0, power:30,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🚪', color:'#f59e0b' },
+  { id:'c15', name:'Impresora Red',      type:'printer',  size:0, power:350, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖨️', color:'#06b6d4' },
+  { id:'c16', name:'Teléfono VoIP',      type:'phone',    size:0, power:10,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📞', color:'#ef4444' },
 ];
 
-const TYPE_COLORS = { server:'#0ea5e9', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4' };
+const TYPE_COLORS = { server:'#0ea5e9', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4', pc:'#0ea5e9', camera:'#8b5cf6', ap:'#10b981', door:'#f59e0b', printer:'#06b6d4', phone:'#ef4444' };
 
 function addCatalogItem(item) {
   CATALOG.push(item);
@@ -34,7 +40,8 @@ function renderCatalog() {
     const matchType = filter === 'all' ||
       (filter === 'server'  && item.type === 'server') ||
       (filter === 'switch'  && ['switch','router','firewall'].includes(item.type)) ||
-      (filter === 'storage' && ['storage','ups'].includes(item.type));
+      (filter === 'storage' && ['storage','ups'].includes(item.type)) ||
+      (filter === 'floor'   && ['pc','camera','ap','door','printer','phone'].includes(item.type));
     const matchQuery = !query || item.name.toLowerCase().includes(query) || item.type.includes(query);
     return matchType && matchQuery;
   });
@@ -48,7 +55,7 @@ function renderCatalog() {
         <div class="cat-name">${escapeHTML(item.name)}</div>
         <div class="cat-meta">${escapeHTML(item.type).toUpperCase()} │ ${escapeHTML(String(item.power))}W</div>
       </div>
-      <div class="cat-size">${item.size}U</div>
+      <div class="cat-size">${item.size ? item.size + 'U' : 'Piso'}</div>
       <div class="cat-actions" style="display:flex; flex-direction:column; gap:2px; margin-left:4px;">
         <button class="cat-btn edit" data-edit-cat="${item.id}" title="Editar" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--text-muted)">✎</button>
         <button class="cat-btn del" data-del-cat="${item.id}" title="Eliminar" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--red)">🗑</button>

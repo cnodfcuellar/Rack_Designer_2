@@ -94,3 +94,41 @@ function buildFaceplate(device, heightPx) {
   // Default
   return `<div style="height:${h}px;display:flex;align-items:center;padding:0 8px;background:#111;font-size:10px;color:#666">${escapeHTML(device.name)}</div>`;
 }
+
+function getFloorFaceplate(device) {
+  const icons = {
+    pc:       '💻',
+    camera:   '📷',
+    ap:       '📶',
+    door:     '🚪',
+    printer:  '🖨️',
+    phone:    '📞',
+  };
+  const colors = {
+    pc:      '#0ea5e9',
+    camera:  '#8b5cf6',
+    ap:      '#10b981',
+    door:    '#f59e0b',
+    printer: '#06b6d4',
+    phone:   '#ef4444',
+  };
+  const icon  = icons[device.type]  || '📦';
+  const color = colors[device.type] || '#8b9ab8';
+  const name  = escapeHTML(device.name);
+
+  return `
+    <div class="floor-device-card" 
+         data-device-id="${device.id}" 
+         style="--floor-color: ${color}">
+      <div class="floor-device-icon">${icon}</div>
+      <div class="floor-device-info">
+        <div class="floor-device-name">${name}</div>
+        <div class="floor-device-meta">${escapeHTML(device.ip) || escapeHTML(device.type).toUpperCase()}</div>
+      </div>
+      <div class="device-actions">
+        <button class="dev-btn edit" data-edit-dev="${device.id}" title="Editar">✎</button>
+        <button class="dev-btn del" data-del-dev="${device.id}" title="Eliminar">🗑</button>
+      </div>
+    </div>`;
+}
+

@@ -119,7 +119,32 @@ class Store {
   /* ---- Helpers de datos ---- */
   get currentRoom()  { return this._raw.rooms.find(r => r.id === this._raw.currentRoomId); }
   get currentRacks() { return this._raw.racks.filter(r => r.roomId === this._raw.currentRoomId); }
-  allDevicesInRack(rackId) { return this._raw.devices.filter(d => d.rackId === rackId); }
+  allDevicesInRack(rackId) { return (this._raw.devices || []).filter(d => d.rackId === rackId && d.category !== 'floor'); }
+  allFloorDevicesInRoom(roomId) { return (this._raw.devices || []).filter(d => d.category === 'floor' && d.roomId === roomId); }
+
+  addFloorDevice(template, roomId, floorX = 100, floorY = 100) {
+    this.snapshot();
+    const device = {
+      id:        uid(),
+      rackId:    null,
+      category:  'floor',
+      roomId:    roomId,
+      name:      template.name  || 'Nuevo equipo',
+      type:      template.type,
+      ip:        template.ip    || '',
+      mac:       template.mac   || '',
+      serial:    template.serial|| '',
+      power:     parseInt(template.power) || 0,
+      plugs:     parseInt(template.plugs) || 1,
+      user:      template.user  || 'admin',
+      pass:      template.pass  || '',
+      notes:     template.notes || ''
+    };
+    this._raw.devices.push(device);
+    this._save();
+    this._emit('change', { source: 'addFloorDevice' });
+    return device;
+  }
   deviceById(id)     { return this._raw.devices.find(d => d.id === id); }
   rackById(id)       { return this._raw.racks.find(r => r.id === id); }
 
@@ -261,11 +286,13 @@ class Store {
   /** Estadísticas calculadas */
   getStats() {
     const racks = this.currentRacks;
-    const devices = racks.flatMap(r => this.allDevicesInRack(r.id));
+    const rackDevices = racks.flatMap(r => this.allDevicesInRack(r.id));
+    const floorDevices = this.allFloorDevicesInRoom(this._raw.currentRoomId);
+    const allDevices = [...rackDevices, ...floorDevices];
     const totalU = racks.reduce((s, r) => s + r.height, 0);
-    const usedU  = devices.reduce((s, d) => s + d.size, 0);
-    const power  = devices.reduce((s, d) => s + (parseInt(d.power) || 0), 0);
-    return { racks: racks.length, devices: devices.length, totalU, usedU, power, connections: this._raw.connections.length };
+    const usedU  = rackDevices.reduce((s, d) => s + d.size, 0);
+    const power  = allDevices.reduce((s, d) => s + (parseInt(d.power) || 0), 0);
+    return { racks: racks.length, devices: allDevices.length, totalU, usedU, power, connections: this._raw.connections.length };
   }
 }
 

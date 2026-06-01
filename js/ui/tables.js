@@ -39,10 +39,13 @@ function renderInventoryTable(wrap, query) {
     </tr></thead>
     <tbody>
     ${devices.map(d => {
-      const rack = store.rackById(d.rackId);
+      const isFloor = d.category === 'floor';
+      const rack = !isFloor ? store.rackById(d.rackId) : null;
+      const locationName = isFloor ? '<span style="color:var(--purple);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-');
+      const slotDisplay = isFloor ? '-' : (d.slotStart || '-');
       return `<tr data-dev-id="${escapeHTML(d.id)}">
-        <td>${escapeHTML(rack?.name || '-')}</td>
-        <td>${d.slotStart}</td>
+        <td>${locationName}</td>
+        <td>${slotDisplay}</td>
         <td class="editable" data-field="name" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.name)}</td>
         <td><span class="type-badge ${escapeHTML(d.type)}">${escapeHTML(d.type)}</span></td>
         <td class="editable" data-field="ip"  data-dev="${escapeHTML(d.id)}">${escapeHTML(d.ip)  || '-'}</td>
@@ -167,10 +170,15 @@ function renderConnectionsTable(wrap, query) {
 }
 
 function getInventoryData() {
-  const data = [['Rack', 'Unidad U', 'Nombre', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
+  const data = [['Rack / Ubicación', 'Unidad U', 'Nombre', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
   store._raw.devices.forEach(d => {
-    const rack = store.rackById(d.rackId);
-    data.push([rack?.name||'', d.slotStart, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power]);
+    const isFloor = d.category === 'floor';
+    const rack = !isFloor ? store.rackById(d.rackId) : null;
+    data.push([
+      isFloor ? 'PISO' : (rack?.name || ''), 
+      isFloor ? '-' : (d.slotStart || ''), 
+      d.name, d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power
+    ]);
   });
   return data;
 }

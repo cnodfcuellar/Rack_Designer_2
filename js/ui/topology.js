@@ -237,6 +237,14 @@ function initTopology() {
           }
         });
       });
+
+      const floorInRoom = store.allFloorDevicesInRoom(draggingRoom);
+      floorInRoom.forEach(dev => {
+        if (nodePositions[dev.id]) {
+          nodePositions[dev.id].x += dx;
+          nodePositions[dev.id].y += dy;
+        }
+      });
       return;
     }
     
@@ -372,7 +380,7 @@ function initTopoPositions() {
     });
 
     const roomW = Math.max(300, currentRackX - currentRoomX);
-    const roomH = maxRackH + 120;
+    const roomH = maxRackH + 140;
 
     if (!roomPositions[room.id]) {
       roomPositions[room.id] = { x: currentRoomX, y: margin };
@@ -380,6 +388,16 @@ function initTopoPositions() {
     if (!roomSizes[room.id]) {
       roomSizes[room.id] = { w: roomW, h: roomH };
     }
+
+    const floorDevices = store.allFloorDevicesInRoom(room.id);
+    floorDevices.forEach((dev, fi) => {
+      if (!nodePositions[dev.id]) {
+        nodePositions[dev.id] = {
+          x: roomPositions[room.id].x + 50 + (fi % 4) * 60,
+          y: roomPositions[room.id].y + roomSizes[room.id].h - 50
+        };
+      }
+    });
 
     currentRoomX += roomSizes[room.id].w + 80;
   });
@@ -570,7 +588,7 @@ function drawTopo() {
     
     ctx.font = '16px serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    const icons = { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾' };
+    const icons = { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾', pc:'💻', camera:'📷', ap:'📶', door:'🚪', printer:'🖨️', phone:'📞' };
     ctx.fillText(icons[dev.type]||'●', pos.x, pos.y);
     
     ctx.font = 'bold 11px "Space Grotesk", sans-serif';

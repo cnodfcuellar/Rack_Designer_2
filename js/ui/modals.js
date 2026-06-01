@@ -2,6 +2,7 @@ let editingRackId   = null;
 let editingDeviceId = null;
 let editingCatalogId = null;
 let editingConnectionId = null;
+const FLOOR_TYPES = new Set(['pc', 'camera', 'ap', 'door', 'printer', 'phone']);
 
 function openAddRackModal() {
   editingRackId = null;
@@ -36,6 +37,7 @@ function openAddDeviceModal() {
   });
   document.getElementById('dev-type').value = 'server';
   document.getElementById('dev-size').value = '2';
+  document.getElementById('dev-size').closest('.form-row').style.display = '';
   document.getElementById('dev-power').value = '200';
   document.getElementById('dev-plugs').value = '1';
   document.getElementById('modal-device').classList.remove('hidden');
@@ -46,11 +48,13 @@ function openEditCatalogModal(id) {
   editingDeviceId = null;
   const dev = CATALOG.find(c => c.id === id);
   if (!dev) return;
+  const isFloor = FLOOR_TYPES.has(dev.type);
   document.getElementById('modal-device-title').textContent = 'Editar Plantilla';
-  document.getElementById('modal-device-sub').textContent = `Catálogo ID: ${id}`;
+  document.getElementById('modal-device-sub').textContent = isFloor ? 'Equipo de piso — se coloca directamente en la sala' : `Catálogo ID: ${id}`;
   document.getElementById('dev-name').value  = dev.name;
   document.getElementById('dev-type').value  = dev.type;
   document.getElementById('dev-size').value  = dev.size;
+  document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
   document.getElementById('dev-ip').value    = dev.ip   || '';
   document.getElementById('dev-mac').value   = dev.mac  || '';
   document.getElementById('dev-serial').value= dev.serial|| '';
@@ -67,11 +71,13 @@ function openEditDeviceModal(id) {
   editingDeviceId = id;
   const dev = store.deviceById(id);
   if (!dev) return;
+  const isFloor = dev.category === 'floor' || FLOOR_TYPES.has(dev.type);
   document.getElementById('modal-device-title').textContent = 'Editar Equipo';
-  document.getElementById('modal-device-sub').textContent = `ID: ${id}`;
+  document.getElementById('modal-device-sub').textContent = isFloor ? 'Equipo de piso — se coloca directamente en la sala' : `ID: ${id}`;
   document.getElementById('dev-name').value  = dev.name;
   document.getElementById('dev-type').value  = dev.type;
-  document.getElementById('dev-size').value  = dev.size;
+  document.getElementById('dev-size').value  = dev.size || 0;
+  document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
   document.getElementById('dev-ip').value    = dev.ip   || '';
   document.getElementById('dev-mac').value   = dev.mac  || '';
   document.getElementById('dev-serial').value= dev.serial|| '';
@@ -312,6 +318,17 @@ function downloadBlob(content, filename, type) {
 
 // Bind modal UI events
 function initModals() {
+  document.getElementById('dev-type').addEventListener('change', function() {
+    const isFloor = FLOOR_TYPES.has(this.value);
+    const sizeRow = document.getElementById('dev-size').closest('.form-row');
+    if (sizeRow) {
+      sizeRow.style.display = isFloor ? 'none' : '';
+    }
+    document.getElementById('modal-device-sub').textContent = isFloor
+      ? 'Equipo de piso — se coloca directamente en la sala'
+      : 'Datos técnicos del equipo en rack';
+  });
+
   document.getElementById('modal-rack-save').addEventListener('click', () => {
     const name   = document.getElementById('rack-name').value.trim();
     const height = parseInt(document.getElementById('rack-height').value);
@@ -377,9 +394,11 @@ function initModals() {
         Object.assign(item, props);
         item.power = parseInt(props.power) || 0;
         item.plugs = parseInt(props.plugs) || 1;
-        item.size = parseInt(props.size) || 1;
-        item.icon = TYPE_COLORS[item.type] ? {server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾'}[item.type] : '●';
-        item.color = TYPE_COLORS[item.type] || '#888';
+        item.size = FLOOR_TYPES.has(props.type) ? 0 : (parseInt(props.size) || 1);
+        item.icon = FLOOR_TYPES.has(props.type)
+          ? { pc:'💻', camera:'📷', ap:'📶', door:'🚪', printer:'🖨️', phone:'📞' }[props.type]
+          : { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾' }[props.type];
+        item.color = TYPE_COLORS[item.type] || '#8b9ab8';
         renderCatalog();
         notify('Plantilla de catálogo actualizada', 'success');
       }
@@ -387,9 +406,14 @@ function initModals() {
       store.updateDevice(editingDeviceId, props);
       notify('Equipo actualizado', 'success');
     } else {
-      const rack = store.currentRacks[0];
-      if (!rack) { notify('Primero crea un gabinete', 'error'); return; }
-      notify('Arrastra el equipo desde el catálogo al rack', 'info');
+      if (FLOOR_TYPES.has(props.type)) {
+        store.addFloorDevice(props, store._raw.currentRoomId);
+        notify('Equipo de piso agregado con éxito', 'success');
+      } else {
+        const rack = store.currentRacks[0];
+        if (!rack) { notify('Primero crea un gabinete', 'error'); return; }
+        notify('Arrastra el equipo desde el catálogo al rack', 'info');
+      }
     }
     document.getElementById('modal-device').classList.add('hidden');
   });

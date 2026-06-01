@@ -88,9 +88,12 @@ function renderPhysical() {
     </div>`;
   }).join('');
 
-  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start;">
-    ${racksHTML}
+  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start; width: 100%;">
+    <div style="display:flex; flex-wrap:wrap; gap:24px; width:100%;">${racksHTML}</div>
   </div>`;
+
+  const floorSection = renderFloorSection(store._raw.currentRoomId);
+  container.querySelector('#view-physical-content').appendChild(floorSection);
 
   bindRackEvents(container);
   updateZoomLabel();
@@ -138,6 +141,42 @@ function bindRackEvents(container) {
         store.deleteDevice(btn.dataset.delDev);
         notify('Equipo eliminado', 'warn');
       }
+    });
+  });
+
+  container.querySelectorAll('.floor-device-card').forEach(card => {
+    card.addEventListener('dblclick', e => {
+      e.stopPropagation();
+      openEditDeviceModal(card.dataset.deviceId);
+    });
+    card.addEventListener('mouseenter', e => {
+      const devId = card.dataset.deviceId;
+      const dev = store.deviceById(devId);
+      if(!dev) return;
+
+      const tooltip = document.getElementById('device-tooltip');
+      if(!tooltip) return;
+
+      tooltip.innerHTML = `
+        <div class="tt-title">${escapeHTML(dev.name)}</div>
+        <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(dev.type.toUpperCase())}</span></div>
+        <div class="tt-row"><span>IP:</span> <span>${escapeHTML(dev.ip || 'N/A')}</span></div>
+        <div class="tt-row"><span>User:</span> <span>${escapeHTML(dev.user || 'N/A')}</span></div>
+        <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(dev.pass || 'N/A')}</span></div>
+      `;
+      
+      const rect = card.getBoundingClientRect();
+      tooltip.style.left = `${rect.right + 10}px`;
+      let top = rect.top + (rect.height / 2) - (tooltip.offsetHeight / 2);
+      if(top < 20) top = 20;
+      if(top + tooltip.offsetHeight > window.innerHeight - 20) top = window.innerHeight - tooltip.offsetHeight - 20;
+      tooltip.style.top = `${top}px`;
+
+      tooltip.classList.add('visible');
+    });
+    card.addEventListener('mouseleave', () => {
+      const tooltip = document.getElementById('device-tooltip');
+      if(tooltip) tooltip.classList.remove('visible');
     });
   });
 }
@@ -331,4 +370,54 @@ function onDeviceMouseEnter(e) {
 function onDeviceMouseLeave(e) {
   const tooltip = document.getElementById('device-tooltip');
   if(tooltip) tooltip.classList.remove('visible');
+}
+
+function renderFloorSection(roomId) {
+  const floorDevices = store.allFloorDevicesInRoom(roomId);
+  
+  const section = document.createElement('div');
+  section.className = 'floor-section';
+  section.dataset.roomId = roomId;
+  section.style.width = '100%';
+  section.innerHTML = `
+    <div class="floor-section-header">
+      <span>Equipos de Piso / Periféricos</span>
+      <span class="floor-device-count">${floorDevices.length} dispositivos</span>
+    </div>
+    <div class="floor-devices-grid" id="floor-grid-${roomId}" data-room-id="${roomId}">
+      ${floorDevices.length === 0
+        ? '<div class="floor-empty">Arrastra periféricos o equipos aquí para ubicarlos en la sala</div>'
+        : floorDevices.map(d => getFloorFaceplate(d)).join('')
+      }
+    </div>`;
+
+  const grid = section.querySelector('.floor-devices-grid');
+  
+  grid.addEventListener('dragover', e => {
+    e.preventDefault();
+    grid.classList.add('drag-over');
+  });
+  
+  grid.addEventListener('dragleave', () => {
+    grid.classList.remove('drag-over');
+  });
+  
+  grid.addEventListener('drop', e => {
+    e.preventDefault();
+    grid.classList.remove('drag-over');
+    
+    if (dragState && dragState.type === 'catalog') {
+      const template = dragState.item;
+      const floorTypes = ['pc', 'camera', 'ap', 'door', 'printer', 'phone'];
+      
+      if (floorTypes.includes(template.type)) {
+        store.addFloorDevice(template, roomId);
+        notify(`${template.name} ubicado en la sala`, 'success');
+      } else {
+        notify('Este equipo requiere montaje obligatorio en Rack', 'warn');
+      }
+    }
+  });
+
+  return section;
 }

@@ -111,6 +111,7 @@
       <button class="filter-tab" data-filter="server">Servers</button>
       <button class="filter-tab" data-filter="switch">Red</button>
       <button class="filter-tab" data-filter="storage">Storage</button>
+      <button class="filter-tab" data-filter="floor">Piso</button>
     </div>
     <div class="catalog" id="catalog"></div>
   </aside>
@@ -202,12 +203,22 @@
     <div class="form-grid">
       <div class="form-row"><label>Tipo</label>
         <select id="dev-type">
-          <option value="server">🖥 Servidor</option>
-          <option value="switch">🔀 Switch</option>
-          <option value="router">🌐 Router</option>
-          <option value="firewall">🔥 Firewall</option>
-          <option value="ups">🔋 UPS</option>
-          <option value="storage">💾 Storage</option>
+          <optgroup label="── Equipos en Rack ──">
+            <option value="server">🖥 Servidor</option>
+            <option value="switch">🔀 Switch</option>
+            <option value="router">🌐 Router</option>
+            <option value="firewall">🔥 Firewall</option>
+            <option value="ups">🔋 UPS</option>
+            <option value="storage">💾 Storage</option>
+          </optgroup>
+          <optgroup label="── Equipos de Piso ──">
+            <option value="pc">💻 PC / Workstation</option>
+            <option value="camera">📷 Cámara IP</option>
+            <option value="ap">📶 Access Point</option>
+            <option value="door">🚪 Ctrl de Puerta</option>
+            <option value="printer">🖨️ Impresora</option>
+            <option value="phone">📞 Teléfono VoIP</option>
+          </optgroup>
         </select>
       </div>
       <div class="form-row"><label>Tamaño (U)</label>
