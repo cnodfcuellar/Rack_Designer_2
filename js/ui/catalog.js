@@ -95,6 +95,20 @@ function renderRoomTabs() {
       // Triggers global re-render
       store._emit('change', { source: 'room-tab-change' });
     });
+    
+    btn.addEventListener('dblclick', e => {
+      if (e.target.dataset.delRoom) return;
+      const roomId = btn.dataset.roomId;
+      const room = store._raw.rooms.find(r => r.id === roomId);
+      if (room) {
+        const newName = prompt('Editar nombre de la sala:', room.name);
+        if (newName !== null && newName.trim() !== '') {
+          room.name = newName.trim();
+          store._emit('change', { source: 'room-rename' });
+          notify('Sala renombrada a ' + room.name, 'success');
+        }
+      }
+    });
   });
 }
 
