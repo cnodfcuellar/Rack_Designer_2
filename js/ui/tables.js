@@ -35,7 +35,7 @@ function renderInventoryTable(wrap, query) {
   wrap.innerHTML = `<table class="data-table">
     <thead><tr>
       <th>Rack</th><th>U</th><th>Nombre</th><th>Tipo</th><th>IP</th>
-      <th>MAC</th><th>Serie</th><th>Usuario</th><th>Contraseña</th><th>Consumo (W)</th><th>Acciones</th>
+      <th>MAC</th><th>Serie</th><th>Usuario</th><th>Contraseña</th><th>Consumo (W)</th><th>Tomas</th><th>Acciones</th>
     </tr></thead>
     <tbody>
     ${devices.map(d => {
@@ -51,6 +51,7 @@ function renderInventoryTable(wrap, query) {
         <td class="editable" data-field="user" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.user) || '-'}</td>
         <td class="editable" data-field="pass" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.pass) || '-'}</td>
         <td class="editable" data-field="power" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.power)) || 0}</td>
+        <td class="editable" data-field="plugs" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.plugs)) || 1}</td>
         <td style="white-space:nowrap;">
           <button class="tbl-action" data-edit-dev="${escapeHTML(d.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar">✎</button>
           <button class="tbl-action" data-del-dev="${escapeHTML(d.id)}" style="padding:4px 8px" title="Eliminar">🗑</button>
@@ -94,7 +95,7 @@ function finishCellEdit(input, td, orig) {
   const field = input.dataset.field;
   const devId = input.dataset.dev;
   const val   = input.value.trim();
-  const allowedFields = ['name', 'ip', 'mac', 'serial', 'user', 'pass', 'power'];
+  const allowedFields = ['name', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs'];
   if (!allowedFields.includes(field)) return;
   if (field === 'ip') {
     if (val && !/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(val)) {
@@ -112,7 +113,7 @@ function finishCellEdit(input, td, orig) {
       return;
     }
   }
-  store.updateDevice(devId, { [field]: field === 'power' ? parseInt(val) || 0 : val });
+  store.updateDevice(devId, { [field]: (field === 'power' || field === 'plugs') ? parseInt(val) || 0 : val });
   td.textContent = val || '-';
 }
 

@@ -37,6 +37,7 @@ function openAddDeviceModal() {
   document.getElementById('dev-type').value = 'server';
   document.getElementById('dev-size').value = '2';
   document.getElementById('dev-power').value = '200';
+  document.getElementById('dev-plugs').value = '1';
   document.getElementById('modal-device').classList.remove('hidden');
 }
 
@@ -54,6 +55,7 @@ function openEditCatalogModal(id) {
   document.getElementById('dev-mac').value   = dev.mac  || '';
   document.getElementById('dev-serial').value= dev.serial|| '';
   document.getElementById('dev-power').value = dev.power || 0;
+  document.getElementById('dev-plugs').value = dev.plugs || 1;
   document.getElementById('dev-user').value  = dev.user || '';
   document.getElementById('dev-pass').value  = dev.pass || '';
   document.getElementById('dev-notes').value = dev.notes|| '';
@@ -74,6 +76,7 @@ function openEditDeviceModal(id) {
   document.getElementById('dev-mac').value   = dev.mac  || '';
   document.getElementById('dev-serial').value= dev.serial|| '';
   document.getElementById('dev-power').value = dev.power || 0;
+  document.getElementById('dev-plugs').value = dev.plugs || 1;
   document.getElementById('dev-user').value  = dev.user || '';
   document.getElementById('dev-pass').value  = dev.pass || '';
   document.getElementById('dev-notes').value = dev.notes|| '';
@@ -184,10 +187,10 @@ function deleteRoom(id) {
 }
 
 function exportCSV() {
-  const header = 'Rack,Unidad U,Nombre,Tipo,IP,MAC,Serie,Usuario,Consumo(W)\n';
+  const header = 'Rack,Unidad U,Nombre,Tipo,IP,MAC,Serie,Usuario,Consumo(W),Tomas\n';
   const rows = store._raw.devices.map(d => {
     const rack = store.rackById(d.rackId);
-    return [rack?.name||'', d.slotStart, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.power].join(',');
+    return [rack?.name||'', d.slotStart, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].join(',');
   }).join('\n');
   downloadBlob(header + rows, 'Inventario_Centro_Datos.csv', 'text/csv');
   notify('CSV exportado', 'success');
@@ -362,6 +365,7 @@ function initModals() {
       ip, mac,
       serial: document.getElementById('dev-serial').value.trim(),
       power:  parseInt(document.getElementById('dev-power').value) || 0,
+      plugs:  parseInt(document.getElementById('dev-plugs').value) || 1,
       user:   document.getElementById('dev-user').value.trim(),
       pass:   document.getElementById('dev-pass').value,
       notes:  document.getElementById('dev-notes').value.trim()
@@ -372,6 +376,7 @@ function initModals() {
       if (item) {
         Object.assign(item, props);
         item.power = parseInt(props.power) || 0;
+        item.plugs = parseInt(props.plugs) || 1;
         item.size = parseInt(props.size) || 1;
         item.icon = TYPE_COLORS[item.type] ? {server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾'}[item.type] : '●';
         item.color = TYPE_COLORS[item.type] || '#888';
