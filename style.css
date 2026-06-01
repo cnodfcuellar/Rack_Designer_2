@@ -442,4 +442,8 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   .bottom-header .spacer { display: none; }
   .bottom-header .h-btn, .bottom-header .btn-primary { white-space: nowrap; flex-shrink: 0; margin-right: 8px !important; }
   .tab-pills { flex-shrink: 0; margin-right: 8px; }
+
+  /* Modals */
+  .modal { min-width: 0; width: 92%; padding: 16px; margin: 0 auto; max-height: 90vh; overflow-y: auto; }
+  .form-grid { grid-template-columns: 1fr; gap: 10px; }
 }
