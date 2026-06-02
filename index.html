@@ -370,13 +370,209 @@
 
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/utils.js"></script>
+<div class="modal-overlay hidden" id="modal-rack">
+  <div class="modal">
+    <div class="modal-title">🗄️ <span id="modal-rack-title">Nuevo Gabinete</span></div>
+    <div class="modal-sub">Configura las propiedades del gabinete físico</div>
+    <div class="form-row"><label>Nombre del Gabinete</label><input type="text" id="rack-name" placeholder="Rack A1 — Producción"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Altura (U)</label><input type="number" id="rack-height" value="24" min="4" max="48"></div>
+      <div class="form-row"><label>Color</label>
+        <div class="color-input-wrap">
+          <input type="color" id="rack-color-picker" value="#0ea5e9">
+          <input type="text" id="rack-color" value="#0ea5e9" maxlength="7">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-rack-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-rack-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-device">
+  <div class="modal">
+    <div class="modal-title">🖥️ <span id="modal-device-title">Editar Equipo</span></div>
+    <div class="modal-sub" id="modal-device-sub">Datos técnicos del equipo</div>
+    <div class="form-row"><label>Nombre del Equipo</label><input type="text" id="dev-name" placeholder="Server HP ProLiant DL380"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tipo</label>
+        <select id="dev-type">
+          <optgroup label="── Equipos en Rack ──">
+            <option value="server">🖥 Servidor</option>
+            <option value="switch">🔀 Switch</option>
+            <option value="router">🌐 Router</option>
+            <option value="firewall">🔥 Firewall</option>
+            <option value="ups">🔋 UPS</option>
+            <option value="storage">💾 Storage</option>
+          </optgroup>
+          <optgroup label="── Equipos de Piso ──">
+            <option value="pc">💻 PC / Workstation</option>
+            <option value="camera">📷 Cámara IP</option>
+            <option value="ap">📶 Access Point</option>
+            <option value="door">🚪 Ctrl de Puerta</option>
+            <option value="printer">🖨️ Impresora</option>
+            <option value="phone">📞 Teléfono VoIP</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-row"><label>Tamaño (U)</label>
+        <select id="dev-size">
+          <option value="1">1U</option><option value="2" selected>2U</option>
+          <option value="4">4U</option><option value="8">8U</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Dirección IP</label><input type="text" id="dev-ip" placeholder="192.168.1.10"></div>
+      <div class="form-row"><label>Dirección MAC</label><input type="text" id="dev-mac" placeholder="AA:BB:CC:DD:EE:FF"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Número de Serie</label><input type="text" id="dev-serial" placeholder="SRV-2024-001"></div>
+      <div class="form-row"><label>Consumo (W)</label><input type="number" id="dev-power" value="200" min="0"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tomas Eléctricas</label><input type="number" id="dev-plugs" value="1" min="1" max="10"></div>
+      <div class="form-row"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
+      <div class="form-row"><label>Contraseña</label><input type="password" id="dev-pass" placeholder="••••••••"></div>
+    </div>
+    <div class="form-row"><label>Notas</label><textarea id="dev-notes" rows="2" placeholder="Observaciones técnicas…" style="resize:vertical"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-device-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-device-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-room">
+  <div class="modal">
+    <div class="modal-title">🏢 Nueva Sala</div>
+    <div class="modal-sub">Agregar una sala al centro de datos</div>
+    <div class="form-row"><label>Nombre de la Sala</label><input type="text" id="room-name" placeholder="Sala A — Centro de Datos Principal"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-room-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-room-save">Crear Sala</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-cable">
+  <div class="modal">
+    <div class="modal-title">🔌 <span id="modal-cable-title">Conectar Equipos</span></div>
+    <div class="modal-sub">Conectar puertos entre equipos</div>
+    <div class="form-grid">
+      <div class="form-row"><label>Equipo Origen</label>
+        <select id="cable-src-dev"></select>
+      </div>
+      <div class="form-row"><label>Puerto Origen</label>
+        <input type="text" id="cable-src-port" placeholder="Eth0/1">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Equipo Destino</label>
+        <select id="cable-dst-dev"></select>
+      </div>
+      <div class="form-row"><label>Puerto Destino</label>
+        <input type="text" id="cable-dst-port" placeholder="Eth0/2">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tipo de Cable</label>
+        <select id="cable-type">
+          <option value="Cobre">🟦 Cobre (Cat6/Cat6A)</option>
+          <option value="Fibra SM">🔴 Fibra Monomodo</option>
+          <option value="Fibra MM">🟡 Fibra Multimodo</option>
+          <option value="DAC">🟢 DAC (Direct Attach)</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Color del Cable</label>
+        <div class="color-input-wrap">
+          <input type="color" id="cable-color-picker" value="#3b82f6">
+          <input type="text" id="cable-color" value="#3b82f6">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cable-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-cable-save">Conectar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-export-png">
+  <div class="modal">
+    <div class="modal-title">📸 Exportar Rack a PNG</div>
+    <div class="modal-sub">Selecciona el gabinete que deseas exportar</div>
+    <div id="png-rack-list"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-png-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-quick-placement">
+  <div class="modal" style="max-width: 450px;">
+    <div class="modal-title">⚡ <span id="qp-modal-title">Ubicación Rápida</span></div>
+    <div class="modal-sub" id="qp-modal-sub">Ubicar de forma asistida sin arrastrar</div>
+    
+    <div class="form-row" id="qp-dev-display-row">
+      <label>Equipo a instalar</label>
+      <input type="text" id="qp-dev-name-display" disabled style="background:var(--bg-card2); opacity:0.8; font-weight:600; color:var(--accent);">
+    </div>
+    
+    <div class="form-row" id="qp-dev-select-row" style="display:none;">
+      <label>Seleccionar Equipo del Catálogo</label>
+      <select id="qp-dev-select" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row">
+      <label>1. Seleccionar Sala</label>
+      <select id="qp-room" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-rack-row">
+      <label>2. Seleccionar Gabinete</label>
+      <select id="qp-rack" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-slot-row">
+      <label>3. Seleccionar Ranura (Slot U)</label>
+      <select id="qp-slot" style="width:100%;"></select>
+    </div>
+    
+    <div class="modal-footer" style="margin-top:20px;">
+      <button class="btn-cancel" id="modal-qp-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-qp-save">Instalar Equipo</button>
+    </div>
+  </div>
+</div>
+
+  <div id="device-tooltip"></div>
+  <input type="file" id="import-file" accept=".rack,.json" class="hidden">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css">
+  <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/scroll-behaviour.min.js"></script>
+  <script>
+    MobileDragDrop.polyfill({
+        dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+    });
+  </script>
+
+  <script src="js/xlsx.full.min.js"></script>
+  <script src="js/utils.js"></script>
   <script src="js/store.js"></script>
   <script src="js/ui/catalog.js"></script>
   <script src="js/ui/faceplates.js"></script>
   <script src="js/ui/modals.js"></script>
   <script src="js/ui/rack.js"></script>
   <script src="js/ui/topology.js"></script>
-  <script src="js/ui/tables.js"></script>
-  <script src="js/main.js"></script>
+<script src="js/ui/tables.js"></script>
+<script src="js/demoData.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
