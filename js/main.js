@@ -344,6 +344,29 @@ function loadDemoData() {
     connections.push({ id: uid(), sourceDeviceId: routerIds[0], sourcePort: 'Gi0/0/0', targetDeviceId: switchIds[0], targetPort: 'Te1/1/4', cableType: 'DAC', color: '#ef4444' });
   }
 
+  // NUEVOS EQUIPOS DE PISO EN LAS DEMOS
+  const floorDev1 = uid();
+  const floorDev2 = uid();
+  const floorDev3 = uid();
+  const floorDev4 = uid();
+  const floorDev5 = uid();
+
+  devices.push(
+    { id: floorDev1, rackId: null, category: 'floor', roomId: r1, name: 'PC Monitoreo - NOC', type: 'pc', ip: '10.0.1.150', mac: '00:AA:BB:CC:DD:11', serial: 'PC-' + uid(), power: 250, plugs: 1, user: 'operator', pass: 'noc2026', notes: 'Consola de Monitoreo NOC 24/7' },
+    { id: floorDev2, rackId: null, category: 'floor', roomId: r1, name: 'Cámara Seguridad NOC', type: 'camera', ip: '10.0.1.160', mac: '00:AA:BB:CC:DD:22', serial: 'CAM-' + uid(), power: 15, plugs: 1, user: 'admin', pass: 'camera123', notes: 'Cámara Domo PTZ' },
+    { id: floorDev3, rackId: null, category: 'floor', roomId: r1, name: 'AP Core WiFi', type: 'ap', ip: '10.0.1.170', mac: '00:AA:BB:CC:DD:33', serial: 'AP-' + uid(), power: 20, plugs: 1, user: 'admin', pass: 'wifi2026', notes: 'SSID: NOC_Admin' },
+    { id: floorDev4, rackId: null, category: 'floor', roomId: r2, name: 'Teléfono VoIP Recepción', type: 'phone', ip: '10.0.2.180', mac: '00:AA:BB:CC:DD:44', serial: 'TEL-' + uid(), power: 10, plugs: 1, user: 'reception', pass: 'tel789', notes: 'VoIP Grandstream' },
+    { id: floorDev5, rackId: null, category: 'floor', roomId: r3, name: 'Impresora Administrativa', type: 'printer', ip: '10.0.3.190', mac: '00:AA:BB:CC:DD:55', serial: 'PRT-' + uid(), power: 350, plugs: 1, user: 'admin', pass: 'print456', notes: 'Láser Color Multifunción' }
+  );
+
+  if (switchIds.length > 0) {
+    connections.push(
+      { id: uid(), sourceDeviceId: floorDev1, sourcePort: 'eth0', targetDeviceId: switchIds[0], targetPort: 'Gi1/0/43', cableType: 'UTP Cat6a', color: '#0ea5e9' },
+      { id: uid(), sourceDeviceId: floorDev2, sourcePort: 'PoE', targetDeviceId: switchIds[0], targetPort: 'Gi1/0/44', cableType: 'PoE Camera', color: '#8b5cf6' },
+      { id: uid(), sourceDeviceId: floorDev3, sourcePort: 'PoE', targetDeviceId: switchIds[0], targetPort: 'Gi1/0/45', cableType: 'PoE WiFi', color: '#10b981' }
+    );
+  }
+
   const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
 
   store.loadData({
