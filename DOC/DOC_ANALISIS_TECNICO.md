@@ -16,13 +16,13 @@ A continuación se muestra la evaluación cuantitativa y cualitativa de cada com
 | :--- | :---: | :---: | :--- | :--- |
 | **`js/store.js`** | **9.2 / 10** | 🟢 Excelente | Crítico (Core) | Excelente uso de ES6 Proxy, manejo robusto de historia (Undo/Redo) y mitigación de Prototype Pollution. Sin embargo, sufre de evasión de encapsulación debido a accesos indebidos a `_raw`. |
 | **`js/utils.js`** | **8.5 / 10** | 🟢 Muy Bueno | Medio | Sanitización XSS muy bien implementada en `escapeHTML`. Se penaliza por mezclar lógica de datos con UI (`notify`) y código huérfano (`lerp`). |
-| **`style.css`** | **8.8 / 10** | 🟢 Muy Bueno | Alto | Sistema de diseño basado en variables CSS `:root` de gran coherencia visual. Soporta responsive básico y animaciones GPU-accelerated. Falta modularización. |
-| **`index.html`** | **7.8 / 10** | 🟡 Bueno | Alto | Estructura semántica correcta. Penalizado por dependencias inyectadas de forma ineficiente, inputs duplicados de importación y código DOM obsoleto. |
+| **`css/style.css`** | **9.0 / 10** | 🟢 Excelente | Alto | Sistema de diseño Glassmorphism basado en variables CSS `:root` de gran coherencia visual. Animaciones fluidas. Estructura modularizada en `/css`. |
+| **`index.html`** | **8.0 / 10** | 🟢 Muy Bueno | Alto | Estructura semántica correcta. Mejorado con referencias de assets relativas limpias. |
 | **`js/ui/topology.js`**| **9.0 / 10** | 🟢 Excelente | Crítico (Canvas) | Motor gráfico de alto nivel en Canvas 2D. Implementa transformaciones matriciales de coordenadas de forma impecable. Tiene un exceso de estado mutable global a nivel de módulo. |
 | **`js/ui/rack.js`** | **8.0 / 10** | 🟢 Muy Bueno | Alto | Lógica tridimensional y bidimensional de colisiones en slots muy robusta. Se ve penalizado por estrategias de re-renderizado masivo que destruyen el DOM y reconstruyen todo el árbol innecesariamente. |
 | **`js/ui/tables.js`** | **8.5 / 10** | 🟢 Muy Bueno | Medio | Edición inline interactiva excelente, validaciones por expresiones regulares para direccionamiento IP y MAC muy robustas. Falta paginación y ordenamiento nativo en frontend. |
-| **`js/ui/modals.js`** | **8.2 / 10** | 🟢 Muy Bueno | Alto | Exportaciones personalizadas impecables (PNG offscreen, JSON estructurado). Presenta acoplamiento de lógica de negocio (operaciones en cascada) que deberían estar en el Store. |
-| **`js/ui/catalog.js`** | **7.8 / 10** | 🟡 Bueno | Medio | Excelente motor de filtrado de inventario. No obstante, las salas se renderizan aquí de forma no cohesiva y el catálogo en runtime carece de persistencia. |
+| **`js/ui/modals.js`** | **8.5 / 10** | 🟢 Muy Bueno | Alto | Implementa el robusto Asistente de Ubicación Rápida con recálculo matemático en cascada. Exportaciones personalizadas impecables. Aún acopla algo de lógica de negocio. |
+| **`js/ui/catalog.js`** | **8.2 / 10** | 🟢 Muy Bueno | Medio | Excelente motor de filtrado. Soporte dual integrado para instanciación de Equipos de Rack y Equipos de Piso mediante doble clic de forma fluida. |
 | **`js/ui/faceplates.js`**| **8.8 / 10** | 🟢 Muy Bueno | Medio | Generación de frentes fotorrealistas de hardware basada puramente en CSS declarativo modular. Código estructurado en cascada `if-else` que dificulta la extensibilidad. |
 | **`js/main.js`** | **7.5 / 10** | 🟡 Bueno | Crítico | Orquestador general del ciclo de vida. Contiene el despachador central reactivo. Penalizado por ejecutar renderizados totales innecesarios (`renderAll`) y albergar más de 200 líneas de datos mock/demo hardcodeados. |
 | **PROYECTO GLOBAL** | **8.46 / 10** | 🟢 Muy Bueno | - | Una SPA Vanilla JS sumamente robusta, visualmente impactante y fluida, que rivaliza con soluciones basadas en frameworks modernos en términos de velocidad de carga y rendimiento de dibujado. |
@@ -39,7 +39,7 @@ El siguiente diagrama ilustra la arquitectura de componentes y cómo interactúa
 graph TD
     subgraph Client ["Navegador Web (SPA)"]
         index["index.html (Estructura DOM)"]
-        style["style.css (Tokens de Diseño & Animaciones)"]
+        style["css/style.css (Glassmorphism & Diseño)"]
     end
 
     subgraph Core ["Núcleo de Datos (State Manager)"]
@@ -120,10 +120,9 @@ erDiagram
 
     DEVICE {
         string id PK "UUID autogenerado"
-        string rackId FK "Enlace a RACK"
-        string name "Nombre descriptivo del equipo"
-        string type "Categoría: server, switch, router, firewall, ups, storage"
-        integer slotStart "Slot inicial de montaje (1-indexed)"
+        string type "Tipo específico (Dell R740, Cámara Axis...)"
+        string category "Categoría arquitectónica (server, switch, floor)"
+        string rackId FK "Enlace a RACK (Nulo o ignorado para equipos de piso)"
         integer size "Altura física en Unidades de Rack (U)"
         string ip "Dirección IPv4 única"
         string mac "Dirección física de red (MAC)"
