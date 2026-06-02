@@ -313,7 +313,7 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 /* ============================================================
    MODALS
 ============================================================ */
-.modal-overlay { position: fixed; inset: 0; background: #00000088; backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
+.modal-overlay { position: fixed; inset: 0; background: #00000088; backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
 .modal-overlay.hidden { display: none; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 .modal { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; min-width: 380px; max-width: 540px; width: 90%; box-shadow: var(--shadow), 0 0 40px #000000aa; animation: slideUp 0.2s; }
@@ -353,7 +353,7 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 /* ============================================================
    CONTEXT MENU
 ============================================================ */
-#ctx-menu { position: fixed; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 4px 0; z-index: 8000; min-width: 160px; box-shadow: var(--shadow); }
+#ctx-menu { position: fixed; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 4px 0; z-index: 100000; min-width: 160px; box-shadow: var(--shadow); }
 #ctx-menu.hidden { display: none; }
 .ctx-item { padding: 7px 14px; font-size: 12px; font-family: var(--font-ui); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.1s; }
 .ctx-item:hover { background: var(--bg-card2); color: var(--text-primary); }
