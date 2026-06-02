@@ -20,7 +20,8 @@ El código está dividido estrictamente por dominios funcionales:
 ```text
 /Rack_Designer_2
 ├── index.html           # Estructura del DOM. Único archivo HTML (Single Page Application).
-├── style.css            # Todos los estilos. Utiliza variables CSS globales (:root) para colores (Tematización).
+├── css/
+│   └── style.css        # Todos los estilos. Utiliza variables CSS globales (:root) para colores (Tematización).
 └── js/
     ├── main.js          # Bootstrapping: Carga inicial, vinculación de eventos UI estáticos (botones).
     ├── store.js         # El "Cerebro". Contiene la clase `Store`, el estado global y la lógica de mutación.

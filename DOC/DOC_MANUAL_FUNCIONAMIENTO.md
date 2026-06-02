@@ -42,7 +42,7 @@ Dado que la aplicación renderiza gráficos por computadora (Canvas) y gestiona 
 Dado que no hay servidor, el despliegue es trivial. Existen dos formas de disponibilizar la herramienta en su empresa:
 
 ### Método A: Ejecución Local (El más seguro)
-1. Descargue la carpeta completa `Rack_Designer_2` que contiene los archivos (`index.html`, `style.css`, `/js`).
+1. Descargue la carpeta completa `Rack_Designer_2` que contiene los archivos y directorios (`index.html`, `/css`, `/js`).
 2. Entregue la carpeta a los ingenieros de red mediante un USB o carpeta compartida.
 3. El usuario solo debe hacer **Doble clic en el archivo `index.html`** para que se abra en su navegador web predeterminado. El sistema estará 100% funcional.
 
