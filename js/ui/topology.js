@@ -171,19 +171,31 @@ function initTopology() {
 
     if (draggingNode) {
       const dev = store._raw.devices.find(d => d.id === draggingNode);
-      const rackPos = rackPositions[dev.rackId];
-      const rackSize = rackSizes[dev.rackId];
-      
       let nx = mx + nodeOrig.x;
       let ny = my + nodeOrig.y;
+      const r = 24;
 
+      // 1. Restringir a Rack si es un equipo montado en rack
+      const rackPos = rackPositions[dev.rackId];
+      const rackSize = rackSizes[dev.rackId];
       if (rackPos && rackSize) {
-        const r = 24;
         if (nx - r < rackPos.x) nx = rackPos.x + r;
         if (nx + r > rackPos.x + rackSize.w) nx = rackPos.x + rackSize.w - r;
         if (ny - r < rackPos.y + 40) ny = rackPos.y + 40 + r;
         if (ny + r > rackPos.y + rackSize.h) ny = rackPos.y + rackSize.h - r;
       }
+
+      // 2. Restringir a la Sala para que no pueda salir del recuadro
+      const roomId = dev.category === 'floor' ? dev.roomId : store.rackById(dev.rackId)?.roomId;
+      const roomPos = roomPositions[roomId];
+      const roomSize = roomSizes[roomId];
+      if (roomPos && roomSize) {
+        if (nx - r < roomPos.x + 10) nx = roomPos.x + 10 + r;
+        if (nx + r > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - 10 - r;
+        if (ny - r < roomPos.y + 50) ny = roomPos.y + 50 + r;
+        if (ny + r > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - 10 - r;
+      }
+
       nodePositions[draggingNode] = { x: nx, y: ny };
       return;
     }
