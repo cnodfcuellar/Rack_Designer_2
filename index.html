@@ -318,6 +318,38 @@
   </div>
 </div>
 
+<div class="modal-overlay hidden" id="modal-quick-placement">
+  <div class="modal" style="max-width: 450px;">
+    <div class="modal-title">⚡ <span id="qp-modal-title">Ubicación Rápida</span></div>
+    <div class="modal-sub" id="qp-modal-sub">Ubicar de forma asistida sin arrastrar</div>
+    
+    <div class="form-row">
+      <label>Equipo a instalar</label>
+      <input type="text" id="qp-dev-name-display" disabled style="background:var(--bg-card2); opacity:0.8; font-weight:600; color:var(--accent);">
+    </div>
+    
+    <div class="form-row">
+      <label>1. Seleccionar Sala</label>
+      <select id="qp-room" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-rack-row">
+      <label>2. Seleccionar Gabinete</label>
+      <select id="qp-rack" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-slot-row">
+      <label>3. Seleccionar Ranura (Slot U)</label>
+      <select id="qp-slot" style="width:100%;"></select>
+    </div>
+    
+    <div class="modal-footer" style="margin-top:20px;">
+      <button class="btn-cancel" id="modal-qp-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-qp-save">Instalar Equipo</button>
+    </div>
+  </div>
+</div>
+
   <div id="device-tooltip"></div>
   <input type="file" id="import-file" accept=".rack,.json" class="hidden">
   

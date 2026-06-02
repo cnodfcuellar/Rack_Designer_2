@@ -66,6 +66,9 @@ function renderCatalog() {
   cat.querySelectorAll('.catalog-item').forEach(el => {
     el.addEventListener('dragstart', onCatalogDragStart);
     el.addEventListener('dragend',   onCatalogDragEnd);
+    el.addEventListener('dblclick', () => {
+      openQuickPlacementModal(el.dataset.catalogId);
+    });
   });
   
   cat.querySelectorAll('.cat-btn.edit').forEach(btn => {
