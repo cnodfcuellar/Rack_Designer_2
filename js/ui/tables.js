@@ -10,14 +10,17 @@ function renderBottomPanel() {
   const query = searchInput ? searchInput.value.toLowerCase() : '';
   
   const btnDev = document.getElementById('table-btn-add-device');
+  const btnQP = document.getElementById('table-btn-add-placement');
   const btnConn = document.getElementById('table-btn-add-conn');
   
   if (activeTab === 'inventory') {
     if (btnDev) btnDev.style.display = 'block';
+    if (btnQP) btnQP.style.display = 'block';
     if (btnConn) btnConn.style.display = 'none';
     renderInventoryTable(wrap, query);
   } else {
     if (btnDev) btnDev.style.display = 'none';
+    if (btnQP) btnQP.style.display = 'none';
     if (btnConn) btnConn.style.display = 'block';
     renderConnectionsTable(wrap, query);
   }

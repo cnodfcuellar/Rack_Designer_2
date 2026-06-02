@@ -488,6 +488,31 @@ function initModals() {
   });
 
   // Quick placement events
+  document.getElementById('qp-dev-select').addEventListener('change', function() {
+    const catalogId = this.value;
+    const item = CATALOG.find(c => c.id === catalogId);
+    if (!item) return;
+    qpCatalogItem = item;
+    
+    const isFloor = FLOOR_TYPES.has(item.type);
+    const rackRow = document.getElementById('qp-rack-row');
+    const slotRow = document.getElementById('qp-slot-row');
+    
+    document.getElementById('qp-modal-title').textContent = isFloor ? '⚡ Ubicar Periférico en Sala' : '⚡ Ubicar en Rack Asistido';
+    document.getElementById('qp-modal-sub').textContent = isFloor 
+      ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
+      : `Instalar ${item.size}U de forma asistida sin arrastrar`;
+
+    if (isFloor) {
+      rackRow.style.display = 'none';
+      slotRow.style.display = 'none';
+    } else {
+      rackRow.style.display = '';
+      slotRow.style.display = '';
+      repopulateQPRacks();
+    }
+  });
+
   document.getElementById('qp-room').addEventListener('change', () => {
     if (qpCatalogItem && !FLOOR_TYPES.has(qpCatalogItem.type)) {
       repopulateQPRacks();
@@ -539,20 +564,40 @@ function initModals() {
 
 let qpCatalogItem = null;
 
-function openQuickPlacementModal(catalogId) {
-  const item = CATALOG.find(c => c.id === catalogId);
-  if (!item) return;
-  qpCatalogItem = item;
+function openQuickPlacementModal(catalogId = null) {
+  const displayRow = document.getElementById('qp-dev-display-row');
+  const selectRow = document.getElementById('qp-dev-select-row');
+  
+  if (catalogId === null) {
+    // Flujo de Tabla (Agregar Equipo): mostramos el selector
+    displayRow.style.display = 'none';
+    selectRow.style.display = '';
+    
+    const select = document.getElementById('qp-dev-select');
+    select.innerHTML = CATALOG.map((item, i) => 
+      `<option value="${escapeHTML(item.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(item.icon)} ${escapeHTML(item.name)} (${escapeHTML(item.type.toUpperCase())})</option>`
+    ).join('');
+    
+    qpCatalogItem = CATALOG[0];
+  } else {
+    // Flujo de Catálogo: mostramos etiqueta fija
+    displayRow.style.display = '';
+    selectRow.style.display = 'none';
+    
+    const item = CATALOG.find(c => c.id === catalogId);
+    if (!item) return;
+    qpCatalogItem = item;
+  }
 
-  const isFloor = FLOOR_TYPES.has(item.type);
+  const isFloor = FLOOR_TYPES.has(qpCatalogItem.type);
 
   // Set titles
   document.getElementById('qp-modal-title').textContent = isFloor ? '⚡ Ubicar Periférico en Sala' : '⚡ Ubicar en Rack Asistido';
   document.getElementById('qp-modal-sub').textContent = isFloor 
     ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
-    : `Instalar ${item.size}U de forma asistida sin arrastrar`;
+    : `Instalar ${qpCatalogItem.size}U de forma asistida sin arrastrar`;
   
-  document.getElementById('qp-dev-name-display').value = `${item.name} (${item.type.toUpperCase()}${isFloor ? '' : ' - ' + item.size + 'U'})`;
+  document.getElementById('qp-dev-name-display').value = `${qpCatalogItem.name} (${qpCatalogItem.type.toUpperCase()}${isFloor ? '' : ' - ' + qpCatalogItem.size + 'U'})`;
 
   // Populate Rooms
   const roomSelect = document.getElementById('qp-room');

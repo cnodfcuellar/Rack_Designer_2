@@ -218,6 +218,8 @@ function initGlobalEvents() {
   document.getElementById('btn-add-device-modal').addEventListener('click', openAddDeviceModal);
   const addDevTableBtn = document.getElementById('table-btn-add-device');
   if(addDevTableBtn) addDevTableBtn.addEventListener('click', openAddDeviceModal);
+  const addPlacementTableBtn = document.getElementById('table-btn-add-placement');
+  if(addPlacementTableBtn) addPlacementTableBtn.addEventListener('click', () => openQuickPlacementModal(null));
   const addConnTableBtn = document.getElementById('table-btn-add-conn');
   if(addConnTableBtn) addConnTableBtn.addEventListener('click', () => openCableModal());
   document.getElementById('btn-undo').addEventListener('click', () => store.undo());

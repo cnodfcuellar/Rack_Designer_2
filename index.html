@@ -151,6 +151,7 @@
       </div>
       <div class="spacer"></div>
       <button class="btn-primary" id="table-btn-add-device" style="margin-right:8px; display:none;">+ Equipo</button>
+      <button class="btn-primary" id="table-btn-add-placement" style="margin-right:8px; display:none; background:rgba(139, 92, 246, 0.15); border-color:var(--purple); color:var(--purple)">⚡ Agregar Equipo</button>
       <button class="btn-primary" id="table-btn-add-conn" style="margin-right:8px; display:none;">+ Conexión</button>
       <div class="h-search" style="margin-right:8px">
         <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
@@ -323,9 +324,14 @@
     <div class="modal-title">⚡ <span id="qp-modal-title">Ubicación Rápida</span></div>
     <div class="modal-sub" id="qp-modal-sub">Ubicar de forma asistida sin arrastrar</div>
     
-    <div class="form-row">
+    <div class="form-row" id="qp-dev-display-row">
       <label>Equipo a instalar</label>
       <input type="text" id="qp-dev-name-display" disabled style="background:var(--bg-card2); opacity:0.8; font-weight:600; color:var(--accent);">
+    </div>
+    
+    <div class="form-row" id="qp-dev-select-row" style="display:none;">
+      <label>Seleccionar Equipo del Catálogo</label>
+      <select id="qp-dev-select" style="width:100%;"></select>
     </div>
     
     <div class="form-row">
