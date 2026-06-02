@@ -57,6 +57,7 @@ function renderCatalog() {
       </div>
       <div class="cat-size">${item.size ? item.size + 'U' : 'Piso'}</div>
       <div class="cat-actions" style="display:flex; flex-direction:column; gap:2px; margin-left:4px;">
+        <button class="cat-btn place" data-place-cat="${item.id}" title="Ubicación Rápida" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--accent)">⚡</button>
         <button class="cat-btn edit" data-edit-cat="${item.id}" title="Editar" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--text-muted)">✎</button>
         <button class="cat-btn del" data-del-cat="${item.id}" title="Eliminar" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--red)">🗑</button>
       </div>
@@ -68,6 +69,13 @@ function renderCatalog() {
     el.addEventListener('dragend',   onCatalogDragEnd);
     el.addEventListener('dblclick', () => {
       openQuickPlacementModal(el.dataset.catalogId);
+    });
+  });
+
+  cat.querySelectorAll('.cat-btn.place').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      openQuickPlacementModal(btn.dataset.placeCat);
     });
   });
   
