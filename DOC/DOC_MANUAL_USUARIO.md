@@ -50,14 +50,26 @@ Para meter un equipo dentro del Rack:
 5. Verás que el Rack tiene espacios enumerados (1, 2, 3...). Suelta el botón del ratón sobre un espacio negro vacío.
 6. ¡El equipo quedará "atornillado" en esa posición!
 
-### 3.3. Editar la información de un equipo
-1. Una vez que el equipo está en el Rack, haz **un clic** sobre él.
+### 3.3. Añadir Equipos de Piso (Periféricos)
+A diferencia de los servidores que van en un rack, existen equipos como PCs, Cámaras IP o Puntos de Acceso Wi-Fi que se ubican directamente en la sala.
+1. Arrastra un periférico desde el catálogo y suéltalo en el área punteada que dice "Equipos de Piso" en la parte inferior de la sala.
+2. También puedes agregarlos instantáneamente sin arrastrar, usando el Asistente de Ubicación Rápida.
+
+### 3.4. Asistente de Ubicación Rápida (⚡)
+Si tienes muchos gabinetes y no quieres arrastrar manualmente, puedes usar el Asistente:
+1. En el catálogo, haz **doble clic** (o presiona el botón `⚡` táctil en tu celular) sobre el equipo que deseas agregar.
+2. Alternativamente, en la pestaña "Inventario" del panel inferior, pulsa el botón morado **"⚡ Agregar Equipo"** y elige el modelo de la lista.
+3. Selecciona la sala. Si es un equipo de rack, selecciona el gabinete y el sistema calculará automáticamente qué espacios de "U" están libres y caben perfectamente.
+4. Presiona "Ubicar Equipo".
+
+### 3.5. Editar la información de un equipo
+1. Una vez que el equipo está en el Rack o en el Piso, haz **un clic** sobre él.
 2. Mira la parte inferior de la pantalla. Verás un panel con información.
 3. Haz clic en el botón **"✏️ Editar"**.
 4. Podrás escribir su Nombre real (ej. "Router de Movistar"), su dirección IP (ej. "192.168.1.1") y su dirección MAC.
 5. Haz clic en "Guardar".
 
-### 3.4. Eliminar un equipo o un Rack
+### 3.6. Eliminar un equipo o un Rack
 * **Eliminar un Equipo:** Haz clic en el equipo y luego pulsa el botón **"🗑️ Eliminar"** en el panel inferior.
 * **Eliminar un Rack:** Pasa el ratón sobre el título del Rack (la barra superior de la caja naranja). Verás que aparece un icono de un basurero. Haz clic ahí para borrar el armario completo.
 

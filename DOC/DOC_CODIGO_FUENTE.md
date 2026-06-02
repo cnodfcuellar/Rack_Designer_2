@@ -65,7 +65,7 @@ Este archivo es complejo porque **no usa HTML**. Utiliza un lienzo gráfico (`<c
 
 ### 3.4. `ui/catalog.js` (Menú de la Izquierda)
 * **Funciones Clave:**
-  * `initCatalog()`: Lee las constantes de `utils.js` y genera automáticamente los botones de "Servidor", "Switch", etc., para que el usuario pueda arrastrarlos. Si el catálogo crece, este archivo los procesará solos sin tener que editar el HTML.
+  * `initCatalog()`: Lee las constantes de `utils.js` y genera automáticamente los botones de "Servidor", "Switch", etc., para que el usuario pueda arrastrarlos. Si el catálogo crece, este archivo los procesará solos sin tener que editar el HTML. Además, vincula el soporte para pantallas táctiles y el doble clic (ícono `⚡`) para invocar el Asistente de Ubicación Rápida.
 
 ### 3.5. `ui/tables.js` (El Panel Inferior)
 * **Funciones Clave:**
@@ -73,10 +73,11 @@ Este archivo es complejo porque **no usa HTML**. Utiliza un lienzo gráfico (`<c
   * `filterTables(query)`: Oculta o muestra filas basándose en lo que el usuario escribió en la barra de búsqueda, usando la propiedad CSS `display: none`.
 
 ### 3.6. `ui/modals.js` (Ventanas Emergentes)
-* **¿Qué hace?** Centraliza el manejo de los formularios (ej. Cuadros de texto para cambiar el nombre, IP o MAC de un equipo).
+* **¿Qué hace?** Centraliza el manejo de los formularios (ej. Cuadros de texto para cambiar el nombre, IP o MAC de un equipo) y del Asistente de Ubicación Rápida.
 * **Funciones Clave:**
   * `openDeviceModal(...)`: Recibe el ID de un equipo, lo busca en el `Store`, rellena las cajas de texto del formulario con los datos actuales, y muestra la ventana en pantalla.
-  * Al hacer clic en "Guardar", emite una llamada a `store.updateDevice(...)`.
+  * `openQuickPlacementModal(...)`: Abre el asistente inteligente con recálculo en cascada de ubicaciones disponibles y soporte de reactividad en caliente.
+  * Al hacer clic en "Guardar", emite una llamada a `store.updateDevice(...)` o `store.addFloorDevice(...)`.
 
 ---
 

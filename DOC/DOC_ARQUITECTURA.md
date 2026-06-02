@@ -91,7 +91,9 @@ classDiagram
     class Device {
         +String id
         +String type
+        +String category
         +String name
+        +String rackId
         +Int u_position
         +Int u_height
         +String ip
