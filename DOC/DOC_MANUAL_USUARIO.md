@@ -50,6 +50,13 @@ Para meter un equipo dentro del Rack:
 5. Verás que el Rack tiene espacios enumerados (1, 2, 3...). Suelta el botón del ratón sobre un espacio negro vacío.
 6. ¡El equipo quedará "atornillado" en esa posición!
 
+### 3.3. Uso de la Vista Trasera (Parte posterior del Rack)
+Algunos equipos como organizadores de cables, PDUs o regletas se instalan en la parte trasera del rack sin ocupar el frente.
+1. En la cabecera de cada rack (caja naranja/azul), verás un botón que dice **"🔄 ATRÁS"**. Haz clic en él.
+2. El gabinete girará en 3D mostrándote la cara posterior, identificable por un borde y fondo azul oscuro.
+3. Ahora puedes arrastrar equipos del catálogo y soltarlos aquí. ¡No chocarán con los equipos que están en la parte delantera!
+4. Para volver al frente, haz clic en el botón **"🖥️ FRENTE"**. El indicador en la parte inferior del rack te mostrará cuántas Unidades (U) tienes ocupadas tanto en el frente (FRONT) como atrás (REAR).
+
 ### 3.3. Añadir Equipos de Piso (Periféricos)
 A diferencia de los servidores que van en un rack, existen equipos como PCs, Cámaras IP o Puntos de Acceso Wi-Fi que se ubican directamente en la sala.
 1. Arrastra un periférico desde el catálogo y suéltalo en el área punteada que dice "Equipos de Piso" en la parte inferior de la sala.
@@ -91,6 +98,7 @@ Para conectar el Equipo A con el Equipo B:
 1. Haz un clic sobre el círculo del Equipo A. El círculo brillará en amarillo indicando que lo has seleccionado.
 2. Mueve el ratón hacia el círculo del Equipo B y haz clic en él.
 3. ¡Automáticamente se dibujará un cable curvo conectando a ambos!
+4. **Editar un cable existente:** Si haces **doble clic** directamente sobre la línea de un cable ya dibujado, se abrirá una ventana donde podrás editar su tipo, color y puertos sin tener que borrarlo y volverlo a crear.
 
 ---
 
@@ -98,9 +106,9 @@ Para conectar el Equipo A con el Equipo B:
 
 En la parte inferior de la pantalla siempre verás unas tablas. 
 
-* **Pestaña Inventario:** Te muestra una lista de todos los equipos que has agregado, ordenados, con su IP, Tipo, etc.
-* **Pestaña Conexiones:** Te muestra una lista de todos los cables que has tirado entre los equipos (Qué se conecta con qué).
-* **Barra de Búsqueda:** Escribe ahí cualquier cosa (por ejemplo, "Cisco") y la tabla se filtrará automáticamente para mostrar solo los equipos de esa marca.
+* **Pestaña Inventario:** Te muestra una lista de todos los equipos que has agregado, con su IP, Tipo, Consumo (W), y en qué **Lado** del rack están instalados (Frente o Atrás).
+* **Pestaña Conexiones:** Te muestra una lista de todos los cables que has tirado entre los equipos. Incluye detalles de la **Sala y Rack de Origen/Destino**, facilitando encontrar a dónde va cada cable.
+* **Barra de Búsqueda:** Escribe ahí cualquier cosa (por ejemplo, "Cisco" o "192.168.") y la tabla se filtrará automáticamente para mostrar solo los resultados correspondientes.
 
 ---
 
