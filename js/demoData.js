@@ -1,106 +1,112 @@
 function loadDemoData() {
   const r1 = uid(); const r2 = uid(); const r3 = uid();
   const rooms = [
-    { id: r1, name: 'Sala Principal (Core)' },
-    { id: r2, name: 'Sala Secundaria (Edge)' },
-    { id: r3, name: 'Sala de Cómputo (Storage/Servers)' }
+    { id: r1, name: 'Data Center' },
+    { id: r2, name: 'Edificio A2' },
+    { id: r3, name: 'Edificio B1' }
   ];
 
   const racks = [];
   const devices = [];
   const connections = [];
 
+  const rackSpecs = [
+    // Data Center
+    { room: r1, name: 'Rack 101', id_num: 101 },
+    { room: r1, name: 'Rack 102', id_num: 102 },
+    { room: r1, name: 'Rack 103', id_num: 103 },
+    { room: r1, name: 'Rack 104', id_num: 104 },
+    // Edificio A2
+    { room: r2, name: 'Rack 201', id_num: 201 },
+    { room: r2, name: 'Rack 202', id_num: 202 },
+    { room: r2, name: 'Rack 203', id_num: 203 },
+    // Edificio B1
+    { room: r3, name: 'Rack 301', id_num: 301 },
+    { room: r3, name: 'Rack 302', id_num: 302 },
+    { room: r3, name: 'Rack 303', id_num: 303 },
+    { room: r3, name: 'Rack 304', id_num: 304 },
+    { room: r3, name: 'Rack 305', id_num: 305 }
+  ];
+
   const colors = ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#ec4899'];
-  const racksPerRoom = [4, 3, 5];
-  let c = 0;
-  
-  const switchIds = [];
-  const serverIds = [];
-  const routerIds = [];
+  let coreSwitchId = uid();
+  let firewallId = uid();
 
-  racksPerRoom.forEach((num, roomIdx) => {
-    for (let i=0; i<num; i++) {
-      const rackId = uid();
-      racks.push({
-        id: rackId, roomId: rooms[roomIdx].id, 
-        name: `Rack ${roomIdx+1}0${i+1}`, 
-        height: 42, color: colors[c % colors.length], devices: []
-      });
-      c++;
+  rackSpecs.forEach((spec, index) => {
+    const rackId = uid();
+    racks.push({
+      id: rackId, roomId: spec.room, 
+      name: spec.name, 
+      height: 42, color: colors[index % colors.length], devices: []
+    });
 
-      // UPS
-      const upsId = uid();
-      devices.push({ id: upsId, rackId, name: 'UPS APC 3000VA', type: 'ups', slotStart: 1, size: 2, ip: '10.0.'+(roomIdx+1)+'.'+(i+1), mac: '00:11:22:33:44:55', serial: 'UPS-'+uid(), power: 3000, plugs: 8, user: 'admin', pass: 'ups123', notes: 'Respaldo 15m' });
+    // Switch - VLAN 10
+    const swId = uid();
+    devices.push({ id: swId, rackId, name: `Switch ${spec.name}`, type: 'switch', slotStart: 40, size: 1, ip: `10.10.10.${spec.id_num}`, mac: `00:11:22:33:10:${spec.id_num.toString(16)}`, serial: `SW-${spec.id_num}`, power: 250, plugs: 1, user: 'admin', pass: 'cisco', notes: 'VLAN 10 - Infraestructura' });
 
-      // Servers
-      for(let s=1; s<=5; s++) {
-        const srvId = uid();
-        serverIds.push(srvId);
-        devices.push({ id: srvId, rackId, name: `Server Dell R740 - Nodo ${s}`, type: 'server', slotStart: 3 + (s-1)*3, size: 2, ip: '192.168.10.'+(s*10), mac: 'AA:BB:CC:00:11:22', serial: 'SRV-'+uid(), power: 600, plugs: (s % 2 === 0 ? 4 : 2), user: 'root', pass: 'secret', notes: 'Cluster ESXi' });
-      }
+    // UPS - VLAN 20
+    const upsId = uid();
+    devices.push({ id: upsId, rackId, name: `UPS ${spec.name}`, type: 'ups', slotStart: 1, size: 2, ip: `10.10.20.${spec.id_num}`, mac: `00:11:22:33:20:${spec.id_num.toString(16)}`, serial: `UPS-${spec.id_num}`, power: 3000, plugs: 8, user: 'admin', pass: 'ups123', notes: 'VLAN 20 - UPS' });
 
-      // Storage
-      if (roomIdx === 2 && i < 2) {
-         const stoId = uid();
-         devices.push({ id: stoId, rackId, name: `SAN Storage NetApp`, type: 'storage', slotStart: 20, size: 4, ip: '192.168.20.5', mac: 'FF:AA:BB:CC:DD:EE', serial: 'STO-'+uid(), power: 1200, plugs: 2, user: 'admin', pass: 'netapp', notes: 'LUNs 0-10' });
-      }
-
-      // Switches
-      const swId = uid();
-      switchIds.push(swId);
-      devices.push({ id: swId, rackId, name: `Switch 48P - Acceso`, type: 'switch', slotStart: 40, size: 1, ip: '192.168.1.254', mac: 'FF:EE:DD:CC:BB:AA', serial: 'SW-'+uid(), power: 250, plugs: 1, user: 'admin', pass: 'cisco', notes: 'Trunk a Core' });
+    // Servers - VLAN 30
+    let baseIP = (index * 10) + 10;
+    
+    for(let s=1; s<=5; s++) {
+      const srvId = uid();
+      let srvIp = `10.10.30.${baseIP + s}`;
+      devices.push({ id: srvId, rackId, name: `Servidor Nodo ${s} - ${spec.name}`, type: 'server', slotStart: 3 + (s-1)*3, size: 2, ip: srvIp, mac: 'AA:BB:CC:00:30:'+(baseIP+s).toString(16), serial: `SRV-${spec.id_num}-${s}`, power: 600, plugs: 2, user: 'root', pass: 'secret', notes: 'VLAN 30 - Servidores' });
       
-      // Routers / Firewalls
-      if(i === 0 && roomIdx === 0) {
-         const rtrId = uid();
-         routerIds.push(rtrId);
-         devices.push({ id: rtrId, rackId, name: `Edge Router BGP`, type: 'router', slotStart: 41, size: 1, ip: '10.0.0.1', mac: '12:34:56:78:90:AB', serial: 'RTR-'+uid(), power: 180, plugs: 2, user: 'admin', pass: 'admin', notes: 'Enlace ISP Principal' });
-         const fwId = uid();
-         devices.push({ id: fwId, rackId, name: `Firewall FortiGate`, type: 'firewall', slotStart: 42, size: 1, ip: '10.0.0.2', mac: '12:34:56:78:90:BB', serial: 'FWL-'+uid(), power: 100, plugs: 1, user: 'admin', pass: 'fortinet', notes: 'DMZ' });
-      }
+      // Conexión del servidor al switch del rack
+      connections.push({ id: uid(), sourceDeviceId: srvId, sourcePort: `eth0`, targetDeviceId: swId, targetPort: `Gi1/0/${s}`, cableType: 'Cobre', color: '#10b981' });
     }
+
+    // Si es Rack 101, meter Firewall y Core Switch
+    if(spec.id_num === 101) {
+      devices.push({ id: firewallId, rackId, name: `Firewall Edge`, type: 'firewall', slotStart: 42, size: 1, ip: '10.10.10.1', mac: '12:34:56:78:90:01', serial: 'FW-01', power: 100, plugs: 1, user: 'admin', pass: 'fortinet', notes: 'VLAN 10 - Gateway' });
+      devices.push({ id: coreSwitchId, rackId, name: `Core Switch`, type: 'switch', slotStart: 41, size: 1, ip: '10.10.10.2', mac: '12:34:56:78:90:02', serial: 'CSW-01', power: 300, plugs: 2, user: 'admin', pass: 'cisco', notes: 'VLAN 10 - Core' });
+      connections.push({ id: uid(), sourceDeviceId: firewallId, sourcePort: 'LAN1', targetDeviceId: coreSwitchId, targetPort: 'Te1/0/1', cableType: 'DAC', color: '#ef4444' });
+    }
+    
+    // Todos los switches de rack se conectan al Core Switch
+    connections.push({ id: uid(), sourceDeviceId: swId, sourcePort: 'Te1/1/1', targetDeviceId: coreSwitchId, targetPort: `Te1/0/${spec.id_num}`, cableType: 'Fibra SM', color: '#3b82f6' });
   });
 
-  // Conexiones: Servidores al Switch de su Rack
-  serverIds.forEach((srv, i) => {
-    const sw = switchIds[Math.floor(i / 5)]; // Asumimos 5 servidores por rack y switch
-    if (sw) {
-      connections.push({ id: uid(), sourceDeviceId: srv, sourcePort: `eth0`, targetDeviceId: sw, targetPort: `Gi1/0/${(i%5)+1}`, cableType: 'UTP Cat6a', color: '#10b981' });
-    }
-  });
-
-  // Conexiones: Switches entre sí
-  for(let i=0; i<switchIds.length-1; i++) {
-    connections.push({ id: uid(), sourceDeviceId: switchIds[i], sourcePort: 'Te1/1/1', targetDeviceId: switchIds[i+1], targetPort: 'Te1/1/2', cableType: 'Fibra OM4', color: '#3b82f6' });
-  }
-
-  // Conexiones: Primer switch a router
-  if(routerIds.length > 0 && switchIds.length > 0) {
-    connections.push({ id: uid(), sourceDeviceId: routerIds[0], sourcePort: 'Gi0/0/0', targetDeviceId: switchIds[0], targetPort: 'Te1/1/4', cableType: 'DAC', color: '#ef4444' });
-  }
-
-  // NUEVOS EQUIPOS DE PISO EN LAS DEMOS
-  const floorDev1 = uid();
-  const floorDev2 = uid();
-  const floorDev3 = uid();
-  const floorDev4 = uid();
-  const floorDev5 = uid();
+  // Equipos de piso
+  const cam1 = uid(); const cam2 = uid(); const cam3 = uid();
+  const prt1 = uid(); const prt2 = uid(); const prt3 = uid();
+  const tel1 = uid(); const tel2 = uid();
+  const ap1 = uid(); const ap2 = uid();
 
   devices.push(
-    { id: floorDev1, rackId: null, category: 'floor', roomId: r1, name: 'PC Monitoreo - NOC', type: 'pc', ip: '10.0.1.150', mac: '00:AA:BB:CC:DD:11', serial: 'PC-' + uid(), power: 250, plugs: 1, user: 'operator', pass: 'noc2026', notes: 'Consola de Monitoreo NOC 24/7' },
-    { id: floorDev2, rackId: null, category: 'floor', roomId: r1, name: 'Cámara Seguridad NOC', type: 'camera', ip: '10.0.1.160', mac: '00:AA:BB:CC:DD:22', serial: 'CAM-' + uid(), power: 15, plugs: 1, user: 'admin', pass: 'camera123', notes: 'Cámara Domo PTZ' },
-    { id: floorDev3, rackId: null, category: 'floor', roomId: r1, name: 'AP Core WiFi', type: 'ap', ip: '10.0.1.170', mac: '00:AA:BB:CC:DD:33', serial: 'AP-' + uid(), power: 20, plugs: 1, user: 'admin', pass: 'wifi2026', notes: 'SSID: NOC_Admin' },
-    { id: floorDev4, rackId: null, category: 'floor', roomId: r2, name: 'Teléfono VoIP Recepción', type: 'phone', ip: '10.0.2.180', mac: '00:AA:BB:CC:DD:44', serial: 'TEL-' + uid(), power: 10, plugs: 1, user: 'reception', pass: 'tel789', notes: 'VoIP Grandstream' },
-    { id: floorDev5, rackId: null, category: 'floor', roomId: r3, name: 'Impresora Administrativa', type: 'printer', ip: '10.0.3.190', mac: '00:AA:BB:CC:DD:55', serial: 'PRT-' + uid(), power: 350, plugs: 1, user: 'admin', pass: 'print456', notes: 'Láser Color Multifunción' }
+    // Cámaras - VLAN 60
+    { id: cam1, rackId: null, category: 'floor', roomId: r1, name: 'Cámara 01', type: 'camera', ip: '10.10.60.10', mac: '', serial: '', power: 15, plugs: 1, user: 'admin', pass: '', notes: 'VLAN 60' },
+    { id: cam2, rackId: null, category: 'floor', roomId: r2, name: 'Cámara 02', type: 'camera', ip: '10.10.60.11', mac: '', serial: '', power: 15, plugs: 1, user: 'admin', pass: '', notes: 'VLAN 60' },
+    { id: cam3, rackId: null, category: 'floor', roomId: r3, name: 'Cámara 03', type: 'camera', ip: '10.10.60.12', mac: '', serial: '', power: 15, plugs: 1, user: 'admin', pass: '', notes: 'VLAN 60' },
+    // Impresoras - VLAN 70
+    { id: prt1, rackId: null, category: 'floor', roomId: r1, name: 'Impresora Administración', type: 'printer', ip: '10.10.70.10', mac: '', serial: '', power: 150, plugs: 1, user: '', pass: '', notes: 'VLAN 70' },
+    { id: prt2, rackId: null, category: 'floor', roomId: r2, name: 'Impresora Finanzas', type: 'printer', ip: '10.10.70.11', mac: '', serial: '', power: 150, plugs: 1, user: '', pass: '', notes: 'VLAN 70' },
+    { id: prt3, rackId: null, category: 'floor', roomId: r3, name: 'Impresora Recepción', type: 'printer', ip: '10.10.70.12', mac: '', serial: '', power: 150, plugs: 1, user: '', pass: '', notes: 'VLAN 70' },
+    // Telefonía - VLAN 80
+    { id: tel1, rackId: null, category: 'floor', roomId: r2, name: 'Teléfono 01', type: 'phone', ip: '10.10.80.10', mac: '', serial: '', power: 10, plugs: 1, user: '', pass: '', notes: 'VLAN 80' },
+    { id: tel2, rackId: null, category: 'floor', roomId: r3, name: 'Teléfono 02', type: 'phone', ip: '10.10.80.11', mac: '', serial: '', power: 10, plugs: 1, user: '', pass: '', notes: 'VLAN 80' },
+    // Access Points - IP Fija en VLAN 10 (proveen VLAN 50 / 90)
+    { id: ap1, rackId: null, category: 'floor', roomId: r2, name: 'AP A2 Corporativo', type: 'ap', ip: '10.10.10.20', mac: '', serial: '', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee VLAN 50 y 90' },
+    { id: ap2, rackId: null, category: 'floor', roomId: r3, name: 'AP B1 Corporativo', type: 'ap', ip: '10.10.10.30', mac: '', serial: '', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee VLAN 50 y 90' }
   );
 
-  if (switchIds.length > 0) {
-    connections.push(
-      { id: uid(), sourceDeviceId: floorDev1, sourcePort: 'eth0', targetDeviceId: switchIds[0], targetPort: 'Gi1/0/43', cableType: 'UTP Cat6a', color: '#0ea5e9' },
-      { id: uid(), sourceDeviceId: floorDev2, sourcePort: 'PoE', targetDeviceId: switchIds[0], targetPort: 'Gi1/0/44', cableType: 'PoE Camera', color: '#8b5cf6' },
-      { id: uid(), sourceDeviceId: floorDev3, sourcePort: 'PoE', targetDeviceId: switchIds[0], targetPort: 'Gi1/0/45', cableType: 'PoE WiFi', color: '#10b981' }
-    );
-  }
+  // Conexiones de equipos de piso al Core Switch (simplificado para demo)
+  connections.push(
+    { id: uid(), sourceDeviceId: cam1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/1', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: cam2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/2', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: cam3, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/3', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: prt1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/10', cableType: 'Cobre', color: '#f59e0b' },
+    { id: uid(), sourceDeviceId: prt2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/11', cableType: 'Cobre', color: '#f59e0b' },
+    { id: uid(), sourceDeviceId: prt3, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/12', cableType: 'Cobre', color: '#f59e0b' },
+    { id: uid(), sourceDeviceId: tel1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/20', cableType: 'Cobre', color: '#8b5cf6' },
+    { id: uid(), sourceDeviceId: tel2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/21', cableType: 'Cobre', color: '#8b5cf6' },
+    { id: uid(), sourceDeviceId: ap1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/30', cableType: 'Cobre', color: '#0ea5e9' },
+    { id: uid(), sourceDeviceId: ap2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/31', cableType: 'Cobre', color: '#0ea5e9' }
+  );
 
   const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
 
@@ -114,5 +120,5 @@ function loadDemoData() {
   if(typeof initTopoPositions === 'function') initTopoPositions();
   renderAll();
   
-  notify('Demostración gigante cargada', 'success');
+  notify('Redimensionamiento de IP y VLANs aplicado con éxito', 'success');
 }

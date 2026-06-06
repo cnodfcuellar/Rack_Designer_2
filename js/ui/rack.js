@@ -9,6 +9,12 @@ function renderPhysical() {
   const searchInput = document.getElementById('global-search');
   const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
 
+  // Preserve flipped state
+  const flippedRacks = new Set();
+  container.querySelectorAll('.rack-flipper.flipped').forEach(f => {
+    flippedRacks.add(f.id.replace('flipper-', ''));
+  });
+
   if (!racks.length) {
     container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; justify-content:center;">
       <div class="empty-state">
@@ -21,16 +27,13 @@ function renderPhysical() {
     return;
   }
 
-  const racksHTML = racks.map(rack => {
-    const devices = store.allDevicesInRack(rack.id);
-    const deviceMap = {};
-    devices.forEach(d => { for (let u = d.slotStart; u < d.slotStart + d.size; u++) deviceMap[u] = d; });
-
+  function buildRackFace(rack, devices, side, searchTerm) {
+    const sideDevices = devices.filter(d => (d.mountSide || 'front') === side);
     let slotsHTML = '';
     let skip = 0;
     for (let u = 1; u <= rack.height; u++) {
       if (skip > 0) { skip--; continue; }
-      const dev = devices.find(d => d.slotStart === u);
+      const dev = sideDevices.find(d => d.slotStart === u);
       if (dev) {
         const h = dev.size * UNIT_H;
         let matchClass = '';
@@ -38,11 +41,8 @@ function renderPhysical() {
           const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
           matchClass = fields.includes(searchTerm) ? 'search-match' : 'search-dim';
         }
-        slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px"></div>`;
         skip = dev.size - 1;
-        slotsHTML = slotsHTML.slice(0, -`<div class="rack-slot" style="height:${UNIT_H}px"></div>`.length);
-        slotsHTML += `
-          <div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}">
+        slotsHTML += `<div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}">
             <div class="device-faceplate ${matchClass}"
                  style="top:0; height:${h}px"
                  data-device-id="${dev.id}"
@@ -55,35 +55,48 @@ function renderPhysical() {
             </div>
           </div>`;
       } else {
-        slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}"></div>`;
+        slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}"></div>`;
       }
     }
-
     const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
+    const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera — ${escapeHTML(rack.name)}`;
+    const btnText = side === 'front' ? '🔄 ATRÁS' : '🖥️ FRENTE';
 
     return `
-    <div class="rack-wrapper" data-rack-id="${rack.id}">
-      <div class="rack-card" data-rack-id="${rack.id}">
-        <div class="rack-header">
+      <div class="rack-card" data-rack-id="${rack.id}" data-side="${side}" style="${side === 'rear' ? 'border-color: #3b82f6; background: #0c1420' : ''}">
+        <div class="rack-header" style="${side === 'rear' ? 'background: linear-gradient(90deg, #0f2035, #1a3050)' : ''}">
           <div class="rack-title">
-            <div class="rack-color-dot" style="background:${escapeHTML(rack.color)}; box-shadow:0 0 6px ${escapeHTML(rack.color)}88"></div>
-            ${escapeHTML(rack.name)}
+            <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
+            ${titleText}
           </div>
           <div class="rack-hdr-btns">
+            <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
             <button class="rack-btn" data-edit-rack="${escapeHTML(rack.id)}" title="Editar">✎</button>
             <button class="rack-btn del" data-del-rack="${escapeHTML(rack.id)}" title="Eliminar">🗑</button>
           </div>
         </div>
         <div class="rack-body">
           <div class="rack-rail-left">${railHTML}</div>
-          <div class="rack-slots" style="width:220px" id="slots-${rack.id}">
+          <div class="rack-slots" style="width:220px" id="slots-${side}-${rack.id}">
             ${slotsHTML}
           </div>
           <div class="rack-rail-right">${railHTML}</div>
         </div>
       </div>
+    `;
+  }
+
+  const racksHTML = racks.map(rack => {
+    const devices = store.allDevicesInRack(rack.id);
+    
+    return `
+    <div class="rack-wrapper" data-rack-id="${rack.id}">
+      <div class="rack-flipper" id="flipper-${rack.id}">
+        <div class="rack-face">${buildRackFace(rack, devices, 'front', searchTerm)}</div>
+        <div class="rack-rear">${buildRackFace(rack, devices, 'rear', searchTerm)}</div>
+      </div>
       <div style="text-align:center; font-size:9px; color:var(--text-muted); margin-top:4px; font-family:var(--font-mono)">
-        ${rack.height}U · ${devices.reduce((s,d)=>s+d.size,0)}/${rack.height} usado · ${devices.reduce((s,d)=>s+(parseInt(d.power)||0),0)}W
+        ${rack.height}U · ${devices.filter(d => (d.mountSide||'front')==='front').reduce((s,d)=>s+d.size,0)}/${rack.height} FRONT · ${devices.filter(d => d.mountSide==='rear').reduce((s,d)=>s+d.size,0)}/${rack.height} REAR
       </div>
     </div>`;
   }).join('');
@@ -95,11 +108,26 @@ function renderPhysical() {
   const floorSection = renderFloorSection(store._raw.currentRoomId);
   container.querySelector('#view-physical-content').appendChild(floorSection);
 
-  bindRackEvents(container);
+  bindRackEvents(container, flippedRacks);
   updateZoomLabel();
 }
 
-function bindRackEvents(container) {
+function bindRackEvents(container, flippedRacks) {
+  container.querySelectorAll('[data-flip-rack]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const rackId = btn.dataset.flipRack;
+      const flipper = document.getElementById(`flipper-${rackId}`);
+      if (!flipper) return;
+      const isFlipped = flipper.classList.toggle('flipped');
+      const face = flipper.querySelector('.rack-face');
+      const rear = flipper.querySelector('.rack-rear');
+      const textSpan = btn.querySelector('.flip-text');
+      if (face) face.style.pointerEvents = isFlipped ? 'none' : 'auto';
+      if (rear) rear.style.pointerEvents = isFlipped ? 'auto' : 'none';
+      if (textSpan) textSpan.textContent = isFlipped ? 'FRENTE' : 'ATRÁS';
+    });
+  });
   container.querySelectorAll('[data-edit-rack]').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -179,6 +207,20 @@ function bindRackEvents(container) {
       if(tooltip) tooltip.classList.remove('visible');
     });
   });
+
+  // Restore flipped state
+  flippedRacks.forEach(rackId => {
+    const flipper = document.getElementById(`flipper-${rackId}`);
+    if (flipper) {
+      flipper.classList.add('flipped');
+      const face = flipper.querySelector('.rack-face');
+      const rear = flipper.querySelector('.rack-rear');
+      if (face) face.style.pointerEvents = 'none';
+      if (rear) rear.style.pointerEvents = 'auto';
+      const btn = document.querySelector(`[data-flip-rack="${rackId}"] .flip-text`);
+      if (btn) btn.textContent = 'FRENTE';
+    }
+  });
 }
 
 function onCatalogDragStart(e) {
@@ -233,6 +275,7 @@ function onSlotDragOver(e) {
   const slot = e.currentTarget;
   const slotU = parseInt(slot.dataset.slot);
   const rackId = slot.dataset.rack;
+  const mountSide = slot.dataset.side || 'front';
   const rack = store.rackById(rackId);
   const size = dragState.type === 'catalog' ? dragState.item.size : dragState.device.size;
   if (!rack || !slotU) return;
@@ -242,7 +285,13 @@ function onSlotDragOver(e) {
   container.querySelectorAll('.rack-slot').forEach(s => {
     const u = parseInt(s.dataset.slot);
     if (u >= slotU && u < slotU + size) {
-      const valid = canPlace(rackId, slotU, size, dragState.type === 'device' ? dragState.deviceId : null);
+      const existingFilter = store.allDevicesInRack(rackId).filter(d => (d.mountSide || 'front') === mountSide && d.id !== (dragState.type === 'device' ? dragState.deviceId : null));
+      let valid = true;
+      for (const d of existingFilter) {
+        const dEnd = d.slotStart + d.size - 1;
+        const nEnd = slotU + size - 1;
+        if (!(nEnd < d.slotStart || slotU > dEnd)) { valid = false; break; }
+      }
       s.classList.add(valid ? 'drop-highlight' : 'drop-invalid');
     }
   });
@@ -260,17 +309,18 @@ function onSlotDrop(e) {
   const slot  = e.currentTarget;
   const slotU = parseInt(slot.dataset.slot);
   const rackId = slot.dataset.rack;
+  const mountSide = slot.dataset.side || 'front';
   clearDropHighlights();
 
   if (dragState.type === 'catalog') {
     const item = { ...dragState.item, name: dragState.item.name };
-    const ok = store.addDeviceToRack(item, rackId, slotU);
-    if (ok) notify(`${item.name} instalado en U${slotU}`, 'success');
-    else    notify('No hay espacio suficiente en esa posición', 'error');
+    const ok = store.addDeviceToRack(item, rackId, slotU, mountSide);
+    if (ok) notify(`${item.name} instalado en U${slotU} (${mountSide === 'front' ? 'Frente' : 'Atrás'})`, 'success');
+    else    notify(`No hay espacio suficiente: U${slotU}, Lado: ${mountSide}`, 'error');
   } else if (dragState.type === 'device') {
-    const ok = store.moveDevice(dragState.deviceId, rackId, slotU);
-    if (ok) notify('Equipo movido', 'success');
-    else    notify('Posición inválida o colisión detectada', 'error');
+    const ok = store.moveDevice(dragState.deviceId, rackId, slotU, mountSide);
+    if (ok) notify(`Equipo movido a U${slotU} (${mountSide === 'front' ? 'Frente' : 'Atrás'})`, 'success');
+    else    notify(`Posición inválida: U${slotU}, Lado: ${mountSide}`, 'error');
   }
   dragState = null;
 }

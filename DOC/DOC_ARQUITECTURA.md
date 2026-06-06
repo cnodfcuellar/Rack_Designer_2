@@ -11,6 +11,44 @@ El proyecto está desarrollado utilizando **Vanilla JavaScript (ES6+)**, sin la 
 Para evitar el "código espagueti" típico de Vanilla JS, se implementó una arquitectura basada en el patrón **Observer (Pub/Sub)** combinado con un **Estado Centralizado (Single Source of Truth)**. 
 Conceptualmente, el proyecto imita cómo funciona `Redux` o `Vuex`, pero programado desde cero de manera ligera.
 
+### Topología de la Arquitectura
+
+```mermaid
+graph TD
+    subgraph UI ["Capa de Interfaz (Módulos UI)"]
+        A[ui/catalog.js]
+        B[ui/rack.js]
+        C[ui/topology.js]
+        D[ui/tables.js]
+        E[ui/modals.js]
+        F[ui/faceplates.js]
+    end
+
+    subgraph State ["Capa de Estado Único"]
+        S[(store.js - Estado Proxy Reactivo)]
+    end
+
+    subgraph Orchestration ["Orquestador"]
+        M((main.js - Smart Dispatcher))
+        DD[[demoData.js - Inyector de Datos]]
+    end
+
+    A -- Interacciones --> M
+    B -- Drag & Drop --> M
+    E -- Guardar Modal --> M
+    D -- Edición Inline --> M
+    DD -- Carga Masiva --> M
+
+    M -- Solicita Mutación --> S
+    S -- Emite 'change'/'event' --> M
+    
+    M -- Renderizado Enrutado --> B
+    M -- Renderizado Enrutado --> C
+    M -- Renderizado Enrutado --> D
+    
+    B -.->|Dibuja HW| F
+```
+
 ---
 
 ## 2. Estructura de Directorios Explicada
@@ -23,6 +61,7 @@ El código está dividido estrictamente por dominios funcionales:
 ├── css/
 │   └── style.css        # Todos los estilos. Utiliza variables CSS globales (:root) para colores (Tematización).
 └── js/
+    ├── demoData.js      # Base de datos local mockeada para demostraciones.
     ├── main.js          # Bootstrapping: Carga inicial, vinculación de eventos UI estáticos (botones).
     ├── store.js         # El "Cerebro". Contiene la clase `Store`, el estado global y la lógica de mutación.
     ├── utils.js         # Herramientas: Generación de IDs (UUID), constantes, descarga de archivos.
@@ -42,29 +81,37 @@ El código está dividido estrictamente por dominios funcionales:
 
 El corazón de la aplicación es la clase `Store`. Ningún módulo de UI (como `rack.js`) modifica el HTML de otro módulo. Todo cambio ocurre a través del `Store`.
 
-### 3.1. Patrón Pub/Sub (Event Bus)
+### 3.1. Patrón Pub/Sub Enrutado (Smart Dispatcher)
+
+El flujo de información es estrictamente unidireccional (Unidirectional Data Flow).
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant UI_Rack as ui/rack.js
-    participant Store as js/store.js
-    participant UI_Topology as ui/topology.js
-    participant UI_Tables as ui/tables.js
-
-    User->>UI_Rack: Arrastra un servidor al Rack
-    UI_Rack->>Store: store.addDevice(rackId, deviceData)
+    participant User as Usuario
+    participant UI as Módulo UI (Ej: rack.js)
+    participant Store as Estado Global (store.js)
+    participant Dispatcher as Smart Dispatcher (main.js)
+    
+    User->>UI: Interacción (Ej: Agregar Equipo)
+    UI->>Store: Invocación de método (store.addDevice)
     activate Store
-    Store->>Store: Muta el estado (Memoria)
-    Store->>Store: Guarda historial para Deshacer (Undo)
-    Store-->>UI_Rack: Emite evento 'stateChange'
-    Store-->>UI_Topology: Emite evento 'stateChange'
-    Store-->>UI_Tables: Emite evento 'stateChange'
+    
+    Store->>Store: 1. pushHistory() (Guarda estado previo)
+    Store->>Store: 2. Modifica store._raw (Mutación interna)
+    Store->>Dispatcher: 3. Dispara evento 'change' (Proxy Trap)
     deactivate Store
     
-    UI_Rack->>UI_Rack: render() - Redibuja los Racks
-    UI_Topology->>UI_Topology: draw() - Redibuja el Canvas
-    UI_Tables->>UI_Tables: renderInventory() - Actualiza la tabla
+    activate Dispatcher
+    Dispatcher->>Dispatcher: Evalúa el origen del cambio
+    alt Cambio afecta Racks (Ej: addDeviceToRack)
+        Dispatcher->>UI: renderRacks()
+    else Cambio afecta Topología (Ej: linkDevices)
+        Dispatcher->>UI: renderTopology()
+    else Cambio General (Ej: loadProject)
+        Dispatcher->>UI: renderAll()
+    end
+    Dispatcher->>UI: updateInventory() (Siempre se actualiza)
+    deactivate Dispatcher
 ```
 
 ### 3.2. Modelo de Datos Relacional

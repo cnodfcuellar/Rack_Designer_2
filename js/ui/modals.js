@@ -134,6 +134,8 @@ function openCableModal(defaultSrcId = null) {
   document.getElementById('cable-dst-port').value = 'Eth0/2';
   document.getElementById('cable-color').value = '#3b82f6';
   document.getElementById('cable-color-picker').value = '#3b82f6';
+  updateCableLocationDisplay('src');
+  updateCableLocationDisplay('dst');
   document.getElementById('modal-cable').classList.remove('hidden');
 }
 
@@ -156,7 +158,22 @@ function openEditCableModal(connId) {
   document.getElementById('cable-type').value = conn.cableType;
   document.getElementById('cable-color').value = conn.color;
   document.getElementById('cable-color-picker').value = conn.color;
+  updateCableLocationDisplay('src');
+  updateCableLocationDisplay('dst');
   document.getElementById('modal-cable').classList.remove('hidden');
+}
+
+function updateCableLocationDisplay(prefix) {
+  const el = document.getElementById(`cable-${prefix}-dev`);
+  const locEl = document.getElementById(`cable-${prefix}-loc`);
+  if (!el || !locEl) return;
+  const devId = el.value;
+  if (!devId) {
+    locEl.value = 'Desconocido';
+    return;
+  }
+  const dev = store.deviceById(devId);
+  locEl.value = getDeviceLocation(dev);
 }
 
 function openPNGModal() {
@@ -193,10 +210,11 @@ function deleteRoom(id) {
 }
 
 function exportCSV() {
-  const header = 'Rack,Unidad U,Nombre,Tipo,IP,MAC,Serie,Usuario,Consumo(W),Tomas\n';
+  const header = 'Rack,Unidad U,Lado,Nombre,Tipo,IP,MAC,Serie,Usuario,Consumo(W),Tomas\n';
   const rows = store._raw.devices.map(d => {
     const rack = store.rackById(d.rackId);
-    return [rack?.name||'', d.slotStart, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].join(',');
+    const side = d.category === 'floor' ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal');
+    return [rack?.name||'', d.slotStart||'-', side, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].join(',');
   }).join('\n');
   downloadBlob(header + rows, 'Inventario_Centro_Datos.csv', 'text/csv');
   notify('CSV exportado', 'success');
@@ -318,6 +336,9 @@ function downloadBlob(content, filename, type) {
 
 // Bind modal UI events
 function initModals() {
+  document.getElementById('cable-src-dev').addEventListener('change', () => updateCableLocationDisplay('src'));
+  document.getElementById('cable-dst-dev').addEventListener('change', () => updateCableLocationDisplay('dst'));
+
   document.getElementById('dev-type').addEventListener('change', function() {
     const isFloor = FLOOR_TYPES.has(this.value);
     const sizeRow = document.getElementById('dev-size').closest('.form-row');

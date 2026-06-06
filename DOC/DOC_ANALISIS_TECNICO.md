@@ -1,10 +1,10 @@
 # 🔬 Análisis Técnico Riguroso e Integral — RACK Designer 2
 
 **Autor:** Antigravity (Advanced Agentic Coding Partner, Google DeepMind)  
-**Fecha de Auditoría:** 1 de Junio, 2026  
+**Última Actualización:** 5 de Junio, 2026 · 20:52  
 **Versión de Código Analizada:** Rama `main` (Desarrollo Activo)  
-**Alcance Técnico:** `index.html`, `style.css`, `js/utils.js`, `js/store.js`, `js/main.js`, `js/ui/catalog.js`, `js/ui/faceplates.js`, `js/ui/modals.js`, `js/ui/rack.js`, `js/ui/tables.js`, `js/ui/topology.js`  
-**Volumen de la Aplicación:** ~2,500 líneas de código JS nativo puro (ES6+), ~1,000 líneas de CSS declarativo, sin dependencias de frameworks SPA (React/Vue/Angular), construida sobre APIs nativas de la Web (Canvas 2D, Drag and Drop API, Web Storage API, Pointer Events).
+**Alcance Técnico:** `index.html`, `style.css`, `js/utils.js`, `js/store.js`, `js/demoData.js`, `js/main.js`, `js/ui/catalog.js`, `js/ui/faceplates.js`, `js/ui/modals.js`, `js/ui/rack.js`, `js/ui/tables.js`, `js/ui/topology.js`  
+**Volumen de la Aplicación:** ~2,900 líneas de código JS nativo puro (ES6+), ~1,000 líneas de CSS declarativo, sin dependencias de frameworks SPA (React/Vue/Angular), construida sobre APIs nativas de la Web (Canvas 2D, Drag and Drop API, Web Storage API, Pointer Events).
 
 ---
 
@@ -18,14 +18,14 @@ A continuación se muestra la evaluación cuantitativa y cualitativa de cada com
 | **`js/utils.js`** | **8.5 / 10** | 🟢 Muy Bueno | Medio | Sanitización XSS muy bien implementada en `escapeHTML`. Se penaliza por mezclar lógica de datos con UI (`notify`) y código huérfano (`lerp`). |
 | **`css/style.css`** | **9.0 / 10** | 🟢 Excelente | Alto | Sistema de diseño Glassmorphism basado en variables CSS `:root` de gran coherencia visual. Animaciones fluidas. Estructura modularizada en `/css`. |
 | **`index.html`** | **8.0 / 10** | 🟢 Muy Bueno | Alto | Estructura semántica correcta. Mejorado con referencias de assets relativas limpias. |
-| **`js/ui/topology.js`**| **9.0 / 10** | 🟢 Excelente | Crítico (Canvas) | Motor gráfico de alto nivel en Canvas 2D. Implementa transformaciones matriciales de coordenadas de forma impecable. Tiene un exceso de estado mutable global a nivel de módulo. |
+| **`js/ui/topology.js`**| **9.3 / 10** | 🟢 Excelente | Crítico (Canvas) | Motor gráfico de alto nivel en Canvas 2D. Transformaciones matriciales impecables. Nuevo: detección geométrica de doble clic sobre cables Bézier (muestreo de 30 segmentos). Tiene exceso de estado mutable global. |
 | **`js/ui/rack.js`** | **8.0 / 10** | 🟢 Muy Bueno | Alto | Lógica tridimensional y bidimensional de colisiones en slots muy robusta. Se ve penalizado por estrategias de re-renderizado masivo que destruyen el DOM y reconstruyen todo el árbol innecesariamente. |
-| **`js/ui/tables.js`** | **8.5 / 10** | 🟢 Muy Bueno | Medio | Edición inline interactiva excelente, validaciones por expresiones regulares para direccionamiento IP y MAC muy robustas. Falta paginación y ordenamiento nativo en frontend. |
-| **`js/ui/modals.js`** | **8.5 / 10** | 🟢 Muy Bueno | Alto | Implementa el robusto Asistente de Ubicación Rápida con recálculo matemático en cascada. Exportaciones personalizadas impecables. Aún acopla algo de lógica de negocio. |
+| **`js/ui/tables.js`** | **8.7 / 10** | 🟢 Muy Bueno | Medio | Edición inline interactiva excelente, validaciones IP/MAC robustas. Nuevo: columnas "Sala/Rack Origen/Destino" en tabla de conexiones y en exportaciones CSV/Excel. Falta paginación y ordenamiento. |
+| **`js/ui/modals.js`** | **8.7 / 10** | 🟢 Muy Bueno | Alto | Asistente de Ubicación Rápida impecable. Nuevo: campos de solo lectura "Ubicación Origen/Destino" en modal de conexión, actualizados dinámicamente al seleccionar equipo. Aún acopla lógica de negocio. |
 | **`js/ui/catalog.js`** | **8.2 / 10** | 🟢 Muy Bueno | Medio | Excelente motor de filtrado. Soporte dual integrado para instanciación de Equipos de Rack y Equipos de Piso mediante doble clic de forma fluida. |
 | **`js/ui/faceplates.js`**| **8.8 / 10** | 🟢 Muy Bueno | Medio | Generación de frentes fotorrealistas de hardware basada puramente en CSS declarativo modular. Código estructurado en cascada `if-else` que dificulta la extensibilidad. |
 | **`js/main.js`** | **9.6 / 10** | 🟢 Excelente | Crítico | Orquestador general. Refactorizado con un "Smart Dispatcher" que elimina el renderizado destructivo, elevando dramáticamente la velocidad. Los datos dummy fueron aislados en `demoData.js`. |
-| **PROYECTO GLOBAL** | **9.20 / 10** | 🟢 Excelente | - | Una SPA Vanilla JS sumamente robusta, visualmente impactante y excepcionalmente rápida gracias a su motor de reactividad enrutada y su sistema de diseño unificado. |
+| **PROYECTO GLOBAL** | **9.35 / 10** | 🟢 Excelente | - | SPA Vanilla JS robusta, visualmente impactante y rápida. Nuevas capacidades de trazabilidad de cableado (Sala/Rack), edición directa de conexiones desde el canvas, y arquitectura VLAN formal implementada en datos de demo. |
 
 ---
 
@@ -664,8 +664,8 @@ En esta sección se compila y documenta el código fuente íntegro de todos los 
         <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
       </div>
       <div class="h-btn-group">
-        <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩ Deshacer</button>
-        <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪ Rehacer</button>
+        <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩</button>
+        <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪</button>
       </div>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
       <input type="file" id="file-import" accept=".json" style="display:none">
@@ -935,6 +935,7 @@ En esta sección se compila y documenta el código fuente íntegro de todos los 
   <script src="js/ui/rack.js"></script>
   <script src="js/ui/topology.js"></script>
   <script src="js/ui/tables.js"></script>
+  <script src="js/demoData.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

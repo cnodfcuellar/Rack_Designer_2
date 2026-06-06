@@ -132,3 +132,89 @@ function getFloorFaceplate(device) {
     </div>`;
 }
 
+function buildRearView(rack, devices) {
+  const TYPE_COLORS_LOCAL = {
+    server: '#0ea5e9', switch: '#10b981', router: '#06b6d4',
+    firewall: '#ef4444', ups: '#f59e0b', storage: '#8b5cf6'
+  };
+
+  // Pre-build a map: deviceId → connections involving it
+  const connMap = {};
+  (store._raw.connections || []).forEach(c => {
+    if (!connMap[c.sourceDeviceId]) connMap[c.sourceDeviceId] = [];
+    if (!connMap[c.targetDeviceId]) connMap[c.targetDeviceId] = [];
+    connMap[c.sourceDeviceId].push({ conn: c, side: 'src' });
+    connMap[c.targetDeviceId].push({ conn: c, side: 'dst' });
+  });
+
+  // Build device map by slot
+  const deviceMap = {};
+  devices.forEach(d => {
+    for (let u = d.slotStart; u < d.slotStart + d.size; u++) deviceMap[u] = d;
+  });
+
+  let slotsHTML = '';
+  let skip = 0;
+
+  for (let u = 1; u <= rack.height; u++) {
+    if (skip > 0) { skip--; continue; }
+    const dev = devices.find(d => d.slotStart === u);
+
+    if (dev) {
+      skip = dev.size - 1;
+      const h = dev.size * UNIT_H;
+      const devColor = TYPE_COLORS_LOCAL[dev.type] || '#1e3a5f';
+      const conns = connMap[dev.id] || [];
+
+      // Build port pills
+      let portsHTML = '';
+      if (conns.length > 0) {
+        portsHTML = conns.map(({ conn, side }) => {
+          const port = side === 'src' ? conn.sourcePort : conn.targetPort;
+          const peerId = side === 'src' ? conn.targetDeviceId : conn.sourceDeviceId;
+          const peer = store.deviceById(peerId);
+          const peerName = peer ? peer.name.slice(0, 14) : '?';
+          const cableColor = conn.color || '#3b82f6';
+          return `<div class="rear-port" title="${escapeHTML(port)} → ${escapeHTML(peerName)}">
+            <div class="rear-port-jack active" style="--cable-color:${escapeHTML(cableColor)}"></div>
+            <div class="rear-port-label">${escapeHTML(port)}</div>
+          </div>`;
+        }).join('');
+      } else {
+        // Show 2 idle ports for empty devices
+        portsHTML = `
+          <div class="rear-port"><div class="rear-port-jack"></div><div class="rear-port-label">—</div></div>
+          <div class="rear-port"><div class="rear-port-jack"></div><div class="rear-port-label">—</div></div>`;
+      }
+
+      // Power outlets
+      const plugs = parseInt(dev.plugs) || 1;
+      const outletHTML = Array.from({ length: Math.min(plugs, 4) }, (_, i) =>
+        `<div class="rear-outlet used" title="${escapeHTML(dev.power || 0)}W · Toma ${i+1}"></div>`
+      ).join('');
+
+      slotsHTML += `<div class="rear-slot" style="height:${h}px; min-height:${h}px">
+        <div class="rear-slot-unit">${u}</div>
+        <div class="rear-slot-body has-device" style="--device-color:${devColor}">
+          <span class="rear-device-name" title="${escapeHTML(dev.name)}">${escapeHTML(dev.name.slice(0,16))}</span>
+          <div class="rear-ports">${portsHTML}</div>
+          <div class="rear-pdu">${outletHTML}</div>
+        </div>
+      </div>`;
+    } else {
+      slotsHTML += `<div class="rear-slot" style="height:${UNIT_H}px; min-height:${UNIT_H}px">
+        <div class="rear-slot-unit">${u}</div>
+        <div class="rear-slot-body"></div>
+      </div>`;
+    }
+  }
+
+  const totalConns = devices.reduce((s, d) => s + (connMap[d.id] ? connMap[d.id].length : 0), 0);
+
+  return `
+    <div class="rack-rear-header">
+      <span class="rear-label">Vista Trasera — ${escapeHTML(rack.name)}</span>
+      <span style="color:#2a5080; font-size:9px">${totalConns} cable(s)</span>
+    </div>
+    <div class="rack-rear-slots">${slotsHTML}</div>`;
+}

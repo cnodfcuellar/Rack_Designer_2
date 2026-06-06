@@ -39,6 +39,12 @@ Contiene funciones matemáticas o de uso general que no pertenecen a ninguna vis
   * `exportToCSV(...)`: Toma los datos del inventario y los formatea como texto separado por comas para descargar.
   * `DEVICE_TYPES`: **¿Por qué existe?** Es un diccionario (objeto) de configuración que define los colores, nombres y tamaños por defecto (Ej: `ROUTER`, `SWITCH`). Si queremos agregar un nuevo tipo de máquina, solo se añade aquí.
 
+### 2.4. `js/demoData.js` (Datos de Prueba Mockeados)
+Es un archivo aislado del motor principal para evitar polución.
+* **¿Qué hace?** Contiene cientos de líneas de código generativas que fabrican UUIDs falsos, direcciones IP secuenciales y MACs sintéticas para generar una sala de servidores virtual con propósitos de demostración.
+* **Funciones Clave:**
+  * `loadDemoData()`: Inyecta salas, racks, switches, servidores, equipos de piso y cables automáticamente al presionar el botón "Cargar Demos", invocando al final `store.loadData()`.
+
 ---
 
 ## 3. Módulos de Interfaz de Usuario (`js/ui/`)

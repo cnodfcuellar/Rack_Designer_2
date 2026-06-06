@@ -337,12 +337,58 @@ function initTopology() {
     const py   = store._raw.topoPanY || 0;
     const mx = (e.offsetX - px) / zoom;
     const my = (e.offsetY - py) / zoom;
+
+    // 1) Doble clic sobre un nodo → abrir modal "Nueva Conexión"
     for (const dev of store._raw.devices) {
       const pos = nodePositions[dev.id];
       if (!pos) continue;
       const dx = mx - pos.x, dy = my - pos.y;
       if (dx*dx + dy*dy <= 24*24) {
         openCableModal(dev.id);
+        return;
+      }
+    }
+
+    // 2) Doble clic sobre un cable → abrir modal "Editar Conexión"
+    const HIT = 10; // tolerancia en píxeles del mundo
+    for (const conn of store._raw.connections) {
+      const srcPos = nodePositions[conn.sourceDeviceId];
+      const dstPos = nodePositions[conn.targetDeviceId];
+      if (!srcPos || !dstPos) continue;
+
+      const x1 = srcPos.x, y1 = srcPos.y;
+      const x2 = dstPos.x, y2 = dstPos.y;
+      const cx1 = x1 + (x2 - x1) * 0.5;
+      const cy1 = y1;
+      const cx2 = x1 + (x2 - x1) * 0.5;
+      const cy2 = y2;
+
+      // Muestrear la curva Bézier en 30 segmentos y verificar proximidad
+      let hit = false;
+      let prevBx = x1, prevBy = y1;
+      const STEPS = 30;
+      for (let i = 1; i <= STEPS; i++) {
+        const t = i / STEPS;
+        const bx = bezierPoint(x1, cx1, cx2, x2, t);
+        const by = bezierPoint(y1, cy1, cy2, y2, t);
+        // Distancia del punto al segmento [prev..current]
+        const dx = bx - prevBx, dy = by - prevBy;
+        const len2 = dx*dx + dy*dy;
+        let dist2;
+        if (len2 === 0) {
+          dist2 = (mx - bx)*(mx - bx) + (my - by)*(my - by);
+        } else {
+          const tp = Math.max(0, Math.min(1, ((mx - prevBx)*dx + (my - prevBy)*dy) / len2));
+          const projX = prevBx + tp*dx;
+          const projY = prevBy + tp*dy;
+          dist2 = (mx - projX)*(mx - projX) + (my - projY)*(my - projY);
+        }
+        if (dist2 <= HIT*HIT) { hit = true; break; }
+        prevBx = bx; prevBy = by;
+      }
+
+      if (hit) {
+        openEditCableModal(conn.id);
         return;
       }
     }

@@ -110,8 +110,7 @@ function renderRoomTabs() {
     btn.addEventListener('click', e => {
       if (e.target.dataset.delRoom) { deleteRoom(e.target.dataset.delRoom); return; }
       store._raw.currentRoomId = btn.dataset.roomId;
-      // Triggers global re-render
-      store._emit('change', { source: 'room-tab-change' });
+      store._emit('change', { source: 'changeRoom' });
     });
     
     btn.addEventListener('dblclick', e => {

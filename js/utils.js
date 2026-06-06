@@ -37,3 +37,21 @@ function downloadJSON(obj, filename) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+function getDeviceLocation(device) {
+  if (!device) return 'Desconocido';
+  let roomName = 'Desconocido';
+  if (device.rackId) {
+    const rack = store.rackById(device.rackId);
+    if (rack) {
+      const room = store._raw.rooms.find(r => r.id === rack.roomId);
+      roomName = room ? room.name : 'Sala Desconocida';
+      return `${roomName} — ${rack.name}`;
+    }
+  } else if (device.roomId) {
+    const room = store._raw.rooms.find(r => r.id === device.roomId);
+    roomName = room ? room.name : 'Sala Desconocida';
+    return `${roomName} — PISO`;
+  }
+  return 'Sin asignar';
+}

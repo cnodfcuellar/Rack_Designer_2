@@ -37,7 +37,7 @@ function renderInventoryTable(wrap, query) {
   }
   wrap.innerHTML = `<table class="data-table">
     <thead><tr>
-      <th>Rack</th><th>U</th><th>Nombre</th><th>Tipo</th><th>IP</th>
+      <th>Rack</th><th>U</th><th>Lado</th><th>Nombre</th><th>Tipo</th><th>IP</th>
       <th>MAC</th><th>Serie</th><th>Usuario</th><th>Contraseña</th><th>Consumo (W)</th><th>Tomas</th><th>Acciones</th>
     </tr></thead>
     <tbody>
@@ -46,9 +46,11 @@ function renderInventoryTable(wrap, query) {
       const rack = !isFloor ? store.rackById(d.rackId) : null;
       const locationName = isFloor ? '<span style="color:var(--purple);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-');
       const slotDisplay = isFloor ? '-' : (d.slotStart || '-');
+      const sideDisplay = isFloor ? '-' : ((d.mountSide === 'rear') ? 'Atrás' : 'Frontal');
       return `<tr data-dev-id="${escapeHTML(d.id)}">
         <td>${locationName}</td>
         <td>${slotDisplay}</td>
+        <td><span style="font-size:11px;opacity:0.8;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:10px;">${sideDisplay}</span></td>
         <td class="editable" data-field="name" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.name)}</td>
         <td><span class="type-badge ${escapeHTML(d.type)}">${escapeHTML(d.type)}</span></td>
         <td class="editable" data-field="ip"  data-dev="${escapeHTML(d.id)}">${escapeHTML(d.ip)  || '-'}</td>
@@ -136,7 +138,7 @@ function renderConnectionsTable(wrap, query) {
   }
   wrap.innerHTML = `<table class="data-table">
     <thead><tr>
-      <th>Origen</th><th>Puerto Origen</th><th>Destino</th><th>Puerto Destino</th>
+      <th>Sala/Rack Origen</th><th>Origen</th><th>Puerto Origen</th><th>Sala/Rack Destino</th><th>Destino</th><th>Puerto Destino</th>
       <th>Tipo Cable</th><th>Color</th><th>Acciones</th>
     </tr></thead>
     <tbody>
@@ -144,8 +146,10 @@ function renderConnectionsTable(wrap, query) {
       const src = store.deviceById(c.sourceDeviceId);
       const dst = store.deviceById(c.targetDeviceId);
       return `<tr>
+        <td><span style="font-size:11px;color:var(--text-muted)">${escapeHTML(getDeviceLocation(src))}</span></td>
         <td><span class="type-badge ${escapeHTML(src?.type||'')}">${escapeHTML(src?.name||'?')}</span></td>
         <td>${escapeHTML(c.sourcePort)}</td>
+        <td><span style="font-size:11px;color:var(--text-muted)">${escapeHTML(getDeviceLocation(dst))}</span></td>
         <td><span class="type-badge ${escapeHTML(dst?.type||'')}">${escapeHTML(dst?.name||'?')}</span></td>
         <td>${escapeHTML(c.targetPort)}</td>
         <td>${escapeHTML(c.cableType)}</td>
@@ -173,13 +177,14 @@ function renderConnectionsTable(wrap, query) {
 }
 
 function getInventoryData() {
-  const data = [['Rack / Ubicación', 'Unidad U', 'Nombre', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
+  const data = [['Rack / Ubicación', 'Unidad U', 'Lado', 'Nombre', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
   store._raw.devices.forEach(d => {
     const isFloor = d.category === 'floor';
     const rack = !isFloor ? store.rackById(d.rackId) : null;
     data.push([
       isFloor ? 'PISO' : (rack?.name || ''), 
       isFloor ? '-' : (d.slotStart || ''), 
+      isFloor ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal'),
       d.name, d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power
     ]);
   });
@@ -187,11 +192,11 @@ function getInventoryData() {
 }
 
 function getConnectionsData() {
-  const data = [['Origen', 'Puerto Origen', 'Destino', 'Puerto Destino', 'Tipo Cable', 'Color']];
+  const data = [['Sala/Rack Origen', 'Origen', 'Puerto Origen', 'Sala/Rack Destino', 'Destino', 'Puerto Destino', 'Tipo Cable', 'Color']];
   store._raw.connections.forEach(c => {
     const src = store.deviceById(c.sourceDeviceId);
     const dst = store.deviceById(c.targetDeviceId);
-    data.push([src?.name||'?', c.sourcePort, dst?.name||'?', c.targetPort, c.cableType, c.color]);
+    data.push([getDeviceLocation(src), src?.name||'?', c.sourcePort, getDeviceLocation(dst), dst?.name||'?', c.targetPort, c.cableType, c.color]);
   });
   return data;
 }

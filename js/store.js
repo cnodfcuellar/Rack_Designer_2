@@ -181,14 +181,14 @@ class Store {
   }
 
   /** Agrega un equipo al rack en la posición dada */
-  addDeviceToRack(deviceTemplate, rackId, slotStart) {
+  addDeviceToRack(deviceTemplate, rackId, slotStart, mountSide = 'front') {
     const rack = this.rackById(rackId);
     if (!rack) return false;
     const size = parseInt(deviceTemplate.size);
     // Validación de límites
     if (slotStart < 1 || slotStart + size - 1 > rack.height) return false;
     // Validación de colisiones
-    const existing = this.allDevicesInRack(rackId);
+    const existing = this.allDevicesInRack(rackId).filter(d => (d.mountSide || 'front') === mountSide);
     for (const d of existing) {
       const dEnd = d.slotStart + d.size - 1;
       const nEnd = slotStart + size - 1;
@@ -197,7 +197,7 @@ class Store {
     this.snapshot();
     const newDev = {
       id: uid(), rackId, name: deviceTemplate.name, type: deviceTemplate.type,
-      slotStart, size, ip: deviceTemplate.ip || '', mac: deviceTemplate.mac || '',
+      slotStart, size, mountSide, ip: deviceTemplate.ip || '', mac: deviceTemplate.mac || '',
       serial: deviceTemplate.serial || '', power: deviceTemplate.power || 0,
       user: deviceTemplate.user || 'admin', pass: deviceTemplate.pass || '',
       notes: deviceTemplate.notes || ''
@@ -208,14 +208,15 @@ class Store {
     return true;
   }
 
-  moveDevice(deviceId, newRackId, newSlot) {
+  moveDevice(deviceId, newRackId, newSlot, newMountSide) {
     const dev = this.deviceById(deviceId);
     if (!dev) return false;
     const rack = this.rackById(newRackId);
     if (!rack) return false;
     const size = dev.size;
+    const side = newMountSide || dev.mountSide || 'front';
     if (newSlot < 1 || newSlot + size - 1 > rack.height) return false;
-    const existing = this.allDevicesInRack(newRackId).filter(d => d.id !== deviceId);
+    const existing = this.allDevicesInRack(newRackId).filter(d => d.id !== deviceId && (d.mountSide || 'front') === side);
     for (const d of existing) {
       const dEnd = d.slotStart + d.size - 1;
       const nEnd = newSlot + size - 1;
@@ -224,6 +225,7 @@ class Store {
     this.snapshot();
     dev.rackId = newRackId;
     dev.slotStart = newSlot;
+    dev.mountSide = side;
     this._save(); 
     this._emit('change', { source: 'moveDevice' });
     return true;
