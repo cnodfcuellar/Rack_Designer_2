@@ -1,0 +1,27 @@
+{
+  "name": "RACK Designer — Datacenter Console",
+  "short_name": "RACK Designer",
+  "description": "Diseña, documenta y gestiona tu datacenter de forma visual con RACK Designer.",
+  "start_url": "../index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0b0f19",
+  "theme_color": "#0ea5e9",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "../icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities", "business"],
+  "prefer_related_applications": false
+}
