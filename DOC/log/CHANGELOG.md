@@ -2,6 +2,13 @@
 
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
 
+## [2026-06-06 21:28] Mejoras en Exportación PNG y Limpieza Visual
+* **Exportación PNG Dual:** Se refactorizó la función de exportación a PNG (`exportRackToPNG`). Ahora, si un gabinete contiene equipos en la vista trasera, el lienzo (Canvas) se expande automáticamente y renderiza ambas caras (Frontal y Trasera) una al lado de la otra en una misma imagen, permitiendo reportes integrales.
+* **Limpieza de Vista Trasera:** Se eliminó la repetición del nombre del gabinete en el encabezado de la "Vista Trasera" tanto en la interfaz de usuario como en las imágenes exportadas, logrando un diseño más minimalista y profesional.
+* **Actualización de Documentación:** Se actualizaron `DOC_MANUAL_USUARIO.md` y `DOC_MANUAL_FUNCIONAMIENTO.md` para reflejar el comportamiento del nuevo sistema de renderizado doble y las vistas traseras.
+* **Actualización de Iconografía:** Se limpió el fondo azul de los logos e iconos PWA, dejándolos con transparencia, manteniendo la "Variante 2" (gradiente azul y borde cyan).
+* **Gestor de Paquetes estricto:** Se implementó una directiva estricta de entorno mediante el `package.json` para bloquear el uso de `npm` o `yarn`, forzando el uso de `pnpm` como único manejador de paquetes del proyecto.
+
 ## [2026-06-05 22:25] Corrección Crítica en Renderizado de Racks e Inventario
 * **Fallo de Renderizado e Inventario:** Se corrigió un `ReferenceError` en `js/ui/rack.js` relacionado con la restauración del estado de los gabinetes volteados (`flippedRacks`) al recargar la vista. Este error bloqueaba el renderizado de la tabla de inventario en el panel inferior.
 * **Persistencia de Vista Trasera:** Se modificó la función `bindRackEvents` para que la vista trasera persista tras mover o agregar equipos, corrigiendo un comportamiento donde volvía forzosamente a la vista frontal.
