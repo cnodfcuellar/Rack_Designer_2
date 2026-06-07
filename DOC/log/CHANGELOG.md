@@ -3,6 +3,7 @@
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
 
 ## [2026-06-06 21:28] Mejoras en Exportación PNG y Limpieza Visual
+* **Ajuste de Zoom en Vista Física:** Se corrigió un problema de diseño Flexbox al alejar la vista física; ahora el contenedor principal expande dinámicamente su ancho base (`width: 100/z %`) relativo al nivel de escalado (`scale(z)`). Esto permite que más gabinetes fluyan y aprovechen todo el ancho disponible de la pantalla al hacer zoom out, en lugar de limitarse a la cuadrícula original.
 * **Exportación PNG Dual:** Se refactorizó la función de exportación a PNG (`exportRackToPNG`). Ahora, si un gabinete contiene equipos en la vista trasera, el lienzo (Canvas) se expande automáticamente y renderiza ambas caras (Frontal y Trasera) una al lado de la otra en una misma imagen, permitiendo reportes integrales.
 * **Limpieza de Vista Trasera:** Se eliminó la repetición del nombre del gabinete en el encabezado de la "Vista Trasera" tanto en la interfaz de usuario como en las imágenes exportadas, logrando un diseño más minimalista y profesional.
 * **Actualización de Documentación:** Se actualizaron `DOC_MANUAL_USUARIO.md` y `DOC_MANUAL_FUNCIONAMIENTO.md` para reflejar el comportamiento del nuevo sistema de renderizado doble y las vistas traseras.
