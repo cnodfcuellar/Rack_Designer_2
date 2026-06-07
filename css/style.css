@@ -5,6 +5,7 @@
   --bg-main:      #0b0f19;
   --bg-panel:     #111827cc;
   --bg-card:      #151c2e;
+  --bg-card1:     #171f30;
   --bg-card2:     #1a2235;
   --border:       #25304b;
   --border-light: #2e3d5a;
@@ -21,6 +22,22 @@
   --red-glow:     #ef444433;
   --purple:       #8b5cf6;
   --cyan:         #06b6d4;
+}
+[data-theme="light"] {
+  --bg-main:      #f0f4f8;
+  --bg-panel:     #ffffffcc;
+  --bg-card:      #ffffff;
+  --bg-card1:     #f8fafc;
+  --bg-card2:     #f1f5f9;
+  --border:       #e2e8f0;
+  --border-light: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary:#334155;
+  --text-muted:   #64748b;
+  --accent:       #0284c7;
+  --accent-glow:  #e0f2fe;
+}
+:root {
   --sidebar-w:    280px;
   --header-h:     56px;
   --bottom-h:     220px;

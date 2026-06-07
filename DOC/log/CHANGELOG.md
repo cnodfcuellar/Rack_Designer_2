@@ -2,6 +2,11 @@
 
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
 
+## [2026-06-07 16:37] Implementación de Modo Claro
+* **Modo Claro / Modo Oscuro:** Se implementó una paleta de colores alternativa (`[data-theme="light"]`) para soportar visualización en Modo Claro manteniendo la identidad visual y asegurando alto contraste.
+* **Toggle en Menú de Proyecto:** Se agregó la opción "☀️ Cambiar a Modo Claro" en el menú principal "Proyecto". El texto y la función se adaptan dinámicamente al estado actual del tema.
+* **Persistencia del Tema:** La preferencia de tema elegido por el usuario se almacena localmente usando `localStorage` de manera que la aplicación carga directamente en el modo visual preferido.
+
 ## [2026-06-07 14:40] Simplificación de Catálogo
 * **Agrupación de Acciones en Catálogo:** Se consolidaron los tres botones individuales (Ubicación Rápida, Editar, Eliminar) de cada equipo en el panel del catálogo bajo un único botón de opciones múltiples ("⋮"). Esto abre un menú contextual elegante, limpiando la interfaz visual y mejorando el uso del espacio.
 

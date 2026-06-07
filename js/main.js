@@ -115,6 +115,25 @@ function initGlobalEvents() {
       if (!dropdown.contains(e.target)) dropdown.classList.add('hidden');
     });
 
+    document.getElementById('menu-theme')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('menu-theme').textContent = '☀️ Cambiar a Modo Claro';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('menu-theme').textContent = '🌙 Cambiar a Modo Oscuro';
+      }
+    });
+
+    // Set initial text
+    if (document.documentElement.getAttribute('data-theme') === 'light') {
+      document.getElementById('menu-theme').textContent = '🌙 Cambiar a Modo Oscuro';
+    }
+
     document.getElementById('menu-open')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
       document.getElementById('import-file').click();
@@ -294,6 +313,14 @@ function initGlobalEvents() {
 
   const tableSearch = document.getElementById('table-search');
   if(tableSearch) tableSearch.addEventListener('input', renderBottomPanel);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Theme initialization
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  });
 
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); store.undo(); }

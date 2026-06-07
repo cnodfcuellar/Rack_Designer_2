@@ -1402,3 +1402,9 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 
 ## Correcciones V2 Móvil
 Se reescribió la lógica de posicionamiento de tooltips (ahora siguen al ratón vía mousemove), se integró capa oscura para el menú lateral en móviles, se agregaron hitboxes mayores, y se introdujo la opción 'Frontal/Trasera' en el modal de ubicación rápida.
+
+## Simplificación de UI del Catálogo
+Se implementó un único botón de opciones ("⋮") que reutiliza el ctx-menu, permitiendo desplegar de manera limpia las opciones de Ubicación Rápida, Editar Equipo y Eliminar Equipo.
+
+## Modo Claro
+Se implementó un esquema de variables CSS inversas bajo el selector [data-theme="light"]. Persistencia en localStorage y botón de alternancia dinámica en el menú del proyecto.
