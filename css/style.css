@@ -367,7 +367,9 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 ============================================================ */
 .tooltip { position: relative; }
 .tooltip::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--bg-card2); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; font-size: 10px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s; font-family: var(--font-mono); color: var(--text-secondary); }
-.tooltip:hover::after { opacity: 1; }
+@media (hover: hover) {
+  .tooltip:hover::after { opacity: 1; }
+}
 .color-input-wrap { display: flex; align-items: center; gap: 8px; }
 .color-input-wrap input[type=color] { width: 32px; height: 28px; padding: 2px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card2); cursor: pointer; }
 .color-input-wrap input[type=text] { flex: 1; }
@@ -444,18 +446,27 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   .header-main-area > * { flex-shrink: 0; }
   .room-tabs { overflow-x: visible; }
   
+  #mobile-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
+    z-index: 9998; transition: opacity 0.3s ease;
+  }
+  #mobile-overlay.hidden { opacity: 0; pointer-events: none; }
+  
   #sidebar { 
-    position: fixed; top: 110px; left: -100%; width: 260px; height: calc(100vh - 110px); 
-    z-index: 999; transition: left 0.3s ease; box-shadow: 10px 0 20px rgba(0,0,0,0.5);
+    position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px; height: 100vh; 
+    z-index: 9999; transition: left 0.3s ease; box-shadow: 10px 0 20px rgba(0,0,0,0.5);
   }
   #sidebar.open { left: 0; }
   #main { grid-column: 1 / -1; width: 100%; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
   #bottom { min-width: 0; }
+  #bottom.fullscreen { height: 85vh !important; }
   
   /* Make toolbars scrollable horizontally instead of wrapping awkwardly */
   .main-toolbar { width: 100%; overflow-x: auto; flex-wrap: nowrap; overflow-y: hidden; }
   .main-toolbar .spacer { display: none; } /* Hide spacers so items group together */
   .main-toolbar .h-btn { white-space: nowrap; flex-shrink: 0; }
+  .h-btn, .btn-primary, .btn-secondary, .view-tab { padding: 10px 14px; font-size: 13px; }
   .view-tabs { flex-shrink: 0; }
   
   /* Tables panel horizontally scrollable */

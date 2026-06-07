@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="RACK Designer">
 <link rel="manifest" href="json/manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-512x512.png">
-<link rel="icon" type="image/png" href="icons/icon-192x192.png">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -24,6 +24,8 @@
      HTML SKELETON
 ============================= -->
 <div id="app">
+  <!-- MOBILE OVERLAY -->
+  <div id="mobile-overlay" class="hidden"></div>
 
   <!-- HEADER -->
   <header id="header">
@@ -31,7 +33,7 @@
       <div style="display: flex; align-items: center; gap: 8px;">
         <button id="mobile-menu-btn" class="menu-btn" style="display: none;">☰</button>
         <div class="logo">
-          <img src="icons/icon-192.png" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
+          <img src="icons/icon.svg" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
           <div>
             RACK Designer
             <span class="logo-sub">DATACENTER CONSOLE</span>
@@ -364,6 +366,14 @@
     <div class="form-row" id="qp-slot-row">
       <label>3. Seleccionar Ranura (Slot U)</label>
       <select id="qp-slot" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-side-row">
+      <label>4. Lado de Montaje</label>
+      <select id="qp-side" style="width:100%;">
+        <option value="front" selected>Frontal</option>
+        <option value="rear">Trasera</option>
+      </select>
     </div>
     
     <div class="modal-footer" style="margin-top:20px;">

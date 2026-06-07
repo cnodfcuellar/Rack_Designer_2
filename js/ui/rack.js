@@ -154,6 +154,7 @@ function bindRackEvents(container, flippedRacks) {
     fp.addEventListener('dblclick',  onDeviceDoubleClick);
     fp.addEventListener('contextmenu', onDeviceContextMenu);
     fp.addEventListener('mouseenter', onDeviceMouseEnter);
+    fp.addEventListener('mousemove', onDeviceMouseMove);
     fp.addEventListener('mouseleave', onDeviceMouseLeave);
   });
   container.querySelectorAll('.dev-btn.edit').forEach(btn => {
@@ -177,35 +178,9 @@ function bindRackEvents(container, flippedRacks) {
       e.stopPropagation();
       openEditDeviceModal(card.dataset.deviceId);
     });
-    card.addEventListener('mouseenter', e => {
-      const devId = card.dataset.deviceId;
-      const dev = store.deviceById(devId);
-      if(!dev) return;
-
-      const tooltip = document.getElementById('device-tooltip');
-      if(!tooltip) return;
-
-      tooltip.innerHTML = `
-        <div class="tt-title">${escapeHTML(dev.name)}</div>
-        <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(dev.type.toUpperCase())}</span></div>
-        <div class="tt-row"><span>IP:</span> <span>${escapeHTML(dev.ip || 'N/A')}</span></div>
-        <div class="tt-row"><span>User:</span> <span>${escapeHTML(dev.user || 'N/A')}</span></div>
-        <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(dev.pass || 'N/A')}</span></div>
-      `;
-      
-      const rect = card.getBoundingClientRect();
-      tooltip.style.left = `${rect.right + 10}px`;
-      let top = rect.top + (rect.height / 2) - (tooltip.offsetHeight / 2);
-      if(top < 20) top = 20;
-      if(top + tooltip.offsetHeight > window.innerHeight - 20) top = window.innerHeight - tooltip.offsetHeight - 20;
-      tooltip.style.top = `${top}px`;
-
-      tooltip.classList.add('visible');
-    });
-    card.addEventListener('mouseleave', () => {
-      const tooltip = document.getElementById('device-tooltip');
-      if(tooltip) tooltip.classList.remove('visible');
-    });
+    card.addEventListener('mouseenter', onDeviceMouseEnter);
+    card.addEventListener('mousemove', onDeviceMouseMove);
+    card.addEventListener('mouseleave', onDeviceMouseLeave);
   });
 
   // Restore flipped state
@@ -402,19 +377,25 @@ function onDeviceMouseEnter(e) {
     <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(dev.pass || 'N/A')}</span></div>
   `;
   
-  const rackEl = e.currentTarget.closest('.rack-wrapper');
-  if(rackEl) {
-    const rect = rackEl.getBoundingClientRect();
-    const fpRect = e.currentTarget.getBoundingClientRect();
-    
-    tooltip.style.left = `${rect.right + 20}px`;
-    let top = fpRect.top + (fpRect.height / 2) - (tooltip.offsetHeight / 2);
-    if(top < 20) top = 20;
-    if(top + tooltip.offsetHeight > window.innerHeight - 20) top = window.innerHeight - tooltip.offsetHeight - 20;
-    tooltip.style.top = `${top}px`;
-  }
+  let x = e.clientX + 15;
+  let y = e.clientY + 15;
+  if(x + 220 > window.innerWidth) x = e.clientX - 235;
+  if(y + tooltip.offsetHeight > window.innerHeight) y = window.innerHeight - tooltip.offsetHeight - 10;
+  tooltip.style.left = `${x}px`;
+  tooltip.style.top = `${y}px`;
 
   tooltip.classList.add('visible');
+}
+
+function onDeviceMouseMove(e) {
+  const tooltip = document.getElementById('device-tooltip');
+  if(!tooltip || !tooltip.classList.contains('visible')) return;
+  let x = e.clientX + 15;
+  let y = e.clientY + 15;
+  if(x + 220 > window.innerWidth) x = e.clientX - 235;
+  if(y + tooltip.offsetHeight > window.innerHeight) y = window.innerHeight - tooltip.offsetHeight - 10;
+  tooltip.style.left = `${x}px`;
+  tooltip.style.top = `${y}px`;
 }
 
 function onDeviceMouseLeave(e) {

@@ -585,15 +585,16 @@ function initModals() {
     } else {
       const rackId = document.getElementById('qp-rack').value;
       const slotU = parseInt(document.getElementById('qp-slot').value);
+      const mountSide = document.getElementById('qp-side').value;
       
       if (!rackId || isNaN(slotU)) {
         notify('Selecciona un gabinete y slot válidos', 'error');
         return;
       }
       
-      const ok = store.addDeviceToRack(qpCatalogItem, rackId, slotU);
+      const ok = store.addDeviceToRack(qpCatalogItem, rackId, slotU, mountSide);
       if (ok) {
-        notify(`${qpCatalogItem.name} instalado en rack en U${slotU}`, 'success');
+        notify(`${qpCatalogItem.name} instalado en rack en U${slotU} (${mountSide === 'front' ? 'Frontal' : 'Trasera'})`, 'success');
         document.getElementById('modal-quick-placement').classList.add('hidden');
         qpCatalogItem = null;
       } else {

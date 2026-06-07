@@ -198,9 +198,17 @@ function initGlobalEvents() {
     }
 
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileOverlay = document.getElementById('mobile-overlay');
     if (mobileMenuBtn) {
       mobileMenuBtn.addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar').classList.add('open');
+        if(mobileOverlay) mobileOverlay.classList.remove('hidden');
+      });
+    }
+    if (mobileOverlay) {
+      mobileOverlay.addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+        mobileOverlay.classList.add('hidden');
       });
     }
   }
