@@ -250,71 +250,91 @@ function importJSON(e) {
 function exportRackToPNG(rackId) {
   const rack    = store.rackById(rackId);
   const devices = store.allDevicesInRack(rackId);
-  const W = 280, UNIT = 24;
+  
+  const frontDevices = devices.filter(d => d.mountSide !== 'rear');
+  const rearDevices  = devices.filter(d => d.mountSide === 'rear');
+  const hasRear = rearDevices.length > 0;
+
+  const W = 280, UNIT = 24, GAP = 40;
   const H = rack.height * UNIT + 60;
+  const totalW = hasRear ? (W * 2 + GAP) : W;
 
   const offCanvas = document.createElement('canvas');
-  offCanvas.width  = W * 2;
+  offCanvas.width  = totalW * 2;
   offCanvas.height = H * 2;
   const oc = offCanvas.getContext('2d');
   oc.scale(2, 2);
 
   oc.fillStyle = '#090d17';
-  oc.fillRect(0, 0, W, H);
-  oc.strokeStyle = rack.color;
-  oc.lineWidth = 2;
-  oc.strokeRect(1, 1, W-2, H-2);
+  oc.fillRect(0, 0, totalW, H);
 
-  oc.fillStyle = rack.color;
-  oc.font = 'bold 12px sans-serif';
-  oc.fillText(rack.name, 10, 18);
-  oc.fillStyle = '#4a5a78';
-  oc.font = '9px monospace';
-  oc.fillText(`${rack.height}U · ${devices.reduce((s,d)=>s+d.size,0)} usadas`, 10, 30);
+  function drawRack(offsetX, sideDevices, title) {
+    oc.save();
+    oc.translate(offsetX, 0);
 
-  oc.fillStyle = '#1a2035';
-  oc.fillRect(0, 40, 18, rack.height * UNIT);
-  oc.fillRect(W-18, 40, 18, rack.height * UNIT);
+    oc.strokeStyle = rack.color;
+    oc.lineWidth = 2;
+    oc.strokeRect(1, 1, W-2, H-2);
 
-  for (let u = 1; u <= rack.height; u++) {
-    const y = 40 + (u-1) * UNIT;
-    oc.fillStyle = u % 5 === 0 ? '#3d5480' : '#1e2d44';
-    oc.font = '7px monospace';
-    oc.textAlign = 'center';
-    oc.fillText(u, 9, y + UNIT/2 + 3);
-    oc.fillText(u, W-9, y + UNIT/2 + 3);
-    oc.strokeStyle = '#0d1220';
-    oc.lineWidth = 0.5;
-    oc.beginPath(); oc.moveTo(18, y); oc.lineTo(W-18, y); oc.stroke();
+    if (title) {
+      oc.fillStyle = rack.color;
+      oc.font = 'bold 12px sans-serif';
+      oc.fillText(title, 10, 18);
+    }
+    oc.fillStyle = '#4a5a78';
+    oc.font = '9px monospace';
+    oc.fillText(`${rack.height}U · ${sideDevices.reduce((s,d)=>s+d.size,0)} usadas`, 10, 30);
+
+    oc.fillStyle = '#1a2035';
+    oc.fillRect(0, 40, 18, rack.height * UNIT);
+    oc.fillRect(W-18, 40, 18, rack.height * UNIT);
+
+    for (let u = 1; u <= rack.height; u++) {
+      const y = 40 + (u-1) * UNIT;
+      oc.fillStyle = u % 5 === 0 ? '#3d5480' : '#1e2d44';
+      oc.font = '7px monospace';
+      oc.textAlign = 'center';
+      oc.fillText(u, 9, y + UNIT/2 + 3);
+      oc.fillText(u, W-9, y + UNIT/2 + 3);
+      oc.strokeStyle = '#0d1220';
+      oc.lineWidth = 0.5;
+      oc.beginPath(); oc.moveTo(18, y); oc.lineTo(W-18, y); oc.stroke();
+    }
+
+    const typeColors = TYPE_COLORS;
+    for (let u = 1; u <= rack.height; u++) {
+      const dev = sideDevices.find(d => d.slotStart === u);
+      if (!dev) continue;
+      const y = 40 + (u-1) * UNIT;
+      const h = dev.size * UNIT;
+      const col = typeColors[dev.type] || '#888';
+
+      oc.fillStyle = col + '22';
+      oc.fillRect(18, y, W-36, h);
+      oc.strokeStyle = col;
+      oc.lineWidth = 1;
+      oc.strokeRect(18, y, W-36, h);
+
+      oc.fillStyle = col;
+      oc.font = `bold ${Math.min(10, h-4)}px sans-serif`;
+      oc.textAlign = 'left';
+      oc.fillText(dev.name.slice(0,22), 24, y + h/2 - 2);
+      if (h > 24) {
+        oc.fillStyle = '#8b9ab8';
+        oc.font = '8px monospace';
+        oc.fillText(dev.ip || 'NO IP', 24, y + h/2 + 10);
+      }
+      oc.beginPath();
+      oc.arc(W-26, y + h/2, 4, 0, Math.PI*2);
+      oc.fillStyle = '#00ff88';
+      oc.fill();
+    }
+    oc.restore();
   }
 
-  const typeColors = TYPE_COLORS;
-  for (let u = 1; u <= rack.height; u++) {
-    const dev = devices.find(d => d.slotStart === u);
-    if (!dev) continue;
-    const y = 40 + (u-1) * UNIT;
-    const h = dev.size * UNIT;
-    const col = typeColors[dev.type] || '#888';
-
-    oc.fillStyle = col + '22';
-    oc.fillRect(18, y, W-36, h);
-    oc.strokeStyle = col;
-    oc.lineWidth = 1;
-    oc.strokeRect(18, y, W-36, h);
-
-    oc.fillStyle = col;
-    oc.font = `bold ${Math.min(10, h-4)}px sans-serif`;
-    oc.textAlign = 'left';
-    oc.fillText(dev.name.slice(0,22), 24, y + h/2 - 2);
-    if (h > 24) {
-      oc.fillStyle = '#8b9ab8';
-      oc.font = '8px monospace';
-      oc.fillText(dev.ip || 'NO IP', 24, y + h/2 + 10);
-    }
-    oc.beginPath();
-    oc.arc(W-26, y + h/2, 4, 0, Math.PI*2);
-    oc.fillStyle = '#00ff88';
-    oc.fill();
+  drawRack(0, frontDevices, hasRear ? rack.name + ' (Frontal)' : rack.name);
+  if (hasRear) {
+    drawRack(W + GAP, rearDevices, 'Vista Trasera');
   }
 
   const url  = offCanvas.toDataURL('image/png');
