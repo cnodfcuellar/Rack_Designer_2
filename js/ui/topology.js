@@ -741,6 +741,7 @@ function updateZoomLabel() {
     const phys = document.getElementById('view-physical-content');
     if (phys) {
       phys.style.transform = `scale(${z}) translate(${px}px, ${py}px)`;
+      phys.style.width = `${100 / z}%`;
     }
   }
 }
