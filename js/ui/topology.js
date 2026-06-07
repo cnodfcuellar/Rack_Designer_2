@@ -740,8 +740,9 @@ function updateZoomLabel() {
   if (currentView === 'physical') {
     const phys = document.getElementById('view-physical-content');
     if (phys) {
-      phys.style.transform = `scale(${z}) translate(${px}px, ${py}px)`;
-      phys.style.width = `${100 / z}%`;
+      phys.style.zoom = z;
+      phys.style.transform = `translate(${px}px, ${py}px)`;
+      phys.style.width = '100%';
     }
   }
 }
