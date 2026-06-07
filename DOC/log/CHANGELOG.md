@@ -2,6 +2,9 @@
 
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
 
+## [2026-06-07 14:40] Simplificación de Catálogo
+* **Agrupación de Acciones en Catálogo:** Se consolidaron los tres botones individuales (Ubicación Rápida, Editar, Eliminar) de cada equipo en el panel del catálogo bajo un único botón de opciones múltiples ("⋮"). Esto abre un menú contextual elegante, limpiando la interfaz visual y mejorando el uso del espacio.
+
 ## [2026-06-07 14:33] Correcciones de Interfaz y Experiencia en Móviles
 * **Pestañas de Sala en Móvil:** Se solucionó el problema donde el botón de cerrar sala ("✕") no aparecía en pantallas táctiles por depender del evento `hover`. Ahora es permanentemente visible en móviles (`@media (hover: none)`). Además, se añadió soporte para pulsación larga (`contextmenu`) permitiendo renombrar salas en celulares donde el doble clic no se detectaba correctamente.
 * **Cierre Automático del Catálogo Móvil:** Se implementó una lógica (`closeMobileSidebar`) que oculta automáticamente el menú lateral (catálogo) en modo móvil cada vez que el usuario abre los modales de "Añadir a rack" (Ubicación Rápida), "Añadir Equipo" o "Añadir Gabinete", evitando que el menú obstruya la vista del rack.

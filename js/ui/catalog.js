@@ -56,10 +56,8 @@ function renderCatalog() {
         <div class="cat-meta">${escapeHTML(item.type).toUpperCase()} │ ${escapeHTML(String(item.power))}W</div>
       </div>
       <div class="cat-size">${item.size ? item.size + 'U' : 'Piso'}</div>
-      <div class="cat-actions" style="display:flex; flex-direction:column; gap:2px; margin-left:4px;">
-        <button class="cat-btn place" data-place-cat="${item.id}" title="Ubicación Rápida" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--accent)">⚡</button>
-        <button class="cat-btn edit" data-edit-cat="${item.id}" title="Editar" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--text-muted)">✎</button>
-        <button class="cat-btn del" data-del-cat="${item.id}" title="Eliminar" style="font-size:10px; cursor:pointer; background:none; border:none; color:var(--red)">🗑</button>
+      <div class="cat-actions" style="display:flex; align-items:center; margin-left:4px;">
+        <button class="cat-btn menu" data-menu-cat="${item.id}" title="Opciones" style="font-size:16px; cursor:pointer; background:none; border:none; color:var(--text-muted); padding: 4px;">⋮</button>
       </div>
     </div>
   `).join('');
@@ -72,27 +70,35 @@ function renderCatalog() {
     });
   });
 
-  cat.querySelectorAll('.cat-btn.place').forEach(btn => {
+  cat.querySelectorAll('.cat-btn.menu').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      openQuickPlacementModal(btn.dataset.placeCat);
-    });
-  });
-  
-  cat.querySelectorAll('.cat-btn.edit').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      openEditCatalogModal(btn.dataset.editCat);
-    });
-  });
-  
-  cat.querySelectorAll('.cat-btn.del').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      if(confirm('¿Eliminar plantilla del catálogo?')) {
-        CATALOG = CATALOG.filter(c => c.id !== btn.dataset.delCat);
-        renderCatalog();
-      }
+      const catId = btn.dataset.menuCat;
+      const menu = document.getElementById('ctx-menu');
+      if(!menu) return;
+      menu.innerHTML = `
+        <div class="ctx-item" data-action="cat-place" data-id="${escapeHTML(catId)}">⚡ Ubicación Rápida</div>
+        <div class="ctx-item" data-action="cat-edit" data-id="${escapeHTML(catId)}">✎ Editar plantilla</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item danger" data-action="cat-delete" data-id="${escapeHTML(catId)}">🗑 Eliminar plantilla</div>
+      `;
+      menu.style.cssText = `left:${e.clientX}px; top:${e.clientY}px`;
+      menu.classList.remove('hidden');
+
+      menu.querySelectorAll('.ctx-item[data-action]').forEach(item => {
+        item.addEventListener('click', () => {
+          menu.classList.add('hidden');
+          const id = item.dataset.id;
+          if (item.dataset.action === 'cat-place') openQuickPlacementModal(id);
+          if (item.dataset.action === 'cat-edit') openEditCatalogModal(id);
+          if (item.dataset.action === 'cat-delete') {
+            if(confirm('¿Eliminar plantilla del catálogo?')) {
+              CATALOG = CATALOG.filter(c => c.id !== id);
+              renderCatalog();
+            }
+          }
+        });
+      });
     });
   });
 }
