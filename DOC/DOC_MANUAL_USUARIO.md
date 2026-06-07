@@ -53,7 +53,7 @@ Para meter un equipo dentro del Rack:
 ### 3.3. Uso de la Vista Trasera (Parte posterior del Rack)
 Algunos equipos como organizadores de cables, PDUs o regletas se instalan en la parte trasera del rack sin ocupar el frente.
 1. En la cabecera de cada rack (caja naranja/azul), verás un botón que dice **"🔄 ATRÁS"**. Haz clic en él.
-2. El gabinete girará en 3D mostrándote la cara posterior, identificable por un borde y fondo azul oscuro.
+2. El gabinete girará en 3D mostrándote la cara posterior, identificable por un borde y fondo azul oscuro. El título principal del rack no se mostrará para mantener un diseño visual más limpio.
 3. Ahora puedes arrastrar equipos del catálogo y soltarlos aquí. ¡No chocarán con los equipos que están en la parte delantera!
 4. Para volver al frente, haz clic en el botón **"🖥️ FRENTE"**. El indicador en la parte inferior del rack te mostrará cuántas Unidades (U) tienes ocupadas tanto en el frente (FRONT) como atrás (REAR).
 
@@ -119,7 +119,7 @@ Todo lo que haces se pierde si cierras la ventana sin guardar.
 1. **Guardar tu trabajo:** Haz clic en el ícono de las tres rayitas `☰` (arriba a la derecha, al lado de tu proyecto). Elige **"Guardar Proyecto"**. Se descargará un archivo a tu computadora (tipo JSON).
 2. **Cargar tu trabajo:** Abre la aplicación mañana, ve al mismo menú, elige **"Cargar Proyecto"**, selecciona el archivo que descargaste ayer y ¡todo volverá a aparecer!
 3. **Exportar a Excel/CSV:** En el panel inferior de las tablas, hay botones que dicen `⬇ Excel` y `⬇ CSV`. Haces clic y te descarga la tabla para que la puedas abrir en Microsoft Excel.
-4. **Tomar Foto:** En la barra del medio, presiona el botón `📷 PNG`. Se descargará una imagen perfecta de tu dibujo para que la pegues en tus reportes de Word o PowerPoint.
+4. **Tomar Foto (Exportar PNG):** En la barra del medio, presiona el botón `📷 PNG`. Selecciona el gabinete que deseas exportar. Si el gabinete tiene equipos en su parte trasera, la imagen descargada mostrará automáticamente ambas caras (Frontal y Trasera) una al lado de la otra.
 
 ---
 

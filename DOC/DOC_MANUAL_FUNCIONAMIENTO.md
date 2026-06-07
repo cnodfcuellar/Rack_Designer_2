@@ -69,7 +69,7 @@ El sistema depende de la librería externa `xlsx.full.min.js` (incluida localmen
 * **Excel (.xlsx):** Genera un libro de Microsoft Excel con estilo, ideal para presentar informes a gerencia.
 
 ### 4.3. Exportación Gráfica (PNG)
-El botón de exportar a PNG toma el lienzo HTML5 (`<canvas>` de la topología o el DOM del Rack renderizado mediante técnicas de superposición) y lo convierte en un mapa de bits Base64 que se descarga automáticamente. Esto reemplaza la necesidad de hacer recortes manuales de pantalla.
+El botón de exportar a PNG toma el lienzo HTML5 (`<canvas>` de la topología o el DOM del Rack renderizado mediante técnicas de superposición) y lo convierte en un mapa de bits Base64 que se descarga automáticamente. En el caso de gabinetes con equipos en ambas caras, el sistema dibuja ambos de forma dinámica expandiendo el canvas y renderizando la vista Frontal y Trasera de forma paralela en la misma imagen generada. Esto reemplaza la necesidad de hacer recortes manuales de pantalla y facilita el reporte integral del gabinete.
 
 ---
 
