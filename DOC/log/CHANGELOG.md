@@ -2,6 +2,19 @@
 
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
 
+## [2026-06-07 14:33] Correcciones de Interfaz y Experiencia en Móviles
+* **Pestañas de Sala en Móvil:** Se solucionó el problema donde el botón de cerrar sala ("✕") no aparecía en pantallas táctiles por depender del evento `hover`. Ahora es permanentemente visible en móviles (`@media (hover: none)`). Además, se añadió soporte para pulsación larga (`contextmenu`) permitiendo renombrar salas en celulares donde el doble clic no se detectaba correctamente.
+* **Cierre Automático del Catálogo Móvil:** Se implementó una lógica (`closeMobileSidebar`) que oculta automáticamente el menú lateral (catálogo) en modo móvil cada vez que el usuario abre los modales de "Añadir a rack" (Ubicación Rápida), "Añadir Equipo" o "Añadir Gabinete", evitando que el menú obstruya la vista del rack.
+* **Botón Explícito de Cierre:** Se agregó un botón visible ("✕") en la cabecera del panel de Estadísticas/Catálogo exclusivo para la vista móvil (`.mobile-only`), proveyendo una forma clara e intuitiva de colapsar el menú lateral.
+* **Leyendas en Estadísticas:** Se reincorporaron pequeñas etiquetas de texto descriptivo debajo de los iconos en el panel lateral de estadísticas para mayor claridad ("Gabinetes", "Equipos", "Capacidad U", "Conexiones").
+* **Tooltips de Deshacer/Rehacer:** Se creó la clase modificadora CSS `.tooltip-bottom` y se aplicó a los botones de Deshacer/Rehacer en la barra superior. Esto corrige el problema en el que las leyendas emergentes se salían del área visible de la pantalla hacia arriba.
+
+## [2026-06-07 13:04] Mejoras de UX Móvil y Opciones de Inserción
+* **Seguimiento Dinámico de Tooltips:** Se reescribió la lógica de posicionamiento de las etiquetas flotantes (tooltips) para que sigan con precisión al cursor del ratón (`mousemove`), mejorando sustancialmente la experiencia frente a la anterior ancla estática a la derecha del rack.
+* **Soporte PWA Móvil:** Se añadió una capa de oscurecimiento global (`#mobile-overlay`) y menús laterales táctiles (`off-canvas`) adaptados para pantallas pequeñas, además de deshabilitar los tooltips conflictivos en dispositivos táctiles puros.
+* **Selector Frontal/Trasera en Ubicación Rápida:** Se introdujo la opción de seleccionar la cara de montaje ("Frontal" o "Trasera") dentro del flujo asistido de "Ubicación Rápida" (`#modal-quick-placement`), asegurando paridad con el montaje por arrastre (`drag & drop`).
+* **Iconografía PWA (Logo):** Se reconstruyó el ícono del sistema como SVG puro (`icon.svg`), optimizándolo para su uso como ícono de aplicación y se enlazó de nuevo en todo el proyecto.
+
 ## [2026-06-06 21:28] Mejoras en Exportación PNG y Limpieza Visual
 * **Ajuste de Zoom en Vista Física:** Se corrigió un problema de diseño Flexbox al alejar la vista física; ahora el contenedor principal expande dinámicamente su ancho base (`width: 100/z %`) relativo al nivel de escalado (`scale(z)`). Esto permite que más gabinetes fluyan y aprovechen todo el ancho disponible de la pantalla al hacer zoom out, en lugar de limitarse a la cuadrícula original.
 * **Exportación PNG Dual:** Se refactorizó la función de exportación a PNG (`exportRackToPNG`). Ahora, si un gabinete contiene equipos en la vista trasera, el lienzo (Canvas) se expande automáticamente y renderiza ambas caras (Frontal y Trasera) una al lado de la otra en una misma imagen, permitiendo reportes integrales.

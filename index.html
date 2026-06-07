@@ -68,8 +68,8 @@
         <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
       </div>
       <div class="h-btn-group">
-        <button class="h-btn tooltip" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩</button>
-        <button class="h-btn tooltip" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪</button>
+        <button class="h-btn tooltip tooltip-bottom" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩</button>
+        <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪</button>
       </div>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
       <input type="file" id="file-import" accept=".json" style="display:none">
@@ -78,9 +78,12 @@
 
   <!-- SIDEBAR -->
   <aside id="sidebar">
-    <div class="sb-title" id="toggle-stats">
-      <span>ESTADÍSTICAS</span>
-      <span id="stats-chevron">▼</span>
+    <div class="sb-title" style="display:flex; padding-right:8px;">
+      <div id="toggle-stats" style="flex:1; display:flex; justify-content:space-between; align-items:center;">
+        <span>ESTADÍSTICAS</span>
+        <span id="stats-chevron">▼</span>
+      </div>
+      <button id="btn-close-sidebar" class="mobile-only" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel">✕</button>
     </div>
     <div class="sb-header" id="stats-container">
       <div class="sb-stats" id="sidebar-stats">

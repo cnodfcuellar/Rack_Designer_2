@@ -1399,3 +1399,6 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 }
 ```
 
+
+## Correcciones V2 Móvil
+Se reescribió la lógica de posicionamiento de tooltips (ahora siguen al ratón vía mousemove), se integró capa oscura para el menú lateral en móviles, se agregaron hitboxes mayores, y se introdujo la opción 'Frontal/Trasera' en el modal de ubicación rápida.

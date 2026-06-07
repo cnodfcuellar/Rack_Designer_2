@@ -5,6 +5,7 @@ let editingConnectionId = null;
 const FLOOR_TYPES = new Set(['pc', 'camera', 'ap', 'door', 'printer', 'phone']);
 
 function openAddRackModal() {
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
   editingRackId = null;
   document.getElementById('modal-rack-title').textContent = 'Nuevo Gabinete';
   document.getElementById('rack-name').value = '';
@@ -27,6 +28,7 @@ function openEditRackModal(id) {
 }
 
 function openAddDeviceModal() {
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
   editingDeviceId = null;
   editingCatalogId = null;
   document.getElementById('modal-device-title').textContent = 'Nuevo Equipo';
@@ -607,6 +609,7 @@ function initModals() {
 let qpCatalogItem = null;
 
 function openQuickPlacementModal(catalogId = null) {
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
   const displayRow = document.getElementById('qp-dev-display-row');
   const selectRow = document.getElementById('qp-dev-select-row');
   

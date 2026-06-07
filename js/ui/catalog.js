@@ -113,8 +113,9 @@ function renderRoomTabs() {
       store._emit('change', { source: 'changeRoom' });
     });
     
-    btn.addEventListener('dblclick', e => {
+    const editRoom = (e) => {
       if (e.target.dataset.delRoom) return;
+      e.preventDefault();
       const roomId = btn.dataset.roomId;
       const room = store._raw.rooms.find(r => r.id === roomId);
       if (room) {
@@ -125,7 +126,9 @@ function renderRoomTabs() {
           notify('Sala renombrada a ' + room.name, 'success');
         }
       }
-    });
+    };
+    btn.addEventListener('dblclick', editRoom);
+    btn.addEventListener('contextmenu', editRoom);
   });
 }
 
