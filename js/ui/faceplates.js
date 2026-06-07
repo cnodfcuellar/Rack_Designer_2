@@ -213,7 +213,7 @@ function buildRearView(rack, devices) {
 
   return `
     <div class="rack-rear-header">
-      <span class="rear-label">Vista Trasera — ${escapeHTML(rack.name)}</span>
+      <span class="rear-label">Vista Trasera</span>
       <span style="color:#2a5080; font-size:9px">${totalConns} cable(s)</span>
     </div>
     <div class="rack-rear-slots">${slotsHTML}</div>`;

@@ -59,7 +59,7 @@ function renderPhysical() {
       }
     }
     const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
-    const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera — ${escapeHTML(rack.name)}`;
+    const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
     const btnText = side === 'front' ? '🔄 ATRÁS' : '🖥️ FRENTE';
 
     return `
