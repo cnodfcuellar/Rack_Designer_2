@@ -31,6 +31,7 @@ function loadDemoData() {
   const colors = ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#ec4899'];
   let coreSwitchId = uid();
   let firewallId = uid();
+  let switchesByRoom = { [r1]: [], [r2]: [], [r3]: [] };
 
   rackSpecs.forEach((spec, index) => {
     const rackId = uid();
@@ -42,6 +43,7 @@ function loadDemoData() {
 
     // Switch - VLAN 10
     const swId = uid();
+    switchesByRoom[spec.room].push(swId);
     devices.push({ id: swId, rackId, name: `Switch ${spec.name}`, type: 'switch', slotStart: 40, size: 1, ip: `10.10.10.${spec.id_num}`, mac: `00:11:22:33:10:${spec.id_num.toString(16)}`, serial: `SW-${spec.id_num}`, power: 250, plugs: 1, user: 'admin', pass: 'cisco', notes: 'VLAN 10 - Infraestructura' });
 
     // UPS - VLAN 20
@@ -66,9 +68,27 @@ function loadDemoData() {
       devices.push({ id: coreSwitchId, rackId, name: `Core Switch`, type: 'switch', slotStart: 41, size: 1, ip: '10.10.10.2', mac: '12:34:56:78:90:02', serial: 'CSW-01', power: 300, plugs: 2, user: 'admin', pass: 'cisco', notes: 'VLAN 10 - Core' });
       connections.push({ id: uid(), sourceDeviceId: firewallId, sourcePort: 'LAN1', targetDeviceId: coreSwitchId, targetPort: 'Te1/0/1', cableType: 'DAC', color: '#ef4444' });
     }
-    
-    // Todos los switches de rack se conectan al Core Switch
-    connections.push({ id: uid(), sourceDeviceId: swId, sourcePort: 'Te1/1/1', targetDeviceId: coreSwitchId, targetPort: `Te1/0/${spec.id_num}`, cableType: 'Fibra SM', color: '#3b82f6' });
+  });
+
+  // Conexiones de Racks a Core Switch o Main Switch de su Sala
+  switchesByRoom[r1].forEach((swId, index) => {
+    connections.push({ id: uid(), sourceDeviceId: swId, sourcePort: 'Te1/1/1', targetDeviceId: coreSwitchId, targetPort: `Te1/0/${10 + index}`, cableType: 'Fibra SM', color: '#3b82f6' });
+  });
+
+  let r2MainSw = switchesByRoom[r2][0];
+  connections.push({ id: uid(), sourceDeviceId: r2MainSw, sourcePort: 'Te1/1/2', targetDeviceId: coreSwitchId, targetPort: 'Te1/0/20', cableType: 'Fibra SM', color: '#ef4444' });
+  switchesByRoom[r2].forEach((swId, index) => {
+    if (swId !== r2MainSw) {
+      connections.push({ id: uid(), sourceDeviceId: swId, sourcePort: 'Te1/1/1', targetDeviceId: r2MainSw, targetPort: `Te1/0/${10 + index}`, cableType: 'Cobre', color: '#3b82f6' });
+    }
+  });
+
+  let r3MainSw = switchesByRoom[r3][0];
+  connections.push({ id: uid(), sourceDeviceId: r3MainSw, sourcePort: 'Te1/1/2', targetDeviceId: coreSwitchId, targetPort: 'Te1/0/30', cableType: 'Fibra SM', color: '#ef4444' });
+  switchesByRoom[r3].forEach((swId, index) => {
+    if (swId !== r3MainSw) {
+      connections.push({ id: uid(), sourceDeviceId: swId, sourcePort: 'Te1/1/1', targetDeviceId: r3MainSw, targetPort: `Te1/0/${10 + index}`, cableType: 'Cobre', color: '#3b82f6' });
+    }
   });
 
   // Equipos de piso
@@ -94,18 +114,18 @@ function loadDemoData() {
     { id: ap2, rackId: null, category: 'floor', roomId: r3, name: 'AP B1 Corporativo', type: 'ap', ip: '10.10.10.30', mac: '', serial: '', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee VLAN 50 y 90' }
   );
 
-  // Conexiones de equipos de piso al Core Switch (simplificado para demo)
+  // Conexiones de equipos de piso al switch de su propia sala
   connections.push(
-    { id: uid(), sourceDeviceId: cam1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/1', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: cam2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/2', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: cam3, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/3', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: prt1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/10', cableType: 'Cobre', color: '#f59e0b' },
-    { id: uid(), sourceDeviceId: prt2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/11', cableType: 'Cobre', color: '#f59e0b' },
-    { id: uid(), sourceDeviceId: prt3, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/12', cableType: 'Cobre', color: '#f59e0b' },
-    { id: uid(), sourceDeviceId: tel1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/20', cableType: 'Cobre', color: '#8b5cf6' },
-    { id: uid(), sourceDeviceId: tel2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/21', cableType: 'Cobre', color: '#8b5cf6' },
-    { id: uid(), sourceDeviceId: ap1, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/30', cableType: 'Cobre', color: '#0ea5e9' },
-    { id: uid(), sourceDeviceId: ap2, sourcePort: 'eth0', targetDeviceId: coreSwitchId, targetPort: 'Gi2/0/31', cableType: 'Cobre', color: '#0ea5e9' }
+    { id: uid(), sourceDeviceId: cam1, sourcePort: 'eth0', targetDeviceId: switchesByRoom[r1][0], targetPort: 'Gi2/0/1', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: cam2, sourcePort: 'eth0', targetDeviceId: r2MainSw, targetPort: 'Gi2/0/2', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: cam3, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/3', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: prt1, sourcePort: 'eth0', targetDeviceId: switchesByRoom[r1][0], targetPort: 'Gi2/0/10', cableType: 'Cobre', color: '#f59e0b' },
+    { id: uid(), sourceDeviceId: prt2, sourcePort: 'eth0', targetDeviceId: r2MainSw, targetPort: 'Gi2/0/11', cableType: 'Cobre', color: '#f59e0b' },
+    { id: uid(), sourceDeviceId: prt3, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/12', cableType: 'Cobre', color: '#f59e0b' },
+    { id: uid(), sourceDeviceId: tel1, sourcePort: 'eth0', targetDeviceId: r2MainSw, targetPort: 'Gi2/0/20', cableType: 'Cobre', color: '#8b5cf6' },
+    { id: uid(), sourceDeviceId: tel2, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/21', cableType: 'Cobre', color: '#8b5cf6' },
+    { id: uid(), sourceDeviceId: ap1, sourcePort: 'eth0', targetDeviceId: r2MainSw, targetPort: 'Gi2/0/30', cableType: 'Cobre', color: '#0ea5e9' },
+    { id: uid(), sourceDeviceId: ap2, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/31', cableType: 'Cobre', color: '#0ea5e9' }
   );
 
   const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
