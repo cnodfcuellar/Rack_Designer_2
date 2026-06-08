@@ -591,3 +591,32 @@ Mediante la resolución sistemática de las deudas arquitectónicas detectadas e
 
 ---
 Se corrigieron los componentes flotantes para usar var(--bg-panel) y adaptarse al modo claro.
+
+---
+
+## 📱 8. Análisis de Adaptabilidad: Modo Móvil vs Escritorio
+
+RACK Designer 2 implementa una estrategia de diseño responsivo (Responsive Design) pura mediante CSS Media Queries y manejo diferenciado de eventos Pointer/Touch en JavaScript. A continuación se analiza la arquitectura detrás de esta adaptabilidad:
+
+### 8.1. Estrategia de Layout (CSS Grid & Flexbox)
+El diseño base está concebido para pantallas grandes (Desktop-first), pero se adapta a pantallas estrechas (Móviles) mediante un reordenamiento dramático de los paneles:
+* **Escritorio (> 768px):** El layout utiliza un diseño de tres columnas (`nav` lateral, lienzo central, panel lateral oculto opcional) y un panel inferior para las tablas. Esto maximiza el área de trabajo del canvas y la vista de Racks.
+* **Móvil (≤ 768px):** El diseño colapsa el catálogo a un menú oculto que se despliega sobre el contenido (con un `#mobile-overlay` de fondo oscurecido para capturar clics fuera). Las pestañas de las salas se vuelven deslizables horizontalmente (`overflow-x: auto`), y el panel inferior se reduce o colapsa para ceder pantalla al área de dibujo.
+
+### 8.2. Interacción: Mouse vs Touch (Eventos)
+La principal diferencia técnica radica en cómo la SPA captura las intenciones del usuario:
+* **Escritorio:** 
+  - **Drag & Drop nativo:** Utiliza la API nativa de arrastre de HTML5 (`dragstart`, `dragover`, `drop`) que es excelente con un ratón.
+  - **Doble Clic (`dblclick`):** Se usa extensivamente para renombrar salas, editar cables o lanzar ubicaciones rápidas en el catálogo.
+* **Móvil:** La API nativa de Drag & Drop **no funciona** en pantallas táctiles móviles (Safari iOS/Chrome Android).
+  - **Long Press (Pulsación Larga):** El sistema captura `touchstart` y usa un temporizador (Ej. 1000ms). Si el usuario no suelta el dedo (`touchend`) antes de que se cumpla el tiempo, se dispara un estado de arrastre simulado (vibración `navigator.vibrate` como feedback háptico) y un elemento flotante sigue al dedo usando `touchmove`.
+  - **Menús Contextuales Táctiles:** Como no existe el doble clic de forma natural en móvil, las acciones como renombrar pestañas de sala se activan mediante *Long Press*, o se delegan a un botón explícito de opciones (el botón `⋮` en el catálogo).
+
+### 8.3. Renderizado de Canvas (Topology)
+* El motor del canvas utiliza `ResizeObserver` asociado a su contenedor padre (`#topo-container`). Al rotar el teléfono (pasar de Portrait a Landscape), el canvas ajusta automáticamente su `width` y `height` internos sin deformar la relación de aspecto, disparando un ciclo de renderizado sincronizado.
+* **Gestos Multitouch:** Se captura la distancia entre dos dedos (`Math.hypot(dx, dy)`) en el evento `touchmove` para calcular factores de escala, permitiendo hacer Zoom in/out mediante el clásico gesto de pellizco (Pinch-to-zoom).
+
+### Conclusión de Responsividad
+Aunque RACK Designer opera en ambos entornos, por su densidad de información y precisión requerida para cablear o enrackar, su **uso óptimo es indiscutiblemente en entorno de escritorio**. El modo móvil funciona maravillosamente bien como visor de topologías y reportes de inventario (View-Only Mode), con capacidades de edición de emergencia muy bien resueltas mediante gestos hápticos.
+
+---
