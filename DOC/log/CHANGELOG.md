@@ -1,6 +1,11 @@
 # Registro de Cambios (Changelog)
 
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
+## [2026-06-07 19:55] Optimización de Topología de Red Demo
+* **Estructura Jerárquica:** Se modificó `js/demoData.js` para aplicar una jerarquía de red realista. Ahora cada sala designa su primer switch como "Main Switch" (o de borde/agregación).
+* **Enlaces Backbone:** Únicamente los "Main Switch" de las salas secundarias se enlazan al "Core Switch" en el Data Center mediante un solo enlace de fibra óptica, reduciendo el desorden previo de interconexiones directas.
+* **Equipos de Piso Localizados:** Los equipos distribuidos (cámaras, impresoras, APs) ahora se conectan de manera lógica al switch principal de su *propia* sala, en vez de enrutarse de forma irrealista a través de todo el recinto hasta el Core Switch.
+
 
 ## [2026-06-07 16:37] Implementación de Modo Claro
 * **Modo Claro / Modo Oscuro:** Se implementó una paleta de colores alternativa (`[data-theme="light"]`) para soportar visualización en Modo Claro manteniendo la identidad visual y asegurando alto contraste.
