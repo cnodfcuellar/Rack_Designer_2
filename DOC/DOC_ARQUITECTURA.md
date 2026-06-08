@@ -59,7 +59,7 @@ El código está dividido estrictamente por dominios funcionales:
 /Rack_Designer_2
 ├── index.html           # Estructura del DOM. Único archivo HTML (Single Page Application).
 ├── css/
-│   └── style.css        # Todos los estilos. Utiliza variables CSS globales (:root) para colores (Tematización).
+│   └── style.css        # Todos los estilos. Utiliza variables CSS (:root) y atributos [data-theme="light"] para tematización (Modo Claro/Oscuro).
 └── js/
     ├── demoData.js      # Base de datos local mockeada para demostraciones.
     ├── main.js          # Bootstrapping: Carga inicial, vinculación de eventos UI estáticos (botones).

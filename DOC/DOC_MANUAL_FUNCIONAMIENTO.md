@@ -58,10 +58,11 @@ Si desea que todos entren a una misma URL (Ej: `http://rackdesigner.empresa.loca
 
 Puesto que no hay una base de datos centralizada, la responsabilidad de guardar los datos recae en el usuario a través de la **Importación/Exportación de Archivos JSON**.
 
-### 4.1. Archivos de Respaldo (.json)
+### 4.1. Archivos de Respaldo (.json) y Preferencias
 Cuando el usuario hace clic en "Guardar Proyecto", el sistema empaqueta todo el estado de la memoria (`store.state`) en un archivo de texto en formato JSON.
 * **Privacidad:** Este archivo se descarga en la carpeta de *Descargas* del usuario. 
 * **Control de versiones:** Se recomienda a los usuarios guardar sus archivos JSON en una carpeta compartida segura (Ej: SharePoint o Google Drive corporativo) poniéndoles la fecha, ej: `DataCenter_Principal_31_Mayo_2026.json`.
+* **Preferencias de Interfaz:** Ajustes visuales como el "Modo Claro u Oscuro" se guardan de forma persistente en el API `localStorage` del navegador, manteniéndose independientes de los archivos del proyecto.
 
 ### 4.2. Generación de Reportes 
 El sistema depende de la librería externa `xlsx.full.min.js` (incluida localmente en la carpeta `/js`) para compilar los reportes sin requerir conexión a internet.

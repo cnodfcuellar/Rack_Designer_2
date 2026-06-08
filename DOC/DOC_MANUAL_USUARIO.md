@@ -23,7 +23,9 @@ Piensa en una "Sala" como un cuarto físico donde guardarás armarios llenos de 
 * **¿Cómo crear una nueva sala?**
   En la parte superior, busca el símbolo `+` que está al lado de las pestañas de salas (Ejemplo: al lado de "Sala Principal"). Haz clic ahí y aparecerá una sala nueva.
 * **¿Cómo cambiar el nombre a una sala?**
-  Haz **doble clic** (dos clics rápidos) sobre el nombre de la pestaña de la sala (por ejemplo, doble clic en "Sala Backup"). Te dejará escribir un nombre nuevo. Presiona la tecla `Enter` cuando termines.
+  Haz **doble clic** (o **mantén presionado** un segundo si usas un celular) sobre el nombre de la pestaña de la sala (por ejemplo, "Sala Backup"). Te dejará escribir un nombre nuevo. Presiona la tecla `Enter` cuando termines.
+* **¿Cómo eliminar una sala?**
+  Aparecerá una pequeña `x` junto al nombre de la sala (cuando pases el ratón por encima, o al tocarla en celulares). Solo puedes eliminarla si hay más de una sala creada.
 * **¿Cómo cambiar entre salas?**
   Simplemente haz un clic normal sobre el nombre de la sala a la que quieres entrar.
 
@@ -64,7 +66,7 @@ A diferencia de los servidores que van en un rack, existen equipos como PCs, Cá
 
 ### 3.4. Asistente de Ubicación Rápida (⚡)
 Si tienes muchos gabinetes y no quieres arrastrar manualmente, puedes usar el Asistente:
-1. En el catálogo, haz **doble clic** (o presiona el botón `⚡` táctil en tu celular) sobre el equipo que deseas agregar.
+1. En el catálogo, haz clic en el botón de opciones (**⋮**) que está a la derecha del equipo y selecciona **"⚡ Ubicación Rápida"**. (También funciona haciendo doble clic sobre el equipo).
 2. Alternativamente, en la pestaña "Inventario" del panel inferior, pulsa el botón morado **"⚡ Agregar Equipo"** y elige el modelo de la lista.
 3. Selecciona la sala. Si es un equipo de rack, selecciona el gabinete y el sistema calculará automáticamente qué espacios de "U" están libres y caben perfectamente.
 4. Presiona "Ubicar Equipo".
@@ -123,9 +125,20 @@ Todo lo que haces se pierde si cierras la ventana sin guardar.
 
 ---
 
-## 7. Uso en Teléfonos Celulares (Modo Móvil)
+## 7. Apariencia (Modo Claro / Oscuro)
+
+RACK Designer incluye por defecto un diseño de "Modo Oscuro" para cuidar la fatiga visual. Si prefieres un diseño más tradicional y luminoso:
+1. Haz clic en el ícono de las tres rayitas `☰` (el menú de proyecto arriba a la derecha).
+2. Haz clic en **"☀️ Cambiar a Modo Claro"**.
+3. Toda la interfaz cambiará instantáneamente a colores claros. El programa recordará tu preferencia la próxima vez que entres (incluso si cierras la pestaña).
+4. Para volver, abre el mismo menú y selecciona **"🌙 Cambiar a Modo Oscuro"**.
+
+---
+
+## 8. Uso en Teléfonos Celulares (Modo Móvil)
 
 Puedes abrir este programa en tu celular o tablet.
 * **Deslizar menús:** Las barras de menús (donde están las salas y los botones) se pueden **deslizar horizontalmente con el dedo** para ver las opciones ocultas.
 * **Arrastrar (Drag & Drop):** En lugar de hacer clic con el ratón, **mantén presionado el dedo por 1 segundo** sobre un equipo del catálogo hasta que vibre o se levante, y luego arrástralo con el dedo hacia el Rack.
+* **Renombrar Salas:** Mantén presionado el dedo sobre la pestaña de una sala para cambiarle el nombre (menú contextual).
 * **Topología:** Usa dos dedos para hacer "Pellizco" (Pinch) y acercar o alejar el mapa de cables.
