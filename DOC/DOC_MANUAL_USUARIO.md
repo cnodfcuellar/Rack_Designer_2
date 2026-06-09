@@ -10,9 +10,10 @@ Este manual está diseñado para **usuarios principiantes**, explicando paso a p
 
 Cuando abres el programa, verás la pantalla dividida en tres partes principales:
 
-1. **La Cabecera (Arriba):** Aquí encuentras el Logo del programa, las pestañas que representan tus "Salas" (como si fueran habitaciones de tu edificio) y una barra de búsqueda para buscar equipos rápidamente.
-2. **El Lienzo Central (Medio):** Es el área azul grande. Aquí es donde "dibujarás" tus gabinetes (Racks) y conectarás los equipos.
-3. **El Panel de Tablas (Abajo):** Una sección oscura donde todo lo que dibujas arriba se convierte automáticamente en una tabla ordenada estilo Excel.
+1. **La Cabecera (Arriba):** Aquí encuentras el Logo del programa, los botones para cambiar entre la "Vista Física" y la "Topología", y botones de deshacer/rehacer.
+2. **La Barra de Herramientas:** Se encuentra debajo de la cabecera y contiene las pestañas que representan tus "Salas" (habitaciones), opciones de zoom y botones de exportación.
+3. **El Lienzo Central (Medio):** Es el área azul grande. Aquí es donde "dibujarás" tus gabinetes (Racks) y conectarás los equipos.
+4. **El Panel Inferior y Lateral:** El panel izquierdo muestra el catálogo y estadísticas (con tooltips al pasar el ratón), y la parte inferior muestra tus datos en forma de tabla.
 
 ---
 
@@ -21,7 +22,7 @@ Cuando abres el programa, verás la pantalla dividida en tres partes principales
 Piensa en una "Sala" como un cuarto físico donde guardarás armarios llenos de computadoras.
 
 * **¿Cómo crear una nueva sala?**
-  En la parte superior, busca el símbolo `+` que está al lado de las pestañas de salas (Ejemplo: al lado de "Sala Principal"). Haz clic ahí y aparecerá una sala nueva.
+  En la barra de herramientas principal, busca el símbolo `+` que está al lado de las pestañas de salas. Haz clic ahí y aparecerá una sala nueva.
 * **¿Cómo cambiar el nombre a una sala?**
   Haz **doble clic** (o **mantén presionado** un segundo si usas un celular) sobre el nombre de la pestaña de la sala (por ejemplo, "Sala Backup"). Te dejará escribir un nombre nuevo. Presiona la tecla `Enter` cuando termines.
 * **¿Cómo eliminar una sala?**
@@ -37,7 +38,7 @@ Esta es la vista principal, donde verás los gabinetes (Racks) como si estuviera
 
 ### 3.1. Añadir un nuevo Rack (Armario)
 Un Rack es la estructura metálica donde se atornillan los equipos.
-1. Asegúrate de estar en la pestaña que dice **"Vista Física"** (en la barra oscura justo arriba del lienzo azul).
+1. Asegúrate de estar en la pestaña que dice **"Vista Física"** (en la cabecera principal, en la parte superior).
 2. Haz clic con el botón derecho de tu ratón (Clic derecho) en cualquier parte vacía del fondo azul.
 3. Se abrirá un menú. Elige **"Añadir Rack"**.
 4. Te preguntará cuántas "Unidades" (U) tiene. Una Unidad es la medida estándar de altura. Un rack pequeño tiene 12U, uno muy grande tiene 42U o 48U. Escribe el número y acepta.
@@ -88,7 +89,7 @@ Si tienes muchos gabinetes y no quieres arrastrar manualmente, puedes usar el As
 
 La Topología es un mapa que te muestra cómo están conectados los equipos mediante cables, ignorando en qué armario físico están.
 
-* **¿Cómo entrar a esta vista?** Haz clic en el botón **"🎯 Topología"** que está justo arriba del lienzo azul.
+* **¿Cómo entrar a esta vista?** Haz clic en el botón **"◎ Topología"** que está ubicado en la cabecera principal de la aplicación.
 * **Verás círculos:** Ahora los equipos no se ven como cajas, sino como círculos (Nodos).
 
 ### 4.1. Moverse por el mapa
