@@ -1,5 +1,17 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-09 15:50] Rediseño del Modal de Equipos
+* **Diseño Compacto y Agrupado:** Se reorganizó la vista del modal "Nuevo/Editar Equipo" agrupando lógicamente Identidad, Ubicación, Red, Autenticación y Energía.
+* **Cuadros de Activación (Toggles):** Se añadieron casillas de verificación para activar/desactivar dinámicamente los módulos de Red, Usuario y Energía, evitando guardar datos innecesarios en equipos "pasivos" o sin gestión.
+* **Separación de Tomas Eléctricas:** Se dividió el campo de energía en "Tomas de Entrada" y "Tomas de Salida" para permitir modelar PDUs o UPSs que alimentan otros equipos, incluyendo tooltips explicativos.
+* **Selector Explicito Rack/Piso:** Se añadió un selector principal para alternar explícitamente entre "Gabinete (Rack)" y "Equipo de Piso", controlando dinámicamente las opciones de tipo de equipo y ocultando el Tamaño (U) cuando es necesario.
+
+## [2026-06-09 14:52] Optimización de Espacio en Móvil
+* **Barras de Herramientas más Compactas:** En la versión móvil, las filas superiores (donde están las opciones de Vista Física, Topología y el control de zoom) ocupaban demasiado espacio vertical, restando área de trabajo. Se redujeron los márgenes, rellenos (paddings) y el tamaño de texto de estos botones específicamente para pantallas táctiles, logrando un diseño mucho más esbelto y proporcionando más espacio para visualizar los gabinetes.
+
+## [2026-06-09 14:33] Mejoras Visuales en Panel Lateral
+* **Filtros Visibles y Deslizables:** Se restauró el comportamiento de deslizamiento horizontal (scroll) en las pestañas de filtro del catálogo (Todos, Servers, Red, etc.). Para mantener el diseño limpio y libre de múltiples barras (scrollbars) invasivas, se han ocultado visualmente las barras horizontales en todas las áreas de pestañas superiores. Sin embargo, ahora se puede utilizar la **rueda del ratón (mouse wheel)** de forma natural sobre los filtros para deslizarlos de izquierda a derecha sin esfuerzo en el modo de escritorio.
+
 ## [2026-06-09 14:24] Corrección de Guardado de Nuevos Equipos
 * **Nuevas Plantillas de Catálogo:** Se solucionó un bug en el que al presionar "+ Agregar Equipo" y llenar el formulario, la información se perdía si no era un equipo de piso. Ahora, el sistema guarda el nuevo equipo como plantilla en el Catálogo y abre automáticamente el Asistente de Ubicación Rápida (⚡) para instalarlo inmediatamente en el rack deseado.
 

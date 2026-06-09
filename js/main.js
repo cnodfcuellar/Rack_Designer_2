@@ -279,6 +279,17 @@ function initGlobalEvents() {
   });
   document.getElementById('catalog-search').addEventListener('input', renderCatalog);
 
+  // Soporte para scroll horizontal con la rueda del mouse en los filtros
+  const filterTabsContainer = document.querySelector('.sb-filter-tabs');
+  if (filterTabsContainer) {
+    filterTabsContainer.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        filterTabsContainer.scrollLeft += e.deltaY;
+      }
+    });
+  }
+
   // Header buttons
   document.getElementById('btn-add-rack').addEventListener('click', openAddRackModal);
   document.getElementById('btn-add-device-modal').addEventListener('click', openAddDeviceModal);

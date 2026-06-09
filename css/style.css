@@ -55,6 +55,18 @@ html, body { height: 100%; overflow: hidden; background: var(--bg-main); color: 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-card); }
 ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+/* Ocultar barras de scroll horizontales en contenedores de navegación */
+.header-main-area::-webkit-scrollbar,
+.main-toolbar::-webkit-scrollbar,
+.bottom-header::-webkit-scrollbar,
+.room-tabs::-webkit-scrollbar {
+  display: none;
+}
+.header-main-area, .main-toolbar, .bottom-header, .room-tabs {
+  scrollbar-width: none;
+}
+
 ::selection { background: var(--accent-glow); }
 
 /* ============================================================
@@ -150,8 +162,6 @@ html, body { height: 100%; overflow: hidden; background: var(--bg-main); color: 
   padding: 8px 14px; 
   flex-shrink: 0; 
   overflow-x: auto; 
-  scrollbar-width: none; 
-  -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
 }
 .sb-filter-tabs::-webkit-scrollbar {
@@ -463,13 +473,13 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   /* App grid is 1 column, allow header to grow vertically */
   #app { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; }
   
-  /* Header splits into two rows */
+  /* Header splits into dos rows */
   #header { flex-direction: column; height: auto; align-items: stretch; overflow: visible; min-width: 0; }
-  .header-logo-area { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 8px 16px; justify-content: flex-start; }
+  .header-logo-area { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 6px 12px; justify-content: flex-start; }
   .header-logo-area .project-menu-wrap { margin-left: auto; }
   
   /* Make the main area a horizontally scrolling ribbon */
-  .header-main-area { width: 100%; height: auto; flex: none; overflow-x: auto; padding: 8px 16px; flex-wrap: nowrap; gap: 12px; }
+  .header-main-area { width: 100%; height: auto; flex: none; overflow-x: auto; padding: 6px 12px; flex-wrap: nowrap; gap: 8px; }
   .header-main-area .spacer { display: none; }
   .header-main-area > * { flex-shrink: 0; }
   .room-tabs { overflow-x: visible; }
@@ -491,11 +501,11 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   #bottom.fullscreen { height: 85vh !important; }
   
   /* Make toolbars scrollable horizontally instead of wrapping awkwardly */
-  .main-toolbar { width: 100%; overflow-x: auto; flex-wrap: nowrap; overflow-y: hidden; }
+  .main-toolbar { width: 100%; overflow-x: auto; flex-wrap: nowrap; overflow-y: hidden; padding: 6px 12px; }
   .main-toolbar .spacer { display: none; } /* Hide spacers so items group together */
   .main-toolbar > * { flex-shrink: 0; }
   .main-toolbar .room-tabs { min-width: max-content; overflow-x: visible; padding-bottom: 0; margin-bottom: 0; }
-  .h-btn, .btn-primary, .btn-secondary, .view-tab { padding: 10px 14px; font-size: 13px; }
+  .h-btn, .btn-primary, .btn-secondary, .view-tab { padding: 6px 12px; font-size: 11px; }
   .view-tabs { flex-shrink: 0; }
   
   /* Tables panel horizontally scrollable */
