@@ -33,7 +33,7 @@ function openAddDeviceModal() {
   editingCatalogId = null;
   document.getElementById('modal-device-title').textContent = 'Nuevo Equipo';
   document.getElementById('modal-device-sub').textContent = 'Registrar un nuevo dispositivo en el inventario';
-  ['dev-name','dev-ip','dev-mac','dev-serial','dev-user','dev-pass','dev-notes'].forEach(id => {
+  ['dev-name','dev-brand','dev-model','dev-ip','dev-mac','dev-serial','dev-user','dev-pass','dev-notes'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
@@ -57,6 +57,8 @@ function openEditCatalogModal(id) {
   document.getElementById('dev-type').value  = dev.type;
   document.getElementById('dev-size').value  = dev.size;
   document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-brand').value = dev.brand || '';
+  document.getElementById('dev-model').value = dev.model || '';
   document.getElementById('dev-ip').value    = dev.ip   || '';
   document.getElementById('dev-mac').value   = dev.mac  || '';
   document.getElementById('dev-serial').value= dev.serial|| '';
@@ -80,6 +82,8 @@ function openEditDeviceModal(id) {
   document.getElementById('dev-type').value  = dev.type;
   document.getElementById('dev-size').value  = dev.size || 0;
   document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-brand').value = dev.brand || '';
+  document.getElementById('dev-model').value = dev.model || '';
   document.getElementById('dev-ip').value    = dev.ip   || '';
   document.getElementById('dev-mac').value   = dev.mac  || '';
   document.getElementById('dev-serial').value= dev.serial|| '';
@@ -212,11 +216,11 @@ function deleteRoom(id) {
 }
 
 function exportCSV() {
-  const header = 'Rack,Unidad U,Lado,Nombre,Tipo,IP,MAC,Serie,Usuario,Consumo(W),Tomas\n';
+  const header = 'Rack,Unidad U,Lado,Nombre,Marca,Modelo,Tipo,IP,MAC,Serie,Usuario,Consumo(W),Tomas\n';
   const rows = store._raw.devices.map(d => {
     const rack = store.rackById(d.rackId);
     const side = d.category === 'floor' ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal');
-    return [rack?.name||'', d.slotStart||'-', side, d.name, d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].join(',');
+    return [rack?.name||'', d.slotStart||'-', side, d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].join(',');
   }).join('\n');
   downloadBlob(header + rows, 'Inventario_Centro_Datos.csv', 'text/csv');
   notify('CSV exportado', 'success');
@@ -424,6 +428,8 @@ function initModals() {
       size: parseInt(document.getElementById('dev-size').value),
       ip, mac,
       serial: document.getElementById('dev-serial').value.trim(),
+      brand: document.getElementById('dev-brand').value.trim(),
+      model: document.getElementById('dev-model').value.trim(),
       power:  parseInt(document.getElementById('dev-power').value) || 0,
       plugs:  parseInt(document.getElementById('dev-plugs').value) || 1,
       user:   document.getElementById('dev-user').value.trim(),
@@ -454,8 +460,19 @@ function initModals() {
         notify('Equipo de piso agregado con éxito', 'success');
       } else {
         const rack = store.currentRacks[0];
-        if (!rack) { notify('Primero crea un gabinete', 'error'); return; }
-        notify('Arrastra el equipo desde el catálogo al rack', 'info');
+        if (!rack) { notify('Primero crea un gabinete en esta sala', 'error'); return; }
+        
+        const newItem = {
+          id: uid(),
+          ...props,
+          icon: { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾' }[props.type] || '🖥',
+          color: TYPE_COLORS[props.type] || '#8b9ab8'
+        };
+        if (typeof addCatalogItem === 'function') addCatalogItem(newItem);
+        
+        document.getElementById('modal-device').classList.add('hidden');
+        openQuickPlacementModal(newItem.id);
+        return; // Prevent adding 'hidden' again below
       }
     }
     document.getElementById('modal-device').classList.add('hidden');

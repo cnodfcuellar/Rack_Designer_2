@@ -37,7 +37,7 @@ function renderInventoryTable(wrap, query) {
   }
   wrap.innerHTML = `<table class="data-table">
     <thead><tr>
-      <th>Rack</th><th>U</th><th>Lado</th><th>Nombre</th><th>Tipo</th><th>IP</th>
+      <th>Rack</th><th>U</th><th>Lado</th><th>Nombre</th><th>Marca</th><th>Modelo</th><th>Tipo</th><th>IP</th>
       <th>MAC</th><th>Serie</th><th>Usuario</th><th>Contraseña</th><th>Consumo (W)</th><th>Tomas</th><th>Acciones</th>
     </tr></thead>
     <tbody>
@@ -52,6 +52,8 @@ function renderInventoryTable(wrap, query) {
         <td>${slotDisplay}</td>
         <td><span style="font-size:11px;opacity:0.8;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:10px;">${sideDisplay}</span></td>
         <td class="editable" data-field="name" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.name)}</td>
+        <td class="editable" data-field="brand" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.brand) || '-'}</td>
+        <td class="editable" data-field="model" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.model) || '-'}</td>
         <td><span class="type-badge ${escapeHTML(d.type)}">${escapeHTML(d.type)}</span></td>
         <td class="editable" data-field="ip"  data-dev="${escapeHTML(d.id)}">${escapeHTML(d.ip)  || '-'}</td>
         <td class="editable" data-field="mac" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.mac) || '-'}</td>
@@ -103,7 +105,7 @@ function finishCellEdit(input, td, orig) {
   const field = input.dataset.field;
   const devId = input.dataset.dev;
   const val   = input.value.trim();
-  const allowedFields = ['name', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs'];
+  const allowedFields = ['name', 'brand', 'model', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs'];
   if (!allowedFields.includes(field)) return;
   if (field === 'ip') {
     if (val && !/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(val)) {
@@ -177,7 +179,7 @@ function renderConnectionsTable(wrap, query) {
 }
 
 function getInventoryData() {
-  const data = [['Rack / Ubicación', 'Unidad U', 'Lado', 'Nombre', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
+  const data = [['Rack / Ubicación', 'Unidad U', 'Lado', 'Nombre', 'Marca', 'Modelo', 'Tipo', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)']];
   store._raw.devices.forEach(d => {
     const isFloor = d.category === 'floor';
     const rack = !isFloor ? store.rackById(d.rackId) : null;
@@ -185,7 +187,7 @@ function getInventoryData() {
       isFloor ? 'PISO' : (rack?.name || ''), 
       isFloor ? '-' : (d.slotStart || ''), 
       isFloor ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal'),
-      d.name, d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power
+      d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power
     ]);
   });
   return data;

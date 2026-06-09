@@ -1,6 +1,13 @@
 # Registro de Cambios (Changelog)
 
-Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
+## [2026-06-09 14:24] Corrección de Guardado de Nuevos Equipos
+* **Nuevas Plantillas de Catálogo:** Se solucionó un bug en el que al presionar "+ Agregar Equipo" y llenar el formulario, la información se perdía si no era un equipo de piso. Ahora, el sistema guarda el nuevo equipo como plantilla en el Catálogo y abre automáticamente el Asistente de Ubicación Rápida (⚡) para instalarlo inmediatamente en el rack deseado.
+
+## [2026-06-09 14:18] Nuevos Campos de Equipo: Marca y Modelo
+* **Datos de Equipo:** Se añadieron los campos "Marca" y "Modelo" a la estructura de datos de los equipos (devices).
+* **Modal de Edición:** Se actualizó el formulario de edición de equipos (`#modal-device`) para incluir las nuevas entradas de Marca y Modelo.
+* **Tabla de Inventario:** Se agregaron las columnas "Marca" y "Modelo" a la tabla de inventario en el panel inferior, permitiendo visualización y edición en línea.
+* **Exportación de Datos:** Se actualizó la exportación a CSV y a Excel para que incluyan automáticamente las nuevas columnas de Marca y Modelo.
 
 ## [2026-06-09 12:53] Mejoras Visuales en Estadísticas y Topología
 * **Tooltips Personalizados:** Se corrigió el recorte visual (`overflow: hidden`) en los botones del panel de estadísticas, permitiendo mostrar los tooltips personalizados hacia abajo para que no interfieran con otros elementos visuales.
