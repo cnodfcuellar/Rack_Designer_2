@@ -62,8 +62,12 @@
       </div>
     </div>
     <div class="header-main-area">
-      <div class="room-tabs" id="room-tabs"></div>
-      <button class="room-tab-add" id="btn-add-room" title="Nueva sala">+</button>
+      
+      <div class="view-tabs" style="margin-left: 24px;">
+        <button class="view-tab active" data-view="physical">⬛ Vista Física</button>
+        <button class="view-tab" data-view="topology">◎ Topología</button>
+      </div>
+
       <div class="spacer"></div>
       <div class="h-search">
         <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
@@ -88,25 +92,25 @@
     </div>
     <div class="sb-header" id="stats-container">
       <div class="sb-stats" id="sidebar-stats">
-        <div class="stat-pill tooltip" data-tip="Gabinetes">
+        <div class="stat-pill tooltip" title="Gabinetes" data-tip="Gabinetes">
           <div class="stat-icon-wrap" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg>
           </div>
           <div class="value green" id="stat-racks">0</div>
         </div>
-        <div class="stat-pill tooltip" data-tip="Equipos">
+        <div class="stat-pill tooltip" title="Equipos" data-tip="Equipos">
           <div class="stat-icon-wrap" style="color: #a855f7; background: rgba(168, 85, 247, 0.15);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="6" rx="1"></rect><rect x="2" y="14" width="20" height="6" rx="1"></rect><line x1="6" y1="7" x2="6" y2="7"></line><line x1="6" y1="17" x2="6" y2="17"></line></svg>
           </div>
           <div class="value" id="stat-devices" style="color: #fff;">0</div>
         </div>
-        <div class="stat-pill tooltip" data-tip="Unidades U">
+        <div class="stat-pill tooltip" title="Unidades U" data-tip="Unidades U">
           <div class="stat-icon-wrap" style="color: #f59e0b; background: rgba(245, 158, 11, 0.15);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v9a6 6 0 1 0 12 0V4"></path></svg>
           </div>
           <div class="value amber" id="stat-units">0/0</div>
         </div>
-        <div class="stat-pill tooltip" data-tip="Conexiones">
+        <div class="stat-pill tooltip" title="Conexiones" data-tip="Conexiones">
           <div class="stat-icon-wrap" style="color: #22c55e; background: rgba(34, 197, 94, 0.15);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M12 8v4"></path><path d="M5 16v-2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"></path></svg>
           </div>
@@ -148,12 +152,8 @@
       <button class="h-btn" id="btn-zoom-reset">⊙ 1:1</button>
       <div class="h-divider"></div>
       
-      <div class="spacer"></div>
-      
-      <div class="view-tabs">
-        <button class="view-tab active" data-view="physical">⬛ Vista Física</button>
-        <button class="view-tab" data-view="topology">◎ Topología</button>
-      </div>
+      <div class="room-tabs" id="room-tabs"></div>
+      <button class="room-tab-add" id="btn-add-room" title="Nueva sala">+</button>
 
       <div class="spacer"></div>
       

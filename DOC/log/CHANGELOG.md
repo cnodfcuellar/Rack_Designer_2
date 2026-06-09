@@ -1,6 +1,12 @@
 # Registro de Cambios (Changelog)
 
-Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
+Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
+
+## [2026-06-09 12:35] Reorganización de Cabecera y Tooltips Nativos
+* **Tooltips en Estadísticas:** Se añadieron atributos `title` nativos a los botones de estadísticas en el panel lateral.
+* **Reubicación de Pestañas de Vista:** Se movieron los botones "Vista Física" y "Topología" a la cabecera principal de la aplicación.
+* **Reubicación de Pestañas de Salas:** Se movieron las pestañas de selección de salas ("Data Center", "Edificio A2", etc.) a la barra de herramientas principal, después de los controles de zoom.
+
 ## [2026-06-07 19:55] Optimización de Topología de Red Demo
 * **Estructura Jerárquica:** Se modificó `js/demoData.js` para aplicar una jerarquía de red realista. Ahora cada sala designa su primer switch como "Main Switch" (o de borde/agregación).
 * **Enlaces Backbone:** Únicamente los "Main Switch" de las salas secundarias se enlazan al "Core Switch" en el Data Center mediante un solo enlace de fibra óptica, reduciendo el desorden previo de interconexiones directas.
