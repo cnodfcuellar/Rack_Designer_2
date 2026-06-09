@@ -493,7 +493,8 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   /* Make toolbars scrollable horizontally instead of wrapping awkwardly */
   .main-toolbar { width: 100%; overflow-x: auto; flex-wrap: nowrap; overflow-y: hidden; }
   .main-toolbar .spacer { display: none; } /* Hide spacers so items group together */
-  .main-toolbar .h-btn { white-space: nowrap; flex-shrink: 0; }
+  .main-toolbar > * { flex-shrink: 0; }
+  .main-toolbar .room-tabs { min-width: max-content; overflow-x: visible; padding-bottom: 0; margin-bottom: 0; }
   .h-btn, .btn-primary, .btn-secondary, .view-tab { padding: 10px 14px; font-size: 13px; }
   .view-tabs { flex-shrink: 0; }
   
