@@ -123,7 +123,7 @@ html, body { height: 100%; overflow: hidden; background: var(--bg-main); color: 
 .sb-header { padding: 12px 14px 8px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 #stats-container.hidden { display: none !important; }
 .sb-stats { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 10px; }
-.stat-pill { flex: 1; background: var(--bg-card2); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; overflow: hidden; cursor: default; }
+.stat-pill { flex: 1; background: var(--bg-card2); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; }
 .stat-pill:hover { border-color: var(--accent); }
 .stat-icon-wrap { width: 32px; height: 32px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .stat-icon-wrap svg { width: 16px; height: 16px; }

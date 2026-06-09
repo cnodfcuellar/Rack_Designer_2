@@ -2,10 +2,15 @@
 
 Este archivo guarda el registro de todos los cambios, mejoras y correcciones realizadas en el proyecto.
 
+## [2026-06-09 12:53] Mejoras Visuales en Estadísticas y Topología
+* **Tooltips Personalizados:** Se corrigió el recorte visual (`overflow: hidden`) en los botones del panel de estadísticas, permitiendo mostrar los tooltips personalizados hacia abajo para que no interfieran con otros elementos visuales.
+* **Resaltado de Sala Activa:** En la vista de Topología, la sala actualmente seleccionada ahora se resalta con un contorno de color blanco para facilitar su identificación en el lienzo.
+
 ## [2026-06-09 12:35] Reorganización de Cabecera y Tooltips Nativos
-* **Tooltips en Estadísticas:** Se añadieron atributos `title` nativos a los botones de estadísticas en el panel lateral.
+* **Tooltips en Estadísticas:** Se añadieron atributos `title` nativos a los botones de estadísticas en el panel lateral (y posteriormente se reemplazaron por tooltips personalizados).
 * **Reubicación de Pestañas de Vista:** Se movieron los botones "Vista Física" y "Topología" a la cabecera principal de la aplicación.
 * **Reubicación de Pestañas de Salas:** Se movieron las pestañas de selección de salas ("Data Center", "Edificio A2", etc.) a la barra de herramientas principal, después de los controles de zoom.
+* **Fix Móvil:** Se forzó el comportamiento del `flex-shrink` y `min-width` para los botones de la barra de herramientas principal, evitando el solapamiento en dispositivos móviles.
 
 ## [2026-06-07 19:55] Optimización de Topología de Red Demo
 * **Estructura Jerárquica:** Se modificó `js/demoData.js` para aplicar una jerarquía de red realista. Ahora cada sala designa su primer switch como "Main Switch" (o de borde/agregación).

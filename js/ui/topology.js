@@ -513,10 +513,11 @@ function drawTopo() {
     ctx.save();
     ctx.beginPath();
     ctx.roundRect(pos.x, pos.y, size.w, size.h, 24);
+    const isActiveRoom = room.id === store._raw.currentRoomId;
     ctx.fillStyle = '#f97316' + (hoveredNode ? '66' : 'ff');
     ctx.fill();
-    ctx.strokeStyle = '#c2410c';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = isActiveRoom ? '#ffffff' : '#c2410c';
+    ctx.lineWidth = isActiveRoom ? 4 : 3;
     ctx.stroke();
 
     ctx.fillStyle = '#ffffff';

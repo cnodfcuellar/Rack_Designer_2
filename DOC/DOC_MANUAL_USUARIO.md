@@ -91,6 +91,7 @@ La Topología es un mapa que te muestra cómo están conectados los equipos medi
 
 * **¿Cómo entrar a esta vista?** Haz clic en el botón **"◎ Topología"** que está ubicado en la cabecera principal de la aplicación.
 * **Verás círculos:** Ahora los equipos no se ven como cajas, sino como círculos (Nodos).
+* **Identificar la sala activa:** El recuadro de la sala que tengas seleccionada en ese momento en las pestañas (por ejemplo, "Data Center") se dibujará con un **borde resaltado de color blanco**.
 
 ### 4.1. Moverse por el mapa
 * **Acercar/Alejar:** Gira la **rueda del ratón** hacia adelante o hacia atrás para hacer Zoom.
