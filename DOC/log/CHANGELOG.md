@@ -1,5 +1,8 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-10 02:20] Diagrama de Catálogo y Estadísticas Móviles (Off-Canvas)
+* **Diagrama de Catálogo y Estadísticas Móviles:** Creación de la ilustración vectorial nativa `ui-mobile-catalog.svg` que representa fielmente la interfaz del panel lateral off-canvas en dispositivos móviles, incluyendo la cuadrícula de estadísticas (racks, dispositivos, unidades U y conexiones), barras de progreso, botones de acción rápida y el catálogo de dispositivos.
+* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`) explicando la funcionalidad del menú off-canvas.
 
 ## [2026-06-10 01:40] Integración de la Documentación del Orquestador e Historial Reactivo
 * **Documentación del Modo Móvil (Responsive):** Creación e integración del diagrama detallado de la consola en modo móvil (`ui-mobile.svg`), e inclusión de una subsección de diseño móvil adaptativo en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario (`USER_MANUAL.md`).

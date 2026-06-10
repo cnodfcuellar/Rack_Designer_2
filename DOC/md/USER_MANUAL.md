@@ -16,8 +16,12 @@ La aplicación cuenta con soporte adaptativo completo para smartphones y tableta
 ![Interfaz Móvil](../html/img/ui-mobile.svg)
 *Figura: Vista vertical y compacta adaptada a dispositivos móviles.*
 
+![Catálogo y Estadísticas en Móvil](../html/img/ui-mobile-catalog.svg)
+*Figura: Panel lateral de Estadísticas y Catálogo de Dispositivos adaptado para pantallas móviles (Menú Off-Canvas).*
+
 * **Layout Compacto:** Los paneles laterales se ocultan automáticamente bajo el menú hamburguesa `☰` para maximizar el área útil del lienzo físico.
 * **Pestañas Deslizantes:** Las pestañas de salas superiores y los filtros de catálogo soportan deslizamiento táctil horizontal.
+* **Panel Off-Canvas:** Al pulsar sobre el menú o botón de estadísticas en móvil, se despliega una barra lateral flotante que consolida las métricas globales del recinto (capacidad U, consumo de potencia total en watts, conteo de racks y conexiones) y el catálogo de dispositivos.
 * **Operaciones Simplificadas:** Para entornos táctiles donde el arrastre (`drag & drop`) puede ser dificultoso, se implementa el botón de **Ubicación Rápida (⚡)** que permite instalar equipos seleccionando su destino por menús guiados.
 
 ## 2. Gestión de Salas e Infraestructura
