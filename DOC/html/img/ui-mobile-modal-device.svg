@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 720" width="100%" style="background-color: #090d16; font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Patterns and Gradients for phone background -->
+    <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#cbd5e1" opacity="0.3" />
+    </pattern>
+    <linearGradient id="canvasGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <!-- Drop shadow for the modal card -->
+    <filter id="modalShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- ==================== BACKGROUND: DESIGN CANVAS WITH RACK ==================== -->
+  <rect x="0" y="0" width="450" height="720" fill="url(#canvasGrad)" />
+  <rect x="0" y="0" width="450" height="720" fill="url(#dot-grid)" />
+
+  <!-- Blurred background rack -->
+  <g transform="translate(135, 120)" opacity="0.15">
+    <rect x="0" y="0" width="180" height="500" rx="8" fill="#ffffff" stroke="#ffffff" stroke-width="2" />
+    <line x1="20" y1="50" x2="160" y2="50" stroke="#ffffff" stroke-width="4" />
+    <line x1="20" y1="100" x2="160" y2="100" stroke="#ffffff" stroke-width="4" />
+    <line x1="20" y1="150" x2="160" y2="150" stroke="#ffffff" stroke-width="4" />
+  </g>
+
+  <!-- Dark backdrop overlay representing modal state -->
+  <rect x="0" y="0" width="450" height="720" fill="#020617" fill-opacity="0.55" />
+
+
+  <!-- ==================== MOBILE FORM MODAL (CENTRAL) ==================== -->
+  <g transform="translate(15, 15)" filter="url(#modalShadow)">
+    <!-- Main Modal Card Container -->
+    <rect x="0" y="0" width="420" height="690" rx="16" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5" />
+
+    <!-- 1. Header Section -->
+    <!-- Desktop/Server Icon -->
+    <g transform="translate(25, 25)">
+      <rect x="2" y="2" width="20" height="15" rx="2" fill="#38bdf8" />
+      <rect x="4" y="4" width="16" height="11" fill="#0f172a" />
+      <!-- Stand -->
+      <path d="M 9,17 L 15,17 L 17,21 L 7,21 Z" fill="#64748b" />
+    </g>
+    <text x="60" y="42" fill="#0f172a" font-size="19" font-weight="800" letter-spacing="0.2">Nuevo Equipo</text>
+    <text x="25" y="70" fill="#475569" font-size="12" font-weight="600" letter-spacing="0.5">Datos técnicos del equipo en rack</text>
+
+
+    <!-- 2. Form Fields -->
+    <!-- Field: Nombre del Equipo -->
+    <g transform="translate(25, 95)">
+      <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">NOMBRE DEL EQUIPO</text>
+      <rect x="0" y="22" width="370" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <text x="15" y="48" fill="#334155" font-size="14.5" font-family="monospace">Server principal</text>
+    </g>
+
+    <!-- Fields: Marca, Modelo & Serial (Grid Layout) -->
+    <!-- Marca -->
+    <g transform="translate(25, 185)">
+      <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">MARCA</text>
+      <rect x="0" y="22" width="120" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <text x="12" y="48" fill="#334155" font-size="13.5" font-family="monospace">HP, Cisco</text>
+    </g>
+
+    <!-- Modelo -->
+    <g transform="translate(160, 185)">
+      <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">MODELO</text>
+      <rect x="0" y="22" width="120" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <text x="12" y="48" fill="#334155" font-size="13.5" font-family="monospace">ProLiant</text>
+    </g>
+
+    <!-- Número de Serie -->
+    <g transform="translate(295, 185)">
+      <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">NÚMERO DE SERIE</text>
+      <rect x="0" y="32" width="100" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <text x="12" y="58" fill="#334155" font-size="13.5" font-family="monospace">SRV-2024-</text>
+    </g>
+
+    <!-- Field: Ubicación Física (Dropdown Select) -->
+    <g transform="translate(25, 290)">
+      <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">UBICACIÓN FÍSICA</text>
+      <rect x="0" y="22" width="370" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.2" />
+      <!-- Rack/Cabinet icon inside selector -->
+      <g transform="translate(15, 33)">
+        <rect x="0" y="0" width="10" height="18" fill="none" stroke="#6d28d9" stroke-width="1.8" />
+        <line x1="0" y1="5" x2="10" y2="5" stroke="#6d28d9" stroke-width="1" />
+        <line x1="0" y1="9" x2="10" y2="9" stroke="#6d28d9" stroke-width="1" />
+        <line x1="0" y1="13" x2="10" y2="13" stroke="#6d28d9" stroke-width="1" />
+      </g>
+      <text x="35" y="48" fill="#0f172a" font-size="14.5" font-weight="500">Gabinete (Rack)</text>
+      <!-- Dropdown Arrow -->
+      <path d="M 345,40 L 350,46 L 355,40" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+    <!-- Field: Tipo de Equipo (Dropdown Select) -->
+    <g transform="translate(25, 380)">
+      <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">TIPO DE EQUIPO</text>
+      <rect x="0" y="22" width="370" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.2" />
+      <!-- Server icon inside selector -->
+      <g transform="translate(15, 35)">
+        <rect x="0" y="0" width="10" height="14" fill="none" stroke="#475569" stroke-width="1.8" rx="0.5" />
+        <line x1="0" y1="7" x2="10" y2="7" stroke="#475569" stroke-width="1" />
+      </g>
+      <text x="35" y="48" fill="#0f172a" font-size="14.5" font-weight="500">Servidor</text>
+      <path d="M 345,40 L 350,46 L 355,40" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+
+    <!-- 3. Optional Modules (Checkboxes + Grid Inputs) -->
+    <!-- Module: Red (IP & MAC) -->
+    <g transform="translate(25, 470)">
+      <!-- Checkbox (Unchecked State) -->
+      <rect x="0" y="32" width="20" height="20" rx="4" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+      
+      <!-- IP Input -->
+      <g transform="translate(42, 0)">
+        <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">DIRECCIÓN IP</text>
+        <rect x="0" y="22" width="160" height="40" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        <text x="12" y="47" fill="#334155" font-size="13" font-family="monospace">192.168.1.10</text>
+      </g>
+
+      <!-- MAC Input -->
+      <g transform="translate(218, 0)">
+        <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">DIRECCIÓN MAC</text>
+        <rect x="0" y="22" width="150" height="40" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        <text x="12" y="47" fill="#334155" font-size="12" font-family="monospace">AA:BB:CC:DD:E1</text>
+      </g>
+    </g>
+
+    <!-- Module: Credenciales (Usuario & Contraseña) -->
+    <g transform="translate(25, 570)">
+      <!-- Checkbox (Unchecked State) -->
+      <rect x="0" y="32" width="20" height="20" rx="4" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+
+      <!-- Usuario Input -->
+      <g transform="translate(42, 0)">
+        <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">USUARIO</text>
+        <rect x="0" y="22" width="160" height="40" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        <text x="12" y="47" fill="#334155" font-size="13" font-family="monospace">admin</text>
+      </g>
+
+      <!-- Contraseña Input -->
+      <g transform="translate(218, 0)">
+        <text x="0" y="12" fill="#475569" font-size="10" font-weight="800" letter-spacing="0.8">CONTRASEÑA</text>
+        <rect x="0" y="22" width="150" height="40" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        <text x="12" y="47" fill="#334155" font-size="14.5" font-family="monospace">........</text>
+      </g>
+    </g>
+
+    <!-- Bottom Cutoff area label (Tamaño) -->
+    <text x="375" y="683" fill="#1e3a8a" font-size="11.5" font-weight="bold" text-anchor="end">Tamaño</text>
+  </g>
+</svg>
