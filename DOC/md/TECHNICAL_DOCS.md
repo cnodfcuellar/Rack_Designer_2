@@ -1,4 +1,4 @@
-# Documentación Técnica - RACK Designer
+# <img src="../../icons/icon.svg" width="32" height="32" style="vertical-align: middle;"> Documentación Técnica - RACK Designer
 
 Este documento detalla la arquitectura, el modelo de datos subyacente y las convenciones de desarrollo de RACK Designer. Está orientado a desarrolladores que deseen extender o auditar la aplicación.
 
