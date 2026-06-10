@@ -80,11 +80,21 @@ Para resolver la ocupación independiente del frontal y la parte posterior del a
 ## 4. Estructura y Funcionamiento Técnico Detallado
 
 ### Almacén Central Reactivo (`store.js`)
-El estado de la aplicación reside en un almacén único y reactivo implementado mediante un **Proxy ES6** que envuelve al objeto `_raw`.
-* **Detección de Mutaciones:** Cualquier asignación de propiedades (`set`) o acceso (`get`) en el estado es interceptado.
-* **Auto-guardado Síncrono:** En cada mutación del estado, el Proxy ejecuta de manera síncrona la serialización de datos y los escribe en `localStorage` con la clave `RACK_DESIGNER_STATE`.
-* **Historial (Deshacer/Rehacer):** Mantiene una pila (`_undoStack` y `_redoStack`) de hasta 30 snapshots clonados en profundidad (`deepClone`) del estado para permitir operaciones de restauración mediante comandos `undo()` y `redo()`.
-* **Suscripción de Eventos:** El almacén emite el evento `'change'` al terminar de escribir en el estado, permitiendo que el orquestador (`main.js`) reciba la alerta y desencadene el flujo de actualización.
+
+El estado de la aplicación reside en un almacén único, centralizado y reactivo implementado mediante un **Proxy ES6** que envuelve al objeto interno `_raw`. 
+
+![Funcionamiento del Store](../html/img/store-funcionamiento.svg)
+*Figura: Funcionamiento detallado del Almacén Central Reactivo (js/store.js) y persistencia.*
+
+#### 1. Detección de Mutaciones (Proxy ES6)
+Cualquier intento de escritura (`set`) sobre las propiedades del estado (como agregar una nueva sala al array `state.rooms` o modificar las propiedades de un puerto de enlace) es interceptado de forma inmediata por el controlador del Proxy. 
+
+#### 2. Mecanismos del Ciclo de Vida del Cambio
+Cuando ocurre una interceptación de mutación, el Proxy ejecuta los siguientes procesos en orden:
+1. **Historial de Snapshots (Undo/Redo):** Antes de aplicar la mutación, clona en profundidad (`deepClone`) el estado previo de la aplicación y lo guarda en la pila de deshacer (`_undoStack`). Al mismo tiempo, limpia la pila de rehacer (`_redoStack`) para mantener un flujo de historial coherente. Mantiene un límite estricto de hasta 30 capturas para evitar el desbordamiento de memoria.
+2. **Modificación en Memoria RAM:** Modifica la propiedad en el objeto de datos real utilizando `Reflect.set()`.
+3. **Auto-guardado Síncrono (Persistence):** Convierte el estado de memoria a una cadena de texto JSON y lo escribe de manera síncrona en el `localStorage` del navegador con la clave `RACK_DESIGNER_STATE`. Esto garantiza que los datos se guarden al instante tras cada clic o arrastre, protegiendo al usuario ante caídas del navegador.
+4. **Emisión del Evento `'change'`:** Finalmente, el almacén notifica al exterior emitiendo el evento `'change'`, adjuntando metadatos sobre qué propiedad cambió (`event.source`). Esto avisa al orquestador global (`js/main.js`) para que decida qué vistas del DOM actualizar selectivamente.
 
 ### Flujo de Actualización DOM y Renderizado (`main.js` y Componentes UI)
 

@@ -231,6 +231,20 @@
         <p><strong>Nota técnica:</strong> Toda la persistencia local de la aplicación funciona de manera síncrona en cada edición gracias al Proxy. Esto asegura que si el usuario refresca el navegador o pierde la conexión, no perderá ningún progreso del diseño de su Centro de Datos.</p>
       </div>
 
+      <h3>El Almacén Reactivo (js/store.js)</h3>
+      <p>El almacén central reactivo es el encargado de interceptar las mutaciones, resguardar copias de seguridad de forma instantánea en el disco local y gestionar el historial de deshacer/rehacer:</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/store-funcionamiento.svg" alt="Estructura del Almacén Reactivo js/store.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Ciclo de vida de una mutación, auto-guardado en localStorage e historial en el Almacén Reactivo js/store.js.</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Proxy ES6 Handler:</strong> Intercepta cualquier operación de asignación de valor en las propiedades del estado (<code>set()</code>), actuando como una barrera de control.</li>
+        <li><strong>Auto-Save e Historial:</strong> Ante cualquier cambio, genera una captura en profundidad (deep clone) de los datos y los añade a la pila de historial (Undo/Redo Stack) para posibilitar el retorno a estados anteriores. Paralelamente, escribe la serialización en <code>localStorage</code> síncronamente.</li>
+        <li><strong>Propagación:</strong> Termina su ciclo emitiendo un evento global de cambio <code>'change'</code> para notificar al orquestador.</li>
+      </ul>
+
       <h3>El Flujo de Renderizado (main.js y Módulos UI)</h3>
       <p>Este bloque del diagrama detalla cómo se realiza el enlace dinámico entre la lógica del controlador global y las vistas modulares del DOM:</p>
       
