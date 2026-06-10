@@ -9,6 +9,17 @@ La interfaz está diseñada para optimizar el área de trabajo y consta de tres 
 - **Lienzo Central (Área de Trabajo):** El espacio interactivo donde se visualizan y distribuyen los gabinetes (racks) y equipos de piso.
 - **Panel Inferior (Inventario y Catálogo):** Muestra los reportes tabulares en vivo y permite el acceso rápido al Catálogo de Dispositivos predefinidos.
 
+### Interfaz en Dispositivos Móviles (Responsive)
+
+La aplicación cuenta con soporte adaptativo completo para smartphones y tabletas en el Centro de Datos:
+
+![Interfaz Móvil](../html/img/ui-mobile.svg)
+*Figura: Vista vertical y compacta adaptada a dispositivos móviles.*
+
+* **Layout Compacto:** Los paneles laterales se ocultan automáticamente bajo el menú hamburguesa `☰` para maximizar el área útil del lienzo físico.
+* **Pestañas Deslizantes:** Las pestañas de salas superiores y los filtros de catálogo soportan deslizamiento táctil horizontal.
+* **Operaciones Simplificadas:** Para entornos táctiles donde el arrastre (`drag & drop`) puede ser dificultoso, se implementa el botón de **Ubicación Rápida (⚡)** que permite instalar equipos seleccionando su destino por menús guiados.
+
 ## 2. Gestión de Salas e Infraestructura
 
 Las Salas representan espacios físicos aislados (ej. "Data Center Principal", "Sala Eléctrica").

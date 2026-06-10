@@ -2,6 +2,7 @@
 
 
 ## [2026-06-10 01:40] Integración de la Documentación del Orquestador e Historial Reactivo
+* **Documentación del Modo Móvil (Responsive):** Creación e integración del diagrama detallado de la consola en modo móvil (`ui-mobile.svg`), e inclusión de una subsección de diseño móvil adaptativo en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario (`USER_MANUAL.md`).
 * **Iconografía en el Manual y Docs:** Integración del logotipo oficial del sistema (`icon.svg`) en la cabecera, favicon y sidebar del manual interactivo HTML y de las especificaciones de la documentación técnica.
 * **Rediseño del Mapa Arquitectónico Global:** Creación de una versión mucho más amplia (1200x850), completa y detallada de la arquitectura general del sistema (`arquitectura.svg`), incorporando iconos visuales para cada módulo, integraciones de archivos y leyendas descriptivas del flujo.
 * **Explicación Gráfica del Almacén Reactivo:** Creación e integración del diagrama explicativo del store reactivo, Proxy ES6, auto-guardado en localStorage e historial (Undo/Redo) (`store-funcionamiento.svg`).
