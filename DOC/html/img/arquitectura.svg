@@ -1,6 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" width="100%" style="background-color: #0f111a; font-family: system-ui, -apple-system, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="100%" style="background-color: #0d0f16; font-family: system-ui, -apple-system, sans-serif;">
   <defs>
     <!-- Gradients -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
     <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#38bdf8" />
       <stop offset="100%" stop-color="#0284c7" />
@@ -17,24 +22,28 @@
       <stop offset="0%" stop-color="#fb923c" />
       <stop offset="100%" stop-color="#ea580c" />
     </linearGradient>
-    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#1e293b" />
       <stop offset="100%" stop-color="#0f172a" />
     </linearGradient>
 
-    <!-- Filters for shadows and glow -->
+    <!-- Filters for shadows and glows -->
     <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feGaussianBlur stdDeviation="8" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
     <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
     
-    <!-- Marker for arrows -->
+    <!-- Markers for arrows -->
     <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569" />
     </marker>
     <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
@@ -42,145 +51,336 @@
     <marker id="arrowPurple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc" />
     </marker>
-    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399" />
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fb923c" />
     </marker>
   </defs>
 
-  <!-- Title -->
-  <text x="450" y="35" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="800" letter-spacing="0.5">ARQUITECTURA DE RACK DESIGNER 2</text>
-  <text x="450" y="55" text-anchor="middle" fill="#64748b" font-size="12">Flujo Unidireccional y Gestión de Estado Reactiva con Proxies ES6</text>
+  <!-- Title Section -->
+  <rect x="0" y="0" width="1200" height="80" fill="#090b10" />
+  <text x="600" y="38" text-anchor="middle" fill="url(#headerGrad)" font-size="24" font-weight="900" letter-spacing="1">MAPA ARQUITECTÓNICO COMPLETO: RACK DESIGNER 2</text>
+  <text x="600" y="58" text-anchor="middle" fill="#64748b" font-size="12" font-weight="bold">Arquitectura Unidireccional Reactiva • Vanilla JS • Persistencia síncrona local y exportación</text>
 
-  <!-- GRID / BACKGROUND AESTHETICS -->
-  <rect x="20" y="75" width="860" height="450" rx="12" fill="#141721" stroke="#232733" stroke-width="1.5" />
+  <!-- BACKGROUND INNER BOARD -->
+  <rect x="20" y="100" width="1160" height="730" rx="16" fill="#11131c" stroke="#232733" stroke-width="2" />
 
-  <!-- SECTION: VISTA (DOM / INDEX.HTML) -->
-  <g id="section-view">
-    <!-- Outer boundary -->
-    <rect x="50" y="100" width="230" height="340" rx="8" fill="#1e293b" fill-opacity="0.3" stroke="#334155" stroke-dasharray="4 4" />
-    <text x="65" y="125" fill="#94a3b8" font-size="11" font-weight="bold" letter-spacing="1">INTERFAZ &amp; DOM</text>
+  <!-- ==================== CAPA 1: INTERFAZ Y CAPTURA DOM (IZQUIERDA) ==================== -->
+  <g transform="translate(45, 125)">
+    <!-- Boundary box -->
+    <rect x="0" y="0" width="280" height="680" rx="10" fill="#1e293b" fill-opacity="0.15" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4" />
     
-    <!-- index.html -->
-    <rect x="70" y="145" width="190" height="45" rx="6" fill="url(#darkGrad)" stroke="#475569" stroke-width="1" />
-    <text x="90" y="172" fill="#f8fafc" font-size="13" font-weight="bold">index.html</text>
-    <text x="240" y="172" text-anchor="end" fill="#cbd5e1" font-size="10" font-family="monospace">&lt;/&gt;</text>
-    
-    <!-- UI Component Modules -->
-    <rect x="70" y="210" width="190" height="210" rx="8" fill="#181b28" stroke="#1f2937" stroke-width="1" />
-    <text x="85" y="232" fill="#38bdf8" font-size="11" font-weight="bold">MÓDULOS DE RENDER (UI)</text>
-    
-    <!-- Sub-components -->
+    <!-- Header Icon and Label -->
+    <rect x="15" y="15" width="250" height="35" rx="6" fill="#1e293b" stroke="#475569" />
+    <path d="M 30,25 C 30,22 33,22 36,22 C 39,22 41,25 41,25 C 41,25 39,28 36,28 C 33,28 30,25 30,25 Z" fill="none" stroke="#38bdf8" stroke-width="1.5" />
+    <circle cx="35.5" cy="25" r="2.5" fill="#38bdf8" />
+    <text x="50" y="37" fill="#f8fafc" font-size="12" font-weight="bold" letter-spacing="0.5">1. VISTA &amp; CAPTURA DOM</text>
+
+    <!-- index.html card -->
+    <rect x="15" y="65" width="250" height="55" rx="6" fill="url(#cardGrad)" stroke="#475569" stroke-width="1" />
+    <!-- HTML Icon -->
+    <path d="M 30,80 L 33,105 L 43,105 L 46,80 Z" fill="none" stroke="#ea580c" stroke-width="1.5" />
+    <path d="M 38,87 L 35,93 L 38,99" fill="none" stroke="#ea580c" stroke-width="1.2" />
+    <path d="M 40,87 L 43,93 L 40,99" fill="none" stroke="#ea580c" stroke-width="1.2" />
+    <text x="55" y="90" fill="#f8fafc" font-size="11" font-weight="bold">index.html (Plantilla Base)</text>
+    <text x="55" y="104" fill="#94a3b8" font-size="9">Estructura general, modales estáticos y contenedores</text>
+
+    <!-- Render Components Group -->
+    <rect x="15" y="135" width="250" height="525" rx="8" fill="#0d0f16" stroke="#1f2937" />
+    <text x="25" y="155" fill="#38bdf8" font-size="11" font-weight="bold">COMPONENTES DE RENDER (UI)</text>
+
     <!-- rack.js & faceplates.js -->
-    <rect x="85" y="247" width="160" height="30" rx="4" fill="#0f111a" stroke="#38bdf8" stroke-opacity="0.4" />
-    <text x="95" y="266" fill="#e2e8f0" font-size="11" font-family="monospace">rack.js / faceplates.js</text>
-    
+    <g transform="translate(25, 170)">
+      <rect x="0" y="0" width="230" height="85" rx="6" fill="#141722" stroke="#38bdf8" stroke-opacity="0.4" />
+      <!-- Rack Icon -->
+      <rect x="12" y="15" width="16" height="55" rx="1" fill="none" stroke="#38bdf8" stroke-width="1.2" />
+      <line x1="12" y1="25" x2="28" y2="25" stroke="#38bdf8" stroke-width="1" />
+      <line x1="12" y1="38" x2="28" y2="38" stroke="#38bdf8" stroke-width="1" />
+      <line x1="12" y1="52" x2="28" y2="52" stroke="#38bdf8" stroke-width="1" />
+      <circle cx="16" cy="31" r="1" fill="#22c55e" />
+      <circle cx="16" cy="45" r="1" fill="#ea580c" />
+      <text x="38" y="24" fill="#ffffff" font-size="10" font-weight="bold">rack.js / faceplates.js</text>
+      <text x="38" y="38" fill="#94a3b8" font-size="8.5">Calcula espacio en Us del rack</text>
+      <text x="38" y="50" fill="#94a3b8" font-size="8.5">Renderiza vistas Frontal y Trasera</text>
+      <text x="38" y="62" fill="#94a3b8" font-size="8.5">Eventos: Clic derecho e instalación</text>
+    </g>
+
     <!-- topology.js -->
-    <rect x="85" y="287" width="160" height="30" rx="4" fill="#0f111a" stroke="#38bdf8" stroke-opacity="0.4" />
-    <text x="95" y="306" fill="#e2e8f0" font-size="11" font-family="monospace">topology.js (SVG)</text>
-    
+    <g transform="translate(25, 265)">
+      <rect x="0" y="0" width="230" height="95" rx="6" fill="#141722" stroke="#38bdf8" stroke-opacity="0.4" />
+      <!-- Topology Icon -->
+      <circle cx="20" cy="25" r="4" fill="none" stroke="#10b981" stroke-width="1.5" />
+      <circle cx="13" cy="42" r="4" fill="none" stroke="#10b981" stroke-width="1.5" />
+      <circle cx="27" cy="42" r="4" fill="none" stroke="#10b981" stroke-width="1.5" />
+      <line x1="20" y1="29" x2="15" y2="38" stroke="#10b981" stroke-width="1.2" />
+      <line x1="20" y1="29" x2="25" y2="38" stroke="#10b981" stroke-width="1.2" />
+      <text x="38" y="24" fill="#ffffff" font-size="10" font-weight="bold">topology.js (SVG / Canvas)</text>
+      <text x="38" y="38" fill="#94a3b8" font-size="8.5">Cableado lógico estructurado</text>
+      <text x="38" y="50" fill="#94a3b8" font-size="8.5">Dibujado procedimental Canvas 2D</text>
+      <text x="38" y="62" fill="#94a3b8" font-size="8.5">Cálculo de intersección de cables</text>
+      <text x="38" y="74" fill="#94a3b8" font-size="8.5">Bucle gráfico interactivo a 60fps</text>
+    </g>
+
     <!-- tables.js -->
-    <rect x="85" y="327" width="160" height="30" rx="4" fill="#0f111a" stroke="#38bdf8" stroke-opacity="0.4" />
-    <text x="95" y="346" fill="#e2e8f0" font-size="11" font-family="monospace">tables.js (Tablas)</text>
-    
+    <g transform="translate(25, 370)">
+      <rect x="0" y="0" width="230" height="75" rx="6" fill="#141722" stroke="#38bdf8" stroke-opacity="0.4" />
+      <!-- Table Icon -->
+      <rect x="12" y="20" width="16" height="35" rx="1" fill="none" stroke="#38bdf8" stroke-width="1.2" />
+      <line x1="12" y1="28" x2="28" y2="28" stroke="#38bdf8" stroke-width="1" />
+      <line x1="12" y1="38" x2="28" y2="38" stroke="#38bdf8" stroke-width="1" />
+      <line x1="12" y1="48" x2="28" y2="48" stroke="#38bdf8" stroke-width="1" />
+      <text x="38" y="24" fill="#ffffff" font-size="10" font-weight="bold">tables.js (Inventario y Red)</text>
+      <text x="38" y="38" fill="#94a3b8" font-size="8.5">Auditoría en listas tabulares</text>
+      <text x="38" y="50" fill="#94a3b8" font-size="8.5">Pestañas de racks vs conexiones</text>
+      <text x="38" y="62" fill="#94a3b8" font-size="8.5">Búsqueda, edición y eliminación</text>
+    </g>
+
     <!-- modals.js / catalog.js -->
-    <rect x="85" y="367" width="160" height="30" rx="4" fill="#0f111a" stroke="#38bdf8" stroke-opacity="0.4" />
-    <text x="95" y="386" fill="#e2e8f0" font-size="11" font-family="monospace">modals.js / catalog.js</text>
+    <g transform="translate(25, 455)">
+      <rect x="0" y="0" width="230" height="85" rx="6" fill="#141722" stroke="#38bdf8" stroke-opacity="0.4" />
+      <!-- Catalog Icon -->
+      <rect x="12" y="20" width="16" height="15" rx="1" fill="none" stroke="#e2e8f0" stroke-width="1.2" />
+      <rect x="12" y="40" width="16" height="15" rx="1" fill="none" stroke="#e2e8f0" stroke-width="1.2" />
+      <text x="38" y="24" fill="#ffffff" font-size="10" font-weight="bold">modals.js / catalog.js</text>
+      <text x="38" y="38" fill="#94a3b8" font-size="8.5">Mantenimiento de salas y racks</text>
+      <text x="38" y="50" fill="#94a3b8" font-size="8.5">Asistente de ubicación asistida</text>
+      <text x="38" y="62" fill="#94a3b8" font-size="8.5">Arrastre (Drag &amp; Drop) de equipos</text>
+    </g>
+
+    <!-- stats.js / export.js -->
+    <g transform="translate(25, 550)">
+      <rect x="0" y="0" width="230" height="75" rx="6" fill="#141722" stroke="#38bdf8" stroke-opacity="0.4" />
+      <!-- Export Icon -->
+      <path d="M 12,35 L 20,27 L 28,35 M 20,27 L 20,48" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-linecap="round" />
+      <text x="38" y="24" fill="#ffffff" font-size="10" font-weight="bold">stats.js / export.js</text>
+      <text x="38" y="38" fill="#94a3b8" font-size="8.5">Indicador de Watts y U disponibles</text>
+      <text x="38" y="50" fill="#94a3b8" font-size="8.5">Exportador de reporte Excel/CSV</text>
+      <text x="38" y="62" fill="#94a3b8" font-size="8.5">Fotografía de rack en PNG HD 2x</text>
+    </g>
   </g>
 
-  <!-- SECTION: ORCHESTRATOR (MAIN.JS) -->
-  <g id="section-main">
-    <rect x="340" y="100" width="220" height="150" rx="8" fill="url(#purpleGrad)" fill-opacity="0.08" stroke="#7c3aed" stroke-width="1.5" filter="url(#glowPurple)" />
-    <text x="355" y="125" fill="#c084fc" font-size="12" font-weight="bold" letter-spacing="1">CONTROLADOR / ORQUESTADOR</text>
+  <!-- ==================== CAPA 2: CONTROLADOR / ORQUESTADOR (CENTRO SUPERIOR) ==================== -->
+  <g transform="translate(420, 125)">
+    <!-- Boundary Box -->
+    <rect x="0" y="0" width="310" height="230" rx="10" fill="url(#purpleGrad)" fill-opacity="0.06" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="1.5" filter="url(#glowPurple)" />
     
+    <!-- Header Icon and Label -->
+    <rect x="15" y="15" width="280" height="35" rx="6" fill="#1e1b4b" stroke="#7c3aed" stroke-opacity="0.5" />
+    <!-- Gear Icon -->
+    <circle cx="35" cy="32" r="5" fill="none" stroke="#c084fc" stroke-width="1.5" />
+    <path d="M 35,24 L 35,27 M 35,37 L 35,40 M 27,32 L 30,32 M 40,32 L 43,32" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round" />
+    <text x="52" y="37" fill="#c084fc" font-size="12" font-weight="bold" letter-spacing="0.5">2. ORQUESTADOR CENTRAL</text>
+
     <!-- main.js Card -->
-    <rect x="355" y="145" width="190" height="85" rx="6" fill="url(#darkGrad)" stroke="#7c3aed" stroke-width="1" />
-    <text x="370" y="170" fill="#ffffff" font-size="14" font-weight="bold">js/main.js</text>
-    <text x="370" y="190" fill="#94a3b8" font-size="10">Escucha eventos globales</text>
-    <text x="370" y="208" fill="#94a3b8" font-size="10">Dispara <tspan fill="#c084fc" font-weight="bold">renderAll(event)</tspan></text>
+    <rect x="15" y="65" width="280" height="150" rx="8" fill="url(#cardGrad)" stroke="#7c3aed" stroke-width="1" />
+    <text x="30" y="90" fill="#ffffff" font-size="15" font-weight="bold">js/main.js</text>
+    <text x="30" y="108" fill="#94a3b8" font-size="9.5">Coordinador general del ciclo de vida web</text>
+
+    <!-- initGlobalEvents -->
+    <rect x="30" y="125" width="250" height="32" rx="4" fill="#0f111a" stroke="#4b5563" />
+    <text x="40" y="145" fill="#e2e8f0" font-size="9" font-family="monospace">initGlobalEvents()</text>
+    <text x="125" y="144" fill="#94a3b8" font-size="8">Manejadores directos del DOM</text>
+
+    <!-- renderAll -->
+    <rect x="30" y="167" width="250" height="35" rx="4" fill="#0f111a" stroke="#7c3aed" />
+    <text x="40" y="188" fill="#c084fc" font-size="10" font-weight="bold" font-family="monospace">renderAll(event)</text>
+    <text x="135" y="187" fill="#94a3b8" font-size="8">Filtra y despacha por source</text>
   </g>
 
-  <!-- SECTION: REACTIVE STORE (STORE.JS) -->
-  <g id="section-store">
-    <rect x="340" y="290" width="510" height="150" rx="8" fill="url(#blueGrad)" fill-opacity="0.06" stroke="#0284c7" stroke-width="1.5" filter="url(#glowBlue)" />
-    <text x="355" y="315" fill="#38bdf8" font-size="12" font-weight="bold" letter-spacing="1">ESTADO CENTRAL REACTIVO</text>
+  <!-- ==================== CAPA 3: ALMACÉN REACTIVO / CORE (CENTRO INFERIOR) ==================== -->
+  <g transform="translate(420, 390)">
+    <!-- Boundary Box -->
+    <rect x="0" y="0" width="310" height="415" rx="10" fill="url(#blueGrad)" fill-opacity="0.05" stroke="#0284c7" stroke-opacity="0.4" stroke-width="1.5" filter="url(#glowBlue)" />
     
+    <!-- Header Icon and Label -->
+    <rect x="15" y="15" width="280" height="35" rx="6" fill="#0c2540" stroke="#0284c7" stroke-opacity="0.5" />
+    <!-- Shield/Key Icon -->
+    <path d="M 30,26 L 35,23 L 40,26 L 40,33 C 40,37 35,40 35,40 C 35,40 30,37 30,33 Z" fill="none" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="52" y="37" fill="#38bdf8" font-size="12" font-weight="bold" letter-spacing="0.5">3. ESTADO REACTIVO CORE</text>
+
     <!-- store.js Card -->
-    <rect x="355" y="335" width="210" height="85" rx="6" fill="url(#darkGrad)" stroke="#0284c7" stroke-width="1" />
-    <text x="370" y="360" fill="#ffffff" font-size="14" font-weight="bold">js/store.js</text>
-    <text x="370" y="380" fill="#38bdf8" font-weight="bold" font-size="11">Proxy ES6 de Reactividad</text>
-    <text x="370" y="398" fill="#94a3b8" font-size="10">Mutación -> Auto-Save -> Emitir</text>
+    <rect x="15" y="65" width="280" height="335" rx="8" fill="url(#cardGrad)" stroke="#0284c7" stroke-width="1" />
+    <text x="30" y="90" fill="#ffffff" font-size="15" font-weight="bold">js/store.js</text>
+    <text x="30" y="108" fill="#38bdf8" font-size="11" font-weight="bold">Proxy ES6 de Reactividad</text>
     
-    <!-- Sub-elements inside Store -->
-    <!-- LocalStorage -->
-    <rect x="585" y="335" width="115" height="35" rx="4" fill="#0f172a" stroke="#334155" />
-    <text x="642" y="357" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="bold">localStorage</text>
-    
-    <!-- Historial (Undo/Redo Stack) -->
-    <rect x="715" y="335" width="115" height="35" rx="4" fill="#0f172a" stroke="#334155" />
-    <text x="772" y="357" text-anchor="middle" fill="#cbd5e1" font-size="10" font-weight="bold">Undo/Redo Stack</text>
+    <!-- Internal Proxy handlers steps -->
+    <g transform="translate(30, 128)" font-size="8.5">
+      <rect x="0" y="0" width="250" height="45" rx="4" fill="#0f111a" stroke="#334155" />
+      <text x="10" y="16" fill="#fb923c" font-weight="bold">Filtro set()</text>
+      <text x="10" y="30" fill="#cbd5e1">Intercepta escrituras directas en state.*</text>
 
-    <!-- Data State object representation -->
-    <rect x="585" y="380" width="245" height="40" rx="4" fill="#1e293b" fill-opacity="0.5" stroke="#334155" />
-    <text x="595" y="395" fill="#f8fafc" font-size="9" font-family="monospace">state: { rooms, racks, devices }</text>
-    <text x="595" y="409" fill="#64748b" font-size="9" font-family="monospace">       connections, selectedId }</text>
+      <rect x="0" y="55" width="250" height="55" rx="4" fill="#0f111a" stroke="#334155" />
+      <text x="10" y="16" fill="#cbd5e1" font-weight="bold">Paso 1: Clonación e Historial</text>
+      <text x="10" y="30" fill="#cbd5e1">Genera snapshot para la pila Undo</text>
+      <text x="10" y="44" fill="#94a3b8" font-family="monospace">_undoStack.push(deepClone(state))</text>
+
+      <rect x="0" y="120" width="250" height="45" rx="4" fill="#0f111a" stroke="#334155" />
+      <text x="10" y="16" fill="#cbd5e1" font-weight="bold">Paso 2: Mutación en Memoria</text>
+      <text x="10" y="30" fill="#fb923c" font-family="monospace">Reflect.set(target, key, value)</text>
+
+      <rect x="0" y="175" width="250" height="45" rx="4" fill="#0f111a" stroke="#334155" />
+      <text x="10" y="16" fill="#22c55e" font-weight="bold">Paso 3: Auto-Save Síncrono</text>
+      <text x="10" y="30" fill="#94a3b8">Serializa y escribe en localStorage</text>
+
+      <rect x="0" y="230" width="250" height="45" rx="4" fill="#0f111a" stroke="#38bdf8" />
+      <text x="10" y="16" fill="#38bdf8" font-weight="bold">Paso 4: Notificar Cambio</text>
+      <text x="10" y="30" fill="#cbd5e1">Dispara el evento 'change' con source</text>
+    </g>
   </g>
 
-  <!-- FLOW CONNECTIONS / ARROWS -->
+  <!-- ==================== CAPA 4: PERSISTENCIA, ARCHIVOS E HISTORIAL (DERECHA) ==================== -->
+  <g transform="translate(875, 125)">
+    <!-- Boundary Box -->
+    <rect x="0" y="0" width="280" height="680" rx="10" fill="#1e293b" fill-opacity="0.15" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4" />
+    
+    <!-- Header Icon and Label -->
+    <rect x="15" y="15" width="250" height="35" rx="6" fill="#1e293b" stroke="#475569" />
+    <!-- DB Icon -->
+    <path d="M 28,24 C 28,21.5 33,21.5 35.5,21.5 C 38,21.5 43,21.5 43,24 L 43,36 C 43,38.5 38,38.5 35.5,38.5 C 33,38.5 28,38.5 28,36 Z" fill="none" stroke="#ea580c" stroke-width="1.5" />
+    <path d="M 28,29 C 28,31.5 33,31.5 35.5,31.5 C 38,31.5 43,31.5 43,29" fill="none" stroke="#ea580c" stroke-width="1.5" />
+    <text x="50" y="37" fill="#f8fafc" font-size="12" font-weight="bold" letter-spacing="0.5">4. PERSISTENCIA &amp; I/O</text>
+
+    <!-- Memoria RAM Activa -->
+    <g transform="translate(15, 65)">
+      <rect x="0" y="0" width="250" height="85" rx="6" fill="url(#cardGrad)" stroke="#334155" />
+      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">Memoria RAM Activa (store.state)</text>
+      <text x="12" y="36" fill="#94a3b8" font-size="8.5">Esquema en memoria del Data Center:</text>
+      <!-- DB Model representation -->
+      <g transform="translate(12, 45)" font-family="monospace" font-size="8">
+        <text x="0" y="10" fill="#cbd5e1">· rooms (Salas)</text>
+        <text x="100" y="10" fill="#cbd5e1">· connections (Enlaces)</text>
+        <text x="0" y="24" fill="#cbd5e1">· racks (Gabinetes)</text>
+        <text x="100" y="24" fill="#cbd5e1">· devices (Equipos)</text>
+      </g>
+    </g>
+
+    <!-- LocalStorage -->
+    <g transform="translate(15, 165)">
+      <rect x="0" y="0" width="250" height="80" rx="6" fill="#091e13" stroke="#22c55e" stroke-width="1.2" />
+      <text x="12" y="20" fill="#22c55e" font-size="10" font-weight="bold">Navegador (localStorage)</text>
+      <text x="12" y="35" fill="#88af9c" font-size="8.5">Persistencia síncrona nativa offline</text>
+      <!-- Key representation -->
+      <rect x="12" y="47" width="226" height="22" rx="3" fill="#0c111a" stroke="#22c55e" stroke-opacity="0.3" />
+      <text x="20" y="61" fill="#cbd5e1" font-size="8" font-family="monospace">Key: "RACK_DESIGNER_STATE"</text>
+    </g>
+
+    <!-- Pilas Historial -->
+    <g transform="translate(15, 260)">
+      <rect x="0" y="0" width="250" height="235" rx="6" fill="url(#cardGrad)" stroke="#334155" />
+      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">Historial Undo / Redo Stacks</text>
+      <text x="12" y="36" fill="#94a3b8" font-size="8.5">Permite comandos deshacer/rehacer</text>
+
+      <!-- stack representation -->
+      <g transform="translate(12, 50)" font-family="monospace" font-size="8">
+        <!-- Redo stack -->
+        <rect x="0" y="0" width="226" height="22" rx="3" fill="#1e293b" stroke="#e11d48" stroke-dasharray="2,2" />
+        <text x="10" y="14" fill="#e11d48">_redoStack (Pila de Rehacer)</text>
+        <path d="M 215,6 L 210,11 L 215,16" fill="none" stroke="#e11d48" stroke-width="1" />
+
+        <!-- Spacer line -->
+        <line x1="0" y1="36" x2="226" y2="36" stroke="#334155" stroke-dasharray="3,3" />
+
+        <!-- Undo stack items -->
+        <rect x="0" y="52" width="226" height="22" rx="3" fill="#1e293b" stroke="#38bdf8" />
+        <text x="10" y="66" fill="#cbd5e1">Estado t (Snapshot Actual)</text>
+
+        <rect x="0" y="82" width="226" height="22" rx="3" fill="#0f111a" stroke="#475569" />
+        <text x="10" y="96" fill="#64748b">Estado t-1 (Paso previo)</text>
+
+        <rect x="0" y="112" width="226" height="22" rx="3" fill="#0f111a" stroke="#475569" />
+        <text x="10" y="126" fill="#64748b">Estado t-2</text>
+
+        <text x="10" y="152" fill="#94a3b8" font-size="8">Capacidad: Hasta 30 snapshots</text>
+        <text x="10" y="166" fill="#94a3b8" font-size="8">Clonado profundo (deepClone)</text>
+      </g>
+    </g>
+
+    <!-- Archivos Externos -->
+    <g transform="translate(15, 510)">
+      <rect x="0" y="0" width="250" height="155" rx="6" fill="url(#cardGrad)" stroke="#334155" />
+      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">Archivos e Integraciones I/O</text>
+      <text x="12" y="34" fill="#94a3b8" font-size="8.5">Interacción con archivos locales</text>
+
+      <!-- JSON file import/export -->
+      <rect x="12" y="50" width="226" height="30" rx="3" fill="#141722" stroke="#ea580c" stroke-opacity="0.5" />
+      <!-- Document Icon -->
+      <path d="M 20,58 L 26,58 L 26,72 L 20,72 Z" fill="none" stroke="#fb923c" stroke-width="1" />
+      <text x="32" y="69" fill="#fb923c" font-size="9" font-family="monospace">Lectura/Escritura JSON (.rack)</text>
+
+      <!-- Tables and Images -->
+      <rect x="12" y="88" width="226" height="50" rx="3" fill="#141722" stroke="#22c55e" stroke-opacity="0.5" />
+      <!-- Table/Image Icon -->
+      <rect x="20" y="98" width="8" height="12" fill="none" stroke="#22c55e" stroke-width="1" />
+      <circle cx="24" cy="118" r="3" fill="none" stroke="#22c55e" stroke-width="1" />
+      <text x="32" y="108" fill="#e2e8f0" font-size="8.5">Reportes: Excel (.xlsx) / CSV</text>
+      <text x="32" y="122" fill="#e2e8f0" font-size="8.5">Planos: PNG de Racks y Redes</text>
+    </g>
+  </g>
+
+  <!-- ==================== CONEXIONES Y CANALES DE DATOS (FLECHAS) ==================== -->
   
-  <!-- 1. USER INTERACTION: DOM to Store (Mutations) -->
-  <path d="M 165,420 L 165,475 L 460,475 L 460,440" fill="none" stroke="url(#orangeGrad)" stroke-width="2.5" marker-end="url(#arrow)" />
-  <!-- Label 1 -->
-  <rect x="240" y="458" width="180" height="28" rx="4" fill="#141721" stroke="#ea580c" stroke-opacity="0.5" />
-  <text x="330" y="475" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="bold">1. Interacción / Mutación</text>
-  <text x="330" y="488" text-anchor="middle" fill="#94a3b8" font-size="8">Modificaciones en store.state (ej: Drag &amp; Drop)</text>
+  <!-- 1. MUTACIÓN: UI a Core (store.state.devices...) -->
+  <path d="M 295,430 L 320,430 C 350,430 350,480 390,480 L 415,480" fill="none" stroke="url(#orangeGrad)" stroke-width="2.5" marker-end="url(#arrowOrange)" />
+  <rect x="305" y="445" width="100" height="24" rx="4" fill="#0d0f16" stroke="#ea580c" stroke-width="1" />
+  <text x="355" y="460" text-anchor="middle" fill="#fb923c" font-size="8" font-weight="bold">1. MUTACIÓN</text>
 
-  <!-- 2. STATE INTERNALS: Auto-Save and History -->
-  <!-- Proxy to localStorage -->
-  <path d="M 565,352.5 L 585,352.5" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)" />
-  <!-- Proxy to Stack -->
-  <path d="M 565,370 L 610,370 L 610,318 L 772,318 L 772,335" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow)" />
-  <text x="690" y="312" text-anchor="middle" fill="#64748b" font-size="9">snapshot()</text>
+  <!-- 2. SNAPSHOT: store.js a Stack Historial -->
+  <path d="M 715,465 C 760,465 790,480 840,480 C 855,480 860,445 870,445" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3,3" marker-end="url(#arrowBlue)" />
+  <rect x="755" y="445" width="70" height="18" rx="3" fill="#0d0f16" stroke="#38bdf8" stroke-width="1" />
+  <text x="790" y="457" text-anchor="middle" fill="#38bdf8" font-size="7.5" font-weight="bold">snapshot()</text>
 
-  <!-- 3. REACTIVE EVENT EMISSION: Store -> Main.js -->
-  <path d="M 450,290 L 450,250" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowBlue)" />
-  <!-- Label 2 -->
-  <rect x="455" y="258" width="130" height="24" rx="4" fill="#0f111a" stroke="#0284c7" stroke-width="1" />
-  <text x="520" y="274" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">2. Evento 'change'</text>
-
-  <!-- 4. ORCHESTRATION / DISPATCH: Main.js -> UI Render Modules -->
-  <path d="M 340,150 L 260,150" fill="none" stroke="#c084fc" stroke-width="2.5" marker-end="url(#arrowPurple)" />
-  <text x="300" y="142" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="bold">3. renderAll()</text>
+  <!-- 3. RAM MEMORY WRITING: store.js a active state -->
+  <path d="M 715,410 L 870,410" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)" />
   
-  <path d="M 355,190 L 290,190 L 290,262 L 245,262" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" />
-  <text x="315" y="222" text-anchor="end" fill="#94a3b8" font-size="8">Llamadas selectivas</text>
-  <text x="315" y="233" text-anchor="end" fill="#94a3b8" font-size="8">a renderizadores</text>
+  <!-- 4. AUTO-SAVE: store.js a localStorage -->
+  <path d="M 715,435 C 750,435 820,380 850,320 C 860,300 865,280 870,230" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)" />
+  <rect x="765" y="340" width="80" height="18" rx="3" fill="#0d0f16" stroke="#22c55e" stroke-width="1" />
+  <text x="805" y="352" text-anchor="middle" fill="#22c55e" font-size="7.5" font-weight="bold">autoSave()</text>
 
-  <!-- USER ACTION CLICKS / KEYBOARD -->
-  <path d="M 120,145 A 25,25 0 0,1 120,210" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="2 2" />
-  <path d="M 210,210 L 210,190" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)" />
-  <text x="215" y="203" fill="#64748b" font-size="8">Actualiza DOM</text>
+  <!-- 5. EMISIÓN DE EVENTO: store.js a main.js -->
+  <path d="M 575,390 L 575,357" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowBlue)" />
+  <rect x="525" y="362" width="100" height="20" rx="3" fill="#0f111a" stroke="#38bdf8" stroke-width="1" />
+  <text x="575" y="375" text-anchor="middle" fill="#38bdf8" font-size="8" font-weight="bold">2. Evento 'change'</text>
 
-  <!-- LEGEND -->
-  <g id="legend" transform="translate(620, 100)">
-    <rect x="0" y="0" width="230" height="150" rx="8" fill="#1e293b" fill-opacity="0.4" stroke="#334155" stroke-width="1" />
-    <text x="15" y="20" fill="#f8fafc" font-size="11" font-weight="bold">CÓMO FUNCIONA EL FLUJO:</text>
+  <!-- 6. DESPACHO: main.js a UI render modules -->
+  <path d="M 420,220 C 370,220 330,220 298,220" fill="none" stroke="#c084fc" stroke-width="2.5" marker-end="url(#arrowPurple)" />
+  <rect x="310" y="180" width="90" height="24" rx="4" fill="#0d0f16" stroke="#7c3aed" stroke-width="1" />
+  <text x="355" y="195" text-anchor="middle" fill="#c084fc" font-size="8" font-weight="bold">3. renderAll()</text>
+  <text x="355" y="212" text-anchor="middle" fill="#94a3b8" font-size="7">Llamadas selectivas</text>
+
+  <!-- External file actions connections -->
+  <!-- UI to export actions -->
+  <path d="M 285,630 C 580,630 580,670 870,640" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="2,2" marker-end="url(#arrow)" />
+
+  <!-- ==================== LEYENDA EXPLICATIVA (CENTRO DERECHA) ==================== -->
+  <g transform="translate(745, 175)">
+    <rect x="0" y="0" width="115" height="200" rx="8" fill="#141722" stroke="#232733" />
+    <text x="12" y="20" fill="#f8fafc" font-size="9" font-weight="bold">FLUJO REACTIVO:</text>
     
     <!-- Step 1 -->
     <circle cx="20" cy="45" r="7" fill="#ea580c" />
     <text x="20" y="48" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">1</text>
-    <text x="35" y="48" fill="#cbd5e1" font-size="10">Mutación: Componente escribe</text>
-    <text x="35" y="60" fill="#94a3b8" font-size="9">directamente en `store.state`</text>
+    <text x="32" y="47" fill="#cbd5e1" font-size="8.5" font-weight="bold">Mutación</text>
+    <text x="32" y="58" fill="#94a3b8" font-size="8">UI escribe en</text>
+    <text x="32" y="68" fill="#94a3b8" font-size="8">`store.state`</text>
 
     <!-- Step 2 -->
-    <circle cx="20" cy="80" r="7" fill="#0284c7" />
-    <text x="20" y="83" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">2</text>
-    <text x="35" y="83" fill="#cbd5e1" font-size="10">Reacción: El proxy graba en</text>
-    <text x="35" y="95" fill="#94a3b8" font-size="9">`localStorage` y emite 'change'</text>
+    <circle cx="20" cy="95" r="7" fill="#0284c7" />
+    <text x="20" y="98" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">2</text>
+    <text x="32" y="97" fill="#cbd5e1" font-size="8.5" font-weight="bold">Persistencia</text>
+    <text x="32" y="108" fill="#94a3b8" font-size="8">Proxy graba en</text>
+    <text x="32" y="118" fill="#94a3b8" font-size="8">disco local</text>
 
     <!-- Step 3 -->
-    <circle cx="20" cy="115" r="7" fill="#7c3aed" />
-    <text x="20" y="118" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">3</text>
-    <text x="35" y="118" fill="#cbd5e1" font-size="10">Render: `main.js` atrapa el</text>
-    <text x="35" y="130" fill="#94a3b8" font-size="9">cambio y redibuja la vista en HTML</text>
+    <circle cx="20" cy="145" r="7" fill="#7c3aed" />
+    <text x="20" y="148" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">3</text>
+    <text x="32" y="147" fill="#cbd5e1" font-size="8.5" font-weight="bold">Notificación</text>
+    <text x="32" y="158" fill="#94a3b8" font-size="8">Emite 'change'</text>
+    <text x="32" y="168" fill="#94a3b8" font-size="8">a orquestador</text>
+
+    <!-- Step 4 -->
+    <circle cx="20" cy="195" r="7" fill="#22c55e" />
+    <text x="20" y="198" fill="#ffffff" font-size="9" text-anchor="middle" font-weight="bold">4</text>
+    <text x="32" y="197" fill="#cbd5e1" font-size="8.5" font-weight="bold">Render</text>
+    <text x="32" y="208" fill="#94a3b8" font-size="8">DOM selectivo</text>
   </g>
 </svg>

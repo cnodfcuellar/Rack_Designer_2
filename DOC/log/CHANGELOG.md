@@ -2,6 +2,7 @@
 
 
 ## [2026-06-10 01:40] Integración de la Documentación del Orquestador e Historial Reactivo
+* **Rediseño del Mapa Arquitectónico Global:** Creación de una versión mucho más amplia (1200x850), completa y detallada de la arquitectura general del sistema (`arquitectura.svg`), incorporando iconos visuales para cada módulo, integraciones de archivos y leyendas descriptivas del flujo.
 * **Explicación Gráfica del Almacén Reactivo:** Creación e integración del diagrama explicativo del store reactivo, Proxy ES6, auto-guardado en localStorage e historial (Undo/Redo) (`store-funcionamiento.svg`).
 * **Explicación Gráfica del Orquestador:** Creación e integración del diagrama detallado sobre la estructura y funcionamiento del orquestador central en la arquitectura reactiva (`orquestador-funcionamiento.svg`).
   * *Corrección:* Solucionado bug de solapamiento de texto encimado en la columna de "MÓDULOS RECEPTORES" corrigiendo las coordenadas `y` de posicionamiento absoluto del SVG.
