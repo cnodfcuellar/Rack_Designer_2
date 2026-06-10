@@ -87,12 +87,24 @@ El estado de la aplicación reside en un almacén único y reactivo implementado
 * **Suscripción de Eventos:** El almacén emite el evento `'change'` al terminar de escribir en el estado, permitiendo que el orquestador (`main.js`) reciba la alerta y desencadene el flujo de actualización.
 
 ### Flujo de Actualización DOM y Renderizado (`main.js` y Componentes UI)
-* **Despachador Selectivo:** `main.js` intercepta el evento `'change'` a través del callback `renderAll(event)`. En lugar de forzar un redibujo global pesado, examina la propiedad `source` del evento para invocar selectivamente a los renderizadores de la UI (como `renderPhysical` de `rack.js` si mutaron gabinetes, o `renderStats` si cambiaron equipos).
-* **Vistas Modulares Desacopladas:** Cada archivo de UI en `js/ui/` es un componente independiente que se encarga de:
-  1. Consultar el estado más reciente de la memoria a través de `store.state`.
-  2. Construir la estructura DOM correspondiente mediante plantillas literales dinámicas.
-  3. Remplazar la sección del DOM asignada en `index.html` (usando `container.innerHTML` o métodos directos de inserción).
-  4. Reasociar todos los escuchas de eventos (event listeners) necesarios para el arrastre, doble click y menús contextuales.
+
+El archivo `js/main.js` actúa como el **Controlador / Orquestador** central de la aplicación. Su función principal es doble: inicializar el entorno global del cliente y actuar como un despachador inteligente de eventos ("Dispatcher") para evitar sobrecargas de procesamiento en el DOM.
+
+![Funcionamiento del Orquestador](../html/img/orquestador-funcionamiento.svg)
+*Figura: Funcionamiento y enrutamiento de eventos reactivos por parte del orquestador central js/main.js.*
+
+#### 1. Estructura y Componentes
+* **`initGlobalEvents()`**: Función encargada de suscribir los manejadores de eventos síncronos de la interfaz de usuario en el arranque. Enlaza los botones de zoom, los controles de paneo, el menú principal (I/O, Modo Claro/Oscuro) y las transiciones de pestañas (Vista Física vs. Vista de Red).
+* **`renderAll(event)`**: Enrutador inteligente reactivo. Está suscrito al evento global `'change'` emitido por el `store` reactivo. Cada vez que el estado cambia, el `store` envía un objeto de evento que contiene metadatos sobre qué modelo se mutó (`source`).
+
+#### 2. Funcionamiento y Enrutamiento Selectivo
+Al recibir el evento, `renderAll` realiza una evaluación condicional basándose en los metadatos para propagar la actualización únicamente a las partes afectadas de la interfaz:
+1. **Inicialización o Carga Global (`event === 'loadData'` o cambios masivos como `undo`/`redo`):** Se ejecuta un redibujo total del entorno: se regeneran las pestañas de salas, se redibuja el rack físico, se actualiza el panel inferior de tablas y se actualiza la topología de red.
+2. **Mutaciones en Sala (`event.source === 'Room'` o `'changeRoom'`):** Actualiza el listado superior de pestañas de sala (`renderRoomTabs()`) y redibuja la distribución física de gabinetes y equipos correspondientes a la sala seleccionada.
+3. **Mutaciones en Equipos o Dispositivos (`event.source === 'Device'`):** Llama a `renderStats()` para actualizar el panel de consumo de energía, espacio y conectividad. Redibuja los slots físicos (`renderPhysical()`) y regenera el catálogo izquierdo (`renderCatalog()`) o las tablas de inventario en el panel inferior.
+4. **Mutaciones de Red o Enlaces (`event.source === 'Connection'`):** Llama a `renderStats()` para actualizar los contadores e interactúa con el panel de cables y la vista de topología (`renderBottomPanel()`), asegurando que las líneas y tablas reflejen los nuevos enlaces síncronamente.
+
+Esta estrategia de enrutamiento selectivo desacopla la lógica de almacenamiento del estado de la lógica del DOM y previene la degradación del rendimiento al actualizar solo los fragmentos HTML requeridos.
 
 ### Los Lienzos de Trabajo (Canvas vs DOM)
 El sistema divide su lógica gráfica en dos entornos independientes y adaptados a su propósito:

@@ -1,5 +1,11 @@
-# Registro de Cambios (Changelog)
-
+# Registro de Cambios (Changelog)
+
+
+## [2026-06-10 01:40] Integración de la Documentación del Orquestador de Eventos
+* **Explicación Gráfica del Orquestador:** Creación e integración del diagrama detallado sobre la estructura y funcionamiento del orquestador central en la arquitectura reactiva (`orquestador-funcionamiento.svg`).
+* **Actualización del Manual Interactivo HTML:** Añadida una sección explicativa con el nuevo diagrama SVG en `doc/html/index.html`.
+* **Actualización de Documentación Técnica:** Incorporación del flujo de renderizado y el enrutamiento de eventos reactivos por el dispatcher en `doc/md/TECHNICAL_DOCS.md`.
+
 
 ## [2026-06-09 20:23] Manual Interactivo HTML y Diagramas Técnicos
 * **Manual Interactivo SPA:** Migración completa de la documentación técnica y de usuario de formato texto plano a un portal web interactivo (`doc/html/index.html`) con navegación lateral dinámica y diseño adaptado en modo oscuro.

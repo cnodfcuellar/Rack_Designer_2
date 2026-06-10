@@ -244,6 +244,19 @@
         <li><strong>Actualización del DOM (index.html):</strong> Los archivos en <code>js/ui/</code> son vistas desacopladas. Al ser invocados, regeneran la plantilla literal HTML correspondiente y actualizan el fragmento del DOM correspondiente (como <code>div#view-physical</code> o la tabla de inventario), y reasocian los listeners de eventos para mantener la interactividad.</li>
       </ul>
 
+      <h3>El Orquestador Central (js/main.js)</h3>
+      <p>El orquestador central (o controlador) es el bloque principal que centraliza las escuchas de interacciones del usuario y distribuye el renderizado reactivo a través de la aplicación:</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/orquestador-funcionamiento.svg" alt="Detalle del Orquestador js/main.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Detalle de entradas, lógica de enrutamiento selectivo y salidas del Controlador/Orquestador js/main.js.</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Escucha de Eventos Globales:</strong> La función <code>initGlobalEvents()</code> vincula directamente los eventos del DOM relacionados con interacciones generales del usuario que no alteran el estado de forma reactiva (zoom de topología, paneo del canvas, alternado de modo Claro/Oscuro, etc.).</li>
+        <li><strong>Enrutamiento Reactivo inteligente:</strong> A través de la función <code>renderAll(event)</code>, actúa como un despachador que recibe el evento `'change'` del <code>store</code>. Al analizar el metadato <code>event.source</code>, decide qué modulo de la UI actualizar, garantizando un renderizado eficiente y local en lugar de realizar cargas globales costosas.</li>
+      </ul>
+
       <h3>Los Lienzos de Trabajo (Canvas vs DOM)</h3>
       <p>La aplicación cuenta con dos modalidades gráficas con representaciones de memoria y tecnologías de renderizado completamente diferentes:</p>
       
