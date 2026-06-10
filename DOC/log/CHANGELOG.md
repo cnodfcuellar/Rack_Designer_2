@@ -3,6 +3,7 @@
 
 ## [2026-06-10 01:40] Integración de la Documentación del Orquestador de Eventos
 * **Explicación Gráfica del Orquestador:** Creación e integración del diagrama detallado sobre la estructura y funcionamiento del orquestador central en la arquitectura reactiva (`orquestador-funcionamiento.svg`).
+  * *Corrección:* Solucionado bug de solapamiento de texto encimado en la columna de "MÓDULOS RECEPTORES" corrigiendo las coordenadas `y` de posicionamiento absoluto del SVG.
 * **Actualización del Manual Interactivo HTML:** Añadida una sección explicativa con el nuevo diagrama SVG en `doc/html/index.html`.
 * **Actualización de Documentación Técnica:** Incorporación del flujo de renderizado y el enrutamiento de eventos reactivos por el dispatcher en `doc/md/TECHNICAL_DOCS.md`.
 

@@ -114,29 +114,29 @@
 
       <!-- Render stats -->
       <rect x="0" y="60" width="230" height="50" rx="4" fill="url(#cardGrad)" stroke="#334155" />
-      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">renderStats()</text>
-      <text x="12" y="36" fill="#cbd5e1" font-size="9">Actualiza contadores, consumo W y %</text>
+      <text x="12" y="80" fill="#f8fafc" font-size="10" font-weight="bold">renderStats()</text>
+      <text x="12" y="96" fill="#cbd5e1" font-size="9">Actualiza contadores, consumo W y %</text>
 
       <!-- Render catalog -->
       <rect x="0" y="120" width="230" height="50" rx="4" fill="url(#cardGrad)" stroke="#334155" />
-      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">renderCatalog()</text>
-      <text x="12" y="36" fill="#cbd5e1" font-size="9">Filtra listado del catálogo izquierdo</text>
+      <text x="12" y="140" fill="#f8fafc" font-size="10" font-weight="bold">renderCatalog()</text>
+      <text x="12" y="156" fill="#cbd5e1" font-size="9">Filtra listado del catálogo izquierdo</text>
 
       <!-- Render bottom -->
       <rect x="0" y="180" width="230" height="50" rx="4" fill="url(#cardGrad)" stroke="#334155" />
-      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">renderBottomPanel()</text>
-      <text x="12" y="36" fill="#cbd5e1" font-size="9">Actualiza tablas de inventario y cables</text>
+      <text x="12" y="200" fill="#f8fafc" font-size="10" font-weight="bold">renderBottomPanel()</text>
+      <text x="12" y="216" fill="#cbd5e1" font-size="9">Actualiza tablas de inventario y cables</text>
 
       <!-- Canvas control -->
       <rect x="0" y="240" width="230" height="55" rx="4" fill="#0c2010" stroke="#10b981" />
-      <text x="12" y="20" fill="#34d399" font-size="10" font-weight="bold">startTopo() / stopTopo()</text>
-      <text x="12" y="34" fill="#88af9c" font-size="8.5">Controla el bucle del loop procedimental</text>
-      <text x="12" y="46" fill="#88af9c" font-size="8.5">del canvas topológico a 60fps</text>
+      <text x="12" y="260" fill="#34d399" font-size="10" font-weight="bold">startTopo() / stopTopo()</text>
+      <text x="12" y="274" fill="#88af9c" font-size="8.5">Controla el bucle del loop procedimental</text>
+      <text x="12" y="286" fill="#88af9c" font-size="8.5">del canvas topológico a 60fps</text>
 
       <!-- Zoom and UI elements -->
       <rect x="0" y="305" width="230" height="50" rx="4" fill="#0f172a" stroke="#334155" />
-      <text x="12" y="20" fill="#f8fafc" font-size="10" font-weight="bold">updateZoomLabel()</text>
-      <text x="12" y="36" fill="#cbd5e1" font-size="9">Aplica escala CSS/Zoom y despliega texto %</text>
+      <text x="12" y="325" fill="#f8fafc" font-size="10" font-weight="bold">updateZoomLabel()</text>
+      <text x="12" y="341" fill="#cbd5e1" font-size="9">Aplica escala CSS/Zoom y despliega texto %</text>
     </g>
   </g>
 
