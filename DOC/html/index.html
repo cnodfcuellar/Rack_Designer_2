@@ -18,6 +18,7 @@
       <li><a href="#topologia">4. Topología y Redes</a></li>
       <li><a href="#export">5. Respaldos y Exportación</a></li>
       <li><a href="#arquitectura">6. Estructura y Arquitectura</a></li>
+      <li><a href="#atomic">7. Diseño Atómico (Atomic Design)</a></li>
     </ul>
   </nav>
 
@@ -347,6 +348,25 @@
         <img src="img/directorios.svg" alt="Mapa de Archivos y Directorios de RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Estructura del árbol de directorios del proyecto RACK Designer 2.</div>
       </div>
+    </section>
+
+    <section id="atomic" class="section">
+      <h1>Diseño Atómico (Atomic Design)</h1>
+      <p>La arquitectura de componentes de <strong>RACK Designer 2</strong> se organiza bajo los principios de <strong>Atomic Design</strong>, estructurando de manera jerárquica las interfaces desde los bloques más elementales hasta las páginas funcionales conectadas a datos de red en tiempo real.</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/atomic_design_spheres.svg" alt="Evolución de Componentes en Atomic Design" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Mapa de evolución progresiva de componentes utilizando una metáfora de esferas y enlaces de integración.</div>
+      </div>
+
+      <h3>Categorización de Componentes</h3>
+      <ul class="content-list">
+        <li><strong>1. Átomos (Atoms):</strong> Bloques visuales o de interacción indivisibles. Ejemplos en la app son los slots vacíos individuales de 1U (<code>.u-slot</code>), los botones de zoom (+/-), los íconos de estado SVG (⚡) y las variables CSS de la paleta de colores.</li>
+        <li><strong>2. Moléculas (Molecules):**</strong> Combinaciones lógicas de átomos con comportamiento específico. Ejemplos son las agrupaciones de formulario (Label + Input + Tooltip), los ítems del catálogo izquierdo (Icono + Nombre + Menú contextual <code>⋮</code>) y las pestañas selectoras de salas.</li>
+        <li><strong>3. Organismos (Organisms):</strong> Estructuras de UI complejas y autocontenidas. Ejemplos son el Gabinete (Rack) completo con sus unidades delanteras y traseras, el modal de edición de equipos, el panel lateral off-canvas y las tablas de inventario y conexiones del panel inferior.</li>
+        <li><strong>4. Plantillas (Templates):</strong> Estructuras vacías que definen el maquetado o wireframe visual. Ejemplos son la distribución principal (CSS Grid Layout), el lienzo interactivo de topología y la plantilla de modales emergentes.</li>
+        <li><strong>5. Páginas (Pages):</strong> Vistas completas e instanciadas con datos reales reactivos de <code>store.js</code>. Ejemplos son el lienzo del Data Center con sus equipos de prueba atornillados y el mapa de red activo en la vista de topología con las IPs y switches reales conectados.</li>
+      </ul>
     </section>
 
   </main>

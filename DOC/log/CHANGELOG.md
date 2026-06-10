@@ -1,5 +1,9 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-10 08:02] Documentación y Gráficos de Atomic Design
+* **Sección de Diseño Atómico:** Adición del nuevo capítulo interactivo en el manual HTML (`doc/html/index.html`) y en la documentación técnica Markdown (`doc/md/TECHNICAL_DOCS.md`), detallando el mapeo del proyecto a los 5 niveles de la metodología.
+* **Gráficos Vectoriales de Evolución:** Creación de diagramas SVG individuales representando Átomo, Molécula, Organismo, Plantilla y Página, además de la infografía consolidada de esferas (`atomic_design_spheres.svg`).
+
 ## [2026-06-10 02:50] Reestructuración Funcional de Documentación e Infografías
 * **Estructura Documental Funcional:** Refactorización de `USER_MANUAL.md` e `index.html` para unificar las explicaciones de escritorio y móvil bajo cada sección funcional (Gestión de Salas, Equipos, Topología, etc.), eliminando el capítulo aislado de Modo Móvil.
 * **Menú Móvil:** Creación de la ilustración vectorial `ui-mobile-menu.svg` mostrando el menú hamburguesa.

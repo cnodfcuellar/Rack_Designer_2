@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080c14" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <radialGradient id="cyanSphere" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#a5f3fc" />
+      <stop offset="40%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0891b2" />
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bgGrad)" rx="15" stroke="#1e293b" stroke-width="2"/>
+  
+  <!-- Subtle background grid -->
+  <g stroke="#334155" stroke-opacity="0.1" stroke-width="1">
+    <line x1="0" y1="75" x2="400" y2="75"/>
+    <line x1="0" y1="150" x2="400" y2="150"/>
+    <line x1="0" y1="225" x2="400" y2="225"/>
+    <line x1="100" y1="0" x2="100" y2="300"/>
+    <line x1="200" y1="0" x2="200" y2="300"/>
+    <line x1="300" y1="0" x2="300" y2="300"/>
+  </g>
+
+  <!-- Orbital Rings to represent atomic/basic nature -->
+  <ellipse cx="200" cy="140" rx="90" ry="25" fill="none" stroke="#22d3ee" stroke-opacity="0.15" stroke-width="1.5" transform="rotate(-15 200 140)"/>
+  <ellipse cx="200" cy="140" rx="90" ry="25" fill="none" stroke="#22d3ee" stroke-opacity="0.15" stroke-width="1.5" transform="rotate(15 200 140)"/>
+
+  <!-- The Atom Sphere -->
+  <circle cx="200" cy="140" r="40" fill="url(#cyanSphere)" filter="url(#glow)" opacity="0.3"/>
+  <circle cx="200" cy="140" r="40" fill="url(#cyanSphere)"/>
+
+  <text x="200" y="225" font-family="'Inter', sans-serif" font-weight="800" font-size="18" fill="#22d3ee" text-anchor="middle" letter-spacing="1">ÁTOMO</text>
+  <text x="200" y="248" font-family="'Inter', sans-serif" font-weight="400" font-size="11" fill="#94a3b8" text-anchor="middle">El elemento UI más simple e indivisible</text>
+  <text x="200" y="270" font-family="Consolas, monospace" font-size="11" fill="#38bdf8" text-anchor="middle">&lt;button class="btn"&gt; / USlot (1U)</text>
+</svg>

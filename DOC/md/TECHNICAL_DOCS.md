@@ -127,7 +127,28 @@ El sistema divide su lógica gráfica en dos entornos independientes y adaptados
 * **Instalación:** Soporta arrastre nativo (`dragstart` genera la sombra flotante `#drag-ghost` y define el estado `dragState`) o doble click para abrir el **Asistente de Ubicación Rápida** (modal guiado por menús desplegables para pantallas táctiles).
 
 ### Canales de Exportación
-* **Respaldo JSON:** Serializa `store._raw` como texto y descarga un archivo `.rack` o `.json` mediante un Blob `application/json`.
+* **Respaldo JSON:** Serializa `store._raw` as texto y descarga un archivo `.rack` o `.json` mediante un Blob `application/json`.
 * **Tablas (Excel/CSV):** Extrae la información en matrices bidimensionales. Los CSV se crean mediante concatenaciones nativas (`join(',')`), mientras que los Excel se procesan con `xlsx.full.min.js`, agregando las hojas "Inventario" y "Conexiones" en un libro de trabajo consolidado.
 * **Imágenes PNG:** Genera lienzos auxiliares (`offCanvas`) escalados a resolución HD (2x). En la física, dibuja las caras frontal y trasera del rack side-by-side; en la topológica, calcula la caja de colisión periférica de las salas para generar una instantánea completa del mapa de red.
+
+## 5. Diseño Atómico (Atomic Design)
+
+La interfaz y los módulos UI de RACK Designer se organizan conceptualmente siguiendo los principios de la metodología **Atomic Design**, ordenando los elementos desde los bloques unitarios hasta pantallas completas interactivas con flujo de datos en tiempo real.
+
+![Evolución de Componentes en Atomic Design](../html/img/atomic_design_spheres.svg)
+*Figura: Evolución progresiva y composición de componentes desde la unidad básica (átomo) hasta la vista integrada (página).*
+
+### Mapeo de Niveles del Sistema:
+
+1. **Átomos (Atoms):** Elementos gráficos e interactivos indivisibles.
+   * *Ejemplos:* Los slots vacíos de una unidad de rack (`.u-slot`), los botones de zoom (`#zoom-in`, `#zoom-out`), los iconos SVG independientes (⚡, 🔄) y las variables CSS del sistema de colores.
+2. **Moléculas (Molecules):** Ensambles sencillos de dos o más átomos que cooperan entre sí.
+   * *Ejemplos:* Los campos de entrada (Label + Input + Tooltip), los elementos del catálogo (`.catalog-item` que contiene nombre, icono y menú contextual `⋮`) y las pestañas de salas.
+3. **Organismos (Organisms):** Estructuras complejas que cumplen un rol UI integral e independiente.
+   * *Ejemplos:* El Gabinete (Rack) completo, el modal de configuración de equipos, el panel lateral off-canvas de estadísticas/catálogo y la grilla de tablas inferiores.
+4. **Plantillas (Templates):** La maqueta o esqueleto de posicionamiento (wireframe) libre de datos reales.
+   * *Ejemplos:* La estructura de distribución principal (CSS Grid), el lienzo de topología vacío y la plantilla general de modales.
+5. **Páginas (Pages):** Instancias finales con datos persistentes del almacén reactivo inyectados en la plantilla.
+   * *Ejemplos:* El entorno físico activo con racks y equipos renderizados según `demoData.js`, y el lienzo de topología con cables bezier e IPs cargados dinámicamente.
+
 
