@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual RACK Designer</title>
+  <link rel="stylesheet" href="css/manual.css">
+</head>
+<body>
+
+  <nav class="sidebar">
+    <h2>📖 RACK Designer</h2>
+    <ul>
+      <li><a href="#intro" class="active">1. Introducción y Vista General</a></li>
+      <li><a href="#infra">2. Infraestructura (Salas y Racks)</a></li>
+      <li><a href="#equipos">3. Gestión de Equipos</a></li>
+      <li><a href="#topologia">4. Topología y Redes</a></li>
+      <li><a href="#export">5. Respaldos y Exportación</a></li>
+      <li><a href="#arquitectura">6. Estructura y Arquitectura</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+    
+    <section id="intro" class="section active">
+      <h1>Introducción y Vista General</h1>
+      <p>Bienvenido al manual interactivo de <strong>RACK Designer</strong>. Esta herramienta gráfica está diseñada para simplificar el diseño, documentación e inventario de Centros de Datos.</p>
+      
+      <div class="callout">
+        <p><strong>Tip:</strong> Puedes alternar entre el "Modo Oscuro" y "Modo Claro" usando el menú principal ☰ en la esquina superior derecha de la aplicación.</p>
+      </div>
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-light-mode.svg" alt="RACK Designer en Modo Claro" style="max-width: 1000px; margin: 0 auto; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Interfaz completa de la aplicación visualizada con el Tema Claro (Light Mode).</div>
+      </div>
+
+      <div class="graphic-box">
+        <img src="img/ui-wireframe.svg" alt="Wireframe de la Interfaz Principal">
+        <div class="graphic-caption">Figura: Diseño esquemático de los paneles principales de RACK Designer.</div>
+      </div>
+      
+      <h3>Áreas de Trabajo</h3>
+      <ul class="content-list">
+        <li><strong>Menú Principal (Hamburguesa):</strong> Abre un listado de opciones de persistencia para Guardar/Cargar el proyecto en archivos locales `.json`, o gestionar la interfaz gráfica (Modo Claro/Oscuro).</li>
+        <li><strong>Pestañas Laterales:</strong> Te permiten alternar entre buscar y agregar Racks o Equipos individuales.</li>
+        <li><strong>Filtros Inferiores:</strong> Rápidamente aíslan tipos de equipos en la lista inferior (Todos, Servers, Red, Storage, Piso).</li>
+      </ul>
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-menu-options.svg" alt="Menú Principal Opciones" style="max-width: 260px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Menú global de la aplicación (Modo Oscuro/Claro, I/O de proyectos).</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Cabecera:</strong> Controles globales y cambio de Vistas (Física / Topología).</li>
+        <li><strong>Lienzo Central:</strong> Tu área principal de diseño donde arrastrarás los equipos. Al utilizar el botón "Expandir" o "Contraer", los paneles laterales se ocultan para maximizar tu área de trabajo.</li>
+        <li><strong>Panel Inferior:</strong> Estadísticas, inventario tabular y catálogo de arrastre.</li>
+      </ul>
+
+      <div class="graphic-box">
+        <img src="img/ui-fullscreen.svg" alt="Modo Expandido / Contraído">
+        <div class="graphic-caption">Figura: Modo Expandido. Los paneles laterales se ocultan para dar prioridad total al lienzo de diseño.</div>
+      </div>
+    </section>
+
+    <section id="infra" class="section">
+      <h1>Infraestructura (Salas y Gabinetes)</h1>
+      
+      <h3>Gestión de Salas</h3>
+      <p>Todo el equipo debe organizarse dentro de una "Sala". Las salas contienen "Gabinetes" (Racks) donde atornillarás los servidores.</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-modal-sala.svg" alt="Modal de Nueva Sala" style="max-width: 500px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Cuadro de diálogo para agregar una nueva sala.</div>
+      </div>
+
+      <h3>Crear un Gabinete</h3>
+      <p>Haciendo <strong>clic derecho</strong> en el lienzo azul, podrás crear un nuevo Rack. Deberás asignarle un Nombre, una altura en Unidades (U) (típicamente 42U o 48U) y un Color distintivo.</p>
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-modal-rack.svg" alt="Modal de Nuevo Gabinete" style="max-width: 500px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Cuadro de diálogo para configurar un nuevo Rack.</div>
+      </div>
+
+      <div class="graphic-box">
+        <img src="img/ui-stats-floor.svg" alt="Equipos de Piso y Estadísticas">
+        <div class="graphic-caption">Figura: Vista Trasera del Rack y Equipos de Piso. Observa el panel de Estadísticas a la izquierda.</div>
+      </div>
+
+      <div class="graphic-box">
+        <img src="img/rack-anatomy.svg" alt="Anatomía de un Rack">
+        <div class="graphic-caption">Figura 1: Entendiendo las unidades (U) y la ocupación por caras.</div>
+      </div>
+      
+      <p>Como se muestra en la figura, cada unidad (U) puede alojar un equipo frontal y, de forma independiente, un equipo trasero (como regletas eléctricas o PDUs) sin chocar entre sí.</p>
+    </section>
+
+    <section id="equipos" class="section">
+      <h1>Gestión de Equipos</h1>
+      
+      <h3>Métodos de Instalación</h3>
+      <ul class="content-list">
+        <li><strong>Arrastrar y Soltar (Drag & Drop):</strong> Arrastra un equipo desde el catálogo izquierdo y suéltalo sobre una U específica.</li>
+        <li><strong>Por Menú Contextual:</strong> Haz clic derecho en cualquier espacio vacío del Rack y selecciona "Instalar Equipo".</li>
+        <li><strong>Ubicación Asistida:</strong> Haz clic en el botón morado <code>⚡ Agregar Equipo</code> de la barra inferior para usar el asistente de instalación paso a paso sin arrastrar.</li>
+      </ul>
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-modal-asistido.svg" alt="Modal de Ubicación Asistida" style="max-width: 500px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Asistente paso a paso para ubicar equipos con precisión (Ideal para pantallas táctiles).</div>
+      </div>
+
+      <h3>Módulos de Configuración</h3>
+      <p>Al editar un equipo, verás casillas de verificación (Checkboxes) para habilitar configuraciones avanzadas. Si un equipo es "pasivo" (ej. un patch panel), no necesitas habilitar estos módulos.</p>
+      
+      <h3>Propiedades y Ficha Técnica</h3>
+      <p>Haciendo doble clic en un equipo, se abrirá su ficha técnica. Aquí puedes documentar:</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-modal-equipo.svg" alt="Modal de Nuevo Equipo" style="max-width: 500px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Ficha técnica completa de un equipo, incluyendo credenciales, consumo eléctrico y puertos.</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Módulo de Red:</strong> Despliega IP y MAC.</li>
+        <li><strong>Módulo de Energía:</strong> Despliega las Tomas de Entrada (requeridas para encender el equipo) y las Tomas de Salida (proporcionadas por el equipo, útil para UPS/PDU).</li>
+      </ul>
+    </section>
+
+    <section id="topologia" class="section">
+      <h1>Topología y Redes</h1>
+      <p>La vista topológica permite conectar los equipos mediante cables lógicos. Los equipos se renderizan como Nodos interconectados.</p>
+      
+      <div class="graphic-box">
+        <img src="img/ui-topologia.svg" alt="Nodos de Topología">
+        <div class="graphic-caption">Figura 2: Interpretación del lienzo topológico mostrando las Salas (Naranja), Gabinetes (Verde) y cableado lógico.</div>
+      </div>
+
+      <p>Para conectar dos equipos, simplemente haz <strong>doble clic</strong> en un nodo de origen y luego selecciona el nodo de destino. Esto abrirá el menú de configuración de enlace.</p>
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-modal-conexion.svg" alt="Modal de Editar Conexión" style="max-width: 500px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Configuración de parámetros físicos y lógicos de un enlace de red.</div>
+      </div>
+
+      <p>A medida que diseñes tu red, podrás visualizar la arquitectura completa (Full-Screen) donde se aprecian las rutas de cada cable. El color de las líneas representará los enlaces que has creado.</p>
+
+      <div class="graphic-box">
+        <img src="img/ui-topologia-full.svg" alt="Topología Expandida con Enlaces">
+        <div class="graphic-caption">Figura: Topología compleja ilustrando la conexión de equipos de piso hacia los switches de distribución en el Rack.</div>
+      </div>
+
+      <p>Puedes utilizar la rueda del ratón o los controles de zoom (🔍) en la barra superior para acercarte (Zoom In) y observar en detalle los nodos y las rutas de cableado, incluyendo las IPs de los equipos principales.</p>
+
+      <div class="graphic-box">
+        <img src="img/ui-topologia-zoom.svg" alt="Zoom en Topología">
+        <div class="graphic-caption">Figura: Acercamiento a la topología revelando etiquetas dinámicas como la IP de un NVR y el ruteo físico de los cables.</div>
+      </div>
+
+      <h3>Tabla de Conexiones</h3>
+      <p>Alternando la pestaña del panel inferior a <strong>Conexiones</strong>, puedes acceder a una bitácora tabular de todos los enlaces que has creado. Aquí verás el detalle de los puertos y colores asignados, con la posibilidad de editarlos o eliminarlos masivamente.</p>
+
+      <div class="graphic-box">
+        <img src="img/ui-conexiones-table.svg" alt="Tabla de Conexiones de Red">
+        <div class="graphic-caption">Figura: Auditoría detallada del cableado lógico cruzado entre Salas, Racks y Equipos.</div>
+      </div>
+
+      <p>Para mayor comodidad durante auditorías extensas, puedes hacer clic en el botón <strong>Expandir</strong> de la tabla para ocultar el lienzo y ver la bitácora en pantalla completa.</p>
+
+      <div class="graphic-box">
+        <img src="img/ui-conexiones-full.svg" alt="Tabla de Conexiones a Pantalla Completa">
+        <div class="graphic-caption">Figura: Tabla de Conexiones en modo Pantalla Completa, revelando los controles para exportar a CSV y Excel en la parte superior derecha.</div>
+      </div>
+    </section>
+
+    <section id="export" class="section">
+      <h1>Respaldos y Exportación</h1>
+      <p>Es fundamental respaldar el trabajo periódicamente y utilizar la tabla de inventario para auditorías.</p>
+      
+      <div class="graphic-box">
+        <img src="img/ui-inventory.svg" alt="Tabla de Inventario Expandida">
+        <div class="graphic-caption">Figura: Tabla de Inventario en modo expandido mostrando los equipos de rack y piso con todos sus detalles.</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Archivo JSON:</strong> En el menú superior, usa "Guardar Proyecto" para descargar todo el centro de datos.</li>
+        <li><strong>Reporte Tabular:</strong> En el panel de inventario o conexiones expandidas, presiona <code>⬇ Excel</code> o <code>⬇ CSV</code> para auditar los equipos.</li>
+        <li><strong>Imagen Fotográfica:</strong> Usa el botón <code>📷 PNG</code> en la barra superior y selecciona el rack a exportar para generar una instantánea del armario (incluyendo la vista trasera si tiene equipos de piso).</li>
+      </ul>
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/ui-modal-export.svg" alt="Modal de Exportar Rack a PNG" style="max-width: 500px; margin: 0 auto;">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Cuadro de diálogo para seleccionar el rack y renderizarlo como imagen PNG de alta resolución.</div>
+      </div>
+
+      <div class="graphic-box">
+        <img src="img/ui-exported-png.svg" alt="Resultado de Exportación a PNG">
+        <div class="graphic-caption">Figura: Ejemplo del archivo de alta resolución exportado, mostrando el despiece técnico frontal y trasero del rack con sus unidades exactas.</div>
+      </div>
+    </section>
+
+    <section id="arquitectura" class="section">
+      <h1>Estructura y Arquitectura del Sistema</h1>
+      <p>RACK Designer 2 utiliza un patrón de <strong>arquitectura reactiva de flujo unidireccional</strong> en JavaScript nativo (Vanilla JS). Esto elimina la necesidad de frameworks pesados, manteniendo la aplicación extremadamente veloz, ligera y fácil de mantener.</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/arquitectura.svg" alt="Arquitectura y Flujo de Datos de RACK Designer 2" style="max-width: 900px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Flujo unidireccional de datos controlado por eventos reactivos en RACK Designer 2.</div>
+      </div>
+
+      <h3>Componentes del Flujo</h3>
+      <ul class="content-list">
+        <li><strong>1. Interacción del Usuario (Mutación):</strong> Cuando el usuario interactúa con la interfaz (como arrastrar un equipo, editar puertos en un modal o renombrar una sala), las vistas en la carpeta <code>js/ui/</code> escriben directamente los nuevos valores en el estado central <code>store.state</code> o invocan métodos de acción en el almacén de datos.</li>
+        <li><strong>2. Almacén Reactivo (<code>store.js</code>):</strong> Implementado mediante un objeto <strong>Proxy ES6</strong>. Este Proxy intercepta cualquier escritura de propiedades en el estado, realiza automáticamente la persistencia guardando los datos serializados en el <code>localStorage</code> del navegador, gestiona el historial de cambios (Pila de Deshacer/Rehacer) y finalmente emite un evento global de tipo <code>'change'</code> junto con metadatos sobre la mutación ocurrida.</li>
+        <li><strong>3. Orquestador Central (<code>main.js</code>):</strong> Actúa como el controlador o "Dispatcher". Está suscrito al evento de cambio del <code>store</code>. Al recibir el evento <code>'change'</code>, evalúa qué parte de los datos mutó y ejecuta las llamadas selectivas a las funciones de renderizado de la UI para mantener el DOM perfectamente sincronizado con el estado actual.</li>
+        <li><strong>4. Módulos de Renderizado (<code>js/ui/</code>):</strong> Componentes especializados e independientes (como <code>rack.js</code> para la grilla física, <code>topology.js</code> para los enlaces SVG de red o <code>tables.js</code> para el inventario tabular) que se encargan de leer el estado actualizado y construir la estructura DOM correspondiente en <code>index.html</code>.</li>
+      </ul>
+      
+      <div class="callout">
+        <p><strong>Nota técnica:</strong> Toda la persistencia local de la aplicación funciona de manera síncrona en cada edición gracias al Proxy. Esto asegura que si el usuario refresca el navegador o pierde la conexión, no perderá ningún progreso del diseño de su Centro de Datos.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/manual.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 380" width="100%" style="background-color: transparent; font-family: -apple-system, sans-serif;">
+  
+  <!-- Menu Background with shadow effect -->
+  <rect x="10" y="10" width="240" height="360" fill="#0d1117" stroke="#30363d" stroke-width="1" rx="12" />
+
+  <!-- Menu Item 1: Abrir proyecto -->
+  <text x="30" y="55" fill="#e3b341" font-size="16">📁</text>
+  <text x="55" y="55" fill="#8b949e" font-size="16">Abrir proyecto</text>
+
+  <!-- Menu Item 2: Guardar proyecto -->
+  <text x="30" y="105" fill="#c9d1d9" font-size="16">💾</text>
+  <text x="55" y="105" fill="#8b949e" font-size="16">Guardar proyecto</text>
+
+  <!-- Menu Item 3: Limpiar proyecto -->
+  <text x="30" y="155" fill="#f85149" font-size="16">🧹</text>
+  <text x="55" y="155" fill="#f85149" font-size="16">Limpiar proyecto</text>
+
+  <!-- Menu Item 4: Cargar demos -->
+  <text x="30" y="205" fill="#e3b341" font-size="16">✨</text>
+  <text x="55" y="205" fill="#8b949e" font-size="16">Cargar demos</text>
+
+  <!-- Separator Line -->
+  <line x1="10" y1="230" x2="250" y2="230" stroke="#21262d" stroke-width="1"/>
+
+  <!-- Menu Item 5: Cambiar a Modo Claro -->
+  <text x="30" y="265" fill="#e3b341" font-size="16">☀️</text>
+  <text x="55" y="265" fill="#8b949e" font-size="16">Cambiar a Modo Claro</text>
+
+  <!-- Menu Item 6: Exportar catálogo -->
+  <text x="30" y="315" fill="#c9d1d9" font-size="16">📤</text>
+  <text x="55" y="315" fill="#8b949e" font-size="16">Exportar catálogo</text>
+
+  <!-- Menu Item 7: Importar catálogo -->
+  <text x="30" y="365" fill="#c9d1d9" font-size="16">📥</text>
+  <text x="55" y="365" fill="#8b949e" font-size="16">Importar catálogo</text>
+
+</svg>
