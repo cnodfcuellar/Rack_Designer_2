@@ -1,5 +1,17 @@
 # Registro de Cambios (Changelog)
 
+
+## [2026-06-09 20:23] Manual Interactivo HTML y Diagramas Técnicos
+* **Manual Interactivo SPA:** Migración completa de la documentación técnica y de usuario de formato texto plano a un portal web interactivo (`doc/html/index.html`) con navegación lateral dinámica y diseño adaptado en modo oscuro.
+* **Gráficos Técnicos SVG:** Creación e integración de diagramas vectoriales nativos explicativos:
+  * Anatomía del Rack (Unidades U frontal/trasero).
+  * Nodos de topología y cableado de red.
+  * Arquitectura reactiva del almacén central (`store.js`, `main.js`, `js/ui/`).
+  * Funcionamiento de los lienzos (Lienzo DOM físico vs. Canvas 2D topológico).
+  * Catálogo de equipos, eventos de arrastre y asistente de ubicación rápida.
+  * Mapa de directorios y estructura modular del proyecto.
+  * Sistema y flujos de exportación (imágenes PNG HD, tablas Excel/CSV y copias JSON).
+
 ## [2026-06-09 15:50] Rediseño del Modal de Equipos
 * **Diseño Compacto y Agrupado:** Se reorganizó la vista del modal "Nuevo/Editar Equipo" agrupando lógicamente Identidad, Ubicación, Red, Autenticación y Energía.
 * **Cuadros de Activación (Toggles):** Se añadieron casillas de verificación para activar/desactivar dinámicamente los módulos de Red, Usuario y Energía, evitando guardar datos innecesarios en equipos "pasivos" o sin gestión.

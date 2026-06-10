@@ -76,3 +76,28 @@ La vista topológica interactúa directamente con eventos de puntero (drag/zoom)
 
 ### Gestión de Vistas (Caras del Rack)
 Para resolver la ocupación independiente del frontal y la parte posterior del armario, el motor de dibujado (`faceplates.js`) agrupa a los equipos basándose en el atributo `side`, renderizando una de las dos "colecciones" sin colisiones lógicas en las Unidades (U).
+
+## 4. Estructura y Funcionamiento Técnico Detallado
+
+### Almacén Central Reactivo (`store.js`)
+El estado de la aplicación reside en un almacén único y reactivo implementado mediante un **Proxy ES6** que envuelve al objeto `_raw`.
+* **Detección de Mutaciones:** Cualquier asignación de propiedades (`set`) o acceso (`get`) en el estado es interceptado.
+* **Auto-guardado Síncrono:** En cada mutación del estado, el Proxy ejecuta de manera síncrona la serialización de datos y los escribe en `localStorage` con la clave `RACK_DESIGNER_STATE`.
+* **Historial (Deshacer/Rehacer):** Mantiene una pila (`_undoStack` y `_redoStack`) de hasta 30 snapshots clonados en profundidad (`deepClone`) del estado para permitir operaciones de restauración mediante comandos `undo()` y `redo()`.
+* **Suscripción de Eventos:** El almacén emite el evento `'change'` al terminar de escribir en el estado, permitiendo que el orquestador (`main.js`) reciba la alerta y desencadene el flujo de actualización.
+
+### Los Lienzos de Trabajo (Canvas vs DOM)
+El sistema divide su lógica gráfica en dos entornos independientes y adaptados a su propósito:
+* **Vista Física (DOM HTML):** Renderizada en `div#view-physical`. Utiliza cajas y elementos DOM anidados en HTML (`.rack-wrapper`, `.rack-flipper`, `.rack-slot`, `.device-faceplate`) y estilos CSS (con rotación CSS-3D). Interactúa mediante la API nativa de Drag & Drop para arrastrar y soltar equipos.
+* **Vista Topológica (Canvas 2D):** Dibujada sobre `canvas#topology-canvas`. Ejecuta un bucle procedimental interactivo a 60fps usando `requestAnimationFrame`. Maneja de forma matemática la interactividad mediante distancias euclidianas (`dx² + dy² <= r²`) para clicks o arrastres de nodos, y realiza transformaciones inversas de coordenadas para gestionar el zoom y paneo continuo.
+
+### Catálogo de Equipos (`catalog.js`)
+* **Base de Plantillas:** El archivo `catalog.js` define un array maestro `CATALOG` con plantillas preconfiguradas de servidores, switches, firewalls y periféricos de piso.
+* **Render Reactivo:** Al buscar texto o cambiar de categoría, `renderCatalog()` limpia y reconstruye las tarjetas `.catalog-item` con propiedad `draggable="true"`.
+* **Instalación:** Soporta arrastre nativo (`dragstart` genera la sombra flotante `#drag-ghost` y define el estado `dragState`) o doble click para abrir el **Asistente de Ubicación Rápida** (modal guiado por menús desplegables para pantallas táctiles).
+
+### Canales de Exportación
+* **Respaldo JSON:** Serializa `store._raw` como texto y descarga un archivo `.rack` o `.json` mediante un Blob `application/json`.
+* **Tablas (Excel/CSV):** Extrae la información en matrices bidimensionales. Los CSV se crean mediante concatenaciones nativas (`join(',')`), mientras que los Excel se procesan con `xlsx.full.min.js`, agregando las hojas "Inventario" y "Conexiones" en un libro de trabajo consolidado.
+* **Imágenes PNG:** Genera lienzos auxiliares (`offCanvas`) escalados a resolución HD (2x). En la física, dibuja las caras frontal y trasera del rack side-by-side; en la topológica, calcula la caja de colisión periférica de las salas para generar una instantánea completa del mapa de red.
+
