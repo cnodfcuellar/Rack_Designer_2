@@ -9,8 +9,10 @@
   * Arquitectura reactiva del almacén central (`store.js`, `main.js`, `js/ui/`).
   * Funcionamiento de los lienzos (Lienzo DOM físico vs. Canvas 2D topológico).
   * Catálogo de equipos, eventos de arrastre y asistente de ubicación rápida.
+  * Flujo de actualización DOM y despacho selectivo (`interfaz-funcionamiento.svg`).
   * Mapa de directorios y estructura modular del proyecto.
   * Sistema y flujos de exportación (imágenes PNG HD, tablas Excel/CSV y copias JSON).
+
 
 ## [2026-06-09 15:50] Rediseño del Modal de Equipos
 * **Diseño Compacto y Agrupado:** Se reorganizó la vista del modal "Nuevo/Editar Equipo" agrupando lógicamente Identidad, Ubicación, Red, Autenticación y Energía.

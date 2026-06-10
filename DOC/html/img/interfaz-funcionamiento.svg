@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 550" width="100%" style="background-color: #0f111a; font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#5b21b6" />
+    </linearGradient>
+    <linearGradient id="uiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="domGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="30" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="800" letter-spacing="0.5">DETALLE DE CAPA: INTERFAZ &amp; DOM</text>
+  <text x="475" y="50" text-anchor="middle" fill="#64748b" font-size="11">Flujo de llamadas selectivas de renderizado y actualización de la interfaz en index.html</text>
+
+  <!-- GRID / BACKGROUND AESTHETICS -->
+  <rect x="15" y="70" width="920" height="460" rx="12" fill="#141721" stroke="#232733" stroke-width="1.5" />
+
+  <!-- ==================== STAGE 1: ORCHESTRATOR ==================== -->
+  <g transform="translate(35, 100)">
+    <rect x="0" y="0" width="220" height="380" rx="8" fill="#1e1b4b" fill-opacity="0.3" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="1.5" />
+    <rect x="0" y="0" width="220" height="40" rx="8" fill="url(#mainGrad)" fill-opacity="0.2" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="1.5" />
+    <text x="15" y="24" fill="#c084fc" font-size="11" font-weight="bold" letter-spacing="1">1. DISPARADOR (main.js)</text>
+
+    <!-- Function block -->
+    <rect x="15" y="55" width="190" height="310" rx="6" fill="#0f111a" stroke="#334155" />
+    <text x="25" y="75" fill="#f8fafc" font-size="12" font-weight="bold" font-family="monospace">renderAll(event)</text>
+    <text x="25" y="92" fill="#64748b" font-size="9">Evalúa origen de mutación:</text>
+
+    <!-- Conditions list -->
+    <g transform="translate(25, 105)">
+      <!-- Condition A -->
+      <rect x="0" y="0" width="170" height="40" rx="4" fill="#1e293b" fill-opacity="0.5" stroke="#475569" />
+      <text x="8" y="16" fill="#cbd5e1" font-size="8" font-family="monospace">if (source.includes('Room'))</text>
+      <text x="8" y="28" fill="#a855f7" font-size="8" font-weight="bold">Llamas: Racks y Salas</text>
+
+      <!-- Condition B -->
+      <rect x="0" y="50" width="170" height="40" rx="4" fill="#1e293b" fill-opacity="0.5" stroke="#475569" />
+      <text x="8" y="66" fill="#cbd5e1" font-size="8" font-family="monospace">if (source.includes('Rack'))</text>
+      <text x="8" y="78" fill="#a855f7" font-size="8" font-weight="bold">Llamas: Física y Stats</text>
+
+      <!-- Condition C -->
+      <rect x="0" y="100" width="170" height="50" rx="4" fill="#1e293b" fill-opacity="0.5" stroke="#475569" />
+      <text x="8" y="16" fill="#cbd5e1" font-size="8" font-family="monospace">if (source.includes('Device'))</text>
+      <text x="8" y="28" fill="#a855f7" font-size="8" font-weight="bold">Llamas: Física, Stats y</text>
+      <text x="8" y="40" fill="#a855f7" font-size="8" font-weight="bold">Panel de Inventario</text>
+
+      <!-- Condition D -->
+      <rect x="0" y="160" width="170" height="40" rx="4" fill="#1e293b" fill-opacity="0.5" stroke="#475569" />
+      <text x="8" y="176" fill="#cbd5e1" font-size="8" font-family="monospace">if (source.includes('Conn'))</text>
+      <text x="8" y="188" fill="#a855f7" font-size="8" font-weight="bold">Llamas: Conexiones y Stats</text>
+    </g>
+  </g>
+
+  <!-- ==================== STAGE 2: RENDER UI MODULES ==================== -->
+  <g transform="translate(325, 100)">
+    <rect x="0" y="0" width="280" height="380" rx="8" fill="#0c1d30" fill-opacity="0.2" stroke="#0284c7" stroke-opacity="0.4" stroke-width="1.5" />
+    <rect x="0" y="0" width="280" height="40" rx="8" fill="url(#uiGrad)" fill-opacity="0.15" stroke="#0284c7" stroke-opacity="0.4" stroke-width="1.5" />
+    <text x="15" y="24" fill="#38bdf8" font-size="11" font-weight="bold" letter-spacing="1">2. MÓDULOS DE RENDER (UI)</text>
+
+    <!-- Component buttons list -->
+    <g transform="translate(15, 55)">
+      <!-- rack.js & faceplates.js -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="250" height="50" rx="4" fill="url(#domGrad)" stroke="#0284c7" stroke-width="1" />
+        <text x="12" y="20" fill="#f8fafc" font-size="11" font-weight="bold" font-family="monospace">rack.js / faceplates.js</text>
+        <text x="12" y="38" fill="#64748b" font-size="9">Renderiza Racks y faceplates (SVG) de equipos</text>
+      </g>
+      
+      <!-- topology.js -->
+      <g transform="translate(0, 65)">
+        <rect x="0" y="0" width="250" height="50" rx="4" fill="url(#domGrad)" stroke="#334155" />
+        <text x="12" y="20" fill="#cbd5e1" font-size="11" font-weight="bold" font-family="monospace">topology.js (SVG / Canvas)</text>
+        <text x="12" y="38" fill="#64748b" font-size="9">Trazado lógico de cables y nodos lógicos</text>
+      </g>
+
+      <!-- tables.js -->
+      <g transform="translate(0, 130)">
+        <rect x="0" y="0" width="250" height="50" rx="4" fill="url(#domGrad)" stroke="#334155" />
+        <text x="12" y="20" fill="#cbd5e1" font-size="11" font-weight="bold" font-family="monospace">tables.js (Tablas)</text>
+        <text x="12" y="38" fill="#64748b" font-size="9">Pestaña de inventario y logs de enlaces</text>
+      </g>
+
+      <!-- modals.js / catalog.js -->
+      <g transform="translate(0, 195)">
+        <rect x="0" y="0" width="250" height="50" rx="4" fill="url(#domGrad)" stroke="#334155" />
+        <text x="12" y="20" fill="#cbd5e1" font-size="11" font-weight="bold" font-family="monospace">modals.js / catalog.js</text>
+        <text x="12" y="38" fill="#64748b" font-size="9">Cuestionarios de edición y plantillas de origen</text>
+      </g>
+    </g>
+
+    <!-- Detail Box -->
+    <rect x="15" y="315" width="250" height="50" rx="4" fill="#0f111a" stroke="#1e293b" />
+    <text x="25" y="333" fill="#38bdf8" font-size="9" font-weight="bold">Acción de Render:</text>
+    <text x="25" y="347" fill="#94a3b8" font-size="9">Generación de HTML dinámico + Listeners</text>
+  </g>
+
+  <!-- ==================== STAGE 3: INTERFACE SHELL ==================== -->
+  <g transform="translate(665, 100)">
+    <rect x="0" y="0" width="240" height="380" rx="8" fill="#1e293b" fill-opacity="0.2" stroke="#475569" stroke-opacity="0.4" stroke-width="1.5" />
+    <rect x="0" y="0" width="240" height="40" rx="8" fill="#334155" fill-opacity="0.4" stroke="#475569" stroke-opacity="0.4" stroke-width="1.5" />
+    <text x="15" y="24" fill="#94a3b8" font-size="11" font-weight="bold" letter-spacing="1">3. VISTA GLOBAL (index.html)</text>
+
+    <!-- index.html card -->
+    <rect x="15" y="55" width="210" height="310" rx="6" fill="url(#cardGrad)" stroke="#334155" />
+    <text x="25" y="80" fill="#ffffff" font-size="14" font-weight="bold">index.html</text>
+    <text x="25" y="98" fill="#64748b" font-size="9">El contenedor base del DOM</text>
+
+    <!-- DOM hotspots -->
+    <g transform="translate(25, 115)">
+      <!-- Container A -->
+      <rect x="0" y="0" width="190" height="35" rx="3" fill="#0f111a" stroke="#fb923c" stroke-opacity="0.3" />
+      <text x="8" y="16" fill="#f8fafc" font-size="9" font-weight="bold">div id="view-physical"</text>
+      <text x="8" y="26" fill="#64748b" font-size="8">Lienzo físico de racks</text>
+
+      <!-- Container B -->
+      <rect x="0" y="45" width="190" height="35" rx="3" fill="#0f111a" stroke="#c084fc" stroke-opacity="0.3" />
+      <text x="8" y="61" fill="#f8fafc" font-size="9" font-weight="bold">canvas id="topology-canvas"</text>
+      <text x="8" y="71" fill="#64748b" font-size="8">Gráfico de enlaces de red</text>
+
+      <!-- Container C -->
+      <rect x="0" y="90" width="190" height="35" rx="3" fill="#0f111a" stroke="#38bdf8" stroke-opacity="0.3" />
+      <text x="8" y="106" fill="#f8fafc" font-size="9" font-weight="bold">div id="bottom"</text>
+      <text x="8" y="116" fill="#64748b" font-size="8">Contenedor de tablas e inventario</text>
+
+      <!-- Container D -->
+      <rect x="0" y="135" width="190" height="35" rx="3" fill="#0f111a" stroke="#475569" stroke-opacity="0.3" />
+      <text x="8" y="151" fill="#f8fafc" font-size="9" font-weight="bold">div class="modal-overlay"</text>
+      <text x="8" y="161" fill="#64748b" font-size="8">Cajas de diálogo flotantes</text>
+    </g>
+  </g>
+
+  <!-- FLOW LINES -->
+  
+  <!-- 1. renderAll to UI Modules -->
+  <path d="M 255,200 L 325,200" fill="none" stroke="#c084fc" stroke-width="2.5" marker-end="url(#arrowPurple)" />
+  <text x="290" y="188" text-anchor="middle" fill="#c084fc" font-size="9" font-weight="bold">Llamada</text>
+  <text x="290" y="198" text-anchor="middle" fill="#c084fc" font-size="8">Selectiva</text>
+
+  <!-- 2. UI Modules to index.html DOM -->
+  <path d="M 605,200 L 665,200" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowBlue)" />
+  <text x="635" y="188" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">Actualiza</text>
+  <text x="635" y="198" text-anchor="middle" fill="#38bdf8" font-size="8">DOM</text>
+  
+  <!-- Back feedback path -->
+  <path d="M 785,100 L 785,85 L 145,85 L 145,100" fill="none" stroke="#64748b" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow)" />
+  <text x="465" y="80" text-anchor="middle" fill="#64748b" font-size="8">Suscripción de eventos reactivos del Almacén</text>
+</svg>

@@ -86,6 +86,14 @@ El estado de la aplicación reside en un almacén único y reactivo implementado
 * **Historial (Deshacer/Rehacer):** Mantiene una pila (`_undoStack` y `_redoStack`) de hasta 30 snapshots clonados en profundidad (`deepClone`) del estado para permitir operaciones de restauración mediante comandos `undo()` y `redo()`.
 * **Suscripción de Eventos:** El almacén emite el evento `'change'` al terminar de escribir en el estado, permitiendo que el orquestador (`main.js`) reciba la alerta y desencadene el flujo de actualización.
 
+### Flujo de Actualización DOM y Renderizado (`main.js` y Componentes UI)
+* **Despachador Selectivo:** `main.js` intercepta el evento `'change'` a través del callback `renderAll(event)`. En lugar de forzar un redibujo global pesado, examina la propiedad `source` del evento para invocar selectivamente a los renderizadores de la UI (como `renderPhysical` de `rack.js` si mutaron gabinetes, o `renderStats` si cambiaron equipos).
+* **Vistas Modulares Desacopladas:** Cada archivo de UI en `js/ui/` es un componente independiente que se encarga de:
+  1. Consultar el estado más reciente de la memoria a través de `store.state`.
+  2. Construir la estructura DOM correspondiente mediante plantillas literales dinámicas.
+  3. Remplazar la sección del DOM asignada en `index.html` (usando `container.innerHTML` o métodos directos de inserción).
+  4. Reasociar todos los escuchas de eventos (event listeners) necesarios para el arrastre, doble click y menús contextuales.
+
 ### Los Lienzos de Trabajo (Canvas vs DOM)
 El sistema divide su lógica gráfica en dos entornos independientes y adaptados a su propósito:
 * **Vista Física (DOM HTML):** Renderizada en `div#view-physical`. Utiliza cajas y elementos DOM anidados en HTML (`.rack-wrapper`, `.rack-flipper`, `.rack-slot`, `.device-faceplate`) y estilos CSS (con rotación CSS-3D). Interactúa mediante la API nativa de Drag & Drop para arrastrar y soltar equipos.

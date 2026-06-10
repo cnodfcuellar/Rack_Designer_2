@@ -231,6 +231,19 @@
         <p><strong>Nota técnica:</strong> Toda la persistencia local de la aplicación funciona de manera síncrona en cada edición gracias al Proxy. Esto asegura que si el usuario refresca el navegador o pierde la conexión, no perderá ningún progreso del diseño de su Centro de Datos.</p>
       </div>
 
+      <h3>El Flujo de Renderizado (main.js y Módulos UI)</h3>
+      <p>Este bloque del diagrama detalla cómo se realiza el enlace dinámico entre la lógica del controlador global y las vistas modulares del DOM:</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/interfaz-funcionamiento.svg" alt="Flujo de actualización de Interfaz y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Proceso detallado de llamadas de renderizado selectivo e interacción con el DOM de index.html.</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Filtro de Despacho (main.js):</strong> El método <code>renderAll(event)</code> recibe el evento de cambio y decide a quién llamar según el módulo afectado. Por ejemplo, si el cambio proviene de un dispositivo, llama selectivamente a actualizar el inventario y la vista física, pero evita recalcular la topología o recrear las salas innecesariamente, lo que ahorra tiempo de cómputo.</li>
+        <li><strong>Actualización del DOM (index.html):</strong> Los archivos en <code>js/ui/</code> son vistas desacopladas. Al ser invocados, regeneran la plantilla literal HTML correspondiente y actualizan el fragmento del DOM correspondiente (como <code>div#view-physical</code> o la tabla de inventario), y reasocian los listeners de eventos para mantener la interactividad.</li>
+      </ul>
+
       <h3>Los Lienzos de Trabajo (Canvas vs DOM)</h3>
       <p>La aplicación cuenta con dos modalidades gráficas con representaciones de memoria y tecnologías de renderizado completamente diferentes:</p>
       
