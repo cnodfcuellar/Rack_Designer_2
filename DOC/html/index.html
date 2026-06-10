@@ -107,6 +107,12 @@
       </ul>
 
       <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/catalog-funcionamiento.svg" alt="Funcionamiento del Catálogo y Métodos de Instalación" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Arquitectura, flujo de datos y canales de instalación desde el Catálogo de Equipos.</div>
+      </div>
+
+
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
         <img src="img/ui-modal-asistido.svg" alt="Modal de Ubicación Asistida" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Asistente paso a paso para ubicar equipos con precisión (Ideal para pantallas táctiles).</div>
       </div>
@@ -188,6 +194,10 @@
         <li><strong>Reporte Tabular:</strong> En el panel de inventario o conexiones expandidas, presiona <code>⬇ Excel</code> o <code>⬇ CSV</code> para auditar los equipos.</li>
         <li><strong>Imagen Fotográfica:</strong> Usa el botón <code>📷 PNG</code> en la barra superior y selecciona el rack a exportar para generar una instantánea del armario (incluyendo la vista trasera si tiene equipos de piso).</li>
       </ul>
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/exportar-funcionamiento.svg" alt="Mecanismos de Exportación en RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Esquema técnico de los procesos de exportación de imágenes, tablas de datos y copias de seguridad del sistema.</div>
+      </div>
 
       <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
         <img src="img/ui-modal-export.svg" alt="Modal de Exportar Rack a PNG" style="max-width: 500px; margin: 0 auto;">
@@ -219,6 +229,27 @@
       
       <div class="callout">
         <p><strong>Nota técnica:</strong> Toda la persistencia local de la aplicación funciona de manera síncrona en cada edición gracias al Proxy. Esto asegura que si el usuario refresca el navegador o pierde la conexión, no perderá ningún progreso del diseño de su Centro de Datos.</p>
+      </div>
+
+      <h3>Los Lienzos de Trabajo (Canvas vs DOM)</h3>
+      <p>La aplicación cuenta con dos modalidades gráficas con representaciones de memoria y tecnologías de renderizado completamente diferentes:</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/canvas-funcionamiento.svg" alt="Estructura de Canvas y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Diferencias estructurales y metodológicas entre la Vista Física (DOM) y la Vista Topológica (Canvas 2D).</div>
+      </div>
+
+      <ul class="content-list">
+        <li><strong>Vista Física (Árbol DOM HTML):</strong> Renderizada dentro de <code>&lt;div id="view-physical"&gt;</code>. Utiliza elementos HTML nativos anidados (<code>.rack-wrapper</code>, <code>.rack-flipper</code>, <code>.rack-slot</code>) controlados por la hoja de estilos CSS general. Responde directamente a la API nativa de Drag & Drop de HTML5 para calcular en qué unidad (U) cae un elemento. Es una vista estática y estructurada de fácil acceso.</li>
+        <li><strong>Vista Topológica (HTML5 Canvas 2D):</strong> Dibujada dentro de un único elemento <code>&lt;canvas id="topology-canvas"&gt;</code>. Es un lienzo completamente dinámico renderizado de manera procedimental a través de un búfer gráfico 2D a 60 fotogramas por segundo (gracias a <code>requestAnimationFrame</code>). Toda la interactividad (saber en qué nodo se hace clic, arrastrar salas o racks y redimensionarlos) se realiza mediante cálculos matemáticos vectoriales y distancias euclidianas.</li>
+      </ul>
+
+      <h3>Estructura de Directorios</h3>
+      <p>A continuación se presenta el mapa visual de la distribución física de archivos y carpetas del proyecto:</p>
+      
+      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
+        <img src="img/directorios.svg" alt="Mapa de Archivos y Directorios de RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="graphic-caption" style="margin-top: 8px;">Figura: Estructura del árbol de directorios del proyecto RACK Designer 2.</div>
       </div>
     </section>
 

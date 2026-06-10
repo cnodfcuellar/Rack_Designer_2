@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 550" width="100%" style="background-color: #0f111a; font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="folderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="fileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="30" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="800" letter-spacing="0.5">ESTRUCTURA DE ARCHIVOS Y DIRECTORIOS</text>
+  <text x="475" y="50" text-anchor="middle" fill="#64748b" font-size="11">Organización y propósito de los recursos en el workspace de RACK Designer 2</text>
+
+  <!-- GRID / BACKGROUND AESTHETICS -->
+  <rect x="15" y="70" width="920" height="460" rx="12" fill="#141721" stroke="#232733" stroke-width="1.5" />
+
+  <!-- TREE LINE CONNECTIONS -->
+  <g stroke="#232733" stroke-width="1.5" fill="none">
+    <!-- Main root line -->
+    <line x1="60" y1="120" x2="60" y2="480" />
+    
+    <!-- Level 1 branches -->
+    <!-- css/ -->
+    <line x1="60" y1="130" x2="90" y2="130" />
+    <!-- doc/ -->
+    <line x1="60" y1="170" x2="90" y2="170" />
+    <!-- icons/ -->
+    <line x1="60" y1="210" x2="90" y2="210" />
+    <!-- js/ -->
+    <line x1="60" y1="250" x2="90" y2="250" />
+    <!-- json/ -->
+    <line x1="60" y1="290" x2="90" y2="290" />
+    <!-- index.html -->
+    <line x1="60" y1="330" x2="90" y2="330" />
+    <!-- service-worker.js -->
+    <line x1="60" y1="370" x2="90" y2="370" />
+    <!-- package.json -->
+    <line x1="60" y1="410" x2="90" y2="410" />
+    <!-- logs_cambios.txt -->
+    <line x1="60" y1="450" x2="90" y2="450" />
+    <!-- INSTRUCTIONS.md -->
+    <line x1="60" y1="480" x2="90" y2="480" />
+
+    <!-- Sub-branches -->
+    <!-- js sub-tree -->
+    <line x1="120" y1="265" x2="120" y2="350" />
+    <line x1="120" y1="280" x2="140" y2="280" />
+    <line x1="120" y1="315" x2="140" y2="315" />
+    <line x1="120" y1="350" x2="140" y2="350" />
+
+    <!-- doc sub-tree -->
+    <line x1="120" y1="185" x2="120" y2="230" />
+    <line x1="120" y1="200" x2="140" y2="200" />
+    <line x1="120" y1="230" x2="140" y2="230" />
+  </g>
+
+  <!-- ==================== ICONS & LABELS ==================== -->
+  
+  <!-- Root / -->
+  <rect x="35" y="85" width="80" height="24" rx="4" fill="#1e293b" stroke="#334155" />
+  <text x="75" y="101" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">/ (Raíz)</text>
+
+  <!-- DIRECTORY: css/ -->
+  <g transform="translate(90, 118)">
+    <rect x="0" y="0" width="16" height="13" rx="1.5" fill="url(#folderGrad)" />
+    <polygon points="0,3 7,3 9,5 16,5 16,13 0,13" fill="url(#folderGrad)" />
+    <text x="22" y="11" fill="#fbbf24" font-size="11" font-weight="bold">css/</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Hojas de estilo (.css)</text>
+    <text x="420" y="11" fill="#64748b" font-size="9" font-family="monospace">style.css, mobile-drag-drop.css</text>
+  </g>
+
+  <!-- DIRECTORY: doc/ -->
+  <g transform="translate(90, 158)">
+    <rect x="0" y="0" width="16" height="13" rx="1.5" fill="url(#folderGrad)" />
+    <polygon points="0,3 7,3 9,5 16,5 16,13 0,13" fill="url(#folderGrad)" />
+    <text x="22" y="11" fill="#fbbf24" font-size="11" font-weight="bold">doc/</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Manuales de usuario y técnicos</text>
+    <text x="420" y="11" fill="#64748b" font-size="9">Manual de funcionamiento interactivo y Markdown</text>
+  </g>
+  <!-- doc/html/ -->
+  <g transform="translate(140, 190)">
+    <rect x="0" y="0" width="14" height="11" rx="1" fill="url(#folderGrad)" />
+    <polygon points="0,2 6,2 8,4 14,4 14,11 0,11" fill="url(#folderGrad)" />
+    <text x="20" y="10" fill="#fbbf24" font-size="10" font-weight="bold">html/</text>
+    <text x="110" y="9" fill="#94a3b8" font-size="9">index.html, css/manual.css, js/manual.js, img/</text>
+  </g>
+  <!-- doc/md/ -->
+  <g transform="translate(140, 220)">
+    <rect x="0" y="0" width="14" height="11" rx="1" fill="url(#folderGrad)" />
+    <polygon points="0,2 6,2 8,4 14,4 14,11 0,11" fill="url(#folderGrad)" />
+    <text x="20" y="10" fill="#fbbf24" font-size="10" font-weight="bold">md/</text>
+    <text x="110" y="9" fill="#94a3b8" font-size="9">TECHNICAL_DOCS.md, USER_MANUAL.md</text>
+  </g>
+
+  <!-- DIRECTORY: icons/ -->
+  <g transform="translate(90, 198)">
+    <!-- Shifted down to accommodate subfolders of doc -->
+    <g transform="translate(0, 40)">
+      <rect x="0" y="0" width="16" height="13" rx="1.5" fill="url(#folderGrad)" />
+      <polygon points="0,3 7,3 9,5 16,5 16,13 0,13" fill="url(#folderGrad)" />
+      <text x="22" y="11" fill="#fbbf24" font-size="11" font-weight="bold">icons/</text>
+      <text x="250" y="11" fill="#cbd5e1" font-size="10">Logotipos e iconos PWA</text>
+      <text x="420" y="11" fill="#64748b" font-size="9" font-family="monospace">icon.svg, icon-192x192.png, icon-512x512.png</text>
+    </g>
+  </g>
+
+  <!-- DIRECTORY: js/ -->
+  <g transform="translate(90, 238)">
+    <g transform="translate(0, 40)">
+      <rect x="0" y="0" width="16" height="13" rx="1.5" fill="url(#folderGrad)" />
+      <polygon points="0,3 7,3 9,5 16,5 16,13 0,13" fill="url(#folderGrad)" />
+      <text x="22" y="11" fill="#fbbf24" font-size="11" font-weight="bold">js/</text>
+      <text x="250" y="11" fill="#cbd5e1" font-size="10">Lógica y scripts del sistema</text>
+      <text x="420" y="11" fill="#64748b" font-size="9" font-family="monospace">main.js, store.js, utils.js, demoData.js</text>
+    </g>
+  </g>
+  <!-- js/ui/ -->
+  <g transform="translate(140, 310)">
+    <rect x="0" y="0" width="14" height="11" rx="1" fill="url(#folderGrad)" />
+    <polygon points="0,2 6,2 8,4 14,4 14,11 0,11" fill="url(#folderGrad)" />
+    <text x="20" y="10" fill="#fbbf24" font-size="10" font-weight="bold">ui/</text>
+    <text x="110" y="9" fill="#94a3b8" font-size="9">catalog.js, rack.js, faceplates.js, topology.js, tables.js, modals.js</text>
+  </g>
+  <!-- js/service/ -->
+  <g transform="translate(140, 340)">
+    <rect x="0" y="0" width="14" height="11" rx="1" fill="url(#folderGrad)" />
+    <polygon points="0,2 6,2 8,4 14,4 14,11 0,11" fill="url(#folderGrad)" />
+    <text x="20" y="10" fill="#fbbf24" font-size="10" font-weight="bold">service/</text>
+    <text x="110" y="9" fill="#94a3b8" font-size="9">service-worker.js (Control de ciclo de vida)</text>
+  </g>
+
+  <!-- DIRECTORY: json/ -->
+  <g transform="translate(90, 378)">
+    <rect x="0" y="0" width="16" height="13" rx="1.5" fill="url(#folderGrad)" />
+    <polygon points="0,3 7,3 9,5 16,5 16,13 0,13" fill="url(#folderGrad)" />
+    <text x="22" y="11" fill="#fbbf24" font-size="11" font-weight="bold">json/</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Manifiesto web PWA</text>
+    <text x="420" y="11" fill="#64748b" font-size="9" font-family="monospace">manifest.json</text>
+  </g>
+
+  <!-- FILE: index.html -->
+  <g transform="translate(90, 418)">
+    <polygon points="0,0 8,0 12,4 12,14 0,14" fill="url(#mainGrad)" />
+    <text x="22" y="11" fill="#38bdf8" font-size="11" font-weight="bold">index.html</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Contenedor de interfaz HTML5</text>
+    <text x="420" y="11" fill="#64748b" font-size="9">Define la maquetación base, barras, barras de carga y modals</text>
+  </g>
+
+  <!-- FILE: service-worker.js -->
+  <g transform="translate(90, 450)">
+    <polygon points="0,0 8,0 12,4 12,14 0,14" fill="url(#fileGrad)" />
+    <text x="22" y="11" fill="#cbd5e1" font-size="11" font-weight="bold">service-worker.js</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Caché PWA y ciclo offline</text>
+    <text x="420" y="11" fill="#64748b" font-size="9">Cachéa assets estáticos y permite la carga del sistema sin Internet</text>
+  </g>
+
+  <!-- FILE: package.json -->
+  <g transform="translate(90, 480)">
+    <polygon points="0,0 8,0 12,4 12,14 0,14" fill="url(#fileGrad)" />
+    <text x="22" y="11" fill="#cbd5e1" font-size="11" font-weight="bold">package.json</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Configuración NPM / Scripts</text>
+    <text x="420" y="11" fill="#64748b" font-size="9">Define scripts de desarrollo, build y metadatos del proyecto</text>
+  </g>
+
+  <!-- FILE: logs_cambios.txt -->
+  <g transform="translate(90, 510)">
+    <polygon points="0,0 8,0 12,4 12,14 0,14" fill="url(#fileGrad)" />
+    <text x="22" y="11" fill="#cbd5e1" font-size="11" font-weight="bold">logs_cambios.txt</text>
+    <text x="250" y="11" fill="#cbd5e1" font-size="10">Historial interno del desarrollo</text>
+    <text x="420" y="11" fill="#64748b" font-size="9">Bitácora descriptiva de cada cambio incremental en el proyecto</text>
+  </g>
+
+  <!-- FILE: INSTRUCTIONS.md -->
+  <!-- Shifted dynamically in Y layout -->
+  <g transform="translate(90, 510)">
+    <g transform="translate(0, -382)">
+      <!-- Positioned near level with branches -->
+      <polygon points="0,0 8,0 12,4 12,14 0,14" fill="url(#fileGrad)" />
+      <text x="22" y="11" fill="#cbd5e1" font-size="11" font-weight="bold">INSTRUCTIONS.md</text>
+      <text x="250" y="11" fill="#cbd5e1" font-size="10">Reglas y guías del repositorio</text>
+      <text x="420" y="11" fill="#64748b" font-size="9">Instrucciones críticas obligatorias para asistentes de IA</text>
+    </g>
+  </g>
+
+  <!-- Decorative separator line -->
+  <line x1="240" y1="110" x2="240" y2="520" stroke="#232733" stroke-width="1" stroke-dasharray="2 4" />
+  <line x1="410" y1="110" x2="410" y2="520" stroke="#232733" stroke-width="1" stroke-dasharray="2 4" />
+</svg>

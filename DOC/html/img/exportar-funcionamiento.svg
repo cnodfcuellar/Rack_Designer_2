@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 550" width="100%" style="background-color: #0f111a; font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="pngGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="tblGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="jsonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="30" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="800" letter-spacing="0.5">SISTEMA Y MECANISMOS DE EXPORTACIÓN</text>
+  <text x="475" y="50" text-anchor="middle" fill="#64748b" font-size="11">Procesos de conversión y descarga de datos del Centro de Datos en múltiples formatos</text>
+
+  <!-- GRID / BACKGROUND AESTHETICS -->
+  <rect x="15" y="70" width="920" height="460" rx="12" fill="#141721" stroke="#232733" stroke-width="1.5" />
+
+  <!-- ==================== CHANNEL 1: IMÁGENES (PNG) ==================== -->
+  <g transform="translate(35, 90)">
+    <rect x="0" y="0" width="270" height="420" rx="8" fill="#1e293b" fill-opacity="0.2" stroke="#fb923c" stroke-opacity="0.3" stroke-width="1.5" />
+    <rect x="0" y="0" width="270" height="45" rx="8" fill="url(#pngGrad)" fill-opacity="0.15" stroke="#fb923c" stroke-opacity="0.3" stroke-width="1.5" />
+    <text x="15" y="27" fill="#fb923c" font-size="13" font-weight="800" letter-spacing="0.5">📸 EXPORTAR IMÁGENES (PNG)</text>
+    
+    <!-- Physical Route -->
+    <rect x="15" y="60" width="240" height="165" rx="6" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+    <text x="25" y="80" fill="#f8fafc" font-size="11" font-weight="bold">Vista Física (Gabinete a PNG)</text>
+    <text x="25" y="95" fill="#94a3b8" font-size="9">Función: exportRackToPNG(rackId)</text>
+    
+    <rect x="25" y="105" width="220" height="110" rx="4" fill="#0f111a" stroke="#475569" stroke-opacity="0.6" />
+    <text x="35" y="122" fill="#cbd5e1" font-size="9">1. Lee equipos instalados frontal/trasero</text>
+    <text x="35" y="137" fill="#cbd5e1" font-size="9">2. Si hay trasera, duplica ancho lienzo</text>
+    <text x="35" y="152" fill="#cbd5e1" font-size="9">3. Dibuja slots, marcas, IPs y colores</text>
+    <text x="35" y="167" fill="#cbd5e1" font-size="9">4. Offscreen Canvas -> Escala 2x HD</text>
+    <text x="35" y="182" fill="#cbd5e1" font-size="9">5. Descarga: canvas.toDataURL()</text>
+    <text x="35" y="197" fill="#fb923c" font-size="9" font-weight="bold">Descarga: [Rack_Nombre].png</text>
+
+    <!-- Logical Route -->
+    <rect x="15" y="240" width="240" height="165" rx="6" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+    <text x="25" y="260" fill="#f8fafc" font-size="11" font-weight="bold">Vista Topológica (Mapa a PNG)</text>
+    <text x="25" y="275" fill="#94a3b8" font-size="9">Función: exportTopologyToPNG()</text>
+    
+    <rect x="25" y="285" width="220" height="110" rx="4" fill="#0f111a" stroke="#475569" stroke-opacity="0.6" />
+    <text x="35" y="302" fill="#cbd5e1" font-size="9">1. Calcula Bounding Box de Salas</text>
+    <text x="35" y="317" fill="#cbd5e1" font-size="9">2. Genera offscreen canvas con zoom=1</text>
+    <text x="35" y="332" fill="#cbd5e1" font-size="9">3. Intercambia contexto de renderizado</text>
+    <text x="35" y="347" fill="#cbd5e1" font-size="9">4. Fuerza un redibujo procedimental HD</text>
+    <text x="35" y="362" fill="#cbd5e1" font-size="9">5. Restaura la vista activa y loops</text>
+    <text x="35" y="377" fill="#fb923c" font-size="9" font-weight="bold">Descarga: Topologia_Centro_Datos.png</text>
+  </g>
+
+  <!-- ==================== CHANNEL 2: DATOS TABULARES ==================== -->
+  <g transform="translate(340, 90)">
+    <rect x="0" y="0" width="270" height="420" rx="8" fill="#1e293b" fill-opacity="0.2" stroke="#34d399" stroke-opacity="0.3" stroke-width="1.5" />
+    <rect x="0" y="0" width="270" height="45" rx="8" fill="url(#tblGrad)" fill-opacity="0.15" stroke="#34d399" stroke-opacity="0.3" stroke-width="1.5" />
+    <text x="15" y="27" fill="#34d399" font-size="13" font-weight="800" letter-spacing="0.5">📊 EXPORTAR TABLAS (EXCEL/CSV)</text>
+    
+    <!-- Extract Data -->
+    <rect x="15" y="60" width="240" height="90" rx="6" fill="#0f172a" stroke="#10b981" />
+    <text x="25" y="80" fill="#34d399" font-size="11" font-weight="bold">Extracción de Tablas</text>
+    <text x="25" y="98" fill="#cbd5e1" font-size="9" font-family="monospace">· getInventoryData()</text>
+    <text x="145" y="98" fill="#94a3b8" font-size="9">Matriz de Equipos</text>
+    <text x="25" y="113" fill="#cbd5e1" font-size="9" font-family="monospace">· getConnectionsData()</text>
+    <text x="145" y="113" fill="#94a3b8" font-size="9">Matriz de Enlaces</text>
+    <text x="25" y="130" fill="#64748b" font-size="9">Mapea datos crudos a arrays de texto</text>
+
+    <!-- CSV Output -->
+    <rect x="15" y="165" width="240" height="110" rx="6" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+    <text x="25" y="185" fill="#f8fafc" font-size="11" font-weight="bold">Formateador Plano (CSV)</text>
+    <text x="25" y="200" fill="#94a3b8" font-size="9">Operación: JavaScript Nativo</text>
+    <rect x="25" y="210" width="220" height="55" rx="4" fill="#0f111a" stroke="#475569" stroke-opacity="0.6" />
+    <text x="35" y="225" fill="#cbd5e1" font-size="9" font-family="monospace">csv = data.map(r =&gt; r.join(','))</text>
+    <text x="85" y="238" fill="#cbd5e1" font-size="9" font-family="monospace">.join('\n')</text>
+    <text x="35" y="252" fill="#34d399" font-size="9" font-weight="bold">Descarga: Inventario.csv / Conexiones.csv</text>
+
+    <!-- Excel Output -->
+    <rect x="15" y="290" width="240" height="115" rx="6" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+    <text x="25" y="310" fill="#f8fafc" font-size="11" font-weight="bold">Hojas de Cálculo (Excel XLSX)</text>
+    <text x="25" y="325" fill="#94a3b8" font-size="9">Dependencia: xlsx.full.min.js</text>
+    <rect x="25" y="335" width="220" height="60" rx="4" fill="#0f111a" stroke="#475569" stroke-opacity="0.6" />
+    <text x="35" y="350" fill="#cbd5e1" font-size="8" font-family="monospace">wb = XLSX.utils.book_new()</text>
+    <text x="35" y="362" fill="#cbd5e1" font-size="8" font-family="monospace">XLSX.utils.book_append_sheet(wb, ws)</text>
+    <text x="35" y="374" fill="#cbd5e1" font-size="8" font-family="monospace">XLSX.writeFile(wb, filename)</text>
+    <text x="35" y="388" fill="#34d399" font-size="8" font-weight="bold">Descarga: Rack_Designer_Completo.xlsx</text>
+  </g>
+
+  <!-- ==================== CHANNEL 3: RESPALDO JSON ==================== -->
+  <g transform="translate(645, 90)">
+    <rect x="0" y="0" width="270" height="420" rx="8" fill="#1e293b" fill-opacity="0.2" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.5" />
+    <rect x="0" y="0" width="270" height="45" rx="8" fill="url(#jsonGrad)" fill-opacity="0.15" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.5" />
+    <text x="15" y="27" fill="#38bdf8" font-size="13" font-weight="800" letter-spacing="0.5">💾 RESPALDO COMPLETO (JSON)</text>
+    
+    <!-- State Serialization -->
+    <rect x="15" y="60" width="240" height="345" rx="6" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+    <text x="25" y="85" fill="#f8fafc" font-size="12" font-weight="bold">Serialización de Estado</text>
+    <text x="25" y="102" fill="#64748b" font-size="9">Copia exacta de toda la base de datos local</text>
+    
+    <rect x="25" y="117" width="220" height="120" rx="4" fill="#0f111a" stroke="#334155" />
+    <text x="35" y="132" fill="#38bdf8" font-size="9" font-family="monospace">{</text>
+    <text x="45" y="147" fill="#cbd5e1" font-size="9" font-family="monospace">rooms: [...],</text>
+    <text x="45" y="162" fill="#cbd5e1" font-size="9" font-family="monospace">racks: [...],</text>
+    <text x="45" y="177" fill="#cbd5e1" font-size="9" font-family="monospace">devices: [...],</text>
+    <text x="45" y="192" fill="#cbd5e1" font-size="9" font-family="monospace">connections: [...],</text>
+    <text x="45" y="207" fill="#cbd5e1" font-size="9" font-family="monospace">topoPositions: {...}</text>
+    <text x="35" y="222" fill="#38bdf8" font-size="9" font-family="monospace">}</text>
+
+    <text x="25" y="260" fill="#f8fafc" font-size="11" font-weight="bold">Método de Descarga</text>
+    <rect x="25" y="275" width="220" height="75" rx="4" fill="#0f111a" stroke="#475569" stroke-opacity="0.6" />
+    <text x="35" y="292" fill="#cbd5e1" font-size="9" font-family="monospace">json = JSON.stringify(store._raw)</text>
+    <text x="35" y="307" fill="#cbd5e1" font-size="9" font-family="monospace">blob = new Blob([json], {type})</text>
+    <text x="35" y="322" fill="#38bdf8" font-size="9" font-weight="bold">Descarga: Backup.rack / .json</text>
+
+    <!-- Import restoration flow -->
+    <rect x="25" y="362" width="220" height="30" rx="4" fill="#0f2e3d" stroke="#0ea5e9" />
+    <text x="135" y="381" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">🔄 Carga via FileReader API</text>
+  </g>
+</svg>
