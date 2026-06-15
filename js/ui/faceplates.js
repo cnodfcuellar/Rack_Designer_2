@@ -134,7 +134,7 @@ function getFloorFaceplate(device) {
 
 function buildRearView(rack, devices) {
   const TYPE_COLORS_LOCAL = {
-    server: '#0ea5e9', switch: '#10b981', router: '#06b6d4',
+    server: '#10b981', switch: '#10b981', router: '#06b6d4',
     firewall: '#ef4444', ups: '#f59e0b', storage: '#8b5cf6'
   };
 

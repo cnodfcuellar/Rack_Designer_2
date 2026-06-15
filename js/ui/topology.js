@@ -647,6 +647,7 @@ function drawTopo() {
     
     ctx.font = '16px serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffffff';
     const icons = { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾', pc:'💻', camera:'📷', ap:'📶', door:'🚪', printer:'🖨️', phone:'📞' };
     ctx.fillText(icons[dev.type]||'●', pos.x, pos.y);
     
@@ -704,7 +705,7 @@ function drawTopo() {
       ctx.fillText(`Tipo:  ${dev.type.toUpperCase()}`, hudX + 12, hudY + 44);
       ctx.fillText(`IP:    ${dev.ip || 'N/A'}`, hudX + 12, hudY + 59);
       ctx.fillText(`User:  ${dev.user || 'N/A'}`, hudX + 12, hudY + 74);
-      ctx.fillText(`Pass:  ${dev.pass || 'N/A'}`, hudX + 12, hudY + 89);
+      ctx.fillText(`Pass:  ${dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A'}`, hudX + 12, hudY + 89);
       
       ctx.restore();
     }

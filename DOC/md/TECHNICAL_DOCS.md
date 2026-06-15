@@ -121,6 +121,11 @@ El ciclo de arranque de la aplicación se ha optimizado para priorizar la veloci
 * **Lectura del Estado Inicial (Primer uso vs Recuperación):** Al inicializar `store.js`, el sistema verifica inmediatamente el `localStorage` del navegador. Si encuentra un proyecto guardado, lo restaura en la memoria. Si la memoria está vacía (primer uso), el sistema no bloquea el arranque cargando una maqueta gigante; en su lugar, genera dinámicamente un estado en blanco básico (una sola sala vacía).
 * **Carga Dinámica de Datos (Demos bajo demanda):** El archivo de datos de demostración (`demoData.js`) se ha desacoplado del flujo de arranque inicial. En lugar de ejecutarse al abrir `index.html`, este archivo se inyecta en el DOM de forma perezosa (`lazy loading`) mediante la creación dinámica de una etiqueta `<script>` únicamente cuando el usuario hace clic en el botón "✨ Cargar demos". Esto previene tiempos de bloqueo, economiza memoria y protege el trabajo del usuario.
 
+### Seguridad Global y Modo Dios
+Para prevenir la exposición indeseada de credenciales durante su uso habitual, se implementó el **Modo Dios** a través del estado de la variable global `window.SHOW_PASSWORDS`. 
+* **Bloqueo Activo:** Todo el sistema renderiza por defecto los campos de contraseñas de las entidades como `••••••••` en Tooltips, el HUD de la topología y las celdas de las tablas de datos, así como en las exportaciones CSV/Excel generadas. 
+* **Desbloqueo de Credenciales:** Tras activar el flag en el panel principal, el orquestador repinta (`renderAll`) el ecosistema para desclasificar y revelar visualmente los secretos sin comprometer la versión de almacenamiento.
+
 ### Los Lienzos de Trabajo (Canvas vs DOM)
 El sistema divide su lógica gráfica en dos entornos independientes y adaptados a su propósito:
 * **Vista Física (DOM HTML):** Renderizada en `div#view-physical`. Utiliza cajas y elementos DOM anidados en HTML (`.rack-wrapper`, `.rack-flipper`, `.rack-slot`, `.device-faceplate`) y estilos CSS (con rotación CSS-3D). Interactúa mediante la API nativa de Drag & Drop para arrastrar y soltar equipos.

@@ -79,7 +79,9 @@ function openEditCatalogModal(id) {
   document.getElementById('dev-plugs').value = dev.plugs || 1;
   document.getElementById('dev-plugs-out').value = dev.plugsOut || 0;
   document.getElementById('dev-user').value  = dev.user || '';
-  document.getElementById('dev-pass').value  = dev.pass || '';
+  const passInput = document.getElementById('dev-pass');
+  passInput.value = dev.pass || '';
+  passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
 
   document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
@@ -116,8 +118,10 @@ function openEditDeviceModal(id) {
   document.getElementById('dev-power').value = dev.power || 0;
   document.getElementById('dev-plugs').value = dev.plugs || 1;
   document.getElementById('dev-plugs-out').value = dev.plugsOut || 0;
-  document.getElementById('dev-user').value  = dev.user || '';
-  document.getElementById('dev-pass').value  = dev.pass || '';
+  document.getElementById('dev-user').value  = dev.user || 'admin';
+  const passInput = document.getElementById('dev-pass');
+  passInput.value = dev.pass || '';
+  passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
 
   document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);

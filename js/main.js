@@ -129,6 +129,14 @@ function initGlobalEvents() {
       }
     });
 
+    window.SHOW_PASSWORDS = false;
+    document.getElementById('menu-toggle-passwords')?.addEventListener('click', (e) => {
+      dropdown.classList.add('hidden');
+      window.SHOW_PASSWORDS = !window.SHOW_PASSWORDS;
+      document.getElementById('menu-toggle-passwords').textContent = window.SHOW_PASSWORDS ? '🙈 Modo Dios: Ocultar Claves' : '👁 Modo Dios: Revelar Claves';
+      renderAll({source: 'init'});
+    });
+
     // Set initial text
     if (document.documentElement.getAttribute('data-theme') === 'light') {
       document.getElementById('menu-theme').textContent = '🌙 Cambiar a Modo Oscuro';

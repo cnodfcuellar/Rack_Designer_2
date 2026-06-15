@@ -1,5 +1,11 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 17:35] Modo Dios y Mejoras en Topología
+* **Modo Dios (Seguridad Visual):** Se implementó un alternador global en el menú principal (`👁 Modo Dios: Revelar Claves`) para censurar u ocultar masivamente las contraseñas de los equipos. Por defecto, todas las contraseñas se renderizan como `••••••••` en Tooltips, HUD Topológico, Tablas de Inventario y Modal de Edición, garantizando seguridad visual contra mirones.
+* **Exportación Segura de CSV/Excel:** La rutina de exportación de inventario fue mejorada para respetar el Modo Dios; si el modo está apagado, las contraseñas se omiten/censuran en el reporte descargado.
+* **Color de Servidores:** Se actualizó el color representativo de la clase "Servidor" del azul claro original a Esmeralda (`#10b981`) para mejor diferenciación en la Topología, Catálogo y Vista Física.
+* **Visibilidad de Iconos:** Se corrigió un error en el lienzo topológico que impedía la visualización de los iconos internos debido a superposición de colores (falta de restablecimiento del `fillStyle` a blanco).
+
 ## [2026-06-15 16:45] Documentación de Arquitectura de Inicio
 * **Documentación Técnica:** Se agregó una nueva sección de "Inicialización y Carga de Datos" a los manuales (`manual.html` y `TECHNICAL_DOCS.md`) para explicar cómo funciona la comprobación del `localStorage` frente al arranque en estado en blanco, y los beneficios arquitectónicos de desacoplar e inyectar de manera dinámica (lazy loading) los datos de demostración de `demoData.js`.
 

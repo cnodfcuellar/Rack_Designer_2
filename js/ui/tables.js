@@ -59,7 +59,7 @@ function renderInventoryTable(wrap, query) {
         <td class="editable" data-field="mac" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.mac) || '-'}</td>
         <td class="editable" data-field="serial" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.serial) || '-'}</td>
         <td class="editable" data-field="user" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.user) || '-'}</td>
-        <td class="editable" data-field="pass" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.pass) || '-'}</td>
+        <td class="editable" data-field="pass" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.pass ? (window.SHOW_PASSWORDS ? d.pass : '••••••••') : '-')}</td>
         <td class="editable" data-field="power" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.power)) || 0}</td>
         <td class="editable" data-field="plugs" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.plugs ?? 1))}</td>
         <td style="white-space:nowrap;">
@@ -90,8 +90,9 @@ function renderInventoryTable(wrap, query) {
 function startCellEdit(td) {
   const field = td.dataset.field;
   const devId = td.dataset.dev;
-  const orig  = td.textContent.trim() === '-' ? '' : td.textContent.trim();
-  td.innerHTML = `<input class="cell-edit" value="${orig}" data-field="${field}" data-dev="${devId}">`;
+  const dev = store.deviceById(devId);
+  const orig = dev ? (dev[field] !== undefined && dev[field] !== null ? dev[field] : '') : (td.textContent.trim() === '-' ? '' : td.textContent.trim());
+  td.innerHTML = `<input class="cell-edit" value="${escapeHTML(String(orig))}" data-field="${field}" data-dev="${devId}">`;
   const input = td.querySelector('input');
   input.focus(); input.select();
   input.addEventListener('keydown', e => {
@@ -124,7 +125,11 @@ function finishCellEdit(input, td, orig) {
     }
   }
   store.updateDevice(devId, { [field]: (field === 'power' || field === 'plugs') ? parseInt(val) || 0 : val });
-  td.textContent = val || '-';
+  if (field === 'pass') {
+    td.textContent = val ? (window.SHOW_PASSWORDS ? val : '••••••••') : '-';
+  } else {
+    td.textContent = val || '-';
+  }
 }
 
 function renderConnectionsTable(wrap, query) {
@@ -183,11 +188,12 @@ function getInventoryData() {
   store._raw.devices.forEach(d => {
     const isFloor = d.category === 'floor';
     const rack = !isFloor ? store.rackById(d.rackId) : null;
+    const passDisplay = d.pass ? (window.SHOW_PASSWORDS ? d.pass : '••••••••') : '';
     data.push([
       isFloor ? 'PISO' : (rack?.name || ''), 
       isFloor ? '-' : (d.slotStart || ''), 
       isFloor ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal'),
-      d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, d.pass, d.power
+      d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, passDisplay, d.power
     ]);
   });
   return data;

@@ -1,7 +1,7 @@
 let CATALOG = [
-  { id:'c1', name:'Server HP ProLiant', type:'server',   size:2, power:460, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#0ea5e9' },
-  { id:'c2', name:'Server Dell R740',   type:'server',   size:2, power:550, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#0ea5e9' },
-  { id:'c3', name:'Server 1U',          type:'server',   size:1, power:200, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#0ea5e9' },
+  { id:'c1', name:'Server HP ProLiant', type:'server',   size:2, power:460, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#10b981' },
+  { id:'c2', name:'Server Dell R740',   type:'server',   size:2, power:550, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#10b981' },
+  { id:'c3', name:'Server 1U',          type:'server',   size:1, power:200, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#10b981' },
   { id:'c4', name:'Switch Cisco 48P',   type:'switch',   size:1, power:180, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔀', color:'#10b981' },
   { id:'c5', name:'Switch Managed 24P', type:'switch',   size:1, power:120, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔀', color:'#10b981' },
   { id:'c6', name:'Router Core',        type:'router',   size:1, power:90,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🌐', color:'#f59e0b' },
@@ -17,7 +17,7 @@ let CATALOG = [
   { id:'c16', name:'Teléfono VoIP',      type:'phone',    size:0, power:10,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📞', color:'#ef4444' },
 ];
 
-const TYPE_COLORS = { server:'#0ea5e9', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4', pc:'#0ea5e9', camera:'#8b5cf6', ap:'#10b981', door:'#f59e0b', printer:'#06b6d4', phone:'#ef4444' };
+const TYPE_COLORS = { server:'#10b981', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4', pc:'#0ea5e9', camera:'#8b5cf6', ap:'#10b981', door:'#f59e0b', printer:'#06b6d4', phone:'#ef4444' };
 
 function addCatalogItem(item) {
   CATALOG.push(item);
