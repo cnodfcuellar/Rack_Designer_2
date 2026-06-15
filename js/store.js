@@ -99,8 +99,14 @@ class Store {
   _updateHistoryButtons() {
     const btnUndo = document.getElementById('btn-undo');
     const btnRedo = document.getElementById('btn-redo');
-    if(btnUndo) btnUndo.disabled = !this._undoStack.length;
-    if(btnRedo) btnRedo.disabled = !this._redoStack.length;
+    if(btnUndo) {
+      btnUndo.disabled = !this._undoStack.length;
+      btnUndo.textContent = this._undoStack.length ? `↩ ${this._undoStack.length}` : '↩';
+    }
+    if(btnRedo) {
+      btnRedo.disabled = !this._redoStack.length;
+      btnRedo.textContent = this._redoStack.length ? `↪ ${this._redoStack.length}` : '↪';
+    }
   }
 
   /* ---- Helpers de datos ---- */
@@ -267,6 +273,11 @@ class Store {
     this._redoStack = [];
     Object.keys(this._raw).forEach(k => delete this._raw[k]);
     Object.assign(this._raw, data);
+    
+    if (!this._raw.topology) {
+      this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
+    }
+
     this._save();
     this._emit('change', { source: 'loadData' });
     this._updateHistoryButtons();

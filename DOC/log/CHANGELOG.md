@@ -1,5 +1,8 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 17:59] Generación de IDs Segura y UX en Historial
+* **BUG-03 (Colisión de IDs):** Se reescribió la función `uid()` en `js/utils.js` para utilizar `crypto.randomUUID()` nativo del navegador, extrayendo 16 caracteres hexadecimales para generar identificadores de hardware. Esto elimina prácticamente cualquier riesgo de colisión al clonar gabinetes masivos o arrastrar cientos de equipos rápidamente.
+* **U-1 (UX en Barra de Herramientas):** Se agregaron contadores numéricos dinámicos en tiempo real a los botones de Deshacer y Rehacer (e.g., `↩ 3` / `↪ 1`). Esto mejora la retroalimentación visual permitiendo al usuario saber exactamente cuántos pasos tiene almacenados en su pila de historial.
 ## [2026-06-15 17:54] Corrección de Fuga de Memoria y Modo Rendimiento
 * **BUG-04 (Fuga de Memoria):** Se solucionó una grave fuga de memoria (Memory Leak) en el sistema reactivo (`js/store.js`). Se implementó un caché local mediante `WeakMap` (`_proxyCache`) para reciclar instancias del Proxy. Esto evita la generación de miles de objetos descartables por segundo durante el ciclo de lectura de `drawTopo` a 60fps, estabilizando drásticamente el consumo de RAM.
 * **Modo Rendimiento (Interruptor de Animaciones):** Se transformó el punto de estado de "Sistema operativo" (esquina superior derecha) en un interruptor activo para el Modo Rendimiento. Al hacerle clic, apaga globalmente todas las transiciones, iluminaciones (glow) y animaciones CSS del proyecto a través de la clase `no-animations`, y adicionalmente congela el motor de partículas JavaScript sobre los cables topológicos (`flowT`).

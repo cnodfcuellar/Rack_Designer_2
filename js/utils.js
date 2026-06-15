@@ -1,4 +1,9 @@
-const uid = () => Math.random().toString(36).slice(2, 10);
+const uid = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+  }
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+};
 const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
 const lerp = (a, b, t) => a + (b - a) * t;
 
