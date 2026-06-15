@@ -97,7 +97,7 @@ Toda su infraestructura se guarda localmente en su navegador automáticamente, p
 En la sección inferior de "Inventario", los botones `⬇ Excel` y `⬇ CSV` generan instantáneamente un reporte tabular compatible con hojas de cálculo para facilitar la auditoría física.
 
 ### Exportar Diagramas Visuales (PNG)
-Presione el botón `📷 PNG` en la barra de herramientas y seleccione un rack. El sistema procesará y descargará una imagen de alta resolución. Si el rack contiene equipos traseros, el PNG incluirá ambas caras (Frontal y Trasera) lado a lado automáticamente.
+Presione el botón `📷 PNG` en la barra de herramientas y seleccione un rack. El sistema procesará y descargará una imagen de alta resolución. Si el rack contiene equipos traseros, el PNG incluirá ambas caras (Frontal y Trasera) lado a lado automáticamente. Adicionalmente, si la sala contiene equipos ubicados en el piso, aparecerá una opción para exportar "Equipos de Piso" de forma independiente.
 
 ---
 *Fin del Documento*

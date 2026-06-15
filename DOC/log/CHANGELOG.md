@@ -1,7 +1,13 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 16:35] Optimización de Arranque y Exportación de Equipos de Piso
+* **Arranque en Blanco:** Se modificó la inicialización en `store.js` y `index.html` para que el proyecto inicie con un estado limpio (una sola sala vacía) por defecto, en lugar de cargar datos fijos, mejorando la experiencia del nuevo usuario.
+* **Carga Dinámica de Demostraciones:** Se eliminó la dependencia bloqueante de `demoData.js` en el arranque. Ahora, el script se inyecta dinámicamente (`loadScript`) únicamente cuando el usuario hace clic en "✨ Cargar demos", ahorrando memoria y tiempo de carga.
+* **Renderizado de Equipos de Piso:** Se corrigió `rack.js` para que la sección "Equipos de Piso / Periféricos" se renderice correctamente en la vista física de la sala, incluso si esta no contiene ningún gabinete.
+* **Exportación PNG de Equipos de Piso:** Se añadió la función `exportFloorToPNG()` en `modals.js` y se actualizó el modal de exportación para permitir generar imágenes PNG individuales de todos los equipos de piso de una sala.
+
 ## [2026-06-10 08:02] Documentación y Gráficos de Atomic Design
-* **Sección de Diseño Atómico:** Adición del nuevo capítulo interactivo en el manual HTML (`doc/html/index.html`) y en la documentación técnica Markdown (`doc/md/TECHNICAL_DOCS.md`), detallando el mapeo del proyecto a los 5 niveles de la metodología.
+* **Sección de Diseño Atómico:** Adición del nuevo capítulo interactivo en el manual HTML (`doc/html/manual.html`) y en la documentación técnica Markdown (`doc/md/TECHNICAL_DOCS.md`), detallando el mapeo del proyecto a los 5 niveles de la metodología.
 * **Gráficos Vectoriales de Evolución:** Creación de diagramas SVG individuales representando Átomo, Molécula, Organismo, Plantilla y Página, además de la infografía consolidada de esferas (`atomic_design_spheres.svg`).
 
 ## [2026-06-10 02:50] Reestructuración Funcional de Documentación e Infografías
@@ -13,41 +19,41 @@
 ## [2026-06-10 02:45] Modales Móviles de Sala y Conexión e Ilustraciones Vectoriales
 * **Diagrama de Modal de Nueva Sala Móvil:** Creación de la ilustración vectorial nativa `ui-mobile-modal-room.svg` representando el modal de creación de salas en la vista vertical móvil.
 * **Diagrama de Modal de Conexión Móvil:** Creación de la ilustración vectorial nativa `ui-mobile-modal-connection.svg` representando el modal de trazado de conexiones de red en la vista vertical móvil.
-* **Integración en Manuales:** Vinculación e integración de los nuevos diagramas en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
+* **Integración en Manuales:** Vinculación e integración de los nuevos diagramas en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
 
 ## [2026-06-10 02:40] Formulario de Equipos Móvil e Ilustración Vectorial
 * **Diagrama de Formulario de Equipos Móvil:** Creación de la ilustración vectorial nativa `ui-mobile-modal-device.svg` que representa la interfaz del modal de registro/edición de dispositivos adaptado a la vista vertical móvil.
-* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
+* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
 
 ## [2026-06-10 02:35] Inventario Móvil e Ilustración Vectorial
 * **Diagrama de Inventario Móvil:** Creación de la ilustración vectorial nativa `ui-mobile-inventory.svg` que representa la tabla de inventario expandida mediante un panel deslizable (drawer) en dispositivos móviles, mostrando las columnas y etiquetas adaptadas.
-* **Integración en Manuales:** Sincronización e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
+* **Integración en Manuales:** Sincronización e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
 
 ## [2026-06-10 02:30] Topología Móvil e Ilustración Vectorial
 * **Diagrama de Topología Móvil:** Creación de la ilustración vectorial nativa `ui-mobile-topology.svg` que representa fielmente el lienzo de la topología de red en dispositivos móviles, mostrando las salas apiladas verticalmente y los enlaces de cableado.
-* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
+* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
 
 ## [2026-06-10 02:25] Menú de Proyecto Móvil e Ilustración Vectorial
 * **Diagrama de Menú de Opciones Móvil:** Creación de la ilustración vectorial nativa `ui-mobile-menu.svg` que representa fielmente la interfaz del menú de proyecto desplegable en dispositivos móviles (Abrir, Guardar, Limpiar proyecto, Cargar demos, Modo Claro, Importación/Exportación).
-* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
+* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`).
 
 ## [2026-06-10 02:20] Diagrama de Catálogo y Estadísticas Móviles (Off-Canvas)
 * **Diagrama de Catálogo y Estadísticas Móviles:** Creación de la ilustración vectorial nativa `ui-mobile-catalog.svg` que representa fielmente la interfaz del panel lateral off-canvas en dispositivos móviles, incluyendo la cuadrícula de estadísticas (racks, dispositivos, unidades U y conexiones), barras de progreso, botones de acción rápida y el catálogo de dispositivos.
-* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`) explicando la funcionalidad del menú off-canvas.
+* **Integración en Manuales:** Vinculación e integración del nuevo diagrama en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario Markdown (`doc/md/USER_MANUAL.md`) explicando la funcionalidad del menú off-canvas.
 
 ## [2026-06-10 01:40] Integración de la Documentación del Orquestador e Historial Reactivo
-* **Documentación del Modo Móvil (Responsive):** Creación e integración del diagrama detallado de la consola en modo móvil (`ui-mobile.svg`), e inclusión de una subsección de diseño móvil adaptativo en el manual interactivo HTML (`doc/html/index.html`) y en el manual de usuario (`USER_MANUAL.md`).
+* **Documentación del Modo Móvil (Responsive):** Creación e integración del diagrama detallado de la consola en modo móvil (`ui-mobile.svg`), e inclusión de una subsección de diseño móvil adaptativo en el manual interactivo HTML (`doc/html/manual.html`) y en el manual de usuario (`USER_MANUAL.md`).
 * **Iconografía en el Manual y Docs:** Integración del logotipo oficial del sistema (`icon.svg`) en la cabecera, favicon y sidebar del manual interactivo HTML y de las especificaciones de la documentación técnica.
 * **Rediseño del Mapa Arquitectónico Global:** Creación de una versión mucho más amplia (1200x850), completa y detallada de la arquitectura general del sistema (`arquitectura.svg`), incorporando iconos visuales para cada módulo, integraciones de archivos y leyendas descriptivas del flujo.
 * **Explicación Gráfica del Almacén Reactivo:** Creación e integración del diagrama explicativo del store reactivo, Proxy ES6, auto-guardado en localStorage e historial (Undo/Redo) (`store-funcionamiento.svg`).
 * **Explicación Gráfica del Orquestador:** Creación e integración del diagrama detallado sobre la estructura y funcionamiento del orquestador central en la arquitectura reactiva (`orquestador-funcionamiento.svg`).
   * *Corrección:* Solucionado bug de solapamiento de texto encimado en la columna de "MÓDULOS RECEPTORES" corrigiendo las coordenadas `y` de posicionamiento absoluto del SVG.
-* **Actualización del Manual Interactivo HTML:** Añadidas las secciones explicativas y vinculados los nuevos diagramas SVG en `doc/html/index.html` para la sección de arquitectura del almacén y renderizado.
+* **Actualización del Manual Interactivo HTML:** Añadidas las secciones explicativas y vinculados los nuevos diagramas SVG en `doc/html/manual.html` para la sección de arquitectura del almacén y renderizado.
 * **Actualización de Documentación Técnica:** Incorporación del flujo de intercepción del Proxy, el guardado persistente, el historial de snapshots y el despacho selectivo de eventos en `doc/md/TECHNICAL_DOCS.md`.
 
 
 ## [2026-06-09 20:23] Manual Interactivo HTML y Diagramas Técnicos
-* **Manual Interactivo SPA:** Migración completa de la documentación técnica y de usuario de formato texto plano a un portal web interactivo (`doc/html/index.html`) con navegación lateral dinámica y diseño adaptado en modo oscuro.
+* **Manual Interactivo SPA:** Migración completa de la documentación técnica y de usuario de formato texto plano a un portal web interactivo (`doc/html/manual.html`) con navegación lateral dinámica y diseño adaptado en modo oscuro.
 * **Gráficos Técnicos SVG:** Creación e integración de diagramas vectoriales nativos explicativos:
   * Anatomía del Rack (Unidades U frontal/trasero).
   * Nodos de topología y cableado de red.

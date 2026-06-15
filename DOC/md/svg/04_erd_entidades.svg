@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 440" width="920" height="440">
+  <defs>
+    <style>
+      .erd-dash { animation: erdDash 2s infinite linear; stroke-dasharray: 8 4; }
+      @keyframes erdDash { from{stroke-dashoffset:24} to{stroke-dashoffset:0} }
+    </style>
+    <marker id="ea" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#475569"/>
+    </marker>
+    <marker id="eaP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="eaB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#38bdf8"/>
+    </marker>
+    <marker id="eaG" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect width="920" height="440" fill="#090d17" rx="18"/>
+  <text x="460" y="34" text-anchor="middle" fill="#94a3b8" font-size="15" font-family="monospace" font-weight="bold">🔗 ERD — Relaciones entre Entidades del Proyecto</text>
+  <text x="460" y="52" text-anchor="middle" fill="#475569" font-size="10" font-family="monospace">Room (1:N) → Rack (1:N) → Device — Connections es tabla de unión N:M entre Devices</text>
+
+  <!-- ══ ROOM ══ -->
+  <rect x="20" y="72" width="185" height="200" rx="10" fill="#0f1e30" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="20" y="72" width="185" height="30" rx="10" fill="#0a2a4a"/>
+  <text x="112" y="93" text-anchor="middle" fill="#38bdf8" font-size="13" font-family="monospace" font-weight="bold">🏢  ROOM</text>
+  <line x1="20" y1="102" x2="205" y2="102" stroke="#38bdf8" stroke-width="0.8"/>
+  <!-- Atributos -->
+  <text x="32" y="120" fill="#475569" font-size="9.5" font-family="monospace">🔑  id          string uid()</text>
+  <text x="32" y="136" fill="#475569" font-size="9.5" font-family="monospace">    name        string</text>
+  <line x1="20" y1="144" x2="205" y2="144" stroke="#1e293b" stroke-width="0.6"/>
+  <!-- Relaciones -->
+  <text x="32" y="162" fill="#1e4a7a" font-size="9.5" font-family="monospace">1 ─────── N  RACK</text>
+  <text x="32" y="178" fill="#1e4a7a" font-size="9.5" font-family="monospace">1 ─────── N  DEVICE (floor)</text>
+  <text x="32" y="194" fill="#1e4a7a" font-size="9.5" font-family="monospace">1 ─────── 1  topology pos</text>
+  <line x1="20" y1="202" x2="205" y2="202" stroke="#1e293b" stroke-width="0.6"/>
+  <text x="32" y="220" fill="#0a2a4a" font-size="9" font-family="monospace">← sala activa:</text>
+  <text x="32" y="234" fill="#38bdf8" font-size="9" font-family="monospace">   currentRoomId</text>
+  <text x="32" y="250" fill="#0a2a4a" font-size="9" font-family="monospace">dispositivos de piso</text>
+  <text x="32" y="264" fill="#0a2a4a" font-size="9" font-family="monospace">tienen roomId (sin rackId)</text>
+
+  <!-- Flecha ROOM → RACK -->
+  <text x="112" y="293" text-anchor="middle" fill="#38bdf8" font-size="13" font-family="monospace">1</text>
+  <line x1="205" y1="155" x2="295" y2="155" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#eaB)" class="erd-dash"/>
+  <text x="292" y="144" text-anchor="middle" fill="#38bdf8" font-size="13" font-family="monospace">N</text>
+
+  <!-- ══ RACK ══ -->
+  <rect x="295" y="72" width="200" height="220" rx="10" fill="#0f201a" stroke="#10b981" stroke-width="2"/>
+  <rect x="295" y="72" width="200" height="30" rx="10" fill="#0a2a1a"/>
+  <text x="395" y="93" text-anchor="middle" fill="#10b981" font-size="13" font-family="monospace" font-weight="bold">🗄️  RACK</text>
+  <line x1="295" y1="102" x2="495" y2="102" stroke="#10b981" stroke-width="0.8"/>
+  <text x="307" y="120" fill="#475569" font-size="9.5" font-family="monospace">🔑  id          string uid()</text>
+  <text x="307" y="136" fill="#475569" font-size="9.5" font-family="monospace">🔗  roomId      FK → ROOM</text>
+  <text x="307" y="152" fill="#475569" font-size="9.5" font-family="monospace">    name        string</text>
+  <text x="307" y="168" fill="#475569" font-size="9.5" font-family="monospace">    height      int  (total U)</text>
+  <text x="307" y="184" fill="#475569" font-size="9.5" font-family="monospace">    color       #hex</text>
+  <line x1="295" y1="192" x2="495" y2="192" stroke="#1e293b" stroke-width="0.6"/>
+  <text x="307" y="210" fill="#1a4a3a" font-size="9.5" font-family="monospace">1 ─────── N  DEVICE (rack)</text>
+  <text x="307" y="226" fill="#1a4a3a" font-size="9.5" font-family="monospace">1 ─────── 1  topology pos/size</text>
+  <line x1="295" y1="234" x2="495" y2="234" stroke="#1e293b" stroke-width="0.6"/>
+  <text x="307" y="252" fill="#0a3a2a" font-size="9" font-family="monospace">Colisiones: front|rear</text>
+  <text x="307" y="266" fill="#0a3a2a" font-size="9" font-family="monospace">son independientes entre sí</text>
+  <text x="307" y="280" fill="#0a3a2a" font-size="9" font-family="monospace">(2 dispositivos pueden compartir</text>
+  <text x="307" y="294" fill="#0a3a2a" font-size="9" font-family="monospace"> misma U si están en lados opuestos)</text>
+
+  <!-- Flecha RACK → DEVICE -->
+  <text x="395" y="316" text-anchor="middle" fill="#10b981" font-size="13" font-family="monospace">1</text>
+  <line x1="495" y1="155" x2="575" y2="155" stroke="#10b981" stroke-width="1.8" marker-end="url(#eaG)" class="erd-dash"/>
+  <text x="572" y="144" text-anchor="middle" fill="#10b981" font-size="13" font-family="monospace">N</text>
+
+  <!-- ══ DEVICE ══ -->
+  <rect x="575" y="55" width="215" height="335" rx="10" fill="#1a1300" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="575" y="55" width="215" height="30" rx="10" fill="#2a2000"/>
+  <text x="682" y="76" text-anchor="middle" fill="#f59e0b" font-size="13" font-family="monospace" font-weight="bold">📦  DEVICE</text>
+  <line x1="575" y1="85" x2="790" y2="85" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="587" y="103" fill="#475569" font-size="9.5" font-family="monospace">🔑  id          string uid()</text>
+  <text x="587" y="119" fill="#475569" font-size="9.5" font-family="monospace">🔗  rackId      FK→RACK | null</text>
+  <text x="587" y="135" fill="#475569" font-size="9.5" font-family="monospace">🔗  roomId      FK→ROOM | null</text>
+  <text x="587" y="151" fill="#f59e0b" font-size="9.5" font-family="monospace">    category    "rack" | "floor"</text>
+  <text x="587" y="167" fill="#475569" font-size="9.5" font-family="monospace">    name        string</text>
+  <text x="587" y="183" fill="#475569" font-size="9.5" font-family="monospace">    type        switch|server|...</text>
+  <text x="587" y="199" fill="#475569" font-size="9.5" font-family="monospace">    slotStart   int (posición U)</text>
+  <text x="587" y="215" fill="#475569" font-size="9.5" font-family="monospace">    size        int (alto en U)</text>
+  <text x="587" y="231" fill="#475569" font-size="9.5" font-family="monospace">    mountSide   "front" | "rear"</text>
+  <text x="587" y="247" fill="#475569" font-size="9.5" font-family="monospace">    ip          string</text>
+  <text x="587" y="263" fill="#475569" font-size="9.5" font-family="monospace">    mac         string</text>
+  <text x="587" y="279" fill="#475569" font-size="9.5" font-family="monospace">    serial      string</text>
+  <text x="587" y="295" fill="#ef4444" font-size="9.5" font-family="monospace">    user / pass 🔴 plain text</text>
+  <text x="587" y="311" fill="#475569" font-size="9.5" font-family="monospace">    power / plugs / plugsOut</text>
+  <text x="587" y="327" fill="#475569" font-size="9.5" font-family="monospace">    brand / model / notes</text>
+  <text x="587" y="343" fill="#4a3800" font-size="9.5" font-family="monospace">    floorX / floorY (solo floor)</text>
+  <line x1="575" y1="353" x2="790" y2="353" stroke="#2a1a00" stroke-width="0.6"/>
+  <text x="587" y="371" fill="#6a4a00" font-size="9" font-family="monospace">N ─────── N  (via CONNECTIONS)</text>
+  <text x="587" y="384" fill="#3a2a00" font-size="9" font-family="monospace">Dos devices se conectan por cables</text>
+
+  <!-- Flecha DEVICE → CONNECTIONS (abajo) -->
+  <line x1="682" y1="390" x2="682" y2="406" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#eaP)"/>
+
+  <!-- ══ CONNECTIONS ══ -->
+  <rect x="575" y="406" width="215" height="24" rx="5" fill="#1a0d2e" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="682" y="422" text-anchor="middle" fill="#8b5cf6" font-size="10.5" font-family="monospace" font-weight="bold">🔌  CONNECTIONS  (tabla N:M)</text>
+
+  <!-- ══ LEYENDA ══ -->
+  <rect x="20" y="310" width="265" height="118" rx="10" fill="#0d0d1a" stroke="#1e293b" stroke-width="1.5"/>
+  <text x="152" y="332" text-anchor="middle" fill="#475569" font-size="12" font-family="monospace" font-weight="bold">📖 Leyenda</text>
+  <line x1="30" y1="340" x2="275" y2="340" stroke="#1e293b" stroke-width="0.6"/>
+  <text x="32" y="358" fill="#94a3b8" font-size="10" font-family="monospace">🔑  Clave primaria — uid() base-36</text>
+  <text x="32" y="376" fill="#94a3b8" font-size="10" font-family="monospace">🔗  Clave foránea (FK) — string id</text>
+  <text x="32" y="394" fill="#ef4444" font-size="10" font-family="monospace">🔴  Campo de riesgo de seguridad</text>
+  <text x="32" y="412" fill="#94a3b8" font-size="10" font-family="monospace">N:M  relación via tabla CONNECTIONS</text>
+</svg>

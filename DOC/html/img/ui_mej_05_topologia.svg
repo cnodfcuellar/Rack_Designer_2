@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 380" width="1100" height="380">
+<defs>
+  <style>
+    @keyframes topo-flow { from{stroke-dashoffset:30} to{stroke-dashoffset:0} }
+    .tf { stroke-dasharray:10,5; animation: topo-flow 1.5s linear infinite; }
+    @keyframes minimap-scan { 0%,100%{opacity:0.6} 50%{opacity:1} }
+    .ms { animation: minimap-scan 2s ease-in-out infinite; }
+  </style>
+</defs>
+<rect width="1100" height="380" fill="#0f1e3d" rx="12"/>
+<!-- Grid dots -->
+<pattern id="dots2" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+  <circle cx="15" cy="15" r="1" fill="#ffffff15"/>
+</pattern>
+<rect width="1100" height="380" fill="url(#dots2)" rx="12"/>
+
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#ffffff44">PROPUESTA — Topología con Minimapa + Presentación</text>
+
+<!-- PRESENTATION MODE BADGE -->
+<rect x="380" y="28" width="340" height="28" rx="14" fill="#f59e0b" opacity="0.95"/>
+<text x="550" y="47" text-anchor="middle" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#0f172a">📺 MODO PRESENTACIÓN — Solo Lectura</text>
+
+<!-- Topology nodes (simplified) -->
+<!-- Room box -->
+<rect x="60" y="68" width="560" height="280" rx="20" fill="#f9731620" stroke="#f97316" stroke-width="2"/>
+<text x="90" y="100" font-family="Space Grotesk" font-size="14" font-weight="700" fill="#fb923c">Sala A: Centro de Datos</text>
+
+<!-- Rack 1 box -->
+<rect x="90" y="112" width="200" height="200" rx="10" fill="#65a30d30" stroke="#84cc16" stroke-width="1.5"/>
+<text x="190" y="132" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#bef264">Rack Principal</text>
+
+<!-- Rack 2 box -->
+<rect x="320" y="112" width="200" height="200" rx="10" fill="#65a30d30" stroke="#84cc16" stroke-width="1.5"/>
+<text x="420" y="132" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#bef264">Rack Core</text>
+
+<!-- Nodes in Rack 1 -->
+<circle cx="150" cy="168" r="22" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+<text x="150" y="173" text-anchor="middle" font-size="16">🔀</text>
+<text x="150" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Switch 48P</text>
+
+<circle cx="240" cy="168" r="22" fill="#0f172a" stroke="#ef4444" stroke-width="2.5"/>
+<text x="240" y="173" text-anchor="middle" font-size="16">🔥</text>
+<text x="240" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Firewall</text>
+
+<circle cx="190" cy="270" r="22" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+<text x="190" y="275" text-anchor="middle" font-size="16">🖥</text>
+<text x="190" y="302" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Server R740</text>
+
+<!-- Nodes in Rack 2 -->
+<circle cx="380" cy="168" r="22" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+<text x="380" y="173" text-anchor="middle" font-size="16">🖥</text>
+<text x="380" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Server HP</text>
+
+<circle cx="460" cy="168" r="22" fill="#0f172a" stroke="#8b5cf6" stroke-width="2.5"/>
+<text x="460" y="173" text-anchor="middle" font-size="16">💾</text>
+<text x="460" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">SAN Storage</text>
+
+<circle cx="420" cy="270" r="22" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+<text x="420" y="275" text-anchor="middle" font-size="16">🌐</text>
+<text x="420" y="302" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Router Core</text>
+
+<!-- Connections -->
+<path d="M172 168 Q206 148 218 168" fill="none" stroke="#3b82f6" stroke-width="2.5" class="tf"/>
+<path d="M150 190 Q150 240 168 270" fill="none" stroke="#3b82f6" stroke-width="2" class="tf"/>
+<path d="M240 190 Q310 230 358 168" fill="none" stroke="#ef4444" stroke-width="2" class="tf"/>
+<path d="M380 190 Q400 230 400 248" fill="none" stroke="#0ea5e9" stroke-width="2" class="tf"/>
+<path d="M460 190 Q450 230 440 248" fill="none" stroke="#8b5cf6" stroke-width="2" class="tf"/>
+
+<!-- MINIMAP -->
+<rect x="700" y="280" width="160" height="88" rx="8" fill="#060a14" stroke="#38bdf8" stroke-width="1.5" opacity="0.95"/>
+<text x="780" y="296" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#475569">MINIMAPA</text>
+<!-- Mini topology -->
+<rect x="710" y="300" width="140" height="60" rx="4" fill="#0d1428" stroke="#1e2d4e"/>
+<rect x="716" y="306" width="60" height="48" rx="3" fill="#f9731610" stroke="#f97316" stroke-width="0.8"/>
+<rect x="782" y="306" width="60" height="48" rx="3" fill="#f9731610" stroke="#f97316" stroke-width="0.8"/>
+<!-- viewport indicator -->
+<rect x="716" y="306" width="60" height="48" rx="3" fill="#38bdf820" stroke="#38bdf8" stroke-width="1" class="ms"/>
+<circle cx="736" cy="322" r="4" fill="#10b981"/>
+<circle cx="750" cy="322" r="4" fill="#ef4444"/>
+<circle cx="743" cy="338" r="4" fill="#0ea5e9"/>
+<circle cx="796" cy="322" r="4" fill="#0ea5e9"/>
+<circle cx="812" cy="322" r="4" fill="#8b5cf6"/>
+<circle cx="804" cy="338" r="4" fill="#f59e0b"/>
+<line x1="740" y1="322" x2="750" y2="322" stroke="#3b82f6" stroke-width="1"/>
+<line x1="796" y1="322" x2="804" y2="330" stroke="#0ea5e9" stroke-width="1"/>
+<text x="780" y="366" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#475569">Clic para navegar</text>
+
+<!-- LEYENDA DE CABLES -->
+<rect x="870" y="200" width="210" height="158" rx="8" fill="#060a14" stroke="#1e2d4e" stroke-width="1" opacity="0.95"/>
+<text x="975" y="220" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">LEYENDA CABLES</text>
+<line x1="885" y1="230" x2="915" y2="230" stroke="#3b82f6" stroke-width="3"/>
+<text x="922" y="234" font-family="JetBrains Mono" font-size="9" fill="#93c5fd">Cobre Cat6 ×4</text>
+<line x1="885" y1="248" x2="915" y2="248" stroke="#ef4444" stroke-width="3"/>
+<text x="922" y="252" font-family="JetBrains Mono" font-size="9" fill="#fca5a5">Fibra SM ×2</text>
+<line x1="885" y1="266" x2="915" y2="266" stroke="#10b981" stroke-width="3"/>
+<text x="922" y="270" font-family="JetBrains Mono" font-size="9" fill="#6ee7b7">Fibra MM ×1</text>
+<line x1="885" y1="284" x2="915" y2="284" stroke="#8b5cf6" stroke-width="3"/>
+<text x="922" y="288" font-family="JetBrains Mono" font-size="9" fill="#c4b5fd">SAN FC ×2</text>
+<line x1="885" y1="302" x2="915" y2="302" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4,2"/>
+<text x="922" y="306" font-family="JetBrains Mono" font-size="9" fill="#fde68a">Consola ×1</text>
+<!-- Export buttons -->
+<rect x="885" y="316" width="88" height="22" rx="5" fill="#38bdf820" stroke="#38bdf860"/>
+<text x="929" y="330" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#7dd3fc">⬇ PNG</text>
+<rect x="981" y="316" width="88" height="22" rx="5" fill="#10b98120" stroke="#10b98160"/>
+<text x="1025" y="330" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#6ee7b7">⬇ SVG ★</text>
+
+<!-- Toolbar topo -->
+<rect x="700" y="68" width="380" height="36" rx="8" fill="#060a14" stroke="#1e2d4e" opacity="0.9"/>
+<rect x="710" y="76" width="60" height="20" rx="5" fill="#f59e0b30" stroke="#f59e0b70"/>
+<text x="740" y="90" text-anchor="middle" font-family="Space Grotesk" font-size="9" font-weight="700" fill="#fbbf24">📺 Present.</text>
+<rect x="778" y="76" width="50" height="20" rx="5" fill="#1e2d4e"/>
+<text x="803" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">−</text>
+<rect x="832" y="76" width="46" height="20" rx="5" fill="#1e2d4e"/>
+<text x="855" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">75%</text>
+<rect x="882" y="76" width="50" height="20" rx="5" fill="#1e2d4e"/>
+<text x="907" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">+</text>
+<rect x="938" y="76" width="60" height="20" rx="5" fill="#1e2d4e"/>
+<text x="968" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">⊞ Ajustar</text>
+<rect x="1004" y="76" width="64" height="20" rx="5" fill="#1e2d4e"/>
+<text x="1036" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">📌 Guardar</text>
+</svg>

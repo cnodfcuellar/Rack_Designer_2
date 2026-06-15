@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560">
+<defs>
+  <style>
+    @keyframes scanline { from{transform:translateY(0)} to{transform:translateY(340px)} }
+    @keyframes blink60  { 0%,49%{opacity:1} 50%,100%{opacity:0.3} }
+    .sl { animation: scanline 2s linear infinite; }
+    .fps { animation: blink60 0.5s step-start infinite; }
+    .p-t { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; }
+    .p-s { font-family:'JetBrains Mono',monospace; font-size:9px; fill:#64748b; }
+    .p-l { font-family:'JetBrains Mono',monospace; font-size:9px; }
+  </style>
+  <marker id="pa" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#38bdf8"/>
+  </marker>
+  <marker id="pa2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#06b6d4"/>
+  </marker>
+  <clipPath id="physClip">
+    <rect x="30" y="80" width="420" height="360"/>
+  </clipPath>
+  <clipPath id="topoClip">
+    <rect x="510" y="80" width="420" height="360"/>
+  </clipPath>
+</defs>
+<rect width="960" height="560" fill="#080c18" rx="12"/>
+<text x="480" y="26" text-anchor="middle" font-family="Space Grotesk" font-size="14" font-weight="700" fill="#38bdf8">Pipeline de Renderizado — Vista Física vs Topología Canvas</text>
+
+<!-- DATA SOURCE -->
+<rect x="360" y="44" width="240" height="32" rx="8" fill="#1a2035" stroke="#60a5fa" stroke-width="2"/>
+<text x="480" y="65" text-anchor="middle" class="p-t" fill="#60a5fa">store._raw (fuente única de verdad)</text>
+
+<!-- PHYSICAL SIDE -->
+<rect x="30" y="88" width="420" height="32" rx="8" fill="#0f2035" stroke="#0ea5e9" stroke-width="2"/>
+<text x="240" y="109" text-anchor="middle" class="p-t" fill="#38bdf8">🖥 Vista Física — DOM HTML</text>
+
+<line x1="480" y1="76" x2="240" y2="88" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="480" y1="76" x2="720" y2="88" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+<!-- Physical steps -->
+<rect x="40" y="134" width="180" height="44" rx="7" fill="#0a1a1f" stroke="#0ea5e9" stroke-width="1.5"/>
+<text x="130" y="153" text-anchor="middle" class="p-t" fill="#7dd3fc">renderPhysical()</text>
+<text x="130" y="167" text-anchor="middle" class="p-s">rack.js · triggered by store</text>
+
+<line x1="220" y1="156" x2="250" y2="156" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#pa)"/>
+
+<rect x="250" y="134" width="190" height="44" rx="7" fill="#0a1a1f" stroke="#10b981" stroke-width="1.5"/>
+<text x="345" y="153" text-anchor="middle" class="p-t" fill="#34d399">buildRackFace()</text>
+<text x="345" y="167" text-anchor="middle" class="p-s">Template string HTML por rack</text>
+
+<line x1="130" y1="178" x2="130" y2="210" stroke="#38bdf8" stroke-width="1"/>
+<line x1="345" y1="178" x2="345" y2="210" stroke="#38bdf8" stroke-width="1"/>
+
+<rect x="40" y="210" width="180" height="44" rx="7" fill="#0a1a1f" stroke="#10b981" stroke-width="1.5"/>
+<text x="130" y="229" text-anchor="middle" class="p-t" fill="#34d399">buildFaceplate()</text>
+<text x="130" y="243" text-anchor="middle" class="p-s">faceplates.js · por tipo</text>
+
+<line x1="220" y1="232" x2="250" y2="232" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#pa)"/>
+
+<rect x="250" y="210" width="190" height="44" rx="7" fill="#0a1a1f" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="345" y="229" text-anchor="middle" class="p-t" fill="#c4b5fd">innerHTML = html</text>
+<text x="345" y="243" text-anchor="middle" class="p-s">Reemplaza DOM completo</text>
+
+<line x1="130" y1="254" x2="130" y2="286" stroke="#38bdf8" stroke-width="1"/>
+<line x1="345" y1="254" x2="345" y2="286" stroke="#38bdf8" stroke-width="1"/>
+
+<rect x="40" y="286" width="180" height="44" rx="7" fill="#0a1a1f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="130" y="305" text-anchor="middle" class="p-t" fill="#fbbf24">bindRackEvents()</text>
+<text x="130" y="319" text-anchor="middle" class="p-s">Re-registra TODOS los listeners</text>
+
+<line x1="220" y1="308" x2="250" y2="308" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#pa)"/>
+
+<rect x="250" y="286" width="190" height="44" rx="7" fill="#0a1a1f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="345" y="305" text-anchor="middle" class="p-t" fill="#fbbf24">updateZoomLabel()</text>
+<text x="345" y="319" text-anchor="middle" class="p-s">CSS zoom + transform translate</text>
+
+<rect x="40" y="356" width="400" height="44" rx="8" fill="#0d1428" stroke="#0ea5e9" stroke-width="1"/>
+<text x="240" y="373" text-anchor="middle" class="p-l" fill="#7dd3fc">⚡ Estrategia: innerHTML completo — simple, lento con +50 racks</text>
+<text x="240" y="388" text-anchor="middle" class="p-l" fill="#475569">Mejora recomendada: diff DOM / virtual DOM ligero</text>
+
+<!-- TOPOLOGY SIDE -->
+<rect x="510" y="88" width="420" height="32" rx="8" fill="#0f2535" stroke="#06b6d4" stroke-width="2"/>
+<text x="720" y="109" text-anchor="middle" class="p-t" fill="#22d3ee">🗺 Vista Topología — Canvas 2D (60fps)</text>
+
+<rect x="520" y="134" width="180" height="44" rx="7" fill="#0a1a1f" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="610" y="153" text-anchor="middle" class="p-t" fill="#22d3ee">startTopo()</text>
+<text x="610" y="167" text-anchor="middle" class="p-s">resizeCanvas + initTopoPositions</text>
+
+<line x1="700" y1="156" x2="730" y2="156" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#pa2)"/>
+
+<rect x="730" y="134" width="190" height="44" rx="7" fill="#0a1a1f" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="825" y="153" text-anchor="middle" class="p-t" fill="#22d3ee">requestAnimationFrame</text>
+<text x="825" y="167" text-anchor="middle" class="p-s">→ drawTopo() loop</text>
+<!-- blinking FPS indicator -->
+<circle cx="910" cy="148" r="5" fill="#10b981" class="fps"/>
+<text x="910" y="165" text-anchor="middle" class="p-s" fill="#10b981">60fps</text>
+
+<line x1="610" y1="178" x2="610" y2="210" stroke="#06b6d4" stroke-width="1"/>
+<line x1="825" y1="178" x2="825" y2="210" stroke="#06b6d4" stroke-width="1"/>
+
+<!-- drawTopo phases -->
+<rect x="520" y="210" width="180" height="44" rx="7" fill="#0a1a1f" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="610" y="229" text-anchor="middle" class="p-t" fill="#c4b5fd">① clearRect</text>
+<text x="610" y="243" text-anchor="middle" class="p-s">Borra canvas completo</text>
+
+<line x1="700" y1="232" x2="730" y2="232" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#pa2)"/>
+<rect x="730" y="210" width="190" height="44" rx="7" fill="#0a1a1f" stroke="#8b5cf6" stroke-width="1.5"/>
+<text x="825" y="229" text-anchor="middle" class="p-t" fill="#c4b5fd">② Draw Rooms</text>
+<text x="825" y="243" text-anchor="middle" class="p-s">roundRect + fillText</text>
+
+<line x1="610" y1="254" x2="610" y2="286" stroke="#06b6d4" stroke-width="1"/>
+<line x1="825" y1="254" x2="825" y2="286" stroke="#06b6d4" stroke-width="1"/>
+
+<rect x="520" y="286" width="180" height="44" rx="7" fill="#0a1a1f" stroke="#10b981" stroke-width="1.5"/>
+<text x="610" y="305" text-anchor="middle" class="p-t" fill="#34d399">③ Draw Racks</text>
+<text x="610" y="319" text-anchor="middle" class="p-s">roundRect por rack</text>
+
+<line x1="700" y1="308" x2="730" y2="308" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#pa2)"/>
+<rect x="730" y="286" width="190" height="44" rx="7" fill="#0a1a1f" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="825" y="305" text-anchor="middle" class="p-t" fill="#fbbf24">④ Draw Connections</text>
+<text x="825" y="319" text-anchor="middle" class="p-s">bezierCurveTo + partículas</text>
+
+<line x1="610" y1="330" x2="610" y2="356" stroke="#06b6d4" stroke-width="1"/>
+<line x1="825" y1="330" x2="825" y2="356" stroke="#06b6d4" stroke-width="1"/>
+<line x1="610" y1="356" x2="825" y2="356" stroke="#06b6d4" stroke-width="1"/>
+<line x1="720" y1="356" x2="720" y2="370" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#pa2)"/>
+<rect x="640" y="370" width="160" height="30" rx="6" fill="#0a1a1f" stroke="#06b6d4" stroke-width="1.5"/>
+<text x="720" y="390" text-anchor="middle" class="p-t" fill="#22d3ee">⑤ Draw Nodes + HUD</text>
+
+<rect x="520" y="414" width="400" height="44" rx="8" fill="#0d1428" stroke="#06b6d4" stroke-width="1"/>
+<text x="720" y="431" text-anchor="middle" class="p-l" fill="#22d3ee">⚡ Estrategia: borrado completo y repintado 60fps</text>
+<text x="720" y="447" text-anchor="middle" class="p-l" fill="#475569">flowT acumula infinitamente (BUG-18) — fix: flowT = (flowT+0.015) % 1</text>
+
+<!-- Divider -->
+<line x1="480" y1="88" x2="480" y2="470" stroke="#1e2d4e" stroke-width="2" stroke-dasharray="8,4"/>
+
+<!-- SHARED FOOTER -->
+<rect x="30" y="474" width="900" height="64" rx="8" fill="#0d1428" stroke="#1e2d4e"/>
+<text x="480" y="494" text-anchor="middle" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#94a3b8">DATOS COMPARTIDOS POR AMBOS PIPELINES</text>
+<rect x="50" y="504" width="120" height="26" rx="4" fill="#1a2035" stroke="#60a5fa" stroke-width="1"/>
+<text x="110" y="521" text-anchor="middle" class="p-l" fill="#93c5fd">store._raw.devices</text>
+<rect x="182" y="504" width="120" height="26" rx="4" fill="#1a2035" stroke="#60a5fa" stroke-width="1"/>
+<text x="242" y="521" text-anchor="middle" class="p-l" fill="#93c5fd">store._raw.racks</text>
+<rect x="314" y="504" width="130" height="26" rx="4" fill="#1a2035" stroke="#60a5fa" stroke-width="1"/>
+<text x="379" y="521" text-anchor="middle" class="p-l" fill="#93c5fd">store._raw.connections</text>
+<rect x="456" y="504" width="130" height="26" rx="4" fill="#1a2035" stroke="#60a5fa" stroke-width="1"/>
+<text x="521" y="521" text-anchor="middle" class="p-l" fill="#93c5fd">nodePositions{}</text>
+<rect x="598" y="504" width="130" height="26" rx="4" fill="#1a2035" stroke="#60a5fa" stroke-width="1"/>
+<text x="663" y="521" text-anchor="middle" class="p-l" fill="#93c5fd">TYPE_COLORS{}</text>
+<rect x="740" y="504" width="130" height="26" rx="4" fill="#1a2035" stroke="#60a5fa" stroke-width="1"/>
+<text x="805" y="521" text-anchor="middle" class="p-l" fill="#93c5fd">escapeHTML()</text>
+</svg>

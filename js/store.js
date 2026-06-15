@@ -10,34 +10,16 @@ class Store {
 
   _defaultState() {
     const roomId = uid();
-    const rack1  = uid();
-    const rack2  = uid();
-    const dev1   = uid();
-    const dev2   = uid();
-    const dev3   = uid();
-    const dev4   = uid();
     return {
-      rooms: [{ id: roomId, name: 'Sala A: Centro de Datos Principal' }],
-      racks: [
-        { id: rack1, roomId, name: 'Rack rack 1', height: 14, color: '#0ea5e9', devices: [] },
-        { id: rack2, roomId, name: 'Rack rack 2', height: 14, color: '#10b981', devices: [] }
-      ],
-      devices: [
-        { id: dev1, rackId: rack1, name: 'Switch Cisco 48P', type: 'switch',   slotStart: 1, size: 1, ip: '192.168.1.1',  mac: '04:05:0F:11:02:AA', serial: 'CSW-001', power: 180, user: 'admin', pass: 'cisco123', notes: '' },
-        { id: dev2, rackId: rack1, name: 'Firewall Fortinet', type: 'firewall', slotStart: 2, size: 1, ip: '192.183.18.1', mac: '04:05:0F:11:02:BB', serial: 'FWL-001', power: 40,  user: 'Diana',    pass: 'fort123',  notes: '' },
-        { id: dev3, rackId: rack2, name: 'Server Dell R740',  type: 'server',   slotStart: 1, size: 2, ip: '192.183.18.2', mac: '03:02:25:51:6C:CC', serial: 'SRV-001', power: 550, user: 'Aktadelina', pass: 'dell456', notes: '' },
-        { id: dev4, rackId: rack2, name: 'SAN Storage 4U',   type: 'storage',  slotStart: 3, size: 4, ip: '192.168.1.50', mac: 'AA:BB:CC:DD:EE:FF',  serial: 'STO-001', power: 300, user: 'admin',    pass: 'san789',   notes: '' }
-      ],
-      connections: [
-        { id: uid(), sourceDeviceId: dev1, sourcePort: 'Eth0/1', targetDeviceId: dev2, targetPort: 'Port1', cableType: 'Cobre', color: '#3b82f6' },
-        { id: uid(), sourceDeviceId: dev2, sourcePort: 'Port2',  targetDeviceId: dev3, targetPort: 'Eth0', cableType: 'Fibra SM', color: '#ef4444' }
-      ],
+      rooms: [{ id: roomId, name: 'Sala Principal' }],
+      racks: [],
+      devices: [],
+      connections: [],
       currentRoomId: roomId,
       selectedDeviceId: null,
-      topoPositions: {},
-      zoom: 1,
-      panX: 0,
-      panY: 0
+      topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
+      topoZoom: 1, topoPanX: 0, topoPanY: 0,
+      physZoom: 1, physPanX: 0, physPanY: 0
     };
   }
 

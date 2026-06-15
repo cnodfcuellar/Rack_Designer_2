@@ -166,13 +166,40 @@ function initGlobalEvents() {
       const wantSave = confirm('¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
       if (wantSave) {
         if (typeof exportJSON === 'function') exportJSON();
-        // Dar un pequeño respiro para que el navegador inicie la descarga
-        setTimeout(() => { loadDemoData(); }, 1500);
       } else {
         const proceed = confirm('⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
-        if (proceed) {
+        if (!proceed) return;
+      }
+
+      // Carga dinámica: solo se descarga demoData.js cuando el usuario lo pide
+      function runDemo() {
+        if (typeof loadDemoData === 'function') {
           loadDemoData();
+        } else {
+          notify('Error: no se pudo cargar el módulo de demos', 'error');
         }
+      }
+
+      if (typeof loadDemoData === 'function') {
+        // Ya estaba cargado (ej: segunda vez que pulsa el botón)
+        if (wantSave) {
+          setTimeout(runDemo, 1500);
+        } else {
+          runDemo();
+        }
+      } else {
+        // Primera vez: inyectar el script dinámicamente
+        const script = document.createElement('script');
+        script.src = 'js/demoData.js';
+        script.onload = () => {
+          if (wantSave) {
+            setTimeout(runDemo, 1500);
+          } else {
+            runDemo();
+          }
+        };
+        script.onerror = () => notify('Error: no se encontró js/demoData.js', 'error');
+        document.head.appendChild(script);
       }
     });
     document.getElementById('menu-export-cat')?.addEventListener('click', () => {
@@ -350,7 +377,7 @@ function initGlobalEvents() {
   if(mainEl) resizeObs.observe(mainEl);
 }
 
-// loadDemoData() has been extracted to js/demoData.js for cleaner architecture
+// demoData.js se carga dinámicamente solo cuando el usuario pulsa "✨ Cargar demos"
 function init() {
   initTopology();
   initModals();

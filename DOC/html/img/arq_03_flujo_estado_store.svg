@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 900 560"
+   width="900"
+   height="560"
+   version="1.1"
+   id="svg62"
+   sodipodi:docname="arq_03_flujo_estado_store.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview62"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.6794594"
+     inkscape:cx="186.07178"
+     inkscape:cy="344.45608"
+     inkscape:window-width="1366"
+     inkscape:window-height="697"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg62" />
+  <defs
+     id="defs5">
+    <style
+       id="style1">
+    @keyframes flow-r { from{stroke-dashoffset:20} to{stroke-dashoffset:0} }
+    @keyframes flow-l { from{stroke-dashoffset:0} to{stroke-dashoffset:20} }
+    .anim-r { animation: flow-r 1.5s linear infinite; stroke-dasharray:8,4; }
+    .anim-l { animation: flow-l 1.5s linear infinite; stroke-dasharray:8,4; }
+    @keyframes spin-ring { from{stroke-dashoffset:0} to{stroke-dashoffset:-200} }
+    .spin-ring { animation: spin-ring 3s linear infinite; }
+    .st { font-family:'JetBrains Mono',monospace; font-size:10px; }
+    .sh { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; }
+  </style>
+    <marker
+       id="a1"
+       markerWidth="8"
+       markerHeight="6"
+       refX="8"
+       refY="3"
+       orient="auto">
+      <polygon
+         points="0 0,8 3,0 6"
+         fill="#38bdf8"
+         id="polygon1" />
+    </marker>
+    <marker
+       id="a1g"
+       markerWidth="8"
+       markerHeight="6"
+       refX="8"
+       refY="3"
+       orient="auto">
+      <polygon
+         points="0 0,8 3,0 6"
+         fill="#10b981"
+         id="polygon2" />
+    </marker>
+    <marker
+       id="a1y"
+       markerWidth="8"
+       markerHeight="6"
+       refX="8"
+       refY="3"
+       orient="auto">
+      <polygon
+         points="0 0,8 3,0 6"
+         fill="#f59e0b"
+         id="polygon3" />
+    </marker>
+    <marker
+       id="a1p"
+       markerWidth="8"
+       markerHeight="6"
+       refX="8"
+       refY="3"
+       orient="auto">
+      <polygon
+         points="0 0,8 3,0 6"
+         fill="#8b5cf6"
+         id="polygon4" />
+    </marker>
+    <filter
+       id="gf"
+       x="-0.04225"
+       y="-0.076818182"
+       width="1.0845"
+       height="1.1536364">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="b"
+         id="feGaussianBlur4" />
+      <feMerge
+         id="feMerge5">
+        <feMergeNode
+           in="b"
+           id="feMergeNode4" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode5" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- ── Paso 1: User Action ── -->
+  <!-- ── Paso 2: snapshot() ── -->
+  <!-- ── Paso 3: _raw mutation ── -->
+  <!-- Proxy ring -->
+  <!-- ── Proxy interceptor label ── -->
+  <!-- ── Paso 4: _save() → localStorage ── -->
+  <!-- ── Paso 5: _emit('change') ── -->
+  <!-- ── Paso 6: renderAll() ── -->
+  <!-- ── UNDO / REDO Stacks ── -->
+  <!-- ── localStorage restore ── -->
+  <!-- ── Bugs ── -->
+  <!-- ARROWS -->
+  <!-- User → snapshot -->
+  <!-- snapshot → _raw -->
+  <!-- _raw → _save -->
+  <!-- _raw → _emit -->
+  <!-- _emit → renderAll -->
+  <!-- renderAll → DOM update (implicit) -->
+  <!-- Undo arrows -->
+  <!-- Step numbers -->
+  <!-- Step labels bottom -->
+  <g
+     id="g79">
+    <rect
+       width="900"
+       height="560"
+       fill="#080c18"
+       rx="12"
+       id="rect5"
+       x="0"
+       y="0" />
+    <g
+       id="g78">
+      <text
+         x="451.25604"
+         y="25.038086"
+         text-anchor="middle"
+         font-family="'Space Grotesk'"
+         font-size="14px"
+         font-weight="700"
+         fill="#38bdf8"
+         id="text5">Flujo del Estado — Store Reactivo con Proxy ES6</text>
+      <g
+         id="g77"
+         transform="translate(-6,32)">
+        <g
+           id="g67"
+           transform="translate(0,4)">
+          <rect
+             x="445"
+             y="155"
+             width="230"
+             height="36"
+             rx="6"
+             fill="#0f1a2e"
+             stroke="#38bdf8"
+             stroke-width="1"
+             id="rect15" />
+          <text
+             x="560"
+             y="170"
+             text-anchor="middle"
+             class="st"
+             fill="#7dd3fc"
+             font-weight="700"
+             id="text16">Proxy ES6 — set trap</text>
+          <text
+             x="560"
+             y="184"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text17">intercepta TODA escritura</text>
+        </g>
+        <g
+           id="g75">
+          <rect
+             x="30"
+             y="340"
+             width="400"
+             height="100"
+             rx="10"
+             fill="#0d1428"
+             stroke="#8b5cf6"
+             stroke-width="1.5"
+             id="rect26" />
+          <text
+             x="230"
+             y="362"
+             text-anchor="middle"
+             class="sh"
+             fill="#a78bfa"
+             id="text27">Historial Undo / Redo</text>
+          <text
+             x="55"
+             y="408"
+             class="st"
+             fill="#64748b"
+             id="text29">[ snap₀ | snap₁ | snap₂ | ...]</text>
+          <g
+             id="g74">
+            <rect
+               x="45"
+               y="372"
+               width="170"
+               height="54"
+               rx="6"
+               fill="#2d1b4e"
+               stroke="#8b5cf6"
+               stroke-width="1"
+               id="rect27" />
+            <text
+               x="130"
+               y="392"
+               text-anchor="middle"
+               class="st"
+               fill="#c4b5fd"
+               font-weight="700"
+               id="text28">undoStack []</text>
+            <text
+               x="55"
+               y="420"
+               class="st"
+               fill="#475569"
+               id="text30">máx. 30 snapshots</text>
+          </g>
+          <g
+             id="g73">
+            <rect
+               x="225"
+               y="372"
+               width="190"
+               height="54"
+               rx="6"
+               fill="#1e0a3e"
+               stroke="#6366f1"
+               stroke-width="1"
+               id="rect30" />
+            <text
+               x="320"
+               y="392"
+               text-anchor="middle"
+               class="st"
+               fill="#a5b4fc"
+               font-weight="700"
+               id="text31">redoStack []</text>
+            <text
+               x="235"
+               y="408"
+               class="st"
+               fill="#64748b"
+               id="text32">[ snap_after_undo | ...]</text>
+            <text
+               x="235"
+               y="420"
+               class="st"
+               fill="#475569"
+               id="text33">se limpia en cada acción</text>
+          </g>
+        </g>
+        <g
+           id="g72">
+          <rect
+             x="460"
+             y="340"
+             width="200"
+             height="100"
+             rx="10"
+             fill="#1a0f00"
+             stroke="#f59e0b"
+             stroke-width="1.5"
+             id="rect33" />
+          <text
+             x="560"
+             y="362"
+             text-anchor="middle"
+             class="sh"
+             fill="#fbbf24"
+             id="text34">🔄 Arranque</text>
+          <text
+             x="560"
+             y="380"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text35">_load()</text>
+          <text
+             x="560"
+             y="395"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text36">localStorage.getItem</text>
+          <text
+             x="560"
+             y="410"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text37">→ JSON.parse</text>
+          <text
+             x="560"
+             y="425"
+             text-anchor="middle"
+             class="st"
+             fill="#475569"
+             id="text38">fallback: _defaultState()</text>
+        </g>
+        <g
+           id="g71">
+          <rect
+             x="700"
+             y="340"
+             width="180"
+             height="100"
+             rx="10"
+             fill="#1a0a0a"
+             stroke="#ef4444"
+             stroke-width="1.5"
+             id="rect38" />
+          <text
+             x="790"
+             y="360"
+             text-anchor="middle"
+             class="sh"
+             fill="#f87171"
+             font-size="11"
+             id="text39">🐛 Bugs aquí</text>
+          <text
+             x="712"
+             y="378"
+             class="st"
+             fill="#fca5a5"
+             id="text40">BUG-04: Proxy leak</text>
+          <text
+             x="712"
+             y="394"
+             class="st"
+             fill="#fca5a5"
+             id="text41">get crea Proxy c/vez</text>
+          <text
+             x="712"
+             y="414"
+             class="st"
+             fill="#fde68a"
+             id="text42">BUG-05: loadData()</text>
+          <text
+             x="712"
+             y="430"
+             class="st"
+             fill="#fde68a"
+             id="text43">no resetea topology{}</text>
+        </g>
+        <path
+           d="m 388,308 q 0,30 -225,30 0,-190 75,-245"
+           fill="none"
+           stroke="#818cf8"
+           stroke-width="1.5"
+           stroke-dasharray="5, 3"
+           marker-end="url(#a1p)"
+           opacity="0.6"
+           id="path47" />
+        <text
+           x="105"
+           y="326"
+           class="st"
+           fill="#818cf8"
+           font-size="9"
+           text-anchor="middle"
+           id="text47">DOM actualizado</text>
+        <path
+           d="m 238,390 q 0,-40 90,-305"
+           fill="none"
+           stroke="#8b5cf6"
+           stroke-width="1"
+           stroke-dasharray="4, 3"
+           opacity="0.5"
+           id="path48" />
+        <text
+           x="200"
+           y="315"
+           class="st"
+           fill="#8b5cf6"
+           font-size="9"
+           text-anchor="middle"
+           id="text48">Ctrl+Z → Object.assign(_raw, prev)</text>
+        <g
+           id="g63">
+          <rect
+             x="30"
+             y="50"
+             width="150"
+             height="70"
+             rx="10"
+             fill="#1e3a5f"
+             stroke="#38bdf8"
+             stroke-width="2"
+             id="rect6" />
+          <text
+             x="105"
+             y="74"
+             text-anchor="middle"
+             class="sh"
+             fill="#93c5fd"
+             id="text6">👤 Usuario</text>
+          <text
+             x="105"
+             y="90"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text7">Click · Drag · Form</text>
+          <text
+             x="105"
+             y="104"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text8">Keyboard · Touch</text>
+          <line
+             x1="180"
+             y1="85"
+             x2="240"
+             y2="85"
+             stroke="#38bdf8"
+             stroke-width="2"
+             marker-end="url(#a1)"
+             class="anim-r"
+             id="line43" />
+          <text
+             x="186"
+             y="68"
+             class="st"
+             fill="#38bdf8"
+             font-weight="700"
+             font-size="18"
+             id="text49">①</text>
+        </g>
+        <g
+           id="g64">
+          <rect
+             x="240"
+             y="50"
+             width="160"
+             height="70"
+             rx="10"
+             fill="#2d1b4e"
+             stroke="#8b5cf6"
+             stroke-width="2"
+             id="rect8" />
+          <text
+             x="320"
+             y="74"
+             text-anchor="middle"
+             class="sh"
+             fill="#a78bfa"
+             id="text9">snapshot()</text>
+          <text
+             x="320"
+             y="90"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text10">deepClone(_raw)</text>
+          <text
+             x="320"
+             y="104"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text11">undoStack.push()</text>
+          <line
+             x1="400"
+             y1="85"
+             x2="460"
+             y2="85"
+             stroke="#8b5cf6"
+             stroke-width="2"
+             marker-end="url(#a1p)"
+             class="anim-r"
+             id="line44" />
+          <text
+             x="405"
+             y="68"
+             class="st"
+             fill="#8b5cf6"
+             font-weight="700"
+             font-size="18"
+             id="text50">②</text>
+        </g>
+        <g
+           id="g65">
+          <rect
+             x="460"
+             y="30"
+             width="200"
+             height="110"
+             rx="10"
+             fill="#1a2035"
+             stroke="#60a5fa"
+             stroke-width="2.5"
+             filter="url(#gf)"
+             id="rect11" />
+          <text
+             x="560"
+             y="58"
+             text-anchor="middle"
+             class="sh"
+             fill="#60a5fa"
+             font-size="14"
+             id="text12">_raw</text>
+          <text
+             x="560"
+             y="75"
+             text-anchor="middle"
+             class="st"
+             fill="#94a3b8"
+             id="text13">rooms[] · racks[] · devices[]</text>
+          <text
+             x="560"
+             y="90"
+             text-anchor="middle"
+             class="st"
+             fill="#94a3b8"
+             id="text14">connections[] · topology{}</text>
+          <text
+             x="560"
+             y="105"
+             text-anchor="middle"
+             class="st"
+             fill="#94a3b8"
+             id="text15">currentRoomId · zoom · pan</text>
+          <circle
+             cx="560"
+             cy="70"
+             r="58"
+             fill="none"
+             stroke="#60a5fa44"
+             stroke-width="12"
+             stroke-dasharray="20, 10"
+             class="spin-ring"
+             id="circle15" />
+          <text
+             x="540"
+             y="25"
+             class="st"
+             fill="#60a5fa"
+             font-weight="700"
+             font-size="18"
+             id="text51">③</text>
+        </g>
+        <g
+           id="g66">
+          <rect
+             x="720"
+             y="50"
+             width="160"
+             height="70"
+             rx="10"
+             fill="#2d1a00"
+             stroke="#f59e0b"
+             stroke-width="2"
+             id="rect17" />
+          <text
+             x="800"
+             y="72"
+             text-anchor="middle"
+             class="sh"
+             fill="#fbbf24"
+             id="text18">_save()</text>
+          <text
+             x="800"
+             y="88"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text19">localStorage.setItem</text>
+          <text
+             x="800"
+             y="102"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text20">JSON.stringify(_raw)</text>
+          <line
+             x1="660"
+             y1="85"
+             x2="720"
+             y2="85"
+             stroke="#f59e0b"
+             stroke-width="2"
+             marker-end="url(#a1y)"
+             class="anim-r"
+             id="line45" />
+          <text
+             x="705"
+             y="68"
+             class="st"
+             fill="#f59e0b"
+             font-weight="700"
+             font-size="18"
+             id="text52">④</text>
+        </g>
+        <g
+           id="g69">
+          <line
+             x1="560"
+             y1="140"
+             x2="560"
+             y2="230"
+             stroke="#10b981"
+             stroke-width="2"
+             marker-end="url(#a1g)"
+             class="anim-r"
+             id="line46" />
+          <g
+             id="g68">
+            <rect
+               x="460"
+               y="230"
+               width="200"
+               height="70"
+               rx="10"
+               fill="#0f2535"
+               stroke="#10b981"
+               stroke-width="2"
+               id="rect20" />
+            <text
+               x="560"
+               y="254"
+               text-anchor="middle"
+               class="sh"
+               fill="#34d399"
+               id="text21">_emit('change')</text>
+            <text
+               x="560"
+               y="270"
+               text-anchor="middle"
+               class="st"
+               fill="#64748b"
+               id="text22">{source: 'addRack'}</text>
+            <text
+               x="560"
+               y="284"
+               text-anchor="middle"
+               class="st"
+               fill="#64748b"
+               id="text23">notifica a listeners[]</text>
+            <line
+               x1="460"
+               y1="265"
+               x2="420"
+               y2="265"
+               stroke="#10b981"
+               stroke-width="2"
+               marker-end="url(#a1g)"
+               class="anim-l"
+               id="line47" />
+            <text
+               x="540"
+               y="226"
+               class="st"
+               fill="#10b981"
+               font-weight="700"
+               font-size="18"
+               id="text53">⑤</text>
+          </g>
+        </g>
+        <g
+           id="g70">
+          <rect
+             x="240"
+             y="230"
+             width="180"
+             height="70"
+             rx="10"
+             fill="#1a1a2e"
+             stroke="#818cf8"
+             stroke-width="2"
+             id="rect23" />
+          <text
+             x="330"
+             y="254"
+             text-anchor="middle"
+             class="sh"
+             fill="#a5b4fc"
+             id="text24">renderAll()</text>
+          <text
+             x="330"
+             y="270"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text25">switch(source)</text>
+          <text
+             x="330"
+             y="284"
+             text-anchor="middle"
+             class="st"
+             fill="#64748b"
+             id="text26">renderPhysical / Stats...</text>
+          <text
+             x="227"
+             y="248"
+             class="st"
+             fill="#818cf8"
+             font-weight="700"
+             font-size="18"
+             id="text54">⑥</text>
+        </g>
+      </g>
+      <g
+         id="g76"
+         transform="translate(0,6)">
+        <g
+           id="g62">
+          <rect
+             x="30"
+             y="480"
+             width="840"
+             height="62"
+             rx="8"
+             fill="#0d1428"
+             stroke="#1e2d4e"
+             id="rect54" />
+          <text
+             x="450"
+             y="499"
+             text-anchor="middle"
+             class="st"
+             fill="#475569"
+             font-weight="700"
+             id="text55">CICLO COMPLETO DE UNA MUTACIÓN</text>
+          <text
+             x="80"
+             y="515"
+             class="st"
+             fill="#60a5fa"
+             id="text56">① Acción usuario</text>
+          <text
+             x="200"
+             y="515"
+             class="st"
+             fill="#8b5cf6"
+             id="text57">② snapshot()</text>
+          <text
+             x="320"
+             y="515"
+             class="st"
+             fill="#60a5fa"
+             id="text58">③ Mutación _raw</text>
+          <text
+             x="450"
+             y="515"
+             class="st"
+             fill="#f59e0b"
+             id="text59">④ _save() localStorage</text>
+          <text
+             x="620"
+             y="515"
+             class="st"
+             fill="#10b981"
+             id="text60">⑤ _emit('change')</text>
+          <text
+             x="760"
+             y="515"
+             class="st"
+             fill="#818cf8"
+             id="text61">⑥ renderAll()</text>
+          <text
+             x="80"
+             y="532"
+             class="st"
+             fill="#475569"
+             id="text62">Ctrl+Z dispara undo() → Object.assign(_raw, undoStack.pop()) → _save() → _emit()</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

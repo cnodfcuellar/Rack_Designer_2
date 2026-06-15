@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 360" width="1100" height="360">
+<defs>
+  <style>
+    @keyframes result-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .ri1 { animation: result-in 0.2s ease-out 0.1s both; }
+    .ri2 { animation: result-in 0.2s ease-out 0.2s both; }
+    .ri3 { animation: result-in 0.2s ease-out 0.3s both; }
+    .ri4 { animation: result-in 0.2s ease-out 0.4s both; }
+    .ri5 { animation: result-in 0.2s ease-out 0.5s both; }
+  </style>
+</defs>
+<rect width="1100" height="360" fill="#060a14" rx="12"/>
+<!-- background dimmed -->
+<rect width="1100" height="360" fill="#000000" opacity="0.6" rx="12"/>
+
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Paleta de Comandos (Ctrl+K)</text>
+
+<!-- Command palette modal -->
+<rect x="280" y="30" width="540" height="310" rx="16" fill="#0d1428" stroke="#38bdf8" stroke-width="1.5"/>
+
+<!-- Search input -->
+<rect x="292" y="42" width="516" height="44" rx="10" fill="#111827" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="308" y="69" font-family="JetBrains Mono" font-size="16" fill="#475569">⌕</text>
+<text x="334" y="70" font-family="Space Grotesk" font-size="14" fill="#e2e8f0">switch</text>
+<rect x="506" y="50" width="1" height="28" fill="#38bdf8"/><!-- cursor -->
+<rect x="766" y="52" width="30" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="781" y="67" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">Esc</text>
+
+<!-- Results -->
+<!-- Category: Equipos -->
+<text x="300" y="104" font-family="JetBrains Mono" font-size="9" fill="#475569">EQUIPOS (2)</text>
+<line x1="360" y1="101" x2="800" y2="101" stroke="#1e2d4e"/>
+
+<rect x="292" y="110" width="516" height="40" rx="8" fill="#38bdf815" stroke="#38bdf840" class="ri1"/><!-- selected -->
+<text x="312" y="127" font-family="Space Grotesk" font-size="12" font-weight="600" fill="#e2e8f0">🔀 Switch Cisco 48P</text>
+<text x="312" y="142" font-family="JetBrains Mono" font-size="9" fill="#64748b">Sala A / Rack Principal / U1 · 192.168.1.1</text>
+<text x="770" y="134" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">↵ Abrir</text>
+
+<rect x="292" y="154" width="516" height="40" rx="8" class="ri2"/>
+<text x="312" y="171" font-family="Space Grotesk" font-size="12" fill="#94a3b8">🔀 Switch Managed 24P</text>
+<text x="312" y="186" font-family="JetBrains Mono" font-size="9" fill="#64748b">Sala B / Rack Core / U5 · Sin IP</text>
+
+<!-- Category: Acciones -->
+<text x="300" y="212" font-family="JetBrains Mono" font-size="9" fill="#475569">ACCIONES</text>
+<line x1="370" y1="209" x2="800" y2="209" stroke="#1e2d4e"/>
+
+<rect x="292" y="218" width="516" height="34" rx="8" class="ri3"/>
+<text x="312" y="239" font-family="Space Grotesk" font-size="11" fill="#6ee7b7">⚡ Agregar Switch al catálogo</text>
+<text x="770" y="239" font-family="JetBrains Mono" font-size="9" fill="#64748b">acción</text>
+
+<rect x="292" y="256" width="516" height="34" rx="8" class="ri4"/>
+<text x="312" y="277" font-family="Space Grotesk" font-size="11" fill="#6ee7b7">🔌 Nueva conexión desde Switch Cisco 48P</text>
+<text x="770" y="277" font-family="JetBrains Mono" font-size="9" fill="#64748b">acción</text>
+
+<!-- Category: Conexiones -->
+<rect x="292" y="294" width="516" height="34" rx="8" class="ri5"/>
+<text x="312" y="311" font-family="Space Grotesk" font-size="11" fill="#c4b5fd">🔗 Switch Cisco → Firewall (Eth0/1)</text>
+<text x="770" y="311" font-family="JetBrains Mono" font-size="9" fill="#64748b">conexión</text>
+
+<!-- Footer shortcuts -->
+<rect x="280" y="320" width="540" height="20" rx="0" fill="#111827"/>
+<rect x="280" y="326" width="540" height="14" rx="0" fill="#111827"/>
+<rect x="280" y="326" width="540" height="14" rx="0" fill="#111827"/>
+<rect x="280" y="320" width="540" height="20" rx="10" fill="#111827"/>
+<text x="300" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">↑↓ Navegar</text>
+<text x="390" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">↵ Seleccionar</text>
+<text x="500" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">Ctrl+K Abrir</text>
+<text x="600" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">Esc Cerrar</text>
+<text x="300" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">↑↓ Navegar</text>
+<text x="390" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">↵ Seleccionar</text>
+<text x="500" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">Ctrl+K Abrir</text>
+<text x="600" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">Esc Cerrar</text>
+</svg>

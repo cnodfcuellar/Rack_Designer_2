@@ -16,13 +16,18 @@ function renderPhysical() {
   });
 
   if (!racks.length) {
-    container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; justify-content:center;">
-      <div class="empty-state">
-        <div class="icon">🗄️</div>
-        <p>No hay gabinetes en esta sala.</p>
-        <p>Haz clic en "+ Rack" para agregar uno.</p>
+    container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start;">
+      <div style="display:flex; justify-content:center; width:100%;">
+        <div class="empty-state">
+          <div class="icon">🗄️</div>
+          <p>No hay gabinetes en esta sala.</p>
+          <p>Haz clic en "+ Rack" para agregar uno.</p>
+        </div>
       </div>
     </div>`;
+    const floorSection = renderFloorSection(store._raw.currentRoomId);
+    container.querySelector('#view-physical-content').appendChild(floorSection);
+    bindRackEvents(container, flippedRacks);
     updateZoomLabel();
     return;
   }
