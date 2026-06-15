@@ -1,5 +1,8 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 16:45] Documentación de Arquitectura de Inicio
+* **Documentación Técnica:** Se agregó una nueva sección de "Inicialización y Carga de Datos" a los manuales (`manual.html` y `TECHNICAL_DOCS.md`) para explicar cómo funciona la comprobación del `localStorage` frente al arranque en estado en blanco, y los beneficios arquitectónicos de desacoplar e inyectar de manera dinámica (lazy loading) los datos de demostración de `demoData.js`.
+
 ## [2026-06-15 16:35] Optimización de Arranque y Exportación de Equipos de Piso
 * **Arranque en Blanco:** Se modificó la inicialización en `store.js` y `index.html` para que el proyecto inicie con un estado limpio (una sola sala vacía) por defecto, en lugar de cargar datos fijos, mejorando la experiencia del nuevo usuario.
 * **Carga Dinámica de Demostraciones:** Se eliminó la dependencia bloqueante de `demoData.js` en el arranque. Ahora, el script se inyecta dinámicamente (`loadScript`) únicamente cuando el usuario hace clic en "✨ Cargar demos", ahorrando memoria y tiempo de carga.

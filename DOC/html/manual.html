@@ -288,6 +288,13 @@
         <p><strong>Nota técnica:</strong> Toda la persistencia local de la aplicación funciona de manera síncrona en cada edición gracias al Proxy. Esto asegura que si el usuario refresca el navegador o pierde la conexión, no perderá ningún progreso del diseño de su Centro de Datos.</p>
       </div>
 
+      <h3>Inicialización y Carga de Datos</h3>
+      <p>El ciclo de arranque de la aplicación combina la persistencia local con una estrategia de carga dinámica (lazy loading):</p>
+      <ul class="content-list">
+        <li><strong>Lectura del Estado Inicial (Primer uso vs Recuperación):</strong> Al inicializar <code>store.js</code>, el sistema verifica inmediatamente el <code>localStorage</code> del navegador. Si encuentra un proyecto guardado, lo restaura en la memoria. Si la memoria está vacía (primer uso), el sistema no bloquea el arranque cargando una maqueta gigante; en su lugar, genera dinámicamente un estado en blanco básico (una sola sala vacía), permitiendo que el lienzo y la aplicación carguen de forma instantánea.</li>
+        <li><strong>Carga Dinámica de Datos (Demos bajo demanda):</strong> El archivo de datos de demostración (<code>demoData.js</code>) se ha desacoplado del flujo de arranque inicial. En lugar de ejecutarse al abrir <code>index.html</code>, este pesado archivo se inyecta en el DOM mediante la creación dinámica de una etiqueta <code>&lt;script&gt;</code> únicamente cuando el usuario hace clic en el botón "✨ Cargar demos" desde el menú. Esto previene tiempos de bloqueo, economiza memoria y asegura que el trabajo en progreso del usuario no sea sobreescrito accidentalmente por las demostraciones.</li>
+      </ul>
+
       <h3>El Almacén Reactivo (js/store.js)</h3>
       <p>El almacén central reactivo es el encargado de interceptar las mutaciones, resguardar copias de seguridad de forma instantánea en el disco local y gestionar el historial de deshacer/rehacer:</p>
       

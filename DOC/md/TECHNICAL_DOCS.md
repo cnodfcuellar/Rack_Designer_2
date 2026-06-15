@@ -116,6 +116,11 @@ Al recibir el evento, `renderAll` realiza una evaluación condicional basándose
 
 Esta estrategia de enrutamiento selectivo desacopla la lógica de almacenamiento del estado de la lógica del DOM y previene la degradación del rendimiento al actualizar solo los fragmentos HTML requeridos.
 
+### Inicialización y Carga Dinámica de Datos
+El ciclo de arranque de la aplicación se ha optimizado para priorizar la velocidad y la protección del estado:
+* **Lectura del Estado Inicial (Primer uso vs Recuperación):** Al inicializar `store.js`, el sistema verifica inmediatamente el `localStorage` del navegador. Si encuentra un proyecto guardado, lo restaura en la memoria. Si la memoria está vacía (primer uso), el sistema no bloquea el arranque cargando una maqueta gigante; en su lugar, genera dinámicamente un estado en blanco básico (una sola sala vacía).
+* **Carga Dinámica de Datos (Demos bajo demanda):** El archivo de datos de demostración (`demoData.js`) se ha desacoplado del flujo de arranque inicial. En lugar de ejecutarse al abrir `index.html`, este archivo se inyecta en el DOM de forma perezosa (`lazy loading`) mediante la creación dinámica de una etiqueta `<script>` únicamente cuando el usuario hace clic en el botón "✨ Cargar demos". Esto previene tiempos de bloqueo, economiza memoria y protege el trabajo del usuario.
+
 ### Los Lienzos de Trabajo (Canvas vs DOM)
 El sistema divide su lógica gráfica en dos entornos independientes y adaptados a su propósito:
 * **Vista Física (DOM HTML):** Renderizada en `div#view-physical`. Utiliza cajas y elementos DOM anidados en HTML (`.rack-wrapper`, `.rack-flipper`, `.rack-slot`, `.device-faceplate`) y estilos CSS (con rotación CSS-3D). Interactúa mediante la API nativa de Drag & Drop para arrastrar y soltar equipos.
