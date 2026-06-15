@@ -4,6 +4,7 @@ class Store {
     this._undoStack = [];
     this._redoStack = [];
     this._listeners = {};
+    this._proxyCache = new WeakMap();
     this._raw = this._load();
     this.state = this._makeProxy(this._raw);
   }
@@ -37,10 +38,12 @@ class Store {
 
   _makeProxy(obj, path = '') {
     if (typeof obj !== 'object' || obj === null) return obj;
-    return new Proxy(obj, {
+    if (this._proxyCache.has(obj)) return this._proxyCache.get(obj);
+    
+    const proxy = new Proxy(obj, {
       set: (target, key, value) => {
         if (['__proto__', 'constructor', 'prototype'].includes(key)) return true;
-        target[key] = typeof value === 'object' && value !== null ? this._makeProxy(value, `${path}.${key}`) : value;
+        target[key] = value;
         this._save();
         this._emit('change', { path: `${path}.${key}`, key, value });
         return true;
@@ -52,6 +55,8 @@ class Store {
         return val;
       }
     });
+    this._proxyCache.set(obj, proxy);
+    return proxy;
   }
 
   on(event, cb) {

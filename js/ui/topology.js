@@ -564,7 +564,9 @@ function drawTopo() {
   });
 
   // Draw Connections
-  flowT += 0.015;
+  if (!document.body.classList.contains('no-animations')) {
+    flowT += 0.015;
+  }
   store._raw.connections.forEach(conn => {
     const srcPos = nodePositions[conn.sourceDeviceId];
     const dstPos = nodePositions[conn.targetDeviceId];

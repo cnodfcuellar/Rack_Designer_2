@@ -323,6 +323,7 @@ html, body { height: 100%; overflow: hidden; background: var(--bg-main); color: 
 .tab-pill { padding: 4px 12px; border-radius: var(--radius); border: none; background: transparent; color: var(--text-muted); font-family: var(--font-ui); font-size: 12px; cursor: pointer; transition: all 0.2s; }
 .tab-pill.active { background: var(--accent-glow); color: var(--accent); }
 .table-wrap { flex: 1; overflow: auto; }
+body.no-animations *, body.no-animations *::before, body.no-animations *::after { animation: none !important; transition: none !important; }
 table.data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
 table.data-table th { padding: 6px 12px; text-align: left; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; font-family: var(--font-mono); white-space: nowrap; }
 table.data-table td { padding: 5px 12px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-family: var(--font-mono); vertical-align: middle; white-space: nowrap; }

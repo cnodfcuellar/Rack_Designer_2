@@ -1,5 +1,8 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 17:54] Corrección de Fuga de Memoria y Modo Rendimiento
+* **BUG-04 (Fuga de Memoria):** Se solucionó una grave fuga de memoria (Memory Leak) en el sistema reactivo (`js/store.js`). Se implementó un caché local mediante `WeakMap` (`_proxyCache`) para reciclar instancias del Proxy. Esto evita la generación de miles de objetos descartables por segundo durante el ciclo de lectura de `drawTopo` a 60fps, estabilizando drásticamente el consumo de RAM.
+* **Modo Rendimiento (Interruptor de Animaciones):** Se transformó el punto de estado de "Sistema operativo" (esquina superior derecha) en un interruptor activo para el Modo Rendimiento. Al hacerle clic, apaga globalmente todas las transiciones, iluminaciones (glow) y animaciones CSS del proyecto a través de la clase `no-animations`, y adicionalmente congela el motor de partículas JavaScript sobre los cables topológicos (`flowT`).
 ## [2026-06-15 17:35] Modo Dios y Mejoras en Topología
 * **Modo Dios (Seguridad Visual):** Se implementó un alternador global en el menú principal (`👁 Modo Dios: Revelar Claves`) para censurar u ocultar masivamente las contraseñas de los equipos. Por defecto, todas las contraseñas se renderizan como `••••••••` en Tooltips, HUD Topológico, Tablas de Inventario y Modal de Edición, garantizando seguridad visual contra mirones.
 * **Exportación Segura de CSV/Excel:** La rutina de exportación de inventario fue mejorada para respetar el Modo Dios; si el modo está apagado, las contraseñas se omiten/censuran en el reporte descargado.

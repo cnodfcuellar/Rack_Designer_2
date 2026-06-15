@@ -60,6 +60,16 @@ function initGlobalEvents() {
     updateZoomLabel();
   });
 
+  const statusDot = document.querySelector('.status-dot');
+  if (statusDot) {
+    statusDot.style.cursor = 'pointer';
+    statusDot.addEventListener('click', () => {
+      const isOff = document.body.classList.toggle('no-animations');
+      statusDot.setAttribute('data-tip', isOff ? 'Animaciones: Apagadas' : 'Sistema operativo');
+      statusDot.style.background = isOff ? '#f59e0b' : '';
+    });
+  }
+
   // Panning for physical view
   let physPanStart = null;
   let panOrig = { x: 0, y: 0 };
