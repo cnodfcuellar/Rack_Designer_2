@@ -1,5 +1,8 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 18:09] Corrección de Integridad de Datos (Bugs de Prioridad Alta y Media)
+* **BUG-06 (Conexiones Fantasma al Eliminar Salas):** Se solucionó un defecto crítico donde la función `deleteRoom()` dejaba conexiones ("cables") huérfanas apuntando a equipos que ya no existían. Ahora, el sistema recolecta en cascada todos los Gabinetes y Equipos (incluidos los de piso) de la sala a borrar, y purga rigurosamente cualquier conexión vinculada a ellos antes de eliminarlos.
+* **BUG-10 (Colisión Frontal/Trasera en Racks):** Se reparó el motor lógico de colisiones `canPlace()`. Anteriormente, el algoritmo ignoraba la cara del gabinete (`mountSide`), impidiendo instalar un servidor en el lado trasero si el lado frontal estaba ocupado. Ahora la lógica y la interfaz de "Instalación Rápida" reconocen los lados Frontal y Trasero de forma totalmente independiente.
 ## [2026-06-15 17:59] Generación de IDs Segura y UX en Historial
 * **BUG-03 (Colisión de IDs):** Se reescribió la función `uid()` en `js/utils.js` para utilizar `crypto.randomUUID()` nativo del navegador, extrayendo 16 caracteres hexadecimales para generar identificadores de hardware. Esto elimina prácticamente cualquier riesgo de colisión al clonar gabinetes masivos o arrastrar cientos de equipos rápidamente.
 * **U-1 (UX en Barra de Herramientas):** Se agregaron contadores numéricos dinámicos en tiempo real a los botones de Deshacer y Rehacer (e.g., `↩ 3` / `↪ 1`). Esto mejora la retroalimentación visual permitiendo al usuario saber exactamente cuántos pasos tiene almacenados en su pila de historial.

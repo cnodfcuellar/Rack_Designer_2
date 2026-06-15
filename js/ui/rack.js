@@ -305,11 +305,11 @@ function onSlotDrop(e) {
   dragState = null;
 }
 
-function canPlace(rackId, slotStart, size, excludeDeviceId = null) {
+function canPlace(rackId, slotStart, size, mountSide = 'front', excludeDeviceId = null) {
   const rack = store.rackById(rackId);
   if (!rack) return false;
   if (slotStart < 1 || slotStart + size - 1 > rack.height) return false;
-  const existing = store.allDevicesInRack(rackId).filter(d => d.id !== excludeDeviceId);
+  const existing = store.allDevicesInRack(rackId).filter(d => d.id !== excludeDeviceId && (d.mountSide || 'front') === mountSide);
   for (const d of existing) {
     const dEnd = d.slotStart + d.size - 1;
     const nEnd = slotStart + size - 1;

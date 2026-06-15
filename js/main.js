@@ -144,7 +144,7 @@ function initGlobalEvents() {
       dropdown.classList.add('hidden');
       window.SHOW_PASSWORDS = !window.SHOW_PASSWORDS;
       document.getElementById('menu-toggle-passwords').textContent = window.SHOW_PASSWORDS ? '🙈 Modo Dios: Ocultar Claves' : '👁 Modo Dios: Revelar Claves';
-      renderAll({source: 'init'});
+      renderAll();
     });
 
     // Set initial text
