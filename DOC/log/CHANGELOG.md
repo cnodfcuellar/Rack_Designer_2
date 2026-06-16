@@ -1,3 +1,9 @@
+## [2026-06-16 07:18:44] Estandarización a 24px, DESIGN.md YAML y Soporte Claro en Rack
+### Mejoras de Interfaz (UI/UX)
+- Corrección matemática de densidad: Se redujo la altura estandarizada de todos los controles interactivos de 32px a **24px** (botones, pestañas, búsquedas) para consolidar la estética "IDE-grade".
+- Reescritura del manifiesto `DESIGN.md` adaptándolo al estándar profesional `awesome-design-md` (YAML Frontmatter), prohibiendo explícitamente estilos generativos "AI Slop".
+- Purga masiva de colores estáticos (`#090d17`, `#0a1525`, etc.) en el chasis físico del Rack (vistas frontal y trasera). Ahora toda la estructura metálica y ranuras responden a variables CSS (`--bg-card1`, `--border`), permitiendo un despliegue perfecto del **Modo Claro** sin deformar el hardware instalado.
+
 ## [2026-06-16 00:51:30] Refinamiento UI/UX Premium & DESIGN.md
 ### Mejoras (UI/UX)
 - Normalización matemática de altura de controles interactivos (botones, tabs, inputs) a \`32px\` con paddings estandarizados.
