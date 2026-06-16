@@ -224,5 +224,7 @@
 
 input[type="text"], input[type="number"], input[type="password"], select, .h-search input, .bottom-header input {
     height: 24px !important;
+    padding: 0 8px !important;
+    line-height: 22px !important;
     box-sizing: border-box !important;
 }

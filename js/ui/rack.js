@@ -18,10 +18,10 @@ function renderPhysical() {
   if (!racks.length) {
     container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start;">
       <div style="display:flex; justify-content:center; width:100%;">
-        <div class="empty-state">
+        <div class="empty-state" style="display:flex; flex-direction:column; align-items:center;">
           <div class="icon">🗄️</div>
           <p>No hay gabinetes en esta sala.</p>
-          <p>Haz clic en "+ Rack" para agregar uno.</p>
+          <button class="btn-primary" id="empty-btn-add-rack" style="margin-top:16px;">+ Rack</button>
         </div>
       </div>
     </div>`;
@@ -106,8 +106,15 @@ function renderPhysical() {
     </div>`;
   }).join('');
 
+  const addRackHTML = `
+    <div class="rack-wrapper" id="canvas-btn-add-rack" style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:260px; min-height:300px; border:2px dashed var(--border); border-radius:var(--radius); cursor:pointer; opacity:0.5; transition:all 0.2s;" onmouseover="this.style.opacity='1'; this.style.borderColor='var(--accent)'" onmouseout="this.style.opacity='0.5'; this.style.borderColor='var(--border)'">
+      <div style="font-size:32px; color:var(--text-muted); margin-bottom:8px;">+</div>
+      <div style="font-family:var(--font-ui); color:var(--text-secondary); font-size:var(--text-sm); font-weight:600;">+Rack</div>
+    </div>
+  `;
+
   container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start; width: 100%;">
-    <div style="display:flex; flex-wrap:wrap; gap:24px; width:100%;">${racksHTML}</div>
+    <div style="display:flex; flex-wrap:wrap; gap:24px; width:100%;">${racksHTML}${addRackHTML}</div>
   </div>`;
 
   const floorSection = renderFloorSection(store._raw.currentRoomId);
@@ -147,6 +154,15 @@ function bindRackEvents(container, flippedRacks) {
       }
     });
   });
+
+  // Eventos para añadir rack desde el canvas
+  container.querySelectorAll('#canvas-btn-add-rack, #empty-btn-add-rack').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      openAddRackModal();
+    });
+  });
+
   container.querySelectorAll('.rack-slot').forEach(slot => {
     slot.addEventListener('dragover',  onSlotDragOver);
     slot.addEventListener('dragleave', onSlotDragLeave);

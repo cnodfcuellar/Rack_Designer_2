@@ -100,6 +100,8 @@ components:
     border: "1px solid {colors.border}"
     height: "{components.interactive-control.height}"
     rounded: "{rounded.md}"
+    padding: "0 8px"
+    lineHeight: "22px"
 ---
 
 ## Overview
@@ -146,7 +148,10 @@ Para mantener la estética densa y profesional, absolutamente todos los componen
 2. **Caja Estricta:** `box-sizing: border-box !important;`
 3. **Comportamiento:** `display: inline-flex !important; align-items: center !important; justify-content: center !important;`
 
-Esto incluye a: `.btn-primary`, `.btn-secondary`, `.tab-pill`, `.h-btn`, `.room-tab`, `.view-tab`, `.filter-tab`, `.btn-cancel`, `.btn-confirm`, y elementos `input[type="text"]`.
+Esto incluye a: `.btn-primary`, `.btn-secondary`, `.tab-pill`, `.h-btn`, `.room-tab`, `.view-tab`, `.filter-tab`, `.btn-cancel`, `.btn-confirm`, y elementos `input[type="text"]`, `input[type="number"]`, `input[type="password"]` y `select`.
+
+**Nota Especial para Inputs y Selects:** 
+Para evitar que el texto se recorte verticalmente dentro de estos estrictos 24px de altura, se les debe aplicar `padding: 0 8px !important;` y un `line-height: 22px !important;`. De lo contrario, los paddings nativos del navegador empujarán la tipografía fuera del marco visual.
 
 ## Elevation & Depth
 
