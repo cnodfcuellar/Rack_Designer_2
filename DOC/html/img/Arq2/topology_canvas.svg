@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <rect x="30" y="55" width="80" height="50" rx="6" fill="#141a24" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="70" y="83" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Rack A</text>
+              <circle cx="110" cy="80" r="4" fill="#0ea5e9"/>
+              
+              <rect x="290" y="55" width="80" height="50" rx="6" fill="#141a24" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="330" y="83" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Rack B</text>
+              <circle cx="290" cy="80" r="4" fill="#0ea5e9"/>
+              
+              <path d="M 114 80 C 170 120, 230 40, 286 80" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+              
+              <circle cx="170" cy="120" r="3" fill="#64748b" opacity="0.5"/>
+              <circle cx="230" cy="40" r="3" fill="#64748b" opacity="0.5"/>
+              <line x1="114" y1="80" x2="170" y2="120" stroke="#64748b" stroke-width="0.5" stroke-dasharray="2,2"/>
+              <line x1="286" y1="80" x2="230" y2="40" stroke="#64748b" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+              <circle cx="200" cy="80" r="4.5" fill="#f59e0b">
+                <animateMotion dur="2.5s" repeatCount="indefinite" path="M 114 80 C 170 120, 230 40, 286 80"/>
+              </circle>
+              
+              <text x="200" y="160" fill="#94a3b8" font-family="'Outfit'" font-size="11" text-anchor="middle">Curva Bézier Cúbica en Canvas 2D</text>
+            </svg>

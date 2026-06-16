@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <g transform="translate(15, 25)">
+                <rect x="0" y="0" width="240" height="110" rx="4" fill="#111827" stroke="#374151"/>
+                <rect x="0" y="0" width="240" height="22" rx="4" fill="#1f2937" stroke="#374151"/>
+                <text x="40" y="14" fill="#f1f5f9" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Equipo</text>
+                <text x="115" y="14" fill="#f1f5f9" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Dirección IP</text>
+                <text x="195" y="14" fill="#f1f5f9" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Potencia</text>
+                
+                <line x1="0" y1="44" x2="240" y2="44" stroke="#374151" stroke-width="0.5"/>
+                <text x="40" y="36" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">Switch01</text>
+                
+                <rect x="85" y="26" width="65" height="14" rx="2" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1"/>
+                <text x="117" y="36" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">10.0.0.1</text>
+                <text x="195" y="36" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">350 W</text>
+                
+                <line x1="0" y1="66" x2="240" y2="66" stroke="#374151" stroke-width="0.5"/>
+                <text x="40" y="58" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">Server02</text>
+                <text x="117" y="58" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">10.0.0.12</text>
+                <text x="195" y="58" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">550 W</text>
+              </g>
+              <g transform="translate(280, 25)">
+                <rect x="0" y="10" width="90" height="36" rx="4" fill="#064e3b" stroke="#10b981"/>
+                <text x="45" y="25" fill="#f0fdf4" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">Exportar</text>
+                <text x="45" y="38" fill="#34d399" font-family="'Outfit'" font-size="8" text-anchor="middle">XLSX (Excel)</text>
+
+                <rect x="0" y="64" width="90" height="36" rx="4" fill="#1e293b" stroke="#64748b"/>
+                <text x="45" y="79" fill="#f8fafc" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">Exportar</text>
+                <text x="45" y="92" fill="#94a3b8" font-family="'Outfit'" font-size="8" text-anchor="middle">CSV Plano</text>
+              </g>
+            </svg>
