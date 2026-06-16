@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manual RACK Designer</title>
   <link rel="icon" type="image/svg+xml" href="../../icons/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/manual.css">
 </head>
 <body>
@@ -32,45 +35,66 @@
         <p><strong>Tip:</strong> Puedes alternar entre el "Modo Oscuro" y "Modo Claro" usando el menú principal ☰ en la esquina superior derecha de la aplicación.</p>
       </div>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-light-mode.svg" alt="RACK Designer en Modo Claro" style="max-width: 1000px; margin: 0 auto; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-light-mode.svg" alt="RACK Designer en Modo Claro" style="max-width: 1000px; margin: 0 auto; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Interfaz completa de la aplicación visualizada con el Tema Claro (Light Mode).</div>
       </div>
 
       <div class="graphic-box">
-        <img src="img/ui-wireframe.svg" alt="Wireframe de la Interfaz Principal">
+        <img src="img/ui/ui-wireframe.svg" alt="Wireframe de la Interfaz Principal">
         <div class="graphic-caption">Figura: Diseño esquemático de los paneles principales de RACK Designer.</div>
       </div>
       
       <h3>Áreas de Trabajo</h3>
-      <ul class="content-list">
-        <li><strong>Menú Principal (Hamburguesa):</strong> Abre un listado de opciones de persistencia para Guardar/Cargar el proyecto en archivos locales `.json`, cargar datos de demostración, gestionar la interfaz gráfica (Modo Claro/Oscuro) y la Privacidad.</li>
-        <li><strong>👁 Modo Dios (Seguridad):</strong> Accesible desde el Menú Principal, te permite revelar u ocultar todas las contraseñas de los equipos en la pantalla (Tooltips, HUD y Tablas) y controla si se incluyen en exportaciones CSV/Excel.</li>
-        <li><strong>Pestañas Laterales:</strong> Te permiten alternar entre buscar y agregar Racks o Equipos individuales.</li>
-        <li><strong>Filtros Inferiores:</strong> Rápidamente aíslan tipos de equipos en la lista inferior (Todos, Servers, Red, Storage, Piso).</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Menú Principal (Hamburguesa)</strong>
+          <span>Abre un listado de opciones de persistencia para Guardar/Cargar el proyecto en archivos locales `.json`, cargar datos de demostración, gestionar la interfaz gráfica (Modo Claro/Oscuro) y la Privacidad.</span>
+        </div>
+        <div class="feature-card">
+          <strong>👁 Modo Dios (Seguridad)</strong>
+          <span>Accesible desde el Menú Principal, te permite revelar u ocultar todas las contraseñas de los equipos en la pantalla (Tooltips, HUD y Tablas) y controla si se incluyen en exportaciones CSV/Excel.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Pestañas Laterales</strong>
+          <span>Te permiten alternar entre buscar y agregar Racks o Equipos individuales.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Filtros Inferiores</strong>
+          <span>Rápidamente aíslan tipos de equipos en la lista inferior (Todos, Servers, Red, Storage, Piso).</span>
+        </div>
+      </div>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-menu-options.svg" alt="Menú Principal Opciones" style="max-width: 260px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-menu-options.svg" alt="Menú Principal Opciones" style="max-width: 260px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Menú global de la aplicación (Modo Oscuro/Claro, I/O de proyectos).</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Cabecera:</strong> Controles globales y cambio de Vistas (Física / Topología).</li>
-        <li><strong>Lienzo Central:</strong> Tu área principal de diseño donde arrastrarás los equipos. Al utilizar el botón "Expandir" o "Contraer", los paneles laterales se ocultan para maximizar tu área de trabajo.</li>
-        <li><strong>Panel Inferior:</strong> Estadísticas, inventario tabular y catálogo de arrastre.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Cabecera</strong>
+          <span>Controles globales y cambio de Vistas (Física / Topología).</span>
+        </div>
+        <div class="feature-card">
+          <strong>Lienzo Central</strong>
+          <span>Tu área principal de diseño donde arrastrarás los equipos. Al utilizar el botón "Expandir" o "Contraer", los paneles laterales se ocultan para maximizar tu área de trabajo.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Panel Inferior</strong>
+          <span>Estadísticas, inventario tabular y catálogo de arrastre.</span>
+        </div>
+      </div>
 
       <div class="graphic-box">
-        <img src="img/ui-fullscreen.svg" alt="Modo Expandido / Contraído">
+        <img src="img/ui/mobil/ui-fullscreen.svg" alt="Modo Expandido / Contraído">
         <div class="graphic-caption">Figura: Modo Expandido. Los paneles laterales se ocultan para dar prioridad total al lienzo de diseño.</div>
       </div>
 
       <h3>Adaptabilidad a Pantallas</h3>
       <p>RACK Designer cuenta con soporte completo para pantallas táctiles y dispositivos móviles. En pantallas de escritorio, el diseño se expande lateralmente. En dispositivos móviles, la interfaz se adapta automáticamente apilando los gabinetes verticalmente y ocultando el catálogo lateral bajo el menú hamburguesa ☰ para maximizar el lienzo de trabajo, logrando una vista vertical optimizada.</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-mobile.svg" alt="Interfaz Móvil Responsive" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-mobile.svg" alt="Interfaz Móvil Responsive" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Interfaz base adaptada a pantallas táctiles mostrando los racks en formato vertical.</div>
       </div>
     </section>
@@ -81,63 +105,96 @@
       <h3>Gestión de Salas</h3>
       <p>Todo el equipo debe organizarse dentro de una "Sala". Las salas contienen "Gabinetes" (Racks) donde atornillarás los servidores.</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-modal-sala.svg" alt="Modal de Nueva Sala" style="max-width: 500px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-modal-sala.svg" alt="Modal de Nueva Sala" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Cuadro de diálogo para agregar una nueva sala en escritorio.</div>
       </div>
 
       <p><strong>Interfaz Móvil:</strong> En dispositivos móviles, el formulario se reestructura automáticamente para pantallas pequeñas, asegurando que los campos de texto se mantengan accesibles mediante teclado en pantalla y sin desbordamientos.</p>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-mobile-modal-room.svg" alt="Modal de Nueva Sala en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-mobile-modal-room.svg" alt="Modal de Nueva Sala en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Modal simplificado para la creación de salas adaptado a dispositivos móviles.</div>
       </div>
 
       <h3>Crear un Gabinete</h3>
+      <div class="callout" style="margin-bottom: 16px;">
+        <p><strong>✨ Atajos Rápidos:</strong> Cuando una sala no contiene ningún gabinete (estado vacío), el sistema mostrará botones interactivos en el centro del lienzo para que puedas agregar tu primer Rack o Equipo de Piso instantáneamente con un solo clic.</p>
+      </div>
       <p>Haciendo <strong>clic derecho</strong> en el lienzo azul, podrás crear un nuevo Rack. Deberás asignarle un Nombre, una altura en Unidades (U) (típicamente 42U o 48U) y un Color distintivo.</p>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-modal-rack.svg" alt="Modal de Nuevo Gabinete" style="max-width: 500px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-modal-rack.svg" alt="Modal de Nuevo Gabinete" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Cuadro de diálogo para configurar un nuevo Rack.</div>
       </div>
 
       <div class="graphic-box">
-        <img src="img/ui-stats-floor.svg" alt="Equipos de Piso y Estadísticas">
+        <img src="img/ui/desk/ui-stats-floor.svg" alt="Equipos de Piso y Estadísticas">
         <div class="graphic-caption">Figura: Vista Trasera del Rack y Equipos de Piso. Observa el panel de Estadísticas a la izquierda.</div>
       </div>
 
       <div class="graphic-box">
-        <img src="img/rack-anatomy.svg" alt="Anatomía de un Rack">
+        <img src="img/Arq/rack-anatomy.svg" alt="Anatomía de un Rack">
         <div class="graphic-caption">Figura 1: Entendiendo las unidades (U) y la ocupación por caras.</div>
       </div>
       
       <p>Como se muestra en la figura, cada unidad (U) puede alojar un equipo frontal y, de forma independiente, un equipo trasero (como regletas eléctricas o PDUs) sin chocar entre sí.</p>
+
+      <h3>Opciones del Gabinete (Menú Contextual)</h3>
+      <p>Cada Gabinete posee un botón de opciones (<code>⋮</code>) en su cabecera superior. Al hacer clic, se despliega un menú contextual flotante que agrupa todas las acciones de administración del rack:</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>+ Equipo</strong>
+          <span>Atajo directo para instalar un nuevo dispositivo en este rack.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Editar</strong>
+          <span>Modificar el nombre, color o altura en unidades (U) del gabinete.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Limpiar Rack</strong>
+          <span>Elimina masivamente todos los equipos que se encuentran atornillados dentro del gabinete. El sistema mostrará una advertencia de seguridad pidiendo tu confirmación antes de la eliminación total.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Eliminar</strong>
+          <span>Borra el gabinete completo de la sala.</span>
+        </div>
+      </div>
     </section>
 
     <section id="equipos" class="section">
       <h1>Gestión de Equipos</h1>
       
       <h3>Métodos de Instalación</h3>
-      <ul class="content-list">
-        <li><strong>Arrastrar y Soltar (Drag & Drop):</strong> Arrastra un equipo desde el catálogo izquierdo y suéltalo sobre una U específica.</li>
-        <li><strong>Por Menú Contextual:</strong> Haz clic derecho en cualquier espacio vacío del Rack y selecciona "Instalar Equipo".</li>
-        <li><strong>Ubicación Asistida:</strong> Haz clic en el botón morado <code>⚡ Agregar Equipo</code> de la barra inferior para usar el asistente de instalación paso a paso sin arrastrar.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Arrastrar y Soltar (Drag & Drop)</strong>
+          <span>Arrastra un equipo desde el catálogo izquierdo y suéltalo sobre una U específica.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Por Menú Contextual</strong>
+          <span>Haz clic derecho en cualquier espacio vacío del Rack y selecciona "Instalar Equipo".</span>
+        </div>
+        <div class="feature-card">
+          <strong>Ubicación Asistida</strong>
+          <span>Haz clic en el botón morado <code>⚡ Agregar Equipo</code> de la barra inferior para usar el asistente de instalación paso a paso sin arrastrar.</span>
+        </div>
+      </div>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/catalog-funcionamiento.svg" alt="Funcionamiento del Catálogo y Métodos de Instalación" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/catalog-funcionamiento.svg" alt="Funcionamiento del Catálogo y Métodos de Instalación" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Arquitectura, flujo de datos y canales de instalación desde el Catálogo de Equipos.</div>
       </div>
 
       <p><strong>Catálogo Móvil:</strong> En dispositivos móviles, al pulsar el menú hamburguesa, el sistema despliega un panel lateral flotante (off-canvas) con el catálogo y estadísticas optimizadas para arrastre y tap táctil.</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-mobile-catalog.svg" alt="Catálogo y Estadísticas en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-mobile-catalog.svg" alt="Catálogo y Estadísticas en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Panel lateral de Estadísticas y Catálogo de Dispositivos adaptado para pantallas móviles.</div>
       </div>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-modal-asistido.svg" alt="Modal de Ubicación Asistida" style="max-width: 500px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-modal-asistido.svg" alt="Modal de Ubicación Asistida" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Asistente paso a paso para ubicar equipos con precisión (Ideal para pantallas táctiles donde el drag&drop es difícil).</div>
       </div>
 
@@ -147,22 +204,28 @@
       <h3>Propiedades y Ficha Técnica</h3>
       <p>Haciendo doble clic en un equipo, se abrirá su ficha técnica. Aquí puedes documentar:</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-modal-equipo.svg" alt="Modal de Nuevo Equipo" style="max-width: 500px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-modal-equipo.svg" alt="Modal de Nuevo Equipo" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Ficha técnica completa de un equipo, incluyendo credenciales, consumo eléctrico y puertos en escritorio.</div>
       </div>
 
       <p><strong>Configuración Móvil:</strong> En pantallas de smartphones, el formulario se reestructura visualmente en una grilla compacta de dos columnas con casillas de activación adaptadas a gestos táctiles amplios.</p>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-mobile-modal-device.svg" alt="Modal de Equipo en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-mobile-modal-device.svg" alt="Modal de Equipo en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Formulario de adición y edición de equipos optimizado para dispositivos móviles.</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Módulo de Red:</strong> Despliega IP y MAC.</li>
-        <li><strong>Módulo de Energía:</strong> Despliega las Tomas de Entrada (requeridas para encender el equipo) y las Tomas de Salida (proporcionadas por el equipo, útil para UPS/PDU).</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Módulo de Red</strong>
+          <span>Despliega IP y MAC.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Módulo de Energía</strong>
+          <span>Despliega las Tomas de Entrada (requeridas para encender el equipo) y las Tomas de Salida (proporcionadas por el equipo, útil para UPS/PDU).</span>
+        </div>
+      </div>
     </section>
 
     <section id="topologia" class="section">
@@ -170,7 +233,7 @@
       <p>La vista topológica permite conectar los equipos mediante cables lógicos. Los equipos se renderizan como Nodos interconectados.</p>
       
       <div class="graphic-box">
-        <img src="img/ui-topologia.svg" alt="Nodos de Topología">
+        <img src="img/ui/ui-topologia.svg" alt="Nodos de Topología">
         <div class="graphic-caption">Figura 2: Interpretación del lienzo topológico mostrando las Salas (Naranja), Gabinetes (Verde) y cableado lógico.</div>
       </div>
 
@@ -178,33 +241,33 @@
 
       <div class="graphic-box" style="background-color: transparent; border: none; padding: 0; display: flex; flex-direction: column; gap: 20px;">
         <div style="text-align: center;">
-          <img src="img/ui-mobile-topology.svg" alt="Topología en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+          <img src="img/ui/mobil/ui-mobile-topology.svg" alt="Topología en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
           <div class="graphic-caption" style="margin-top: 8px;">Figura: Mapa interactivo de topología adaptado a pantallas móviles.</div>
         </div>
         <div style="text-align: center;">
-          <img src="img/ui-mobile-modal-connection.svg" alt="Modal de Conexión en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+          <img src="img/ui/mobil/ui-mobile-modal-connection.svg" alt="Modal de Conexión en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
           <div class="graphic-caption" style="margin-top: 8px;">Figura: Modal de conexión de puertos adaptado a móviles.</div>
         </div>
       </div>
 
       <p>Para conectar dos equipos, simplemente haz <strong>doble clic</strong> en un nodo de origen y luego selecciona el nodo de destino. Esto abrirá el menú de configuración de enlace.</p>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-modal-conexion.svg" alt="Modal de Editar Conexión" style="max-width: 500px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-modal-conexion.svg" alt="Modal de Editar Conexión" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Configuración de parámetros físicos y lógicos de un enlace de red.</div>
       </div>
 
       <p>A medida que diseñes tu red, podrás visualizar la arquitectura completa (Full-Screen) donde se aprecian las rutas de cada cable. El color de las líneas representará los enlaces que has creado.</p>
 
       <div class="graphic-box">
-        <img src="img/ui-topologia-full.svg" alt="Topología Expandida con Enlaces">
+        <img src="img/ui/ui-topologia-full.svg" alt="Topología Expandida con Enlaces">
         <div class="graphic-caption">Figura: Topología compleja ilustrando la conexión de equipos de piso hacia los switches de distribución en el Rack.</div>
       </div>
 
       <p>Puedes utilizar la rueda del ratón o los controles de zoom (🔍) en la barra superior para acercarte (Zoom In) y observar en detalle los nodos y las rutas de cableado, incluyendo las IPs de los equipos principales.</p>
 
       <div class="graphic-box">
-        <img src="img/ui-topologia-zoom.svg" alt="Zoom en Topología">
+        <img src="img/ui/ui-topologia-zoom.svg" alt="Zoom en Topología">
         <div class="graphic-caption">Figura: Acercamiento a la topología revelando etiquetas dinámicas como la IP de un NVR y el ruteo físico de los cables.</div>
       </div>
 
@@ -212,14 +275,14 @@
       <p>Alternando la pestaña del panel inferior a <strong>Conexiones</strong>, puedes acceder a una bitácora tabular de todos los enlaces que has creado. Aquí verás el detalle de los puertos y colores asignados, con la posibilidad de editarlos o eliminarlos masivamente.</p>
 
       <div class="graphic-box">
-        <img src="img/ui-conexiones-table.svg" alt="Tabla de Conexiones de Red">
+        <img src="img/ui/ui-conexiones-table.svg" alt="Tabla de Conexiones de Red">
         <div class="graphic-caption">Figura: Auditoría detallada del cableado lógico cruzado entre Salas, Racks y Equipos.</div>
       </div>
 
       <p>Para mayor comodidad durante auditorías extensas, puedes hacer clic en el botón <strong>Expandir</strong> de la tabla para ocultar el lienzo y ver la bitácora en pantalla completa.</p>
 
       <div class="graphic-box">
-        <img src="img/ui-conexiones-full.svg" alt="Tabla de Conexiones a Pantalla Completa">
+        <img src="img/ui/ui-conexiones-full.svg" alt="Tabla de Conexiones a Pantalla Completa">
         <div class="graphic-caption">Figura: Tabla de Conexiones en modo Pantalla Completa, revelando los controles para exportar a CSV y Excel en la parte superior derecha.</div>
       </div>
     </section>
@@ -229,41 +292,50 @@
       <p>Es fundamental respaldar el trabajo periódicamente y utilizar la tabla de inventario para auditorías.</p>
       
       <div class="graphic-box">
-        <img src="img/ui-inventory.svg" alt="Tabla de Inventario Expandida">
+        <img src="img/ui/mobil/ui-inventory.svg" alt="Tabla de Inventario Expandida">
         <div class="graphic-caption">Figura: Tabla de Inventario en modo expandido mostrando los equipos de rack y piso con todos sus detalles.</div>
       </div>
 
       <p><strong>Inventario en Móvil:</strong> En smartphones, la tabla se adapta mediante un contenedor deslizable verticalmente (drawer) que puede arrastrarse hacia arriba, con soporte para scroll horizontal que facilita la lectura de todas las columnas.</p>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-mobile-inventory.svg" alt="Inventario en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-mobile-inventory.svg" alt="Inventario en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Tabla de inventario expandida y adaptada para scroll en pantallas móviles.</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Archivo JSON:</strong> En el menú superior, usa "Guardar Proyecto" para descargar todo el centro de datos.</li>
-        <li><strong>Reporte Tabular:</strong> En el panel de inventario o conexiones expandidas, presiona <code>⬇ Excel</code> o <code>⬇ CSV</code> para auditar los equipos.</li>
-        <li><strong>Imagen Fotográfica:</strong> Usa el botón <code>📷 PNG</code> en la barra superior y selecciona el rack a exportar para generar una instantánea del armario. Si hay equipos ubicados directamente en la sala, aparecerá la opción independiente para exportar "Equipos de Piso".</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Archivo JSON</strong>
+          <span>En el menú superior, usa "Guardar Proyecto" para descargar todo el centro de datos.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Reporte Tabular</strong>
+          <span>En el panel de inventario o conexiones expandidas, presiona <code>⬇ Excel</code> o <code>⬇ CSV</code> para auditar los equipos.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Imagen Fotográfica</strong>
+          <span>Usa el botón <code>📷 PNG</code> en la barra superior y selecciona el rack a exportar para generar una instantánea del armario. Si hay equipos ubicados directamente en la sala, aparecerá la opción independiente para exportar "Equipos de Piso".</span>
+        </div>
+      </div>
 
       <p><strong>Menú en Móvil:</strong> Las opciones globales de importación, exportación y guardado se ubican en el menú hamburguesa adaptado a un panel táctil desplegable.</p>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-mobile-menu.svg" alt="Menú de Proyecto en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/mobil/ui-mobile-menu.svg" alt="Menú de Proyecto en Móvil" style="max-width: 380px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Menú desplegable de opciones de proyecto y respaldo en dispositivos móviles.</div>
       </div>
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/exportar-funcionamiento.svg" alt="Mecanismos de Exportación en RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/exportar-funcionamiento.svg" alt="Mecanismos de Exportación en RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Esquema técnico de los procesos de exportación de imágenes, tablas de datos y copias de seguridad del sistema.</div>
       </div>
 
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/ui-modal-export.svg" alt="Modal de Exportar Rack a PNG" style="max-width: 500px; margin: 0 auto;">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/ui/ui-modal-export.svg" alt="Modal de Exportar Rack a PNG" style="max-width: 500px; margin: 0 auto;">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Cuadro de diálogo para seleccionar el rack y renderizarlo como imagen PNG de alta resolución.</div>
       </div>
 
       <div class="graphic-box">
-        <img src="img/ui-exported-png.svg" alt="Resultado de Exportación a PNG">
+        <img src="img/ui/ui-exported-png.svg" alt="Resultado de Exportación a PNG">
         <div class="graphic-caption">Figura: Ejemplo del archivo de alta resolución exportado, mostrando el despiece técnico frontal y trasero del rack con sus unidades exactas.</div>
       </div>
     </section>
@@ -272,18 +344,30 @@
       <h1>Estructura y Arquitectura del Sistema</h1>
       <p>RACK Designer 2 utiliza un patrón de <strong>arquitectura reactiva de flujo unidireccional</strong> en JavaScript nativo (Vanilla JS). Esto elimina la necesidad de frameworks pesados, manteniendo la aplicación extremadamente veloz, ligera y fácil de mantener.</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/arquitectura.svg" alt="Arquitectura y Flujo de Datos de RACK Designer 2" style="max-width: 900px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/arquitectura.svg" alt="Arquitectura y Flujo de Datos de RACK Designer 2" style="max-width: 900px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Flujo unidireccional de datos controlado por eventos reactivos en RACK Designer 2.</div>
       </div>
 
       <h3>Componentes del Flujo</h3>
-      <ul class="content-list">
-        <li><strong>1. Interacción del Usuario (Mutación):</strong> Cuando el usuario interactúa con la interfaz (como arrastrar un equipo, editar puertos en un modal o renombrar una sala), las vistas en la carpeta <code>js/ui/</code> escriben directamente los nuevos valores en el estado central <code>store.state</code> o invocan métodos de acción en el almacén de datos.</li>
-        <li><strong>2. Almacén Reactivo (<code>store.js</code>):</strong> Implementado mediante un objeto <strong>Proxy ES6</strong>. Este Proxy intercepta cualquier escritura de propiedades en el estado, realiza automáticamente la persistencia guardando los datos serializados en el <code>localStorage</code> del navegador, gestiona el historial de cambios (Pila de Deshacer/Rehacer) y finalmente emite un evento global de tipo <code>'change'</code> junto con metadatos sobre la mutación ocurrida.</li>
-        <li><strong>3. Orquestador Central (<code>main.js</code>):</strong> Actúa como el controlador o "Dispatcher". Está suscrito al evento de cambio del <code>store</code>. Al recibir el evento <code>'change'</code>, evalúa qué parte de los datos mutó y ejecuta las llamadas selectivas a las funciones de renderizado de la UI para mantener el DOM perfectamente sincronizado con el estado actual.</li>
-        <li><strong>4. Módulos de Renderizado (<code>js/ui/</code>):</strong> Componentes especializados e independientes (como <code>rack.js</code> para la grilla física, <code>topology.js</code> para los enlaces SVG de red o <code>tables.js</code> para el inventario tabular) que se encargan de leer el estado actualizado y construir la estructura DOM correspondiente en <code>index.html</code>.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>1. Interacción del Usuario (Mutación)</strong>
+          <span>Cuando el usuario interactúa con la interfaz (como arrastrar un equipo, editar puertos en un modal o renombrar una sala), las vistas en la carpeta <code>js/ui/</code> escriben directamente los nuevos valores en el estado central <code>store.state</code> o invocan métodos de acción en el almacén de datos.</span>
+        </div>
+        <div class="feature-card">
+          <strong>2. Almacén Reactivo (<code>store.js</code>)</strong>
+          <span>Implementado mediante un objeto <strong>Proxy ES6</strong>. Este Proxy intercepta cualquier escritura de propiedades en el estado, realiza automáticamente la persistencia guardando los datos serializados en el <code>localStorage</code> del navegador, gestiona el historial de cambios (Pila de Deshacer/Rehacer) y finalmente emite un evento global de tipo <code>'change'</code> junto con metadatos sobre la mutación ocurrida.</span>
+        </div>
+        <div class="feature-card">
+          <strong>3. Orquestador Central (<code>main.js</code>)</strong>
+          <span>Actúa como el controlador o "Dispatcher". Está suscrito al evento de cambio del <code>store</code>. Al recibir el evento <code>'change'</code>, evalúa qué parte de los datos mutó y ejecuta las llamadas selectivas a las funciones de renderizado de la UI para mantener el DOM perfectamente sincronizado con el estado actual.</span>
+        </div>
+        <div class="feature-card">
+          <strong>4. Módulos de Renderizado (<code>js/ui/</code>)</strong>
+          <span>Componentes especializados e independientes (como <code>rack.js</code> para la grilla física, <code>topology.js</code> para los enlaces SVG de red o <code>tables.js</code> para el inventario tabular) que se encargan de leer el estado actualizado y construir la estructura DOM correspondiente en <code>index.html</code>.</span>
+        </div>
+      </div>
       
       <div class="callout">
         <p><strong>Nota técnica:</strong> Toda la persistencia local de la aplicación funciona de manera síncrona en cada edición gracias al Proxy. Esto asegura que si el usuario refresca el navegador o pierde la conexión, no perderá ningún progreso del diseño de su Centro de Datos.</p>
@@ -291,69 +375,102 @@
 
       <h3>Inicialización y Carga de Datos</h3>
       <p>El ciclo de arranque de la aplicación combina la persistencia local con una estrategia de carga dinámica (lazy loading):</p>
-      <ul class="content-list">
-        <li><strong>Lectura del Estado Inicial (Primer uso vs Recuperación):</strong> Al inicializar <code>store.js</code>, el sistema verifica inmediatamente el <code>localStorage</code> del navegador. Si encuentra un proyecto guardado, lo restaura en la memoria. Si la memoria está vacía (primer uso), el sistema no bloquea el arranque cargando una maqueta gigante; en su lugar, genera dinámicamente un estado en blanco básico (una sola sala vacía), permitiendo que el lienzo y la aplicación carguen de forma instantánea.</li>
-        <li><strong>Carga Dinámica de Datos (Demos bajo demanda):</strong> El archivo de datos de demostración (<code>demoData.js</code>) se ha desacoplado del flujo de arranque inicial. En lugar de ejecutarse al abrir <code>index.html</code>, este pesado archivo se inyecta en el DOM mediante la creación dinámica de una etiqueta <code>&lt;script&gt;</code> únicamente cuando el usuario hace clic en el botón "✨ Cargar demos" desde el menú. Esto previene tiempos de bloqueo, economiza memoria y asegura que el trabajo en progreso del usuario no sea sobreescrito accidentalmente por las demostraciones.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Lectura del Estado Inicial (Primer uso vs Recuperación)</strong>
+          <span>Al inicializar <code>store.js</code>, el sistema verifica inmediatamente el <code>localStorage</code> del navegador. Si encuentra un proyecto guardado, lo restaura en la memoria. Si la memoria está vacía (primer uso), el sistema no bloquea el arranque cargando una maqueta gigante; en su lugar, genera dinámicamente un estado en blanco básico (una sola sala vacía), permitiendo que el lienzo y la aplicación carguen de forma instantánea.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Carga Dinámica de Datos (Demos bajo demanda)</strong>
+          <span>El archivo de datos de demostración (<code>demoData.js</code>) se ha desacoplado del flujo de arranque inicial. En lugar de ejecutarse al abrir <code>index.html</code>, este pesado archivo se inyecta en el DOM mediante la creación dinámica de una etiqueta <code>&lt;script&gt;</code> únicamente cuando el usuario hace clic en el botón "✨ Cargar demos" desde el menú. Esto previene tiempos de bloqueo, economiza memoria y asegura que el trabajo en progreso del usuario no sea sobreescrito accidentalmente por las demostraciones.</span>
+        </div>
+      </div>
 
       <h3>El Almacén Reactivo (js/store.js)</h3>
       <p>El almacén central reactivo es el encargado de interceptar las mutaciones, resguardar copias de seguridad de forma instantánea en el disco local y gestionar el historial de deshacer/rehacer:</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/store-funcionamiento.svg" alt="Estructura del Almacén Reactivo js/store.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/store-funcionamiento.svg" alt="Estructura del Almacén Reactivo js/store.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Ciclo de vida de una mutación, auto-guardado en localStorage e historial en el Almacén Reactivo js/store.js.</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Proxy ES6 Handler:</strong> Intercepta cualquier operación de asignación de valor en las propiedades del estado (<code>set()</code>), actuando como una barrera de control.</li>
-        <li><strong>Auto-Save e Historial:</strong> Ante cualquier cambio, genera una captura en profundidad (deep clone) de los datos y los añade a la pila de historial (Undo/Redo Stack) para posibilitar el retorno a estados anteriores. Paralelamente, escribe la serialización en <code>localStorage</code> síncronamente.</li>
-        <li><strong>Propagación:</strong> Termina su ciclo emitiendo un evento global de cambio <code>'change'</code> para notificar al orquestador.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Proxy ES6 Handler</strong>
+          <span>Intercepta cualquier operación de asignación de valor en las propiedades del estado (<code>set()</code>), actuando como una barrera de control.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Auto-Save e Historial</strong>
+          <span>Ante cualquier cambio, genera una captura en profundidad (deep clone) de los datos y los añade a la pila de historial (Undo/Redo Stack) para posibilitar el retorno a estados anteriores. Paralelamente, escribe la serialización en <code>localStorage</code> síncronamente.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Propagación</strong>
+          <span>Termina su ciclo emitiendo un evento global de cambio <code>'change'</code> para notificar al orquestador.</span>
+        </div>
+      </div>
 
       <h3>El Flujo de Renderizado (main.js y Módulos UI)</h3>
       <p>Este bloque del diagrama detalla cómo se realiza el enlace dinámico entre la lógica del controlador global y las vistas modulares del DOM:</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/interfaz-funcionamiento.svg" alt="Flujo de actualización de Interfaz y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/interfaz-funcionamiento.svg" alt="Flujo de actualización de Interfaz y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Proceso detallado de llamadas de renderizado selectivo e interacción con el DOM de index.html.</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Filtro de Despacho (main.js):</strong> El método <code>renderAll(event)</code> recibe el evento de cambio y decide a quién llamar según el módulo afectado. Por ejemplo, si el cambio proviene de un dispositivo, llama selectivamente a actualizar el inventario y la vista física, pero evita recalcular la topología o recrear las salas innecesariamente, lo que ahorra tiempo de cómputo.</li>
-        <li><strong>Actualización del DOM (index.html):</strong> Los archivos en <code>js/ui/</code> son vistas desacopladas. Al ser invocados, regeneran la plantilla literal HTML correspondiente y actualizan el fragmento del DOM correspondiente (como <code>div#view-physical</code> o la tabla de inventario), y reasocian los listeners de eventos para mantener la interactividad.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Filtro de Despacho (main.js)</strong>
+          <span>El método <code>renderAll(event)</code> recibe el evento de cambio y decide a quién llamar según el módulo afectado. Por ejemplo, si el cambio proviene de un dispositivo, llama selectivamente a actualizar el inventario y la vista física, pero evita recalcular la topología o recrear las salas innecesariamente, lo que ahorra tiempo de cómputo.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Actualización del DOM (index.html)</strong>
+          <span>Los archivos en <code>js/ui/</code> son vistas desacopladas. Al ser invocados, regeneran la plantilla literal HTML correspondiente y actualizan el fragmento del DOM correspondiente (como <code>div#view-physical</code> o la tabla de inventario), y reasocian los listeners de eventos para mantener la interactividad.</span>
+        </div>
+      </div>
 
       <h3>El Orquestador Central (js/main.js)</h3>
       <p>El orquestador central (o controlador) es el bloque principal que centraliza las escuchas de interacciones del usuario y distribuye el renderizado reactivo a través de la aplicación:</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/orquestador-funcionamiento.svg" alt="Detalle del Orquestador js/main.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/orquestador-funcionamiento.svg" alt="Detalle del Orquestador js/main.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Detalle de entradas, lógica de enrutamiento selectivo y salidas del Controlador/Orquestador js/main.js.</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Escucha de Eventos Globales:</strong> La función <code>initGlobalEvents()</code> vincula directamente los eventos del DOM relacionados con interacciones generales del usuario que no alteran el estado de forma reactiva (zoom de topología, paneo del canvas, alternado de modo Claro/Oscuro, etc.).</li>
-        <li><strong>Enrutamiento Reactivo inteligente:</strong> A través de la función <code>renderAll(event)</code>, actúa como un despachador que recibe el evento `'change'` del <code>store</code>. Al analizar el metadato <code>event.source</code>, decide qué modulo de la UI actualizar, garantizando un renderizado eficiente y local en lugar de realizar cargas globales costosas.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Escucha de Eventos Globales</strong>
+          <span>La función <code>initGlobalEvents()</code> vincula directamente los eventos del DOM relacionados con interacciones generales del usuario que no alteran el estado de forma reactiva (zoom de topología, paneo del canvas, alternado de modo Claro/Oscuro, etc.).</span>
+        </div>
+        <div class="feature-card">
+          <strong>Enrutamiento Reactivo inteligente</strong>
+          <span>A través de la función <code>renderAll(event)</code>, actúa como un despachador que recibe el evento `'change'` del <code>store</code>. Al analizar el metadato <code>event.source</code>, decide qué modulo de la UI actualizar, garantizando un renderizado eficiente y local en lugar de realizar cargas globales costosas.</span>
+        </div>
+      </div>
 
       <h3>Los Lienzos de Trabajo (Canvas vs DOM)</h3>
       <p>La aplicación cuenta con dos modalidades gráficas con representaciones de memoria y tecnologías de renderizado completamente diferentes:</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/canvas-funcionamiento.svg" alt="Estructura de Canvas y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/canvas-funcionamiento.svg" alt="Estructura de Canvas y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Diferencias estructurales y metodológicas entre la Vista Física (DOM) y la Vista Topológica (Canvas 2D).</div>
       </div>
 
-      <ul class="content-list">
-        <li><strong>Vista Física (Árbol DOM HTML):</strong> Renderizada dentro de <code>&lt;div id="view-physical"&gt;</code>. Utiliza elementos HTML nativos anidados (<code>.rack-wrapper</code>, <code>.rack-flipper</code>, <code>.rack-slot</code>) controlados por la hoja de estilos CSS general. Responde directamente a la API nativa de Drag & Drop de HTML5 para calcular en qué unidad (U) cae un elemento. Es una vista estática y estructurada de fácil acceso.</li>
-        <li><strong>Vista Topológica (HTML5 Canvas 2D):</strong> Dibujada dentro de un único elemento <code>&lt;canvas id="topology-canvas"&gt;</code>. Es un lienzo completamente dinámico renderizado de manera procedimental a través de un búfer gráfico 2D a 60 fotogramas por segundo (gracias a <code>requestAnimationFrame</code>). Toda la interactividad (saber en qué nodo se hace clic, arrastrar salas o racks y redimensionarlos) se realiza mediante cálculos matemáticos vectoriales y distancias euclidianas.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>Vista Física (Árbol DOM HTML)</strong>
+          <span>Renderizada dentro de <code>&lt;div id="view-physical"&gt;</code>. Utiliza elementos HTML nativos anidados (<code>.rack-wrapper</code>, <code>.rack-flipper</code>, <code>.rack-slot</code>) controlados por la hoja de estilos CSS general. Responde directamente a la API nativa de Drag & Drop de HTML5 para calcular en qué unidad (U) cae un elemento. Es una vista estática y estructurada de fácil acceso.</span>
+        </div>
+        <div class="feature-card">
+          <strong>Vista Topológica (HTML5 Canvas 2D)</strong>
+          <span>Dibujada dentro de un único elemento <code>&lt;canvas id="topology-canvas"&gt;</code>. Es un lienzo completamente dinámico renderizado de manera procedimental a través de un búfer gráfico 2D a 60 fotogramas por segundo (gracias a <code>requestAnimationFrame</code>). Toda la interactividad (saber en qué nodo se hace clic, arrastrar salas o racks y redimensionarlos) se realiza mediante cálculos matemáticos vectoriales y distancias euclidianas.</span>
+        </div>
+      </div>
 
       <h3>Estructura de Directorios</h3>
       <p>A continuación se presenta el mapa visual de la distribución física de archivos y carpetas del proyecto:</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/directorios.svg" alt="Mapa de Archivos y Directorios de RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/directorios.svg" alt="Mapa de Archivos y Directorios de RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Estructura del árbol de directorios del proyecto RACK Designer 2.</div>
       </div>
     </section>
@@ -362,19 +479,34 @@
       <h1>Diseño Atómico (Atomic Design)</h1>
       <p>La arquitectura de componentes de <strong>RACK Designer 2</strong> se organiza bajo los principios de <strong>Atomic Design</strong>, estructurando de manera jerárquica las interfaces desde los bloques más elementales hasta las páginas funcionales conectadas a datos de red en tiempo real.</p>
       
-      <div class="graphic-box" style="background-color: transparent; border: none; padding: 0;">
-        <img src="img/atomic_design_spheres.svg" alt="Evolución de Componentes en Atomic Design" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="graphic-box" class="graphic-box transparent">
+        <img src="img/Arq/atomic_design_spheres.svg" alt="Evolución de Componentes en Atomic Design" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Mapa de evolución progresiva de componentes utilizando una metáfora de esferas y enlaces de integración.</div>
       </div>
 
       <h3>Categorización de Componentes</h3>
-      <ul class="content-list">
-        <li><strong>1. Átomos (Atoms):</strong> Bloques visuales o de interacción indivisibles. Ejemplos en la app son los slots vacíos individuales de 1U (<code>.u-slot</code>), los botones de zoom (+/-), los íconos de estado SVG (⚡) y las variables CSS de la paleta de colores.</li>
-        <li><strong>2. Moléculas (Molecules):**</strong> Combinaciones lógicas de átomos con comportamiento específico. Ejemplos son las agrupaciones de formulario (Label + Input + Tooltip), los ítems del catálogo izquierdo (Icono + Nombre + Menú contextual <code>⋮</code>) y las pestañas selectoras de salas.</li>
-        <li><strong>3. Organismos (Organisms):</strong> Estructuras de UI complejas y autocontenidas. Ejemplos son el Gabinete (Rack) completo con sus unidades delanteras y traseras, el modal de edición de equipos, el panel lateral off-canvas y las tablas de inventario y conexiones del panel inferior.</li>
-        <li><strong>4. Plantillas (Templates):</strong> Estructuras vacías que definen el maquetado o wireframe visual. Ejemplos son la distribución principal (CSS Grid Layout), el lienzo interactivo de topología y la plantilla de modales emergentes.</li>
-        <li><strong>5. Páginas (Pages):</strong> Vistas completas e instanciadas con datos reales reactivos de <code>store.js</code>. Ejemplos son el lienzo del Data Center con sus equipos de prueba atornillados y el mapa de red activo en la vista de topología con las IPs y switches reales conectados.</li>
-      </ul>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <strong>1. Átomos (Atoms)</strong>
+          <span>Bloques visuales o de interacción indivisibles. Ejemplos en la app son los slots vacíos individuales de 1U (<code>.u-slot</code>), los botones de zoom (+/-), los íconos de estado SVG (⚡) y las variables CSS de la paleta de colores.</span>
+        </div>
+        <div class="feature-card">
+          <strong>2. Moléculas (Molecules)**</strong>
+          <span>Combinaciones lógicas de átomos con comportamiento específico. Ejemplos son las agrupaciones de formulario (Label + Input + Tooltip), los ítems del catálogo izquierdo (Icono + Nombre + Menú contextual <code>⋮</code>) y las pestañas selectoras de salas.</span>
+        </div>
+        <div class="feature-card">
+          <strong>3. Organismos (Organisms)</strong>
+          <span>Estructuras de UI complejas y autocontenidas. Ejemplos son el Gabinete (Rack) completo con sus unidades delanteras y traseras, el modal de edición de equipos, el panel lateral off-canvas y las tablas de inventario y conexiones del panel inferior.</span>
+        </div>
+        <div class="feature-card">
+          <strong>4. Plantillas (Templates)</strong>
+          <span>Estructuras vacías que definen el maquetado o wireframe visual. Ejemplos son la distribución principal (CSS Grid Layout), el lienzo interactivo de topología y la plantilla de modales emergentes.</span>
+        </div>
+        <div class="feature-card">
+          <strong>5. Páginas (Pages)</strong>
+          <span>Vistas completas e instanciadas con datos reales reactivos de <code>store.js</code>. Ejemplos son el lienzo del Data Center con sus equipos de prueba atornillados y el mapa de red activo en la vista de topología con las IPs y switches reales conectados.</span>
+        </div>
+      </div>
     </section>
 
   </main>

@@ -1,3 +1,15 @@
+## [2026-06-16 12:05:00] Reestructuración Documental, Extracción SVG y Rediseño de Manual
+### Documentación Técnica y Arquitectura
+- **Limpieza de Código HTML (Extracción SVG):** Se extrajeron exitosamente 14 diagramas SVG que se encontraban incrustados en línea dentro de `arquitectura_2.html` y se convirtieron en archivos independientes guardados en la carpeta `doc/html/img/Arq2/`. Esto reduce significativamente el peso del HTML base y permite el cacheo independiente de las imágenes.
+- **Correcciones XML en Vectores:** Se solventaron errores de sintaxis en los archivos SVG extraídos (caracteres `&` sin escapar y etiquetas `<defs>` faltantes para marcadores de flechas) garantizando su perfecta renderización en navegadores estrictos.
+- **Nueva Sección de Segmentación:** Se añadió al documento de arquitectura una sección ilustrada llamada "Estructura de Directorios y Segmentación". Esta incluye un nuevo diagrama vectorial (`directory_structure.svg`) y explica los beneficios (Mantenibilidad, Colaboración Eficiente, Reutilización) de aislar la lógica de UI (`js/ui/`) del estado global (`js/store.js`).
+
+### Mejoras de Interfaz (UI/UX) en el Manual de Usuario
+- **Overhaul Estético (Glassmorphism & Cards):** Se reescribió por completo la hoja de estilos del manual de usuario (`manual.css`). Se adoptó una estética moderna que hace juego con la aplicación principal, utilizando fondos oscuros con "blur", resaltados de neón sutiles (accent glow) y limitando el ancho máximo de lectura para reducir la fatiga visual.
+- **Modernización Tipográfica:** Se integraron las fuentes profesionales `Outfit` (lectura general) y `JetBrains Mono` (etiquetas de código técnico) mediante Google Fonts, reemplazando la tipografía genérica del sistema.
+- **Tarjetas de Características (Feature Grid):** Se desarrolló un script inteligente que transformó automáticamente todas las listas de viñetas densas e ilegibles (`ul.content-list`) en grillas modernas de tarjetas (`div.feature-grid`). Esto mejora dramáticamente la experiencia de escaneo y lectura del manual.
+- **Actualización de Contenido y Rutas:** Se repararon todos los enlaces rotos de imágenes del manual apuntando a sus nuevas ubicaciones categorizadas (`desk/`, `mobil/`, `Arq/`). Además, se documentaron oficialmente las últimas funciones agregadas: Los *Atajos de Estado Vacío* (Empty Canvas Shortcuts) y las opciones extendidas del *Menú Contextual* de los Gabinetes.
+
 ## [2026-06-16 10:05:00] Corrección de Bug Visual (Inputs & Selects) y Accesos Directos
 ### Mejoras de Interfaz (UI/UX)
 - **Corrección de Recorte Vertical:** Se ajustó el `padding` (a `0 8px`) y el `line-height` de todos los elementos `input` y `select` globales en `layout.css`. Esto soluciona un problema donde los textos internos aparecían cortados o empujados hacia abajo después de que la altura general se hubiera estandarizado a 24px en el commit anterior.
