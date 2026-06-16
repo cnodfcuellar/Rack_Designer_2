@@ -743,3 +743,37 @@ TOTAL:  18 hallazgos
 ```
 
 > **Prioridad de acción sugerida:** BUG-01/02 primero (seguridad), BUG-04/05 segundo (estabilidad), BUG-06/10 tercero (integridad de datos), resto de bajo a medio para el siguiente sprint.
+
+---
+
+## Sección 5 — Estado de Correcciones (Post-Análisis v2.0)
+
+De los 18 hallazgos identificados originalmente, **15 han sido corregidos de forma definitiva** durante el ciclo de pulido (Junio 2026).
+
+### Bugs Resueltos (15/18)
+* **Críticos:** BUG-01 (Modo Dios visual), BUG-02 (Exportación segura), BUG-04 (Memory Leak WeakMap)
+* **Altos:** BUG-03 (crypto.randomUUID), BUG-05 (Reseteo Topology), BUG-06 (Limpieza Conexiones Huérfanas)
+* **Medios:** BUG-07 (changeRoom topo), BUG-08 (Validación IP), BUG-09 (XSS celdas), BUG-10 (Colisión mountSide), BUG-11 (Guarda PNG Topology)
+* **Bajos/Info:** BUG-12 (Límite Notif), BUG-13 (FOUC Theme), BUG-14 (Equipos Piso vs Rack), BUG-15 (Historial rename), BUG-16 (CSV escape), BUG-17 (Eventos Piso), BUG-18 (flowT overflow).
+
+---
+
+## Sección 6 — Rutas de Mejora Propuestas
+
+Con la base técnica estabilizada, se proponen 3 posibles caminos evolutivos para RACK Designer:
+
+### Ruta A: Refactorización Arquitectural (Escalabilidad)
+* **División de modals.js**: Separar el archivo de ~900 líneas en módulos especializados (device, rack, cable, exports).
+* **Topología en Web Worker**: Mover el algoritmo de nodos (drawTopo) a un hilo en segundo plano con OffscreenCanvas para evitar bloqueos a 60fps con >200 nodos.
+* **Sistema de Plugins**: API para importar catálogos de fabricantes (Cisco, Dell, etc.) en JSON.
+
+### Ruta B: Funcionalidades UX de Nueva Generación
+* **Topología Vectorial SVG**: Exportación en alta calidad para documentación corporativa (Visio, Word).
+* **Edición Masiva en Tabla**: Selección múltiple de filas en el inventario para modificar atributos en bloque.
+* **Spotlight Search (Cmd+K)**: Buscador global instantáneo para localizar cualquier IP, Serial o Equipo en la sala.
+
+### Ruta C: Seguridad y Hardening Empresarial
+* **AES-GCM en localStorage**: Cifrar las contraseñas en reposo utilizando la Web Crypto API y un PIN de sesión.
+* **Auto-Lock por inactividad**: Bloqueo automático del visor de contraseñas tras 15 minutos sin uso.
+* **Validación estricta de Importación**: JSON Schema o Zod para evitar inyección de datos corruptos al subir un archivo .rack.
+

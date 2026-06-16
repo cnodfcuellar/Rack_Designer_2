@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACK Designer 2 — Propuestas de Interfaz Premium (UI/UX v2.0)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+  :root {
+    --bg-dark: #030712;
+    --bg-card: rgba(17, 24, 39, 0.7);
+    --bg-card-hover: rgba(31, 41, 55, 0.8);
+    --border: rgba(55, 65, 81, 0.4);
+    --border-hover: rgba(56, 189, 248, 0.4);
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* Neon Colors */
+    --neon-blue: #38bdf8;
+    --neon-purple: #a855f7;
+    --neon-green: #10b981;
+    --neon-red: #f43f5e;
+    --neon-yellow: #fbbf24;
+    
+    /* Gradients */
+    --grad-primary: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    --grad-green: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    --grad-red: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+  }
+
+  /* Reset & Base */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
+
+  /* Premium Header */
+  header {
+    padding: 30px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(3, 7, 18, 0.8);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: var(--grad-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    animation: pulseGlow 3s infinite alternate;
+  }
+  .brand-title h1 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #38bdf8, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-title span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  nav.nav-menu {
+    display: flex;
+    gap: 15px;
+  }
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--neon-blue);
+    border-color: var(--neon-blue);
+    background: rgba(56, 189, 248, 0.05);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+  }
+
+  /* Hero Banner */
+  .hero {
+    text-align: center;
+    padding: 80px 5% 50px;
+    position: relative;
+  }
+  .hero-badge {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    color: #c084fc;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero h2 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-secondary);
+    font-size: 18px;
+    max-width: 650px;
+    margin: 0 auto 30px;
+    font-weight: 300;
+  }
+
+  /* Grid of Impact metrics */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
+  }
+  .impact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .impact-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.05);
+  }
+  .impact-val {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--neon-blue);
+    margin-bottom: 5px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .impact-val.purple { color: var(--neon-purple); }
+  .impact-val.green { color: var(--neon-green); }
+  .impact-lbl {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Container & Layout */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Sections styling */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 100px;
+  }
+  .sec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .sec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--neon-blue);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .sec-title h3 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .sec-title p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 700px;
+  }
+  .sec-badge {
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--neon-blue);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .sec-badge.high {
+    background: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.3);
+    color: var(--neon-red);
+  }
+
+  /* Proposal Details Cards */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .details-grid { grid-template-columns: 1fr; }
+  }
+
+  .info-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    height: 100%;
+    backdrop-filter: blur(8px);
+  }
+  .info-panel h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .info-list {
+    list-style: none;
+  }
+  .info-list li {
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .info-list li strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .info-list li::before {
+    content: '⚡';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--neon-blue);
+    font-size: 12px;
+  }
+  .info-list.green li::before { color: var(--neon-green); }
+
+  .mockup-panel {
+    background: rgba(10, 15, 30, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mockup-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 10px;
+  }
+  .mockup-controls {
+    display: flex;
+    gap: 8px;
+  }
+  .mockup-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .mockup-dot.red { background: var(--neon-red); }
+  .mockup-dot.yellow { background: var(--neon-yellow); }
+  .mockup-dot.green { background: var(--neon-green); }
+
+  /* SVG interactive styles */
+  .svg-wrap {
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+  }
+  .svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ────────────────────────────────────────────────────────
+     INTERACTIVE MOCKUP SPECIFICS
+     ──────────────────────────────────────────────────────── */
+  
+  /* Section 1: 2.5D Room Grid */
+  .iso-tile {
+    fill: #111827;
+    stroke: rgba(56, 189, 248, 0.15);
+    stroke-width: 1;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .iso-tile:hover {
+    fill: rgba(56, 189, 248, 0.2);
+    stroke: var(--neon-blue);
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+  }
+  .iso-tile.active {
+    fill: rgba(168, 85, 247, 0.25);
+    stroke: var(--neon-purple);
+  }
+  .iso-rack {
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .iso-rack:hover {
+    transform: translateY(-5px);
+    filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.3));
+  }
+
+  /* Section 2: Catalog Drag Zones */
+  .dz-slot {
+    fill: rgba(17, 24, 39, 0.8);
+    stroke: rgba(255,255,255,0.05);
+    transition: all 0.3s;
+  }
+  .dz-slot.eligible {
+    fill: rgba(16, 185, 129, 0.1);
+    stroke: var(--neon-green);
+    stroke-dasharray: 4, 3;
+    animation: dashPulse 2s linear infinite;
+  }
+  .dz-slot.occupied {
+    fill: rgba(244, 63, 94, 0.05);
+    stroke: rgba(244, 63, 94, 0.2);
+  }
+  .dz-card {
+    cursor: grab;
+    transition: all 0.3s;
+  }
+  .dz-card:active {
+    cursor: grabbing;
+  }
+
+  /* Section 3: Trace Cable paths */
+  .cable-path {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.25;
+    transition: opacity 0.3s, stroke-width 0.3s;
+  }
+  .cable-path.active {
+    opacity: 1;
+    stroke-width: 3.5;
+    filter: drop-shadow(0 0 6px var(--glow-color));
+  }
+  .pulse-node {
+    animation: flowPulse 2.5s infinite linear;
+  }
+
+  /* Section 4: Spotlight Cmd+K */
+  .spotlight-box {
+    background: rgba(10, 15, 30, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    padding: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.1);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .sp-input-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .sp-input {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    margin-left: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .sp-kbd {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .sp-results {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sp-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .sp-item:hover, .sp-item.selected {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--text-primary);
+    transform: translateX(4px);
+  }
+  .sp-action {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--neon-blue);
+    background: rgba(56, 189, 248, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Section 5: Thermal Heatmap */
+  .temp-slot {
+    transition: fill 0.8s ease;
+  }
+  .temp-indicator {
+    opacity: 0;
+    transition: opacity 0.5s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+  }
+  .heatmap-active .temp-indicator {
+    opacity: 0.9;
+  }
+
+  /* Animations definitions */
+  @keyframes pulseGlow {
+    from { box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+    to { box-shadow: 0 0 25px rgba(56, 189, 248, 0.5); }
+  }
+  @keyframes dashPulse {
+    to { stroke-dashoffset: -20; }
+  }
+  @keyframes flowPulse {
+    0% { stroke-dashoffset: 40; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  /* Floating UI actions for user testing */
+  .interactive-hint {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #6ee7b7;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Footer & vote box */
+  .feedback-box {
+    background: linear-gradient(135deg, rgba(13, 20, 40, 0.7) 0%, rgba(10, 5, 20, 0.7) 100%);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    margin: 80px 0;
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+  }
+  .feedback-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .feedback-box h4 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .feedback-box p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .vote-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .vote-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Outfit', sans-serif;
+  }
+  .vote-btn:hover {
+    border-color: var(--neon-blue);
+    background: rgba(56, 189, 248, 0.1);
+    transform: translateY(-2px);
+  }
+  .vote-btn.selected {
+    background: var(--grad-primary);
+    border-color: transparent;
+    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.3);
+  }
+
+  footer {
+    text-align: center;
+    padding: 50px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="brand-logo">🗄️</div>
+    <div class="brand-title">
+      <h1>RACK Designer 2</h1>
+      <span>UI/UX Improvements v2.0</span>
+    </div>
+  </div>
+  <nav class="nav-menu">
+    <a href="#plano25d" class="nav-btn">1. Planta 2.5D</a>
+    <a href="#dragzones" class="nav-btn">2. Cajón Catálogo</a>
+    <a href="#cableglow" class="nav-btn">3. Trace Cables</a>
+    <a href="#commandbox" class="nav-btn">4. Cmd+K</a>
+    <a href="#termografico" class="nav-btn">5. Termografía</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Estudio de Diseño e Interacción</div>
+  <h2>Innovación Visual &amp;<br>Flujos de Trabajo Inteligentes</h2>
+  <p>Propuestas de interfaz interactivas y dinámicas diseñadas para optimizar la usabilidad, agilizar operaciones de red y elevar la experiencia estética del Datacenter Console.</p>
+  
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="impact-val">-40%</div>
+      <div class="impact-lbl">Clics Operacionales</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-val purple">60 FPS</div>
+      <div class="impact-lbl">Render de Topología</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-val green">100%</div>
+      <div class="impact-lbl">Visualización Segura</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN 1: PLANO DE PLANTA 2.5D
+       ══════════════════════════════════════════════ -->
+  <section id="plano25d">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">01 / VISTA GENERAL</span>
+        <h3>Plano de Planta 2.5D (Datacenter Floor Map)</h3>
+        <p>Visualización tridimensional isométrica de la sala para arrastrar, distribuir y monitorear gabinetes.</p>
+      </div>
+      <span class="sec-badge">Alta Complejidad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Distribución Espacial Real:</strong>
+            Los gabinetes dejan de ser pestañas planas. Ahora se colocan en una cuadrícula (grid) que representa el piso técnico del datacenter.
+          </li>
+          <li>
+            <strong>Organización por Filas (Aisles):</strong>
+            Permite definir pasillos fríos y calientes organizando los racks espalda con espalda para simulaciones de flujo de aire.
+          </li>
+          <li>
+            <strong>Tooltip Tridimensional:</strong>
+            Al posar el mouse sobre un rack en 3D, se muestra una tarjeta translúcida con la ocupación de U, la temperatura y consumo de potencia total acumulado.
+          </li>
+          <li>
+            <strong>Integración en store.js:</strong>
+            Las coordenadas `x` y `y` se guardan en el objeto de cada rack dentro del estado global, permitiendo el guardado y undo/redo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — PLANO DE PLANTA ISOMÉTRICO</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        <div class="interactive-hint">💡 Clic en los Racks o Baldosas para inspeccionar detalles</div>
+        
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid Baldosas Isométricas -->
+            <!-- Fila 1 -->
+            <polygon points="250,100 290,120 250,140 210,120" class="iso-tile" onclick="selectTile(this, 'Fila A, Baldosa 1')"/>
+            <polygon points="290,120 330,140 290,160 250,140" class="iso-tile" onclick="selectTile(this, 'Fila A, Baldosa 2')"/>
+            <polygon points="330,140 370,160 330,180 290,160" class="iso-tile" onclick="selectTile(this, 'Fila A, Baldosa 3')"/>
+            <!-- Fila 2 -->
+            <polygon points="210,120 250,140 210,160 170,140" class="iso-tile" onclick="selectTile(this, 'Fila B, Baldosa 1')"/>
+            <polygon points="250,140 290,160 250,180 210,160" class="iso-tile" onclick="selectTile(this, 'Fila B, Baldosa 2')"/>
+            <polygon points="290,160 330,180 290,200 250,180" class="iso-tile" onclick="selectTile(this, 'Fila B, Baldosa 3')"/>
+            <!-- Fila 3 -->
+            <polygon points="170,140 210,160 170,180 130,160" class="iso-tile" onclick="selectTile(this, 'Fila C, Baldosa 1')"/>
+            <polygon points="210,160 250,180 210,200 170,180" class="iso-tile" onclick="selectTile(this, 'Fila C, Baldosa 2')"/>
+            <polygon points="250,180 290,200 250,220 210,200" class="iso-tile" onclick="selectTile(this, 'Fila C, Baldosa 3')"/>
+
+            <!-- Racks 3D colocados en el Grid -->
+            <!-- Rack 1 (Fila A, Baldosa 2) -->
+            <g class="iso-rack" onclick="selectRack('Rack A1 (Core)', '32 / 42 U', '1.2 kW', '24 °C')" transform="translate(250, 70)">
+              <!-- Lado izquierdo -->
+              <polygon points="0,70 40,90 40,20 0,0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+              <!-- Lado derecho -->
+              <polygon points="40,90 80,70 80,0 40,20" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+              <!-- Tapa Superior -->
+              <polygon points="0,0 40,20 80,0 40,-20" fill="#334155" stroke="#475569" stroke-width="1"/>
+              <!-- Panel frontal LED neon indicator -->
+              <line x1="43" y1="23" x2="43" y2="87" stroke="#38bdf8" stroke-width="2" opacity="0.8"/>
+              <text x="40" y="45" fill="#e2e8f0" font-family="Space Grotesk" font-size="9" transform="skewY(26)" font-weight="700">R-A1</text>
+            </g>
+
+            <!-- Rack 2 (Fila B, Baldosa 1) -->
+            <g class="iso-rack" onclick="selectRack('Rack B1 (Distribución)', '18 / 42 U', '0.6 kW', '21 °C')" transform="translate(170, 90)">
+              <polygon points="0,70 40,90 40,20 0,0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+              <polygon points="40,90 80,70 80,0 40,20" fill="#0f172a" stroke="#1e2d4e" stroke-width="1"/>
+              <polygon points="0,0 40,20 80,0 40,-20" fill="#334155" stroke="#475569" stroke-width="1"/>
+              <line x1="43" y1="23" x2="43" y2="87" stroke="#a855f7" stroke-width="2" opacity="0.8"/>
+              <text x="40" y="45" fill="#e2e8f0" font-family="Space Grotesk" font-size="9" transform="skewY(26)" font-weight="700">R-B1</text>
+            </g>
+
+            <!-- Rack 3 (Fila C, Baldosa 3) -->
+            <g class="iso-rack" onclick="selectRack('Rack C3 (Almacenamiento)', '40 / 42 U', '2.8 kW', '32 °C - ALERTA 🔥', 'true')" transform="translate(250, 150)">
+              <polygon points="0,70 40,90 40,20 0,0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+              <polygon points="40,90 80,70 80,0 40,20" fill="#0f172a" stroke="#1e2d4e" stroke-width="1"/>
+              <polygon points="0,0 40,20 80,0 40,-20" fill="#334155" stroke="#475569" stroke-width="1"/>
+              <!-- LED indicador rojo (temperatura alta) -->
+              <line x1="43" y1="23" x2="43" y2="87" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4,2" opacity="0.9"/>
+              <text x="40" y="45" fill="#e2e8f0" font-family="Space Grotesk" font-size="9" transform="skewY(26)" font-weight="700">R-C3</text>
+            </g>
+
+            <!-- Info overlay card inside SVG -->
+            <g id="iso-card" transform="translate(20, 240)" opacity="1">
+              <rect width="220" height="90" rx="8" fill="rgba(15, 23, 42, 0.9)" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1.5"/>
+              <text id="card-title" x="15" y="25" fill="#f3f4f6" font-family="Space Grotesk" font-size="12" font-weight="700">Selecciona un elemento</text>
+              <text id="card-u" x="15" y="45" fill="#9ca3af" font-family="JetBrains Mono" font-size="10">Uso: -</text>
+              <text id="card-power" x="15" y="60" fill="#9ca3af" font-family="JetBrains Mono" font-size="10">Potencia: -</text>
+              <text id="card-temp" x="15" y="75" fill="#9ca3af" font-family="JetBrains Mono" font-size="10">Temperatura: -</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN 2: CAJÓN DE CATÁLOGO & DROPZONES
+       ══════════════════════════════════════════════ -->
+  <section id="dragzones">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">02 / INTERACCIÓN RACK</span>
+        <h3>Catálogo Flotante y Zonas de Soltar Luminosas</h3>
+        <p>Guía visual dinámica durante la operación de arrastrar y soltar (drag &amp; drop) para posicionamiento rápido.</p>
+      </div>
+      <span class="sec-badge">Media Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Feedback Visual Inmediato:</strong>
+            Al iniciar el arrastre de un equipo del catálogo, los slots del rack seleccionado se iluminan en verde (disponible) o rojo (ocupado o espacio insuficiente).
+          </li>
+          <li>
+            <strong>Detección de Tamaño U Inteligente:</strong>
+            Si arrastras un servidor de 4U, solo se iluminarán en verde los grupos de 4 slots libres consecutivos.
+          </li>
+          <li>
+            <strong>Snapping Magnético:</strong>
+            El equipo es atraído hacia la zona de montaje válida más cercana, reduciendo los errores por soltar fuera del riel del rack.
+          </li>
+          <li>
+            <strong>Cajón Colapsable:</strong>
+            El catálogo se oculta automáticamente a un lado con transiciones CSS suaves, ampliando la visualización del área de trabajo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>SIMULACIÓN — ZONAS DE MONTAJE Y COMPATIBILIDAD</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Clic en los botones inferiores para simular el arrastre de equipos</div>
+        
+        <div class="svg-wrap" style="max-width: 480px;">
+          <svg viewBox="0 0 450 350" xmlns="http://www.w3.org/2000/svg">
+            <!-- Contenedor del Riel del Rack -->
+            <rect x="50" y="30" width="160" height="280" rx="8" fill="#0d1428" stroke="#1e2d4e" stroke-width="2"/>
+            <text x="130" y="20" fill="#9ca3af" font-family="Space Grotesk" font-size="11" text-anchor="middle" font-weight="700">RIEL RACK PRINCIPAL</text>
+
+            <!-- Slots del Rack -->
+            <!-- Slot U6-U7 (Ocupado por Switch) -->
+            <rect x="60" y="40" width="140" height="40" rx="4" class="dz-slot occupied"/>
+            <text x="130" y="65" fill="#f43f5e" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="600">U6-U7: Switch Core (Ocupado)</text>
+            
+            <!-- Slot U4-U5 (Eligible / Libre) -->
+            <rect id="slot-u4-u5" x="60" y="90" width="140" height="40" rx="4" class="dz-slot"/>
+            <text id="lbl-u4-u5" x="130" y="115" fill="#4b5563" font-family="Space Grotesk" font-size="10" text-anchor="middle">Ranura U4-U5 (2U Libre)</text>
+
+            <!-- Slot U2-U3 (Ocupado por Server 2U) -->
+            <rect x="60" y="140" width="140" height="60" rx="4" class="dz-slot occupied"/>
+            <text x="130" y="175" fill="#f43f5e" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="600">U2-U3: Servidor R740 (Ocupado)</text>
+
+            <!-- Slot U1 (Eligible / Libre 1U) -->
+            <rect id="slot-u1" x="60" y="210" width="140" height="30" rx="4" class="dz-slot"/>
+            <text id="lbl-u1" x="130" y="230" fill="#4b5563" font-family="Space Grotesk" font-size="10" text-anchor="middle">Ranura U1 (1U Libre)</text>
+
+            <!-- Panel de Catálogo (Simulado a la derecha) -->
+            <rect x="250" y="30" width="170" height="280" rx="8" fill="rgba(255,255,255,0.02)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="335" y="50" fill="#e2e8f0" font-family="Space Grotesk" font-size="11" text-anchor="middle" font-weight="700">CATÁLOGO DISPONIBLE</text>
+
+            <!-- Equipo Catálogo 1: Switch 1U -->
+            <g class="dz-card" id="card-1u" onclick="simulateDrag('1U')" transform="translate(265, 70)">
+              <rect width="140" height="40" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+              <text x="70" y="25" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">Cisco Catalyst (1U)</text>
+              <rect x="10" y="10" width="12" height="6" fill="#10b981" rx="1"/>
+            </g>
+
+            <!-- Equipo Catálogo 2: Server 2U -->
+            <g class="dz-card" id="card-2u" onclick="simulateDrag('2U')" transform="translate(265, 130)">
+              <rect width="140" height="50" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+              <text x="70" y="30" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">Storage SAN (2U)</text>
+              <rect x="10" y="10" width="12" height="6" fill="#a855f7" rx="1"/>
+            </g>
+
+            <g class="dz-card" id="card-4u" onclick="simulateDrag('4U')" transform="translate(265, 200)">
+              <rect width="140" height="60" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+              <text x="70" y="35" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">Blade Chassis (4U)</text>
+              <rect x="10" y="10" width="12" height="6" fill="#fbbf24" rx="1"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN 3: TRAZADO DE CABLEADO (GLOW PATH)
+       ══════════════════════════════════════════════ -->
+  <section id="cableglow">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">03 / CONECTIVIDAD</span>
+        <h3>Trazado de Cableado con Rutas Luminosas (Glow Path)</h3>
+        <p>Destacar visualmente las rutas de datos a través del datacenter mediante pulsos luminosos de alta definición.</p>
+      </div>
+      <span class="sec-badge">Alta Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Aislamiento de Rutas Complejas:</strong>
+            Al hacer clic sobre un puerto o conexión, el resto de la topología se atenúa al 20% de brillo y la ruta seleccionada se enciende con un brillo neón.
+          </li>
+          <li>
+            <strong>Animación de Tránsito de Paquetes:</strong>
+            Utilizando `stroke-dashoffset` en SVG/Canvas, se dibuja un flujo continuo de paquetes para indicar la dirección y velocidad lógica del enlace (e.g. Fibra de 10Gbps fluye más rápido que Cobre de 1Gbps).
+          </li>
+          <li>
+            <strong>Leyenda Desplegable Inteligente:</strong>
+            Clasificación automática por tipo de cable (Fibra Multimodo OM4, Monomodo OS2, Cobre Cat6A).
+          </li>
+          <li>
+            <strong>Optimización en Canvas:</strong>
+            Se integra con `topology.js` para mantener un rendimiento óptimo a 60fps, evitando ralentizaciones en esquemas con más de 200 conexiones.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — TRAZADO DE RUTA ACTIVO</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Clic en los botones superiores para resaltar rutas específicas</div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+          <button class="nav-btn" onclick="highlightCable('fibra')">Fibra OS2 (Azul)</button>
+          <button class="nav-btn" onclick="highlightCable('cobre')">Cobre Cat6 (Púrpura)</button>
+          <button class="nav-btn" onclick="resetCables()">Restaurar Todo</button>
+        </div>
+
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Dispositivos de red de la topología -->
+            <!-- Switch Central -->
+            <rect x="200" y="50" width="100" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="250" y="74" fill="#f3f4f6" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="700">CORE-SWITCH-01</text>
+            
+            <!-- Server A -->
+            <rect x="80" y="200" width="100" height="40" rx="6" fill="#1e293b" stroke="#1e2d4e" stroke-width="1.5" id="node-a"/>
+            <text x="130" y="224" fill="#f3f4f6" font-family="Space Grotesk" font-size="10" text-anchor="middle">WEB-SERVER-A</text>
+            
+            <!-- Server B -->
+            <rect x="320" y="200" width="100" height="40" rx="6" fill="#1e293b" stroke="#1e2d4e" stroke-width="1.5" id="node-b"/>
+            <text x="370" y="224" fill="#f3f4f6" font-family="Space Grotesk" font-size="10" text-anchor="middle">DB-SERVER-B</text>
+
+            <!-- Cables de Red -->
+            <!-- Cable Fibra (Left) -->
+            <path id="cable-fibra" d="M 130,200 C 130,120 250,120 250,90" class="cable-path pulse-node" style="stroke: #38bdf8; --glow-color: #38bdf8;"/>
+            
+            <!-- Cable Cobre (Right) -->
+            <path id="cable-cobre" d="M 370,200 C 370,120 250,120 250,90" class="cable-path pulse-node" style="stroke: #a855f7; --glow-color: #a855f7;"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN 4: CENTRO DE COMANDO SPOTLIGHT (Cmd+K)
+       ══════════════════════════════════════════════ -->
+  <section id="commandbox">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">04 / ACCESIBILIDAD</span>
+        <h3>Buscador Global Inteligente y Centro de Comando (Cmd+K)</h3>
+        <p>Una barra de acceso rápido para realizar acciones en bloque y buscar recursos sin levantar las manos del teclado.</p>
+      </div>
+      <span class="sec-badge high">Alta Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Acceso Instantáneo:</strong>
+            Presionando `Ctrl+K` o `Cmd+K` desde cualquier pantalla, se despliega una consola modal superpuesta con un fondo difuminado (*glassmorphism*).
+          </li>
+          <li>
+            <strong>Acciones Ejecutables Directas:</strong>
+            No solo busca, también permite realizar comandos como: `nueva sala Sala C`, `conectar Switch-01 Eth5 a Server-03 Eth0` o `exportar png`.
+          </li>
+          <li>
+            <strong>Búsqueda Fuzzy Ultra Rápida:</strong>
+            Algoritmo de búsqueda que aproxima resultados ignorando acentos o mayúsculas. Ideal para encontrar una IP de administración en milisegundos.
+          </li>
+          <li>
+            <strong>Navegación por Teclado:</strong>
+            Movimiento completo entre opciones usando las flechas de dirección (arriba/abajo) y confirmación con la tecla `Enter`.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>CENTRO DE COMANDO INTERACTIVO</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Prueba a escribir en el buscador: "sala", "cisco", o "ip"</div>
+        
+        <!-- Interactive Spotlight box -->
+        <div class="spotlight-box">
+          <div class="sp-input-wrap">
+            🔍
+            <input type="text" class="sp-input" id="search-input" placeholder="Buscar equipo o ejecutar comando..." oninput="handleSearch(this.value)">
+            <span class="sp-kbd">ESC</span>
+          </div>
+          <div class="sp-results" id="search-results">
+            <div class="sp-item selected">
+              <span>🗄️ Rack Core 1 (Sala A)</span>
+              <span class="sp-action">Ir al Rack</span>
+            </div>
+            <div class="sp-item">
+              <span>🔌 Conectar equipos...</span>
+              <span class="sp-action">Comando</span>
+            </div>
+            <div class="sp-item">
+              <span>🖥️ Switch Cisco 2960 (192.168.1.10)</span>
+              <span class="sp-action">Editar</span>
+            </div>
+            <div class="sp-item">
+              <span>📂 Cargar Demo Datacenter</span>
+              <span class="sp-action">Acción</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN 5: MODO TERMOGRÁFICO
+       ══════════════════════════════════════════════ -->
+  <section id="termografico">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">05 / EFICIENCIA &amp; MONITOREO</span>
+        <h3>Modo Termográfico (Thermal Heatmap Overlay)</h3>
+        <p>Una capa analítica en tiempo real para visualizar la disipación térmica y densidad de potencia en los gabinetes.</p>
+      </div>
+      <span class="sec-badge">Baja Complejidad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Alarma Térmica Integrada:</strong>
+            Los slots que excedan un umbral configurable de potencia (W) o temperatura (°C) se pintan progresivamente en tonos amarillos y rojos brillantes.
+          </li>
+          <li>
+            <strong>Diagnóstico de Hotspots:</strong>
+            Detecta la acumulación excesiva de servidores blade o de procesamiento denso en una sola sección del rack, evitando caídas por fallas térmicas.
+          </li>
+          <li>
+            <strong>Optimización en CSS Transitions:</strong>
+            El cambio entre la vista normal y térmica se realiza de manera suave aplicando transiciones CSS sobre las propiedades de `fill` de los elementos SVG.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — CAMBIO DE VISTA TERMOGRÁFICA</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Presiona el botón para alternar el mapa térmico de potencia</div>
+        
+        <button class="nav-btn" style="margin-bottom: 20px;" onclick="toggleHeatmap()">Alternar Mapa Térmico</button>
+
+        <div class="svg-wrap" style="max-width: 280px;" id="rack-heatmap-container">
+          <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="320" rx="8" fill="#0d1428" stroke="#1e2d4e" stroke-width="2"/>
+            
+            <!-- U10 (Servidor Alta Carga) -->
+            <rect x="20" y="30" width="160" height="40" rx="4" fill="#1f2937" class="temp-slot" id="ts-1" style="--t-color: #ef4444;"/>
+            <text x="100" y="54" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="700">Server Blade (U10)</text>
+            <text x="160" y="44" fill="#ffffff" class="temp-indicator" text-anchor="end">42 °C</text>
+
+            <!-- U8-U9 (Servidor Media Carga) -->
+            <rect x="20" y="80" width="160" height="45" rx="4" fill="#1f2937" class="temp-slot" id="ts-2" style="--t-color: #f59e0b;"/>
+            <text x="100" y="106" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle">Server Web (U8-U9)</text>
+            <text x="160" y="94" fill="#ffffff" class="temp-indicator" text-anchor="end">29 °C</text>
+
+            <!-- U6-U7 (Libre) -->
+            <rect x="20" y="135" width="160" height="40" rx="4" fill="#111827" class="temp-slot" id="ts-3" style="--t-color: #10b981;"/>
+            <text x="100" y="158" fill="#4b5563" font-family="Space Grotesk" font-size="10" text-anchor="middle">Espacio Libre (U6-U7)</text>
+            <text x="160" y="148" fill="#ffffff" class="temp-indicator" text-anchor="end">19 °C</text>
+
+            <!-- U4-U5 (Storage) -->
+            <rect x="20" y="185" width="160" height="50" rx="4" fill="#1f2937" class="temp-slot" id="ts-4" style="--t-color: #f59e0b;"/>
+            <text x="100" y="214" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle">Storage Arrays (U4-U5)</text>
+            <text x="160" y="199" fill="#ffffff" class="temp-indicator" text-anchor="end">28 °C</text>
+
+            <!-- U1-U3 (UPS Central) -->
+            <rect x="20" y="245" width="160" height="60" rx="4" fill="#1f2937" class="temp-slot" id="ts-5" style="--t-color: #38bdf8;"/>
+            <text x="100" y="280" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle">UPS APC (U1-U3)</text>
+            <text x="160" y="259" fill="#ffffff" class="temp-indicator" text-anchor="end">22 °C</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FEEDBACK & FEEDBACK
+       ══════════════════════════════════════════════ -->
+  <div class="feedback-box">
+    <h4>¿Cuál de estas mejoras te parece prioritaria?</h4>
+    <p>Registra tu selección para priorizar el desarrollo en el próximo Sprint. Cada ruta cuenta con planes de integración validados en la arquitectura.</p>
+    <div class="vote-buttons">
+      <button class="vote-btn" onclick="voteRoute(this, 'Plano de Planta 2.5D')">🗺️ Plano de Planta 2.5D</button>
+      <button class="vote-btn" onclick="voteRoute(this, 'Catálogo & Dropzones')">🗄️ Cajón de Catálogo</button>
+      <button class="vote-btn" onclick="voteRoute(this, 'Trazado Glow Path')">🔌 Trazado de Cables</button>
+      <button class="vote-btn" onclick="voteRoute(this, 'Spotlight Cmd+K')">⌨️ Centro de Comando</button>
+      <button class="vote-btn" onclick="voteRoute(this, 'Mapa Térmico')">🔥 Vista Térmica</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  RACK DESIGNER 2 — ESTUDIO DE DISEÑO CREADO EN JUNIO 2026. TODOS LOS DERECHOS RESERVADOS.
+</footer>
+
+<!-- SCRIPTS DE INTERACCIÓN DEL MOCKUP -->
+<script>
+  // Section 1: Isometric Floor Map
+  function selectTile(tile, name) {
+    document.querySelectorAll('.iso-tile').forEach(t => t.classList.remove('active'));
+    tile.classList.add('active');
+    document.getElementById('card-title').textContent = name;
+    document.getElementById('card-u').textContent = "Uso: Baldosa técnica vacía";
+    document.getElementById('card-power').textContent = "Potencia: 0 W";
+    document.getElementById('card-temp').textContent = "Temperatura: Ambiente";
+  }
+
+  function selectRack(name, usage, power, temp, isAlert) {
+    document.querySelectorAll('.iso-tile').forEach(t => t.classList.remove('active'));
+    document.getElementById('card-title').textContent = name;
+    document.getElementById('card-title').style.fill = isAlert ? '#f43f5e' : '#f3f4f6';
+    document.getElementById('card-u').textContent = "Uso: " + usage;
+    document.getElementById('card-power').textContent = "Potencia: " + power;
+    document.getElementById('card-temp').textContent = "Temperatura: " + temp;
+  }
+
+  // Section 2: Catalog and luminous drop zones
+  function simulateDrag(uSize) {
+    // Reset classes
+    document.getElementById('slot-u4-u5').classList.remove('eligible');
+    document.getElementById('slot-u1').classList.remove('eligible');
+    document.getElementById('lbl-u4-u5').style.fill = '#4b5563';
+    document.getElementById('lbl-u1').style.fill = '#4b5563';
+    
+    if (uSize === '1U') {
+      document.getElementById('slot-u1').classList.add('eligible');
+      document.getElementById('lbl-u1').style.fill = '#10b981';
+      document.getElementById('lbl-u1').textContent = "✓ ¡Soltar aquí (1U)!";
+    } else if (uSize === '2U') {
+      document.getElementById('slot-u4-u5').classList.add('eligible');
+      document.getElementById('lbl-u4-u5').style.fill = '#10b981';
+      document.getElementById('lbl-u4-u5').textContent = "✓ ¡Soltar aquí (2U)!";
+    } else if (uSize === '4U') {
+      // Blade chassis 4U doesn't fit in U1 or U4-U5
+      alert('⚠️ El equipo de 4U no cabe en ninguna de las ranuras disponibles (1U y 2U libres). El riel se iluminará de rojo.');
+    }
+  }
+
+  // Section 3: Highlighting cable paths
+  function highlightCable(type) {
+    document.getElementById('cable-fibra').classList.remove('active');
+    document.getElementById('cable-cobre').classList.remove('active');
+    
+    if (type === 'fibra') {
+      document.getElementById('cable-fibra').classList.add('active');
+    } else if (type === 'cobre') {
+      document.getElementById('cable-cobre').classList.add('active');
+    }
+  }
+
+  function resetCables() {
+    document.getElementById('cable-fibra').classList.remove('active');
+    document.getElementById('cable-cobre').classList.remove('active');
+  }
+
+  // Section 4: Spotlight Cmd+K Center
+  const mockDatabase = [
+    { title: "🗄️ Rack Core 1 (Sala A)", action: "Ir al Rack" },
+    { title: "🗄️ Rack Core 2 (Sala A)", action: "Ir al Rack" },
+    { title: "🗄️ Rack Dist 1 (Sala B)", action: "Ir al Rack" },
+    { title: "🔌 Conectar equipos...", action: "Comando" },
+    { title: "🔌 Crear puerto de red...", action: "Comando" },
+    { title: "🖥️ Switch Cisco 2960 (192.168.1.10)", action: "Editar" },
+    { title: "🖥️ Firewall Fortinet (10.0.0.1)", action: "Editar" },
+    { title: "📂 Cargar Demo Datacenter", action: "Acción" },
+    { title: "🧹 Limpiar proyecto", action: "Acción" }
+  ];
+
+  function handleSearch(query) {
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = '';
+    
+    const filtered = mockDatabase.filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.action.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `<div class="sp-item"><span>No se encontraron resultados</span></div>`;
+      return;
+    }
+
+    filtered.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = `sp-item ${index === 0 ? 'selected' : ''}`;
+      div.innerHTML = `
+        <span>${item.title}</span>
+        <span class="sp-action">${item.action}</span>
+      `;
+      resultsContainer.appendChild(div);
+    });
+  }
+
+  // Section 5: Thermal Heatmap Toggle
+  function toggleHeatmap() {
+    const container = document.getElementById('rack-heatmap-container');
+    container.classList.toggle('heatmap-active');
+    
+    const slots = document.querySelectorAll('.temp-slot');
+    slots.forEach(slot => {
+      if (container.classList.contains('heatmap-active')) {
+        const tempColor = slot.style.getPropertyValue('--t-color');
+        slot.style.fill = tempColor;
+      } else {
+        slot.style.fill = '#1f2937';
+      }
+    });
+  }
+
+  // Vote route logic
+  function voteRoute(btn, routeName) {
+    document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    alert(`👍 ¡Gracias por tu voto! Has seleccionado: "${routeName}" como prioridad.`);
+  }
+</script>
+
+</body>
+</html>
