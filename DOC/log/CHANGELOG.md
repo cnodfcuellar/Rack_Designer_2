@@ -1,3 +1,19 @@
+## [2026-06-16 10:05:00] Corrección de Bug Visual (Inputs & Selects) y Accesos Directos
+### Mejoras de Interfaz (UI/UX)
+- **Corrección de Recorte Vertical:** Se ajustó el `padding` (a `0 8px`) y el `line-height` de todos los elementos `input` y `select` globales en `layout.css`. Esto soluciona un problema donde los textos internos aparecían cortados o empujados hacia abajo después de que la altura general se hubiera estandarizado a 24px en el commit anterior.
+- **Actualización Documental:** Se reflejaron estas nuevas reglas de relleno (padding) y altura de línea estricta en el manifiesto principal `DESIGN.md` para evitar recortes futuros.
+- **Accesos Directos en Canvas:** Se añadieron botones interactivos para "+ Rack" en el estado vacío de la Vista Física. Además, el botón secundario fue reemplazado por el botón "⚡ Agregar Equipo" (Ubicación Rápida asistida) posicionado estratégicamente en la cabecera de la sección "Equipos de Piso / Periféricos" para un acceso más intuitivo. También, cuando hay racks instalados, aparece una tarjeta transparente al final de la fila con borde punteado para agregar el siguiente gabinete rápidamente.
+### Mantenimiento
+- **Actualización de INSTRUCTIONS.md:** Se actualizó la regla de Flujo de Trabajo para establecer formalmente el "Registro Continuo" en el Changelog y requerir permiso explícito del usuario para ejecutar los respaldos en Git, evitando historiales inflados con micro-commits.
+
+## [2026-06-16 09:48:00] Refactorización Modular (CSS, Modales y Topología)
+### Mejoras de Arquitectura
+- Modularización de `style.css` (~900 líneas) en componentes especializados (variables, layout, rack, faceplates, modals, panels, misc) e importación unificada.
+- División de `js/ui/modals.js` en submódulos funcionales (RackModal, DeviceModal, CableModal, etc.) para mejorar la mantenibilidad de las ventanas flotantes.
+- Refactorización de `js/ui/topology.js` adoptando el patrón Modelo-Vista-Controlador (MVC), aislando el estado (`TopologyState`), los eventos (`TopologyEvents`), los cálculos lógicos (`TopologyLayout`) y la capa visual del canvas (`TopologyRenderer`).
+- Actualización de `index.html` para orquestar la carga de todos los nuevos módulos generados sin romper dependencias (incluyendo el intacto `rack.js`).
+- Reorganización de las imágenes de arquitectura del manual en carpetas más estructuradas (`doc/html/img/Arq/` y `doc/html/img/ui/`).
+
 ## [2026-06-16 07:18:44] Estandarización a 24px, DESIGN.md YAML y Soporte Claro en Rack
 ### Mejoras de Interfaz (UI/UX)
 - Corrección matemática de densidad: Se redujo la altura estandarizada de todos los controles interactivos de 32px a **24px** (botones, pestañas, búsquedas) para consolidar la estética "IDE-grade".

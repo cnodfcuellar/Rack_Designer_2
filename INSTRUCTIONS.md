@@ -6,8 +6,6 @@ Las siguientes reglas deben ser obedecidas estrictamente por cualquier asistente
    - Utiliza SIEMPRE `pnpm` en lugar de `npm` o `yarn` para cualquier gestión de dependencias, instalación de paquetes o ejecución de scripts.
    - ¡Nunca uses `npm` bajo ninguna circunstancia en este repositorio!
 
-2. **Proceso Obligatorio de Respaldo y Despliegue (Flujo de Trabajo):**
-   - Siempre que se realice un respaldo, entrega o actualización, se debe seguir estrictamente este orden de ejecución:
-     1. **Actualizar la documentación:** Reflejar todos los cambios tanto en los archivos Markdown (`doc/md/`) como en el manual interactivo HTML (`doc/html/`).
-     2. **Actualizar el registro de cambios (Log):** Registrar detalladamente las modificaciones en el archivo `doc/log/CHANGELOG.md`.
-     3. **Respaldo en Git:** Realizar la confirmación de cambios (`git commit`) y enviarlos a la rama activa del repositorio remoto (`git push`).
+2. **Flujo de Trabajo de Documentación y Respaldos:**
+   - **Registro Continuo (Log):** Cada vez que realices una modificación o mejora al código, DEBES actualizar INMEDIATAMENTE de forma continua el registro de cambios en `doc/log/CHANGELOG.md` y la documentación pertinente (`doc/md/`, `doc/html/`, `DESIGN.md`, etc.). No esperes para hacer esto.
+   - **Respaldos Manuales (Git):** NO realices comandos de respaldo en Git (`git commit`, `git push`) automáticamente después de cada tarea o arreglo. Debes dejar que los cambios se acumulen y **ESPERAR** a que el usuario te indique explícitamente "respalda", "guarda" o "haz un commit" antes de crear un punto de control en el repositorio.

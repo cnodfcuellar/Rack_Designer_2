@@ -21,7 +21,9 @@ function renderPhysical() {
         <div class="empty-state" style="display:flex; flex-direction:column; align-items:center;">
           <div class="icon">🗄️</div>
           <p>No hay gabinetes en esta sala.</p>
-          <button class="btn-primary" id="empty-btn-add-rack" style="margin-top:16px;">+ Rack</button>
+          <div style="display:flex; gap:12px; margin-top:16px;">
+            <button class="btn-primary" id="empty-btn-add-rack">+ Rack</button>
+          </div>
         </div>
       </div>
     </div>`;
@@ -433,7 +435,10 @@ function renderFloorSection(roomId) {
   section.innerHTML = `
     <div class="floor-section-header">
       <span>Equipos de Piso / Periféricos</span>
-      <span class="floor-device-count">${floorDevices.length} dispositivos</span>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="btn-primary" id="floor-btn-add-device" style="padding: 2px 8px; font-size: 12px; height: 24px; background:rgba(139, 92, 246, 0.15); border-color:var(--purple); color:var(--purple)">⚡ Agregar Equipo</button>
+        <span class="floor-device-count">${floorDevices.length} dispositivos</span>
+      </div>
     </div>
     <div class="floor-devices-grid" id="floor-grid-${roomId}" data-room-id="${roomId}">
       ${floorDevices.length === 0
@@ -469,6 +474,14 @@ function renderFloorSection(roomId) {
       }
     }
   });
+
+  const addDevBtn = section.querySelector('#floor-btn-add-device');
+  if (addDevBtn) {
+    addDevBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      openQuickPlacementModal(null);
+    });
+  }
 
   return section;
 }
