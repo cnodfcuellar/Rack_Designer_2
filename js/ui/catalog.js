@@ -48,8 +48,7 @@ function renderCatalog() {
   
   const cat = document.getElementById('catalog');
   cat.innerHTML = list.map(item => `
-    <div class="catalog-item" draggable="true" data-catalog-id="${item.id}"
-         style="border-left: 3px solid ${TYPE_COLORS[item.type]||'#444'}">
+    <div class="catalog-item" draggable="true" data-catalog-id="${item.id}">
       <div class="cat-icon" style="background:${TYPE_COLORS[item.type]}22;color:${TYPE_COLORS[item.type]}">${escapeHTML(item.icon)}</div>
       <div class="cat-info">
         <div class="cat-name">${escapeHTML(item.name)}</div>
@@ -152,10 +151,10 @@ function renderStats() {
   
   const rackPct = s.totalU ? Math.round((s.usedU / s.totalU) * 100) : 0;
   document.getElementById('cap-rack-pct').textContent = `${rackPct}%`;
-  document.getElementById('cap-rack-bar').style.width = `${rackPct}%`;
+  document.getElementById('cap-rack-bar').style.transform = `scaleX(${rackPct/100})`;
   
   const maxPower = 5000;
   const powerPct = Math.min(100, Math.round((s.power / maxPower) * 100));
   document.getElementById('cap-power-val').textContent = `${s.power} W`;
-  document.getElementById('cap-power-bar').style.width = `${powerPct}%`;
+  document.getElementById('cap-power-bar').style.transform = `scaleX(${powerPct/100})`;
 }

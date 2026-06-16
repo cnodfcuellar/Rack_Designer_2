@@ -65,7 +65,7 @@ function renderPhysical() {
     }
     const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
     const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
-    const btnText = side === 'front' ? '🔄 ATRÁS' : '🖥️ FRENTE';
+    const btnText = side === 'front' ? '🔄' : '🖥️';
 
     return `
       <div class="rack-card" data-rack-id="${rack.id}" data-side="${side}" style="${side === 'rear' ? 'border-color: #3b82f6; background: #0c1420' : ''}">
@@ -127,10 +127,9 @@ function bindRackEvents(container, flippedRacks) {
       const isFlipped = flipper.classList.toggle('flipped');
       const face = flipper.querySelector('.rack-face');
       const rear = flipper.querySelector('.rack-rear');
-      const textSpan = btn.querySelector('.flip-text');
       if (face) face.style.pointerEvents = isFlipped ? 'none' : 'auto';
       if (rear) rear.style.pointerEvents = isFlipped ? 'auto' : 'none';
-      if (textSpan) textSpan.textContent = isFlipped ? 'FRENTE' : 'ATRÁS';
+      btn.textContent = isFlipped ? '🖥️' : '🔄';
     });
   });
   container.querySelectorAll('[data-edit-rack]').forEach(btn => {
@@ -197,8 +196,8 @@ function bindRackEvents(container, flippedRacks) {
       const rear = flipper.querySelector('.rack-rear');
       if (face) face.style.pointerEvents = 'none';
       if (rear) rear.style.pointerEvents = 'auto';
-      const btn = document.querySelector(`[data-flip-rack="${rackId}"] .flip-text`);
-      if (btn) btn.textContent = 'FRENTE';
+      const btn = document.querySelector(`[data-flip-rack="${rackId}"]`);
+      if (btn) btn.textContent = '🖥️';
     }
   });
 }
