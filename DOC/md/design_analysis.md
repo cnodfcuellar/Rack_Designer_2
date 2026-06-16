@@ -69,3 +69,8 @@ Observa que cada nivel engloba al anterior:
 3. El **Organismo** (formulario modal o rack completo) que se posiciona en...
 4. La **Plantilla** (esqueleto del layout) que finalmente se convierte en...
 5. La **Página** (la aplicación en funcionamiento con tus datos de red reales).
+
+## Estandarización AI y DESIGN.md (V2.0.1)
+Para evitar la deriva visual (Visual Drift) por parte de herramientas de IA, se implementó el estándar `DESIGN.md`.
+- **Estandarización Flexbox:** Todos los componentes de interacción tienen `height: 32px; display: inline-flex;`
+- **Tipografía Densa:** Se restaron 2px a la escala global de fuentes manteniendo el hardcodeo de las vistas físicas de servidor, maximizando la apariencia de ingeniería.

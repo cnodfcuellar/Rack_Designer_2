@@ -1,3 +1,11 @@
+## [2026-06-16 00:51:30] Refinamiento UI/UX Premium & DESIGN.md
+### Mejoras (UI/UX)
+- Normalización matemática de altura de controles interactivos (botones, tabs, inputs) a \`32px\` con paddings estandarizados.
+- Creación de \`DESIGN.md\` en la raíz para dictar el ADN visual del proyecto (fuentes, escala de color, evitar 'AI Slop').
+- Reducción global de escala tipográfica (2px) para lograr densidad visual estilo IDE.
+- Ocultamiento forzado (\`style="display:none !important;"\`) del input nativo de archivos en el HTML principal.
+- Limpieza profunda de archivos basura y copias de seguridad obsoletas (\`.backup\`, \`.kilo\`, \`scratch\`).
+
 # Registro de Cambios (Changelog)
 
 ## [2026-06-15 20:25] Solución a Bugs de Baja Prioridad (Pulido)
