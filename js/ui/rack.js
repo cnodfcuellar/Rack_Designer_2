@@ -76,10 +76,16 @@ function renderPhysical() {
             <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
             ${titleText}
           </div>
-          <div class="rack-hdr-btns">
+          <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
             <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
-            <button class="rack-btn" data-edit-rack="${escapeHTML(rack.id)}" title="Editar">✎</button>
-            <button class="rack-btn del" data-del-rack="${escapeHTML(rack.id)}" title="Eliminar">🗑</button>
+            <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
+            <div class="dropdown-menu hidden" id="rack-menu-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
+              <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}">⚡ Agregar Equipo</div>
+              <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}">🧹 Limpiar Gabinete</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}">✎ Editar Gabinete</div>
+              <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}">🗑 Eliminar Gabinete</div>
+            </div>
           </div>
         </div>
         <div class="rack-body">
@@ -141,18 +147,53 @@ function bindRackEvents(container, flippedRacks) {
       btn.textContent = isFlipped ? '🖥️' : '🔄';
     });
   });
+  container.querySelectorAll('[data-rack-menu-toggle]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const menu = document.getElementById(`rack-menu-${btn.dataset.rackMenuToggle}`);
+      // Cerrar otros menús de rack
+      document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => {
+        if (m !== menu) m.classList.add('hidden');
+      });
+      menu.classList.toggle('hidden');
+    });
+  });
+
   container.querySelectorAll('[data-edit-rack]').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
+      document.getElementById(`rack-menu-${btn.dataset.editRack}`)?.classList.add('hidden');
       openEditRackModal(btn.dataset.editRack);
     });
   });
   container.querySelectorAll('[data-del-rack]').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
+      document.getElementById(`rack-menu-${btn.dataset.delRack}`)?.classList.add('hidden');
       if (confirm('¿Eliminar este gabinete y todos sus equipos?')) {
         store.deleteRack(btn.dataset.delRack);
         notify('Gabinete eliminado', 'warn');
+      }
+    });
+  });
+
+  container.querySelectorAll('[data-add-dev-rack]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById(`rack-menu-${btn.dataset.addDevRack}`)?.classList.add('hidden');
+      openQuickPlacementModal(null);
+    });
+  });
+
+  container.querySelectorAll('[data-clear-rack]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const rackId = btn.dataset.clearRack;
+      document.getElementById(`rack-menu-${rackId}`)?.classList.add('hidden');
+      if (confirm('⚠️ ¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.')) {
+        const devices = store.allDevicesInRack(rackId);
+        devices.forEach(d => store.deleteDevice(d.id));
+        notify('Gabinete limpiado exitosamente', 'success');
       }
     });
   });

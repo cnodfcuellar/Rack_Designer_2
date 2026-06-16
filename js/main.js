@@ -126,6 +126,9 @@ function initGlobalEvents() {
     });
     document.addEventListener('click', e => {
       if (!dropdown.contains(e.target)) dropdown.classList.add('hidden');
+      if (!e.target.closest('.rack-hdr-btns')) {
+        document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => m.classList.add('hidden'));
+      }
     });
 
     document.getElementById('menu-theme')?.addEventListener('click', () => {
