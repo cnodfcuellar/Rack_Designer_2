@@ -109,9 +109,9 @@ function finishCellEdit(input, td, orig) {
   const allowedFields = ['name', 'brand', 'model', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs'];
   if (!allowedFields.includes(field)) return;
   if (field === 'ip') {
-    if (val && !/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(val)) {
+    if (val && !/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(val)) {
       input.classList.add('error');
-      notify('IP inválida. Formato: 0-255.0-255.0-255.0-255', 'error');
+      notify('IP inválida. Valores deben estar entre 0 y 255', 'error');
       setTimeout(() => { input.classList.remove('error'); }, 1000);
       return;
     }

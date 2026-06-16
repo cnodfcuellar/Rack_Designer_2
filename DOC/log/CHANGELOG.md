@@ -1,5 +1,8 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 19:14] Corrección de Validación y Formularios
+* **BUG-08 (Validación IP Estricta):** Se modificó la expresión regular de validación de direcciones IP en la Tabla de Inventario y en la ventana de Edición. Anteriormente permitía tríos de números hasta el 999; ahora exige de forma estricta el estándar `0-255` para los 4 octetos, evitando que se guarden IPs falsas en el JSON.
+* **BUG-09 (Protección XSS en Celdas):** (Resuelto preventivamente) La edición rápida en celdas de la tabla ya procesa de forma segura carácteres especiales como las comillas (`"`) mediante un filtrado `escapeHTML()`, previniendo que se rompa la vista.
 ## [2026-06-15 18:09] Corrección de Integridad de Datos (Bugs de Prioridad Alta y Media)
 * **BUG-06 (Conexiones Fantasma al Eliminar Salas):** Se solucionó un defecto crítico donde la función `deleteRoom()` dejaba conexiones ("cables") huérfanas apuntando a equipos que ya no existían. Ahora, el sistema recolecta en cascada todos los Gabinetes y Equipos (incluidos los de piso) de la sala a borrar, y purga rigurosamente cualquier conexión vinculada a ellos antes de eliminarlos.
 * **BUG-10 (Colisión Frontal/Trasera en Racks):** Se reparó el motor lógico de colisiones `canPlace()`. Anteriormente, el algoritmo ignoraba la cara del gabinete (`mountSide`), impidiendo instalar un servidor en el lado trasero si el lado frontal estaba ocupado. Ahora la lógica y la interfaz de "Instalación Rápida" reconocen los lados Frontal y Trasero de forma totalmente independiente.

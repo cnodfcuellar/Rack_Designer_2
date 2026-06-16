@@ -602,7 +602,7 @@ function initModals() {
     const ip   = document.getElementById('dev-ip').value.trim();
     const mac  = document.getElementById('dev-mac').value.trim();
     if (!name) { notify('Ingresa un nombre', 'error'); return; }
-    if (ip && !/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(ip)) { notify('IP inválida', 'error'); return; }
+    if (ip && !/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) { notify('IP inválida (0-255)', 'error'); return; }
     if (mac && !/^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$/.test(mac)) { notify('MAC inválida', 'error'); return; }
 
     const props = {
