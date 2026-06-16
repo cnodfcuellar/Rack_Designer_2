@@ -1,0 +1,31 @@
+/* ============================================================
+   BOTTOM PANEL
+============================================================ */
+.bottom-header { display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 38px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.tab-pills { display: flex; gap: 2px; }
+.tab-pill { padding: 5px 14px; border-radius: var(--radius); border: none; background: transparent; color: var(--text-muted); font-family: var(--font-ui); font-size: var(--text-sm); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.tab-pill.active { background: var(--accent-glow); color: var(--accent); }
+.table-wrap { flex: 1; overflow: auto; }
+body.no-animations *, body.no-animations *::before, body.no-animations *::after { animation: none !important; transition: none !important; }
+table.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+table.data-table th { padding: 6px 12px; text-align: left; font-size: var(--text-xs); font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; font-family: var(--font-mono); white-space: nowrap; }
+table.data-table td { padding: 5px 12px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-family: var(--font-mono); vertical-align: middle; white-space: nowrap; }
+table.data-table tr:hover td { background: var(--bg-card2); }
+table.data-table td.editable { cursor: text; }
+table.data-table td.editable:hover { color: var(--text-primary); }
+table.data-table td input.cell-edit { background: var(--bg-card2); border: 1px solid var(--accent); color: var(--text-primary); font-family: var(--font-mono); font-size: var(--text-sm); padding: 2px 6px; border-radius: 3px; outline: none; width: 100%; }
+table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow: 0 0 8px var(--red-glow); animation: shake 0.3s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+.type-badge { padding: 1px 6px; border-radius: 3px; font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.5px; font-family: var(--font-mono); }
+.type-badge.server   { background: #0ea5e922; color: var(--accent); }
+.type-badge.switch   { background: #10b98122; color: var(--green); }
+.type-badge.firewall { background: #ef444422; color: var(--red); }
+.type-badge.router   { background: #f59e0b22; color: var(--amber); }
+.type-badge.ups      { background: #8b5cf622; color: var(--purple); }
+.type-badge.storage  { background: #06b6d422; color: var(--cyan); }
+.tbl-action { padding: 2px 7px; border-radius: 3px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: var(--text-xs); cursor: pointer; transition: all 0.15s; font-family: var(--font-ui); }
+.tbl-action:hover { border-color: var(--red); color: var(--red); }
+.cable-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.empty-state { text-align: center; padding: 40px; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-sm); }
+.empty-state .icon { font-size: 32px; margin-bottom: 8px; opacity: 0.4; }
+

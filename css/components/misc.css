@@ -1,0 +1,57 @@
+/* ============================================================
+   DRAG GHOST
+============================================================ */
+#drag-ghost { position: fixed; pointer-events: none; z-index: 9999; opacity: 0.85; left: -9999px; top: -9999px; }
+
+/* ============================================================
+   NOTIFICATIONS
+============================================================ */
+#notif-area { position: fixed; bottom: 240px; right: 16px; z-index: 9000; display: flex; flex-direction: column; gap: 6px; }
+.notif { padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); font-size: var(--text-sm); font-family: var(--font-mono); box-shadow: var(--shadow); animation: notifIn 0.3s; display: flex; align-items: center; gap: 8px; min-width: 200px; max-width: 320px; }
+@keyframes notifIn { from{transform:translateX(20px);opacity:0} to{transform:translateX(0);opacity:1} }
+.notif.success { border-color: var(--green); color: var(--green); }
+.notif.error   { border-color: var(--red);   color: var(--red); }
+.notif.info    { border-color: var(--accent); color: var(--accent); }
+.notif.warn    { border-color: var(--amber);  color: var(--amber); }
+
+/* ============================================================
+   CONTEXT MENU
+============================================================ */
+#ctx-menu { position: fixed; background: var(--bg-panel); backdrop-filter: blur(16px) saturate(180%); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 4px 0; z-index: 100000; min-width: 160px; box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.5); }
+#ctx-menu.hidden { display: none; }
+.ctx-item { padding: 8px 14px; font-size: var(--text-sm); font-family: var(--font-ui); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.15s; }
+.ctx-item:hover { background: var(--accent-glow); color: var(--text-primary); padding-left: 18px; }
+.ctx-item.danger:hover { background: var(--red-glow); color: var(--red); padding-left: 18px; }
+.ctx-sep { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 4px 0; }
+
+/* ============================================================
+   MISC
+============================================================ */
+.tooltip { position: relative; }
+.tooltip::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--bg-card2); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; font-size: var(--text-xs); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s; font-family: var(--font-mono); color: var(--text-secondary); z-index: 1000; }
+.tooltip.tooltip-bottom::after { bottom: auto; top: calc(100% + 5px); }
+@media (hover: hover) {
+  .tooltip:hover::after { opacity: 1; }
+}
+
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}
+.color-input-wrap { display: flex; align-items: center; gap: 8px; }
+.color-input-wrap input[type=color] { width: 32px; height: 28px; padding: 2px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card2); cursor: pointer; }
+.color-input-wrap input[type=text] { flex: 1; }
+.connectivity-line { position: absolute; pointer-events: none; }
+
+/* File drop zone */
+.drop-zone { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: 20px; text-align: center; transition: all 0.2s; cursor: pointer; }
+.drop-zone.drag-over { border-color: var(--accent); background: var(--accent-glow); }
+.drop-zone p { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-sm); }
+/* ============================================================
+   TOOLTIPS FLOTANTES
+============================================================ */
+#device-tooltip { position: fixed; background: var(--bg-panel); backdrop-filter: blur(12px) saturate(150%); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 10000; pointer-events: none; width: 220px; transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateX(-15px) scale(0.95); }
+#device-tooltip.visible { opacity: 1; transform: translateX(0) scale(1); }
+#device-tooltip .tt-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--accent); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+#device-tooltip .tt-row { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 4px; display: flex; justify-content: space-between; }
+#device-tooltip .tt-row span:first-child { color: var(--text-muted); }
+

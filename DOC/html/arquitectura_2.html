@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ RACK Designer — Mapa de Arquitectura y Guía de Modificaciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     SISTEMA DE DISEÑO PREMIUM (TEMAS & RESET)
+     ============================================================ */
+  :root {
+    --bg-app: #080c14;
+    --bg-sidebar: #0f131a;
+    --bg-card: #141a24;
+    --bg-card-hover: #1b2433;
+    --border: #242f41;
+    --border-glow: #38bdf822;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent: #38bdf8;
+    --accent-rgb: 56, 189, 248;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --red: #f43f5e;
+    --purple: #8b5cf6;
+    --cyan: #06b6d4;
+    --radius-lg: 12px;
+    --radius-md: 8px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --font-ui: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+  }
+
+  /* Scrollbar custom styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-sidebar);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+
+  /* ============================================================
+     LAYOUT GENERAL (DASHBOARD)
+     ============================================================ */
+  #sidebar {
+    width: 320px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    flex-shrink: 0;
+  }
+
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.03), transparent 60%);
+  }
+
+  /* ============================================================
+     SIDEBAR CONTENT
+     ============================================================ */
+  .sidebar-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+  .sidebar-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .search-box {
+    margin-top: 16px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    background: var(--bg-app);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 10px 12px 10px 32px;
+    border-radius: var(--radius-md);
+    outline: none;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .search-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--border-glow);
+  }
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+  }
+
+  .sidebar-menu {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+  .menu-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 16px 0 8px 8px;
+  }
+  .menu-item {
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
+  .menu-item:hover {
+    background: var(--bg-card);
+    color: var(--accent);
+    padding-left: 16px;
+  }
+  .menu-item.active {
+    background: var(--border-glow);
+    border-left: 3px solid var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .menu-item-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: var(--border);
+    color: var(--text-muted);
+  }
+
+  /* ============================================================
+     MAIN HEADER & SECTIONS
+     ============================================================ */
+  .main-header {
+    padding: 32px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .main-title h1 {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .main-title p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .content-wrap {
+    padding: 32px 48px 60px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* ============================================================
+     CARDS Y ELEMENTOS COMPONENTIZADOS
+     ============================================================ */
+  .alert-card {
+    background: rgba(56, 189, 248, 0.05);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 16px;
+  }
+  .alert-icon {
+    font-size: 24px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .alert-content h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .alert-content p {
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 48px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .diagram-container {
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 24px 0 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow);
+  }
+  .diagram-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+  .diagram-caption {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  /* Grilla de Archivos */
+  .files-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .file-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all 0.2s ease;
+    scroll-margin-top: 24px;
+  }
+  .file-card:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+    box-shadow: 0 4px 20px rgba(56, 189, 248, 0.05);
+  }
+  .file-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+  .file-path {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .file-badges {
+    display: flex;
+    gap: 8px;
+  }
+  .badge {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .badge.loc {
+    background: rgba(139, 92, 246, 0.15);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+  .badge.size {
+    background: rgba(6, 182, 212, 0.15);
+    color: #22d3ee;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+  }
+  .badge.type {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .file-description {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+  
+  .file-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 16px;
+    font-size: 12.5px;
+    border-top: 1px dashed var(--border);
+    padding-top: 16px;
+  }
+  .meta-col h4 {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+  }
+  .meta-col ul {
+    list-style: none;
+  }
+  .meta-col li {
+    margin-bottom: 6px;
+    position: relative;
+    padding-left: 14px;
+  }
+  .meta-col li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* Hotspot Warning Layout */
+  .hotspot-guide {
+    background: rgba(245, 158, 11, 0.03);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .hotspot-title {
+    color: var(--amber);
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .hotspot-list {
+    list-style: none;
+  }
+  .hotspot-list li {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    padding-left: 16px;
+    position: relative;
+  }
+  .hotspot-list li::before {
+    content: '⚠️';
+    position: absolute;
+    left: 0;
+    font-size: 11px;
+  }
+
+  /* Tab Panel */
+  .tab-container {
+    margin: 24px 0 40px;
+  }
+  .tab-buttons {
+    display: flex;
+    border-bottom: 2px solid var(--border);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover {
+    color: var(--text-primary);
+  }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
+
+  .code-inline {
+    background: var(--bg-sidebar);
+    color: #e2e8f0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* Quick highlight animations */
+  @keyframes highlight-glow {
+    0% { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+    100% { border-color: var(--border); box-shadow: none; }
+  }
+  .highlighted {
+    animation: highlight-glow 2s forwards;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SIDEBAR: BUSCADOR & MENÚ DE ARCHIVOS
+       ============================================================ -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span>⚡ RACK Designer</span>
+      </div>
+      <div class="sidebar-subtitle">Mapa de Arquitectura v2.1</div>
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="file-search" placeholder="Buscar archivo o módulo..." oninput="filterFiles()">
+      </div>
+    </div>
+    
+    <div class="sidebar-menu">
+      <div class="menu-section-title">Visualizaciones</div>
+      <a onclick="scrollToSection('visual-diagrams')" class="menu-item">
+        <span>🗺️ Diagramas de Flujo</span>
+        <span class="menu-item-badge">SVG</span>
+      </a>
+
+      <div class="menu-section-title">Archivos de Configuración</div>
+      <a onclick="scrollToSection('index-html')" class="menu-item file-link" data-filename="index.html">
+        <span>📄 index.html</span>
+        <span class="menu-item-badge">HTML</span>
+      </a>
+      <a onclick="scrollToSection('design-md')" class="menu-item file-link" data-filename="DESIGN.md">
+        <span>📝 DESIGN.md</span>
+        <span class="menu-item-badge">MD</span>
+      </a>
+      <a onclick="scrollToSection('package-json')" class="menu-item file-link" data-filename="package.json">
+        <span>⚙️ package.json</span>
+        <span class="menu-item-badge">JSON</span>
+      </a>
+      <a onclick="scrollToSection('manifest-json')" class="menu-item file-link" data-filename="manifest.json">
+        <span>📱 manifest.json</span>
+        <span class="menu-item-badge">JSON</span>
+      </a>
+
+      <div class="menu-section-title">Estilos CSS</div>
+      <a onclick="scrollToSection('style-css')" class="menu-item file-link" data-filename="css/style.css">
+        <span>🎨 css/style.css</span>
+        <span class="menu-item-badge">★ CSS</span>
+      </a>
+      <a onclick="scrollToSection('mobile-drag-drop-css')" class="menu-item file-link" data-filename="css/mobile-drag-drop.css">
+        <span>📱 mobile-drag-drop.css</span>
+        <span class="menu-item-badge">CSS</span>
+      </a>
+
+      <div class="menu-section-title">Lógica JS Core</div>
+      <a onclick="scrollToSection('main-js')" class="menu-item file-link" data-filename="js/main.js">
+        <span>🚀 js/main.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('store-js')" class="menu-item file-link" data-filename="js/store.js">
+        <span>🗄️ js/store.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('utils-js')" class="menu-item file-link" data-filename="js/utils.js">
+        <span>🛠️ js/utils.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('demodata-js')" class="menu-item file-link" data-filename="js/demoData.js">
+        <span>📊 js/demoData.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+
+      <div class="menu-section-title">Lógica JS UI (Componentes)</div>
+      <a onclick="scrollToSection('catalog-js')" class="menu-item file-link" data-filename="js/ui/catalog.js">
+        <span>📁 catalog.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('faceplates-js')" class="menu-item file-link" data-filename="js/ui/faceplates.js">
+        <span>📁 faceplates.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('rack-js')" class="menu-item file-link" data-filename="js/ui/rack.js">
+        <span>📁 rack.js</span>
+        <span class="menu-item-badge">★ JS</span>
+      </a>
+      <a onclick="scrollToSection('topology-js')" class="menu-item file-link" data-filename="js/ui/topology.js">
+        <span>📁 topology.js</span>
+        <span class="menu-item-badge">★ JS</span>
+      </a>
+      <a onclick="scrollToSection('tables-js')" class="menu-item file-link" data-filename="js/ui/tables.js">
+        <span>📁 tables.js</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('modals-js')" class="menu-item file-link" data-filename="js/ui/modals.js">
+        <span>📁 modals.js</span>
+        <span class="menu-item-badge">★ JS</span>
+      </a>
+
+      <div class="menu-section-title">Servicios & PWA</div>
+      <a onclick="scrollToSection('service-worker-root')" class="menu-item file-link" data-filename="service-worker.js">
+        <span>🕸️ service-worker.js (Raíz)</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+      <a onclick="scrollToSection('service-worker-js')" class="menu-item file-link" data-filename="js/service/service-worker.js">
+        <span>🕸️ service-worker.js (Core)</span>
+        <span class="menu-item-badge">JS</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       MAIN CONTENT: DETALLE DE ARCHIVOS Y RECOMENDACIONES
+       ============================================================ -->
+  <main id="main">
+    <header class="main-header">
+      <div class="main-title">
+        <h1>Arquitectura del Datacenter</h1>
+        <p>Especificación de archivos del proyecto RACK Designer 2 (Excluyendo carpeta doc)</p>
+      </div>
+      <div>
+        <span class="badge type" style="font-size: 12px; padding: 6px 12px;">Modo Arquitectura Activo</span>
+      </div>
+    </header>
+
+    <div class="content-wrap">
+      
+      <!-- Cartilla de advertencia global -->
+      <div class="alert-card">
+        <div class="alert-icon">⚡</div>
+        <div class="alert-content">
+          <h3>Guía de Modificación para Archivos Extensos (Hotspots)</h3>
+          <p>
+            El sistema de RACK Designer funciona como una arquitectura reactiva unidireccional basada en un <strong>Store Central con Proxy ES6</strong>. 
+            Antes de editar archivos grandes como <code class="code-inline">modals.js</code>, <code class="code-inline">style.css</code>, <code class="code-inline">topology.js</code> o <code class="code-inline">rack.js</code>,
+            revisa los diagramas e instrucciones de seguridad a continuación. ¡No rompas el ciclo de datos!
+          </p>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           SECCIÓN: DIAGRAMAS VISUALES
+           ============================================================ -->
+      <h2 class="section-title" id="visual-diagrams">Mapeo de Flujos y Ciclos del Sistema</h2>
+      
+      <div class="tab-container">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab(event, 'tab-flow')">1. Flujo Reactivo de Datos</button>
+          <button class="tab-btn" onclick="switchTab(event, 'tab-deps')">2. Relación de Dependencias</button>
+        </div>
+
+        <!-- Tab 1: Flujo reactivo -->
+        <div id="tab-flow" class="tab-content active">
+          <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 13.5px;">
+            Este diagrama muestra cómo interactúa el usuario con la interfaz física o la topología y cómo la acción es procesada de forma centralizada por el Store. El Store intercepta el cambio con un <strong>Proxy ES6</strong>, lo guarda automáticamente en <strong>localStorage</strong> y notifica al orquestador global <code class="code-inline">main.js</code> para refrescar únicamente los componentes necesarios sin recargas directas de página.
+          </p>
+          <div class="diagram-container">
+            <svg viewBox="0 0 880 340" width="880" height="340" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background -->
+              <rect width="100%" height="100%" fill="#0a0f1d" rx="10"/>
+              
+              <!-- User UI Interaction -->
+              <rect x="20" y="110" width="160" height="70" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+              <text x="100" y="140" fill="#f1f5f9" font-family="'Outfit'" font-size="14" font-weight="700" text-anchor="middle">UI Componentes</text>
+              <text x="100" y="160" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10" text-anchor="middle">rack.js | topology.js</text>
+              
+              <!-- Store Mutator Action -->
+              <rect x="240" y="110" width="180" height="70" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+              <text x="330" y="140" fill="#f1f5f9" font-family="'Outfit'" font-size="14" font-weight="700" text-anchor="middle">store.js (Mutator)</text>
+              <text x="330" y="160" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="10" text-anchor="middle">addDeviceToRack()</text>
+
+              <!-- State Proxy & LocalStorage -->
+              <rect x="480" y="80" width="180" height="130" rx="8" fill="#0d1f2d" stroke="#0ea5e9" stroke-width="2"/>
+              <text x="570" y="110" fill="#38bdf8" font-family="'Outfit'" font-size="15" font-weight="800" text-anchor="middle">Proxy ES6</text>
+              <text x="570" y="135" fill="#94a3b8" font-family="'Outfit'" font-size="12" text-anchor="middle">Guarda snapshots (Undo)</text>
+              <line x1="495" y1="150" x2="645" y2="150" stroke="#242f41" stroke-width="1"/>
+              <text x="570" y="175" fill="#f59e0b" font-family="'JetBrains Mono'" font-size="11" text-anchor="middle">_save() → LocalStorage</text>
+              <text x="570" y="193" fill="#10b981" font-family="'JetBrains Mono'" font-size="11" text-anchor="middle">_emit("change")</text>
+
+              <!-- Main Controller -->
+              <rect x="710" y="110" width="150" height="70" rx="8" fill="#162e24" stroke="#10b981" stroke-width="2"/>
+              <text x="785" y="140" fill="#f1f5f9" font-family="'Outfit'" font-size="14" font-weight="700" text-anchor="middle">main.js (Listener)</text>
+              <text x="785" y="160" fill="#34d399" font-family="'JetBrains Mono'" font-size="10" text-anchor="middle">renderAll()</text>
+
+              <!-- Connections -->
+              <g stroke="#94a3b8" stroke-width="2" fill="none">
+                <!-- UI -> Store -->
+                <path d="M 180 145 L 240 145" marker-end="url(#arrow)"/>
+                <!-- Store -> Proxy -->
+                <path d="M 420 145 L 480 145" marker-end="url(#arrow)"/>
+                <!-- Proxy -> Main -->
+                <path d="M 660 145 L 710 145" marker-end="url(#arrow)"/>
+                <!-- Main -> UI (Loop back) -->
+                <path d="M 785 180 C 785 270, 100 270, 100 180" stroke-dasharray="6,4" marker-end="url(#arrow-blue)"/>
+              </g>
+
+              <!-- Markers -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L9,3 z" fill="#38bdf8"/>
+                </marker>
+                <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L9,3 z" fill="#10b981"/>
+                </marker>
+              </defs>
+
+              <text x="440" y="275" fill="#a5b4fc" font-family="'Outfit'" font-size="13" font-weight="600" text-anchor="middle">Re-renderizado selectivo reactivo (Mantiene sincronizado Física y Topología)</text>
+            </svg>
+            <div class="diagram-caption">Ciclo de Flujo Reactivo de RACK Designer 2</div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Dependencias -->
+        <div id="tab-deps" class="tab-content">
+          <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 13.5px;">
+            Este mapa ilustra el árbol de importación y dependencias lógicas. En un extremo tenemos los archivos base que no conocen al resto (<code class="code-inline">utils.js</code>, <code class="code-inline">store.js</code> y el catálogo de plantillas), seguidos por los componentes visuales de UI que consumen los servicios del store, y finalmente la estructura de vistas de <code class="code-inline">index.html</code> que ensambla todo.
+          </p>
+          <div class="diagram-container">
+            <svg viewBox="0 0 880 280" width="880" height="280" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100%" height="100%" fill="#0a0f1d" rx="10"/>
+              
+              <!-- Nivel 1: Datos & Utils (Independientes) -->
+              <rect x="30" y="40" width="180" height="40" rx="6" fill="#141a24" stroke="#242f41"/>
+              <text x="120" y="65" fill="#f1f5f9" font-family="var(--font-mono)" font-size="12" text-anchor="middle">utils.js</text>
+              
+              <rect x="30" y="110" width="180" height="40" rx="6" fill="#141a24" stroke="#242f41"/>
+              <text x="120" y="135" fill="#f1f5f9" font-family="var(--font-mono)" font-size="12" text-anchor="middle">store.js</text>
+
+              <rect x="30" y="180" width="180" height="40" rx="6" fill="#141a24" stroke="#242f41"/>
+              <text x="120" y="205" fill="#f1f5f9" font-family="var(--font-mono)" font-size="12" text-anchor="middle">catalog.js / demoData.js</text>
+
+              <!-- Nivel 2: UI Components -->
+              <rect x="320" y="40" width="220" height="180" rx="8" fill="#0c1e2d" stroke="#38bdf8" stroke-dasharray="4,4"/>
+              <text x="430" y="65" fill="#38bdf8" font-family="var(--font-ui)" font-size="13" font-weight="700" text-anchor="middle">COMPONENTES VISUALES (UI)</text>
+              <rect x="340" y="85" width="180" height="30" rx="4" fill="#141a24" stroke="#242f41"/>
+              <text x="430" y="104" fill="#94a3b8" font-family="var(--font-mono)" font-size="11" text-anchor="middle">rack.js │ faceplates.js</text>
+              <rect x="340" y="125" width="180" height="30" rx="4" fill="#141a24" stroke="#242f41"/>
+              <text x="430" y="144" fill="#94a3b8" font-family="var(--font-mono)" font-size="11" text-anchor="middle">topology.js │ tables.js</text>
+              <rect x="340" y="165" width="180" height="30" rx="4" fill="#141a24" stroke="#242f41"/>
+              <text x="430" y="184" fill="#94a3b8" font-family="var(--font-mono)" font-size="11" text-anchor="middle">modals.js</text>
+
+              <!-- Nivel 3: Controller & View -->
+              <rect x="660" y="60" width="190" height="60" rx="6" fill="#162e24" stroke="#10b981"/>
+              <text x="755" y="90" fill="#f1f5f9" font-family="var(--font-mono)" font-size="12" font-weight="700" text-anchor="middle">main.js (Entry Point)</text>
+              <text x="755" y="105" fill="#34d399" font-family="var(--font-ui)" font-size="10" text-anchor="middle">Orquesta renders y eventos globales</text>
+
+              <rect x="660" y="140" width="190" height="60" rx="6" fill="#2d1b00" stroke="#f59e0b"/>
+              <text x="755" y="170" fill="#f1f5f9" font-family="var(--font-mono)" font-size="12" font-weight="700" text-anchor="middle">index.html (HTML5 skeletal)</text>
+              <text x="755" y="185" fill="#f59e0b" font-family="var(--font-ui)" font-size="10" text-anchor="middle">Contenedores DOM y scripts externos</text>
+
+              <!-- Lineas de dependencia -->
+              <g stroke="#64748b" stroke-width="1.5" fill="none">
+                <!-- Nivel 1 -> Nivel 2 -->
+                <path d="M 210 60 L 320 60" marker-end="url(#dep-arrow)"/>
+                <path d="M 210 130 L 320 130" marker-end="url(#dep-arrow)"/>
+                <path d="M 210 200 L 320 200" marker-end="url(#dep-arrow)"/>
+                <!-- Nivel 2 -> main.js -->
+                <path d="M 540 100 L 660 85" marker-end="url(#dep-arrow)"/>
+                <!-- main.js -> index.html (encapsulado en UI wrapper) -->
+                <path d="M 755 120 L 755 140" marker-end="url(#dep-arrow)"/>
+              </g>
+
+              <defs>
+                <marker id="dep-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#64748b"/>
+                </marker>
+              </defs>
+            </svg>
+            <div class="diagram-caption">Estructura Jerárquica y Dependencias Lógicas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           SECCIÓN: CONFIGURACIONES (HTML / JSON / MD)
+           ============================================================ -->
+      <h2 class="section-title" id="files-config">Archivos de Configuración e Interfaz Principal</h2>
+      
+      <div class="files-grid">
+        
+        <!-- index.html -->
+        <div class="file-card" id="index-html">
+          <div class="file-card-header">
+            <div class="file-path">📄 index.html</div>
+            <div class="file-badges">
+              <span class="badge loc">459 LOC</span>
+              <span class="badge size">23.1 KB</span>
+              <span class="badge type">Interfaz</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Esqueleto HTML5 maestro de la aplicación. Define el contenedor CSS Grid principal (<code class="code-inline">#app</code>),
+            los diálogos modales inyectados por JavaScript y los scripts que componen el sistema. 
+            Maneja la inicialización temprana de los temas oscuros/claros en el <code class="code-inline">&lt;head&gt;</code> para prevenir el parpadeo de pantalla (FOUC).
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <rect x="15" y="15" width="90" height="150" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <text x="60" y="90" fill="#38bdf8" font-family="'Outfit'" font-size="11" text-anchor="middle" font-weight="600">Catálogo (D&D)</text>
+              <text x="60" y="105" fill="#64748b" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle">catalog.js</text>
+              
+              <rect x="115" y="15" width="270" height="30" rx="4" fill="#0f172a" stroke="#242f41"/>
+              <text x="250" y="34" fill="#94a3b8" font-family="'Outfit'" font-size="11" text-anchor="middle">Barra de Herramientas / Tabs</text>
+              
+              <rect x="115" y="55" width="160" height="70" rx="4" fill="#1e293b" stroke="#10b981"/>
+              <text x="195" y="90" fill="#f1f5f9" font-family="'Outfit'" font-size="12" font-weight="600" text-anchor="middle">Plano Físico / Red</text>
+              <text x="195" y="105" fill="#10b981" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">rack.js / topology.js</text>
+              
+              <rect x="285" y="55" width="100" height="70" rx="4" fill="#1e293b" stroke="#f43f5e"/>
+              <text x="335" y="90" fill="#f43f5e" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Métricas</text>
+              <text x="335" y="105" fill="#64748b" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">globales</text>
+              
+              <rect x="115" y="135" width="270" height="30" rx="4" fill="#0f172a" stroke="#8b5cf6"/>
+              <text x="250" y="154" fill="#a78bfa" font-family="'Outfit'" font-size="11" text-anchor="middle">Consola & Editor de Conexiones</text>
+            </svg>
+          </div>
+          <div class="file-meta-grid">
+            <div class="meta-col">
+              <h4>Secciones Clave</h4>
+              <ul>
+                <li><code class="code-inline">div#view-physical</code>: Contenedor para los Racks y Periféricos.</li>
+                <li><code class="code-inline">canvas#topology-canvas</code>: Canvas 2D para la topología física.</li>
+                <li><code class="code-inline">div.modal-overlay</code>: Wrappers para formularios flotantes.</li>
+              </ul>
+            </div>
+            <div class="meta-col">
+              <h4>Dependencias Externas</h4>
+              <ul>
+                <li>Google Fonts (Outfit & JetBrains Mono)</li>
+                <li><code class="code-inline">js/xlsx.full.min.js</code> (Exportar Excel)</li>
+                <li><code class="code-inline">js/mobile-drag-drop.min.js</code> (D&D Mobile Polyfill)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- DESIGN.md -->
+        <div class="file-card" id="design-md">
+          <div class="file-card-header">
+            <div class="file-path">📝 DESIGN.md</div>
+            <div class="file-badges">
+              <span class="badge size">7.7 KB</span>
+              <span class="badge type">Documentación</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Guía de estilos estricta del proyecto. Define los tokens visuales, el comportamiento responsivo,
+            los contrastes en la vista trasera del rack (colores fijos para ver cables) y la estética del "modo oscuro" 
+            como base por defecto del datacenter.
+          </div>
+        </div>
+
+        <!-- package.json -->
+        <div class="file-card" id="package-json">
+          <div class="file-card-header">
+            <div class="file-path">⚙️ package.json</div>
+            <div class="file-badges">
+              <span class="badge size">399 B</span>
+              <span class="badge type">NPM Config</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Especifica las dependencias locales de desarrollo del proyecto. Utiliza comandos ligeros de node
+            para iniciar servidores de desarrollo locales y probar la PWA.
+          </div>
+        </div>
+
+        <!-- manifest.json -->
+        <div class="file-card" id="manifest-json">
+          <div class="file-card-header">
+            <div class="file-path">📱 json/manifest.json</div>
+            <div class="file-badges">
+              <span class="badge size">774 B</span>
+              <span class="badge type">PWA Config</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Archivo JSON que le indica al navegador móvil cómo debe comportarse RACK Designer al ser instalado como 
+            <strong>Progressive Web App (PWA)</strong>. Define nombres, colores de la barra de sistema y las rutas de los iconos.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           SECCIÓN: ESTILOS CSS
+           ============================================================ -->
+      <h2 class="section-title" id="files-css">Hojas de Estilo y Visuales</h2>
+      
+      <div class="files-grid">
+        
+        <!-- css/style.css -->
+        <div class="file-card" id="style-css">
+          <div class="file-card-header">
+            <div class="file-path" style="color: var(--purple);">🎨 css/style.css</div>
+            <div class="file-badges">
+              <span class="badge loc" style="background:rgba(139,92,246,0.15);color:#a78bfa;">919 LOC</span>
+              <span class="badge size">53.8 KB</span>
+              <span class="badge type" style="background:rgba(139,92,246,0.15);color:#a78bfa;">★ CSS Crítico</span>
+            </div>
+          </div>
+          <div class="file-description">
+            El cerebro de diseño global. Define los colores del datacenter, los estilos de layouts móviles con 
+            <strong>CSS Grid</strong> y <strong>Flexbox</strong>, y las reglas visuales complejas para cada faceplate de equipos 
+            (servidores con rejillas, leds parpadeantes, puertos RJ45 interactivos).
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <g transform="translate(10, 0)">
+                <rect x="20" y="25" width="100" height="130" rx="6" fill="#141a24" stroke="#38bdf8" stroke-width="1.5"/>
+                <text x="70" y="85" fill="#f1f5f9" font-family="'Outfit'" font-size="12" font-weight="600" text-anchor="middle">FRENTE</text>
+                <text x="70" y="105" fill="#38bdf8" font-family="'Outfit'" font-size="10" text-anchor="middle">Equipos UI</text>
+                
+                <path d="M 140 90 L 180 90 M 170 82 L 180 90 L 170 98" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                <text x="160" y="70" fill="#f59e0b" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">flip 3D</text>
+                
+                <rect x="200" y="25" width="100" height="130" rx="6" fill="#0c1017" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <text x="250" y="85" fill="#f1f5f9" font-family="'Outfit'" font-size="12" font-weight="600" text-anchor="middle">ATRÁS</text>
+                <text x="250" y="105" fill="#ef4444" font-family="'Outfit'" font-size="10" text-anchor="middle">Cableado PDU</text>
+              </g>
+              <circle cx="355" cy="55" r="10" fill="#080c14" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="355" y="80" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">Oscuro</text>
+              <circle cx="355" cy="115" r="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="355" y="140" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">Claro</text>
+            </svg>
+          </div>
+          
+          <div class="hotspot-guide">
+            <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
+            <ul class="hotspot-list">
+              <li><strong>Variables del Tema:</strong> Toda modificación de colores debe realizarse en <code class="code-inline">:root</code> o en <code class="code-inline">[data-theme="light"]</code>. No uses colores planos con hexadecimal en selectores hijos.</li>
+              <li><strong>Efecto Flipper:</strong> Las animaciones 3D de las tarjetas de los racks se controlan con la propiedad <code class="code-inline">transform-style: preserve-3d</code> y <code class="code-inline">backface-visibility: hidden</code>. Si alteras esto, el giro visual trasera/frontal fallará.</li>
+              <li><strong>Vistas traseras:</strong> En el Modo Claro, el diseño estipula mantener la vista trasera de los racks con colores oscuros para mantener legibles los cables de colores.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- css/mobile-drag-drop.css -->
+        <div class="file-card" id="mobile-drag-drop-css">
+          <div class="file-card-header">
+            <div class="file-path">📱 css/mobile-drag-drop.css</div>
+            <div class="file-badges">
+              <span class="badge size">260 B</span>
+              <span class="badge type">Fallback</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Contiene ajustes CSS mínimos requeridos por la librería de polyfill para simular el fantasma de arrastre (drag-image) 
+            en pantallas táctiles de iOS y Android.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           SECCIÓN: LÓGICA JS CORE
+           ============================================================ -->
+      <h2 class="section-title" id="files-js-core">Lógica de Control y Estado</h2>
+      
+      <div class="files-grid">
+        
+        <!-- js/main.js -->
+        <div class="file-card" id="main-js">
+          <div class="file-card-header">
+            <div class="file-path">🚀 js/main.js</div>
+            <div class="file-badges">
+              <span class="badge loc">412 LOC</span>
+              <span class="badge size">16.3 KB</span>
+              <span class="badge type">Orquestador</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Punto de entrada de JavaScript. Inicializa la topología, los modales globales y gestiona el enrutamiento de renders selectivos. 
+            Mapea la rueda del mouse y la pantalla táctil para mover (pan) y acercar (zoom) el plano físico y la topología, 
+            y carga dinámicamente el script de demostración de datos solo cuando es necesario.
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <rect x="20" y="45" width="110" height="90" rx="6" fill="#111827" stroke="#64748b"/>
+              <text x="75" y="75" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Rueda & Tacto</text>
+              <text x="75" y="95" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle">wheel / drag</text>
+              <text x="75" y="115" fill="#38bdf8" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle">eventos DOM</text>
+
+              <path d="M 140 90 L 165 90" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+              <rect x="175" y="35" width="110" height="110" rx="6" fill="#1e1b4b" stroke="#8b5cf6"/>
+              <text x="230" y="65" fill="#f1f5f9" font-family="'Outfit'" font-size="12" font-weight="600" text-anchor="middle">Pan & Zoom</text>
+              <text x="230" y="85" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle">transform: scale</text>
+              <text x="230" y="105" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle">translate X / Y</text>
+              <text x="230" y="125" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle">Redibuja Canvas</text>
+
+              <path d="M 295 90 L 320 90" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+              <circle cx="355" cy="90" r="22" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+              <text x="355" y="93" fill="#34d399" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">UI</text>
+              <text x="355" y="105" fill="#34d399" font-family="'Outfit'" font-size="8" text-anchor="middle">Renders</text>
+            </svg>
+          </div>
+          <div class="file-meta-grid">
+            <div class="meta-col">
+              <h4>Funciones Clave</h4>
+              <ul>
+                <li><code class="code-inline">init()</code>: Carga inicial de UI y escuchas globales.</li>
+                <li><code class="code-inline">renderAll(event)</code>: Re-renderiza de forma inteligente según el evento del store.</li>
+                <li><code class="code-inline">initGlobalEvents()</code>: Eventos de teclado (Ctrl+Z / Ctrl+Y), zoom y menú contextual.</li>
+              </ul>
+            </div>
+            <div class="meta-col">
+              <h4>Cuándo Modificar</h4>
+              <ul>
+                <li>Para agregar nuevos shortcuts globales del teclado.</li>
+                <li>Para registrar o cambiar las vistas principales (ej: vista 3D futura).</li>
+                <li>Para modular eventos globales de clicks en el fondo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- js/store.js -->
+        <div class="file-card" id="store-js">
+          <div class="file-card-header">
+            <div class="file-path" style="color: var(--accent);">🗄️ js/store.js</div>
+            <div class="file-badges">
+              <span class="badge loc">300 LOC</span>
+              <span class="badge size">10.4 KB</span>
+              <span class="badge type">Estado reactivo</span>
+            </div>
+          </div>
+          <div class="file-description">
+            El cerebro de datos del Datacenter. Implementa un Store central reactivo mediante <strong>ES6 Proxy</strong>.
+            Cualquier asignación directa a propiedades del estado (ej: <code class="code-inline">store.state.racks.push(...)</code>) 
+            dispara la sincronización automática con localStorage y emite el evento de cambio global.
+            Incluye un histórico de hasta 30 snapshots para Deshacer (Undo) / Rehacer (Redo).
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <g transform="translate(10, 10)">
+                <rect x="0" y="15" width="115" height="130" rx="6" fill="#1e293b" stroke="#475569"/>
+                <text x="57" y="40" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Viaje en el Tiempo</text>
+                <rect x="15" y="55" width="85" height="20" rx="3" fill="#0f172a" stroke="#8b5cf6"/>
+                <text x="57" y="68" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">Rehacer (Redo)</text>
+                <rect x="15" y="82" width="85" height="20" rx="3" fill="#0f172a" stroke="#38bdf8"/>
+                <text x="57" y="95" fill="#38bdf8" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">Estado Actual</text>
+                <rect x="15" y="109" width="85" height="20" rx="3" fill="#0f172a" stroke="#64748b" opacity="0.6"/>
+                <text x="57" y="122" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">Deshacer (Undo)</text>
+              </g>
+
+              <rect x="155" y="25" width="115" height="130" rx="6" fill="#0d1b2a" stroke="#0ea5e9"/>
+              <text x="212" y="50" fill="#38bdf8" font-family="'Outfit'" font-size="13" font-weight="700" text-anchor="middle">Proxy ES6</text>
+              <text x="212" y="75" fill="#94a3b8" font-family="'Outfit'" font-size="10" text-anchor="middle">Intercepta set()</text>
+              <line x1="165" y1="90" x2="260" y2="90" stroke="#1e293b" stroke-width="1"/>
+              <text x="212" y="110" fill="#10b981" font-family="'Outfit'" font-size="9" text-anchor="middle">Auto-guardado</text>
+              <text x="212" y="125" fill="#10b981" font-family="'Outfit'" font-size="9" text-anchor="middle">Auto-emisión</text>
+
+              <path d="M 280 90 L 305 90" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow)"/>
+              <rect x="315" y="45" width="70" height="90" rx="4" fill="#2d1b00" stroke="#f59e0b"/>
+              <text x="350" y="80" fill="#f59e0b" font-family="'Outfit'" font-size="12" font-weight="600" text-anchor="middle">Local</text>
+              <text x="350" y="100" fill="#f59e0b" font-family="'Outfit'" font-size="12" font-weight="600" text-anchor="middle">Storage</text>
+            </svg>
+          </div>
+          <div class="file-meta-grid">
+            <div class="meta-col">
+              <h4>API del Store</h4>
+              <ul>
+                <li><code class="code-inline">snapshot()</code>: Guarda copia profunda de los datos actuales.</li>
+                <li><code class="code-inline">undo() / redo()</code>: Viaje en el tiempo por el historial.</li>
+                <li><code class="code-inline">addDeviceToRack(template, rackId, slot, side)</code>: Valida espacio y agrega.</li>
+                <li><code class="code-inline">moveDevice(devId, rackId, slot, side)</code>: Mueve equipo con validación.</li>
+              </ul>
+            </div>
+            <div class="meta-col">
+              <h4>Estructura de Datos (State Schema)</h4>
+              <ul>
+                <li><code class="code-inline">rooms</code>: ID, Nombre.</li>
+                <li><code class="code-inline">racks</code>: ID, roomId, Nombre, Altura, Color, dispositivos[].</li>
+                <li><code class="code-inline">devices</code>: Datos de red, consumo, tamaño U, credenciales.</li>
+                <li><code class="code-inline">connections</code>: Cables de red, color, tipo, puertos src/dst.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- js/utils.js -->
+        <div class="file-card" id="utils-js">
+          <div class="file-card-header">
+            <div class="file-path">🛠️ js/utils.js</div>
+            <div class="file-badges">
+              <span class="badge loc">66 LOC</span>
+              <span class="badge size">2.1 KB</span>
+              <span class="badge type">Ayudantes</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Funciones utilitarias libres de dependencias del DOM. Proporciona escape de HTML para evitar XSS,
+            generador de IDs cryptográficos seguros tipo UUIDv4 abreviado, gestor dinámico de notificaciones flotantes toast
+            y gestor de descargas de blobs JSON.
+          </div>
+        </div>
+
+        <!-- js/demoData.js -->
+        <div class="file-card" id="demodata-js">
+          <div class="file-card-header">
+            <div class="file-path">📊 js/demoData.js</div>
+            <div class="file-badges">
+              <span class="badge size">10.1 KB</span>
+              <span class="badge type">Mock Data</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Contiene el dataset pre-armado de prueba para la simulación inicial del Datacenter (Sala Principal con Racks de red,
+            servidores cargados con IPs simuladas, conexiones de fibra activas y switches conectados). 
+            Se carga bajo demanda usando inyección de script dinámico para optimizar el arranque de la app.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           SECCIÓN: JS UI (COMPONENTES DE LA INTERFAZ)
+           ============================================================ -->
+      <h2 class="section-title" id="files-js-ui">Componentes de Interfaz y Gráficos</h2>
+      
+      <div class="files-grid">
+        
+        <!-- js/ui/catalog.js -->
+        <div class="file-card" id="catalog-js">
+          <div class="file-card-header">
+            <div class="file-path">📁 js/ui/catalog.js</div>
+            <div class="file-badges">
+              <span class="badge loc">161 LOC</span>
+              <span class="badge size">9.1 KB</span>
+              <span class="badge type">UI Panel</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Gestiona la barra lateral de catálogo de equipos. Muestra los iconos de los componentes, filtra por categoría
+            (Red, Servidor, Storage, Piso), y enlaza los eventos de arrastre HTML5 tradicionales vinculando los datos iniciales 
+            del equipo para pasárselos a los Racks. También controla los tabs de salas en la parte superior.
+          </div>
+        </div>
+
+        <!-- js/ui/faceplates.js -->
+        <div class="file-card" id="faceplates-js">
+          <div class="file-card-header">
+            <div class="file-path">📁 js/ui/faceplates.js</div>
+            <div class="file-badges">
+              <span class="badge loc">222 LOC</span>
+              <span class="badge size">8.7 KB</span>
+              <span class="badge type">UI Rendering</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Factoría de visualización física de los equipos. Genera el código HTML/SVG inline que simula los componentes físicos
+            de servidores (LCDs con IPs vivas, botones de encendido), switches (24 puertos RJ45 parpadeando que reaccionan 
+            si el switch está cableado), UPS (pantalla LCD de carga de batería) y la vista trasera del rack con sus tomas PDU.
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <!-- Mock Faceplate Server (1U) -->
+              <rect x="20" y="25" width="360" height="34" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+              <circle cx="26" cy="42" r="2.5" fill="#475569"/>
+              <circle cx="374" cy="42" r="2.5" fill="#475569"/>
+              <circle cx="45" cy="42" r="2" fill="#10b981"/>
+              <circle cx="53" cy="42" r="2" fill="#f59e0b"/>
+              <rect x="70" y="34" width="90" height="16" rx="2" fill="#0f172a" stroke="#0ea5e9"/>
+              <text x="75" y="45" fill="#38bdf8" font-family="'JetBrains Mono'" font-size="8">192.168.10.15</text>
+              <rect x="180" y="35" width="16" height="14" rx="1" fill="#0f172a" stroke="#475569"/>
+              <rect x="200" y="35" width="16" height="14" rx="1" fill="#0f172a" stroke="#475569"/>
+              <rect x="220" y="35" width="16" height="14" rx="1" fill="#0f172a" stroke="#475569"/>
+              <path d="M 208 37 L 208 47" stroke="#10b981" stroke-width="1.5"/>
+              <text x="280" y="45" fill="#94a3b8" font-family="'Outfit'" font-size="9" font-weight="600">Switch 24p L2</text>
+
+              <!-- Mock Battery Faceplate (UPS) -->
+              <rect x="20" y="80" width="360" height="75" rx="3" fill="#111827" stroke="#10b981" stroke-width="1.5"/>
+              <circle cx="26" cy="117" r="2.5" fill="#475569"/>
+              <circle cx="374" cy="117" r="2.5" fill="#475569"/>
+              <rect x="50" y="95" width="115" height="45" rx="2" fill="#022c22" stroke="#10b981"/>
+              <text x="60" y="112" fill="#34d399" font-family="'Outfit'" font-size="9">Carga Batería: 84%</text>
+              <text x="60" y="128" fill="#34d399" font-family="'Outfit'" font-size="9">Salida: 230V Normal</text>
+              <line x1="200" y1="98" x2="250" y2="98" stroke="#374151" stroke-width="3" stroke-dasharray="2,2"/>
+              <line x1="200" y1="110" x2="250" y2="110" stroke="#374151" stroke-width="3" stroke-dasharray="2,2"/>
+              <line x1="200" y1="122" x2="250" y2="122" stroke="#374151" stroke-width="3" stroke-dasharray="2,2"/>
+              <line x1="200" y1="134" x2="250" y2="134" stroke="#374151" stroke-width="3" stroke-dasharray="2,2"/>
+              <text x="275" y="122" fill="#64748b" font-family="'Outfit'" font-size="11" font-weight="600">UPS Inteligente</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- js/ui/rack.js -->
+        <div class="file-card" id="rack-js">
+          <div class="file-card-header">
+            <div class="file-path" style="color: var(--accent);">📁 js/ui/rack.js</div>
+            <div class="file-badges">
+              <span class="badge loc">459 LOC</span>
+              <span class="badge size">19.0 KB</span>
+              <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ UI Crítico</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Controla la renderización física de los armarios Racks, ranuras por unidades de rack (slots), la animación de giro 
+            para ver la parte trasera (rear side) y los escuchadores de eventos para arrastrar y soltar (Drag & Drop) 
+            entre el catálogo y las ranuras disponibles del rack.
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <g transform="translate(60, 10)">
+                <rect x="0" y="0" width="90" height="140" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                <line x1="0" y1="28" x2="90" y2="28" stroke="#475569" stroke-width="0.5"/>
+                <line x1="0" y1="56" x2="90" y2="56" stroke="#475569" stroke-width="0.5"/>
+                <line x1="0" y1="84" x2="90" y2="84" stroke="#475569" stroke-width="0.5"/>
+                <line x1="0" y1="112" x2="90" y2="112" stroke="#475569" stroke-width="0.5"/>
+                <text x="-12" y="18" fill="#64748b" font-family="'JetBrains Mono'" font-size="8">U4</text>
+                <text x="-12" y="46" fill="#64748b" font-family="'JetBrains Mono'" font-size="8">U3</text>
+                <text x="-12" y="74" fill="#64748b" font-family="'JetBrains Mono'" font-size="8">U2</text>
+                <text x="-12" y="102" fill="#64748b" font-family="'JetBrains Mono'" font-size="8">U1</text>
+                <rect x="5" y="58" width="80" height="52" rx="2" fill="#0c4a6e" stroke="#0ea5e9"/>
+                <text x="45" y="88" fill="#e0f2fe" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">UPS (2U)</text>
+              </g>
+              <g transform="translate(220, 10)">
+                <rect x="0" y="30" width="100" height="28" rx="2" fill="#064e3b" stroke="#10b981" stroke-dasharray="2,2"/>
+                <text x="50" y="47" fill="#34d399" font-family="'Outfit'" font-size="9" text-anchor="middle">Ranura Libre</text>
+                <rect x="10" y="75" width="80" height="26" rx="2" fill="#1e1b4b" stroke="#8b5cf6" opacity="0.85"/>
+                <text x="50" y="91" fill="#a78bfa" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Arrastrando 1U</text>
+                <path d="M 50 75 L 50 64" fill="none" stroke="#10b981" stroke-dasharray="2,2" marker-end="url(#arrow)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="hotspot-guide">
+            <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
+            <ul class="hotspot-list">
+              <li><strong>Sincronización al Girar:</strong> Cuando agregues un evento a las tarjetas físicas, recuerda que el giro destruye y vuelve a crear elementos en <code class="code-inline">renderPhysical()</code>. Debes conservar los IDs activos en el set <code class="code-inline">flippedRacks</code> para que un rack mantenga la vista trasera si el usuario lo giró previamente.</li>
+              <li><strong>Cálculo de Espacio Libre (<code class="code-inline">canPlace</code>):</strong> Si planeas agregar validaciones personalizadas (por ejemplo, evitar montar un servidor de 200kg arriba de un rack por peso), debes programarlas en esta función auxiliar para prevenir que el D&D del navegador active el estado 'drop-invalid'.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- js/ui/topology.js -->
+        <div class="file-card" id="topology-canvas">
+          <div class="file-card-header">
+            <div class="file-path" style="color: var(--accent);">📁 js/ui/topology.js</div>
+            <div class="file-badges">
+              <span class="badge loc">826 LOC</span>
+              <span class="badge size">26.9 KB</span>
+              <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ Canvas Engine</span>
+            </div>
+          </div>
+          <div class="file-description">
+            El motor de topología de red gráfica. Rinde un plano gráfico completo dibujando salas, racks y equipos como nodos móviles 
+            usando el <strong>Canvas 2D de HTML5</strong>. Traza cables como curvas Bézier cúbicas con partículas de corriente que fluyen 
+            siguiendo el cable en tiempo real usando un bucle de animación optimizado (<code class="code-inline">requestAnimationFrame</code>).
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <rect x="30" y="55" width="80" height="50" rx="6" fill="#141a24" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="70" y="83" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Rack A</text>
+              <circle cx="110" cy="80" r="4" fill="#0ea5e9"/>
+              
+              <rect x="290" y="55" width="80" height="50" rx="6" fill="#141a24" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="330" y="83" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Rack B</text>
+              <circle cx="290" cy="80" r="4" fill="#0ea5e9"/>
+              
+              <path d="M 114 80 C 170 120, 230 40, 286 80" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+              
+              <circle cx="170" cy="120" r="3" fill="#64748b" opacity="0.5"/>
+              <circle cx="230" cy="40" r="3" fill="#64748b" opacity="0.5"/>
+              <line x1="114" y1="80" x2="170" y2="120" stroke="#64748b" stroke-width="0.5" stroke-dasharray="2,2"/>
+              <line x1="286" y1="80" x2="230" y2="40" stroke="#64748b" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+              <circle cx="200" cy="80" r="4.5" fill="#f59e0b">
+                <animateMotion dur="2.5s" repeatCount="indefinite" path="M 114 80 C 170 120, 230 40, 286 80"/>
+              </circle>
+              
+              <text x="200" y="160" fill="#94a3b8" font-family="'Outfit'" font-size="11" text-anchor="middle">Curva Bézier Cúbica en Canvas 2D</text>
+            </svg>
+          </div>
+          <div class="hotspot-guide">
+            <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
+            <ul class="hotspot-list">
+              <li><strong>Bucle de Dibujo (<code class="code-inline">drawTopo()</code>):</strong> Nunca agregues peticiones AJAX, cálculos del store pesados o lógica del DOM síncrona dentro de esta función, ya que se ejecuta a 60fps. Cualquier retraso bloqueará el scroll y zoom del mapa completo.</li>
+              <li><strong>Cálculo de Colisiones de Cables:</strong> El doble clic para editar un cable se calcula en base a 30 muestras segmentadas a lo largo de la ecuación paramétrica del vector Bézier. Si cambias el trazado de los cables, asegúrate de actualizar la rutina de interpolación en el evento <code class="code-inline">dblclick</code> del canvas.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- js/ui/tables.js -->
+        <div class="file-card" id="tables-js">
+          <div class="file-card-header">
+            <div class="file-path">📁 js/ui/tables.js</div>
+            <div class="file-badges">
+              <span class="badge loc">256 LOC</span>
+              <span class="badge size">12.1 KB</span>
+              <span class="badge type">UI Data Grid</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Maneja el panel inferior de datos. Construye las tablas HTML del inventario y las conexiones físicas del Datacenter.
+            Implementa la edición en celda rápida mediante doble clic con validación inmediata de campos especiales (como máscaras 
+            de IP y MAC) y enlaza la generación de archivos Excel (mediante la librería SheetJS) y exportador nativo de CSV.
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <g transform="translate(15, 25)">
+                <rect x="0" y="0" width="240" height="110" rx="4" fill="#111827" stroke="#374151"/>
+                <rect x="0" y="0" width="240" height="22" rx="4" fill="#1f2937" stroke="#374151"/>
+                <text x="40" y="14" fill="#f1f5f9" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Equipo</text>
+                <text x="115" y="14" fill="#f1f5f9" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Dirección IP</text>
+                <text x="195" y="14" fill="#f1f5f9" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Potencia</text>
+                
+                <line x1="0" y1="44" x2="240" y2="44" stroke="#374151" stroke-width="0.5"/>
+                <text x="40" y="36" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">Switch01</text>
+                
+                <rect x="85" y="26" width="65" height="14" rx="2" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1"/>
+                <text x="117" y="36" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">10.0.0.1</text>
+                <text x="195" y="36" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">350 W</text>
+                
+                <line x1="0" y1="66" x2="240" y2="66" stroke="#374151" stroke-width="0.5"/>
+                <text x="40" y="58" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">Server02</text>
+                <text x="117" y="58" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="8" text-anchor="middle">10.0.0.12</text>
+                <text x="195" y="58" fill="#94a3b8" font-family="'Outfit'" font-size="9" text-anchor="middle">550 W</text>
+              </g>
+              <g transform="translate(280, 25)">
+                <rect x="0" y="10" width="90" height="36" rx="4" fill="#064e3b" stroke="#10b981"/>
+                <text x="45" y="25" fill="#f0fdf4" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">Exportar</text>
+                <text x="45" y="38" fill="#34d399" font-family="'Outfit'" font-size="8" text-anchor="middle">XLSX (Excel)</text>
+
+                <rect x="0" y="64" width="90" height="36" rx="4" fill="#1e293b" stroke="#64748b"/>
+                <text x="45" y="79" fill="#f8fafc" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">Exportar</text>
+                <text x="45" y="92" fill="#94a3b8" font-family="'Outfit'" font-size="8" text-anchor="middle">CSV Plano</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- js/ui/modals.js -->
+        <div class="file-card" id="modals-js">
+          <div class="file-card-header">
+            <div class="file-path" style="color: var(--accent);">📁 js/ui/modals.js</div>
+            <div class="file-badges">
+              <span class="badge loc">931 LOC</span>
+              <span class="badge size">38.8 KB</span>
+              <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ Formularios e IO</span>
+            </div>
+          </div>
+          <div class="file-description">
+            El archivo de lógica de interfaz más extenso. Centraliza la validación, apertura y guardado de todos los formularios modales 
+            del sistema (añadir racks, configurar equipos, emparejar conexiones). Además, contiene la lógica matemática 
+            de exportación gráfica: renderiza la estructura de racks en caliente a un canvas oculto y lo descarga como imagen PNG, 
+            e implementa el <strong>Modo de Ubicación Rápida (Asistida)</strong> para instalar equipos sin necesidad de arrastrar.
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <rect x="20" y="25" width="180" height="130" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+              <rect x="20" y="25" width="180" height="28" rx="8" fill="#0f172a"/>
+              <text x="35" y="43" fill="#f1f5f9" font-family="'Outfit'" font-size="10" font-weight="600">Configurar Equipo</text>
+              
+              <text x="35" y="75" fill="#94a3b8" font-family="'Outfit'" font-size="9">Nombre:</text>
+              <rect x="80" y="65" width="105" height="14" rx="2" fill="#0f172a" stroke="#475569"/>
+              <text x="85" y="75" fill="#f1f5f9" font-family="'Outfit'" font-size="9">Switch_Rack1</text>
+              
+              <text x="35" y="98" fill="#94a3b8" font-family="'Outfit'" font-size="9">IP:</text>
+              <rect x="80" y="88" width="105" height="14" rx="2" fill="#0f172a" stroke="#475569"/>
+              <text x="85" y="98" fill="#f1f5f9" font-family="'JetBrains Mono'" font-size="8">192.168.100.1</text>
+
+              <rect x="130" y="120" width="55" height="20" rx="3" fill="#0284c7" stroke="#0ea5e9"/>
+              <text x="157" y="133" fill="#fff" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Guardar</text>
+
+              <g transform="translate(235, 15)">
+                <rect x="10" y="10" width="115" height="70" rx="4" fill="#000" stroke="#f59e0b" stroke-dasharray="3,1"/>
+                <text x="67" y="32" fill="#f59e0b" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Canvas Oculto</text>
+                <text x="67" y="47" fill="#f59e0b" font-family="'Outfit'" font-size="8" text-anchor="middle">Renderiza en HD</text>
+                <text x="67" y="62" fill="#f59e0b" font-family="'Outfit'" font-size="8" text-anchor="middle">para descarga PNG</text>
+                <path d="M 67 85 L 67 115 M 57 105 L 67 115 L 77 105" fill="none" stroke="#10b981" stroke-width="2.5"/>
+                <text x="67" y="132" fill="#10b981" font-family="'Outfit'" font-size="10" font-weight="600" text-anchor="middle">Descargar PNG</text>
+              </g>
+            </svg>
+          </div>
+          <div class="hotspot-guide">
+            <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
+            <ul class="hotspot-list">
+              <li><strong>Evitar Fuga de Campos del Formulario:</strong> Los formularios de añadir plantilla y editar equipo comparten los mismos campos del DOM (<code class="code-inline">dev-name</code>, <code class="code-inline">dev-ip</code>, etc.). Cuando implementes una pestaña o campo adicional, debes asegurar su limpieza/inicialización en <code class="code-inline">openAddDeviceModal()</code>, o los datos del equipo anterior se propagarán.</li>
+              <li><strong>Peligro en Reducción de Rack:</strong> Al editar las propiedades de un rack existente, <code class="code-inline">modals.js</code> evalúa si la nueva altura deja equipos por fuera del límite. Si modificas las advertencias, podrías permitir que un equipo se guarde en una ranura inexistente, corrompiendo el bucle de dibujado en <code class="code-inline">rack.js</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           SECCIÓN: SERVICIOS Y ASSETS DE RED (PWA)
+           ============================================================ -->
+      <h2 class="section-title" id="files-service">Servicios en Segundo Plano y Offline</h2>
+      
+      <div class="files-grid">
+        
+        <!-- service-worker.js (Raíz) -->
+        <div class="file-card" id="service-worker-root">
+          <div class="file-card-header">
+            <div class="file-path">🕸️ service-worker.js (Raíz)</div>
+            <div class="file-badges">
+              <span class="badge size">357 B</span>
+              <span class="badge type">PWA Relay</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Script puente del service worker. Debe residir estrictamente en la raíz del proyecto para gozar de 
+            scope completo sobre la URL principal de la aplicación, importando toda la lógica interna desde 
+            la carpeta de servicios.
+          </div>
+        </div>
+
+        <!-- js/service/service-worker.js -->
+        <div class="file-card" id="service-worker-js">
+          <div class="file-card-header">
+            <div class="file-path">🕸️ js/service/service-worker.js</div>
+            <div class="file-badges">
+              <span class="badge loc">110 LOC</span>
+              <span class="badge size">3.8 KB</span>
+              <span class="badge type">Cache Worker</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Implementación real del service worker. Gestiona el ciclo de vida de caché (estrategia 
+            <strong>Cache First with Network Fallback</strong>). Cachea de forma asíncrona todos los assets de RACK Designer 
+            para permitir que la aplicación abra y funcione al 100% sin conexión a internet.
+            
+            <svg viewBox="0 0 400 180" width="100%" height="180" style="background:#090d16; border-radius:8px; border:1px solid #242f41; margin-top:16px;">
+              <rect x="15" y="55" width="80" height="50" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="55" y="80" fill="#f1f5f9" font-family="'Outfit'" font-size="11" font-weight="600" text-anchor="middle">Navegador</text>
+              <text x="55" y="93" fill="#64748b" font-family="'Outfit'" font-size="8" text-anchor="middle">Petición HTTP</text>
+              
+              <path d="M 95 80 L 130 80" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+              <rect x="140" y="35" width="115" height="90" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+              <text x="197" y="58" fill="#a78bfa" font-family="'Outfit'" font-size="12" font-weight="700" text-anchor="middle">Service Worker</text>
+              <text x="197" y="83" fill="#f1f5f9" font-family="'Outfit'" font-size="10" text-anchor="middle">¿Está en Caché?</text>
+
+              <path d="M 197 35 L 197 18 L 285 18" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+              <rect x="285" y="8" width="95" height="40" rx="4" fill="#064e3b" stroke="#10b981"/>
+              <text x="332" y="25" fill="#f0fdf4" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Caché [HIT]</text>
+              <text x="332" y="37" fill="#34d399" font-family="'Outfit'" font-size="8" text-anchor="middle">Sirve offline (OK)</text>
+
+              <path d="M 197 125 L 197 145 L 285 145" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+              <rect x="285" y="130" width="95" height="40" rx="4" fill="#2d1b00" stroke="#f59e0b"/>
+              <text x="332" y="147" fill="#fef3c7" font-family="'Outfit'" font-size="9" font-weight="600" text-anchor="middle">Red [MISS]</text>
+              <text x="332" y="159" fill="#f59e0b" font-family="'Outfit'" font-size="8" text-anchor="middle">Descarga & Cachea</text>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Script para la barra de navegación y pestañas -->
+  <script>
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        
+        // Remove active class from all menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        
+        // Add active to current
+        const link = document.querySelector(`.menu-item[onclick="scrollToSection('${id}')"]`);
+        if (link) link.classList.add('active');
+
+        // Flash target file card
+        if (el.classList.contains('file-card')) {
+          el.classList.remove('highlighted');
+          void el.offsetWidth; // trigger reflow
+          el.classList.add('highlighted');
+        }
+      }
+    }
+
+    function switchTab(evt, tabId) {
+      // Hide all contents
+      const wrap = evt.currentTarget.closest('.tab-container');
+      wrap.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // Deactivate buttons
+      wrap.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Activate selected
+      document.getElementById(tabId).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+
+    function filterFiles() {
+      const query = document.getElementById('file-search').value.toLowerCase();
+      
+      // Filter menu items
+      document.querySelectorAll('.file-link').forEach(item => {
+        const filename = item.dataset.filename.toLowerCase();
+        if (filename.includes(query)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Filter file cards
+      document.querySelectorAll('.file-card').forEach(card => {
+        const pathText = card.querySelector('.file-path').textContent.toLowerCase();
+        const descText = card.querySelector('.file-description').textContent.toLowerCase();
+        if (pathText.includes(query) || descText.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
