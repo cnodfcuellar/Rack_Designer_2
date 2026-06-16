@@ -565,7 +565,7 @@ function drawTopo() {
 
   // Draw Connections
   if (!document.body.classList.contains('no-animations')) {
-    flowT += 0.015;
+    flowT = (flowT + 0.015) % 1;
   }
   store._raw.connections.forEach(conn => {
     const srcPos = nodePositions[conn.sourceDeviceId];
@@ -791,32 +791,35 @@ function exportTopologyToPNG() {
   const oldPanY = store._raw.topoPanY;
   const oldHover = hoveredNode;
   
-  ctx = oc;
-  canvas = offCanvas; 
-  store._raw.topoZoom = 1;
-  store._raw.topoPanX = -minX;
-  store._raw.topoPanY = -minY;
-  hoveredNode = null;
-  
-  // Draw one frame offscreen
-  cancelAnimationFrame(topoAnim);
-  drawTopo();
-  cancelAnimationFrame(topoAnim); // drawTopo requests another frame, stop it
-  
-  const url = offCanvas.toDataURL('image/png');
-  const link = document.createElement('a');
-  link.download = `Topologia_Centro_Datos.png`;
-  link.href = url;
-  link.click();
-  
-  // Restore globals
-  ctx = oldCtx;
-  canvas = oldCanvas;
-  store._raw.topoZoom = oldZoom;
-  store._raw.topoPanX = oldPanX;
-  store._raw.topoPanY = oldPanY;
-  hoveredNode = oldHover;
-  
-  notify('Topología exportada a PNG', 'success');
+  try {
+    ctx = oc;
+    canvas = offCanvas; 
+    store._raw.topoZoom = 1;
+    store._raw.topoPanX = -minX;
+    store._raw.topoPanY = -minY;
+    hoveredNode = null;
+    
+    // Draw one frame offscreen
+    cancelAnimationFrame(topoAnim);
+    drawTopo();
+    cancelAnimationFrame(topoAnim); // drawTopo requests another frame, stop it
+    
+    const url = offCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `Topologia_Centro_Datos.png`;
+    link.href = url;
+    link.click();
+    
+    notify('Topología exportada a PNG', 'success');
+  } finally {
+    // Restore globals
+    ctx = oldCtx;
+    canvas = oldCanvas;
+    store._raw.topoZoom = oldZoom;
+    store._raw.topoPanX = oldPanX;
+    store._raw.topoPanY = oldPanY;
+    hoveredNode = oldHover;
+    drawTopo(); // Ensure loop resumes on main canvas
+  }
   startTopo(); // resume normal loop
 }

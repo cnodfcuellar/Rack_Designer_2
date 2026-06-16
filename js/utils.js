@@ -25,6 +25,9 @@ function notify(msg, type = 'info', duration = 3000) {
   el.innerHTML = `<span>${icons[type]||'●'}</span> ${escapeHTML(msg)}`;
   const area = document.getElementById('notif-area');
   area.appendChild(el);
+  while (area.children.length > 5) {
+    area.removeChild(area.firstChild);
+  }
   setTimeout(() => {
     el.style.opacity = '0';
     el.style.transform = 'translateX(20px)';

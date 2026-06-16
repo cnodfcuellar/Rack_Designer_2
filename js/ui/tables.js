@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data = getConnectionsData();
         filename = 'Conexiones.csv';
       }
-      const csvContent = data.map(row => row.join(',')).join('\n');
+      const csvContent = data.map(row => row.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');

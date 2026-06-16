@@ -154,10 +154,19 @@ function buildDeviceOptionsGrouped() {
     });
   });
 
-  const orphaned = devices.filter(d => !d.rackId);
-  if (orphaned.length > 0) {
-    html += `<optgroup label="Sin Gabinete">`;
-    orphaned.forEach(d => {
+  const orphanedRack = devices.filter(d => !d.rackId && !FLOOR_TYPES.has(d.type));
+  if (orphanedRack.length > 0) {
+    html += `<optgroup label="Equipos sin Rack">`;
+    orphanedRack.forEach(d => {
+      html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
+    });
+    html += `</optgroup>`;
+  }
+
+  const orphanedFloor = devices.filter(d => !d.rackId && FLOOR_TYPES.has(d.type));
+  if (orphanedFloor.length > 0) {
+    html += `<optgroup label="Equipos de Piso (Sala)">`;
+    orphanedFloor.forEach(d => {
       html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
     });
     html += `</optgroup>`;
@@ -296,7 +305,7 @@ function exportCSV() {
   const rows = store._raw.devices.map(d => {
     const rack = store.rackById(d.rackId);
     const side = d.category === 'floor' ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal');
-    return [rack?.name||'', d.slotStart||'-', side, d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].join(',');
+    return [rack?.name||'', d.slotStart||'-', side, d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',');
   }).join('\n');
   downloadBlob(header + rows, 'Inventario_Centro_Datos.csv', 'text/csv');
   notify('CSV exportado', 'success');

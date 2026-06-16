@@ -119,6 +119,7 @@ function getFloorFaceplate(device) {
   return `
     <div class="floor-device-card" 
          data-device-id="${device.id}" 
+         draggable="true"
          style="--floor-color: ${color}">
       <div class="floor-device-icon">${icon}</div>
       <div class="floor-device-info">

@@ -1,5 +1,16 @@
 # Registro de Cambios (Changelog)
 
+## [2026-06-15 20:25] Solución a Bugs de Baja Prioridad (Pulido)
+* **BUG-12 (Límite de Notificaciones):** Se implementó un límite de 5 notificaciones activas en pantalla en `utils.js` para evitar inundación (flooding) de notificaciones.
+* **BUG-13 (FOUC del Tema):** Se movió la inicialización de `data-theme` al `<head>` de `index.html` mediante un script síncrono para eliminar el "flash" blanco que ocurría al cargar la app en modo oscuro.
+* **BUG-14 (Filtro de Equipos de Piso):** El selector de "Equipos sin Gabinete" en el modal de conexiones ahora distingue entre equipos huérfanos que sí requieren rack (`orphanedRack`) y periféricos de piso (`orphanedFloor`), mejorando la coherencia de la interfaz.
+* **BUG-15 (Historial de Renombrado):** Renombrar una sala (F2) ahora incluye correctamente llamadas a `store.snapshot()` y `store._save()`, permitiendo que el cambio de nombre pueda deshacerse (`Ctrl+Z`).
+* **BUG-16 (Exportación CSV):** Se corrigió la lógica de generación del formato CSV en las tablas y en la exportación de inventario (`tables.js` y `modals.js`). Ahora, los textos que contengan comas (ej: Notas, nombres largos) se entrecomillan correctamente, evitando que las columnas se desfasen.
+* **BUG-17 (Eventos en Equipos de Piso):** Se añadió `draggable="true"` a las tarjetas de dispositivos de piso (`.floor-device-card`) y se vincularon a `bindRackEvents` para habilitar el arrastre, doble clic (edición) y clic derecho (menú contextual), los cuales antes estaban inoperantes.
+* **BUG-18 (Overflow en Topología):** En el motor de dibujo `topology.js`, la variable continua de tiempo `flowT` (utilizada para animar los paquetes por las conexiones) ahora aplica módulo 1 (`% 1`) en cada frame, evitando el potencial desbordamiento de punto flotante tras miles de horas de uso continuo.
+## [2026-06-15 19:20] Solución Final a Bugs de Prioridad Media
+* **BUG-11 (Congelamiento por Error de PNG):** Se incorporó un sistema de guarda `try/finally` al exportador PNG topológico. Si la cámara detecta un fallo al renderizar nodos huérfanos, el sistema asegura restaurar todas las variables globales y el canvas en la pantalla principal antes de abortar. Se acabó el congelamiento "pantalla blanca" permanente.
+* **BUG-07 (Doble renderizado al cambiar sala):** En el motor de vistas `main.js`, el evento `changeRoom` ahora llama estrictamente a `initTopoPositions()` si estás activamente en la pestaña de Topología. Esto previene un desfasamiento donde los equipos de la sala nueva no aparecían o hacían titilar la vista.
 ## [2026-06-15 19:14] Corrección de Validación y Formularios
 * **BUG-08 (Validación IP Estricta):** Se modificó la expresión regular de validación de direcciones IP en la Tabla de Inventario y en la ventana de Edición. Anteriormente permitía tríos de números hasta el 999; ahora exige de forma estricta el estándar `0-255` para los 4 octetos, evitando que se guarden IPs falsas en el JSON.
 * **BUG-09 (Protección XSS en Celdas):** (Resuelto preventivamente) La edición rápida en celdas de la tabla ya procesa de forma segura carácteres especiales como las comillas (`"`) mediante un filtrado `escapeHTML()`, previniendo que se rompa la vista.

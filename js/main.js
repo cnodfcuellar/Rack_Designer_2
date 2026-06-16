@@ -14,9 +14,12 @@ function renderAll(event = {}) {
     return;
   }
 
-  if (source.includes('Room') || source === 'room-rename') {
+  if (source.includes('Room') || source === 'room-rename' || source === 'changeRoom') {
     renderRoomTabs();
     renderPhysical();
+    if (currentView === 'topology') {
+      initTopoPositions();
+    }
   }
   
   if (source.includes('Rack')) {
@@ -371,11 +374,7 @@ function initGlobalEvents() {
   if(tableSearch) tableSearch.addEventListener('input', renderBottomPanel);
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Theme initialization
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+    // Theme initialization removed (now handled in <head> of index.html to prevent FOUC)
   });
 
   document.addEventListener('keydown', e => {

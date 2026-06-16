@@ -153,7 +153,7 @@ function bindRackEvents(container, flippedRacks) {
     slot.addEventListener('dragleave', onSlotDragLeave);
     slot.addEventListener('drop',      onSlotDrop);
   });
-  container.querySelectorAll('.device-faceplate').forEach(fp => {
+  container.querySelectorAll('.device-faceplate, .floor-device-card').forEach(fp => {
     fp.addEventListener('dragstart', onDeviceDragStart);
     fp.addEventListener('dragend',   onDeviceDragEnd);
     fp.addEventListener('dblclick',  onDeviceDoubleClick);

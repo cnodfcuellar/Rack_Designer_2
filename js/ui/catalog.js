@@ -127,7 +127,9 @@ function renderRoomTabs() {
       if (room) {
         const newName = prompt('Editar nombre de la sala:', room.name);
         if (newName !== null && newName.trim() !== '') {
+          store.snapshot();
           room.name = newName.trim();
+          store._save();
           store._emit('change', { source: 'room-rename' });
           notify('Sala renombrada a ' + room.name, 'success');
         }
