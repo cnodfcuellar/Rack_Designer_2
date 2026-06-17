@@ -567,17 +567,21 @@
         <span>📁 rack.js</span>
         <span class="menu-item-badge">★ JS</span>
       </a>
-      <a onclick="scrollToSection('topology-js')" class="menu-item file-link" data-filename="js/ui/topology.js">
-        <span>📁 topology.js</span>
-        <span class="menu-item-badge">★ JS</span>
+      <a onclick="scrollToSection('topology-dir')" class="menu-item file-link" data-filename="js/ui/topology/">
+        <span>📁 topology/ (MVC)</span>
+        <span class="menu-item-badge">★ DIR</span>
       </a>
       <a onclick="scrollToSection('tables-js')" class="menu-item file-link" data-filename="js/ui/tables.js">
-        <span>📁 tables.js</span>
+        <span>📄 tables.js</span>
         <span class="menu-item-badge">JS</span>
       </a>
-      <a onclick="scrollToSection('modals-js')" class="menu-item file-link" data-filename="js/ui/modals.js">
-        <span>📁 modals.js</span>
-        <span class="menu-item-badge">★ JS</span>
+      <a onclick="scrollToSection('modals-dir')" class="menu-item file-link" data-filename="js/ui/modals/">
+        <span>📁 modals/</span>
+        <span class="menu-item-badge">★ DIR</span>
+      </a>
+      <a onclick="scrollToSection('fileManager-js')" class="menu-item file-link" data-filename="js/ui/fileManager.js">
+        <span>💾 fileManager.js</span>
+        <span class="menu-item-badge">JS</span>
       </a>
 
       <div class="menu-section-title">Servicios & PWA</div>
@@ -832,8 +836,8 @@
           <div class="file-card-header">
             <div class="file-path">🚀 js/main.js</div>
             <div class="file-badges">
-              <span class="badge loc">412 LOC</span>
-              <span class="badge size">16.3 KB</span>
+              <span class="badge loc">397 LOC</span>
+              <span class="badge size">16.8 KB</span>
               <span class="badge type">Orquestador</span>
             </div>
           </div>
@@ -869,8 +873,8 @@
           <div class="file-card-header">
             <div class="file-path" style="color: var(--accent);">🗄️ js/store.js</div>
             <div class="file-badges">
-              <span class="badge loc">300 LOC</span>
-              <span class="badge size">10.4 KB</span>
+              <span class="badge loc">270 LOC</span>
+              <span class="badge size">10.2 KB</span>
               <span class="badge type">Estado reactivo</span>
             </div>
           </div>
@@ -909,7 +913,7 @@
           <div class="file-card-header">
             <div class="file-path">🛠️ js/utils.js</div>
             <div class="file-badges">
-              <span class="badge loc">66 LOC</span>
+              <span class="badge loc">61 LOC</span>
               <span class="badge size">2.1 KB</span>
               <span class="badge type">Ayudantes</span>
             </div>
@@ -918,6 +922,8 @@
             Funciones utilitarias libres de dependencias del DOM. Proporciona escape de HTML para evitar XSS,
             generador de IDs cryptográficos seguros tipo UUIDv4 abreviado, gestor dinámico de notificaciones flotantes toast
             y gestor de descargas de blobs JSON.
+            
+            <img src="img/Arq2/utils_helpers.svg" alt="utils_helpers" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -926,7 +932,8 @@
           <div class="file-card-header">
             <div class="file-path">📊 js/demoData.js</div>
             <div class="file-badges">
-              <span class="badge size">10.1 KB</span>
+              <span class="badge loc">127 LOC</span>
+              <span class="badge size">9.9 KB</span>
               <span class="badge type">Mock Data</span>
             </div>
           </div>
@@ -934,6 +941,8 @@
             Contiene el dataset pre-armado de prueba para la simulación inicial del Datacenter (Sala Principal con Racks de red,
             servidores cargados con IPs simuladas, conexiones de fibra activas y switches conectados). 
             Se carga bajo demanda usando inyección de script dinámico para optimizar el arranque de la app.
+            
+            <img src="img/Arq2/demodata_injection.svg" alt="demodata_injection" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -951,8 +960,8 @@
           <div class="file-card-header">
             <div class="file-path">📁 js/ui/catalog.js</div>
             <div class="file-badges">
-              <span class="badge loc">161 LOC</span>
-              <span class="badge size">9.1 KB</span>
+              <span class="badge loc">153 LOC</span>
+              <span class="badge size">8.9 KB</span>
               <span class="badge type">UI Panel</span>
             </div>
           </div>
@@ -960,6 +969,8 @@
             Gestiona la barra lateral de catálogo de equipos. Muestra los iconos de los componentes, filtra por categoría
             (Red, Servidor, Storage, Piso), y enlaza los eventos de arrastre HTML5 tradicionales vinculando los datos iniciales 
             del equipo para pasárselos a los Racks. También controla los tabs de salas en la parte superior.
+            
+            <img src="img/Arq2/catalog_drag_flow.svg" alt="catalog_drag_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -968,8 +979,8 @@
           <div class="file-card-header">
             <div class="file-path">📁 js/ui/faceplates.js</div>
             <div class="file-badges">
-              <span class="badge loc">222 LOC</span>
-              <span class="badge size">8.7 KB</span>
+              <span class="badge loc">207 LOC</span>
+              <span class="badge size">8.5 KB</span>
               <span class="badge type">UI Rendering</span>
             </div>
           </div>
@@ -987,8 +998,8 @@
           <div class="file-card-header">
             <div class="file-path" style="color: var(--accent);">📁 js/ui/rack.js</div>
             <div class="file-badges">
-              <span class="badge loc">459 LOC</span>
-              <span class="badge size">19.0 KB</span>
+              <span class="badge loc">482 LOC</span>
+              <span class="badge size">22.5 KB</span>
               <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ UI Crítico</span>
             </div>
           </div>
@@ -1019,28 +1030,25 @@
           </div>
         </div>
 
-        <!-- js/ui/topology.js -->
-        <div class="file-card" id="topology-canvas">
+        <!-- js/ui/topology/ -->
+        <div class="file-card" id="topology-dir">
           <div class="file-card-header">
-            <div class="file-path" style="color: var(--accent);">📁 js/ui/topology.js</div>
+            <div class="file-path" style="color: var(--accent);">📁 js/ui/topology/</div>
             <div class="file-badges">
-              <span class="badge loc">826 LOC</span>
-              <span class="badge size">26.9 KB</span>
-              <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ Canvas Engine</span>
+              <span class="badge loc">~750 LOC</span>
+              <span class="badge size">26 KB</span>
+              <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ MVC Engine</span>
             </div>
           </div>
           <div class="file-description">
-            El motor de topología de red gráfica. Rinde un plano gráfico completo dibujando salas, racks y equipos como nodos móviles 
-            usando el <strong>Canvas 2D de HTML5</strong>. Traza cables como curvas Bézier cúbicas con partículas de corriente que fluyen 
-            siguiendo el cable en tiempo real usando un bucle de animación optimizado (<code class="code-inline">requestAnimationFrame</code>).
+            El motor de topología gráfica 2D ha sido factorizado en un patrón MVC. Consta de 5 archivos: <code class="code-inline">TopologyState.js</code>, <code class="code-inline">TopologyEvents.js</code>, <code class="code-inline">TopologyLayout.js</code>, <code class="code-inline">TopologyRenderer.js</code> y un <code class="code-inline">TopologyOrchestrator.js</code>. Dibuja nodos, curvas Bézier cúbicas e interacciones a 60fps con el Canvas.
             
             <img src="img/Arq2/topology_canvas.svg" alt="topology_canvas" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="hotspot-guide">
             <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
             <ul class="hotspot-list">
-              <li><strong>Bucle de Dibujo (<code class="code-inline">drawTopo()</code>):</strong> Nunca agregues peticiones AJAX, cálculos del store pesados o lógica del DOM síncrona dentro de esta función, ya que se ejecuta a 60fps. Cualquier retraso bloqueará el scroll y zoom del mapa completo.</li>
-              <li><strong>Cálculo de Colisiones de Cables:</strong> El doble clic para editar un cable se calcula en base a 30 muestras segmentadas a lo largo de la ecuación paramétrica del vector Bézier. Si cambias el trazado de los cables, asegúrate de actualizar la rutina de interpolación en el evento <code class="code-inline">dblclick</code> del canvas.</li>
+              <li><strong>Bucle de Dibujo (<code class="code-inline">TopologyRenderer.js</code>):</strong> Nunca agregues peticiones AJAX o lógica asíncrona aquí, ya que se ejecuta a 60fps y congelará el scroll del mapa.</li>
             </ul>
           </div>
         </div>
@@ -1050,8 +1058,8 @@
           <div class="file-card-header">
             <div class="file-path">📁 js/ui/tables.js</div>
             <div class="file-badges">
-              <span class="badge loc">256 LOC</span>
-              <span class="badge size">12.1 KB</span>
+              <span class="badge loc">244 LOC</span>
+              <span class="badge size">11.9 KB</span>
               <span class="badge type">UI Data Grid</span>
             </div>
           </div>
@@ -1064,30 +1072,42 @@
           </div>
         </div>
 
-        <!-- js/ui/modals.js -->
-        <div class="file-card" id="modals-js">
+        <!-- js/ui/modals/ -->
+        <div class="file-card" id="modals-dir">
           <div class="file-card-header">
-            <div class="file-path" style="color: var(--accent);">📁 js/ui/modals.js</div>
+            <div class="file-path" style="color: var(--accent);">📁 js/ui/modals/</div>
             <div class="file-badges">
-              <span class="badge loc">931 LOC</span>
-              <span class="badge size">38.8 KB</span>
+              <span class="badge loc">~800 LOC</span>
+              <span class="badge size">40 KB</span>
               <span class="badge type" style="background:rgba(56,189,248,0.15);color:var(--accent);">★ Formularios e IO</span>
             </div>
           </div>
           <div class="file-description">
-            El archivo de lógica de interfaz más extenso. Centraliza la validación, apertura y guardado de todos los formularios modales 
-            del sistema (añadir racks, configurar equipos, emparejar conexiones). Además, contiene la lógica matemática 
-            de exportación gráfica: renderiza la estructura de racks en caliente a un canvas oculto y lo descarga como imagen PNG, 
-            e implementa el <strong>Modo de Ubicación Rápida (Asistida)</strong> para instalar equipos sin necesidad de arrastrar.
+            Submódulo para validación, apertura y guardado de formularios flotantes. Está dividido en <code class="code-inline">DeviceModal.js</code>, <code class="code-inline">RackModal.js</code>, <code class="code-inline">ExportModal.js</code>, etc. 
+            El <code class="code-inline">ExportModal.js</code> contiene la renderización gráfica del SVG/PNG final de la estructura usando canvas virtual.
             
             <img src="img/Arq2/modals_form.svg" alt="modals_form" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="hotspot-guide">
             <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
             <ul class="hotspot-list">
-              <li><strong>Evitar Fuga de Campos del Formulario:</strong> Los formularios de añadir plantilla y editar equipo comparten los mismos campos del DOM (<code class="code-inline">dev-name</code>, <code class="code-inline">dev-ip</code>, etc.). Cuando implementes una pestaña o campo adicional, debes asegurar su limpieza/inicialización en <code class="code-inline">openAddDeviceModal()</code>, o los datos del equipo anterior se propagarán.</li>
-              <li><strong>Peligro en Reducción de Rack:</strong> Al editar las propiedades de un rack existente, <code class="code-inline">modals.js</code> evalúa si la nueva altura deja equipos por fuera del límite. Si modificas las advertencias, podrías permitir que un equipo se guarde en una ranura inexistente, corrompiendo el bucle de dibujado en <code class="code-inline">rack.js</code>.</li>
+              <li><strong>Variables Modales Aisladas:</strong> Al separar los modales, asegúrate de importar el <code class="code-inline">store</code> y referenciar las variables compartidas correctamente.</li>
             </ul>
+          </div>
+        </div>
+
+        <!-- js/ui/fileManager.js -->
+        <div class="file-card" id="fileManager-js">
+          <div class="file-card-header">
+            <div class="file-path">💾 js/ui/fileManager.js</div>
+            <div class="file-badges">
+              <span class="badge loc">168 LOC</span>
+              <span class="badge size">5.4 KB</span>
+              <span class="badge type">Sistema de Archivos</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Implementa la <strong>File System Access API</strong> nativa para permitir guardar directamente en un archivo <code class="code-inline">.json</code> local sin cajas de descarga. Habilita el autoguardado inteligente silencioso cuando un proyecto es abierto nativamente, junto con opciones de fallback estándar para navegadores no compatibles.
           </div>
         </div>
 
@@ -1113,6 +1133,8 @@
             Script puente del service worker. Debe residir estrictamente en la raíz del proyecto para gozar de 
             scope completo sobre la URL principal de la aplicación, importando toda la lógica interna desde 
             la carpeta de servicios.
+            
+            <img src="img/Arq2/sw_root_relay.svg" alt="sw_root_relay" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -1131,7 +1153,7 @@
             <strong>Cache First with Network Fallback</strong>). Cachea de forma asíncrona todos los assets de RACK Designer 
             para permitir que la aplicación abra y funcione al 100% sin conexión a internet.
             
-            <img src="img/Arq2/utils_flow.svg" alt="utils_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="img/Arq2/service_worker_flow.svg" alt="service_worker_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 

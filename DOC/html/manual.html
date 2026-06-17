@@ -345,7 +345,7 @@
       <p>RACK Designer 2 utiliza un patrón de <strong>arquitectura reactiva de flujo unidireccional</strong> en JavaScript nativo (Vanilla JS). Esto elimina la necesidad de frameworks pesados, manteniendo la aplicación extremadamente veloz, ligera y fácil de mantener.</p>
       
       <div class="graphic-box" class="graphic-box transparent">
-        <img src="img/Arq/arquitectura.svg" alt="Arquitectura y Flujo de Datos de RACK Designer 2" style="max-width: 900px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img src="img/Arq2/system_architecture.svg" alt="Arquitectura y Flujo de Datos de RACK Designer 2" style="max-width: 900px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Flujo unidireccional de datos controlado por eventos reactivos en RACK Designer 2.</div>
       </div>
 
@@ -356,8 +356,8 @@
           <span>Cuando el usuario interactúa con la interfaz (como arrastrar un equipo, editar puertos en un modal o renombrar una sala), las vistas en la carpeta <code>js/ui/</code> escriben directamente los nuevos valores en el estado central <code>store.state</code> o invocan métodos de acción en el almacén de datos.</span>
         </div>
         <div class="feature-card">
-          <strong>2. Almacén Reactivo (<code>store.js</code>)</strong>
-          <span>Implementado mediante un objeto <strong>Proxy ES6</strong>. Este Proxy intercepta cualquier escritura de propiedades en el estado, realiza automáticamente la persistencia guardando los datos serializados en el <code>localStorage</code> del navegador, gestiona el historial de cambios (Pila de Deshacer/Rehacer) y finalmente emite un evento global de tipo <code>'change'</code> junto con metadatos sobre la mutación ocurrida.</span>
+          <strong>2. Almacén Reactivo (<code>store.js</code>) y Sistema de Archivos</strong>
+          <span>Implementado mediante un objeto <strong>Proxy ES6</strong>. Este Proxy intercepta cualquier escritura de propiedades en el estado, realiza automáticamente la persistencia dual guardando los datos en <code>localStorage</code> y nativamente mediante la <strong>File System Access API</strong> (<code>fileManager.js</code>), y finalmente emite un evento global de tipo <code>'change'</code>.</span>
         </div>
         <div class="feature-card">
           <strong>3. Orquestador Central (<code>main.js</code>)</strong>
@@ -390,7 +390,7 @@
       <p>El almacén central reactivo es el encargado de interceptar las mutaciones, resguardar copias de seguridad de forma instantánea en el disco local y gestionar el historial de deshacer/rehacer:</p>
       
       <div class="graphic-box" class="graphic-box transparent">
-        <img src="img/Arq/store-funcionamiento.svg" alt="Estructura del Almacén Reactivo js/store.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img src="img/Arq2/store_proxy.svg" alt="Estructura del Almacén Reactivo js/store.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Ciclo de vida de una mutación, auto-guardado en localStorage e historial en el Almacén Reactivo js/store.js.</div>
       </div>
 
@@ -400,8 +400,8 @@
           <span>Intercepta cualquier operación de asignación de valor en las propiedades del estado (<code>set()</code>), actuando como una barrera de control.</span>
         </div>
         <div class="feature-card">
-          <strong>Auto-Save e Historial</strong>
-          <span>Ante cualquier cambio, genera una captura en profundidad (deep clone) de los datos y los añade a la pila de historial (Undo/Redo Stack) para posibilitar el retorno a estados anteriores. Paralelamente, escribe la serialización en <code>localStorage</code> síncronamente.</span>
+          <strong>Auto-Save Dual</strong>
+          <span>Ante cualquier cambio, escribe la serialización en <code>localStorage</code> y utiliza de forma nativa la <code>File System Access API</code> para reescribir un archivo <code>.json</code> del sistema de escritorio, permitiendo respaldos directos sin descargar repetidamente copias.</span>
         </div>
         <div class="feature-card">
           <strong>Propagación</strong>
@@ -413,7 +413,7 @@
       <p>Este bloque del diagrama detalla cómo se realiza el enlace dinámico entre la lógica del controlador global y las vistas modulares del DOM:</p>
       
       <div class="graphic-box" class="graphic-box transparent">
-        <img src="img/Arq/interfaz-funcionamiento.svg" alt="Flujo de actualización de Interfaz y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img src="img/Arq2/main_orchestrator.svg" alt="Flujo de actualización de Interfaz y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Proceso detallado de llamadas de renderizado selectivo e interacción con el DOM de index.html.</div>
       </div>
 
@@ -432,7 +432,7 @@
       <p>El orquestador central (o controlador) es el bloque principal que centraliza las escuchas de interacciones del usuario y distribuye el renderizado reactivo a través de la aplicación:</p>
       
       <div class="graphic-box" class="graphic-box transparent">
-        <img src="img/Arq/orquestador-funcionamiento.svg" alt="Detalle del Orquestador js/main.js" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img src="img/Arq2/index_structure.svg" alt="Estructura de Main Orquestador" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Detalle de entradas, lógica de enrutamiento selectivo y salidas del Controlador/Orquestador js/main.js.</div>
       </div>
 
@@ -451,7 +451,7 @@
       <p>La aplicación cuenta con dos modalidades gráficas con representaciones de memoria y tecnologías de renderizado completamente diferentes:</p>
       
       <div class="graphic-box" class="graphic-box transparent">
-        <img src="img/Arq/canvas-funcionamiento.svg" alt="Estructura de Canvas y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img src="img/Arq2/topology_canvas.svg" alt="Estructura de Canvas y DOM" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Diferencias estructurales y metodológicas entre la Vista Física (DOM) y la Vista Topológica (Canvas 2D).</div>
       </div>
 
@@ -461,8 +461,8 @@
           <span>Renderizada dentro de <code>&lt;div id="view-physical"&gt;</code>. Utiliza elementos HTML nativos anidados (<code>.rack-wrapper</code>, <code>.rack-flipper</code>, <code>.rack-slot</code>) controlados por la hoja de estilos CSS general. Responde directamente a la API nativa de Drag & Drop de HTML5 para calcular en qué unidad (U) cae un elemento. Es una vista estática y estructurada de fácil acceso.</span>
         </div>
         <div class="feature-card">
-          <strong>Vista Topológica (HTML5 Canvas 2D)</strong>
-          <span>Dibujada dentro de un único elemento <code>&lt;canvas id="topology-canvas"&gt;</code>. Es un lienzo completamente dinámico renderizado de manera procedimental a través de un búfer gráfico 2D a 60 fotogramas por segundo (gracias a <code>requestAnimationFrame</code>). Toda la interactividad (saber en qué nodo se hace clic, arrastrar salas o racks y redimensionarlos) se realiza mediante cálculos matemáticos vectoriales y distancias euclidianas.</span>
+          <strong>Vista Topológica (Patrón MVC + Canvas)</strong>
+          <span>Dibujada dentro de un elemento <code>&lt;canvas id="topology-canvas"&gt;</code>. Refactorizada internamente utilizando un patrón <strong>Modelo-Vista-Controlador (MVC)</strong> en el directorio <code>js/ui/topology/</code>. Archivos como <code>TopologyState.js</code> administran las ubicaciones, mientras que <code>TopologyRenderer.js</code> dibuja las formas. Toda la interactividad (arrastrar salas, hacer clic) está abstraída y conectada matemáticamente al flujo global.</span>
         </div>
       </div>
 
@@ -470,7 +470,7 @@
       <p>A continuación se presenta el mapa visual de la distribución física de archivos y carpetas del proyecto:</p>
       
       <div class="graphic-box" class="graphic-box transparent">
-        <img src="img/Arq/directorios.svg" alt="Mapa de Archivos y Directorios de RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <img src="img/Arq2/directory_structure.svg" alt="Mapa de Archivos y Directorios de RACK Designer 2" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <div class="graphic-caption" style="margin-top: 8px;">Figura: Estructura del árbol de directorios del proyecto RACK Designer 2.</div>
       </div>
     </section>

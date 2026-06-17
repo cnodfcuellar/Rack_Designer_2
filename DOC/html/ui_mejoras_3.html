@@ -1,0 +1,3089 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACK Designer 3 — Propuesta Integral de Escalabilidad (v3.0)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+  :root {
+    --bg-dark: #030712;
+    --bg-card: rgba(17, 24, 39, 0.7);
+    --bg-card-hover: rgba(31, 41, 55, 0.8);
+    --border: rgba(55, 65, 81, 0.4);
+    --border-hover: rgba(56, 189, 248, 0.4);
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* Neon Colors */
+    --neon-blue: #38bdf8;
+    --neon-purple: #a855f7;
+    --neon-green: #10b981;
+    --neon-red: #f43f5e;
+    --neon-yellow: #fbbf24;
+    --neon-cyan: #22d3ee;
+    
+    /* Gradients */
+    --grad-primary: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+    --grad-cyan: linear-gradient(135deg, #22d3ee 0%, #38bdf8 100%);
+    --grad-green: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    --grad-red: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+  }
+
+  /* Reset & Base */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(34, 211, 238, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(34, 211, 238, 0.4); }
+
+  /* Premium Header */
+  header {
+    padding: 30px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(3, 7, 18, 0.8);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: var(--grad-cyan);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+    animation: pulseGlow 3s infinite alternate;
+  }
+  .brand-title h1 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #22d3ee, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-title span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  nav.nav-menu {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    max-width: 65vw;
+    padding-bottom: 8px;
+    align-items: center;
+  }
+  nav.nav-menu::-webkit-scrollbar { height: 4px; }
+  nav.nav-menu::-webkit-scrollbar-track { background: transparent; }
+  nav.nav-menu::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.2); border-radius: 2px; }
+  .nav-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+    background: rgba(34, 211, 238, 0.05);
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.15);
+  }
+
+  /* Hero Banner */
+  .hero {
+    text-align: center;
+    padding: 80px 5% 50px;
+    position: relative;
+  }
+  .hero-badge {
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    color: #67e8f9;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero h2 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #67e8f9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-secondary);
+    font-size: 18px;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    font-weight: 300;
+  }
+
+  /* Container & Layout */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Sections styling */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 100px;
+  }
+  .sec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .sec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--neon-cyan);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .sec-title h3 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .sec-title p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 700px;
+  }
+  .sec-badge {
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--neon-cyan);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .sec-badge.high {
+    background: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.3);
+    color: var(--neon-red);
+  }
+  .sec-badge.mid {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.3);
+    color: var(--neon-purple);
+  }
+
+  /* Proposal Details Cards */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .details-grid { grid-template-columns: 1fr; }
+  }
+
+  .info-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    height: 100%;
+    backdrop-filter: blur(8px);
+  }
+  .info-panel h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .info-list {
+    list-style: none;
+  }
+  .info-list li {
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .info-list li strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .info-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--neon-cyan);
+    font-size: 14px;
+  }
+
+  .mockup-panel {
+    background: rgba(10, 15, 30, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mockup-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 10px;
+  }
+  .mockup-controls {
+    display: flex;
+    gap: 8px;
+  }
+  .mockup-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .mockup-dot.red { background: var(--neon-red); }
+  .mockup-dot.yellow { background: var(--neon-yellow); }
+  .mockup-dot.green { background: var(--neon-green); }
+
+  .svg-wrap {
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+  }
+  .svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Mockup specific styles */
+  .radar-map {
+    fill: #0d1428;
+    stroke: #1e2d4e;
+    stroke-width: 2;
+  }
+  .radar-blip {
+    fill: rgba(34, 211, 238, 0.5);
+    stroke: var(--neon-cyan);
+    stroke-width: 1;
+    transition: all 0.3s;
+  }
+  .radar-frustum {
+    fill: rgba(168, 85, 247, 0.15);
+    stroke: var(--neon-purple);
+    stroke-width: 1.5;
+    cursor: grab;
+  }
+  .radar-frustum:active {
+    cursor: grabbing;
+  }
+
+  .thread-box {
+    fill: #111827;
+    stroke: #374151;
+    stroke-width: 1.5;
+    rx: 6;
+  }
+  .thread-pulse {
+    stroke-dasharray: 4, 4;
+    animation: flowPulse 1.5s infinite linear;
+  }
+
+  @keyframes pulseGlow {
+    from { box-shadow: 0 0 10px rgba(34, 211, 238, 0.2); }
+    to { box-shadow: 0 0 25px rgba(34, 211, 238, 0.5); }
+  }
+  @keyframes flowPulse {
+    to { stroke-dashoffset: -24; }
+  }
+
+  .interactive-hint {
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #67e8f9;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  footer {
+    text-align: center;
+    padding: 50px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+</style>
+<style>
+
+  400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  
+  
+  
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #0d1a3a 0%, #060a14 40%, #0a0514 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, #38bdf822 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1e3a8a22, #8b5cf622);
+    border: 1px solid #38bdf844;
+    border-radius: 999px;
+    padding: 5px 20px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 44px; font-weight: 700;
+    background: linear-gradient(135deg, #93c5fd, #38bdf8, #818cf8, #10b981);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 12px; line-height: 1.15;
+  }
+  .hero p { color: var(--muted); font-size: 15px; font-family: 'JetBrains Mono', monospace; }
+  .hero-chips { display: flex; gap: 10px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
+  .chip {
+    padding: 6px 16px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .chip-a { background: #10b98122; border: 1px solid #10b98166; color: #34d399; }
+  .chip-b { background: #38bdf822; border: 1px solid #38bdf866; color: #7dd3fc; }
+  .chip-c { background: #8b5cf622; border: 1px solid #8b5cf666; color: #c4b5fd; }
+  .chip-d { background: #f59e0b22; border: 1px solid #f59e0b66; color: #fde68a; }
+
+  /* ── TOC ── */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 28px 40px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .toc a {
+    color: var(--muted); text-decoration: none; padding: 6px 14px; border-radius: 6px;
+    font-size: 12px; font-family: 'JetBrains Mono', monospace; border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .toc a:hover { color: var(--accent); border-color: var(--border2); background: var(--surface2); }
+
+  /* ── SECTION ── */
+  .section { padding: 56px 40px 0; max-width: 1200px; margin: 0 auto; scroll-margin-top: 20px; }
+  .section-label {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 32px;
+    padding-bottom: 20px; border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    color: #fff; box-shadow: 0 4px 14px #38bdf830;
+  }
+  .section-label h2 { font-size: 22px; font-weight: 700; }
+  .section-label .desc { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+  .priority { padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-left: auto; white-space: nowrap; }
+  .p-high  { background: #ef444422; border: 1px solid #ef444466; color: #fca5a5; }
+  .p-med   { background: #f59e0b22; border: 1px solid #f59e0b66; color: #fde68a; }
+  .p-low   { background: #10b98122; border: 1px solid #10b98166; color: #6ee7b7; }
+
+  /* ── CARDS ── */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 36px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border2); }
+  .card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .card p  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .card .tag { display: inline-block; margin-right: 6px; margin-top: 10px; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+  .tag-bug   { background: #ef444420; color: #fca5a5; border: 1px solid #ef444440; }
+  .tag-feat  { background: #10b98120; color: #6ee7b7; border: 1px solid #10b98140; }
+  .tag-ux    { background: #38bdf820; color: #7dd3fc; border: 1px solid #38bdf840; }
+  .tag-perf  { background: #8b5cf620; color: #c4b5fd; border: 1px solid #8b5cf640; }
+
+  /* ── MOCKUP WRAP ── */
+  .mockup { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; justify-content: center; margin-bottom: 48px; overflow: hidden; }
+  .mockup svg { max-width: 100%; height: auto; }
+  .mockup-label { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-align: center; margin-top: -36px; margin-bottom: 36px; }
+
+  /* ── BEFORE/AFTER ── */
+  .ba-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: 16px; overflow: hidden; margin-bottom: 48px; border: 1px solid var(--border); }
+  .ba-col { background: var(--surface); padding: 20px; }
+  .ba-col h4 { font-size: 11px; font-family: 'JetBrains Mono', monospace; margin-bottom: 14px; text-align: center; }
+  .ba-col.before h4 { color: #f87171; }
+  .ba-col.after  h4 { color: #34d399; }
+  .ba-col svg { max-width: 100%; }
+
+  /* ── DIVIDER ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 40px 0; }
+
+  /* ── FOOTER ── */
+  footer { text-align: center; padding: 40px; color: var(--muted2); font-size: 11px; font-family: 'JetBrains Mono', monospace; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  @media (max-width: 768px) {
+    .cards, .ba-wrap { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+  }
+
+
+    .hf { font-family:'Space Grotesk',sans-serif; }
+    .hm { font-family:'JetBrains Mono',monospace; }
+    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor { animation: cursor-blink 1s step-start infinite; }
+  
+
+    @keyframes gauge-fill { from{stroke-dashoffset:220} to{stroke-dashoffset:var(--end)} }
+    .g1 { animation: gauge-fill 2s ease-out forwards; --end:66; }
+    .g2 { animation: gauge-fill 2s ease-out 0.3s forwards; --end:110; }
+    .g3 { animation: gauge-fill 2s ease-out 0.6s forwards; --end:30; }
+    @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .pulse-red { animation: pulse-red 1s ease-in-out infinite; }
+  
+
+    @keyframes led-blink { 0%,100%{opacity:1} 60%{opacity:0.2} }
+    .led { animation: led-blink 1.2s ease-in-out infinite; }
+    .led2 { animation: led-blink 0.8s ease-in-out 0.3s infinite; }
+    @keyframes port-pulse { 0%,100%{r:3} 50%{r:5} }
+    .pp { animation: port-pulse 1.5s ease-in-out infinite; }
+  
+
+    @keyframes slide-in { from{transform:translateX(280px);opacity:0} to{transform:translateX(0);opacity:1} }
+    .slide-panel { animation: slide-in 0.4s ease-out forwards; }
+    @keyframes tab-underline { from{width:0} to{width:100%} }
+  
+
+    @keyframes topo-flow { from{stroke-dashoffset:30} to{stroke-dashoffset:0} }
+    .tf { stroke-dasharray:10,5; animation: topo-flow 1.5s linear infinite; }
+    @keyframes minimap-scan { 0%,100%{opacity:0.6} 50%{opacity:1} }
+    .ms { animation: minimap-scan 2s ease-in-out infinite; }
+  
+
+    @keyframes notif-in { from{transform:translateX(40px);opacity:0} to{transform:translateX(0);opacity:1} }
+    .ni1 { animation: notif-in 0.3s ease-out forwards; }
+    .ni2 { animation: notif-in 0.3s ease-out 0.1s both; }
+    .ni3 { animation: notif-in 0.3s ease-out 0.2s both; }
+    .ni4 { animation: notif-in 0.3s ease-out 0.3s both; }
+    @keyframes progress-drain { from{width:100%} to{width:0%} }
+    .pd { animation: progress-drain 5s linear forwards; }
+  
+
+    @keyframes result-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .ri1 { animation: result-in 0.2s ease-out 0.1s both; }
+    .ri2 { animation: result-in 0.2s ease-out 0.2s both; }
+    .ri3 { animation: result-in 0.2s ease-out 0.3s both; }
+    .ri4 { animation: result-in 0.2s ease-out 0.4s both; }
+    .ri5 { animation: result-in 0.2s ease-out 0.5s both; }
+  
+
+  400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+  
+
+  /* Reset & Base */
+  
+  
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
+
+  /* Premium Header */
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: var(--grad-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    animation: pulseGlow 3s infinite alternate;
+  }
+  .brand-title h1 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #38bdf8, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-title span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  nav.nav-menu {
+    display: flex;
+    gap: 15px;
+  }
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--neon-blue);
+    border-color: var(--neon-blue);
+    background: rgba(56, 189, 248, 0.05);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+  }
+
+  /* Hero Banner */
+  .hero {
+    text-align: center;
+    padding: 80px 5% 50px;
+    position: relative;
+  }
+  .hero-badge {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    color: #c084fc;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero h2 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-secondary);
+    font-size: 18px;
+    max-width: 650px;
+    margin: 0 auto 30px;
+    font-weight: 300;
+  }
+
+  /* Grid of Impact metrics */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
+  }
+  .impact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .impact-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.05);
+  }
+  .impact-val {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--neon-blue);
+    margin-bottom: 5px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .impact-val.purple { color: var(--neon-purple); }
+  .impact-val.green { color: var(--neon-green); }
+  .impact-lbl {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Container & Layout */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Sections styling */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 100px;
+  }
+  .sec-
+  .sec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--neon-blue);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .sec-title h3 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .sec-title p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 700px;
+  }
+  .sec-badge {
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--neon-blue);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .sec-badge.high {
+    background: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.3);
+    color: var(--neon-red);
+  }
+
+  /* Proposal Details Cards */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .details-grid { grid-template-columns: 1fr; }
+  }
+
+  .info-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    height: 100%;
+    backdrop-filter: blur(8px);
+  }
+  .info-panel h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .info-list {
+    list-style: none;
+  }
+  .info-list li {
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .info-list li strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .info-list li::before {
+    content: '⚡';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--neon-blue);
+    font-size: 12px;
+  }
+  .info-list.green li::before { color: var(--neon-green); }
+
+  .mockup-panel {
+    background: rgba(10, 15, 30, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mockup-
+  .mockup-controls {
+    display: flex;
+    gap: 8px;
+  }
+  .mockup-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+  .mockup-dot.red { background: var(--neon-red); }
+  .mockup-dot.yellow { background: var(--neon-yellow); }
+  .mockup-dot.green { background: var(--neon-green); }
+
+  /* SVG interactive styles */
+  .svg-wrap {
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+  }
+  .svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ────────────────────────────────────────────────────────
+     INTERACTIVE MOCKUP SPECIFICS
+     ──────────────────────────────────────────────────────── */
+  
+  /* Section 1: 2.5D Room Grid */
+  .iso-tile {
+    fill: #111827;
+    stroke: rgba(56, 189, 248, 0.15);
+    stroke-width: 1;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .iso-tile:hover {
+    fill: rgba(56, 189, 248, 0.2);
+    stroke: var(--neon-blue);
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+  }
+  .iso-tile.active {
+    fill: rgba(168, 85, 247, 0.25);
+    stroke: var(--neon-purple);
+  }
+  .iso-rack {
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .iso-rack:hover {
+    transform: translateY(-5px);
+    filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.3));
+  }
+
+  /* Section 2: Catalog Drag Zones */
+  .dz-slot {
+    fill: rgba(17, 24, 39, 0.8);
+    stroke: rgba(255,255,255,0.05);
+    transition: all 0.3s;
+  }
+  .dz-slot.eligible {
+    fill: rgba(16, 185, 129, 0.1);
+    stroke: var(--neon-green);
+    stroke-dasharray: 4, 3;
+    animation: dashPulse 2s linear infinite;
+  }
+  .dz-slot.occupied {
+    fill: rgba(244, 63, 94, 0.05);
+    stroke: rgba(244, 63, 94, 0.2);
+  }
+  .dz-card {
+    cursor: grab;
+    transition: all 0.3s;
+  }
+  .dz-card:active {
+    cursor: grabbing;
+  }
+
+  /* Section 3: Trace Cable paths */
+  .cable-path {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.25;
+    transition: opacity 0.3s, stroke-width 0.3s;
+  }
+  .cable-path.active {
+    opacity: 1;
+    stroke-width: 3.5;
+    filter: drop-shadow(0 0 6px var(--glow-color));
+  }
+  .pulse-node {
+    animation: flowPulse 2.5s infinite linear;
+  }
+
+  /* Section 4: Spotlight Cmd+K */
+  .spotlight-box {
+    background: rgba(10, 15, 30, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    padding: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.1);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .sp-input-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .sp-input {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    margin-left: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .sp-kbd {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .sp-results {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sp-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .sp-item:hover, .sp-item.selected {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--text-primary);
+    transform: translateX(4px);
+  }
+  .sp-action {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--neon-blue);
+    background: rgba(56, 189, 248, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Section 5: Thermal Heatmap */
+  .temp-slot {
+    transition: fill 0.8s ease;
+  }
+  .temp-indicator {
+    opacity: 0;
+    transition: opacity 0.5s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+  }
+  .heatmap-active .temp-indicator {
+    opacity: 0.9;
+  }
+
+  /* Animations definitions */
+  @keyframes pulseGlow {
+    from { box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+    to { box-shadow: 0 0 25px rgba(56, 189, 248, 0.5); }
+  }
+  @keyframes dashPulse {
+    to { stroke-dashoffset: -20; }
+  }
+  @keyframes flowPulse {
+    0% { stroke-dashoffset: 40; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  /* Floating UI actions for user testing */
+  .interactive-hint {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #6ee7b7;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Footer & vote box */
+  .feedback-box {
+    background: linear-gradient(135deg, rgba(13, 20, 40, 0.7) 0%, rgba(10, 5, 20, 0.7) 100%);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    margin: 80px 0;
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+  }
+  .feedback-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .feedback-box h4 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .feedback-box p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .vote-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .vote-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Outfit', sans-serif;
+  }
+  .vote-btn:hover {
+    border-color: var(--neon-blue);
+    background: rgba(56, 189, 248, 0.1);
+    transform: translateY(-2px);
+  }
+  .vote-btn.selected {
+    background: var(--grad-primary);
+    border-color: transparent;
+    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.3);
+  }
+
+  footer {
+    text-align: center;
+    padding: 50px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="brand-logo">🚀</div>
+    <div class="brand-title">
+      <h1>RACK Designer 3.0</h1>
+      <span>Scalability & Architecture Evolution</span>
+    </div>
+  </div>
+  <nav class="nav-menu">
+<a href="#m1" class="nav-btn">1. Header &amp; Toolbar Inteligente</a>
+<a href="#m2" class="nav-btn">2. Panel de Estadísticas con Gauges Dinámicos</a>
+<a href="#m3" class="nav-btn">3. Vista Física de Racks</a>
+<a href="#m4" class="nav-btn">4. Panel Lateral de Propiedades (Inspector)</a>
+<a href="#m5" class="nav-btn">5. Vista de Topología</a>
+<a href="#m6" class="nav-btn">6. Tabla de Inventario</a>
+<a href="#m7" class="nav-btn">7. Sistema de Notificaciones Mejorado</a>
+<a href="#m8" class="nav-btn">8. Búsqueda Global Inteligente</a>
+<a href="#m9" class="nav-btn">9. Modales</a>
+<a href="#m10" class="nav-btn">10. Experiencia Móvil</a>
+<a href="#plano25d" class="nav-btn">11. Plano de Planta 2.5D (Datacenter Floor Map)</a>
+<a href="#dragzones" class="nav-btn">12. Catálogo Flotante y Zonas de Soltar Luminosas</a>
+<a href="#cableglow" class="nav-btn">13. Trazado de Cableado con Rutas Luminosas (Glow Path)</a>
+<a href="#commandbox" class="nav-btn">14. Buscador Global Inteligente y Centro de Comando (Cmd+K)</a>
+<a href="#termografico" class="nav-btn">15. Modo Termográfico (Thermal Heatmap Overlay)</a>
+<a href="#radar-view" class="nav-btn">16. Minimapa de Navegación Topológica (Radar View)</a>
+<a href="#web-components" class="nav-btn">17. Migración a Custom Elements (Web Components nativos)</a>
+<a href="#web-workers" class="nav-btn">18. Offloading de UI con Web Workers</a>
+</nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Estudio de Arquitectura Prospectiva</div>
+  <h2>El Siguiente Nivel de<br>Escalabilidad y Rendimiento</h2>
+  <p>Una propuesta técnica y visual para la versión 3.0. Enfocada en resolver el manejo de datacenters masivos, migrar hacia un estándar de componentes nativos, y delegar el procesamiento intensivo.</p>
+</div>
+
+<div class="container">
+<section class="section" id="m1">
+  <div class="section-label">
+    <div class="section-num">1</div>
+    <div>
+      <h2>Header &amp; Toolbar Inteligente</h2>
+      <div class="desc">Reorganizar controles, agregar accesos directos y visibilidad de estado</div>
+    </div>
+    <span class="priority p-high">🔴 Alta prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>❌ Problemas actuales</h3>
+      <p>El botón "Proyecto" agrupa demasiadas acciones en un dropdown. Los controles de zoom/undo/redo no tienen indicadores de estado. No hay breadcrumb de navegación. El tema visual cambia sin confirmación visual inmediata.</p>
+      <span class="tag tag-ux">UX</span><span class="tag tag-bug">Usabilidad</span>
+    </div>
+    <div class="card">
+      <h3>✅ Mejoras propuestas</h3>
+      <p>Separar acciones en grupos lógicos: <strong>Proyecto</strong> (guardar/abrir), <strong>Edición</strong> (undo/redo + contador), <strong>Vista</strong> (zoom + modo), <strong>Usuario</strong> (tema + configuración). Agregar breadcrumb Sala→Rack→Equipo.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 180" width="1100" height="180">
+<defs>
+  <style>
+    .hf { font-family:'Space Grotesk',sans-serif; }
+    .hm { font-family:'JetBrains Mono',monospace; }
+    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor { animation: cursor-blink 1s step-start infinite; }
+  </style>
+  <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0d1428"/>
+    <stop offset="100%" stop-color="#080c18"/>
+  </linearGradient>
+  <linearGradient id="hbrand" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#38bdf8"/>
+    <stop offset="100%" stop-color="#818cf8"/>
+  </linearGradient>
+</defs>
+
+<rect width="1100" height="180" fill="#060a14" rx="12"/>
+<text x="550" y="18" text-anchor="middle" class="hm" font-size="10" fill="#475569">PROPUESTA — Header Mejorado</text>
+
+<!-- Toolbar background -->
+<rect x="20" y="28" width="1060" height="52" rx="10" fill="url(#hbg)" stroke="#1e2d4e" stroke-width="1"/>
+
+<!-- Brand -->
+<rect x="32" y="38" width="32" height="32" rx="8" fill="#38bdf815" stroke="#38bdf855"/>
+<text x="48" y="59" text-anchor="middle" font-size="16">🗄</text>
+<text x="75" y="56" class="hf" font-size="13" font-weight="700" fill="url(#hbrand)">RACK</text>
+<text x="107" y="56" class="hf" font-size="13" font-weight="400" fill="#64748b">Designer</text>
+
+<!-- Divider -->
+<line x1="140" y1="38" x2="140" y2="70" stroke="#1e2d4e" stroke-width="1"/>
+
+<!-- Group 1: Proyecto -->
+<text x="150" y="42" class="hm" font-size="8" fill="#475569">PROYECTO</text>
+<rect x="150" y="46" width="60" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="180" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#94a3b8">📂 Abrir</text>
+<rect x="216" y="46" width="66" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="249" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#94a3b8">💾 Guardar</text>
+<rect x="288" y="46" width="66" height="22" rx="5" fill="#0ea5e920" stroke="#0ea5e960"/>
+<text x="321" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#38bdf8">⬆ Exportar</text>
+
+<line x1="362" y1="38" x2="362" y2="70" stroke="#1e2d4e" stroke-width="1"/>
+
+<!-- Group 2: Edición -->
+<text x="372" y="42" class="hm" font-size="8" fill="#475569">EDICIÓN</text>
+<rect x="372" y="46" width="44" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="394" y="58" text-anchor="middle" font-size="13">↩</text>
+<text x="394" y="68" text-anchor="middle" class="hm" font-size="7" fill="#8b5cf6">3</text><!-- counter -->
+<rect x="422" y="46" width="44" height="22" rx="5" fill="#1e2d4e" stroke="#243655" opacity="0.4"/>
+<text x="444" y="58" text-anchor="middle" font-size="13" opacity="0.4">↪</text>
+<text x="444" y="68" text-anchor="middle" class="hm" font-size="7" fill="#475569">0</text>
+
+<line x1="474" y1="38" x2="474" y2="70" stroke="#1e2d4e" stroke-width="1"/>
+
+<!-- Group 3: Vista -->
+<text x="484" y="42" class="hm" font-size="8" fill="#475569">VISTA</text>
+<rect x="484" y="46" width="76" height="22" rx="5" fill="#0ea5e920" stroke="#0ea5e960"/>
+<text x="522" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#38bdf8">🖥 Física</text>
+<rect x="566" y="46" width="80" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="606" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#64748b">🗺 Topología</text>
+
+<rect x="654" y="46" width="28" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="668" y="61" text-anchor="middle" class="hm" font-size="10" fill="#94a3b8">−</text>
+<rect x="686" y="46" width="44" height="22" rx="5" fill="#1e2d4e" stroke="#38bdf855"/>
+<text x="708" y="61" text-anchor="middle" class="hm" font-size="10" fill="#38bdf8">100%</text>
+<rect x="734" y="46" width="28" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="748" y="61" text-anchor="middle" class="hm" font-size="10" fill="#94a3b8">+</text>
+
+<line x1="770" y1="38" x2="770" y2="70" stroke="#1e2d4e" stroke-width="1"/>
+
+<!-- Group 4: Estructuras -->
+<text x="780" y="42" class="hm" font-size="8" fill="#475569">AGREGAR</text>
+<rect x="780" y="46" width="66" height="22" rx="5" fill="#10b98120" stroke="#10b98160"/>
+<text x="813" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#34d399">+ Rack</text>
+<rect x="852" y="46" width="80" height="22" rx="5" fill="#10b98120" stroke="#10b98160"/>
+<text x="892" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#34d399">+ Equipo</text>
+<rect x="938" y="46" width="66" height="22" rx="5" fill="#10b98120" stroke="#10b98160"/>
+<text x="971" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="600" fill="#34d399">+ Sala</text>
+
+<!-- Theme toggle + User far right -->
+<rect x="1010" y="46" width="32" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="1026" y="60" text-anchor="middle" font-size="12">🌙</text>
+<rect x="1048" y="46" width="22" height="22" rx="11" fill="#38bdf8" stroke="none"/>
+<text x="1059" y="61" text-anchor="middle" class="hf" font-size="10" font-weight="700" fill="#0f172a">A</text>
+
+<!-- Breadcrumb below toolbar -->
+<rect x="20" y="88" width="1060" height="30" rx="8" fill="#0d1428" stroke="#1e2d4e"/>
+<text x="32" y="107" class="hm" font-size="9" fill="#475569">📍</text>
+<text x="44" y="107" class="hm" font-size="9" fill="#64748b">Sala A: Centro de Datos</text>
+<text x="176" y="107" class="hm" font-size="9" fill="#1e2d4e"> / </text>
+<text x="188" y="107" class="hm" font-size="9" fill="#64748b">Rack 1</text>
+<text x="220" y="107" class="hm" font-size="9" fill="#1e2d4e"> / </text>
+<text x="232" y="107" class="hm" font-size="9" fill="#38bdf8">Switch Cisco 48P</text>
+<rect x="224" y="96" width="96" height="16" rx="3" fill="#38bdf815" stroke="#38bdf830"/>
+<!-- Status indicators right -->
+<circle cx="950" cy="103" r="4" fill="#10b981"/>
+<text x="960" y="107" class="hm" font-size="9" fill="#6ee7b7">Autoguardado 2:34 PM</text>
+<rect x="1048" y="96" width="24" height="16" rx="4" fill="#ef444420" stroke="#ef444440"/>
+<text x="1060" y="107" text-anchor="middle" class="hm" font-size="8" fill="#f87171">3 ⚠</text>
+
+<!-- Labels -->
+<text x="168" y="148" text-anchor="middle" class="hm" font-size="9" fill="#10b981">↑ Grupos de acciones separados</text>
+<text x="430" y="148" text-anchor="middle" class="hm" font-size="9" fill="#8b5cf6">↑ Undo con contador</text>
+<text x="660" y="148" text-anchor="middle" class="hm" font-size="9" fill="#38bdf8">↑ Zoom interactivo inline</text>
+<text x="550" y="166" text-anchor="middle" class="hm" font-size="9" fill="#64748b">↑ Breadcrumb de navegación con autoguardado y contador de alertas</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m2">
+  <div class="section-label">
+    <div class="section-num">2</div>
+    <div>
+      <h2>Panel de Estadísticas con Gauges Dinámicos</h2>
+      <div class="desc">Transformar los números estáticos en indicadores visuales con alertas de umbral</div>
+    </div>
+    <span class="priority p-high">🔴 Alta prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>❌ Estado actual</h3>
+      <p>Las estadísticas son números planos sin contexto visual. La barra de capacidad eléctrica tiene un tope arbitrario de 5000W sin configuración. No hay alertas cuando se supera un umbral crítico (80% de capacidad).</p>
+      <span class="tag tag-bug">Bug</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>✅ Mejoras propuestas</h3>
+      <p>Gauges circulares SVG animados para capacidad U y potencia. Umbral configurable con zona de alerta en rojo. Mini sparkline histórico (últimas 7 acciones). Tarjeta de "próxima capacidad libre" para ubicación rápida.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-perf">Performance</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 260" width="1100" height="260">
+<defs>
+  <style>
+    @keyframes gauge-fill { from{stroke-dashoffset:220} to{stroke-dashoffset:var(--end)} }
+    .g1 { animation: gauge-fill 2s ease-out forwards; --end:66; }
+    .g2 { animation: gauge-fill 2s ease-out 0.3s forwards; --end:110; }
+    .g3 { animation: gauge-fill 2s ease-out 0.6s forwards; --end:30; }
+    @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .pulse-red { animation: pulse-red 1s ease-in-out infinite; }
+  </style>
+</defs>
+<rect width="1100" height="260" fill="#060a14" rx="12"/>
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Panel de Estadísticas Mejorado</text>
+
+<!-- Card 1: Racks -->
+<rect x="20" y="30" width="200" height="210" rx="12" fill="#0d1428" stroke="#1e2d4e"/>
+<text x="120" y="52" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#94a3b8">GABINETES</text>
+<circle cx="120" cy="130" r="60" fill="none" stroke="#1e2d4e" stroke-width="12"/>
+<circle cx="120" cy="130" r="60" fill="none" stroke="#38bdf8" stroke-width="12" stroke-dasharray="220 220" stroke-linecap="round" stroke-dashoffset="66" transform="rotate(-90 120 130)" class="g1"/>
+<text x="120" y="124" text-anchor="middle" font-family="Space Grotesk" font-size="28" font-weight="700" fill="#38bdf8">4</text>
+<text x="120" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">gabinetes</text>
+<text x="120" y="220" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">70% de sala llena</text>
+
+<!-- Card 2: U capacity — CRITICAL -->
+<rect x="230" y="30" width="200" height="210" rx="12" fill="#0d1428" stroke="#ef444455" class="pulse-red"/>
+<text x="330" y="52" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#f87171">CAPACIDAD U ⚠</text>
+<circle cx="330" cy="130" r="60" fill="none" stroke="#1e2d4e" stroke-width="12"/>
+<circle cx="330" cy="130" r="60" fill="none" stroke="#ef4444" stroke-width="12" stroke-dasharray="220 220" stroke-linecap="round" stroke-dashoffset="30" transform="rotate(-90 330 130)"/>
+<!-- Alert threshold arc (80%) -->
+<circle cx="330" cy="130" r="60" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="176 44" stroke-linecap="round" transform="rotate(-90 330 130)" opacity="0.5"/>
+<text x="330" y="118" text-anchor="middle" font-family="Space Grotesk" font-size="20" font-weight="700" fill="#ef4444">86%</text>
+<text x="330" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f87171">60/70 U usadas</text>
+<rect x="250" y="205" width="160" height="20" rx="6" fill="#ef444420" stroke="#ef444450"/>
+<text x="330" y="219" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f87171">⚠ Crítico — añade racks</text>
+
+<!-- Card 3: Power -->
+<rect x="440" y="30" width="200" height="210" rx="12" fill="#0d1428" stroke="#1e2d4e"/>
+<text x="540" y="52" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#94a3b8">POTENCIA</text>
+<circle cx="540" cy="130" r="60" fill="none" stroke="#1e2d4e" stroke-width="12"/>
+<circle cx="540" cy="130" r="60" fill="none" stroke="#8b5cf6" stroke-width="12" stroke-dasharray="220 220" stroke-linecap="round" stroke-dashoffset="110" transform="rotate(-90 540 130)" class="g2"/>
+<text x="540" y="122" text-anchor="middle" font-family="Space Grotesk" font-size="20" font-weight="700" fill="#8b5cf6">2340</text>
+<text x="540" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">W consumidos</text>
+<text x="540" y="220" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">Límite: 5000W | 47%</text>
+
+<!-- Card 4: Connections -->
+<rect x="650" y="30" width="200" height="210" rx="12" fill="#0d1428" stroke="#1e2d4e"/>
+<text x="750" y="52" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#94a3b8">CONEXIONES</text>
+<circle cx="750" cy="130" r="60" fill="none" stroke="#1e2d4e" stroke-width="12"/>
+<circle cx="750" cy="130" r="60" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="220 220" stroke-linecap="round" stroke-dashoffset="30" transform="rotate(-90 750 130)" class="g3"/>
+<text x="750" y="122" text-anchor="middle" font-family="Space Grotesk" font-size="28" font-weight="700" fill="#10b981">12</text>
+<text x="750" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">cables activos</text>
+<text x="750" y="220" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">86% de equipos conectados</text>
+
+<!-- Card 5: Next free slot recommendation -->
+<rect x="860" y="30" width="220" height="210" rx="12" fill="#061a10" stroke="#10b98155"/>
+<text x="970" y="52" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#34d399">PRÓXIMO LIBRE</text>
+<text x="970" y="78" text-anchor="middle" font-size="20">🗄</text>
+<rect x="880" y="90" width="180" height="28" rx="6" fill="#10b98120" stroke="#10b98140"/>
+<text x="970" y="108" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="600" fill="#6ee7b7">Rack 2 — U7-U10</text>
+<text x="970" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#64748b">4U disponibles</text>
+<text x="970" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#64748b">Frente · 320W libres</text>
+<rect x="895" y="158" width="150" height="28" rx="8" fill="#10b981" stroke="none"/>
+<text x="970" y="176" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#fff">⚡ Instalar aquí</text>
+<text x="970" y="208" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#475569">Sugerencia inteligente</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m3">
+  <div class="section-label">
+    <div class="section-num">3</div>
+    <div>
+      <h2>Vista Física de Racks — Mejoras Visuales</h2>
+      <div class="desc">Indicadores de capacidad por rack, colores de alerta, y etiquetas mejoradas</div>
+    </div>
+    <span class="priority p-med">🟡 Media prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Barra de capacidad por rack</h3>
+      <p>Agregar debajo de cada rack una mini barra de ocupación (U usadas / total). Colores: verde &lt;60%, amarillo 60–80%, rojo &gt;80%. Al pasar el mouse, mostrar breakdown por tipo de equipo.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Etiquetas de potencia en faceplate</h3>
+      <p>Mostrar el consumo en vatios (W) en la esquina inferior de cada faceplate. Resaltar en rojo los equipos que superan 500W individualmente como señal de carga alta.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">Visual</span>
+    </div>
+    <div class="card">
+      <h3>Vista dual frente/atrás integrada</h3>
+      <p>Reemplazar el botón flip 3D por un slider horizontal que muestre frente y atrás lado a lado cuando el viewport es suficientemente ancho. El 3D flip queda para móvil.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Resaltar conectores activos</h3>
+      <p>Los slots con conexiones de red deben mostrar un punto de color del cable en el borde del faceplate. Facilita identificar visualmente los equipos que forman parte de una ruta de red.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">Visual</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 340" width="1100" height="340">
+<defs>
+  <style>
+    @keyframes led-blink { 0%,100%{opacity:1} 60%{opacity:0.2} }
+    .led { animation: led-blink 1.2s ease-in-out infinite; }
+    .led2 { animation: led-blink 0.8s ease-in-out 0.3s infinite; }
+    @keyframes port-pulse { 0%,100%{r:3} 50%{r:5} }
+    .pp { animation: port-pulse 1.5s ease-in-out infinite; }
+  </style>
+</defs>
+<rect width="1100" height="340" fill="#060a14" rx="12"/>
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Vista Física Mejorada</text>
+
+<!-- RACK 1 CARD — mejorado -->
+<rect x="20" y="30" width="300" height="290" rx="12" fill="#0d1428" stroke="#0ea5e9" stroke-width="1.5"/>
+<!-- Header con gradiente -->
+<rect x="20" y="30" width="300" height="44" rx="12" fill="#0f2035"/>
+<rect x="20" y="62" width="300" height="12" fill="#0f2035"/>
+<rect x="32" y="40" width="8" height="24" rx="2" fill="#0ea5e9"/>
+<text x="50" y="57" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#e2e8f0">Rack Principal</text>
+<text x="200" y="52" font-family="JetBrains Mono" font-size="9" fill="#64748b">42U · 0.92kW</text>
+<!-- Capacity bar header -->
+<rect x="32" y="72" width="276" height="6" rx="3" fill="#1e2d4e"/>
+<rect x="32" y="72" width="236" height="6" rx="3" fill="#ef4444"/><!-- 86% full = red -->
+<text x="32" y="92" font-family="JetBrains Mono" font-size="8" fill="#f87171">36/42U ⚠ 86%</text>
+<text x="220" y="92" font-family="JetBrains Mono" font-size="8" fill="#475569">FRONT</text>
+<text x="270" y="92" font-family="JetBrains Mono" font-size="8" fill="#0ea5e9">REAR →</text>
+
+<!-- Slots / rail numbers -->
+<rect x="32" y="98" width="16" height="196" rx="2" fill="#0a1520"/>
+<rect x="284" y="98" width="16" height="196" rx="2" fill="#0a1520"/>
+<!-- Rail numbers -->
+<text x="40" y="114" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">1</text>
+<text x="40" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">5</text>
+<text x="40" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">10</text>
+<text x="40" y="198" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">15</text>
+<text x="40" y="226" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">20</text>
+<text x="40" y="254" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">25</text>
+<text x="40" y="282" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1e2d4e">30</text>
+
+<!-- U1: Switch — con cable indicators -->
+<rect x="50" y="100" width="232" height="24" rx="3" fill="#10b98125" stroke="#10b981" stroke-width="1"/>
+<text x="60" y="116" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#34d399">Switch Cisco 48P</text>
+<text x="235" y="116" font-family="JetBrains Mono" font-size="8" fill="#64748b">180W</text>
+<!-- Cable connection dots -->
+<circle cx="48" cy="112" r="4" fill="#3b82f6" class="pp"/>
+<circle cx="48" cy="120" r="4" fill="#ef4444"/>
+<text x="260" y="110" font-family="JetBrains Mono" font-size="7" fill="#3b82f6">Eth1</text>
+<text x="260" y="120" font-family="JetBrains Mono" font-size="7" fill="#ef4444">Eth2</text>
+
+<!-- U2: Firewall -->
+<rect x="50" y="126" width="232" height="24" rx="3" fill="#ef444420" stroke="#ef4444" stroke-width="1"/>
+<text x="60" y="142" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#f87171">Firewall Fortinet</text>
+<text x="235" y="142" font-family="JetBrains Mono" font-size="8" fill="#64748b">40W</text>
+<circle cx="48" cy="138" r="4" fill="#ef4444" class="pp"/>
+
+<!-- U3-4: Server Dell (2U) -->
+<rect x="50" y="152" width="232" height="48" rx="3" fill="#0ea5e920" stroke="#0ea5e9" stroke-width="1"/>
+<text x="60" y="170" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#7dd3fc">Server Dell R740</text>
+<text x="60" y="184" font-family="JetBrains Mono" font-size="9" fill="#64748b">192.168.1.10 · 550W</text>
+<!-- HIGH POWER BADGE -->
+<rect x="200" y="155" width="46" height="14" rx="3" fill="#ef444430" stroke="#ef444460"/>
+<text x="223" y="165" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#f87171">⚡ 550W</text>
+<!-- power LED -->
+<circle cx="278" cy="165" r="4" fill="#10b981" class="led"/>
+<circle cx="278" cy="178" r="4" fill="#10b981" class="led2"/>
+
+<!-- U5-8: Empty + badge -->
+<rect x="50" y="202" width="232" height="92" rx="3" fill="#0d1428" stroke="#1e2d4e" stroke-dasharray="4,4"/>
+<text x="166" y="245" text-anchor="middle" font-family="Space Grotesk" font-size="10" fill="#1e2d4e">4U libre</text>
+<!-- Drop hint -->
+<rect x="90" y="252" width="152" height="22" rx="6" fill="#10b98115" stroke="#10b98140"/>
+<text x="166" y="267" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#10b98188">+ Arrastrar aquí</text>
+
+<!-- Capacity bar bottom -->
+<rect x="32" y="302" width="276" height="8" rx="4" fill="#1e2d4e"/>
+<rect x="32" y="302" width="236" height="8" rx="4" fill="#ef4444"/>
+<!-- Breakdown legend -->
+<circle cx="32" cy="320" r="3" fill="#0ea5e9"/>
+<text x="38" y="324" font-family="JetBrains Mono" font-size="8" fill="#64748b">Serv</text>
+<circle cx="70" cy="320" r="3" fill="#10b981"/>
+<text x="76" y="324" font-family="JetBrains Mono" font-size="8" fill="#64748b">Net</text>
+<circle cx="105" cy="320" r="3" fill="#ef4444"/>
+<text x="111" y="324" font-family="JetBrains Mono" font-size="8" fill="#64748b">FW</text>
+
+<!-- RACK 2 CARD — Vista dual (feature proposal) -->
+<rect x="340" y="30" width="440" height="290" rx="12" fill="#0d1428" stroke="#8b5cf6" stroke-width="1.5"/>
+<rect x="340" y="30" width="440" height="44" rx="12" fill="#1a0f2e"/>
+<rect x="340" y="62" width="440" height="12" fill="#1a0f2e"/>
+<rect x="352" y="40" width="8" height="24" rx="2" fill="#8b5cf6"/>
+<text x="370" y="57" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#e2e8f0">Rack Core — Vista Dual</text>
+<!-- Feature badge -->
+<rect x="600" y="40" width="72" height="20" rx="6" fill="#8b5cf620" stroke="#8b5cf660"/>
+<text x="636" y="54" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#c4b5fd">✨ Nuevo</text>
+
+<!-- Divider dual view -->
+<line x1="560" y1="78" x2="560" y2="310" stroke="#1e2d4e" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="450" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">FRENTE</text>
+<text x="670" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#3b82f6">ATRÁS</text>
+
+<!-- Front side slots -->
+<rect x="352" y="98" width="200" height="24" rx="3" fill="#0ea5e920" stroke="#0ea5e9"/>
+<text x="362" y="114" font-family="Space Grotesk" font-size="9" font-weight="600" fill="#7dd3fc">Server HP ProLiant 2U</text>
+<circle cx="350" cy="110" r="4" fill="#10b981" class="led"/>
+
+<rect x="352" y="124" width="200" height="24" rx="3" fill="#8b5cf620" stroke="#8b5cf6"/>
+<text x="362" y="140" font-family="Space Grotesk" font-size="9" font-weight="600" fill="#c4b5fd">UPS APC 2U</text>
+
+<!-- Rear side slots with port details -->
+<rect x="568" y="98" width="204" height="24" rx="3" fill="#0ea5e915" stroke="#0ea5e960"/>
+<rect x="576" y="104" width="14" height="12" rx="2" fill="#3b82f6" opacity="0.8"/><!-- cable plug -->
+<text x="596" y="114" font-family="JetBrains Mono" font-size="8" fill="#64748b">Eth0 → Switch-01</text>
+<rect x="576" y="118" width="14" height="12" rx="2" fill="#3b82f6" opacity="0.8"/>
+<text x="596" y="128" font-family="JetBrains Mono" font-size="8" fill="#64748b">Eth1 → FW-01</text>
+<!-- power outlet -->
+<rect x="720" y="104" width="18" height="12" rx="2" fill="#f59e0b40" stroke="#f59e0b80"/>
+<text x="729" y="114" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#fbbf24">⚡</text>
+
+<rect x="568" y="124" width="204" height="24" rx="3" fill="#8b5cf615" stroke="#8b5cf660"/>
+<rect x="576" y="128" width="36" height="12" rx="2" fill="#1e2d4e"/>
+<text x="594" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#475569">BATT</text>
+<rect x="616" y="128" width="36" height="12" rx="2" fill="#10b98130" stroke="#10b98160"/>
+<text x="634" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#6ee7b7">100%</text>
+
+<text x="450" y="220" text-anchor="middle" font-family="Space Grotesk" font-size="12" fill="#1e2d4e">Capacidad: 40%</text>
+<text x="670" y="220" text-anchor="middle" font-family="Space Grotesk" font-size="12" fill="#1e2d4e">2 cables</text>
+
+<!-- Annotation arrows -->
+<text x="800" y="115" font-family="JetBrains Mono" font-size="9" fill="#3b82f6">← Cables con</text>
+<text x="800" y="128" font-family="JetBrains Mono" font-size="9" fill="#3b82f6">   destino visible</text>
+<text x="800" y="148" font-family="JetBrains Mono" font-size="9" fill="#f59e0b">← Tomas de</text>
+<text x="800" y="161" font-family="JetBrains Mono" font-size="9" fill="#f59e0b">   corriente</text>
+<line x1="796" y1="115" x2="775" y2="115" stroke="#3b82f6" stroke-width="1" opacity="0.5"/>
+<line x1="796" y1="148" x2="775" y2="136" stroke="#f59e0b" stroke-width="1" opacity="0.5"/>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m4">
+  <div class="section-label">
+    <div class="section-num">4</div>
+    <div>
+      <h2>Panel Lateral de Propiedades (Inspector)</h2>
+      <div class="desc">Reemplazar modales de edición por un panel deslizante lateral sin interrumpir el flujo</div>
+    </div>
+    <span class="priority p-high">🔴 Alta prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>❌ Problema actual</h3>
+      <p>Los modales bloquean toda la vista. Para editar varios equipos seguidos hay que abrir y cerrar modales repetidamente. El usuario pierde el contexto visual del rack mientras edita.</p>
+      <span class="tag tag-bug">UX</span>
+    </div>
+    <div class="card">
+      <h3>✅ Panel inspector lateral</h3>
+      <p>Un panel deslizante (slide-in) desde la derecha al hacer clic o doble clic en un equipo. El rack permanece visible. Tabs internos: <strong>Info</strong>, <strong>Red</strong>, <strong>Acceso</strong>, <strong>Cables</strong>. El campo contraseña tiene toggle mostrar/ocultar.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span><span class="tag tag-bug">Seguridad</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 380" width="1100" height="380">
+<defs>
+  <style>
+    @keyframes slide-in { from{transform:translateX(280px);opacity:0} to{transform:translateX(0);opacity:1} }
+    .slide-panel { animation: slide-in 0.4s ease-out forwards; }
+    @keyframes tab-underline { from{width:0} to{width:100%} }
+  </style>
+</defs>
+<rect width="1100" height="380" fill="#060a14" rx="12"/>
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Inspector de Propiedades Lateral</text>
+
+<!-- Main rack area (dimmed) -->
+<rect x="20" y="28" width="760" height="340" rx="10" fill="#0d1428" stroke="#1e2d4e" opacity="0.7"/>
+<text x="400" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="14" fill="#1e2d4e">Vista del Rack (permanece visible)</text>
+
+<!-- Selected device highlight in rack -->
+<rect x="60" y="120" width="300" height="48" rx="4" fill="#38bdf820" stroke="#38bdf8" stroke-width="2"/>
+<text x="80" y="146" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#38bdf8">Switch Cisco 48P</text>
+<text x="80" y="162" font-family="JetBrains Mono" font-size="9" fill="#64748b">1U · U3 · 180W</text>
+<!-- Selection indicator -->
+<rect x="56" y="120" width="4" height="48" rx="2" fill="#38bdf8"/>
+
+<!-- INSPECTOR PANEL -->
+<rect x="784" y="28" width="296" height="340" rx="12" fill="#0d1428" stroke="#38bdf8" stroke-width="1.5" class="slide-panel"/>
+
+<!-- Panel header -->
+<rect x="784" y="28" width="296" height="50" rx="12" fill="#0f2035"/>
+<rect x="784" y="60" width="296" height="18" fill="#0f2035"/>
+<text x="800" y="50" font-family="Space Grotesk" font-size="13" font-weight="700" fill="#e2e8f0">Switch Cisco 48P</text>
+<text x="800" y="64" font-family="JetBrains Mono" font-size="9" fill="#64748b">switch · U3 · Rack Principal</text>
+<!-- Close button -->
+<circle cx="1060" cy="48" r="10" fill="#1e2d4e" stroke="#243655"/>
+<text x="1060" y="53" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#64748b">✕</text>
+<!-- Type badge -->
+<rect x="960" y="40" width="52" height="16" rx="4" fill="#10b98120" stroke="#10b98150"/>
+<text x="986" y="52" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#34d399">switch</text>
+
+<!-- Tabs -->
+<rect x="784" y="78" width="296" height="28" fill="#080c18"/>
+<rect x="784" y="78" width="74" height="28" fill="#0f2035"/><!-- active tab -->
+<text x="821" y="96" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#38bdf8">Info</text>
+<rect x="784" y="104" width="74" height="2" fill="#38bdf8"/><!-- active underline -->
+<text x="895" y="96" text-anchor="middle" font-family="Space Grotesk" font-size="10" fill="#475569">Red</text>
+<text x="969" y="96" text-anchor="middle" font-family="Space Grotesk" font-size="10" fill="#475569">Acceso</text>
+<text x="1043" y="96" text-anchor="middle" font-family="Space Grotesk" font-size="10" fill="#475569">Cables</text>
+
+<!-- Form fields -->
+<text x="800" y="126" font-family="JetBrains Mono" font-size="9" fill="#475569">NOMBRE</text>
+<rect x="800" y="130" width="264" height="28" rx="6" fill="#111827" stroke="#243655"/>
+<text x="812" y="149" font-family="Space Grotesk" font-size="11" fill="#e2e8f0">Switch Cisco 48P</text>
+<!-- edit cursor -->
+<rect x="930" y="136" width="1" height="14" fill="#38bdf8"/>
+
+<text x="800" y="174" font-family="JetBrains Mono" font-size="9" fill="#475569">MARCA</text>
+<rect x="800" y="178" width="126" height="28" rx="6" fill="#111827" stroke="#243655"/>
+<text x="812" y="197" font-family="Space Grotesk" font-size="11" fill="#64748b">Cisco</text>
+<text x="936" y="174" font-family="JetBrains Mono" font-size="9" fill="#475569">MODELO</text>
+<rect x="936" y="178" width="128" height="28" rx="6" fill="#111827" stroke="#243655"/>
+<text x="948" y="197" font-family="Space Grotesk" font-size="11" fill="#64748b">Catalyst 2960</text>
+
+<text x="800" y="222" font-family="JetBrains Mono" font-size="9" fill="#475569">SERIE</text>
+<rect x="800" y="226" width="264" height="28" rx="6" fill="#111827" stroke="#243655"/>
+<text x="812" y="245" font-family="JetBrains Mono" font-size="10" fill="#64748b">CSW-001-XA4</text>
+
+<text x="800" y="270" font-family="JetBrains Mono" font-size="9" fill="#475569">NOTAS</text>
+<rect x="800" y="274" width="264" height="52" rx="6" fill="#111827" stroke="#243655"/>
+<text x="812" y="292" font-family="Space Grotesk" font-size="10" fill="#64748b">Switch de distribución</text>
+<text x="812" y="307" font-family="Space Grotesk" font-size="10" fill="#64748b">piso 3 — sala principal</text>
+
+<!-- Action buttons -->
+<rect x="800" y="338" width="120" height="22" rx="6" fill="#38bdf8"/>
+<text x="860" y="353" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#0f172a">💾 Guardar</text>
+<rect x="930" y="338" width="134" height="22" rx="6" fill="#ef444420" stroke="#ef444460"/>
+<text x="997" y="353" text-anchor="middle" font-family="Space Grotesk" font-size="10" fill="#f87171">🗑 Eliminar</text>
+
+<!-- Annotation arrows -->
+<line x1="760" y1="144" x2="784" y2="144" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3"/>
+<text x="400" y="340" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">El rack permanece visible y operable mientras se edita — sin modal bloqueante</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m5">
+  <div class="section-label">
+    <div class="section-num">5</div>
+    <div>
+      <h2>Vista de Topología — Minimapa y Modo Presentación</h2>
+      <div class="desc">Miniatura de navegación, leyenda de colores y modo solo-lectura para presentaciones</div>
+    </div>
+    <span class="priority p-med">🟡 Media prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Minimapa de navegación</h3>
+      <p>Esquina inferior-derecha del canvas: miniatura proporcional de toda la topología. El rectángulo azul indica el viewport actual. Clic en el minimapa navega a esa zona.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Modo Presentación</h3>
+      <p>Toggle que desactiva drag/drop/edit en el canvas. Útil para mostrar el diseño en reuniones sin riesgo de cambios accidentales. Badge visible "MODO PRESENTACIÓN".</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Leyenda de tipos de cable</h3>
+      <p>Panel desplegable con la leyenda de colores de cables (Fibra SM, Fibra MM, Cobre, etc.) con muestra de color y cantidad de cada tipo en el proyecto.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Exportar como SVG vectorial</h3>
+      <p>Además del PNG actual, exportar la topología como SVG para documentación técnica de alta calidad. El SVG puede incluirse en PDFs y Visio sin pérdida de calidad.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-perf">Performance</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 380" width="1100" height="380">
+<defs>
+  <style>
+    @keyframes topo-flow { from{stroke-dashoffset:30} to{stroke-dashoffset:0} }
+    .tf { stroke-dasharray:10,5; animation: topo-flow 1.5s linear infinite; }
+    @keyframes minimap-scan { 0%,100%{opacity:0.6} 50%{opacity:1} }
+    .ms { animation: minimap-scan 2s ease-in-out infinite; }
+  </style>
+</defs>
+<rect width="1100" height="380" fill="#0f1e3d" rx="12"/>
+<!-- Grid dots -->
+<pattern id="dots2" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+  <circle cx="15" cy="15" r="1" fill="#ffffff15"/>
+</pattern>
+<rect width="1100" height="380" fill="url(#dots2)" rx="12"/>
+
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#ffffff44">PROPUESTA — Topología con Minimapa + Presentación</text>
+
+<!-- PRESENTATION MODE BADGE -->
+<rect x="380" y="28" width="340" height="28" rx="14" fill="#f59e0b" opacity="0.95"/>
+<text x="550" y="47" text-anchor="middle" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#0f172a">📺 MODO PRESENTACIÓN — Solo Lectura</text>
+
+<!-- Topology nodes (simplified) -->
+<!-- Room box -->
+<rect x="60" y="68" width="560" height="280" rx="20" fill="#f9731620" stroke="#f97316" stroke-width="2"/>
+<text x="90" y="100" font-family="Space Grotesk" font-size="14" font-weight="700" fill="#fb923c">Sala A: Centro de Datos</text>
+
+<!-- Rack 1 box -->
+<rect x="90" y="112" width="200" height="200" rx="10" fill="#65a30d30" stroke="#84cc16" stroke-width="1.5"/>
+<text x="190" y="132" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#bef264">Rack Principal</text>
+
+<!-- Rack 2 box -->
+<rect x="320" y="112" width="200" height="200" rx="10" fill="#65a30d30" stroke="#84cc16" stroke-width="1.5"/>
+<text x="420" y="132" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#bef264">Rack Core</text>
+
+<!-- Nodes in Rack 1 -->
+<circle cx="150" cy="168" r="22" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+<text x="150" y="173" text-anchor="middle" font-size="16">🔀</text>
+<text x="150" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Switch 48P</text>
+
+<circle cx="240" cy="168" r="22" fill="#0f172a" stroke="#ef4444" stroke-width="2.5"/>
+<text x="240" y="173" text-anchor="middle" font-size="16">🔥</text>
+<text x="240" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Firewall</text>
+
+<circle cx="190" cy="270" r="22" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+<text x="190" y="275" text-anchor="middle" font-size="16">🖥</text>
+<text x="190" y="302" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Server R740</text>
+
+<!-- Nodes in Rack 2 -->
+<circle cx="380" cy="168" r="22" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+<text x="380" y="173" text-anchor="middle" font-size="16">🖥</text>
+<text x="380" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Server HP</text>
+
+<circle cx="460" cy="168" r="22" fill="#0f172a" stroke="#8b5cf6" stroke-width="2.5"/>
+<text x="460" y="173" text-anchor="middle" font-size="16">💾</text>
+<text x="460" y="200" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">SAN Storage</text>
+
+<circle cx="420" cy="270" r="22" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+<text x="420" y="275" text-anchor="middle" font-size="16">🌐</text>
+<text x="420" y="302" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#fff">Router Core</text>
+
+<!-- Connections -->
+<path d="M172 168 Q206 148 218 168" fill="none" stroke="#3b82f6" stroke-width="2.5" class="tf"/>
+<path d="M150 190 Q150 240 168 270" fill="none" stroke="#3b82f6" stroke-width="2" class="tf"/>
+<path d="M240 190 Q310 230 358 168" fill="none" stroke="#ef4444" stroke-width="2" class="tf"/>
+<path d="M380 190 Q400 230 400 248" fill="none" stroke="#0ea5e9" stroke-width="2" class="tf"/>
+<path d="M460 190 Q450 230 440 248" fill="none" stroke="#8b5cf6" stroke-width="2" class="tf"/>
+
+<!-- MINIMAP -->
+<rect x="700" y="280" width="160" height="88" rx="8" fill="#060a14" stroke="#38bdf8" stroke-width="1.5" opacity="0.95"/>
+<text x="780" y="296" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#475569">MINIMAPA</text>
+<!-- Mini topology -->
+<rect x="710" y="300" width="140" height="60" rx="4" fill="#0d1428" stroke="#1e2d4e"/>
+<rect x="716" y="306" width="60" height="48" rx="3" fill="#f9731610" stroke="#f97316" stroke-width="0.8"/>
+<rect x="782" y="306" width="60" height="48" rx="3" fill="#f9731610" stroke="#f97316" stroke-width="0.8"/>
+<!-- viewport indicator -->
+<rect x="716" y="306" width="60" height="48" rx="3" fill="#38bdf820" stroke="#38bdf8" stroke-width="1" class="ms"/>
+<circle cx="736" cy="322" r="4" fill="#10b981"/>
+<circle cx="750" cy="322" r="4" fill="#ef4444"/>
+<circle cx="743" cy="338" r="4" fill="#0ea5e9"/>
+<circle cx="796" cy="322" r="4" fill="#0ea5e9"/>
+<circle cx="812" cy="322" r="4" fill="#8b5cf6"/>
+<circle cx="804" cy="338" r="4" fill="#f59e0b"/>
+<line x1="740" y1="322" x2="750" y2="322" stroke="#3b82f6" stroke-width="1"/>
+<line x1="796" y1="322" x2="804" y2="330" stroke="#0ea5e9" stroke-width="1"/>
+<text x="780" y="366" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#475569">Clic para navegar</text>
+
+<!-- LEYENDA DE CABLES -->
+<rect x="870" y="200" width="210" height="158" rx="8" fill="#060a14" stroke="#1e2d4e" stroke-width="1" opacity="0.95"/>
+<text x="975" y="220" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">LEYENDA CABLES</text>
+<line x1="885" y1="230" x2="915" y2="230" stroke="#3b82f6" stroke-width="3"/>
+<text x="922" y="234" font-family="JetBrains Mono" font-size="9" fill="#93c5fd">Cobre Cat6 ×4</text>
+<line x1="885" y1="248" x2="915" y2="248" stroke="#ef4444" stroke-width="3"/>
+<text x="922" y="252" font-family="JetBrains Mono" font-size="9" fill="#fca5a5">Fibra SM ×2</text>
+<line x1="885" y1="266" x2="915" y2="266" stroke="#10b981" stroke-width="3"/>
+<text x="922" y="270" font-family="JetBrains Mono" font-size="9" fill="#6ee7b7">Fibra MM ×1</text>
+<line x1="885" y1="284" x2="915" y2="284" stroke="#8b5cf6" stroke-width="3"/>
+<text x="922" y="288" font-family="JetBrains Mono" font-size="9" fill="#c4b5fd">SAN FC ×2</text>
+<line x1="885" y1="302" x2="915" y2="302" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4,2"/>
+<text x="922" y="306" font-family="JetBrains Mono" font-size="9" fill="#fde68a">Consola ×1</text>
+<!-- Export buttons -->
+<rect x="885" y="316" width="88" height="22" rx="5" fill="#38bdf820" stroke="#38bdf860"/>
+<text x="929" y="330" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#7dd3fc">⬇ PNG</text>
+<rect x="981" y="316" width="88" height="22" rx="5" fill="#10b98120" stroke="#10b98160"/>
+<text x="1025" y="330" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#6ee7b7">⬇ SVG ★</text>
+
+<!-- Toolbar topo -->
+<rect x="700" y="68" width="380" height="36" rx="8" fill="#060a14" stroke="#1e2d4e" opacity="0.9"/>
+<rect x="710" y="76" width="60" height="20" rx="5" fill="#f59e0b30" stroke="#f59e0b70"/>
+<text x="740" y="90" text-anchor="middle" font-family="Space Grotesk" font-size="9" font-weight="700" fill="#fbbf24">📺 Present.</text>
+<rect x="778" y="76" width="50" height="20" rx="5" fill="#1e2d4e"/>
+<text x="803" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">−</text>
+<rect x="832" y="76" width="46" height="20" rx="5" fill="#1e2d4e"/>
+<text x="855" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">75%</text>
+<rect x="882" y="76" width="50" height="20" rx="5" fill="#1e2d4e"/>
+<text x="907" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">+</text>
+<rect x="938" y="76" width="60" height="20" rx="5" fill="#1e2d4e"/>
+<text x="968" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">⊞ Ajustar</text>
+<rect x="1004" y="76" width="64" height="20" rx="5" fill="#1e2d4e"/>
+<text x="1036" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">📌 Guardar</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m6">
+  <div class="section-label">
+    <div class="section-num">6</div>
+    <div>
+      <h2>Tabla de Inventario — Contraseñas y Ordenamiento</h2>
+      <div class="desc">Proteger credenciales visualmente, agregar ordenamiento de columnas y filtros inline</div>
+    </div>
+    <span class="priority p-high">🔴 Alta prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>🔐 Contraseña enmascarada (BUG-01)</h3>
+      <p>La columna "Contraseña" debe mostrar <code>••••••••</code> por defecto con un botón ojo 👁 para revelar campo a campo. El campo se enmascara de nuevo al salir el cursor.</p>
+      <span class="tag tag-bug">Seguridad crítica</span>
+    </div>
+    <div class="card">
+      <h3>Ordenamiento de columnas</h3>
+      <p>Clic en el header de cualquier columna ordena la tabla (↑ ASC / ↓ DESC). Persistir el orden seleccionado en sessionStorage para no perderlo al cambiar de tab.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Filtro inline por columna</h3>
+      <p>Icono de filtro (⌦) en cada header que despliega un input de texto para filtrar solo esa columna. Permite buscar "192.168" solo en la columna IP.</p>
+      <span class="tag tag-feat">Nuevo</span>
+    </div>
+    <div class="card">
+      <h3>Confirmación antes de eliminar</h3>
+      <p>El botón 🗑 de la tabla actualmente elimina sin confirmación. Cambiar a un popover de confirmación inline en la misma fila con botones Confirmar/Cancelar.</p>
+      <span class="tag tag-bug">UX crítico</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" width="1100" height="280">
+<rect width="1100" height="280" fill="#060a14" rx="12"/>
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Tabla de Inventario Mejorada</text>
+
+<!-- Table -->
+<rect x="20" y="28" width="1060" height="240" rx="10" fill="#0d1428" stroke="#1e2d4e"/>
+
+<!-- Header row -->
+<rect x="20" y="28" width="1060" height="32" rx="10" fill="#111827"/>
+<rect x="20" y="48" width="1060" height="12" fill="#111827"/>
+
+<!-- Column headers with sort indicators -->
+<text x="36" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">RACK ↕</text>
+<text x="100" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">U ↕</text>
+<text x="130" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">NOMBRE ↑</text><!-- sorted -->
+<text x="130" y="48" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">NOMBRE ↑</text>
+<rect x="124" y="38" width="72" height="16" rx="3" fill="#38bdf815" stroke="#38bdf830"/>
+<text x="256" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">TIPO ⌦</text>
+<text x="316" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">IP ⌦</text>
+<text x="400" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">MAC ↕</text>
+<text x="510" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">SERIE ↕</text>
+<text x="620" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">USUARIO ↕</text>
+<text x="710" y="48" font-family="JetBrains Mono" font-size="9" fill="#ef4444">CONTRASEÑA 🔒 ↕</text>
+<text x="840" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">W ↕</text>
+<text x="890" y="48" font-family="JetBrains Mono" font-size="9" fill="#64748b">ACCIONES</text>
+
+<!-- Separator -->
+<line x1="20" y1="60" x2="1080" y2="60" stroke="#1e2d4e" stroke-width="1"/>
+
+<!-- Row 1 -->
+<rect x="20" y="60" width="1060" height="36" fill="#0d1428"/>
+<text x="36" y="82" font-family="JetBrains Mono" font-size="10" fill="#64748b">Rack 1</text>
+<text x="100" y="82" font-family="JetBrains Mono" font-size="10" fill="#64748b">1</text>
+<text x="130" y="82" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#e2e8f0">Switch Cisco 48P</text>
+<rect x="252" y="70" width="52" height="16" rx="4" fill="#10b98120" stroke="#10b98150"/>
+<text x="278" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#34d399">switch</text>
+<text x="316" y="82" font-family="JetBrains Mono" font-size="10" fill="#38bdf8">192.168.1.1</text>
+<text x="400" y="82" font-family="JetBrains Mono" font-size="9" fill="#64748b">04:05:0F:11:02:AA</text>
+<text x="510" y="82" font-family="JetBrains Mono" font-size="9" fill="#64748b">CSW-001</text>
+<text x="620" y="82" font-family="JetBrains Mono" font-size="10" fill="#64748b">admin</text>
+<!-- MASKED password with eye button -->
+<text x="710" y="82" font-family="JetBrains Mono" font-size="10" fill="#475569">••••••••</text>
+<rect x="772" y="69" width="22" height="16" rx="4" fill="#1e2d4e" stroke="#243655"/>
+<text x="783" y="81" text-anchor="middle" font-size="10">👁</text>
+<text x="840" y="82" font-family="JetBrains Mono" font-size="10" fill="#64748b">180</text>
+<rect x="890" y="68" width="28" height="20" rx="5" fill="#38bdf820" stroke="#38bdf850"/>
+<text x="904" y="82" text-anchor="middle" font-size="11">✎</text>
+<rect x="924" y="68" width="28" height="20" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="938" y="82" text-anchor="middle" font-size="11">🗑</text>
+
+<line x1="20" y1="96" x2="1080" y2="96" stroke="#1e2d4e" stroke-width="0.5"/>
+
+<!-- Row 2 — DELETE CONFIRM POPOVER -->
+<rect x="20" y="96" width="1060" height="36" fill="#1a0a0a"/><!-- highlighted red row -->
+<rect x="20" y="96" width="4" height="36" fill="#ef4444"/>
+<text x="36" y="118" font-family="JetBrains Mono" font-size="10" fill="#f87171">Rack 1</text>
+<text x="100" y="118" font-family="JetBrains Mono" font-size="10" fill="#f87171">2</text>
+<text x="130" y="118" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#fca5a5">Firewall Fortinet</text>
+<rect x="252" y="106" width="52" height="16" rx="4" fill="#ef444420" stroke="#ef444460"/>
+<text x="278" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f87171">firewall</text>
+<text x="316" y="118" font-family="JetBrains Mono" font-size="10" fill="#f87171">192.183.18.1</text>
+<!-- Inline delete confirm -->
+<rect x="858" y="98" width="218" height="32" rx="6" fill="#1a0a0a" stroke="#ef4444" stroke-width="1.5"/>
+<text x="870" y="112" font-family="Space Grotesk" font-size="9" fill="#f87171">¿Eliminar Firewall Fortinet?</text>
+<rect x="870" y="116" width="64" height="10" rx="3" fill="#ef4444"/>
+<text x="902" y="124" text-anchor="middle" font-family="Space Grotesk" font-size="8" font-weight="700" fill="#fff">Confirmar</text>
+<rect x="940" y="116" width="50" height="10" rx="3" fill="#1e2d4e"/>
+<text x="965" y="124" text-anchor="middle" font-family="Space Grotesk" font-size="8" fill="#64748b">Cancelar</text>
+
+<line x1="20" y1="132" x2="1080" y2="132" stroke="#1e2d4e" stroke-width="0.5"/>
+
+<!-- Row 3 — Password revealed -->
+<rect x="20" y="132" width="1060" height="36" fill="#0d1428"/>
+<text x="36" y="154" font-family="JetBrains Mono" font-size="10" fill="#64748b">Rack 2</text>
+<text x="100" y="154" font-family="JetBrains Mono" font-size="10" fill="#64748b">1</text>
+<text x="130" y="154" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#e2e8f0">Server Dell R740</text>
+<rect x="252" y="142" width="52" height="16" rx="4" fill="#0ea5e920" stroke="#0ea5e950"/>
+<text x="278" y="154" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7dd3fc">server</text>
+<text x="316" y="154" font-family="JetBrains Mono" font-size="10" fill="#38bdf8">192.183.18.2</text>
+<text x="400" y="154" font-family="JetBrains Mono" font-size="9" fill="#64748b">03:02:25:51:6C:CC</text>
+<text x="510" y="154" font-family="JetBrains Mono" font-size="9" fill="#64748b">SRV-001</text>
+<text x="620" y="154" font-family="JetBrains Mono" font-size="10" fill="#64748b">admin</text>
+<!-- REVEALED password (eye toggled on) -->
+<rect x="706" y="142" width="86" height="20" rx="4" fill="#f59e0b15" stroke="#f59e0b40"/>
+<text x="714" y="156" font-family="JetBrains Mono" font-size="10" fill="#fde68a">dell456</text>
+<rect x="800" y="142" width="22" height="20" rx="4" fill="#f59e0b30" stroke="#f59e0b60"/>
+<text x="811" y="156" text-anchor="middle" font-size="10">👁</text>
+<!-- HIGH POWER -->
+<rect x="832" y="142" width="52" height="20" rx="4" fill="#ef444420" stroke="#ef444460"/>
+<text x="858" y="156" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f87171">⚡ 550W</text>
+
+<!-- Filter popup on IP column -->
+<rect x="308" y="35" width="120" height="28" rx="6" fill="#111827" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="320" y="48" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">192.</text>
+<rect x="408" y="39" width="1" height="16" fill="#38bdf8" class="cursor"/>
+<text x="420" y="52" font-family="JetBrains Mono" font-size="7" fill="#38bdf880">filtro activo</text>
+
+<!-- Legend bottom -->
+<text x="36" y="266" font-family="JetBrains Mono" font-size="9" fill="#64748b">① NOMBRE ↑ = ordenado por nombre ASC</text>
+<text x="300" y="266" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">② Filtro inline IP activo</text>
+<text x="520" y="266" font-family="JetBrains Mono" font-size="9" fill="#f87171">③ Fila en eliminación con confirm inline</text>
+<text x="780" y="266" font-family="JetBrains Mono" font-size="9" fill="#fde68a">④ Password visible (eye toggled)</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m7">
+  <div class="section-label">
+    <div class="section-num">7</div>
+    <div>
+      <h2>Sistema de Notificaciones Mejorado</h2>
+      <div class="desc">Limitar cantidad, agregar acciones, agrupar duplicados y centro de historial</div>
+    </div>
+    <span class="priority p-med">🟡 Media prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Límite de 4 notificaciones (BUG-12)</h3>
+      <p>Al agregar la notificación #5, eliminar la más antigua automáticamente. Agregar una "pill" de contador cuando hay más (+3 más).</p>
+      <span class="tag tag-bug">Fix BUG-12</span>
+    </div>
+    <div class="card">
+      <h3>Notificaciones con acción</h3>
+      <p>Las notificaciones de "Equipo eliminado" incluyen botón <strong>Deshacer</strong> que ejecuta store.undo() directamente. Tiempo: 5s antes de que desaparezca.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Centro de historial</h3>
+      <p>Ícono de campana 🔔 en el header muestra las últimas 20 notificaciones con timestamp. Permite revisar acciones recientes sin buscar en el historial de undo.</p>
+      <span class="tag tag-feat">Nuevo</span>
+    </div>
+    <div class="card">
+      <h3>Agrupar duplicados</h3>
+      <p>Si se disparan 3 notificaciones iguales seguidas (e.g. drag masivo), agruparlas en una sola: "3 equipos instalados en rack".</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-perf">Performance</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 260" width="1100" height="260">
+<defs>
+  <style>
+    @keyframes notif-in { from{transform:translateX(40px);opacity:0} to{transform:translateX(0);opacity:1} }
+    .ni1 { animation: notif-in 0.3s ease-out forwards; }
+    .ni2 { animation: notif-in 0.3s ease-out 0.1s both; }
+    .ni3 { animation: notif-in 0.3s ease-out 0.2s both; }
+    .ni4 { animation: notif-in 0.3s ease-out 0.3s both; }
+    @keyframes progress-drain { from{width:100%} to{width:0%} }
+    .pd { animation: progress-drain 5s linear forwards; }
+  </style>
+</defs>
+<rect width="1100" height="260" fill="#060a14" rx="12"/>
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Sistema de Notificaciones</text>
+
+<!-- NOTIFICATION STACK — right side -->
+<!-- Notif 1: Success with undo -->
+<rect x="740" y="30" width="340" height="56" rx="10" fill="#0d1428" stroke="#10b981" stroke-width="1.5" class="ni1"/>
+<rect x="740" y="30" width="4" height="56" rx="2" fill="#10b981"/>
+<text x="756" y="48" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#34d399">✓ Equipo instalado</text>
+<text x="756" y="64" font-family="JetBrains Mono" font-size="9" fill="#64748b">Server Dell R740 → Rack 1 / U3</text>
+<!-- undo button -->
+<rect x="970" y="36" width="60" height="20" rx="6" fill="#10b98130" stroke="#10b98180"/>
+<text x="1000" y="50" text-anchor="middle" font-family="Space Grotesk" font-size="9" font-weight="600" fill="#34d399">↩ Deshacer</text>
+<!-- close -->
+<text x="1065" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#475569">✕</text>
+<!-- progress bar -->
+<rect x="744" y="82" width="332" height="3" rx="1.5" fill="#1e2d4e"/>
+<rect x="744" y="82" width="200" height="3" rx="1.5" fill="#10b981" class="pd"/>
+
+<!-- Notif 2: Warning -->
+<rect x="740" y="100" width="340" height="52" rx="10" fill="#0d1428" stroke="#f59e0b" stroke-width="1.5" class="ni2"/>
+<rect x="740" y="100" width="4" height="52" rx="2" fill="#f59e0b"/>
+<text x="756" y="118" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#fbbf24">⚠ Capacidad crítica</text>
+<text x="756" y="134" font-family="JetBrains Mono" font-size="9" fill="#64748b">Rack 1 al 86% — considera agregar gabinete</text>
+<text x="1065" y="126" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#475569">✕</text>
+
+<!-- Notif 3: Error -->
+<rect x="740" y="168" width="340" height="52" rx="10" fill="#0d1428" stroke="#ef4444" stroke-width="1.5" class="ni3"/>
+<rect x="740" y="168" width="4" height="52" rx="2" fill="#ef4444"/>
+<text x="756" y="186" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#f87171">✗ IP duplicada detectada</text>
+<text x="756" y="202" font-family="JetBrains Mono" font-size="9" fill="#64748b">192.168.1.1 ya existe en Switch Cisco 48P</text>
+<rect x="950" y="172" width="72" height="20" rx="6" fill="#ef444420" stroke="#ef444460"/>
+<text x="986" y="186" text-anchor="middle" font-family="Space Grotesk" font-size="9" fill="#f87171">Ver equipo</text>
+<text x="1065" y="194" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#475569">✕</text>
+
+<!-- Overflow indicator -->
+<rect x="740" y="232" width="340" height="18" rx="9" fill="#1e2d4e" stroke="#243655"/>
+<text x="910" y="245" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">+2 notificaciones más — ver historial 🔔</text>
+
+<!-- HISTORY CENTER panel -->
+<rect x="20" y="30" width="300" height="210" rx="12" fill="#0d1428" stroke="#38bdf8" stroke-width="1.5"/>
+<rect x="20" y="30" width="300" height="40" rx="12" fill="#0f2035"/>
+<rect x="20" y="56" width="300" height="14" fill="#0f2035"/>
+<text x="32" y="52" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#e2e8f0">🔔 Centro de Historial</text>
+<rect x="248" y="35" width="28" height="18" rx="5" fill="#ef444430" stroke="#ef444460"/>
+<text x="262" y="48" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f87171">5</text>
+<text x="286" y="52" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#475569">✕</text>
+
+<!-- History items -->
+<text x="32" y="85" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">—— Hoy ——</text>
+
+<text x="32" y="102" font-family="Space Grotesk" font-size="10" fill="#34d399">✓ Server Dell instalado</text>
+<text x="32" y="114" font-family="JetBrains Mono" font-size="8" fill="#475569">17:03 · Rack 1 · U3</text>
+
+<text x="32" y="130" font-family="Space Grotesk" font-size="10" fill="#fbbf24">⚠ Cap. crítica Rack 1</text>
+<text x="32" y="142" font-family="JetBrains Mono" font-size="8" fill="#475569">17:02</text>
+
+<text x="32" y="158" font-family="Space Grotesk" font-size="10" fill="#f87171">✗ IP duplicada: 192.168.1.1</text>
+<text x="32" y="170" font-family="JetBrains Mono" font-size="8" fill="#475569">16:55 · Equipo: Switch Cisco</text>
+
+<text x="32" y="186" font-family="Space Grotesk" font-size="10" fill="#7dd3fc">ℹ Cable Eth0→Eth1 creado</text>
+<text x="32" y="198" font-family="JetBrains Mono" font-size="8" fill="#475569">16:44</text>
+
+<text x="32" y="214" font-family="Space Grotesk" font-size="10" fill="#34d399">✓ Sala "Piso 2" creada</text>
+<text x="32" y="226" font-family="JetBrains Mono" font-size="8" fill="#475569">16:30</text>
+
+<!-- Annotation -->
+<text x="390" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">← Panel de historial lateral (nuevo)</text>
+<text x="910" y="60" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">Máximo 4 notificaciones simultáneas + barra de tiempo</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m8">
+  <div class="section-label">
+    <div class="section-num">8</div>
+    <div>
+      <h2>Búsqueda Global Inteligente</h2>
+      <div class="desc">Paleta de comandos tipo Spotlight con resultados agrupados por categoría</div>
+    </div>
+    <span class="priority p-med">🟡 Media prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Paleta de comandos (Ctrl+K)</h3>
+      <p>Un modal centrado estilo "Command Palette" que permite buscar equipos, racks, salas Y ejecutar acciones. Ej: escribir "agregar rack" ejecuta openAddRackModal().</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Resultados agrupados</h3>
+      <p>Resultados separados en: Equipos, Racks, Salas, Conexiones, Acciones. Cada resultado muestra el breadcrumb de ubicación. Navegación con flechas del teclado.</p>
+      <span class="tag tag-feat">Nuevo</span>
+    </div>
+    <div class="card">
+      <h3>Highlight en el rack</h3>
+      <p>Al seleccionar un resultado, navega automáticamente a la sala, scrollea hasta el rack y hace flash en el faceplate del equipo. La búsqueda actual solo filtra visualmente.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Búsqueda por IP/MAC/Serie</h3>
+      <p>La búsqueda actual ya revisa IP, MAC, serie. Mejora: autodetectar el tipo de búsqueda y mostrar el ícono de categoría. Ej: si empieza con "192." mostrar ícono 🌐.</p>
+      <span class="tag tag-feat">Mejora</span>
+    </div>
+  </div>
+
+  <div class="mockup">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 360" width="1100" height="360">
+<defs>
+  <style>
+    @keyframes result-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .ri1 { animation: result-in 0.2s ease-out 0.1s both; }
+    .ri2 { animation: result-in 0.2s ease-out 0.2s both; }
+    .ri3 { animation: result-in 0.2s ease-out 0.3s both; }
+    .ri4 { animation: result-in 0.2s ease-out 0.4s both; }
+    .ri5 { animation: result-in 0.2s ease-out 0.5s both; }
+  </style>
+</defs>
+<rect width="1100" height="360" fill="#060a14" rx="12"/>
+<!-- background dimmed -->
+<rect width="1100" height="360" fill="#000000" opacity="0.6" rx="12"/>
+
+<text x="550" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#475569">PROPUESTA — Paleta de Comandos (Ctrl+K)</text>
+
+<!-- Command palette modal -->
+<rect x="280" y="30" width="540" height="310" rx="16" fill="#0d1428" stroke="#38bdf8" stroke-width="1.5"/>
+
+<!-- Search input -->
+<rect x="292" y="42" width="516" height="44" rx="10" fill="#111827" stroke="#38bdf8" stroke-width="1.5"/>
+<text x="308" y="69" font-family="JetBrains Mono" font-size="16" fill="#475569">⌕</text>
+<text x="334" y="70" font-family="Space Grotesk" font-size="14" fill="#e2e8f0">switch</text>
+<rect x="506" y="50" width="1" height="28" fill="#38bdf8"/><!-- cursor -->
+<rect x="766" y="52" width="30" height="22" rx="5" fill="#1e2d4e" stroke="#243655"/>
+<text x="781" y="67" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">Esc</text>
+
+<!-- Results -->
+<!-- Category: Equipos -->
+<text x="300" y="104" font-family="JetBrains Mono" font-size="9" fill="#475569">EQUIPOS (2)</text>
+<line x1="360" y1="101" x2="800" y2="101" stroke="#1e2d4e"/>
+
+<rect x="292" y="110" width="516" height="40" rx="8" fill="#38bdf815" stroke="#38bdf840" class="ri1"/><!-- selected -->
+<text x="312" y="127" font-family="Space Grotesk" font-size="12" font-weight="600" fill="#e2e8f0">🔀 Switch Cisco 48P</text>
+<text x="312" y="142" font-family="JetBrains Mono" font-size="9" fill="#64748b">Sala A / Rack Principal / U1 · 192.168.1.1</text>
+<text x="770" y="134" font-family="JetBrains Mono" font-size="9" fill="#38bdf8">↵ Abrir</text>
+
+<rect x="292" y="154" width="516" height="40" rx="8" class="ri2"/>
+<text x="312" y="171" font-family="Space Grotesk" font-size="12" fill="#94a3b8">🔀 Switch Managed 24P</text>
+<text x="312" y="186" font-family="JetBrains Mono" font-size="9" fill="#64748b">Sala B / Rack Core / U5 · Sin IP</text>
+
+<!-- Category: Acciones -->
+<text x="300" y="212" font-family="JetBrains Mono" font-size="9" fill="#475569">ACCIONES</text>
+<line x1="370" y1="209" x2="800" y2="209" stroke="#1e2d4e"/>
+
+<rect x="292" y="218" width="516" height="34" rx="8" class="ri3"/>
+<text x="312" y="239" font-family="Space Grotesk" font-size="11" fill="#6ee7b7">⚡ Agregar Switch al catálogo</text>
+<text x="770" y="239" font-family="JetBrains Mono" font-size="9" fill="#64748b">acción</text>
+
+<rect x="292" y="256" width="516" height="34" rx="8" class="ri4"/>
+<text x="312" y="277" font-family="Space Grotesk" font-size="11" fill="#6ee7b7">🔌 Nueva conexión desde Switch Cisco 48P</text>
+<text x="770" y="277" font-family="JetBrains Mono" font-size="9" fill="#64748b">acción</text>
+
+<!-- Category: Conexiones -->
+<rect x="292" y="294" width="516" height="34" rx="8" class="ri5"/>
+<text x="312" y="311" font-family="Space Grotesk" font-size="11" fill="#c4b5fd">🔗 Switch Cisco → Firewall (Eth0/1)</text>
+<text x="770" y="311" font-family="JetBrains Mono" font-size="9" fill="#64748b">conexión</text>
+
+<!-- Footer shortcuts -->
+<rect x="280" y="320" width="540" height="20" rx="0" fill="#111827"/>
+<rect x="280" y="326" width="540" height="14" rx="0" fill="#111827"/>
+<rect x="280" y="326" width="540" height="14" rx="0" fill="#111827"/>
+<rect x="280" y="320" width="540" height="20" rx="10" fill="#111827"/>
+<text x="300" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">↑↓ Navegar</text>
+<text x="390" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">↵ Seleccionar</text>
+<text x="500" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">Ctrl+K Abrir</text>
+<text x="600" y="334" font-family="JetBrains Mono" font-size="8" fill="#1e2d4e">Esc Cerrar</text>
+<text x="300" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">↑↓ Navegar</text>
+<text x="390" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">↵ Seleccionar</text>
+<text x="500" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">Ctrl+K Abrir</text>
+<text x="600" y="334" font-family="JetBrains Mono" font-size="8" fill="#475569">Esc Cerrar</text>
+</svg>
+  </div>
+
+</section>
+
+<section class="section" id="m9">
+  <div class="section-label">
+    <div class="section-num">9</div>
+    <div>
+      <h2>Modales — Validación en Tiempo Real y UX</h2>
+      <div class="desc">Feedback inmediato en formularios, campo de contraseña seguro y preview de conexión</div>
+    </div>
+    <span class="priority p-med">🟡 Media prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Validación inline en tiempo real</h3>
+      <p>Actualmente la validación solo ocurre al guardar. Agregar validación on-blur para IP, MAC y nombre. Mostrar ícono ✓ verde / ✗ rojo al lado del campo. El botón "Guardar" se deshabilita mientras hay errores.</p>
+      <span class="tag tag-ux">UX</span><span class="tag tag-bug">Fix</span>
+    </div>
+    <div class="card">
+      <h3>Campo contraseña con toggle</h3>
+      <p>El campo pass del modal muestra ••••• por defecto con botón 👁 para alternar. Al revelar, el campo se resalta en amarillo por 3s y vuelve a enmascarar automáticamente si no hay foco.</p>
+      <span class="tag tag-bug">Seguridad BUG-01</span>
+    </div>
+    <div class="card">
+      <h3>Preview de conexión en modal cable</h3>
+      <p>Al seleccionar origen y destino en el modal de cable, mostrar una mini visualización de la ruta: "Sala A / Rack 1 / U3 → Sala A / Rack 1 / U1" con los colores de tipo.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">UX</span>
+    </div>
+    <div class="card">
+      <h3>Rack height — advertencia de recorte</h3>
+      <p>Al reducir la altura de un rack, mostrar en tiempo real cuántos equipos quedarán fuera de rango (actualmente solo lo pregunta al guardar). Mejor: lista de equipos afectados.</p>
+      <span class="tag tag-ux">UX</span><span class="tag tag-bug">Fix</span>
+    </div>
+  </div>
+
+</section>
+
+<section class="section" id="m10">
+  <div class="section-label">
+    <div class="section-num">10</div>
+    <div>
+      <h2>Experiencia Móvil — Gestos y Touch</h2>
+      <div class="desc">Pinch-to-zoom en vista física, swipe entre salas y topología táctil mejorada</div>
+    </div>
+    <span class="priority p-low">🟢 Baja prioridad</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Pinch-to-zoom en vista física</h3>
+      <p>Actualmente el zoom físico solo funciona con los botones + / −. Implementar pinch-to-zoom nativo usando PointerEvents para coherencia con el gesto natural en móvil y tablet.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">Mobile</span>
+    </div>
+    <div class="card">
+      <h3>Swipe entre salas</h3>
+      <p>Los tabs de sala en móvil son difíciles de tocar. Implementar swipe horizontal entre salas sin necesidad de tocar los tabs. Indicador de sala actual con dots debajo.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">Mobile</span>
+    </div>
+    <div class="card">
+      <h3>Botón flotante de acción (FAB)</h3>
+      <p>En móvil, el botón "+ Rack" y "+ Equipo" están en el header que puede estar fuera de pantalla. Agregar un FAB flotante en la esquina inferior derecha con menú de acciones rápidas.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">Mobile</span>
+    </div>
+    <div class="card">
+      <h3>Long press para menú contextual</h3>
+      <p>En táctil no hay clic derecho. Implementar long press (600ms) sobre un faceplate para abrir el menú contextual, de forma análoga al contextmenu en escritorio.</p>
+      <span class="tag tag-feat">Nuevo</span><span class="tag tag-ux">Mobile</span>
+    </div>
+  </div>
+
+</section>
+
+<section id="plano25d">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">11 / VISTA GENERAL</span>
+        <h3>Plano de Planta 2.5D (Datacenter Floor Map)</h3>
+        <p>Visualización tridimensional isométrica de la sala para arrastrar, distribuir y monitorear gabinetes.</p>
+      </div>
+      <span class="sec-badge">Alta Complejidad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Distribución Espacial Real:</strong>
+            Los gabinetes dejan de ser pestañas planas. Ahora se colocan en una cuadrícula (grid) que representa el piso técnico del datacenter.
+          </li>
+          <li>
+            <strong>Organización por Filas (Aisles):</strong>
+            Permite definir pasillos fríos y calientes organizando los racks espalda con espalda para simulaciones de flujo de aire.
+          </li>
+          <li>
+            <strong>Tooltip Tridimensional:</strong>
+            Al posar el mouse sobre un rack en 3D, se muestra una tarjeta translúcida con la ocupación de U, la temperatura y consumo de potencia total acumulado.
+          </li>
+          <li>
+            <strong>Integración en store.js:</strong>
+            Las coordenadas `x` y `y` se guardan en el objeto de cada rack dentro del estado global, permitiendo el guardado y undo/redo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — PLANO DE PLANTA ISOMÉTRICO</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        <div class="interactive-hint">💡 Clic en los Racks o Baldosas para inspeccionar detalles</div>
+        
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid Baldosas Isométricas -->
+            <!-- Fila 1 -->
+            <polygon points="250,100 290,120 250,140 210,120" class="iso-tile" onclick="selectTile(this, 'Fila A, Baldosa 1')"/>
+            <polygon points="290,120 330,140 290,160 250,140" class="iso-tile" onclick="selectTile(this, 'Fila A, Baldosa 2')"/>
+            <polygon points="330,140 370,160 330,180 290,160" class="iso-tile" onclick="selectTile(this, 'Fila A, Baldosa 3')"/>
+            <!-- Fila 2 -->
+            <polygon points="210,120 250,140 210,160 170,140" class="iso-tile" onclick="selectTile(this, 'Fila B, Baldosa 1')"/>
+            <polygon points="250,140 290,160 250,180 210,160" class="iso-tile" onclick="selectTile(this, 'Fila B, Baldosa 2')"/>
+            <polygon points="290,160 330,180 290,200 250,180" class="iso-tile" onclick="selectTile(this, 'Fila B, Baldosa 3')"/>
+            <!-- Fila 3 -->
+            <polygon points="170,140 210,160 170,180 130,160" class="iso-tile" onclick="selectTile(this, 'Fila C, Baldosa 1')"/>
+            <polygon points="210,160 250,180 210,200 170,180" class="iso-tile" onclick="selectTile(this, 'Fila C, Baldosa 2')"/>
+            <polygon points="250,180 290,200 250,220 210,200" class="iso-tile" onclick="selectTile(this, 'Fila C, Baldosa 3')"/>
+
+            <!-- Racks 3D colocados en el Grid -->
+            <!-- Rack 1 (Fila A, Baldosa 2) -->
+            <g class="iso-rack" onclick="selectRack('Rack A1 (Core)', '32 / 42 U', '1.2 kW', '24 °C')" transform="translate(250, 70)">
+              <!-- Lado izquierdo -->
+              <polygon points="0,70 40,90 40,20 0,0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+              <!-- Lado derecho -->
+              <polygon points="40,90 80,70 80,0 40,20" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+              <!-- Tapa Superior -->
+              <polygon points="0,0 40,20 80,0 40,-20" fill="#334155" stroke="#475569" stroke-width="1"/>
+              <!-- Panel frontal LED neon indicator -->
+              <line x1="43" y1="23" x2="43" y2="87" stroke="#38bdf8" stroke-width="2" opacity="0.8"/>
+              <text x="40" y="45" fill="#e2e8f0" font-family="Space Grotesk" font-size="9" transform="skewY(26)" font-weight="700">R-A1</text>
+            </g>
+
+            <!-- Rack 2 (Fila B, Baldosa 1) -->
+            <g class="iso-rack" onclick="selectRack('Rack B1 (Distribución)', '18 / 42 U', '0.6 kW', '21 °C')" transform="translate(170, 90)">
+              <polygon points="0,70 40,90 40,20 0,0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+              <polygon points="40,90 80,70 80,0 40,20" fill="#0f172a" stroke="#1e2d4e" stroke-width="1"/>
+              <polygon points="0,0 40,20 80,0 40,-20" fill="#334155" stroke="#475569" stroke-width="1"/>
+              <line x1="43" y1="23" x2="43" y2="87" stroke="#a855f7" stroke-width="2" opacity="0.8"/>
+              <text x="40" y="45" fill="#e2e8f0" font-family="Space Grotesk" font-size="9" transform="skewY(26)" font-weight="700">R-B1</text>
+            </g>
+
+            <!-- Rack 3 (Fila C, Baldosa 3) -->
+            <g class="iso-rack" onclick="selectRack('Rack C3 (Almacenamiento)', '40 / 42 U', '2.8 kW', '32 °C - ALERTA 🔥', 'true')" transform="translate(250, 150)">
+              <polygon points="0,70 40,90 40,20 0,0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+              <polygon points="40,90 80,70 80,0 40,20" fill="#0f172a" stroke="#1e2d4e" stroke-width="1"/>
+              <polygon points="0,0 40,20 80,0 40,-20" fill="#334155" stroke="#475569" stroke-width="1"/>
+              <!-- LED indicador rojo (temperatura alta) -->
+              <line x1="43" y1="23" x2="43" y2="87" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4,2" opacity="0.9"/>
+              <text x="40" y="45" fill="#e2e8f0" font-family="Space Grotesk" font-size="9" transform="skewY(26)" font-weight="700">R-C3</text>
+            </g>
+
+            <!-- Info overlay card inside SVG -->
+            <g id="iso-card" transform="translate(20, 240)" opacity="1">
+              <rect width="220" height="90" rx="8" fill="rgba(15, 23, 42, 0.9)" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1.5"/>
+              <text id="card-title" x="15" y="25" fill="#f3f4f6" font-family="Space Grotesk" font-size="12" font-weight="700">Selecciona un elemento</text>
+              <text id="card-u" x="15" y="45" fill="#9ca3af" font-family="JetBrains Mono" font-size="10">Uso: -</text>
+              <text id="card-power" x="15" y="60" fill="#9ca3af" font-family="JetBrains Mono" font-size="10">Potencia: -</text>
+              <text id="card-temp" x="15" y="75" fill="#9ca3af" font-family="JetBrains Mono" font-size="10">Temperatura: -</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="dragzones">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">12 / INTERACCIÓN RACK</span>
+        <h3>Catálogo Flotante y Zonas de Soltar Luminosas</h3>
+        <p>Guía visual dinámica durante la operación de arrastrar y soltar (drag &amp; drop) para posicionamiento rápido.</p>
+      </div>
+      <span class="sec-badge">Media Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Feedback Visual Inmediato:</strong>
+            Al iniciar el arrastre de un equipo del catálogo, los slots del rack seleccionado se iluminan en verde (disponible) o rojo (ocupado o espacio insuficiente).
+          </li>
+          <li>
+            <strong>Detección de Tamaño U Inteligente:</strong>
+            Si arrastras un servidor de 4U, solo se iluminarán en verde los grupos de 4 slots libres consecutivos.
+          </li>
+          <li>
+            <strong>Snapping Magnético:</strong>
+            El equipo es atraído hacia la zona de montaje válida más cercana, reduciendo los errores por soltar fuera del riel del rack.
+          </li>
+          <li>
+            <strong>Cajón Colapsable:</strong>
+            El catálogo se oculta automáticamente a un lado con transiciones CSS suaves, ampliando la visualización del área de trabajo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>SIMULACIÓN — ZONAS DE MONTAJE Y COMPATIBILIDAD</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Clic en los botones inferiores para simular el arrastre de equipos</div>
+        
+        <div class="svg-wrap" style="max-width: 480px;">
+          <svg viewBox="0 0 450 350" xmlns="http://www.w3.org/2000/svg">
+            <!-- Contenedor del Riel del Rack -->
+            <rect x="50" y="30" width="160" height="280" rx="8" fill="#0d1428" stroke="#1e2d4e" stroke-width="2"/>
+            <text x="130" y="20" fill="#9ca3af" font-family="Space Grotesk" font-size="11" text-anchor="middle" font-weight="700">RIEL RACK PRINCIPAL</text>
+
+            <!-- Slots del Rack -->
+            <!-- Slot U6-U7 (Ocupado por Switch) -->
+            <rect x="60" y="40" width="140" height="40" rx="4" class="dz-slot occupied"/>
+            <text x="130" y="65" fill="#f43f5e" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="600">U6-U7: Switch Core (Ocupado)</text>
+            
+            <!-- Slot U4-U5 (Eligible / Libre) -->
+            <rect id="slot-u4-u5" x="60" y="90" width="140" height="40" rx="4" class="dz-slot"/>
+            <text id="lbl-u4-u5" x="130" y="115" fill="#4b5563" font-family="Space Grotesk" font-size="10" text-anchor="middle">Ranura U4-U5 (2U Libre)</text>
+
+            <!-- Slot U2-U3 (Ocupado por Server 2U) -->
+            <rect x="60" y="140" width="140" height="60" rx="4" class="dz-slot occupied"/>
+            <text x="130" y="175" fill="#f43f5e" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="600">U2-U3: Servidor R740 (Ocupado)</text>
+
+            <!-- Slot U1 (Eligible / Libre 1U) -->
+            <rect id="slot-u1" x="60" y="210" width="140" height="30" rx="4" class="dz-slot"/>
+            <text id="lbl-u1" x="130" y="230" fill="#4b5563" font-family="Space Grotesk" font-size="10" text-anchor="middle">Ranura U1 (1U Libre)</text>
+
+            <!-- Panel de Catálogo (Simulado a la derecha) -->
+            <rect x="250" y="30" width="170" height="280" rx="8" fill="rgba(255,255,255,0.02)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="335" y="50" fill="#e2e8f0" font-family="Space Grotesk" font-size="11" text-anchor="middle" font-weight="700">CATÁLOGO DISPONIBLE</text>
+
+            <!-- Equipo Catálogo 1: Switch 1U -->
+            <g class="dz-card" id="card-1u" onclick="simulateDrag('1U')" transform="translate(265, 70)">
+              <rect width="140" height="40" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+              <text x="70" y="25" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">Cisco Catalyst (1U)</text>
+              <rect x="10" y="10" width="12" height="6" fill="#10b981" rx="1"/>
+            </g>
+
+            <!-- Equipo Catálogo 2: Server 2U -->
+            <g class="dz-card" id="card-2u" onclick="simulateDrag('2U')" transform="translate(265, 130)">
+              <rect width="140" height="50" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+              <text x="70" y="30" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">Storage SAN (2U)</text>
+              <rect x="10" y="10" width="12" height="6" fill="#a855f7" rx="1"/>
+            </g>
+
+            <g class="dz-card" id="card-4u" onclick="simulateDrag('4U')" transform="translate(265, 200)">
+              <rect width="140" height="60" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+              <text x="70" y="35" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">Blade Chassis (4U)</text>
+              <rect x="10" y="10" width="12" height="6" fill="#fbbf24" rx="1"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="cableglow">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">13 / CONECTIVIDAD</span>
+        <h3>Trazado de Cableado con Rutas Luminosas (Glow Path)</h3>
+        <p>Destacar visualmente las rutas de datos a través del datacenter mediante pulsos luminosos de alta definición.</p>
+      </div>
+      <span class="sec-badge">Alta Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Aislamiento de Rutas Complejas:</strong>
+            Al hacer clic sobre un puerto o conexión, el resto de la topología se atenúa al 20% de brillo y la ruta seleccionada se enciende con un brillo neón.
+          </li>
+          <li>
+            <strong>Animación de Tránsito de Paquetes:</strong>
+            Utilizando `stroke-dashoffset` en SVG/Canvas, se dibuja un flujo continuo de paquetes para indicar la dirección y velocidad lógica del enlace (e.g. Fibra de 10Gbps fluye más rápido que Cobre de 1Gbps).
+          </li>
+          <li>
+            <strong>Leyenda Desplegable Inteligente:</strong>
+            Clasificación automática por tipo de cable (Fibra Multimodo OM4, Monomodo OS2, Cobre Cat6A).
+          </li>
+          <li>
+            <strong>Optimización en Canvas:</strong>
+            Se integra con `topology.js` para mantener un rendimiento óptimo a 60fps, evitando ralentizaciones en esquemas con más de 200 conexiones.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — TRAZADO DE RUTA ACTIVO</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Clic en los botones superiores para resaltar rutas específicas</div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+          <button class="nav-btn" onclick="highlightCable('fibra')">Fibra OS2 (Azul)</button>
+          <button class="nav-btn" onclick="highlightCable('cobre')">Cobre Cat6 (Púrpura)</button>
+          <button class="nav-btn" onclick="resetCables()">Restaurar Todo</button>
+        </div>
+
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Dispositivos de red de la topología -->
+            <!-- Switch Central -->
+            <rect x="200" y="50" width="100" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="250" y="74" fill="#f3f4f6" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="700">CORE-SWITCH-01</text>
+            
+            <!-- Server A -->
+            <rect x="80" y="200" width="100" height="40" rx="6" fill="#1e293b" stroke="#1e2d4e" stroke-width="1.5" id="node-a"/>
+            <text x="130" y="224" fill="#f3f4f6" font-family="Space Grotesk" font-size="10" text-anchor="middle">WEB-SERVER-A</text>
+            
+            <!-- Server B -->
+            <rect x="320" y="200" width="100" height="40" rx="6" fill="#1e293b" stroke="#1e2d4e" stroke-width="1.5" id="node-b"/>
+            <text x="370" y="224" fill="#f3f4f6" font-family="Space Grotesk" font-size="10" text-anchor="middle">DB-SERVER-B</text>
+
+            <!-- Cables de Red -->
+            <!-- Cable Fibra (Left) -->
+            <path id="cable-fibra" d="M 130,200 C 130,120 250,120 250,90" class="cable-path pulse-node" style="stroke: #38bdf8; --glow-color: #38bdf8;"/>
+            
+            <!-- Cable Cobre (Right) -->
+            <path id="cable-cobre" d="M 370,200 C 370,120 250,120 250,90" class="cable-path pulse-node" style="stroke: #a855f7; --glow-color: #a855f7;"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="commandbox">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">14 / ACCESIBILIDAD</span>
+        <h3>Buscador Global Inteligente y Centro de Comando (Cmd+K)</h3>
+        <p>Una barra de acceso rápido para realizar acciones en bloque y buscar recursos sin levantar las manos del teclado.</p>
+      </div>
+      <span class="sec-badge high">Alta Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Acceso Instantáneo:</strong>
+            Presionando `Ctrl+K` o `Cmd+K` desde cualquier pantalla, se despliega una consola modal superpuesta con un fondo difuminado (*glassmorphism*).
+          </li>
+          <li>
+            <strong>Acciones Ejecutables Directas:</strong>
+            No solo busca, también permite realizar comandos como: `nueva sala Sala C`, `conectar Switch-01 Eth5 a Server-03 Eth0` o `exportar png`.
+          </li>
+          <li>
+            <strong>Búsqueda Fuzzy Ultra Rápida:</strong>
+            Algoritmo de búsqueda que aproxima resultados ignorando acentos o mayúsculas. Ideal para encontrar una IP de administración en milisegundos.
+          </li>
+          <li>
+            <strong>Navegación por Teclado:</strong>
+            Movimiento completo entre opciones usando las flechas de dirección (arriba/abajo) y confirmación con la tecla `Enter`.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>CENTRO DE COMANDO INTERACTIVO</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Prueba a escribir en el buscador: "sala", "cisco", o "ip"</div>
+        
+        <!-- Interactive Spotlight box -->
+        <div class="spotlight-box">
+          <div class="sp-input-wrap">
+            🔍
+            <input type="text" class="sp-input" id="search-input" placeholder="Buscar equipo o ejecutar comando..." oninput="handleSearch(this.value)">
+            <span class="sp-kbd">ESC</span>
+          </div>
+          <div class="sp-results" id="search-results">
+            <div class="sp-item selected">
+              <span>🗄️ Rack Core 1 (Sala A)</span>
+              <span class="sp-action">Ir al Rack</span>
+            </div>
+            <div class="sp-item">
+              <span>🔌 Conectar equipos...</span>
+              <span class="sp-action">Comando</span>
+            </div>
+            <div class="sp-item">
+              <span>🖥️ Switch Cisco 2960 (192.168.1.10)</span>
+              <span class="sp-action">Editar</span>
+            </div>
+            <div class="sp-item">
+              <span>📂 Cargar Demo Datacenter</span>
+              <span class="sp-action">Acción</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="termografico">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">15 / EFICIENCIA &amp; MONITOREO</span>
+        <h3>Modo Termográfico (Thermal Heatmap Overlay)</h3>
+        <p>Una capa analítica en tiempo real para visualizar la disipación térmica y densidad de potencia en los gabinetes.</p>
+      </div>
+      <span class="sec-badge">Baja Complejidad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Mejora</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Alarma Térmica Integrada:</strong>
+            Los slots que excedan un umbral configurable de potencia (W) o temperatura (°C) se pintan progresivamente en tonos amarillos y rojos brillantes.
+          </li>
+          <li>
+            <strong>Diagnóstico de Hotspots:</strong>
+            Detecta la acumulación excesiva de servidores blade o de procesamiento denso en una sola sección del rack, evitando caídas por fallas térmicas.
+          </li>
+          <li>
+            <strong>Optimización en CSS Transitions:</strong>
+            El cambio entre la vista normal y térmica se realiza de manera suave aplicando transiciones CSS sobre las propiedades de `fill` de los elementos SVG.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — CAMBIO DE VISTA TERMOGRÁFICA</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="interactive-hint">💡 Presiona el botón para alternar el mapa térmico de potencia</div>
+        
+        <button class="nav-btn" style="margin-bottom: 20px;" onclick="toggleHeatmap()">Alternar Mapa Térmico</button>
+
+        <div class="svg-wrap" style="max-width: 280px;" id="rack-heatmap-container">
+          <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="320" rx="8" fill="#0d1428" stroke="#1e2d4e" stroke-width="2"/>
+            
+            <!-- U10 (Servidor Alta Carga) -->
+            <rect x="20" y="30" width="160" height="40" rx="4" fill="#1f2937" class="temp-slot" id="ts-1" style="--t-color: #ef4444;"/>
+            <text x="100" y="54" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle" font-weight="700">Server Blade (U10)</text>
+            <text x="160" y="44" fill="#ffffff" class="temp-indicator" text-anchor="end">42 °C</text>
+
+            <!-- U8-U9 (Servidor Media Carga) -->
+            <rect x="20" y="80" width="160" height="45" rx="4" fill="#1f2937" class="temp-slot" id="ts-2" style="--t-color: #f59e0b;"/>
+            <text x="100" y="106" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle">Server Web (U8-U9)</text>
+            <text x="160" y="94" fill="#ffffff" class="temp-indicator" text-anchor="end">29 °C</text>
+
+            <!-- U6-U7 (Libre) -->
+            <rect x="20" y="135" width="160" height="40" rx="4" fill="#111827" class="temp-slot" id="ts-3" style="--t-color: #10b981;"/>
+            <text x="100" y="158" fill="#4b5563" font-family="Space Grotesk" font-size="10" text-anchor="middle">Espacio Libre (U6-U7)</text>
+            <text x="160" y="148" fill="#ffffff" class="temp-indicator" text-anchor="end">19 °C</text>
+
+            <!-- U4-U5 (Storage) -->
+            <rect x="20" y="185" width="160" height="50" rx="4" fill="#1f2937" class="temp-slot" id="ts-4" style="--t-color: #f59e0b;"/>
+            <text x="100" y="214" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle">Storage Arrays (U4-U5)</text>
+            <text x="160" y="199" fill="#ffffff" class="temp-indicator" text-anchor="end">28 °C</text>
+
+            <!-- U1-U3 (UPS Central) -->
+            <rect x="20" y="245" width="160" height="60" rx="4" fill="#1f2937" class="temp-slot" id="ts-5" style="--t-color: #38bdf8;"/>
+            <text x="100" y="280" fill="#ffffff" font-family="Space Grotesk" font-size="10" text-anchor="middle">UPS APC (U1-U3)</text>
+            <text x="160" y="259" fill="#ffffff" class="temp-indicator" text-anchor="end">22 °C</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="radar-view">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">16 / INTERFAZ AVANZADA (UI/UX)</span>
+        <h3>Minimapa de Navegación Topológica (Radar View)</h3>
+        <p>Proporcionar contexto espacial en lienzos gigantescos (infinitos) mediante un radar flotante interactivo.</p>
+      </div>
+      <span class="sec-badge mid">Media Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Propuesta</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Contexto Global:</strong>
+            Al hacer zoom in en el Canvas Principal de topología, se pierde noción de dónde estamos. El Minimapa muestra el 100% de la sala en una esquina inferior derecha.
+          </li>
+          <li>
+            <strong>Caja de Frustum Interactiva:</strong>
+            Un recuadro semitransparente sobre el minimapa representa tu "cámara" actual. Al arrastrar este recuadro, el Canvas principal hace un <i>Pan</i> automáticamente.
+          </li>
+          <li>
+            <strong>Low-Poly Rendering:</strong>
+            El minimapa no dibuja textos ni cables finos, dibuja simples rectángulos (racks) optimizados para ahorrar recursos de CPU y memoria.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>INTERACTIVE MOCKUP — RADAR VIEW FRUSTUM</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        <div class="interactive-hint">💡 Simulador: El recuadro lila representa la vista actual del usuario en el Canvas.</div>
+        
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fondo de la interfaz principal simulación -->
+            <rect width="500" height="300" rx="8" fill="#030712" stroke="#1f2937" stroke-width="2"/>
+            <!-- Rack en vista de cerca (Main Canvas) -->
+            <rect x="100" y="50" width="300" height="200" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+            <text x="250" y="150" fill="#38bdf8" font-family="Space Grotesk" font-size="24" text-anchor="middle" font-weight="700">Canvas Principal (Zoom +200%)</text>
+            
+            <!-- Radar Box / Minimapa flotante (Bottom Right) -->
+            <g transform="translate(320, 160)">
+              <!-- Radar Background -->
+              <rect x="0" y="0" width="160" height="120" rx="8" class="radar-map"/>
+              <text x="80" y="15" fill="#64748b" font-family="JetBrains Mono" font-size="8" text-anchor="middle">MINIMAPA TOPOLÓGICO</text>
+              
+              <!-- Low-Poly Racks en Minimapa -->
+              <rect x="20" y="30" width="15" height="15" rx="2" class="radar-blip"/>
+              <rect x="40" y="30" width="15" height="15" rx="2" class="radar-blip"/>
+              <rect x="60" y="30" width="15" height="15" rx="2" class="radar-blip"/>
+              <rect x="80" y="30" width="15" height="15" rx="2" class="radar-blip"/>
+              
+              <rect x="20" y="60" width="15" height="15" rx="2" class="radar-blip"/>
+              <rect x="40" y="60" width="15" height="15" rx="2" class="radar-blip"/>
+              <rect x="60" y="60" width="15" height="15" rx="2" class="radar-blip"/>
+              <rect x="80" y="60" width="15" height="15" rx="2" class="radar-blip"/>
+              
+              <!-- Caja Frustum (Lo que ve el usuario actualmente) -->
+              <!-- Está enfocando el primer rack -->
+              <rect x="10" y="20" width="35" height="35" rx="2" class="radar-frustum" />
+              <!-- Crosshair corner indicators -->
+              <path d="M 10 30 L 10 20 L 20 20" stroke="#a855f7" stroke-width="1.5" fill="none"/>
+              <path d="M 45 45 L 45 55 L 35 55" stroke="#a855f7" stroke-width="1.5" fill="none"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="web-components">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">17 / ESTRUCTURA DE CÓDIGO</span>
+        <h3>Migración a Custom Elements (Web Components nativos)</h3>
+        <p>Eliminar la creación de HTML vía `strings` y abstraer todo en etiquetas HTML semánticas puras para máxima limpieza.</p>
+      </div>
+      <span class="sec-badge high">Alta Prioridad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Propuesta</h4>
+        <ul class="info-list">
+          <li>
+            <strong>Adiós al "Código Espagueti":</strong>
+            Actualmente, `rack.js` usa literales de plantilla (template strings) `div.innerHTML = \`<div class="rack">...\`` para inyectar la UI física.
+          </li>
+          <li>
+            <strong>Shadow DOM:</strong>
+            Al usar Web Components nativos (`class RackUnit extends HTMLElement`), podemos aislar el CSS de cada fachada. Nada de lo que pase en el CSS global romperá la alineación interna de los servidores.
+          </li>
+          <li>
+            <strong>Uso semántico:</strong>
+            En vez de miles de divs, inspeccionar el código fuente revelará etiquetas como `<rack-chassis>`, `<server-blade id="srv1">`, lo cual simplifica drásticamente la depuración para el equipo.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>COMPARATIVA DE ARQUITECTURA: STRING VS COMPONENT</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+            
+            <!-- BEFORE (v2.0) -->
+            <rect x="20" y="20" width="220" height="280" class="thread-box"/>
+            <text x="130" y="45" fill="#f43f5e" font-family="Space Grotesk" font-size="12" text-anchor="middle" font-weight="700">ACTUAL (v2.0)</text>
+            <text x="130" y="60" fill="#9ca3af" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Generación vía Strings</text>
+            
+            <!-- Code snippet -->
+            <g font-family="JetBrains Mono" font-size="10" transform="translate(30, 90)">
+              <text y="0" fill="#38bdf8">const</text><text x="35" y="0" fill="#e2e8f0">html = `</text>
+              <text y="15" fill="#f59e0b">  &lt;div class="rack"&gt;</text>
+              <text y="30" fill="#f59e0b">    &lt;div class="slot"&gt;</text>
+              <text y="45" fill="#e2e8f0">      ${server.name}</text>
+              <text y="60" fill="#f59e0b">    &lt;/div&gt;</text>
+              <text y="75" fill="#f59e0b">  &lt;/div&gt;</text>
+              <text y="90" fill="#e2e8f0">`;</text>
+              <text y="115" fill="#e2e8f0">container.innerHTML = html;</text>
+              
+              <!-- Red cross -->
+              <path d="M 80 150 L 100 170 M 100 150 L 80 170" stroke="#f43f5e" stroke-width="3" fill="none"/>
+            </g>
+
+            <!-- Separator -->
+            <line x1="250" y1="20" x2="250" y2="300" stroke="#374151" stroke-width="1" stroke-dasharray="2,2"/>
+
+            <!-- AFTER (v3.0) -->
+            <rect x="260" y="20" width="220" height="280" class="thread-box" stroke="#10b981"/>
+            <text x="370" y="45" fill="#10b981" font-family="Space Grotesk" font-size="12" text-anchor="middle" font-weight="700">PROPUESTO (v3.0)</text>
+            <text x="370" y="60" fill="#9ca3af" font-family="JetBrains Mono" font-size="9" text-anchor="middle">Nativo Custom Elements</text>
+
+            <g font-family="JetBrains Mono" font-size="10" transform="translate(270, 90)">
+              <!-- Code snippet -->
+              <text y="0" fill="#38bdf8">class</text><text x="35" y="0" fill="#e2e8f0"> ServerBlade</text><text x="105" y="0" fill="#38bdf8"> extends</text><text x="155" y="0" fill="#a855f7"> HTMLElement</text>
+              <text y="15" fill="#e2e8f0">  constructor() { ... }</text>
+              <text y="30" fill="#e2e8f0">  render() { ... }</text>
+              <text y="45" fill="#e2e8f0">}</text>
+              <text y="70" fill="#a855f7">customElements</text><text x="85" y="70" fill="#e2e8f0">.define(</text>
+              <text y="85" fill="#f59e0b">  'server-blade'</text><text x="95" y="85" fill="#e2e8f0">, ServerBlade</text>
+              <text y="100" fill="#e2e8f0">);</text>
+              
+              <!-- DOM view -->
+              <rect x="10" y="130" width="180" height="40" rx="4" fill="#0f172a" stroke="#10b981" stroke-dasharray="2,2"/>
+              <text x="20" y="145" fill="#10b981" font-weight="700">&lt;rack-chassis&gt;</text>
+              <text x="30" y="160" fill="#a855f7" font-weight="700">&lt;server-blade u="2"&gt;</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="web-workers">
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="sec-num">18 / LÓGICA EN SEGUNDO PLANO</span>
+        <h3 id="ui-web-workers">Offloading de UI con Web Workers</h3>
+        <p>Prevenir el congelamiento de la ventana principal al generar reportes PDF o exportar imágenes PNG masivas de alta resolución.</p>
+      </div>
+      <span class="sec-badge">Baja Complejidad</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="info-panel">
+        <h4>📋 Características de la Propuesta</h4>
+        <ul class="info-list">
+          <li>
+            <strong>El Problema:</strong>
+            Al pulsar "Exportar a PNG" en un Rack complejo (con docenas de cables SVG e íconos), el `html2canvas` bloquea el subproceso principal. La pantalla se congela durante 2-3 segundos y el usuario no puede ni cancelar ni ver el progreso.
+          </li>
+          <li>
+            <strong>La Solución (Web Workers):</strong>
+            Mover todo el proceso de serialización del DOM virtual y el pintado del Canvas de exportación a un subproceso (`worker.js`).
+          </li>
+          <li>
+            <strong>Experiencia Fluida:</strong>
+            El usuario verá una barra de carga en porcentaje o un *spinner* en el modal de exportación, mientras la interfaz principal sigue completamente fluida y responsiva a 60 fps.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mockup-panel">
+        <div class="mockup-header">
+          <span>DIAGRAMA DE CONCURRENCIA — THREAD OFFLOADING</span>
+          <div class="mockup-controls">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+          </div>
+        </div>
+        
+        <div class="svg-wrap">
+          <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+            
+            <!-- Main UI Thread Box -->
+            <rect x="50" y="50" width="160" height="200" fill="#0d1428" stroke="#38bdf8" stroke-width="2" rx="8"/>
+            <text x="130" y="80" fill="#38bdf8" font-family="Space Grotesk" font-size="14" text-anchor="middle" font-weight="700">Main UI Thread</text>
+            <text x="130" y="100" fill="#9ca3af" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Responsiveness a 60fps</text>
+
+            <rect x="70" y="130" width="120" height="30" fill="#1e293b" rx="4"/>
+            <text x="130" y="150" fill="#f3f4f6" font-family="Space Grotesk" font-size="11" text-anchor="middle">"Exportar Rack 01"</text>
+            
+            <rect x="70" y="180" width="120" height="30" fill="#0f172a" stroke="#22d3ee" stroke-width="1" rx="4"/>
+            <text x="130" y="200" fill="#22d3ee" font-family="Space Grotesk" font-size="11" text-anchor="middle">Progreso: 45%...</text>
+
+            <!-- Web Worker Thread Box -->
+            <rect x="290" y="50" width="160" height="200" fill="#0d1428" stroke="#a855f7" stroke-width="2" rx="8" stroke-dasharray="6,4"/>
+            <text x="370" y="80" fill="#a855f7" font-family="Space Grotesk" font-size="14" text-anchor="middle" font-weight="700">Web Worker (BG)</text>
+            <text x="370" y="100" fill="#9ca3af" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Trabajo Pesado Aislado</text>
+
+            <rect x="310" y="130" width="120" height="40" fill="#1e293b" rx="4"/>
+            <text x="370" y="145" fill="#f3f4f6" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Generando PNG...</text>
+            <text x="370" y="160" fill="#f43f5e" font-family="JetBrains Mono" font-size="9" text-anchor="middle">CPU Intensivo 🔥</text>
+            
+            <rect x="310" y="190" width="120" height="30" fill="#1e293b" rx="4"/>
+            <text x="370" y="210" fill="#10b981" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Blob Resultante</text>
+
+            <!-- Arrows -->
+            <!-- Message: Start task -->
+            <path d="M 210 145 L 280 145" stroke="#38bdf8" stroke-width="2" fill="none" class="thread-pulse"/>
+            <polygon points="280,145 270,140 270,150" fill="#38bdf8"/>
+            <text x="245" y="135" fill="#38bdf8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">postMessage(data)</text>
+
+            <!-- Message: Progress/Result -->
+            <path d="M 280 205 L 210 205" stroke="#a855f7" stroke-width="2" fill="none" class="thread-pulse"/>
+            <polygon points="210,205 220,200 220,210" fill="#a855f7"/>
+            <text x="245" y="225" fill="#a855f7" font-family="JetBrains Mono" font-size="9" text-anchor="middle">onMessage(blob)</text>
+
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  RACK DESIGNER 3.0 — ESTUDIO DE ARQUITECTURA CREADO EN JUNIO 2026. TODOS LOS DERECHOS RESERVADOS.
+</footer>
+
+<script>
+
+  // Section 1: Isometric Floor Map
+  function selectTile(tile, name) {
+    document.querySelectorAll('.iso-tile').forEach(t => t.classList.remove('active'));
+    tile.classList.add('active');
+    document.getElementById('card-title').textContent = name;
+    document.getElementById('card-u').textContent = "Uso: Baldosa técnica vacía";
+    document.getElementById('card-power').textContent = "Potencia: 0 W";
+    document.getElementById('card-temp').textContent = "Temperatura: Ambiente";
+  }
+
+  function selectRack(name, usage, power, temp, isAlert) {
+    document.querySelectorAll('.iso-tile').forEach(t => t.classList.remove('active'));
+    document.getElementById('card-title').textContent = name;
+    document.getElementById('card-title').style.fill = isAlert ? '#f43f5e' : '#f3f4f6';
+    document.getElementById('card-u').textContent = "Uso: " + usage;
+    document.getElementById('card-power').textContent = "Potencia: " + power;
+    document.getElementById('card-temp').textContent = "Temperatura: " + temp;
+  }
+
+  // Section 2: Catalog and luminous drop zones
+  function simulateDrag(uSize) {
+    // Reset classes
+    document.getElementById('slot-u4-u5').classList.remove('eligible');
+    document.getElementById('slot-u1').classList.remove('eligible');
+    document.getElementById('lbl-u4-u5').style.fill = '#4b5563';
+    document.getElementById('lbl-u1').style.fill = '#4b5563';
+    
+    if (uSize === '1U') {
+      document.getElementById('slot-u1').classList.add('eligible');
+      document.getElementById('lbl-u1').style.fill = '#10b981';
+      document.getElementById('lbl-u1').textContent = "✓ ¡Soltar aquí (1U)!";
+    } else if (uSize === '2U') {
+      document.getElementById('slot-u4-u5').classList.add('eligible');
+      document.getElementById('lbl-u4-u5').style.fill = '#10b981';
+      document.getElementById('lbl-u4-u5').textContent = "✓ ¡Soltar aquí (2U)!";
+    } else if (uSize === '4U') {
+      // Blade chassis 4U doesn't fit in U1 or U4-U5
+      alert('⚠️ El equipo de 4U no cabe en ninguna de las ranuras disponibles (1U y 2U libres). El riel se iluminará de rojo.');
+    }
+  }
+
+  // Section 3: Highlighting cable paths
+  function highlightCable(type) {
+    document.getElementById('cable-fibra').classList.remove('active');
+    document.getElementById('cable-cobre').classList.remove('active');
+    
+    if (type === 'fibra') {
+      document.getElementById('cable-fibra').classList.add('active');
+    } else if (type === 'cobre') {
+      document.getElementById('cable-cobre').classList.add('active');
+    }
+  }
+
+  function resetCables() {
+    document.getElementById('cable-fibra').classList.remove('active');
+    document.getElementById('cable-cobre').classList.remove('active');
+  }
+
+  // Section 4: Spotlight Cmd+K Center
+  const mockDatabase = [
+    { title: "🗄️ Rack Core 1 (Sala A)", action: "Ir al Rack" },
+    { title: "🗄️ Rack Core 2 (Sala A)", action: "Ir al Rack" },
+    { title: "🗄️ Rack Dist 1 (Sala B)", action: "Ir al Rack" },
+    { title: "🔌 Conectar equipos...", action: "Comando" },
+    { title: "🔌 Crear puerto de red...", action: "Comando" },
+    { title: "🖥️ Switch Cisco 2960 (192.168.1.10)", action: "Editar" },
+    { title: "🖥️ Firewall Fortinet (10.0.0.1)", action: "Editar" },
+    { title: "📂 Cargar Demo Datacenter", action: "Acción" },
+    { title: "🧹 Limpiar proyecto", action: "Acción" }
+  ];
+
+  function handleSearch(query) {
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = '';
+    
+    const filtered = mockDatabase.filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.action.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `<div class="sp-item"><span>No se encontraron resultados</span></div>`;
+      return;
+    }
+
+    filtered.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = `sp-item ${index === 0 ? 'selected' : ''}`;
+      div.innerHTML = `
+        <span>${item.title}</span>
+        <span class="sp-action">${item.action}</span>
+      `;
+      resultsContainer.appendChild(div);
+    });
+  }
+
+  // Section 5: Thermal Heatmap Toggle
+  function toggleHeatmap() {
+    const container = document.getElementById('rack-heatmap-container');
+    container.classList.toggle('heatmap-active');
+    
+    const slots = document.querySelectorAll('.temp-slot');
+    slots.forEach(slot => {
+      if (container.classList.contains('heatmap-active')) {
+        const tempColor = slot.style.getPropertyValue('--t-color');
+        slot.style.fill = tempColor;
+      } else {
+        slot.style.fill = '#1f2937';
+      }
+    });
+  }
+
+  // Vote route logic
+  function voteRoute(btn, routeName) {
+    document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    alert(`👍 ¡Gracias por tu voto! Has seleccionado: "${routeName}" como prioridad.`);
+  }
+
+</script>
+</body>
+</html>
