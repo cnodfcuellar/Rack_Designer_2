@@ -1,3 +1,10 @@
+## [2026-06-17 17:50:00] Mockups SVG y Corrección de Bugs
+### Añadido
+- Creación de mockups vectoriales de la interfaz gráfica vacía (modo escritorio y móvil, tanto en claro como en oscuro) para documentación (`doc/svg/ui_mockup_...`).
+### Corrección de Errores (Bugfixes)
+- **Carga de Demos:** Se solucionó el problema de scope global en `main.js` que impedía cargar dinámicamente los datos de demostración (se estandarizó a `window.loadDemoData`).
+- **Barra de Capacidad:** Se reemplazó el uso de `transform` por `width` en `layout.css` para el `.cap-bar-fill`, permitiendo que la barra de progreso se visualice correctamente de nuevo.
+
 ## [2026-06-17 14:11:00] Corrección Visual de Barras de Capacidad (Estadísticas)
 ### Corrección de Errores (Bugfixes)
 - **Barras de Progreso:** Se corrigió un problema visual donde las barras de capacidad del panel de Estadísticas ("Rack Capacity" y "Power") siempre aparecían vacías. El motor de actualización `renderStats()` intentaba escalar un elemento que tenía un ancho inicial del 0% por defecto (`style.width="0%"` combinado con `transform: scaleX`). Se reescribió la lógica para que el progreso modifique directamente la propiedad `width` (porcentaje de la barra), haciendo que la animación fluya correctamente.
