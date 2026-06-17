@@ -1,0 +1,1235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1366 768"
+   width="100%"
+   height="100%"
+   style="background-color: #f8fafc; font-family: 'Outfit', 'Segoe UI', sans-serif;"
+   version="1.1"
+   id="svg80"
+   sodipodi:docname="ui_mockup_claro.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview80"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.60248902"
+     inkscape:cx="1239.0267"
+     inkscape:cy="603.3305"
+     inkscape:window-width="1366"
+     inkscape:window-height="697"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg80" />
+  <defs
+     id="defs1">
+    <!-- Background dotted grid (Light) -->
+    <pattern
+       id="dotPattern"
+       width="40"
+       height="40"
+       patternUnits="userSpaceOnUse">
+      <circle
+         cx="2"
+         cy="2"
+         r="1.5"
+         fill="#cbd5e1"
+         id="circle1" />
+    </pattern>
+    <!-- Drop Shadows for Light Mode -->
+    <filter
+       id="shadowSm"
+       x="-10%"
+       y="-10%"
+       width="120%"
+       height="120%">
+      <feDropShadow
+         dx="0"
+         dy="2"
+         stdDeviation="4"
+         flood-color="#64748b"
+         flood-opacity="0.1" />
+    </filter>
+    <filter
+       id="shadowMd"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feDropShadow
+         dx="0"
+         dy="8"
+         stdDeviation="16"
+         flood-color="#64748b"
+         flood-opacity="0.15" />
+    </filter>
+  </defs>
+  <!-- SIDEBAR -->
+  <g
+     id="Sidebar"
+     transform="translate(0, 0)">
+    <rect
+       width="280"
+       height="768"
+       fill="#ffffff"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect1" />
+    <!-- Logo Header -->
+    <rect
+       width="280"
+       height="60"
+       fill="#ffffff"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect2" />
+    <rect
+       x="16"
+       y="14"
+       width="32"
+       height="32"
+       rx="6"
+       fill="#e0f2fe"
+       id="rect3" />
+    <text
+       x="56"
+       y="28"
+       fill="#0ea5e9"
+       font-size="14"
+       font-weight="800"
+       id="text3">RACK Designer</text>
+    <text
+       x="56"
+       y="44"
+       fill="#64748b"
+       font-size="11"
+       id="text4">Nuevo Proyecto</text>
+    <rect
+       x="236"
+       y="16"
+       width="28"
+       height="28"
+       rx="6"
+       fill="#f1f5f9"
+       id="rect4" />
+    <text
+       x="250"
+       y="35"
+       fill="#334155"
+       font-size="16"
+       font-weight="bold"
+       text-anchor="middle"
+       id="text5">☰</text>
+    <!-- ESTADÍSTICAS Title -->
+    <text
+       x="16"
+       y="90"
+       fill="#64748b"
+       font-size="11"
+       font-weight="bold"
+       letter-spacing="0.5"
+       id="text6">ESTADÍSTICAS</text>
+    <text
+       x="256"
+       y="90"
+       fill="#94a3b8"
+       font-size="10"
+       text-anchor="middle"
+       id="text7">▼</text>
+    <!-- Pills (4 boxes) -->
+    <g
+       transform="translate(16, 110)"
+       id="g15">
+      <rect
+         x="0"
+         y="0"
+         width="56"
+         height="60"
+         rx="6"
+         fill="#ffffff"
+         stroke="#e0f2fe"
+         stroke-width="2"
+         id="rect7" />
+      <rect
+         x="14"
+         y="10"
+         width="28"
+         height="20"
+         rx="4"
+         fill="#e0f2fe"
+         id="rect8" />
+      <text
+         x="28"
+         y="24"
+         fill="#0ea5e9"
+         font-size="12"
+         text-anchor="middle"
+         id="text8">🗄️</text>
+      <text
+         x="28"
+         y="48"
+         fill="#0ea5e9"
+         font-size="16"
+         font-weight="bold"
+         text-anchor="middle"
+         id="text9">0</text>
+      <rect
+         x="64"
+         y="0"
+         width="56"
+         height="60"
+         rx="6"
+         fill="#ffffff"
+         stroke="#ffe4e6"
+         stroke-width="2"
+         id="rect9" />
+      <rect
+         x="78"
+         y="10"
+         width="28"
+         height="20"
+         rx="4"
+         fill="#ffe4e6"
+         id="rect10" />
+      <text
+         x="92"
+         y="24"
+         fill="#e11d48"
+         font-size="12"
+         text-anchor="middle"
+         id="text10">🖥️</text>
+      <text
+         x="92"
+         y="48"
+         fill="#e11d48"
+         font-size="16"
+         font-weight="bold"
+         text-anchor="middle"
+         id="text11">0</text>
+      <rect
+         x="128"
+         y="0"
+         width="56"
+         height="60"
+         rx="6"
+         fill="#ffffff"
+         stroke="#fef3c7"
+         stroke-width="2"
+         id="rect11" />
+      <rect
+         x="142"
+         y="10"
+         width="28"
+         height="20"
+         rx="4"
+         fill="#fef3c7"
+         id="rect12" />
+      <text
+         x="156"
+         y="24"
+         fill="#d97706"
+         font-size="12"
+         text-anchor="middle"
+         id="text12">U</text>
+      <text
+         x="156"
+         y="48"
+         fill="#d97706"
+         font-size="14"
+         font-weight="bold"
+         text-anchor="middle"
+         id="text13">0/0</text>
+      <rect
+         x="192"
+         y="0"
+         width="56"
+         height="60"
+         rx="6"
+         fill="#ffffff"
+         stroke="#dcfce7"
+         stroke-width="2"
+         id="rect13" />
+      <rect
+         x="206"
+         y="10"
+         width="28"
+         height="20"
+         rx="4"
+         fill="#dcfce7"
+         id="rect14" />
+      <text
+         x="220"
+         y="24"
+         fill="#16a34a"
+         font-size="12"
+         text-anchor="middle"
+         id="text14">🔌</text>
+      <text
+         x="220"
+         y="48"
+         fill="#16a34a"
+         font-size="16"
+         font-weight="bold"
+         text-anchor="middle"
+         id="text15">0</text>
+    </g>
+    <!-- Capacity Bars -->
+    <g
+       transform="translate(16, 190)"
+       id="g19">
+      <text
+         x="0"
+         y="10"
+         fill="#64748b"
+         font-size="10"
+         letter-spacing="0.5"
+         id="text16">RACK CAPACITY</text>
+      <text
+         x="248"
+         y="10"
+         fill="#64748b"
+         font-size="10"
+         text-anchor="end"
+         id="text17">0%</text>
+      <rect
+         x="0"
+         y="16"
+         width="248"
+         height="4"
+         rx="2"
+         fill="#e2e8f0"
+         id="rect17" />
+      <text
+         x="0"
+         y="40"
+         fill="#64748b"
+         font-size="10"
+         letter-spacing="0.5"
+         id="text18">POWER</text>
+      <text
+         x="248"
+         y="40"
+         fill="#64748b"
+         font-size="10"
+         text-anchor="end"
+         id="text19">0 W</text>
+      <rect
+         x="0"
+         y="46"
+         width="248"
+         height="4"
+         rx="2"
+         fill="#e2e8f0"
+         id="rect19" />
+    </g>
+    <!-- Sidebar Buttons (+Rack, +Equipo) -->
+    <g
+       transform="translate(16, 260)"
+       id="g21">
+      <rect
+         x="0"
+         y="0"
+         width="120"
+         height="32"
+         rx="16"
+         fill="#e0f2fe"
+         stroke="#e0f2fe"
+         stroke-width="1"
+         id="rect20" />
+      <text
+         x="60"
+         y="20"
+         fill="#0ea5e9"
+         font-size="12"
+         font-weight="bold"
+         text-anchor="middle"
+         id="text20">+ Rack</text>
+      <rect
+         x="128"
+         y="0"
+         width="120"
+         height="32"
+         rx="16"
+         fill="#ffffff"
+         stroke="#cbd5e1"
+         stroke-width="1"
+         id="rect21" />
+      <text
+         x="188"
+         y="20"
+         fill="#64748b"
+         font-size="12"
+         text-anchor="middle"
+         id="text21">+ Equipo</text>
+    </g>
+    <!-- Search input -->
+    <rect
+       x="16"
+       y="304"
+       width="248"
+       height="32"
+       rx="6"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect22" />
+    <text
+       x="26"
+       y="324"
+       fill="#94a3b8"
+       font-size="12"
+       id="text22">Buscar por nombre o tipo...</text>
+    <!-- Tabs: Todos, Servers, Red, Storage, Piso -->
+    <g
+       transform="translate(16, 350)"
+       id="g27">
+      <rect
+         x="0"
+         y="0"
+         width="50"
+         height="24"
+         rx="12"
+         fill="#e0f2fe"
+         stroke="#e0f2fe"
+         id="rect23" />
+      <text
+         x="25"
+         y="16"
+         fill="#0ea5e9"
+         font-size="11"
+         text-anchor="middle"
+         id="text23">Todos</text>
+      <text
+         x="75"
+         y="16"
+         fill="#64748b"
+         font-size="11"
+         text-anchor="middle"
+         id="text24">Servers</text>
+      <text
+         x="115"
+         y="16"
+         fill="#64748b"
+         font-size="11"
+         text-anchor="middle"
+         id="text25">Red</text>
+      <text
+         x="155"
+         y="16"
+         fill="#64748b"
+         font-size="11"
+         text-anchor="middle"
+         id="text26">Storage</text>
+      <text
+         x="195"
+         y="16"
+         fill="#64748b"
+         font-size="11"
+         text-anchor="middle"
+         id="text27">Piso</text>
+    </g>
+    <!-- Catalog Items -->
+    <g
+       transform="translate(16, 386)"
+       id="g47">
+      <!-- Item 1 -->
+      <rect
+         x="0"
+         y="0"
+         width="248"
+         height="52"
+         rx="6"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect27" />
+      <rect
+         x="10"
+         y="10"
+         width="32"
+         height="32"
+         rx="6"
+         fill="#e0f2fe"
+         id="rect28" />
+      <text
+         x="26"
+         y="30"
+         fill="#0ea5e9"
+         font-size="16"
+         text-anchor="middle"
+         id="text28">🔀</text>
+      <text
+         x="52"
+         y="22"
+         fill="#1e293b"
+         font-size="12"
+         font-weight="bold"
+         id="text29">Switch Managed 24P</text>
+      <text
+         x="52"
+         y="38"
+         fill="#94a3b8"
+         font-size="10"
+         id="text30">SWITCH | 120W</text>
+      <rect
+         x="200"
+         y="16"
+         width="26"
+         height="20"
+         rx="4"
+         fill="#f1f5f9"
+         id="rect30" />
+      <text
+         x="213"
+         y="30"
+         fill="#64748b"
+         font-size="10"
+         text-anchor="middle"
+         id="text31">1U</text>
+      <text
+         x="236"
+         y="30"
+         fill="#cbd5e1"
+         font-size="14"
+         font-weight="bold"
+         id="text32">⋮</text>
+      <!-- Item 2 -->
+      <rect
+         x="0"
+         y="60"
+         width="248"
+         height="52"
+         rx="6"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect32" />
+      <rect
+         x="10"
+         y="70"
+         width="32"
+         height="32"
+         rx="6"
+         fill="#e0f2fe"
+         id="rect33" />
+      <text
+         x="26"
+         y="90"
+         fill="#0ea5e9"
+         font-size="16"
+         text-anchor="middle"
+         id="text33">🌐</text>
+      <text
+         x="52"
+         y="82"
+         fill="#1e293b"
+         font-size="12"
+         font-weight="bold"
+         id="text34">Router Core</text>
+      <text
+         x="52"
+         y="98"
+         fill="#94a3b8"
+         font-size="10"
+         id="text35">ROUTER | 90W</text>
+      <rect
+         x="200"
+         y="76"
+         width="26"
+         height="20"
+         rx="4"
+         fill="#f1f5f9"
+         id="rect35" />
+      <text
+         x="213"
+         y="90"
+         fill="#64748b"
+         font-size="10"
+         text-anchor="middle"
+         id="text36">1U</text>
+      <text
+         x="236"
+         y="90"
+         fill="#cbd5e1"
+         font-size="14"
+         font-weight="bold"
+         id="text37">⋮</text>
+      <!-- Item 3 -->
+      <rect
+         x="0"
+         y="120"
+         width="248"
+         height="52"
+         rx="6"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect37" />
+      <rect
+         x="10"
+         y="130"
+         width="32"
+         height="32"
+         rx="6"
+         fill="#ffedd5"
+         id="rect38" />
+      <text
+         x="26"
+         y="150"
+         fill="#f97316"
+         font-size="16"
+         text-anchor="middle"
+         id="text38">🔥</text>
+      <text
+         x="52"
+         y="142"
+         fill="#1e293b"
+         font-size="12"
+         font-weight="bold"
+         id="text39">Firewall Fortinet</text>
+      <text
+         x="52"
+         y="158"
+         fill="#94a3b8"
+         font-size="10"
+         id="text40">FIREWALL | 40W</text>
+      <rect
+         x="200"
+         y="136"
+         width="26"
+         height="20"
+         rx="4"
+         fill="#f1f5f9"
+         id="rect40" />
+      <text
+         x="213"
+         y="150"
+         fill="#64748b"
+         font-size="10"
+         text-anchor="middle"
+         id="text41">1U</text>
+      <text
+         x="236"
+         y="150"
+         fill="#cbd5e1"
+         font-size="14"
+         font-weight="bold"
+         id="text42">⋮</text>
+      <!-- Item 4 -->
+      <rect
+         x="0"
+         y="180"
+         width="248"
+         height="52"
+         rx="6"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect42" />
+      <rect
+         x="10"
+         y="190"
+         width="32"
+         height="32"
+         rx="6"
+         fill="#dcfce7"
+         id="rect43" />
+      <text
+         x="26"
+         y="210"
+         fill="#22c55e"
+         font-size="16"
+         text-anchor="middle"
+         id="text43">🔋</text>
+      <text
+         x="52"
+         y="202"
+         fill="#1e293b"
+         font-size="12"
+         font-weight="bold"
+         id="text44">UPS APC 2U</text>
+      <text
+         x="52"
+         y="218"
+         fill="#94a3b8"
+         font-size="10"
+         id="text45">UPS | 0W</text>
+      <rect
+         x="200"
+         y="196"
+         width="26"
+         height="20"
+         rx="4"
+         fill="#f1f5f9"
+         id="rect45" />
+      <text
+         x="213"
+         y="210"
+         fill="#64748b"
+         font-size="10"
+         text-anchor="middle"
+         id="text46">2U</text>
+      <text
+         x="236"
+         y="210"
+         fill="#cbd5e1"
+         font-size="14"
+         font-weight="bold"
+         id="text47">⋮</text>
+    </g>
+  </g>
+  <!-- TOP HEADER (Right side) -->
+  <g
+     id="TopHeader"
+     transform="translate(280, 0)">
+    <rect
+       width="1086"
+       height="60"
+       fill="#ffffff"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect47" />
+    <!-- Tabs Vista Física / Topología -->
+    <rect
+       x="24"
+       y="14"
+       width="160"
+       height="32"
+       rx="6"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       id="rect48" />
+    <rect
+       x="28"
+       y="18"
+       width="80"
+       height="24"
+       rx="4"
+       fill="#e0f2fe"
+       id="rect49" />
+    <rect
+       x="36"
+       y="24"
+       width="8"
+       height="12"
+       fill="#0ea5e9"
+       id="rect50" />
+    <text
+       x="50"
+       y="35"
+       fill="#0ea5e9"
+       font-size="12"
+       font-weight="bold"
+       id="text50">Vista Física</text>
+    <text
+       x="135"
+       y="35"
+       fill="#64748b"
+       font-size="12"
+       text-anchor="middle"
+       id="text51">◎ Topología</text>
+    <!-- Search Top -->
+    <g
+       transform="translate(760, 14)"
+       id="g52">
+      <rect
+         width="180"
+         height="32"
+         rx="16"
+         fill="#f8fafc"
+         stroke="#e2e8f0"
+         id="rect51" />
+      <text
+         x="16"
+         y="21"
+         fill="#94a3b8"
+         font-size="12"
+         id="text52">Buscar equipo, IP, MAC..</text>
+    </g>
+    <rect
+       x="950"
+       y="14"
+       width="32"
+       height="32"
+       rx="6"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       id="rect52" />
+    <text
+       x="966"
+       y="35"
+       fill="#cbd5e1"
+       font-size="14"
+       text-anchor="middle"
+       id="text53">↩</text>
+    <rect
+       x="990"
+       y="14"
+       width="32"
+       height="32"
+       rx="6"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       id="rect53" />
+    <text
+       x="1006"
+       y="35"
+       fill="#cbd5e1"
+       font-size="14"
+       text-anchor="middle"
+       id="text54">↪</text>
+    <circle
+       cx="1040"
+       cy="30"
+       r="4"
+       fill="#22c55e"
+       id="circle54" />
+  </g>
+  <!-- SUB TOOLBAR -->
+  <g
+     id="SubToolbar"
+     transform="translate(280, 60)">
+    <rect
+       width="1086"
+       height="48"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect54" />
+    <g
+       transform="translate(24, 10)"
+       id="g60">
+      <rect
+         x="0"
+         y="0"
+         width="28"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect55" />
+      <text
+         x="14"
+         y="19"
+         fill="#64748b"
+         font-size="14"
+         text-anchor="middle"
+         id="text55">-</text>
+      <text
+         x="44"
+         y="19"
+         fill="#475569"
+         font-size="12"
+         id="text56">69%</text>
+      <rect
+         x="74"
+         y="0"
+         width="28"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect56" />
+      <text
+         x="88"
+         y="19"
+         fill="#64748b"
+         font-size="14"
+         text-anchor="middle"
+         id="text57">+</text>
+      <rect
+         x="110"
+         y="0"
+         width="50"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect57" />
+      <text
+         x="135"
+         y="19"
+         fill="#64748b"
+         font-size="12"
+         text-anchor="middle"
+         id="text58">⊙ 1:1</text>
+      <!-- Tab Sala -->
+      <rect
+         x="170"
+         y="0"
+         width="80"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke="#0ea5e9"
+         stroke-width="1.5"
+         id="rect58" />
+      <text
+         x="180"
+         y="19"
+         fill="#0ea5e9"
+         font-size="12"
+         font-weight="bold"
+         id="text59">🏢 Sala A1</text>
+      <rect
+         x="258"
+         y="0"
+         width="28"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke-dasharray="2"
+         stroke="#cbd5e1"
+         id="rect59" />
+      <text
+         x="272"
+         y="19"
+         fill="#64748b"
+         font-size="14"
+         text-anchor="middle"
+         id="text60">+</text>
+    </g>
+    <!-- Right SubToolbar -->
+    <g
+       transform="translate(900, 10)"
+       id="g62">
+      <rect
+         x="0"
+         y="0"
+         width="60"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect60" />
+      <text
+         x="30"
+         y="19"
+         fill="#64748b"
+         font-size="12"
+         text-anchor="middle"
+         id="text61">📸 PNG</text>
+      <rect
+         x="68"
+         y="0"
+         width="80"
+         height="28"
+         rx="4"
+         fill="#ffffff"
+         stroke="#e2e8f0"
+         id="rect61" />
+      <text
+         x="108"
+         y="19"
+         fill="#64748b"
+         font-size="12"
+         text-anchor="middle"
+         id="text62">⛶ Expandir</text>
+    </g>
+  </g>
+  <!-- MAIN CANVAS -->
+  <g
+     id="MainGrid"
+     transform="translate(280, 108)">
+    <rect
+       width="1086"
+       height="580"
+       fill="url(#dotPattern)"
+       id="rect62" />
+    <!-- Empty State Text (No hay gabinetes...) -->
+    <g
+       transform="translate(543, 140)"
+       id="g65">
+      <rect
+         x="-10"
+         y="-30"
+         width="20"
+         height="28"
+         fill="#cbd5e1"
+         rx="2"
+         id="rect63" />
+      <line
+         x1="-6"
+         y1="-22"
+         x2="6"
+         y2="-22"
+         stroke="#ffffff"
+         stroke-width="2"
+         id="line63" />
+      <line
+         x1="-6"
+         y1="-14"
+         x2="6"
+         y2="-14"
+         stroke="#ffffff"
+         stroke-width="2"
+         id="line64" />
+      <text
+         x="0"
+         y="20"
+         fill="#64748b"
+         font-size="10"
+         font-family="monospace"
+         text-anchor="middle"
+         id="text64">No hay gabinetes en esta sala.</text>
+      <rect
+         x="-35"
+         y="40"
+         width="70"
+         height="24"
+         rx="4"
+         fill="#ffffff"
+         stroke="#0ea5e9"
+         stroke-width="1"
+         id="rect64" />
+      <text
+         x="0"
+         y="56"
+         fill="#0ea5e9"
+         font-size="11"
+         font-weight="bold"
+         text-anchor="middle"
+         id="text65">+ Rack</text>
+    </g>
+    <!-- Equipos de Piso / Periféricos -->
+    <g
+       transform="translate(24, 250)"
+       id="g69">
+      <rect
+         width="1038"
+         height="110"
+         rx="8"
+         fill="#ffffff"
+         filter="url(#shadowMd)"
+         id="rect65" />
+      <text
+         x="16"
+         y="22"
+         fill="#1e293b"
+         font-size="10"
+         font-weight="bold"
+         id="text66">Equipos de Piso / Periféricos</text>
+      <g
+         transform="translate(850, 10)"
+         id="g67">
+        <rect
+           x="0"
+           y="0"
+           width="90"
+           height="20"
+           rx="4"
+           fill="#f3e8ff"
+           stroke="#d8b4fe"
+           id="rect66" />
+        <text
+           x="45"
+           y="14"
+           fill="#9333ea"
+           font-size="10"
+           font-weight="bold"
+           text-anchor="middle"
+           id="text67">⚡ Agregar Equipo</text>
+      </g>
+      <text
+         x="960"
+         y="24"
+         fill="#64748b"
+         font-size="10"
+         id="text68">0 dispositivos</text>
+      <rect
+         x="16"
+         y="40"
+         width="1006"
+         height="54"
+         rx="4"
+         fill="#f8fafc"
+         stroke="#cbd5e1"
+         stroke-width="1"
+         stroke-dasharray="4"
+         id="rect68" />
+      <text
+         x="519"
+         y="68"
+         fill="#94a3b8"
+         font-size="10"
+         text-anchor="middle"
+         font-family="monospace"
+         id="text69">Arrastra periféricos o equipos aquí para ubicarlos en la sala</text>
+    </g>
+  </g>
+  <!-- BOTTOM PANEL -->
+  <g
+     id="BottomPanel"
+     transform="translate(84.705933,688.06011)">
+    <rect
+       width="1364.8798"
+       height="79.879776"
+       fill="#ffffff"
+       stroke="#e2e8f0"
+       stroke-width="1.12022"
+       id="rect69"
+       x="-83.585693"
+       y="0.060113061" />
+    <g
+       transform="translate(24,24)"
+       id="g80">
+      <!-- Panel Tabs -->
+      <text
+         x="0"
+         y="14"
+         fill="#0ea5e9"
+         font-size="13px"
+         font-weight="bold"
+         id="text70">Inventario</text>
+      <rect
+         x="0"
+         y="24"
+         width="60"
+         height="2"
+         fill="#0ea5e9"
+         id="rect70" />
+      <text
+         x="80"
+         y="14"
+         fill="#64748b"
+         font-size="13px"
+         id="text71">Conexiones</text>
+      <!-- Action Buttons -->
+      <g
+         transform="translate(560)"
+         id="g79">
+        <rect
+           x="0"
+           y="0"
+           width="70"
+           height="26"
+           rx="4"
+           fill="#ffffff"
+           stroke="#0ea5e9"
+           id="rect71" />
+        <text
+           x="35"
+           y="16"
+           fill="#0ea5e9"
+           font-size="11px"
+           font-weight="bold"
+           text-anchor="middle"
+           id="text72">+ Equipo</text>
+        <rect
+           x="80"
+           y="0"
+           width="110"
+           height="26"
+           rx="4"
+           fill="#f3e8ff"
+           stroke="#d8b4fe"
+           id="rect72" />
+        <text
+           x="135"
+           y="16"
+           fill="#9333ea"
+           font-size="11px"
+           font-weight="bold"
+           text-anchor="middle"
+           id="text73">⚡ Agregar Equipo</text>
+        <rect
+           x="200"
+           y="0"
+           width="80"
+           height="26"
+           rx="4"
+           fill="#ffffff"
+           stroke="#0ea5e9"
+           id="rect73" />
+        <text
+           x="240"
+           y="16"
+           fill="#0ea5e9"
+           font-size="11px"
+           font-weight="bold"
+           text-anchor="middle"
+           id="text74">+ Conexión</text>
+        <rect
+           x="290"
+           y="0"
+           width="160"
+           height="26"
+           rx="4"
+           fill="#f8fafc"
+           stroke="#e2e8f0"
+           id="rect74" />
+        <text
+           x="300"
+           y="16"
+           fill="#94a3b8"
+           font-size="11px"
+           id="text75">Filtrar tabla...</text>
+        <rect
+           x="460"
+           y="0"
+           width="45"
+           height="26"
+           rx="4"
+           fill="#f1f5f9"
+           id="rect75" />
+        <text
+           x="482"
+           y="16"
+           fill="#64748b"
+           font-size="11px"
+           text-anchor="middle"
+           id="text76">⬇ CSV</text>
+        <rect
+           x="515"
+           y="0"
+           width="55"
+           height="26"
+           rx="4"
+           fill="#f1f5f9"
+           id="rect76" />
+        <text
+           x="542"
+           y="16"
+           fill="#64748b"
+           font-size="11px"
+           text-anchor="middle"
+           id="text77">⬇ Excel</text>
+        <rect
+           x="580"
+           y="0"
+           width="70"
+           height="26"
+           rx="4"
+           fill="#f1f5f9"
+           id="rect77" />
+        <text
+           x="615"
+           y="16"
+           fill="#64748b"
+           font-size="11px"
+           text-anchor="middle"
+           id="text78">⛶ Expandir</text>
+        <rect
+           x="660"
+           y="0"
+           width="26"
+           height="26"
+           rx="4"
+           fill="#f1f5f9"
+           id="rect78" />
+        <text
+           x="673"
+           y="16"
+           fill="#64748b"
+           font-size="12px"
+           text-anchor="middle"
+           id="text79">▲</text>
+      </g>
+    </g>
+  </g>
+</svg>

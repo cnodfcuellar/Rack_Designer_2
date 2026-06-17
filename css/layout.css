@@ -74,7 +74,7 @@
 .cap-bar-wrap { margin-bottom: 6px; }
 .cap-bar-labels { display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 3px; }
 .cap-bar { height: 6px; background: var(--bg-main); border-radius: 3px; overflow: hidden; }
-.cap-bar-fill { height: 100%; border-radius: 3px; transition: transform 0.5s ease; transform-origin: left; width: 100%; transform: scaleX(0); }
+.cap-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); width: 0%; }
 .cap-bar-fill.rack  { background: linear-gradient(90deg, var(--accent), var(--cyan)); }
 .cap-bar-fill.power { background: linear-gradient(90deg, var(--green), var(--amber)); }
 .sb-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 14px; flex-shrink: 0; border-bottom: 1px solid var(--border); }

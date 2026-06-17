@@ -223,8 +223,8 @@ function initGlobalEvents() {
       }
 
       function runDemo() {
-        if (typeof loadDemoData === 'function') {
-          loadDemoData();
+        if (typeof window.loadDemoData === 'function') {
+          window.loadDemoData();
           if (typeof fileManager !== 'undefined') {
             fileManager.fileHandle = null;
             fileManager.fileName = 'Proyecto Demo';
@@ -235,7 +235,7 @@ function initGlobalEvents() {
         }
       }
 
-      if (typeof loadDemoData === 'function') {
+      if (typeof window.loadDemoData === 'function') {
         runDemo();
       } else {
         const script = document.createElement('script');
