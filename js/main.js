@@ -44,7 +44,14 @@ function renderAll(event = {}) {
 }
 
 // Bind to store mutations
-store.on('change', renderAll);
+store.on('change', (e) => {
+  renderAll(e);
+  if (e && !['loadData', 'undo', 'redo', 'importJSON'].includes(e.source || e.path)) {
+    if (typeof fileManager !== 'undefined') {
+      fileManager.autoSave();
+    }
+  }
+});
 
 function initGlobalEvents() {
   document.getElementById('btn-zoom-in').addEventListener('click', () => {
@@ -160,12 +167,20 @@ function initGlobalEvents() {
 
     document.getElementById('menu-open')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
-      document.getElementById('import-file').click();
+      if (typeof fileManager !== 'undefined') fileManager.openProject();
+      else document.getElementById('import-file').click();
     });
     document.getElementById('menu-save')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
-      const data = { version: 1, project: store._raw, catalog: CATALOG };
-      downloadJSON(data, 'datacenter.rack');
+      if (typeof fileManager !== 'undefined') fileManager.saveProject();
+      else {
+        const data = { version: 1, project: store._raw, catalog: CATALOG };
+        downloadJSON(data, 'datacenter.rack');
+      }
+    });
+    document.getElementById('menu-save-as')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (typeof fileManager !== 'undefined') fileManager.saveProjectAs();
     });
     document.getElementById('menu-clear')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
@@ -182,46 +197,50 @@ function initGlobalEvents() {
           topoZoom: 1, topoPanX: 0, topoPanY: 0,
           physZoom: 1, physPanX: 0, physPanY: 0
         });
+        if (typeof fileManager !== 'undefined') {
+          fileManager.fileHandle = null;
+          fileManager.fileName = 'Nuevo Proyecto';
+          fileManager.updateUI();
+        }
         notify('Proyecto limpiado. Nueva sala A1 creada.', 'success');
       }
     });
-    document.getElementById('menu-demo')?.addEventListener('click', () => {
+    document.getElementById('menu-demo')?.addEventListener('click', async () => {
       dropdown.classList.add('hidden');
       const wantSave = confirm('¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
-      if (wantSave) {
-        if (typeof exportJSON === 'function') exportJSON();
-      } else {
+      if (!wantSave) {
         const proceed = confirm('⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
         if (!proceed) return;
       }
 
-      // Carga dinámica: solo se descarga demoData.js cuando el usuario lo pide
+      if (wantSave) {
+        if (typeof fileManager !== 'undefined') {
+          await fileManager.saveProject();
+        } else if (typeof exportJSON === 'function') {
+          exportJSON();
+          await new Promise(r => setTimeout(r, 1500));
+        }
+      }
+
       function runDemo() {
         if (typeof loadDemoData === 'function') {
           loadDemoData();
+          if (typeof fileManager !== 'undefined') {
+            fileManager.fileHandle = null;
+            fileManager.fileName = 'Proyecto Demo';
+            fileManager.updateUI();
+          }
         } else {
           notify('Error: no se pudo cargar el módulo de demos', 'error');
         }
       }
 
       if (typeof loadDemoData === 'function') {
-        // Ya estaba cargado (ej: segunda vez que pulsa el botón)
-        if (wantSave) {
-          setTimeout(runDemo, 1500);
-        } else {
-          runDemo();
-        }
+        runDemo();
       } else {
-        // Primera vez: inyectar el script dinámicamente
         const script = document.createElement('script');
         script.src = 'js/demoData.js';
-        script.onload = () => {
-          if (wantSave) {
-            setTimeout(runDemo, 1500);
-          } else {
-            runDemo();
-          }
-        };
+        script.onload = runDemo;
         script.onerror = () => notify('Error: no se encontró js/demoData.js', 'error');
         document.head.appendChild(script);
       }

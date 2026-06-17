@@ -85,9 +85,11 @@ El modo **Topología** (accesible desde la barra superior) dibuja de forma autom
 ## 5. Exportación y Respaldo
 
 ### Guardar/Cargar Proyecto
-Toda su infraestructura se guarda localmente en su navegador automáticamente, pero para respaldos de seguridad o para mover el proyecto a otro equipo:
-* **Guardar Proyecto:** En el menú principal, seleccione guardar. Esto descargará un archivo `.json` con todo el centro de datos.
-* **Cargar Proyecto:** Importe un archivo `.json` previamente guardado para restaurar el entorno completo.
+
+* **Guardar Proyecto:** En el menú principal (icono de tres líneas o nube), selecciona **Guardar proyecto**. Si es la primera vez, el navegador te preguntará dónde guardar el archivo (usando la File System Access API). Las siguientes veces que guardes, se sobrescribirá silenciosamente ese archivo. Adicionalmente, el sistema **autoguardará** tus progresos cada 3 segundos en el mismo archivo siempre que mantengas la pestaña abierta.
+* **Guardar como...:** Si deseas bifurcar tu proyecto, usa esta opción para crear un nuevo archivo de destino.
+* **Cargar Proyecto:** Selecciona **Abrir proyecto** en el menú. Te permitirá cargar un archivo `.json` o `.rack` directo desde tu sistema de archivos, manteniendo el enlace (handle) activo para futuros autoguardados.
+*(Nota: Si usas navegadores sin soporte completo como Firefox o Safari, el sistema utilizará el método clásico de descargas manuales).*
 
 **Gestión en Móvil:** El menú de opciones globales es accesible mediante un botón hamburguesa superior derecho, desplegando un menú claro y adaptado para comandos táctiles.
 ![Menú de Opciones en Móvil](../html/img/ui-mobile-menu.svg)

@@ -151,10 +151,10 @@ function renderStats() {
   
   const rackPct = s.totalU ? Math.round((s.usedU / s.totalU) * 100) : 0;
   document.getElementById('cap-rack-pct').textContent = `${rackPct}%`;
-  document.getElementById('cap-rack-bar').style.transform = `scaleX(${rackPct/100})`;
+  document.getElementById('cap-rack-bar').style.width = `${rackPct}%`;
   
   const maxPower = 5000;
   const powerPct = Math.min(100, Math.round((s.power / maxPower) * 100));
   document.getElementById('cap-power-val').textContent = `${s.power} W`;
-  document.getElementById('cap-power-bar').style.transform = `scaleX(${powerPct/100})`;
+  document.getElementById('cap-power-bar').style.width = `${powerPct}%`;
 }

@@ -1,5 +1,22 @@
+## [2026-06-17 14:11:00] Corrección Visual de Barras de Capacidad (Estadísticas)
+### Corrección de Errores (Bugfixes)
+- **Barras de Progreso:** Se corrigió un problema visual donde las barras de capacidad del panel de Estadísticas ("Rack Capacity" y "Power") siempre aparecían vacías. El motor de actualización `renderStats()` intentaba escalar un elemento que tenía un ancho inicial del 0% por defecto (`style.width="0%"` combinado con `transform: scaleX`). Se reescribió la lógica para que el progreso modifique directamente la propiedad `width` (porcentaje de la barra), haciendo que la animación fluya correctamente.
+
+## [2026-06-17 13:36:00] Correcciones en Limpiar Proyecto, Cargar Demos y PWA Caché
+### Corrección de Errores (Bugfixes)
+- **Caché PWA:** Se incrementó la versión del `CACHE_NAME` en `js/service/service-worker.js` a `v1.1` y se añadió `fileManager.js` a la lista de recursos fuera de línea. Esto fuerza a los navegadores a invalidar el caché antiguo "Cache-First" y descargar los últimos cambios de código de la interfaz para que los usuarios puedan ver las actualizaciones inmediatamente tras recargar.
+- **Cargar Demos:** Se reescribió la lógica del botón `menu-demo` (`Cargar demos`) haciéndola asíncrona. Ahora el sistema espera correctamente a que el manejador de archivos (File System API) termine de guardar la copia de seguridad antes de inyectar y ejecutar `demoData.js`, solucionando el problema donde la funcionalidad había dejado de responder.
+- **Limpieza de Proyecto:** Al usar la opción `Limpiar proyecto` (`🧹`), ahora se resetea internamente el manejador de archivos y se actualiza la interfaz para mostrar "Nuevo Proyecto" en la cabecera, desvinculando la sesión limpia del archivo anterior para evitar sobreescrituras accidentales por el autoguardado.
+
+## [2026-06-17 13:30:00] Implementación de File System Access API y Autoguardado
+### Sistema de Guardado
+- **Apertura Directa:** Se reemplazó el tradicional campo `<input type="file">` oculto por la API nativa `window.showOpenFilePicker`. Ahora la aplicación puede abrir archivos directamente del sistema y conservar el "handle" (manejador) para sobreescribir los cambios de manera transparente.
+- **Autoguardado Inteligente:** Se implementó un ciclo de `autoSave` con *debounce* (3 segundos). Si el usuario ya ha dado permisos de escritura al archivo en la sesión actual, la aplicación guardará automáticamente cualquier cambio (arrastre, conexión, edición) en el disco duro sin ventanas emergentes.
+- **Guardar como...:** Se añadió la opción "Guardar como..." en el menú de proyecto, permitiendo bifurcar proyectos usando `window.showSaveFilePicker()`.
+- **Integración de Fallback:** Para los navegadores sin soporte completo de esta API web moderna (como Firefox o Safari), el sistema vuelve de manera elegante al método antiguo de descarga/subida clásica (blob JSON).
+- **Indicador de Proyecto Activo:** Se añadió al diseño del encabezado el nombre del archivo activo (`#project-filename`) para mejorar la conciencia situacional del usuario.
+
 ## [2026-06-16 12:05:00] Reestructuración Documental, Extracción SVG y Rediseño de Manual
-### Documentación Técnica y Arquitectura
 - **Limpieza de Código HTML (Extracción SVG):** Se extrajeron exitosamente 14 diagramas SVG que se encontraban incrustados en línea dentro de `arquitectura_2.html` y se convirtieron en archivos independientes guardados en la carpeta `doc/html/img/Arq2/`. Esto reduce significativamente el peso del HTML base y permite el cacheo independiente de las imágenes.
 - **Correcciones XML en Vectores:** Se solventaron errores de sintaxis en los archivos SVG extraídos (caracteres `&` sin escapar y etiquetas `<defs>` faltantes para marcadores de flechas) garantizando su perfecta renderización en navegadores estrictos.
 - **Nueva Sección de Segmentación:** Se añadió al documento de arquitectura una sección ilustrada llamada "Estructura de Directorios y Segmentación". Esta incluye un nuevo diagrama vectorial (`directory_structure.svg`) y explica los beneficios (Mantenibilidad, Colaboración Eficiente, Reutilización) de aislar la lógica de UI (`js/ui/`) del estado global (`js/store.js`).

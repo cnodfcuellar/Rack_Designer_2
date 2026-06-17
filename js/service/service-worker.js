@@ -3,7 +3,7 @@
 //  Versión: 1.0.0
 // ============================================================
 
-const CACHE_NAME = 'rack-designer-v1';
+const CACHE_NAME = 'rack-designer-v1.1';
 
 // Lista de archivos a cachear para funcionamiento offline
 const ASSETS_TO_CACHE = [
@@ -21,6 +21,7 @@ const ASSETS_TO_CACHE = [
   './js/ui/rack.js',
   './js/ui/topology.js',
   './js/ui/tables.js',
+  './js/ui/fileManager.js',
   './js/service/service-worker.js',
   './js/xlsx.full.min.js',
   './icons/icon-192.png',
