@@ -1,5 +1,13 @@
-## [2026-06-17 17:50:00] Mockups SVG y Corrección de Bugs
+## [2026-06-18 17:25:00] Actualización de Arquitectura Visual (Layout Map) y Manuales
 ### Añadido
+- **Manual de Página Única (Single-Page):** Se creó `manual_2.html`, una variante del manual interactivo que muestra todas las secciones en un scroll continuo. Incluye una funcionalidad de ScrollSpy personalizada para actualizar el menú lateral de forma dinámica.
+- **Nuevo Layout Map (`ui_layout_map_full.svg`):** Se diseñó un mapa estructural completo en SVG con proporciones reales. Se aplicó una paleta de colores armónica (Dark Mode) y se agregaron subtítulos identificando los archivos SVG correspondientes a cada bloque.
+
+### Corrección de Errores (Documentación)
+- **Corrección de "Vista de Rack":** Se corrigió un error conceptual en los manuales (`USER_MANUAL.md`, `manual.html`, `manual_2.html`) reubicando `ui_rack_view.svg` desde la sección "Sidebar" hacia la sección "Main Canvas", clarificando que la vista detallada del gabinete ocupa el espacio central.
+- **División de Panel Inferior:** Se dividió la documentación del "Bloque Rosa/Inferior" en dos componentes funcionales separados: "Bottom Bar / Pestañas" (la franja minimizada) y "Tabla de Datos / Inventario Expandido" (el bloque masivo).
+
+## [2026-06-17 17:50:00] Mockups SVG y Corrección de Bugs
 - Creación de mockups vectoriales de la interfaz gráfica vacía (modo escritorio y móvil, tanto en claro como en oscuro) para documentación (`doc/svg/ui_mockup_...`).
 ### Corrección de Errores (Bugfixes)
 - **Carga de Demos:** Se solucionó el problema de scope global en `main.js` que impedía cargar dinámicamente los datos de demostración (se estandarizó a `window.loadDemoData`).

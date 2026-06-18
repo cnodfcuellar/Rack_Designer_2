@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356.92 175.72" width="100%" height="100%">
+  <defs>
+    <style>
+      .text-dark { fill: #000000; font-family: 'Inter', sans-serif; font-size: 5px; font-weight: bold; }
+      .text-light { fill: #ffffff; font-family: 'Inter', sans-serif; font-size: 5px; font-weight: bold; }
+      .text-small { font-size: 4px; font-weight: normal; }
+    </style>
+  </defs>
+
+  <!-- Top Left Black Block -->
+  <rect x="0" y="0" width="79.02" height="18.12" fill="#000000" />
+  <text x="39.51" y="8" text-anchor="middle" dominant-baseline="middle" class="text-light">
+    <tspan x="39.51" dy="0">Logo / Top Left</tspan>
+    <tspan x="39.51" dy="1.2em" class="text-small">(79.02 x 18.12 mm)</tspan>
+  </text>
+  
+  <!-- Top Right Green Block -->
+  <rect x="79.02" y="0" width="277.90" height="18.12" fill="#00ff00" />
+  <text x="217.97" y="8" text-anchor="middle" dominant-baseline="middle" class="text-dark">
+    <tspan x="217.97" dy="0">Top Header</tspan>
+    <tspan x="217.97" dy="1.2em" class="text-small">(277.90 x 18.12 mm)</tspan>
+  </text>
+  
+  <!-- Right Magenta Block -->
+  <rect x="79.02" y="18.12" width="277.90" height="16.57" fill="#ff00ff" />
+  <text x="217.97" y="25" text-anchor="middle" dominant-baseline="middle" class="text-light">
+    <tspan x="217.97" dy="0">Toolbar / Tabs</tspan>
+    <tspan x="217.97" dy="1.2em" class="text-small">(277.90 x 16.57 mm)</tspan>
+  </text>
+  
+  <!-- Left Grey/Brown Block -->
+  <rect x="0" y="18.12" width="79.02" height="149.60" fill="#604e4c" />
+  <text x="39.51" y="91" text-anchor="middle" dominant-baseline="middle" class="text-light">
+    <tspan x="39.51" dy="0">Sidebar</tspan>
+    <tspan x="39.51" dy="1.2em" class="text-small">(79.02 x 149.60 mm)</tspan>
+  </text>
+  
+  <!-- Center Cyan Block -->
+  <rect x="79.02" y="34.69" width="277.90" height="133.03" fill="#00ffff" />
+  <text x="217.97" y="100" text-anchor="middle" dominant-baseline="middle" class="text-dark">
+    <tspan x="217.97" dy="0">Main Canvas</tspan>
+    <tspan x="217.97" dy="1.2em" class="text-small">(277.90 x 133.03 mm)</tspan>
+  </text>
+  
+  <!-- Bottom Red Block -->
+  <rect x="0" y="167.72" width="356.92" height="8.00" fill="#ff0000" />
+  <text x="178.46" y="170" text-anchor="middle" dominant-baseline="middle" class="text-light">
+    <tspan x="178.46" dy="0">Bottom Bar / Footer</tspan>
+    <tspan x="178.46" dy="1.2em" class="text-small">(356.92 x 8.00 mm)</tspan>
+  </text>
+</svg>

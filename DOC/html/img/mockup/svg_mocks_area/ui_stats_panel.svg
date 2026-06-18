@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 220" width="350" height="220">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; }
+      .text-title { fill: #94a3b8; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+      .text-stat { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: bold; }
+      .text-label { fill: #94a3b8; font-family: monospace, sans-serif; font-size: 11px; }
+      .text-val { fill: #cbd5e1; font-family: monospace, sans-serif; font-size: 11px; }
+      .card { fill: #111827; stroke: #1e293b; stroke-width: 1; }
+      .icon-bg { stroke: #1e293b; stroke-width: 1; }
+      .line { stroke: #1e293b; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="100%" height="100%" class="bg" />
+
+  <!-- Title -->
+  <text x="20" y="30" class="text-title">ESTADÍSTICAS</text>
+  <path d="M320 22 L326 22 L323 27 Z" fill="#64748b" />
+  <line x1="0" y1="40" x2="350" y2="40" class="line" />
+
+  <!-- Cards -->
+  <g transform="translate(20, 55)">
+    <!-- Card 1 -->
+    <rect x="0" y="0" width="70" height="70" rx="6" class="card" />
+    <rect x="15" y="10" width="40" height="35" rx="6" fill="#0c4a6e" class="icon-bg" />
+    <rect x="25" y="18" width="20" height="19" rx="2" fill="none" stroke="#38bdf8" stroke-width="1.5" />
+    <line x1="25" y1="23" x2="45" y2="23" stroke="#38bdf8" stroke-width="1.5" />
+    <line x1="25" y1="32" x2="45" y2="32" stroke="#38bdf8" stroke-width="1.5" />
+    <line x1="29" y1="27.5" x2="41" y2="27.5" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="35" y="62" class="text-stat" fill="#10b981" text-anchor="middle">0</text>
+
+    <!-- Card 2 -->
+    <rect x="80" y="0" width="70" height="70" rx="6" class="card" />
+    <rect x="95" y="10" width="40" height="35" rx="6" fill="#4c1d95" class="icon-bg" />
+    <rect x="105" y="18" width="20" height="6" rx="1.5" fill="none" stroke="#f43f5e" stroke-width="1.5" />
+    <rect x="105" y="28" width="20" height="6" rx="1.5" fill="none" stroke="#f43f5e" stroke-width="1.5" />
+    <line x1="108" y1="21" x2="112" y2="21" stroke="#f43f5e" stroke-width="1" />
+    <line x1="108" y1="31" x2="112" y2="31" stroke="#f43f5e" stroke-width="1" />
+    <text x="115" y="62" class="text-stat" fill="#ffffff" text-anchor="middle">0</text>
+
+    <!-- Card 3 -->
+    <rect x="160" y="0" width="70" height="70" rx="6" class="card" />
+    <rect x="175" y="10" width="40" height="35" rx="6" fill="#452706" class="icon-bg" />
+    <path d="M190 18 L190 28 Q190 33 195 33 Q200 33 200 28 L200 18" fill="none" stroke="#f59e0b" stroke-width="2" />
+    <text x="195" y="62" class="text-stat" fill="#f59e0b" text-anchor="middle">0/0</text>
+
+    <!-- Card 4 -->
+    <rect x="240" y="0" width="70" height="70" rx="6" class="card" />
+    <rect x="255" y="10" width="40" height="35" rx="6" fill="#064e3b" class="icon-bg" />
+    <rect x="272" y="16" width="6" height="5" rx="1" fill="none" stroke="#4ade80" stroke-width="1.5" />
+    <rect x="265" y="27" width="6" height="5" rx="1" fill="none" stroke="#4ade80" stroke-width="1.5" />
+    <rect x="279" y="27" width="6" height="5" rx="1" fill="none" stroke="#4ade80" stroke-width="1.5" />
+    <line x1="275" y1="21" x2="275" y2="24" stroke="#4ade80" stroke-width="1.5" />
+    <line x1="268" y1="24" x2="282" y2="24" stroke="#4ade80" stroke-width="1.5" />
+    <line x1="268" y1="24" x2="268" y2="27" stroke="#4ade80" stroke-width="1.5" />
+    <line x1="282" y1="24" x2="282" y2="27" stroke="#4ade80" stroke-width="1.5" />
+    <text x="275" y="62" class="text-stat" fill="#ffffff" text-anchor="middle">0</text>
+  </g>
+
+  <!-- Progress Bars -->
+  <g transform="translate(20, 150)">
+    <text x="0" y="0" class="text-label">RACK CAPACITY</text>
+    <text x="310" y="0" class="text-val" text-anchor="end">0%</text>
+    <rect x="0" y="8" width="310" height="4" rx="2" fill="#0b1121" />
+    
+    <text x="0" y="35" class="text-label">POWER</text>
+    <text x="310" y="35" class="text-val" text-anchor="end">0 W</text>
+    <rect x="0" y="43" width="310" height="4" rx="2" fill="#0b1121" />
+  </g>
+
+</svg>

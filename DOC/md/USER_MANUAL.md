@@ -102,4 +102,56 @@ En la sección inferior de "Inventario", los botones `⬇ Excel` y `⬇ CSV` gen
 Presione el botón `📷 PNG` en la barra de herramientas y seleccione un rack. El sistema procesará y descargará una imagen de alta resolución. Si el rack contiene equipos traseros, el PNG incluirá ambas caras (Frontal y Trasera) lado a lado automáticamente. Adicionalmente, si la sala contiene equipos ubicados en el piso, aparecerá una opción para exportar "Equipos de Piso" de forma independiente.
 
 ---
+
+## 6. Arquitectura Visual (Layout Map)
+
+Para facilitar la comprensión del sistema, a continuación se presenta el mapa estructural (Layout Map) de la aplicación, el cual divide la interfaz en zonas lógicas para su navegación y gestión.
+
+![Layout Map Estructural](../html/img/mockup/svg_mocks_area/ui_layout_map_full.svg)
+*Figura: Mapa Estructural de Rack Designer 2.*
+
+Aquí tienes la descripción de cada área y su propósito:
+
+### 1. Logo / Top Left (Bloque Pizarra Oscuro)
+*   **Corresponde a:** La cabecera izquierda:
+    ![Cabecera Izquierda](../html/img/mockup/svg_mocks_area/ui_app_header.svg)
+*   **Función:** Es el ancla de marca y navegación principal. Contiene el isotipo iluminado, el nombre de la app ("RACK Designer"), el estado o nombre del archivo actual ("Nuevo Proyecto") y el botón de menú tipo hamburguesa para acceder a configuraciones globales, guardar, abrir o exportar el proyecto.
+
+### 2. Top Header (Bloque Celeste)
+*   **Corresponde a:** La barra superior global:
+    ![Barra Superior Global](../html/img/mockup/svg_mocks_area/ui_top_bar.svg)
+*   **Función:** Contiene los controles de estado global y búsqueda. Aquí el usuario cambia el modo principal de la aplicación (alternando entre **"Vista Física"** y **"Topología"**). También aloja los botones de Deshacer/Rehacer, el indicador de estado del sistema (el punto verde) y la barra de búsqueda global ("Buscar equipo, IP, MAC...").
+
+### 3. Toolbar / Tabs (Bloque Violeta)
+*   **Corresponde a:** Los controles de vista y zoom:
+    ![Controles de Vista y Zoom](../html/img/mockup/svg_mocks_area/ui_zoom_controls.svg)
+*   **Función:** Actúa como una barra de herramientas flotante pegada al lienzo. Su objetivo exclusivo es manipular la cámara y el entorno visual. Incluye controles de **Zoom** (`-`, `+`, `1:1`), el selector de la ubicación o sala actual (ej. "Sala A1"), y botones para exportar el lienzo a imagen ("PNG") o ponerlo en pantalla completa ("Expandir").
+
+### 4. Sidebar (Bloque Gris/Lateral)
+*   **Corresponde a:** Los paneles laterales contextuales:
+    ![Sidebar](../html/img/mockup/svg_mocks_area/ui_sidebar.svg)
+    ![Stats Panel](../html/img/mockup/svg_mocks_area/ui_stats_panel.svg)
+*   **Función:** Es un panel dinámico multipropósito que cambia según lo que el usuario esté haciendo:
+    *   **Catálogo (Librería):** Muestra botones para agregar racks/equipos, una barra de búsqueda local, filtros (Servers, Red, Storage) y las tarjetas de los equipos arrastrables (Switch, Router, Firewall, UPS) indicando cuántas "U" ocupan.
+    *   **Estadísticas (Dashboard):** Muestra las métricas de la sala (cantidad de servidores, ocupación de unidades U, nodos de red) y las barras de progreso de Capacidad del Rack y Consumo Eléctrico (W).
+
+### 5. Main Canvas (Bloque Gris Claro/Central)
+*   **Corresponde a:** El espacio de trabajo principal y las vistas de detalle:
+    ![Lienzo Principal](../html/img/mockup/svg_mocks_area/ui_main_canvas.svg)
+    ![Rack View](../html/img/mockup/svg_mocks_area/ui_rack_view.svg)
+*   **Función:** 
+    *   **Lienzo interactivo:** Es el área cuadriculada principal donde el usuario arrastra y suelta gabinetes desde la Sidebar para armar la distribución física de la sala o el esquema de topología.
+    *   **Vista de Rack:** Si el usuario abre un gabinete, este mismo lienzo central se transforma para mostrar el detalle vertical frontal y trasero (ej. Rack 101 de 42U), permitiendo atornillar los equipos unidad por unidad.
+
+### 6. Bottom Bar / Pestañas (Bloque Rojo)
+*   **Corresponde a:** La barra inferior minimizada:
+    ![Barra Inferior](../html/img/mockup/svg_mocks_area/ui_bottom_bar.svg)
+*   **Función:** Muestra pestañas rápidas ("Inventario", "Conexiones"), accesos directos para agregar equipos ("⚡ Agregar Equipo"), botones de exportación ("↓ CSV", "↓ Excel") y el control para expandir la tabla completa (▲).
+
+### 7. Tabla de Datos / Inventario Expandido (Bloque Salmón)
+*   **Corresponde a:** El panel inferior a pantalla completa:
+    ![Tabla de Inventario](../html/img/mockup/svg_mocks_area/ui_table_inventory.svg)
+*   **Función:** Es el centro de gestión de datos crudos. Cuando se expande, revela la tabla completa permitiendo auditar y editar masivamente características avanzadas como marcas, modelos, IPs, MACs, contraseñas y consumo eléctrico de todos los equipos del proyecto.
+
+---
 *Fin del Documento*

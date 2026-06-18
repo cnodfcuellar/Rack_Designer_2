@@ -3,12 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manual RACK Designer</title>
+  <title>Manual RACK Designer (One Page)</title>
   <link rel="icon" type="image/svg+xml" href="../../icons/icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/manual.css">
+  <style>
+    /* Forzar visualización de todas las secciones para scroll continuo */
+    .section {
+      display: block !important;
+      opacity: 1 !important;
+      margin-bottom: 120px;
+      animation: none !important;
+      padding-top: 40px; /* Espacio para el ancla al saltar */
+    }
+  </style>
 </head>
 <body>
 
@@ -28,7 +38,7 @@
 
   <main class="main-content">
     
-    <section id="intro" class="section active">
+    <section id="intro" class="section">
       <h1>Introducción y Vista General</h1>
       <p>Bienvenido al manual interactivo de <strong>RACK Designer</strong>. Esta herramienta gráfica está diseñada para simplificar el diseño, documentación e inventario de Centros de Datos.</p>
       
@@ -575,6 +585,30 @@
 
   </main>
 
-  <script src="js/manual.js"></script>
+  <script>
+    // En la versión de página única, implementamos ScrollSpy básico para actualizar 
+    // la pestaña activa en el menú lateral de acuerdo a donde el usuario haga scroll.
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('.section');
+      const navLinks = document.querySelectorAll('.sidebar a');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 250) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

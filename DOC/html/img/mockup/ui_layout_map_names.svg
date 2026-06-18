@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356.92 175.72" width="100%" height="100%">
+  <defs>
+    <style>
+      .text-dark { fill: #0f172a; font-family: 'Inter', sans-serif; font-size: 5px; font-weight: bold; }
+      .text-light { fill: #ffffff; font-family: 'Inter', sans-serif; font-size: 5px; font-weight: bold; }
+    </style>
+  </defs>
+
+  <!-- Top Left Black Block -> Slate 800 -->
+  <rect x="0" y="0" width="79.02" height="18.12" fill="#1E293B" />
+  <text x="39.51" y="9.06" text-anchor="middle" dominant-baseline="middle" class="text-light">Logo / Top Left</text>
+  
+  <!-- Top Right Green Block -> Sky 400 -->
+  <rect x="79.02" y="0" width="277.90" height="18.12" fill="#38BDF8" />
+  <text x="217.97" y="9.06" text-anchor="middle" dominant-baseline="middle" class="text-light">Top Header</text>
+  
+  <!-- Right Magenta Block -> Violet 400 -->
+  <rect x="79.02" y="18.12" width="277.90" height="16.57" fill="#A78BFA" />
+  <text x="217.97" y="26.40" text-anchor="middle" dominant-baseline="middle" class="text-light">Toolbar / Tabs</text>
+  
+  <!-- Left Grey Block -> Slate 600 -->
+  <rect x="0" y="18.12" width="79.02" height="149.60" fill="#475569" />
+  <text x="39.51" y="92.92" text-anchor="middle" dominant-baseline="middle" class="text-light">Sidebar</text>
+  
+  <!-- Center Cyan Block -> Slate 200 -->
+  <rect x="79.02" y="34.69" width="277.90" height="133.03" fill="#E2E8F0" />
+  <text x="217.97" y="101.20" text-anchor="middle" dominant-baseline="middle" class="text-dark">Main Canvas</text>
+  
+  <!-- Bottom Red Block -> Rose 400 -->
+  <rect x="0" y="167.72" width="356.92" height="8.00" fill="#FB7185" />
+  <text x="178.46" y="171.72" text-anchor="middle" dominant-baseline="middle" class="text-light">Bottom Bar / Footer</text>
+</svg>
