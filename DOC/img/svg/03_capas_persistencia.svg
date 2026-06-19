@@ -93,7 +93,7 @@
   <text x="122" y="355" text-anchor="middle" fill="#2a7a9a" font-size="9" font-family="monospace">Rack, U, Lado, Nombre</text>
   <text x="122" y="371" text-anchor="middle" fill="#2a7a9a" font-size="9" font-family="monospace">Marca, Modelo, Tipo, IP</text>
   <text x="122" y="387" text-anchor="middle" fill="#2a7a9a" font-size="9" font-family="monospace">MAC, Serie, Usuario</text>
-  <text x="122" y="403" text-anchor="middle" fill="#ef4444" font-size="9" font-family="monospace">⚠ Sin pass (BUG-16: sin escape)</text>
+  <text x="122" y="403" text-anchor="middle" fill="#10b981" font-size="9" font-family="monospace">✅ Seguro XSS. Modo Dios censura pass.</text>
   <text x="122" y="428" text-anchor="middle" fill="#1a3a5a" font-size="8.5" font-family="monospace">❌ No re-importable</text>
 
   <!-- PNG Rack -->
@@ -113,7 +113,7 @@
   <text x="563" y="355" text-anchor="middle" fill="#9a4a8a" font-size="9" font-family="monospace">Canvas offscreen temporal</text>
   <text x="563" y="371" text-anchor="middle" fill="#9a4a8a" font-size="9" font-family="monospace">Resetea zoom=1 / pan=0</text>
   <text x="563" y="387" text-anchor="middle" fill="#9a4a8a" font-size="9" font-family="monospace">Restaura el ctx original al final</text>
-  <text x="563" y="403" text-anchor="middle" fill="#ef4444" font-size="9" font-family="monospace">⚠ BUG-11: sin bloque try/finally</text>
+  <text x="563" y="403" text-anchor="middle" fill="#10b981" font-size="9" font-family="monospace">✅ Sistema try/finally evita cuelgues</text>
   <text x="563" y="428" text-anchor="middle" fill="#4a1a3a" font-size="8.5" font-family="monospace">❌ No re-importable</text>
 
   <!-- Tablas UI -->

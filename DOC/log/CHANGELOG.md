@@ -1,5 +1,16 @@
-## [2026-06-18 17:25:00] Actualización de Arquitectura Visual (Layout Map) y Manuales
+## [2026-06-19 10:40:00] Reestructuración de Documentación y Actualización de SVG
 ### Añadido
+- **Consolidación de Imágenes:** Se reubicaron todas las imágenes vectoriales de la documentación (`mockups`, `ui`, arquitectónicas) a un directorio centralizado unificado en `doc/img/svg/`.
+- **Actualización Masiva de Rutas:** Se actualizaron dinámicamente más de 100 referencias de rutas de imágenes en todos los archivos `.md` y `.html` para que apunten a la nueva estructura estructurada.
+
+### Corrección de Errores (Documentación)
+- **Sincronización de Diagramas SVG:** Se actualizaron los textos de los diagramas arquitectónicos (`01_estructura_estado.svg`, `02_ciclo_store.svg`, `03_capas_persistencia.svg`, `04_erd_entidades.svg`) para reflejar los últimos *bugfixes*:
+  - Ocultamiento visual de contraseñas (Modo Dios / Seguridad UX).
+  - Eliminación de fuga de memoria reciclando Proxies mediante `WeakMap`.
+  - Exportaciones de CSV y PNG ahora protegidas contra XSS y cuelgues (try/finally).
+  - Actualización de menciones de IDs de `base-36` al nuevo estándar nativo de 16 caracteres `crypto.randomUUID()`.
+
+## [2026-06-18 17:25:00] Actualización de Arquitectura Visual (Layout Map) y Manuales
 - **Manual de Página Única (Single-Page):** Se creó `manual_2.html`, una variante del manual interactivo que muestra todas las secciones en un scroll continuo. Incluye una funcionalidad de ScrollSpy personalizada para actualizar el menú lateral de forma dinámica.
 - **Nuevo Layout Map (`ui_layout_map_full.svg`):** Se diseñó un mapa estructural completo en SVG con proporciones reales. Se aplicó una paleta de colores armónica (Dark Mode) y se agregaron subtítulos identificando los archivos SVG correspondientes a cada bloque.
 

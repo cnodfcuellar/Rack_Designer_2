@@ -12,7 +12,7 @@ La interfaz está diseñada para optimizar el área de trabajo y consta de tres 
 **Adaptabilidad a Pantallas:**
 La aplicación cuenta con soporte adaptativo completo para smartphones y tabletas. En pantallas de escritorio, el diseño se expande lateralmente. En dispositivos móviles, el layout es compacto: los paneles laterales se ocultan automáticamente bajo un menú hamburguesa `☰` para maximizar el área útil del lienzo físico, logrando una vista vertical optimizada.
 
-![Interfaz Móvil](../img/svg/ui/mobil/ui-mobile.svg)
+![Interfaz Móvil](../html/img/ui-mobile.svg)
 *Figura: Vista vertical y compacta adaptada a dispositivos móviles.*
 
 ## 2. Gestión de Salas e Infraestructura
@@ -24,7 +24,7 @@ Las Salas representan espacios físicos aislados (ej. "Data Center Principal", "
 * **Eliminar:** Utilice el icono `x` en la pestaña (solo visible si existe más de una sala).
 
 **Interfaz Móvil:** El formulario de creación de salas se adapta automáticamente a la vista móvil para evitar desbordamientos.
-![Modal de Nueva Sala en Móvil](../img/svg/ui/mobil/ui-mobile-modal-room.svg)
+![Modal de Nueva Sala en Móvil](../html/img/ui-mobile-modal-room.svg)
 *Figura: Modal simplificado para la creación de salas en móviles.*
 
 ### Añadir Gabinetes (Racks)
@@ -41,7 +41,7 @@ Existen dos categorías principales de dispositivos: **Equipos en Rack** (Servid
 * **Ubicación Rápida (⚡):** Operación simplificada para entornos táctiles donde el arrastre puede ser dificultoso. Utilice el icono de rayo junto a un equipo en el catálogo. Seleccione la sala y el gabinete de destino; el sistema encontrará automáticamente un espacio disponible y lo ubicará.
 
 **Catálogo en Dispositivos Móviles:** Al pulsar el botón de menú hamburguesa o el de estadísticas, se despliega un panel lateral flotante (Off-Canvas) con métricas globales y el catálogo de dispositivos optimizado para scroll táctil.
-![Catálogo y Estadísticas en Móvil](../img/svg/ui/mobil/ui-mobile-catalog.svg)
+![Catálogo y Estadísticas en Móvil](../html/img/ui-mobile-catalog.svg)
 *Figura: Panel lateral de Estadísticas y Catálogo de Dispositivos adaptado para pantallas móviles (Menú Off-Canvas).*
 
 ### Editar Configuración del Equipo
@@ -57,12 +57,12 @@ Haga clic sobre cualquier equipo ya ubicado y presione **"✏️ Editar"** en el
 *Nota: La separación de tomas de "Salida" es ideal para documentar equipos proveedores de energía, como regletas (PDUs) o sistemas UPS.*
 
 **Interfaz Móvil:** Los modales de configuración de equipo se reestructuran visualmente en pantallas verticales apilando los campos en una grilla compacta de dos columnas.
-![Modal de Equipo en Móvil](../img/svg/ui/mobil/ui-mobile-modal-device.svg)
+![Modal de Equipo en Móvil](../html/img/ui-mobile-modal-device.svg)
 *Figura: Formulario de adición y edición de equipos optimizado para dispositivos móviles.*
 
 ### Inventario Deslizable
 El panel inferior muestra todos los dispositivos. En escritorio, ocupa el ancho inferior. En **Móvil**, funciona como un contenedor deslizable verticalmente (drawer) que se puede arrastrar hacia arriba para expandir la lista, contando con desplazamiento horizontal táctil para las distintas columnas.
-![Inventario en Móvil](../img/svg/ui/mobil/ui-mobile-inventory.svg)
+![Inventario en Móvil](../html/img/ui-mobile-inventory.svg)
 *Figura: Tabla de inventario expandida y adaptada para scroll en pantallas móviles.*
 
 ### Cara Frontal y Trasera de un Rack
@@ -76,10 +76,10 @@ El modo **Topología** (accesible desde la barra superior) dibuja de forma autom
 * **Organización Visual:** Puede arrastrar libremente los nodos para organizar el mapa. La topología resalta automáticamente los equipos que pertenecen a la sala que esté actualmente activa.
 
 **Topología en Dispositivos Móviles:** En pantallas pequeñas, el mapa auto-escala el nivel de zoom y organiza verticalmente las salas conectadas. Los modales de conexión de puertos también se redimensionan para evitar desbordamientos de campos.
-![Topología en Móvil](../img/svg/ui/mobil/ui-mobile-topology.svg)
+![Topología en Móvil](../html/img/ui-mobile-topology.svg)
 *Figura: Vista de la topología lógica y cableado de red en dispositivos móviles.*
 
-![Modal de Conexión en Móvil](../img/svg/ui/mobil/ui-mobile-modal-connection.svg)
+![Modal de Conexión en Móvil](../html/img/ui-mobile-modal-connection.svg)
 *Figura: Formulario estructurado para el trazado de conexiones y puertos en móviles.*
 
 ## 5. Exportación y Respaldo
@@ -92,7 +92,7 @@ El modo **Topología** (accesible desde la barra superior) dibuja de forma autom
 *(Nota: Si usas navegadores sin soporte completo como Firefox o Safari, el sistema utilizará el método clásico de descargas manuales).*
 
 **Gestión en Móvil:** El menú de opciones globales es accesible mediante un botón hamburguesa superior derecho, desplegando un menú claro y adaptado para comandos táctiles.
-![Menú de Opciones en Móvil](../img/svg/ui/mobil/ui-mobile-menu.svg)
+![Menú de Opciones en Móvil](../html/img/ui-mobile-menu.svg)
 *Figura: Menú de gestión de proyectos adaptado a pantallas móviles.*
 
 ### Exportar Reportes (Excel / CSV)
@@ -107,50 +107,50 @@ Presione el botón `📷 PNG` en la barra de herramientas y seleccione un rack. 
 
 Para facilitar la comprensión del sistema, a continuación se presenta el mapa estructural (Layout Map) de la aplicación, el cual divide la interfaz en zonas lógicas para su navegación y gestión.
 
-![Layout Map Estructural](../img/svg/mockup/svg_mocks_area/ui_layout_map_full.svg)
+![Layout Map Estructural](../html/img/mockup/svg_mocks_area/ui_layout_map_full.svg)
 *Figura: Mapa Estructural de Rack Designer 2.*
 
 Aquí tienes la descripción de cada área y su propósito:
 
 ### 1. Logo / Top Left (Bloque Pizarra Oscuro)
 *   **Corresponde a:** La cabecera izquierda:
-    ![Cabecera Izquierda](../img/svg/mockup/svg_mocks_area/ui_app_header.svg)
+    ![Cabecera Izquierda](../html/img/mockup/svg_mocks_area/ui_app_header.svg)
 *   **Función:** Es el ancla de marca y navegación principal. Contiene el isotipo iluminado, el nombre de la app ("RACK Designer"), el estado o nombre del archivo actual ("Nuevo Proyecto") y el botón de menú tipo hamburguesa para acceder a configuraciones globales, guardar, abrir o exportar el proyecto.
 
 ### 2. Top Header (Bloque Celeste)
 *   **Corresponde a:** La barra superior global:
-    ![Barra Superior Global](../img/svg/mockup/svg_mocks_area/ui_top_bar.svg)
+    ![Barra Superior Global](../html/img/mockup/svg_mocks_area/ui_top_bar.svg)
 *   **Función:** Contiene los controles de estado global y búsqueda. Aquí el usuario cambia el modo principal de la aplicación (alternando entre **"Vista Física"** y **"Topología"**). También aloja los botones de Deshacer/Rehacer, el indicador de estado del sistema (el punto verde) y la barra de búsqueda global ("Buscar equipo, IP, MAC...").
 
 ### 3. Toolbar / Tabs (Bloque Violeta)
 *   **Corresponde a:** Los controles de vista y zoom:
-    ![Controles de Vista y Zoom](../img/svg/mockup/svg_mocks_area/ui_zoom_controls.svg)
+    ![Controles de Vista y Zoom](../html/img/mockup/svg_mocks_area/ui_zoom_controls.svg)
 *   **Función:** Actúa como una barra de herramientas flotante pegada al lienzo. Su objetivo exclusivo es manipular la cámara y el entorno visual. Incluye controles de **Zoom** (`-`, `+`, `1:1`), el selector de la ubicación o sala actual (ej. "Sala A1"), y botones para exportar el lienzo a imagen ("PNG") o ponerlo en pantalla completa ("Expandir").
 
 ### 4. Sidebar (Bloque Gris/Lateral)
 *   **Corresponde a:** Los paneles laterales contextuales:
-    ![Sidebar](../img/svg/mockup/svg_mocks_area/ui_sidebar.svg)
-    ![Stats Panel](../img/svg/mockup/svg_mocks_area/ui_stats_panel.svg)
+    ![Sidebar](../html/img/mockup/svg_mocks_area/ui_sidebar.svg)
+    ![Stats Panel](../html/img/mockup/svg_mocks_area/ui_stats_panel.svg)
 *   **Función:** Es un panel dinámico multipropósito que cambia según lo que el usuario esté haciendo:
     *   **Catálogo (Librería):** Muestra botones para agregar racks/equipos, una barra de búsqueda local, filtros (Servers, Red, Storage) y las tarjetas de los equipos arrastrables (Switch, Router, Firewall, UPS) indicando cuántas "U" ocupan.
     *   **Estadísticas (Dashboard):** Muestra las métricas de la sala (cantidad de servidores, ocupación de unidades U, nodos de red) y las barras de progreso de Capacidad del Rack y Consumo Eléctrico (W).
 
 ### 5. Main Canvas (Bloque Gris Claro/Central)
 *   **Corresponde a:** El espacio de trabajo principal y las vistas de detalle:
-    ![Lienzo Principal](../img/svg/mockup/svg_mocks_area/ui_main_canvas.svg)
-    ![Rack View](../img/svg/mockup/svg_mocks_area/ui_rack_view.svg)
+    ![Lienzo Principal](../html/img/mockup/svg_mocks_area/ui_main_canvas.svg)
+    ![Rack View](../html/img/mockup/svg_mocks_area/ui_rack_view.svg)
 *   **Función:** 
     *   **Lienzo interactivo:** Es el área cuadriculada principal donde el usuario arrastra y suelta gabinetes desde la Sidebar para armar la distribución física de la sala o el esquema de topología.
     *   **Vista de Rack:** Si el usuario abre un gabinete, este mismo lienzo central se transforma para mostrar el detalle vertical frontal y trasero (ej. Rack 101 de 42U), permitiendo atornillar los equipos unidad por unidad.
 
 ### 6. Bottom Bar / Pestañas (Bloque Rojo)
 *   **Corresponde a:** La barra inferior minimizada:
-    ![Barra Inferior](../img/svg/mockup/svg_mocks_area/ui_bottom_bar.svg)
+    ![Barra Inferior](../html/img/mockup/svg_mocks_area/ui_bottom_bar.svg)
 *   **Función:** Muestra pestañas rápidas ("Inventario", "Conexiones"), accesos directos para agregar equipos ("⚡ Agregar Equipo"), botones de exportación ("↓ CSV", "↓ Excel") y el control para expandir la tabla completa (▲).
 
 ### 7. Tabla de Datos / Inventario Expandido (Bloque Salmón)
 *   **Corresponde a:** El panel inferior a pantalla completa:
-    ![Tabla de Inventario](../img/svg/mockup/svg_mocks_area/ui_table_inventory.svg)
+    ![Tabla de Inventario](../html/img/mockup/svg_mocks_area/ui_table_inventory.svg)
 *   **Función:** Es el centro de gestión de datos crudos. Cuando se expande, revela la tabla completa permitiendo auditar y editar masivamente características avanzadas como marcas, modelos, IPs, MACs, contraseñas y consumo eléctrico de todos los equipos del proyecto.
 
 ---

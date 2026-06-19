@@ -106,7 +106,7 @@
   <rect x="20" y="310" width="265" height="118" rx="10" fill="#0d0d1a" stroke="#1e293b" stroke-width="1.5"/>
   <text x="152" y="332" text-anchor="middle" fill="#475569" font-size="12" font-family="monospace" font-weight="bold">📖 Leyenda</text>
   <line x1="30" y1="340" x2="275" y2="340" stroke="#1e293b" stroke-width="0.6"/>
-  <text x="32" y="358" fill="#94a3b8" font-size="10" font-family="monospace">🔑  Clave primaria — uid() base-36</text>
+  <text x="32" y="358" fill="#94a3b8" font-size="10" font-family="monospace">🔑  Clave primaria — crypto.randomUUID()</text>
   <text x="32" y="376" fill="#94a3b8" font-size="10" font-family="monospace">🔗  Clave foránea (FK) — string id</text>
   <text x="32" y="394" fill="#ef4444" font-size="10" font-family="monospace">🔴  Campo de riesgo de seguridad</text>
   <text x="32" y="412" fill="#94a3b8" font-size="10" font-family="monospace">N:M  relación via tabla CONNECTIONS</text>

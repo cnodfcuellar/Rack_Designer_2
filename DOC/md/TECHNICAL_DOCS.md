@@ -83,7 +83,7 @@ Para resolver la ocupación independiente del frontal y la parte posterior del a
 
 El estado de la aplicación reside en un almacén único, centralizado y reactivo implementado mediante un **Proxy ES6** que envuelve al objeto interno `_raw`. 
 
-![Funcionamiento del Store](../html/img/store-funcionamiento.svg)
+![Funcionamiento del Store](../img/svg/Arq/store-funcionamiento.svg)
 *Figura: Funcionamiento detallado del Almacén Central Reactivo (js/store.js) y persistencia.*
 
 #### 1. Detección de Mutaciones (Proxy ES6)
@@ -100,7 +100,7 @@ Cuando ocurre una interceptación de mutación, el Proxy ejecuta los siguientes 
 
 El archivo `js/main.js` actúa como el **Controlador / Orquestador** central de la aplicación. Su función principal es doble: inicializar el entorno global del cliente y actuar como un despachador inteligente de eventos ("Dispatcher") para evitar sobrecargas de procesamiento en el DOM.
 
-![Funcionamiento del Orquestador](../html/img/orquestador-funcionamiento.svg)
+![Funcionamiento del Orquestador](../img/svg/Arq/orquestador-funcionamiento.svg)
 *Figura: Funcionamiento y enrutamiento de eventos reactivos por parte del orquestador central js/main.js.*
 
 #### 1. Estructura y Componentes
@@ -145,7 +145,7 @@ El sistema divide su lógica gráfica en dos entornos independientes y adaptados
 
 La interfaz y los módulos UI de RACK Designer se organizan conceptualmente siguiendo los principios de la metodología **Atomic Design**, ordenando los elementos desde los bloques unitarios hasta pantallas completas interactivas con flujo de datos en tiempo real.
 
-![Evolución de Componentes en Atomic Design](../html/img/atomic_design_spheres.svg)
+![Evolución de Componentes en Atomic Design](../img/svg/Arq/atomic_design_spheres.svg)
 *Figura: Evolución progresiva y composición de componentes desde la unidad básica (átomo) hasta la vista integrada (página).*
 
 ### Mapeo de Niveles del Sistema:

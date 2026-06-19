@@ -642,7 +642,7 @@
             Este diagrama muestra cómo interactúa el usuario con la interfaz física o la topología y cómo la acción es procesada de forma centralizada por el Store. El Store intercepta el cambio con un <strong>Proxy ES6</strong>, lo guarda automáticamente en <strong>localStorage</strong> y notifica al orquestador global <code class="code-inline">main.js</code> para refrescar únicamente los componentes necesarios sin recargas directas de página.
           </p>
           <div class="diagram-container">
-            <img src="img/Arq2/system_architecture.svg" alt="system_architecture" class="architecture-img" style="width: 100%; max-width: 880px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/system_architecture.svg" alt="system_architecture" class="architecture-img" style="width: 100%; max-width: 880px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
             <div class="diagram-caption">Ciclo de Flujo Reactivo de RACK Designer 2</div>
           </div>
         </div>
@@ -653,7 +653,7 @@
             Este mapa ilustra el árbol de importación y dependencias lógicas. En un extremo tenemos los archivos base que no conocen al resto (<code class="code-inline">utils.js</code>, <code class="code-inline">store.js</code> y el catálogo de plantillas), seguidos por los componentes visuales de UI que consumen los servicios del store, y finalmente la estructura de vistas de <code class="code-inline">index.html</code> que ensambla todo.
           </p>
           <div class="diagram-container">
-            <img src="img/Arq2/dependency_tree.svg" alt="dependency_tree" class="architecture-img" style="width: 100%; max-width: 880px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/dependency_tree.svg" alt="dependency_tree" class="architecture-img" style="width: 100%; max-width: 880px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
             <div class="diagram-caption">Estructura Jerárquica y Dependencias Lógicas</div>
           </div>
         </div>
@@ -668,7 +668,7 @@
           Mantener una arquitectura modular y separada por directorios es fundamental para la <strong>escalabilidad y el mantenimiento</strong>. En este proyecto separamos estrictamente la lógica de estado global (<code class="code-inline">store.js</code>) de la lógica de interfaz de usuario e interacción humana (dentro de <code class="code-inline">js/ui/</code>).
         </p>
         <div style="margin-top: 16px;">
-          <img src="img/Arq2/directory_structure.svg" alt="Estructura de Directorios" class="architecture-img" style="width: 100%; max-width: 600px; border-radius: 8px; border: 1px solid #242f41;">
+          <img src="../img/svg/Arq2/directory_structure.svg" alt="Estructura de Directorios" class="architecture-img" style="width: 100%; max-width: 600px; border-radius: 8px; border: 1px solid #242f41;">
         </div>
         <div style="margin-top: 16px; font-size: 14px;">
           <strong style="color:var(--accent);">Importancia de esta segmentación:</strong>
@@ -702,7 +702,7 @@
             los diálogos modales inyectados por JavaScript y los scripts que componen el sistema. 
             Maneja la inicialización temprana de los temas oscuros/claros en el <code class="code-inline">&lt;head&gt;</code> para prevenir el parpadeo de pantalla (FOUC).
             
-            <img src="img/Arq2/index_structure.svg" alt="index_structure" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/index_structure.svg" alt="index_structure" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="file-meta-grid">
             <div class="meta-col">
@@ -794,7 +794,7 @@
             <strong>CSS Grid</strong> y <strong>Flexbox</strong>, y las reglas visuales complejas para cada faceplate de equipos 
             (servidores con rejillas, leds parpadeantes, puertos RJ45 interactivos).
             
-            <img src="img/Arq2/style_flip.svg" alt="style_flip" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/style_flip.svg" alt="style_flip" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           
           <div class="hotspot-guide">
@@ -846,7 +846,7 @@
             Mapea la rueda del mouse y la pantalla táctil para mover (pan) y acercar (zoom) el plano físico y la topología, 
             y carga dinámicamente el script de demostración de datos solo cuando es necesario.
             
-            <img src="img/Arq2/main_orchestrator.svg" alt="main_orchestrator" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/main_orchestrator.svg" alt="main_orchestrator" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="file-meta-grid">
             <div class="meta-col">
@@ -884,7 +884,7 @@
             dispara la sincronización automática con localStorage y emite el evento de cambio global.
             Incluye un histórico de hasta 30 snapshots para Deshacer (Undo) / Rehacer (Redo).
             
-            <img src="img/Arq2/store_proxy.svg" alt="store_proxy" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/store_proxy.svg" alt="store_proxy" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="file-meta-grid">
             <div class="meta-col">
@@ -923,7 +923,7 @@
             generador de IDs cryptográficos seguros tipo UUIDv4 abreviado, gestor dinámico de notificaciones flotantes toast
             y gestor de descargas de blobs JSON.
             
-            <img src="img/Arq2/utils_helpers.svg" alt="utils_helpers" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/utils_helpers.svg" alt="utils_helpers" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -942,7 +942,7 @@
             servidores cargados con IPs simuladas, conexiones de fibra activas y switches conectados). 
             Se carga bajo demanda usando inyección de script dinámico para optimizar el arranque de la app.
             
-            <img src="img/Arq2/demodata_injection.svg" alt="demodata_injection" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/demodata_injection.svg" alt="demodata_injection" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -970,7 +970,7 @@
             (Red, Servidor, Storage, Piso), y enlaza los eventos de arrastre HTML5 tradicionales vinculando los datos iniciales 
             del equipo para pasárselos a los Racks. También controla los tabs de salas en la parte superior.
             
-            <img src="img/Arq2/catalog_drag_flow.svg" alt="catalog_drag_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/catalog_drag_flow.svg" alt="catalog_drag_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -989,7 +989,7 @@
             de servidores (LCDs con IPs vivas, botones de encendido), switches (24 puertos RJ45 parpadeando que reaccionan 
             si el switch está cableado), UPS (pantalla LCD de carga de batería) y la vista trasera del rack con sus tomas PDU.
             
-            <img src="img/Arq2/faceplates_demo.svg" alt="faceplates_demo" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/faceplates_demo.svg" alt="faceplates_demo" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -1008,18 +1008,18 @@
             para ver la parte trasera (rear side) y los escuchadores de eventos para arrastrar y soltar (Drag & Drop) 
             entre el catálogo y las ranuras disponibles del rack.
             
-            <img src="img/Arq2/rack_slots.svg" alt="rack_slots" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/rack_slots.svg" alt="rack_slots" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           <div style="margin-top:20px; border-top:1px solid var(--border-light); padding-top:16px;">
             <h4 style="color:var(--accent); font-family:var(--font-ui); font-size:14px; margin-bottom:12px;">Mejoras Funcionales de Interfaz</h4>
             <ul style="color:var(--text-secondary); font-size:13px; line-height:1.6; margin-left:16px;">
               <li style="margin-bottom:8px;"><strong>Atajos en Canvas Vacío:</strong> Lógica condicional que renderiza botones rápidos directos en <code class="code-inline">view-physical-content</code> cuando <code class="code-inline">store.currentRacks</code> está vacío.</li>
             </ul>
-            <img src="img/Arq2/empty_state_shortcuts.svg" alt="Empty State Shortcuts" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 8px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/empty_state_shortcuts.svg" alt="Empty State Shortcuts" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 8px; border-radius: 8px; border: 1px solid #242f41;">
             
             <ul style="color:var(--text-secondary); font-size:13px; line-height:1.6; margin-left:16px; margin-top:16px;">
               <li style="margin-bottom:8px;"><strong>Menú Contextual de Rack:</strong> La botonera <code class="code-inline">rack-hdr-btns</code> se refactorizó para agrupar las herramientas en un menú desplegable interactivo (<code class="code-inline">rack-menu-toggle</code>), asistido por un event listener global para auto-cierre.</li>
             </ul>
-            <img src="img/Arq2/contextual_menu.svg" alt="Contextual Menu" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 8px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/contextual_menu.svg" alt="Contextual Menu" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 8px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="hotspot-guide">
             <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
@@ -1043,7 +1043,7 @@
           <div class="file-description">
             El motor de topología gráfica 2D ha sido factorizado en un patrón MVC. Consta de 5 archivos: <code class="code-inline">TopologyState.js</code>, <code class="code-inline">TopologyEvents.js</code>, <code class="code-inline">TopologyLayout.js</code>, <code class="code-inline">TopologyRenderer.js</code> y un <code class="code-inline">TopologyOrchestrator.js</code>. Dibuja nodos, curvas Bézier cúbicas e interacciones a 60fps con el Canvas.
             
-            <img src="img/Arq2/topology_canvas.svg" alt="topology_canvas" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/topology_canvas.svg" alt="topology_canvas" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="hotspot-guide">
             <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
@@ -1068,7 +1068,7 @@
             Implementa la edición en celda rápida mediante doble clic con validación inmediata de campos especiales (como máscaras 
             de IP y MAC) y enlaza la generación de archivos Excel (mediante la librería SheetJS) y exportador nativo de CSV.
             
-            <img src="img/Arq2/tables_grid.svg" alt="tables_grid" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/tables_grid.svg" alt="tables_grid" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -1086,7 +1086,7 @@
             Submódulo para validación, apertura y guardado de formularios flotantes. Está dividido en <code class="code-inline">DeviceModal.js</code>, <code class="code-inline">RackModal.js</code>, <code class="code-inline">ExportModal.js</code>, etc. 
             El <code class="code-inline">ExportModal.js</code> contiene la renderización gráfica del SVG/PNG final de la estructura usando canvas virtual.
             
-            <img src="img/Arq2/modals_form.svg" alt="modals_form" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/modals_form.svg" alt="modals_form" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
           <div class="hotspot-guide">
             <div class="hotspot-title">🚨 Guía de Modificación Segura</div>
@@ -1134,7 +1134,7 @@
             scope completo sobre la URL principal de la aplicación, importando toda la lógica interna desde 
             la carpeta de servicios.
             
-            <img src="img/Arq2/sw_root_relay.svg" alt="sw_root_relay" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/sw_root_relay.svg" alt="sw_root_relay" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 
@@ -1153,7 +1153,7 @@
             <strong>Cache First with Network Fallback</strong>). Cachea de forma asíncrona todos los assets de RACK Designer 
             para permitir que la aplicación abra y funcione al 100% sin conexión a internet.
             
-            <img src="img/Arq2/service_worker_flow.svg" alt="service_worker_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
+            <img src="../img/svg/Arq2/service_worker_flow.svg" alt="service_worker_flow" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
         </div>
 

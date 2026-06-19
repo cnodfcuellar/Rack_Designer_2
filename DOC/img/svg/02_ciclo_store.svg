@@ -90,7 +90,7 @@
   <text x="543" y="262" text-anchor="middle" fill="#4a9a70" font-size="9" font-family="monospace">  this._save();   ← AUTOMÁTICO</text>
   <text x="543" y="278" text-anchor="middle" fill="#4a9a70" font-size="9" font-family="monospace">  this._emit('change');</text>
   <text x="543" y="294" text-anchor="middle" fill="#2a5a3a" font-size="9" font-family="monospace">}</text>
-  <text x="543" y="312" text-anchor="middle" fill="#1a3a28" font-size="8.5" font-family="monospace">⚠ BUG-04: crea nuevo Proxy en cada get (memory leak)</text>
+  <text x="543" y="312" text-anchor="middle" fill="#1a3a28" font-size="8.5" font-family="monospace">✅ Memoria optimizada reciclando Proxies (WeakMap)</text>
 
   <!-- Flecha Proxy → _save() -->
   <line x1="636" y1="257" x2="686" y2="257" stroke="#10b981" stroke-width="1.5" marker-end="url(#aG)" class="flow2"/>
@@ -103,7 +103,7 @@
   <text x="791" y="266" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">  JSON.stringify(_raw)</text>
   <text x="791" y="282" text-anchor="middle" fill="#6a4a00" font-size="9" font-family="monospace">)</text>
   <text x="791" y="300" text-anchor="middle" fill="#4a3000" font-size="8.5" font-family="monospace">Ocurre tras CADA mutación.</text>
-  <text x="791" y="314" text-anchor="middle" fill="#4a3000" font-size="8.5" font-family="monospace">En hot paths: memory leak por Proxy</text>
+  <text x="791" y="314" text-anchor="middle" fill="#4a3000" font-size="8.5" font-family="monospace">Optimizado con caché local de WeakMap.</text>
 
   <!-- Flecha _emit → renderAll (hacia abajo desde Proxy) -->
   <line x1="543" y1="322" x2="543" y2="372" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#aB)" class="flow2"/>

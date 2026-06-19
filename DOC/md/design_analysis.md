@@ -6,7 +6,7 @@ A continuación se presenta un carrusel interactivo que explica cada uno de los 
 
 ````carousel
 ### ⚛️ Nivel 1: Átomo (Atom)
-![Átomo](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/html/img/atomic_01_atom.svg)
+![Átomo](../img/svg/Arq/atomic_01_atom.svg)
 
 **Explicación:**
 El átomo es la pieza fundamental e indivisible de la interfaz de usuario. No se puede fraccionar más sin perder su función básica.
@@ -18,7 +18,7 @@ El átomo es la pieza fundamental e indivisible de la interfaz de usuario. No se
   * Etiquetas de texto y campos inputs básicos vacíos.
 <!-- slide -->
 ### 🧬 Nivel 2: Molécula (Molecule)
-![Molécula](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/html/img/atomic_02_molecule.svg)
+![Molécula](../img/svg/Arq/atomic_02_molecule.svg)
 
 **Explicación:**
 Las moléculas se forman al unir dos o más átomos. Adquieren una funcionalidad o significado más complejo del que tenían sus componentes por separado.
@@ -29,7 +29,7 @@ Las moléculas se forman al unir dos o más átomos. Adquieren una funcionalidad
   * Un **Puerto Activo** (combina el círculo indicador de puerto con la lógica de tooltip del cable conectado).
 <!-- slide -->
 ### 🦠 Nivel 3: Organismo (Organism)
-![Organismo](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/html/img/atomic_03_organism.svg)
+![Organismo](../img/svg/Arq/atomic_03_organism.svg)
 
 **Explicación:**
 Los organismos son secciones e interfaces de usuario complejas y autocontenidas creadas mediante la combinación de múltiples moléculas y átomos.
@@ -40,7 +40,7 @@ Los organismos son secciones e interfaces de usuario complejas y autocontenidas 
   * **El Sidebar Off-Canvas:** Aloja la cuadrícula de estadísticas y el listado de componentes del catálogo.
 <!-- slide -->
 ### 📐 Nivel 4: Plantilla (Template)
-![Plantilla](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/html/img/atomic_04_template.svg)
+![Plantilla](../img/svg/Arq/atomic_04_template.svg)
 
 **Explicación:**
 Las plantillas definen la estructura general y la maquetación visual de la interfaz. Indican dónde se colocarán los organismos dentro del lienzo, sin inyectar datos reales (funcionan como wireframes).
@@ -50,7 +50,7 @@ Las plantillas definen la estructura general y la maquetación visual de la inte
   * **El Canvas de Topología vacío:** Define las áreas de arrastre y nodos virtuales.
 <!-- slide -->
 ### 🌐 Nivel 5: Página (Page)
-![Página](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/html/img/atomic_05_page.svg)
+![Página](../img/svg/Arq/atomic_05_page.svg)
 
 **Explicación:**
 La página representa el estado real de la aplicación con la plantilla rellenada con contenido representativo, lógica activa y datos reales del negocio.

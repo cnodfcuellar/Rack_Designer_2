@@ -136,10 +136,10 @@
   <text x="517" y="432" fill="#38bdf8" font-size="10.5" font-family="monospace">  "RACK_DESIGNER_STATE"</text>
 
   <circle cx="506" cy="450" r="5" fill="#ef4444"/>
-  <text x="517" y="454" fill="#94a3b8" font-size="10.5" font-family="monospace">user/pass se guardan SIN cifrado (BUG-01/02).</text>
+  <text x="517" y="454" fill="#94a3b8" font-size="10.5" font-family="monospace">user/pass sin cifrar (Modo Dios oculta en UI).</text>
 
   <circle cx="506" cy="472" r="5" fill="#f59e0b"/>
-  <text x="517" y="476" fill="#94a3b8" font-size="10.5" font-family="monospace">Todas las FK son strings uid() base-36 de 8 chars.</text>
+  <text x="517" y="476" fill="#94a3b8" font-size="10.5" font-family="monospace">Las FK son crypto.randomUUID() de 16 chars.</text>
 
   <circle cx="506" cy="494" r="5" fill="#8b5cf6"/>
   <text x="517" y="498" fill="#94a3b8" font-size="10.5" font-family="monospace">devices puede estar en rack (rackId) o en piso (roomId).</text>
