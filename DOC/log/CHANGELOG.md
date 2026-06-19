@@ -4,6 +4,13 @@
 - **Actualización Masiva de Rutas:** Se actualizaron dinámicamente más de 100 referencias de rutas de imágenes en todos los archivos `.md` y `.html` para que apunten a la nueva estructura estructurada.
 - **Renombre de Directorios HTML:** Se actualizaron las referencias de recursos en los manuales interactivos (`manual.html` y `manual_2.html`) para apuntar a las nuevas carpetas renombradas `manual_css/` y `manual_js/` dentro de `doc/html/`.
 
+### Mejoras de Rendimiento (Documentación)
+- **Separación Lógica de Documentos (User vs Developer):** Se extrajo de manera definitiva toda la teoría arquitectónica y de ingeniería pesada del manual de usuario. Las secciones de "Estructura de Carpetas", "Diseño Atómico (Atomic Design)" y el "Layout Map Visual" fueron transformadas al diseño oscuro premium e integradas como tarjetas en el Dashboard de `arquitectura_2.html`.
+- **Limpieza de Manual Lineal:** El documento `manual_lineal.html` fue depurado, eliminando todos los conceptos de ingeniería que no aportaban valor a un operador final, convirtiéndolo en una guía 100% coherente enfocada únicamente en el uso de la interfaz (desde creación de salas hasta exportación de reportes).
+- **Fusión Arquitectónica (Single Source of Truth):** Se integró toda la documentación y diagramas de `arquitectura.html` dentro de la interfaz moderna tipo Dashboard de `arquitectura_2.html`. Se añadieron tarjetas enriquecidas describiendo el uso de `WeakMap`, bloqueos `try/finally` a 60fps, y un nuevo panel interactivo sobre Seguridad y Modo Dios.
+- **Limpieza de Archivos:** Se eliminó permanentemente el archivo obsoleto `arquitectura.html` tras la fusión exitosa para evitar duplicidad de fuentes de verdad.
+- **Refactorización de `arquitectura.html` previa:** Se eliminaron más de 1200 líneas de código SVG embebido (*inline*) y se reemplazaron por etiquetas `<img src="...">` apuntando a los archivos externos en `doc/img/svg/`. Esto redujo el peso del archivo de **77 KB a 8.7 KB**, mejorando enormemente su mantenibilidad. Se actualizaron además los textos descriptivos para documentar las soluciones a fugas de memoria con `WeakMap`, la separación del CSS/JS de los manuales, y las implementaciones de seguridad como el Modo Dios y `crypto.randomUUID()`.
+
 ### Corrección de Errores (Documentación)
 - **Sincronización de Diagramas SVG:** Se actualizaron los textos de los diagramas arquitectónicos (`01_estructura_estado.svg`, `02_ciclo_store.svg`, `03_capas_persistencia.svg`, `04_erd_entidades.svg`) para reflejar los últimos *bugfixes*:
   - Ocultamiento visual de contraseñas (Modo Dios / Seguridad UX).

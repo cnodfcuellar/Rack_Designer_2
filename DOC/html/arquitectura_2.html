@@ -882,7 +882,7 @@
             El cerebro de datos del Datacenter. Implementa un Store central reactivo mediante <strong>ES6 Proxy</strong>.
             Cualquier asignación directa a propiedades del estado (ej: <code class="code-inline">store.state.racks.push(...)</code>) 
             dispara la sincronización automática con localStorage y emite el evento de cambio global.
-            Incluye un histórico de hasta 30 snapshots para Deshacer (Undo) / Rehacer (Redo).
+            Incluye un histórico de hasta 30 snapshots para Deshacer (Undo) / Rehacer (Redo).<br><br><strong style="color:var(--green)">✓ Corrección de Fugas de Memoria:</strong> El store utiliza un mapa de debilidad (<code class="code-inline">WeakMap</code>) para reciclar eficientemente los objetos Proxy, erradicando los <em>memory leaks</em> del ciclo reactivo de estado.
             
             <img src="../img/svg/Arq2/store_proxy.svg" alt="store_proxy" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
@@ -1041,7 +1041,7 @@
             </div>
           </div>
           <div class="file-description">
-            El motor de topología gráfica 2D ha sido factorizado en un patrón MVC. Consta de 5 archivos: <code class="code-inline">TopologyState.js</code>, <code class="code-inline">TopologyEvents.js</code>, <code class="code-inline">TopologyLayout.js</code>, <code class="code-inline">TopologyRenderer.js</code> y un <code class="code-inline">TopologyOrchestrator.js</code>. Dibuja nodos, curvas Bézier cúbicas e interacciones a 60fps con el Canvas.
+            El motor de topología gráfica 2D ha sido factorizado en un patrón MVC. Consta de 5 archivos: <code class="code-inline">TopologyState.js</code>, <code class="code-inline">TopologyEvents.js</code>, <code class="code-inline">TopologyLayout.js</code>, <code class="code-inline">TopologyRenderer.js</code> y un <code class="code-inline">TopologyOrchestrator.js</code>. Dibuja nodos, curvas Bézier cúbicas e interacciones a 60fps con el Canvas.<br><br><strong style="color:var(--accent)">Rendimiento Garantizado:</strong> Todo el Pipeline de Renderizado opera a <strong>60fps constantes</strong> usando RequestAnimationFrame. Además, se han implementado protecciones <code class="code-inline">try/finally</code> críticas para evitar fallos de renderizado y fugas al exportar mapas densos a imágenes.
             
             <img src="../img/svg/Arq2/topology_canvas.svg" alt="topology_canvas" class="architecture-img" style="width: 100%; max-width: 450px; margin-top: 16px; border-radius: 8px; border: 1px solid #242f41;">
           </div>
@@ -1159,6 +1159,104 @@
 
       </div>
 
+    </div>
+    
+    <!-- MIGRATED SECTIONS FROM MANUAL -->
+    <div id="atomic" class="file-card" style="margin-top:40px; border-color:var(--accent);">
+      <div class="section-title" style="margin-top:0;"><h2>Diseño Atómico (Atomic Design)</h2></div>
+      <p>La arquitectura de componentes de <strong>RACK Designer 2</strong> se organiza bajo los principios de <strong>Atomic Design</strong>, estructurando de manera jerárquica las interfaces desde los bloques más elementales hasta las páginas funcionales conectadas a datos de red en tiempo real.</p>
+      
+      <div style="margin-bottom: 24px;" class="graphic-box transparent">
+        <img src="../img/svg/Arq/atomic_design_spheres.svg" alt="Evolución de Componentes en Atomic Design" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="file-description" style="margin-top: 12px; font-style: italic; border-left: 3px solid var(--border); padding-left: 12px;" style="margin-top: 8px;">Figura: Mapa de evolución progresiva de componentes utilizando una metáfora de esferas y enlaces de integración.</div>
+      </div>
+
+      <div class="section-subtitle"><h3>Categorización de Componentes</h3></div>
+      <div class="file-meta-grid" style="grid-template-columns: 1fr;">
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>1. Átomos (Atoms)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;">Bloques visuales o de interacción indivisibles. Ejemplos en la app son los slots vacíos individuales de 1U (<code>.u-slot</code>), los botones de zoom (+/-), los íconos de estado SVG (⚡) y las variables CSS de la paleta de colores.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>2. Moléculas (Molecules)**</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;">Combinaciones lógicas de átomos con comportamiento específico. Ejemplos son las agrupaciones de formulario (Label + Input + Tooltip), los ítems del catálogo izquierdo (Icono + Nombre + Menú contextual <code>⋮</code>) y las pestañas selectoras de salas.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>3. Organismos (Organisms)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;">Estructuras de UI complejas y autocontenidas. Ejemplos son el Gabinete (Rack) completo con sus unidades delanteras y traseras, el modal de edición de equipos, el panel lateral off-canvas y las tablas de inventario y conexiones del panel inferior.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>4. Plantillas (Templates)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;">Estructuras vacías que definen el maquetado o wireframe visual. Ejemplos son la distribución principal (CSS Grid Layout), el lienzo interactivo de topología y la plantilla de modales emergentes.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>5. Páginas (Pages)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;">Vistas completas e instanciadas con datos reales reactivos de <code>store.js</code>. Ejemplos son el lienzo del Data Center con sus equipos de prueba atornillados y el mapa de red activo en la vista de topología con las IPs y switches reales conectados.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="visual_layout" class="file-card" style="margin-top:40px; border-color:var(--accent);">
+      <div class="section-title" style="margin-top:0;"><h2>Arquitectura Visual (Layout Map)</h2></div>
+      <p>Para facilitar la comprensión del sistema, a continuación se presenta el mapa estructural (Layout Map) de la aplicación, el cual divide la interfaz en zonas lógicas para su navegación y gestión.</p>
+      
+      <div style="margin-bottom: 24px;" class="graphic-box transparent">
+        <img src="../img/svg/mockup/svg_mocks_area/ui_layout_map_full.svg" alt="Layout Map Estructural" style="max-width: 950px; margin: 0 auto; border: 1px solid #232733; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="file-description" style="margin-top: 12px; font-style: italic; border-left: 3px solid var(--border); padding-left: 12px;" style="margin-top: 8px;">Figura: Mapa Estructural de Rack Designer 2.</div>
+      </div>
+
+      <p>Aquí tienes la descripción de cada área y su propósito:</p>
+
+      <div class="file-meta-grid" style="grid-template-columns: 1fr;">
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>1. Logo / Top Left (Bloque Pizarra Oscuro)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> La cabecera izquierda:<br>
+          <img src="../img/svg/mockup/svg_mocks_area/ui_app_header.svg" alt="ui_app_header" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #334155; border-radius: 6px;"><br>
+          <strong>Función:</strong> Es el ancla de marca y navegación principal. Contiene el isotipo iluminado, el nombre de la app ("RACK Designer"), el estado o nombre del archivo actual ("Nuevo Proyecto") y el botón de menú tipo hamburguesa para acceder a configuraciones globales, guardar, abrir o exportar el proyecto.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>2. Top Header (Bloque Celeste)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> La barra superior global:<br>
+          <img src="../img/svg/mockup/svg_mocks_area/ui_top_bar.svg" alt="ui_top_bar" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #334155; border-radius: 6px;"><br>
+          <strong>Función:</strong> Contiene los controles de estado global y búsqueda. Aquí el usuario cambia el modo principal de la aplicación (alternando entre "Vista Física" y "Topología"). También aloja los botones de Deshacer/Rehacer, el indicador de estado del sistema (el punto verde, que al hacerle clic activa el <strong>"Modo Rendimiento"</strong> pausando todas las animaciones del proyecto) y la barra de búsqueda global.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>3. Toolbar / Tabs (Bloque Violeta)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> Los controles de vista y zoom:<br>
+          <img src="../img/svg/mockup/svg_mocks_area/ui_zoom_controls.svg" alt="ui_zoom_controls" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #334155; border-radius: 6px;"><br>
+          <strong>Función:</strong> Actúa como una barra de herramientas flotante pegada al lienzo. Su objetivo exclusivo es manipular la cámara y el entorno visual. Incluye controles de Zoom, el selector de la ubicación o sala actual, y botones para exportar el lienzo a imagen o ponerlo en pantalla completa.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>4. Sidebar (Bloque Gris/Lateral)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> Los paneles laterales contextuales:<br>
+          <div style="display:flex; gap:10px; overflow-x:auto; margin: 10px 0; padding-bottom: 5px;">
+            <img src="../img/svg/mockup/svg_mocks_area/ui_sidebar.svg" alt="ui_sidebar" style="height: 150px; border: 1px solid #334155; border-radius: 6px;">
+            <img src="../img/svg/mockup/svg_mocks_area/ui_stats_panel.svg" alt="ui_stats_panel" style="height: 150px; border: 1px solid #334155; border-radius: 6px;">
+          </div>
+          <strong>Función:</strong> Es un panel dinámico multipropósito: Catálogo (Librería) y Estadísticas (Dashboard).</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>5. Main Canvas (Bloque Gris Claro/Central)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> El espacio de trabajo principal y vistas de detalle:<br>
+          <div style="display:flex; flex-direction:column; gap:10px; margin: 10px 0;">
+            <img src="../img/svg/mockup/svg_mocks_area/ui_main_canvas.svg" alt="ui_main_canvas" style="max-width: 100%; height: auto; border: 1px solid #334155; border-radius: 6px;">
+            <img src="../img/svg/mockup/svg_mocks_area/ui_rack_view.svg" alt="ui_rack_view" style="max-width: 100%; height: auto; border: 1px solid #334155; border-radius: 6px;">
+          </div>
+          <strong>Función:</strong> Es el lienzo cuadriculado interactivo para ubicar gabinetes en la sala y organizar la topología. Además, es el área encargada de renderizar la "Vista de Rack" detallada cuando se abre un gabinete, permitiendo atornillar equipos en las "U" frontales y traseras.</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>6. Bottom Bar / Pestañas (Bloque Rojo)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> La barra inferior minimizada:<br>
+          <img src="../img/svg/mockup/svg_mocks_area/ui_bottom_bar.svg" alt="ui_bottom_bar" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #334155; border-radius: 6px;"><br>
+          <strong>Función:</strong> Muestra pestañas rápidas ("Inventario", "Conexiones"), accesos directos para agregar equipos ("⚡ Agregar Equipo"), botones de exportación ("↓ CSV", "↓ Excel") y el control para expandir la tabla completa (▲).</p>
+        </div>
+        <div class="meta-col" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 8px;">
+          <h4>7. Tabla de Datos / Inventario Expandido (Bloque Salmón)</h4>
+          <p style="color:var(--text-secondary); font-size: 13px;"><strong>Corresponde a:</strong> El panel inferior a pantalla completa:<br>
+          <img src="../img/svg/mockup/svg_mocks_area/ui_table_inventory.svg" alt="ui_table_inventory" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #334155; border-radius: 6px;"><br>
+          <strong>Función:</strong> Es el centro de gestión de datos crudos. Cuando se expande, revela la tabla completa permitiendo auditar y editar masivamente características avanzadas como marcas, modelos, IPs, MACs, contraseñas y consumo eléctrico de todos los equipos del proyecto.</p>
+        </div>
+      </div>
     </div>
   </main>
 

@@ -120,7 +120,7 @@ Aquí tienes la descripción de cada área y su propósito:
 ### 2. Top Header (Bloque Celeste)
 *   **Corresponde a:** La barra superior global:
     ![Barra Superior Global](../img/svg/mockup/svg_mocks_area/ui_top_bar.svg)
-*   **Función:** Contiene los controles de estado global y búsqueda. Aquí el usuario cambia el modo principal de la aplicación (alternando entre **"Vista Física"** y **"Topología"**). También aloja los botones de Deshacer/Rehacer, el indicador de estado del sistema (el punto verde) y la barra de búsqueda global ("Buscar equipo, IP, MAC...").
+*   **Función:** Contiene los controles de estado global y búsqueda. Aquí el usuario cambia el modo principal de la aplicación (alternando entre **"Vista Física"** y **"Topología"**). También aloja los botones de Deshacer/Rehacer, el indicador de estado del sistema (el punto verde, que al hacerle clic activa el **"Modo Rendimiento"** pausando todas las animaciones del proyecto) y la barra de búsqueda global ("Buscar equipo, IP, MAC...").
 
 ### 3. Toolbar / Tabs (Bloque Violeta)
 *   **Corresponde a:** Los controles de vista y zoom:
