@@ -2,6 +2,7 @@
 ### Añadido
 - **Consolidación de Imágenes:** Se reubicaron todas las imágenes vectoriales de la documentación (`mockups`, `ui`, arquitectónicas) a un directorio centralizado unificado en `doc/img/svg/`.
 - **Actualización Masiva de Rutas:** Se actualizaron dinámicamente más de 100 referencias de rutas de imágenes en todos los archivos `.md` y `.html` para que apunten a la nueva estructura estructurada.
+- **Renombre de Directorios HTML:** Se actualizaron las referencias de recursos en los manuales interactivos (`manual.html` y `manual_2.html`) para apuntar a las nuevas carpetas renombradas `manual_css/` y `manual_js/` dentro de `doc/html/`.
 
 ### Corrección de Errores (Documentación)
 - **Sincronización de Diagramas SVG:** Se actualizaron los textos de los diagramas arquitectónicos (`01_estructura_estado.svg`, `02_ciclo_store.svg`, `03_capas_persistencia.svg`, `04_erd_entidades.svg`) para reflejar los últimos *bugfixes*:
