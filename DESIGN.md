@@ -164,6 +164,13 @@ El sistema es predominantemente plano (Flat Design de Alto Contraste). No se uti
 | Nivel 2 | Fondo `{colors.bg-card2}` | Tarjetas internas, estados hover de pestañas |
 | Modales | Fondo `{colors.bg-card1}` + Borde de acento o sombra sólida | Ventanas emergentes de edición |
 
+## Controles Específicos (Toggles y Acordeones)
+
+Para mantener la estética densa y coherente con un entorno de desarrollo:
+- **Toggles (Interruptores):** Se prohíbe el uso de checkboxes blancos nativos de HTML. Todos los interruptores deben estar diseñados con CSS puro (ovalados, sin `appearance`), usando `{colors.bg-main}` de fondo y brillando en `{colors.accent}` al estar activos.
+- **Acordeones / Módulos:** Las barras de título de módulos plegables deben respetar la altura forzada de `24px`. No agregar paddings verticales extensos.
+- **Iconografía:** Todo icono debe ser tipográfico y escalable (FontAwesome). **Queda prohibido el uso de Emojis del sistema operativo** (🏭, 🌐, etc.) en elementos de interfaz, ya que introducen colores variables y rompen la estética inmersiva "Dark Theme".
+
 ## Do's and Don'ts
 
 ### Do
@@ -171,9 +178,11 @@ El sistema es predominantemente plano (Flat Design de Alto Contraste). No se uti
 - Respetar la altura de `24px` para cualquier nuevo componente que el usuario deba cliquear en toolbars o modales.
 - Usar `JetBrains Mono` cada vez que se visualicen números de puertos, direcciones de red, y estados LCD del servidor.
 - Mantener las esquinas cuadradas o con radios muy pequeños (`{rounded.md}` a lo sumo) para botones y tarjetas.
+- Utilizar iconos monocromáticos (FontAwesome) integrados con el color de texto secundario o acento.
 
 ### Don't
 - NO usar sombras desenfocadas ni transparencias glassmórficas ("AI Slop").
 - NO usar tonos magenta, lila, morado o naranja vibrante como parte del branding principal.
 - NO aplicar `padding` vertical asimétrico que rompa la altura de 24px en los botones.
 - NO aumentar la escala global de tipografías intentando hacerlo "más legible" para estándares SaaS de consumo; esto es una herramienta técnica que exige densidad.
+- NO utilizar Emojis nativos ni controles de formulario (`<input type="checkbox">`) sin estilizarlos apropiadamente al tema oscuro.

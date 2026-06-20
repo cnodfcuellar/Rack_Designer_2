@@ -23,11 +23,23 @@
 .btn-confirm.danger:hover { background: var(--red); color: white; }
 
 /* Accordion Modules for Modals */
-.accordion-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; position: relative; }
-.module-toggle { position: absolute; right: 12px; top: 12px; width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
-.module-header { padding: 10px 12px; font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; color: var(--text-main); }
-.module-header label { cursor: pointer; display: block; width: 100%; height: 100%; margin: 0; padding-right: 30px; }
-.module-content { padding: 0 12px 12px 12px; border-top: 1px dashed var(--border); margin-top: 4px; padding-top: 8px; }
+.accordion-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 4px; position: relative; }
+.module-toggle {
+  position: absolute; right: 8px; top: 4px; width: 28px; height: 16px; 
+  appearance: none; background: var(--bg-main); border-radius: 10px; 
+  border: 1px solid var(--border); cursor: pointer; outline: none; transition: all 0.2s;
+}
+.module-toggle::after {
+  content: ''; position: absolute; top: 1px; left: 2px; width: 12px; height: 12px;
+  background: var(--text-muted); border-radius: 50%; transition: all 0.2s;
+}
+.module-toggle:checked { background: var(--accent-glow); border-color: var(--accent); }
+.module-toggle:checked::after { transform: translateX(12px); background: var(--accent); }
+.module-header { padding: 0 8px; height: 24px; display: flex; align-items: center; font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
+.module-header label { cursor: pointer; display: flex; align-items: center; gap: 6px; width: 100%; height: 100%; margin: 0; padding-right: 40px; }
+.module-header label i { color: var(--text-muted); font-size: 11px; width: 14px; text-align: center; }
+.module-content { padding: 0 12px 10px 12px; border-top: 1px dashed var(--border); }
 .module-toggle:not(:checked) ~ .module-content { display: none; }
-.module-toggle:checked ~ .module-header { color: var(--accent); }
+.module-toggle:checked ~ .module-header { color: var(--text-primary); }
+.module-toggle:checked ~ .module-header label i { color: var(--accent); }
 
