@@ -8,19 +8,23 @@ function openAddDeviceModal() {
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
+  const devStatus = document.getElementById('dev-status');
+  if (devStatus) devStatus.value = 'active';
+
   document.getElementById('dev-power').value = '200';
   document.getElementById('dev-plugs').value = '1';
   document.getElementById('dev-plugs-out').value = '0';
   document.getElementById('dev-category').value = 'rack';
   document.getElementById('dev-category').dispatchEvent(new Event('change'));
   document.getElementById('dev-type').value = 'server';
+  document.getElementById('dev-side').value = 'front';
 
+  document.getElementById('dev-has-brand').checked = false;
+  document.getElementById('dev-has-loc').checked = true;
   document.getElementById('dev-has-net').checked = false;
-  document.getElementById('dev-has-net').dispatchEvent(new Event('change'));
   document.getElementById('dev-has-auth').checked = false;
-  document.getElementById('dev-has-auth').dispatchEvent(new Event('change'));
-  document.getElementById('dev-has-power').checked = true;
-  document.getElementById('dev-has-power').dispatchEvent(new Event('change'));
+  document.getElementById('dev-has-power').checked = false;
+  document.getElementById('dev-has-notes').checked = false;
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -35,12 +39,17 @@ function openEditCatalogModal(id) {
   document.getElementById('modal-device-sub').textContent = isFloor ? 'Equipo de piso — se coloca directamente en la sala' : `Catálogo ID: ${id}`;
   document.getElementById('dev-name').value  = dev.name;
   
+  const devStatus = document.getElementById('dev-status');
+  if (devStatus) devStatus.value = dev.status || 'active';
+
   document.getElementById('dev-category').value = isFloor ? 'floor' : 'rack';
   document.getElementById('dev-category').dispatchEvent(new Event('change'));
   
   document.getElementById('dev-type').value  = dev.type;
   document.getElementById('dev-size').value  = dev.size;
   document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-side').value  = dev.mountSide || 'front';
+  document.getElementById('dev-side-row').style.display = isFloor ? 'none' : '';
   document.getElementById('dev-brand').value = dev.brand || '';
   document.getElementById('dev-model').value = dev.model || '';
   document.getElementById('dev-ip').value    = dev.ip   || '';
@@ -55,12 +64,12 @@ function openEditCatalogModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
 
+  document.getElementById('dev-has-brand').checked = !!(dev.brand || dev.model || dev.serial);
+  document.getElementById('dev-has-loc').checked = true;
   document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
-  document.getElementById('dev-has-net').dispatchEvent(new Event('change'));
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
-  document.getElementById('dev-has-auth').dispatchEvent(new Event('change'));
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
-  document.getElementById('dev-has-power').dispatchEvent(new Event('change'));
+  document.getElementById('dev-has-notes').checked = !!(dev.notes);
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -75,12 +84,17 @@ function openEditDeviceModal(id) {
   document.getElementById('modal-device-sub').textContent = isFloor ? 'Equipo de piso — se coloca directamente en la sala' : `ID: ${id}`;
   document.getElementById('dev-name').value  = dev.name;
   
+  const devStatus = document.getElementById('dev-status');
+  if (devStatus) devStatus.value = dev.status || 'active';
+
   document.getElementById('dev-category').value = isFloor ? 'floor' : 'rack';
   document.getElementById('dev-category').dispatchEvent(new Event('change'));
 
   document.getElementById('dev-type').value  = dev.type;
   document.getElementById('dev-size').value  = dev.size || 0;
   document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-side').value  = dev.mountSide || 'front';
+  document.getElementById('dev-side-row').style.display = isFloor ? 'none' : '';
   document.getElementById('dev-brand').value = dev.brand || '';
   document.getElementById('dev-model').value = dev.model || '';
   document.getElementById('dev-ip').value    = dev.ip   || '';
@@ -95,12 +109,12 @@ function openEditDeviceModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
 
+  document.getElementById('dev-has-brand').checked = !!(dev.brand || dev.model || dev.serial);
+  document.getElementById('dev-has-loc').checked = true;
   document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
-  document.getElementById('dev-has-net').dispatchEvent(new Event('change'));
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
-  document.getElementById('dev-has-auth').dispatchEvent(new Event('change'));
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
-  document.getElementById('dev-has-power').dispatchEvent(new Event('change'));
+  document.getElementById('dev-has-notes').checked = !!(dev.notes);
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -111,6 +125,10 @@ function initDeviceModal() {
     const sizeRow = document.getElementById('dev-size').closest('.form-row');
     if (sizeRow) {
       sizeRow.style.display = isFloor ? 'none' : '';
+    }
+    const sideRow = document.getElementById('dev-side-row');
+    if (sideRow) {
+      sideRow.style.display = isFloor ? 'none' : '';
     }
     document.getElementById('modal-device-sub').textContent = isFloor
       ? 'Equipo de piso — se coloca directamente en la sala'
@@ -125,44 +143,39 @@ function initDeviceModal() {
     document.getElementById('dev-type').dispatchEvent(new Event('change'));
   });
 
-  const toggleModule = (cbId, inputIds) => {
-    const cb = document.getElementById(cbId);
-    if (!cb) return;
-    cb.addEventListener('change', () => {
-      inputIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.disabled = !cb.checked;
-          if (!cb.checked && el.tagName === 'INPUT' && el.type !== 'number') el.value = '';
-        }
-      });
-    });
-  };
-  toggleModule('dev-has-net', ['dev-ip', 'dev-mac']);
-  toggleModule('dev-has-auth', ['dev-user', 'dev-pass']);
-  toggleModule('dev-has-power', ['dev-plugs', 'dev-plugs-out', 'dev-power']);
-
   document.getElementById('modal-device-save').addEventListener('click', () => {
     const name = document.getElementById('dev-name').value.trim();
-    const ip   = document.getElementById('dev-ip').value.trim();
-    const mac  = document.getElementById('dev-mac').value.trim();
+    const hasNet = document.getElementById('dev-has-net').checked;
+    const ip   = hasNet ? document.getElementById('dev-ip').value.trim() : '';
+    const mac  = hasNet ? document.getElementById('dev-mac').value.trim() : '';
+    
     if (!name) { notify('Ingresa un nombre', 'error'); return; }
     if (ip && !/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) { notify('IP inválida (0-255)', 'error'); return; }
     if (mac && !/^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$/.test(mac)) { notify('MAC inválida', 'error'); return; }
 
+    const hasBrand = document.getElementById('dev-has-brand').checked;
+    const hasAuth = document.getElementById('dev-has-auth').checked;
+    const hasPower = document.getElementById('dev-has-power').checked;
+    const hasNotes = document.getElementById('dev-has-notes').checked;
+    
+    const devStatus = document.getElementById('dev-status');
+
     const props = {
-      name, type: document.getElementById('dev-type').value,
+      name, 
+      type: document.getElementById('dev-type').value,
+      status: devStatus ? devStatus.value : 'active',
       size: parseInt(document.getElementById('dev-size').value),
+      mountSide: document.getElementById('dev-side').value || 'front',
       ip, mac,
-      serial: document.getElementById('dev-serial').value.trim(),
-      brand: document.getElementById('dev-brand').value.trim(),
-      model: document.getElementById('dev-model').value.trim(),
-      power:  parseInt(document.getElementById('dev-power').value) || 0,
-      plugs:  parseInt(document.getElementById('dev-plugs').value) || 0,
-      plugsOut: parseInt(document.getElementById('dev-plugs-out').value) || 0,
-      user:   document.getElementById('dev-user').value.trim(),
-      pass:   document.getElementById('dev-pass').value,
-      notes:  document.getElementById('dev-notes').value.trim()
+      serial: hasBrand ? document.getElementById('dev-serial').value.trim() : '',
+      brand: hasBrand ? document.getElementById('dev-brand').value.trim() : '',
+      model: hasBrand ? document.getElementById('dev-model').value.trim() : '',
+      power: hasPower ? (parseInt(document.getElementById('dev-power').value) || 0) : 0,
+      plugs: hasPower ? (parseInt(document.getElementById('dev-plugs').value) || 0) : 0,
+      plugsOut: hasPower ? (parseInt(document.getElementById('dev-plugs-out').value) || 0) : 0,
+      user: hasAuth ? document.getElementById('dev-user').value.trim() : '',
+      pass: hasAuth ? document.getElementById('dev-pass').value : '',
+      notes: hasNotes ? document.getElementById('dev-notes').value.trim() : ''
     };
 
     if (editingCatalogId) {

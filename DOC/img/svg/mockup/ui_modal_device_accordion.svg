@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="450" height="600" viewBox="0 0 450 600">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap');
+      .text-title { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; fill: #f1f5f9; }
+      .text-subtitle { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; fill: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; }
+      .text-label { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; fill: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+      .text-input { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 400; fill: #f1f5f9; }
+      .text-placeholder { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 400; fill: #475569; }
+      .text-accordion { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; fill: #f1f5f9; }
+      .text-btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; }
+      
+      .bg-modal { fill: #141a24; stroke: #242f41; stroke-width: 1; rx: 12px; }
+      .bg-input { fill: #0f131a; stroke: #242f41; stroke-width: 1; rx: 6px; }
+      .bg-input-focus { fill: #0f131a; stroke: #38bdf8; stroke-width: 1.5; rx: 6px; }
+      .bg-accordion { fill: #1b2433; stroke: #242f41; stroke-width: 1; rx: 6px; }
+      .bg-btn-primary { fill: #38bdf8; rx: 6px; }
+      .bg-btn-secondary { fill: transparent; stroke: #475569; stroke-width: 1; rx: 6px; }
+      .separator { stroke: #242f41; stroke-width: 1; stroke-dasharray: 4 4; }
+      .icon-accent { fill: #38bdf8; }
+      .icon-muted { fill: #64748b; }
+      .toggle-on { fill: #10b981; }
+      .toggle-off { fill: #475569; }
+    </style>
+  </defs>
+
+  <!-- Modal Background -->
+  <rect class="bg-modal" x="10" y="10" width="430" height="580" />
+
+  <!-- Header -->
+  <text class="text-title" x="30" y="45">🖥️ Nuevo Equipo</text>
+  <path d="M 410 30 L 425 45 M 425 30 L 410 45" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+  <line x1="10" y1="65" x2="440" y2="65" stroke="#242f41" stroke-width="1"/>
+
+  <!-- Información General -->
+  <text class="text-subtitle" x="30" y="95">Información General</text>
+  
+  <!-- Nombre -->
+  <text class="text-label" x="30" y="125">Nombre del Equipo *</text>
+  <rect class="bg-input-focus" x="30" y="135" width="390" height="36" />
+  <text class="text-input" x="42" y="158">SRV-001</text>
+  <line x1="103" y1="143" x2="103" y2="163" stroke="#38bdf8" stroke-width="1.5" /> <!-- Cursor -->
+
+  <!-- Tipo & Estado -->
+  <text class="text-label" x="30" y="195">Tipo de Equipo *</text>
+  <rect class="bg-input" x="30" y="205" width="185" height="36" />
+  <text class="text-input" x="42" y="228">🖥️ Servidor</text>
+  <path d="M 195 218 L 200 225 L 205 218 Z" fill="#64748b"/>
+
+  <text class="text-label" x="235" y="195">Estado *</text>
+  <rect class="bg-input" x="235" y="205" width="185" height="36" />
+  <circle cx="250" cy="223" r="4" fill="#10b981" />
+  <text class="text-input" x="262" y="228">Activo</text>
+  <path d="M 400 218 L 405 225 L 410 218 Z" fill="#64748b"/>
+
+  <!-- Separator -->
+  <line class="separator" x1="30" y1="265" x2="420" y2="265" />
+
+  <!-- Accordions -->
+  <!-- Fabricante (Expanded) -->
+  <rect class="bg-accordion" x="30" y="285" width="390" height="120" stroke="#38bdf8"/>
+  <text class="text-accordion" x="42" y="310">🏭 Fabricante</text>
+  
+  <!-- Toggle Switch ON -->
+  <rect x="380" y="295" width="28" height="16" rx="8" fill="#10b981"/>
+  <circle cx="400" cy="303" r="6" fill="#141a24"/>
+
+  <!-- Expanded content -->
+  <text class="text-label" x="42" y="340">Marca</text>
+  <rect class="bg-input" x="42" y="350" width="180" height="32" />
+  <text class="text-input" x="52" y="371">HP</text>
+
+  <text class="text-label" x="232" y="340">Modelo</text>
+  <rect class="bg-input" x="232" y="350" width="176" height="32" />
+  <text class="text-placeholder" x="242" y="371">Ej. ProLiant DL380</text>
+
+  <!-- Ubicación (Collapsed) -->
+  <rect class="bg-accordion" x="30" y="415" width="390" height="40" />
+  <text class="text-accordion" x="42" y="440">📍 Ubicación (Rack / Piso)</text>
+  <!-- Toggle Switch OFF -->
+  <rect x="380" y="427" width="28" height="16" rx="8" fill="#475569"/>
+  <circle cx="388" cy="435" r="6" fill="#94a3b8"/>
+
+  <!-- Red (Collapsed) -->
+  <rect class="bg-accordion" x="30" y="465" width="390" height="40" />
+  <text class="text-accordion" x="42" y="490">🌐 Configuración de Red</text>
+  <!-- Toggle Switch OFF -->
+  <rect x="380" y="477" width="28" height="16" rx="8" fill="#475569"/>
+  <circle cx="388" cy="485" r="6" fill="#94a3b8"/>
+
+  <!-- Footer Gradient & Buttons -->
+  <rect x="10" y="525" width="430" height="65" fill="#141a24" rx="12"/>
+  <line x1="10" y1="525" x2="440" y2="525" stroke="#242f41" stroke-width="1"/>
+
+  <rect class="bg-btn-secondary" x="220" y="540" width="90" height="36" />
+  <text class="text-btn" x="235" y="563" fill="#94a3b8">Cancelar</text>
+
+  <rect class="bg-btn-primary" x="320" y="540" width="100" height="36" />
+  <text class="text-btn" x="345" y="563" fill="#080c14">Guardar</text>
+
+</svg>

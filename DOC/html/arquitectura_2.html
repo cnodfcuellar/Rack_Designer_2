@@ -537,6 +537,18 @@
       </a>
 
       <div class="menu-section-title">Lógica JS Core</div>
+      <a onclick="scrollToSection('models-dir')" class="menu-item file-link" data-filename="js/models/">
+        <span>🧱 js/models/</span>
+        <span class="menu-item-badge">DIR</span>
+      </a>
+      <a onclick="scrollToSection('api-dir')" class="menu-item file-link" data-filename="js/api/">
+        <span>🔌 js/api/</span>
+        <span class="menu-item-badge">DIR</span>
+      </a>
+      <a onclick="scrollToSection('core-dir')" class="menu-item file-link" data-filename="js/core/">
+        <span>⚙️ js/core/</span>
+        <span class="menu-item-badge">DIR</span>
+      </a>
       <a onclick="scrollToSection('main-js')" class="menu-item file-link" data-filename="js/main.js">
         <span>🚀 js/main.js</span>
         <span class="menu-item-badge">JS</span>
@@ -831,6 +843,33 @@
       
       <div class="files-grid">
         
+        <!-- js/models/ -->
+        <div class="file-card" id="models-dir">
+          <div class="file-card-header">
+            <div class="file-path">🧱 js/models/</div>
+            <div class="file-badges">
+              <span class="badge type">Domain Models</span>
+            </div>
+          </div>
+          <div class="file-description">
+            Implementa el patrón de <strong>Clean Architecture</strong> aislando la Lógica de Negocio. Aquí residen las clases base como <code class="code-inline">Rack.js</code>, <code class="code-inline">Device.js</code> y <code class="code-inline">Cable.js</code>. No dependen de la UI ni del estado local, lo que permite instanciar objetos seguros y validados, listos para ser probados de forma unitaria.
+          </div>
+        </div>
+
+        <!-- js/api/ y js/core/ -->
+        <div class="file-card" id="api-dir">
+          <div class="file-card-header">
+            <div class="file-path">🔌 js/api/ y ⚙️ js/core/</div>
+            <div class="file-badges">
+              <span class="badge type">Servicios Base</span>
+            </div>
+          </div>
+          <div class="file-description">
+            <code class="code-inline">js/api/</code> contiene <code class="code-inline">apiClient.js</code>, la capa de abstracción para la comunicación con el exterior (Backend Mock). <br>
+            <code class="code-inline">js/core/</code> contiene <code class="code-inline">export.js</code>, abstrayendo algoritmos pesados de procesamiento de datos como la generación de JSON para aligerar la vista y el controlador.
+          </div>
+        </div>
+
         <!-- js/main.js -->
         <div class="file-card" id="main-js">
           <div class="file-card-header">

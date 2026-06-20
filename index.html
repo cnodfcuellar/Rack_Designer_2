@@ -228,21 +228,11 @@
 <div class="modal-overlay hidden" id="modal-device">
   <div class="modal">
     <div class="modal-title">🖥️ <span id="modal-device-title">Editar Equipo</span></div>
-    <div class="modal-sub" id="modal-device-sub">Datos técnicos del equipo</div>
-    <div class="form-row"><label>Nombre del Equipo</label><input type="text" id="dev-name" placeholder="Server principal"></div>
-    <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-      <div class="form-row"><label>Marca</label><input type="text" id="dev-brand" placeholder="HP, Cisco, Dell..."></div>
-      <div class="form-row"><label>Modelo</label><input type="text" id="dev-model" placeholder="ProLiant DL380"></div>
-      <div class="form-row"><label>Número de Serie</label><input type="text" id="dev-serial" placeholder="SRV-2024-001"></div>
-    </div>
+    
+    <div class="modal-sub" id="modal-device-sub" style="margin-bottom:8px">Información General</div>
+    <div class="form-row"><label>Nombre del Equipo *</label><input type="text" id="dev-name" placeholder="Ej: SRV-001"></div>
     <div class="form-grid">
-      <div class="form-row"><label>Ubicación Física</label>
-        <select id="dev-category">
-          <option value="rack">🗄️ Gabinete (Rack)</option>
-          <option value="floor">🏢 Equipo de Piso</option>
-        </select>
-      </div>
-      <div class="form-row"><label>Tipo de Equipo</label>
+      <div class="form-row"><label>Tipo de Equipo *</label>
         <select id="dev-type">
           <optgroup label="── Equipos en Rack ──" id="opt-rack">
             <option value="server">🖥 Servidor</option>
@@ -262,47 +252,99 @@
           </optgroup>
         </select>
       </div>
-    </div>
-    <div style="display:flex; gap:12px; align-items:flex-end; margin-bottom:12px;">
-      <div style="width:24px; padding-bottom:8px; display:flex; justify-content:center;">
-        <input type="checkbox" id="dev-has-net" title="Habilitar Red" style="width:16px; height:16px; cursor:pointer;" checked>
-      </div>
-      <div class="form-row" style="flex:1; margin-bottom:0;"><label>Dirección IP</label><input type="text" id="dev-ip" placeholder="192.168.1.10"></div>
-      <div class="form-row" style="flex:1; margin-bottom:0;"><label>Dirección MAC</label><input type="text" id="dev-mac" placeholder="AA:BB:CC:DD:EE:FF"></div>
-    </div>
-    <div style="display:flex; gap:12px; align-items:flex-end; margin-bottom:12px;">
-      <div style="width:24px; padding-bottom:8px; display:flex; justify-content:center;">
-        <input type="checkbox" id="dev-has-auth" title="Habilitar Credenciales" style="width:16px; height:16px; cursor:pointer;" checked>
-      </div>
-      <div class="form-row" style="flex:1; margin-bottom:0;"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
-      <div class="form-row" style="flex:1; margin-bottom:0;"><label>Contraseña</label><input type="password" id="dev-pass" placeholder="••••••••"></div>
-    </div>
-    <div style="display:flex; gap:12px; align-items:flex-end; margin-bottom:12px;">
-      <div style="width:24px; padding-bottom:8px; display:flex; justify-content:center;">
-        <input type="checkbox" id="dev-has-power" title="Habilitar Energía" style="width:16px; height:16px; cursor:pointer;" checked>
-      </div>
-      <div class="form-row" style="width:140px; margin-bottom:0;">
-        <label>Tomas Eléctricas</label>
-        <div style="display:flex; gap:8px;">
-          <input type="number" id="dev-plugs" value="1" min="0" max="10" title="Tomas de entrada (alimentación)" style="flex:1;">
-          <input type="number" id="dev-plugs-out" value="0" min="0" max="48" title="Tomas de salida (provee energía)" style="flex:1;">
-        </div>
-      </div>
-      <div class="form-row" style="width:100px; margin-bottom:0;">
-        <label>Consumo (W)</label>
-        <input type="number" id="dev-power" value="200" min="0">
-      </div>
-      <div style="flex:1;"></div>
-      <div class="form-row" id="dev-size-row" style="width:100px; margin-bottom:0;">
-        <label>Tamaño (U)</label>
-        <select id="dev-size">
-          <option value="1">1U</option><option value="2" selected>2U</option>
-          <option value="4">4U</option><option value="8">8U</option>
+      <div class="form-row"><label>Estado *</label>
+        <select id="dev-status">
+          <option value="active">🟢 Activo</option>
+          <option value="maintenance">🟠 Mantenimiento</option>
+          <option value="offline">🔴 Apagado</option>
         </select>
       </div>
     </div>
-    <div class="form-row"><label>Notas</label><textarea id="dev-notes" rows="2" placeholder="Observaciones técnicas…" style="resize:vertical"></textarea></div>
-    <div class="modal-footer">
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-brand" class="module-toggle" title="Habilitar detalles de Fabricante">
+      <div class="module-header"><label for="dev-has-brand">🏭 Fabricante</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Marca</label><input type="text" id="dev-brand" placeholder="HP, Cisco..."></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Modelo</label><input type="text" id="dev-model" placeholder="DL380"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Serie</label><input type="text" id="dev-serial" placeholder="SRV-001"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-loc" class="module-toggle" title="Habilitar detalles de Ubicación" checked>
+      <div class="module-header"><label for="dev-has-loc">📍 Ubicación Física</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Categoría</label>
+            <select id="dev-category">
+              <option value="rack">🗄️ Gabinete (Rack)</option>
+              <option value="floor">🏢 Equipo de Piso</option>
+            </select>
+          </div>
+          <div class="form-row" id="dev-size-row" style="margin-bottom:0;">
+            <label>Tamaño (U)</label>
+            <select id="dev-size">
+              <option value="1">1U</option><option value="2" selected>2U</option>
+              <option value="4">4U</option><option value="8">8U</option>
+            </select>
+          </div>
+          <div class="form-row" id="dev-side-row" style="margin-bottom:0;">
+            <label>Lado (Montaje)</label>
+            <select id="dev-side">
+              <option value="front" selected>Frontal</option>
+              <option value="rear">Trasero</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-net" class="module-toggle" title="Habilitar Red">
+      <div class="module-header"><label for="dev-has-net">🌐 Red</label></div>
+      <div class="module-content">
+        <div class="form-grid">
+          <div class="form-row" style="margin-bottom:0;"><label>Dirección IP</label><input type="text" id="dev-ip" placeholder="192.168.1.10"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Dirección MAC</label><input type="text" id="dev-mac" placeholder="AA:BB:CC:DD:EE:FF"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-auth" class="module-toggle" title="Habilitar Credenciales">
+      <div class="module-header"><label for="dev-has-auth">🔐 Credenciales</label></div>
+      <div class="module-content">
+        <div class="form-grid">
+          <div class="form-row" style="margin-bottom:0;"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Contraseña</label><input type="password" id="dev-pass" placeholder="••••••••"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-power" class="module-toggle" title="Habilitar Energía">
+      <div class="module-header"><label for="dev-has-power">⚡ Energía</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Consumo (W)</label><input type="number" id="dev-power" value="200" min="0"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Tomas In</label><input type="number" id="dev-plugs" value="1" min="0" max="10"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Tomas Out</label><input type="number" id="dev-plugs-out" value="0" min="0" max="48"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-notes" class="module-toggle" title="Habilitar Notas">
+      <div class="module-header"><label for="dev-has-notes">📝 Notas</label></div>
+      <div class="module-content">
+        <div class="form-row" style="margin-bottom:0;"><textarea id="dev-notes" rows="2" placeholder="Observaciones técnicas…" style="resize:vertical"></textarea></div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top: 16px;">
       <button class="btn-cancel" id="modal-device-cancel">Cancelar</button>
       <button class="btn-confirm" id="modal-device-save">Guardar</button>
     </div>

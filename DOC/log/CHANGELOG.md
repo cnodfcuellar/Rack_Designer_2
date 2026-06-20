@@ -1,3 +1,26 @@
+## [2026-06-19 19:10:00] Reestructuración Modular (Models/Core/API) y Lado de Montaje
+
+### Arquitectura y Refactorización
+- **Separación de Lógica de Negocio:** Se crearon las carpetas `js/models/`, `js/api/` y `js/core/` para implementar una arquitectura más limpia (Clean Architecture). Las clases de entidades base (`Rack.js`, `Device.js`, `Cable.js`) ahora viven en `models/`, separando estrictamente los datos de la lógica de interfaz de usuario (`ui/`) y estado (`store.js`).
+- **Módulo de Exportación:** La lógica pesada de exportación se extrajo hacia `js/core/export.js`.
+- **Cliente API Base:** Se introdujo `js/api/apiClient.js` como capa fundamental para futuras integraciones de bases de datos.
+- **Directorio de Pruebas y Recursos:** Se crearon las carpetas `tests/` para futuras pruebas unitarias (con un archivo base `Rack.test.js`) y `assets/img/` para concentrar imágenes.
+
+### Mejoras de Interfaz (UI/UX)
+- **Lado de Montaje en Creación:** Ahora, al crear o editar un equipo de rack desde el modal (`DeviceModal`), es posible elegir explícitamente el **Lado (Montaje)** (Frontal o Trasero) mediante un nuevo selector. Este valor se guarda en la propiedad `mountSide` del dispositivo.
+- **Integración con Asistente de Ubicación:** El Asistente de Ubicación Rápida (`PlacementModal`) ahora lee de manera inteligente la preferencia `mountSide` del equipo desde el catálogo y la pre-selecciona automáticamente para acelerar el despliegue.
+
+## [2026-06-19 12:40:00] Rediseño Arquitectónico del Modal de Equipos (Acordeones UI)
+
+### Añadido
+- **Jerarquía Visual:** Se rediseñó por completo el formulario modal de "Nuevo Equipo" (`#modal-device`) pasando de un listado vertical estático a un moderno sistema de **Módulos Colapsables (Acordeones)**.
+- **Interruptores de Estado (ON/OFF):** Se introdujo una clase maestra `.module-toggle` que permite al usuario decidir qué bloques de metadatos desea ver y llenar (Red, Credenciales, Notas, Energía), ocultando el resto mediante CSS Puro (`display: none`). Esto reduce drásticamente la carga cognitiva y el espacio ocupado en pantalla.
+- **Campo "Estado":** Se agregó la propiedad `status` a los dispositivos para distinguir si están Activos, Apagados o en Mantenimiento.
+
+### Refactorizado
+- **Lógica Inteligente de JS (`DeviceModal.js`):** El controlador fue actualizado para sincronizarse con los nuevos acordeones. Al abrir un equipo existente a edición, la interfaz ahora enciende automáticamente los acordeones correspondientes si detecta datos previamente almacenados (ej. Si el equipo ya tenía una IP guardada, el módulo de "Red" se abrirá por defecto).
+- Además, si un usuario apaga un acordeón antes de guardar, el controlador inyectará en blanco esos datos para no almacenar metadatos basura inactivos en el store.
+
 ## [2026-06-19 10:40:00] Reestructuración de Documentación y Actualización de SVG
 ### Añadido
 - **Consolidación de Imágenes:** Se reubicaron todas las imágenes vectoriales de la documentación (`mockups`, `ui`, arquitectónicas) a un directorio centralizado unificado en `doc/img/svg/`.

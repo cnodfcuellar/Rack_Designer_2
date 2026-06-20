@@ -34,6 +34,10 @@ function openQuickPlacementModal(catalogId = null) {
   
   document.getElementById('qp-dev-name-display').value = `${qpCatalogItem.name} (${qpCatalogItem.type.toUpperCase()}${isFloor ? '' : ' - ' + qpCatalogItem.size + 'U'})`;
 
+  if (!isFloor) {
+    document.getElementById('qp-side').value = qpCatalogItem.mountSide || 'front';
+  }
+
   // Populate Rooms
   const roomSelect = document.getElementById('qp-room');
   roomSelect.innerHTML = store._raw.rooms.map(r => 

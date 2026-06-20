@@ -22,3 +22,12 @@
 .btn-confirm.danger { border-color: var(--red); background: var(--red-glow); color: var(--red); }
 .btn-confirm.danger:hover { background: var(--red); color: white; }
 
+/* Accordion Modules for Modals */
+.accordion-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; position: relative; }
+.module-toggle { position: absolute; right: 12px; top: 12px; width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+.module-header { padding: 10px 12px; font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; color: var(--text-main); }
+.module-header label { cursor: pointer; display: block; width: 100%; height: 100%; margin: 0; padding-right: 30px; }
+.module-content { padding: 0 12px 12px 12px; border-top: 1px dashed var(--border); margin-top: 4px; padding-top: 8px; }
+.module-toggle:not(:checked) ~ .module-content { display: none; }
+.module-toggle:checked ~ .module-header { color: var(--accent); }
+

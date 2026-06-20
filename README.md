@@ -22,12 +22,13 @@ El proyecto emula un comportamiento estilo *React/Redux* usando un **Proxy ES6 n
 ### 3. Estructura de Directorios (Segmentación Estricta)
 Para mantener el código mantenible, no mezcles lógica:
 
-* `/js/store.js`: **El Modelo.** Define qué datos existen y cómo mutan. No sabe nada de HTML o CSS.
+* `/js/models/`: **Lógica de Negocio Pura.** Clases base que definen qué es un Rack, un Equipo o un Cable (`Rack.js`, `Device.js`, `Cable.js`).
+* `/js/api/` y `/js/core/`: Conexión externa (mocks) y utilidades pesadas como exportación JSON.
+* `/js/store.js`: **Persistencia y Reactividad.** Define cómo mutan los datos. No sabe nada de HTML o CSS, sólo coordina los Modelos y dispara eventos.
 * `/js/utils.js`: Funciones auxiliares genéricas (generación de UUIDs, validaciones).
-* `/js/catalog.js`: Base de datos en duro (JSON-like) con las plantillas de los equipos (1U, 2U, Servidores, Switches).
 * `/js/ui/`: **La Vista.** Aquí van los componentes que pintan el HTML (ej. `rack.js`, `topology.js`, `modals.js`). Estos archivos leen del store y generan el DOM.
-* `/css/`: **Los Estilos.** Segmentados lógicamente (`layout.css`, `rack.css`, `topology.css`, `modals.css`).
-* `/doc/`: **La Biblia del Proyecto.** Contiene manuales de usuario y de arquitectura.
+* `/css/` y `/assets/`: Estilos CSS segmentados y recursos estáticos (imágenes).
+* `/doc/` y `/tests/`: Documentación y pruebas unitarias base.
 
 ### 4. ¿Dónde encontrar la documentación técnica profunda?
 Antes de tocar el código de renderizado o intentar entender cómo funciona el Canvas de la Topología o el Drag & Drop, abre el archivo:

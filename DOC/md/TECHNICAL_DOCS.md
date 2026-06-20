@@ -14,8 +14,10 @@ RACK Designer es una Single Page Application (SPA) implementada en **Vanilla Jav
 ### Estructura de Archivos
 * `index.html`: Plantilla principal. Contiene la estructura de contenedores estáticos (Cabecera, Modales, Contenedores de Vistas).
 * `css/style.css`: Estilos unificados. Utiliza un robusto sistema de variables CSS (`--bg`, `--surface`, `--accent`) para gestionar el sistema de tematización (Modo Claro/Oscuro).
-* `js/store.js`: El corazón de los datos. Controla el estado global (CRUD de elementos y la sincronización con el `localStorage`).
-* `js/main.js`: Lógica principal de inicialización y enrutamiento entre pestañas.
+* `js/models/`: **Lógica de Negocio Pura.** Clases base que definen qué es un Rack, un Equipo o un Cable (`Rack.js`, `Device.js`, `Cable.js`).
+* `js/api/` y `js/core/`: Conexión externa (cliente API mock) y lógicas base de exportación.
+* `js/store.js`: El corazón de persistencia y reactividad. Coordina los Modelos, dispara eventos y sincroniza con el `localStorage`. No sabe nada de HTML ni CSS.
+* `js/main.js`: Lógica principal de inicialización y enrutamiento (Despachador) entre pestañas.
 * `js/ui/*.js`: Lógica de la interfaz de usuario segregada en dominios (Ej. `modals.js` para los popups, `faceplates.js` para renderizar visualmente los frontales de los gabinetes, `tables.js` para el panel de inventario).
 
 ## 2. Modelo de Datos (JSON Schema)
@@ -78,6 +80,11 @@ La vista topológica interactúa directamente con eventos de puntero (drag/zoom)
 Para resolver la ocupación independiente del frontal y la parte posterior del armario, el motor de dibujado (`faceplates.js`) agrupa a los equipos basándose en el atributo `side`, renderizando una de las dos "colecciones" sin colisiones lógicas en las Unidades (U).
 
 ## 4. Estructura y Funcionamiento Técnico Detallado
+
+### Clean Architecture y Modelos (`js/models/`)
+Para garantizar la escalabilidad y mantenibilidad, la lógica de negocio se ha separado de la persistencia de estado:
+* **Modelos Base:** Las clases `Rack`, `Device` y `Cable` viven en el directorio `js/models/`. Son responsables de las reglas de negocio lógicas y matemáticas (ej. instanciación segura, validación).
+* **Servicios Core:** Funcionalidades pesadas como el generador de PDF/JSON o llamadas HTTP se aíslan en `js/core/` y `js/api/`.
 
 ### Almacén Central Reactivo (`store.js`)
 
