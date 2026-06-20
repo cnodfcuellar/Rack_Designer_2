@@ -1,157 +1,181 @@
-# Manual de Usuario - RACK Designer
+# <img src="../../icons/icon.svg" width="32" height="32" style="vertical-align: middle;"> Manual RACK Designer
 
-RACK Designer es una herramienta gráfica profesional para el diseño, documentación e inventario de Centros de Datos. Permite modelar gabinetes, ubicar equipos en rack o en piso, trazar topologías de red y exportar datos para auditorías.
+Bienvenido al manual interactivo de **RACK Designer**. Esta herramienta gráfica está diseñada para simplificar el diseño, documentación e inventario de Centros de Datos.
 
-## 1. Interfaz Principal
+> [!TIP]
+> Puedes alternar entre el "Modo Oscuro" y "Modo Claro" usando el menú principal ☰ en la esquina superior derecha de la aplicación.
 
-La interfaz está diseñada para optimizar el área de trabajo y consta de tres áreas clave:
-- **Cabecera y Barra de Herramientas:** Contiene las opciones globales (Alternar Modo Claro/Oscuro, Cargar/Guardar proyecto), los selectores de vistas (Vista Física, Topología) y la gestión de Salas.
-- **Lienzo Central (Área de Trabajo):** El espacio interactivo donde se visualizan y distribuyen los gabinetes (racks) y equipos de piso.
-- **Panel Inferior (Inventario y Catálogo):** Muestra los reportes tabulares en vivo y permite el acceso rápido al Catálogo de Dispositivos predefinidos.
+## 1. Introducción y Vista General
 
-**Adaptabilidad a Pantallas:**
-La aplicación cuenta con soporte adaptativo completo para smartphones y tabletas. En pantallas de escritorio, el diseño se expande lateralmente. En dispositivos móviles, el layout es compacto: los paneles laterales se ocultan automáticamente bajo un menú hamburguesa `☰` para maximizar el área útil del lienzo físico, logrando una vista vertical optimizada.
+![RACK Designer en Modo Claro](../img/svg/ui/mobil/ui-light-mode.svg)
+*Figura: Interfaz completa de la aplicación visualizada con el Tema Claro (Light Mode).*
 
-![Interfaz Móvil](../img/svg/ui/mobil/ui-mobile.svg)
-*Figura: Vista vertical y compacta adaptada a dispositivos móviles.*
+![Wireframe de la Interfaz Principal](../img/svg/ui/ui-wireframe.svg)
+*Figura: Diseño esquemático de los paneles principales de RACK Designer.*
 
-## 2. Gestión de Salas e Infraestructura
+### Áreas de Trabajo
 
-Las Salas representan espacios físicos aislados (ej. "Data Center Principal", "Sala Eléctrica").
+* **Menú Principal (Hamburguesa):** Abre un listado de opciones de persistencia para Guardar/Cargar el proyecto en archivos locales `.json`, cargar datos de demostración, gestionar la interfaz gráfica (Modo Claro/Oscuro) y la Privacidad.
+* **👁 Modo Dios (Seguridad):** Accesible desde el Menú Principal, te permite revelar u ocultar todas las contraseñas de los equipos en la pantalla (Tooltips, HUD y Tablas) y controla si se incluyen en exportaciones CSV/Excel.
+* **Pestañas Laterales:** Te permiten alternar entre buscar y agregar Racks o Equipos individuales.
+* **Filtros Inferiores:** Rápidamente aíslan tipos de equipos en la lista inferior (Todos, Servers, Red, Storage, Piso).
 
-* **Crear una Sala:** Haga clic en el símbolo `+` en la barra de pestañas de salas. En pantallas táctiles, las pestañas de salas soportan deslizamiento horizontal.
-* **Renombrar:** Haga doble clic sobre el nombre de la pestaña de la sala.
-* **Eliminar:** Utilice el icono `x` en la pestaña (solo visible si existe más de una sala).
+![Menú Principal Opciones](../img/svg/ui/ui-menu-options.svg)
+*Figura: Menú global de la aplicación (Modo Oscuro/Claro, I/O de proyectos).*
 
-**Interfaz Móvil:** El formulario de creación de salas se adapta automáticamente a la vista móvil para evitar desbordamientos.
+* **Cabecera y Modo Rendimiento:** Controles globales, cambio de Vistas (Física / Topología) y el punto verde luminoso de estado.
+  > [!TIP]
+  > **Tip de Rendimiento:** Al hacer clic en este punto verde se activa el *"Modo Rendimiento"*, deteniendo instantáneamente todas las animaciones gráficas para ahorrar batería y recursos en computadoras menos potentes.
+* **Lienzo Central:** Tu área principal de diseño donde arrastrarás los equipos. Al utilizar el botón "Expandir" o "Contraer", los paneles laterales se ocultan para maximizar tu área de trabajo.
+* **Panel Inferior:** Estadísticas, inventario tabular y catálogo de arrastre.
+
+![Modo Expandido / Contraído](../img/svg/ui/mobil/ui-fullscreen.svg)
+*Figura: Modo Expandido. Los paneles laterales se ocultan para dar prioridad total al lienzo de diseño.*
+
+### Adaptabilidad a Pantallas
+RACK Designer cuenta con soporte completo para pantallas táctiles y dispositivos móviles. En pantallas de escritorio, el diseño se expande lateralmente. En dispositivos móviles, la interfaz se adapta automáticamente apilando los gabinetes verticalmente y ocultando el catálogo lateral bajo el menú hamburguesa ☰ para maximizar el lienzo de trabajo, logrando una vista vertical optimizada.
+
+![Interfaz Móvil Responsive](../img/svg/ui/mobil/ui-mobile.svg)
+*Figura: Interfaz base adaptada a pantallas táctiles mostrando los racks en formato vertical.*
+
+## 2. Infraestructura (Salas y Gabinetes)
+
+### Gestión de Salas
+Todo el equipo debe organizarse dentro de una "Sala". Las salas contienen "Gabinetes" (Racks) donde atornillarás los servidores.
+
+![Modal de Nueva Sala](../img/svg/ui/ui-modal-sala.svg)
+*Figura: Cuadro de diálogo para agregar una nueva sala en escritorio.*
+
+**Interfaz Móvil:** En dispositivos móviles, el formulario se reestructura automáticamente para pantallas pequeñas, asegurando que los campos de texto se mantengan accesibles mediante teclado en pantalla y sin desbordamientos.
+
 ![Modal de Nueva Sala en Móvil](../img/svg/ui/mobil/ui-mobile-modal-room.svg)
-*Figura: Modal simplificado para la creación de salas en móviles.*
+*Figura: Modal simplificado para la creación de salas adaptado a dispositivos móviles.*
 
-### Añadir Gabinetes (Racks)
-1. Sitúese en la **Vista Física** de la sala deseada.
-2. Haga clic derecho en el fondo del área de trabajo (o mantenga presionado en pantallas táctiles).
-3. Seleccione **"Añadir Rack"**, ingrese el nombre, defina la altura en Unidades (U) y seleccione un color para identificarlo.
+### Crear un Gabinete
 
-## 3. Gestión de Equipos (Inventario)
+> [!NOTE]
+> **✨ Atajos Rápidos:** Cuando una sala no contiene ningún gabinete (estado vacío), el sistema mostrará botones interactivos en el centro del lienzo para que puedas agregar tu primer Rack o Equipo de Piso instantáneamente con un solo clic.
 
-Existen dos categorías principales de dispositivos: **Equipos en Rack** (Servidores, Switches, UPS) y **Equipos de Piso** (Cámaras IP, Workstations, APs).
+Haciendo **clic derecho** en el lienzo azul, podrás crear un nuevo Rack. Deberás asignarle un Nombre, una altura en Unidades (U) (típicamente 42U o 48U) y un Color distintivo.
 
-### Insertar Equipos
-* **Arrastrar y Soltar (Drag & Drop):** Abra el catálogo (botón `☰`), haga clic sostenido sobre un equipo y suéltelo sobre el espacio (`U`) deseado dentro de un rack, o en el área punteada de "Equipos de Piso".
-* **Ubicación Rápida (⚡):** Operación simplificada para entornos táctiles donde el arrastre puede ser dificultoso. Utilice el icono de rayo junto a un equipo en el catálogo. Seleccione la sala y el gabinete de destino; el sistema encontrará automáticamente un espacio disponible y lo ubicará.
+![Modal de Nuevo Gabinete](../img/svg/ui/ui-modal-rack.svg)
+*Figura: Cuadro de diálogo para configurar un nuevo Rack.*
 
-**Catálogo en Dispositivos Móviles:** Al pulsar el botón de menú hamburguesa o el de estadísticas, se despliega un panel lateral flotante (Off-Canvas) con métricas globales y el catálogo de dispositivos optimizado para scroll táctil.
+![Equipos de Piso y Estadísticas](../img/svg/ui/desk/ui-stats-floor.svg)
+*Figura: Vista Trasera del Rack y Equipos de Piso. Observa el panel de Estadísticas a la izquierda.*
+
+![Anatomía de un Rack](../img/svg/Arq/rack-anatomy.svg)
+*Figura 1: Entendiendo las unidades (U) y la ocupación por caras.*
+
+Como se muestra en la figura, cada unidad (U) puede alojar un equipo frontal y, de forma independiente, un equipo trasero (como regletas eléctricas o PDUs) sin chocar entre sí.
+
+### Opciones del Gabinete (Menú Contextual)
+Cada Gabinete posee un botón de opciones (`⋮`) en su cabecera superior. Al hacer clic, se despliega un menú contextual flotante que agrupa todas las acciones de administración del rack:
+* **+ Equipo:** Atajo directo para instalar un nuevo dispositivo en este rack.
+* **Editar:** Modificar el nombre, color o altura en unidades (U) del gabinete.
+* **Limpiar Rack:** Elimina masivamente todos los equipos que se encuentran atornillados dentro del gabinete. El sistema mostrará una advertencia de seguridad pidiendo tu confirmación antes de la eliminación total.
+* **Eliminar:** Borra el gabinete completo de la sala.
+
+## 3. Gestión de Equipos
+
+### Métodos de Instalación
+* **Arrastrar y Soltar (Drag & Drop):** Arrastra un equipo desde el catálogo izquierdo y suéltalo sobre una U específica.
+* **Por Menú Contextual:** Haz clic derecho en cualquier espacio vacío del Rack y selecciona "Instalar Equipo".
+* **Ubicación Asistida:** Haz clic en el botón morado `⚡ Agregar Equipo` de la barra inferior para usar el asistente de instalación paso a paso sin arrastrar.
+
+![Funcionamiento del Catálogo y Métodos de Instalación](../img/svg/Arq/catalog-funcionamiento.svg)
+*Figura: Arquitectura, flujo de datos y canales de instalación desde el Catálogo de Equipos.*
+
+**Catálogo Móvil:** En dispositivos móviles, al pulsar el menú hamburguesa, el sistema despliega un panel lateral flotante (off-canvas) con el catálogo y estadísticas optimizadas para arrastre y tap táctil.
+
 ![Catálogo y Estadísticas en Móvil](../img/svg/ui/mobil/ui-mobile-catalog.svg)
-*Figura: Panel lateral de Estadísticas y Catálogo de Dispositivos adaptado para pantallas móviles (Menú Off-Canvas).*
+*Figura: Panel lateral de Estadísticas y Catálogo de Dispositivos adaptado para pantallas móviles.*
 
-### Editar Configuración del Equipo
-Haga clic sobre cualquier equipo ya ubicado y presione **"✏️ Editar"** en el panel lateral/inferior. El formulario está organizado lógicamente en módulos:
+![Modal de Ubicación Asistida](../img/svg/ui/ui-modal-asistido.svg)
+*Figura: Asistente paso a paso para ubicar equipos con precisión (Ideal para pantallas táctiles donde el drag&drop es difícil).*
 
-1. **Ubicación Física:** Permite reclasificar un equipo entre "Gabinete" o "Equipo de Piso", ajustando dinámicamente sus opciones (los equipos de piso no ocupan Unidades de altura).
-2. **Identificación:** Marca, Modelo y Número de Serie.
-3. **Módulos Opcionales (Casillas de Activación):**
-   - **Habilitar Red:** Despliega campos para Dirección IP y Dirección MAC.
-   - **Habilitar Credenciales:** Despliega Usuario y Contraseña.
-   - **Habilitar Energía:** Despliega configuraciones detalladas de Tomas Eléctricas (Entrada y Salida) y Consumo (W). 
+### Módulos de Configuración
+Al editar un equipo, verás casillas de verificación (Checkboxes) para habilitar configuraciones avanzadas. Si un equipo es "pasivo" (ej. un patch panel), no necesitas habilitar estos módulos.
 
-*Nota: La separación de tomas de "Salida" es ideal para documentar equipos proveedores de energía, como regletas (PDUs) o sistemas UPS.*
+### Propiedades y Ficha Técnica
+Haciendo doble clic en un equipo, se abrirá su ficha técnica. Aquí puedes documentar:
 
-**Interfaz Móvil:** Los modales de configuración de equipo se reestructuran visualmente en pantallas verticales apilando los campos en una grilla compacta de dos columnas.
+![Modal de Nuevo Equipo](../img/svg/ui/ui-modal-equipo.svg)
+*Figura: Ficha técnica completa de un equipo, incluyendo credenciales, consumo eléctrico y puertos en escritorio.*
+
+**Configuración Móvil:** En pantallas de smartphones, el formulario se reestructura visualmente en una grilla compacta de dos columnas con casillas de activación adaptadas a gestos táctiles amplios.
+
 ![Modal de Equipo en Móvil](../img/svg/ui/mobil/ui-mobile-modal-device.svg)
 *Figura: Formulario de adición y edición de equipos optimizado para dispositivos móviles.*
 
-### Inventario Deslizable
-El panel inferior muestra todos los dispositivos. En escritorio, ocupa el ancho inferior. En **Móvil**, funciona como un contenedor deslizable verticalmente (drawer) que se puede arrastrar hacia arriba para expandir la lista, contando con desplazamiento horizontal táctil para las distintas columnas.
+* **Módulo de Red:** Despliega IP y MAC.
+* **Módulo de Energía:** Despliega las Tomas de Entrada (requeridas para encender el equipo) y las Tomas de Salida (proporcionadas por el equipo, útil para UPS/PDU).
+
+## 4. Topología y Redes
+La vista topológica permite conectar los equipos mediante cables lógicos. Los equipos se renderizan como Nodos interconectados.
+
+![Nodos de Topología](../img/svg/ui/ui-topologia.svg)
+*Figura 2: Interpretación del lienzo topológico mostrando las Salas (Naranja), Gabinetes (Verde) y cableado lógico.*
+
+**En dispositivos móviles**, el sistema auto-escala el nivel de zoom inicial al 20% y agrupa las salas de manera que los enlaces (fibra/ethernet) sean legibles rápidamente. Además, el diálogo de conexión se adapta al ancho de pantalla:
+
+![Topología en Móvil](../img/svg/ui/mobil/ui-mobile-topology.svg)
+*Figura: Mapa interactivo de topología adaptado a pantallas móviles.*
+
+![Modal de Conexión en Móvil](../img/svg/ui/mobil/ui-mobile-modal-connection.svg)
+*Figura: Modal de conexión de puertos adaptado a móviles.*
+
+Para conectar dos equipos, simplemente haz **doble clic** en un nodo de origen y luego selecciona el nodo de destino. Esto abrirá el menú de configuración de enlace.
+
+![Modal de Editar Conexión](../img/svg/ui/ui-modal-conexion.svg)
+*Figura: Configuración de parámetros físicos y lógicos de un enlace de red.*
+
+A medida que diseñes tu red, podrás visualizar la arquitectura completa (Full-Screen) donde se aprecian las rutas de cada cable. El color de las líneas representará los enlaces que has creado.
+
+![Topología Expandida con Enlaces](../img/svg/ui/ui-topologia-full.svg)
+*Figura: Topología compleja ilustrando la conexión de equipos de piso hacia los switches de distribución en el Rack.*
+
+Puedes utilizar la rueda del ratón o los controles de zoom (🔍) en la barra superior para acercarte (Zoom In) y observar en detalle los nodos y las rutas de cableado, incluyendo las IPs de los equipos principales.
+
+![Zoom en Topología](../img/svg/ui/ui-topologia-zoom.svg)
+*Figura: Acercamiento a la topología revelando etiquetas dinámicas como la IP de un NVR y el ruteo físico de los cables.*
+
+### Tabla de Conexiones
+Alternando la pestaña del panel inferior a **Conexiones**, puedes acceder a una bitácora tabular de todos los enlaces que has creado. Aquí verás el detalle de los puertos y colores asignados, con la posibilidad de editarlos o eliminarlos masivamente.
+
+![Tabla de Conexiones de Red](../img/svg/ui/desk/ui-conexiones-table.svg)
+*Figura: Auditoría detallada del cableado lógico cruzado entre Salas, Racks y Equipos.*
+
+Para mayor comodidad durante auditorías extensas, puedes hacer clic en el botón **Expandir** de la tabla para ocultar el lienzo y ver la bitácora en pantalla completa.
+
+![Tabla de Conexiones a Pantalla Completa](../img/svg/ui/ui-conexiones-full.svg)
+*Figura: Tabla de Conexiones en modo Pantalla Completa, revelando los controles para exportar a CSV y Excel en la parte superior derecha.*
+
+## 5. Respaldos y Exportación
+Es fundamental respaldar el trabajo periódicamente y utilizar la tabla de inventario para auditorías.
+
+![Tabla de Inventario Expandida](../img/svg/ui/mobil/ui-inventory.svg)
+*Figura: Tabla de Inventario en modo expandido mostrando los equipos de rack y piso con todos sus detalles.*
+
+**Inventario en Móvil:** En smartphones, la tabla se adapta mediante un contenedor deslizable verticalmente (drawer) que puede arrastrarse hacia arriba, con soporte para scroll horizontal que facilita la lectura de todas las columnas.
+
 ![Inventario en Móvil](../img/svg/ui/mobil/ui-mobile-inventory.svg)
 *Figura: Tabla de inventario expandida y adaptada para scroll en pantallas móviles.*
 
-### Cara Frontal y Trasera de un Rack
-El botón de rotación (`🔄 ATRÁS` / `🖥️ FRENTE`) en la cabecera de cada rack permite instalar equipos (como organizadores de cables o PDUs) en la cara posterior sin que colisionen físicamente con los servidores del frente.
+* **Archivo JSON:** En el menú superior, usa "Guardar Proyecto" para descargar todo el centro de datos.
+* **Reporte Tabular:** En el panel de inventario o conexiones expandidas, presiona `⬇ Excel` o `⬇ CSV` para auditar los equipos.
+* **Imagen Fotográfica:** Usa el botón `📷 PNG` en la barra superior y selecciona el rack a exportar para generar una instantánea del armario. Si hay equipos ubicados directamente en la sala, aparecerá la opción independiente para exportar "Equipos de Piso".
 
-## 4. Topología y Cableado
+**Menú en Móvil:** Las opciones globales de importación, exportación y guardado se ubican en el menú hamburguesa adaptado a un panel táctil desplegable.
 
-El modo **Topología** (accesible desde la barra superior) dibuja de forma automatizada un mapa de nodos interconectados.
+![Menú de Proyecto en Móvil](../img/svg/ui/mobil/ui-mobile-menu.svg)
+*Figura: Menú desplegable de opciones de proyecto y respaldo en dispositivos móviles.*
 
-* **Conectar Equipos:** Haga doble clic en un nodo (o utilice el botón derecho/pulsación larga) para iniciar una conexión. Luego, seleccione el equipo de destino.
-* **Organización Visual:** Puede arrastrar libremente los nodos para organizar el mapa. La topología resalta automáticamente los equipos que pertenecen a la sala que esté actualmente activa.
+![Mecanismos de Exportación en RACK Designer 2](../img/svg/Arq/exportar-funcionamiento.svg)
+*Figura: Esquema técnico de los procesos de exportación de imágenes, tablas de datos y copias de seguridad del sistema.*
 
-**Topología en Dispositivos Móviles:** En pantallas pequeñas, el mapa auto-escala el nivel de zoom y organiza verticalmente las salas conectadas. Los modales de conexión de puertos también se redimensionan para evitar desbordamientos de campos.
-![Topología en Móvil](../img/svg/ui/mobil/ui-mobile-topology.svg)
-*Figura: Vista de la topología lógica y cableado de red en dispositivos móviles.*
+![Modal de Exportar Rack a PNG](../img/svg/ui/ui-modal-export.svg)
+*Figura: Cuadro de diálogo para seleccionar el rack y renderizarlo como imagen PNG de alta resolución.*
 
-![Modal de Conexión en Móvil](../img/svg/ui/mobil/ui-mobile-modal-connection.svg)
-*Figura: Formulario estructurado para el trazado de conexiones y puertos en móviles.*
-
-## 5. Exportación y Respaldo
-
-### Guardar/Cargar Proyecto
-
-* **Guardar Proyecto:** En el menú principal (icono de tres líneas o nube), selecciona **Guardar proyecto**. Si es la primera vez, el navegador te preguntará dónde guardar el archivo (usando la File System Access API). Las siguientes veces que guardes, se sobrescribirá silenciosamente ese archivo. Adicionalmente, el sistema **autoguardará** tus progresos cada 3 segundos en el mismo archivo siempre que mantengas la pestaña abierta.
-* **Guardar como...:** Si deseas bifurcar tu proyecto, usa esta opción para crear un nuevo archivo de destino.
-* **Cargar Proyecto:** Selecciona **Abrir proyecto** en el menú. Te permitirá cargar un archivo `.json` o `.rack` directo desde tu sistema de archivos, manteniendo el enlace (handle) activo para futuros autoguardados.
-*(Nota: Si usas navegadores sin soporte completo como Firefox o Safari, el sistema utilizará el método clásico de descargas manuales).*
-
-**Gestión en Móvil:** El menú de opciones globales es accesible mediante un botón hamburguesa superior derecho, desplegando un menú claro y adaptado para comandos táctiles.
-![Menú de Opciones en Móvil](../img/svg/ui/mobil/ui-mobile-menu.svg)
-*Figura: Menú de gestión de proyectos adaptado a pantallas móviles.*
-
-### Exportar Reportes (Excel / CSV)
-En la sección inferior de "Inventario", los botones `⬇ Excel` y `⬇ CSV` generan instantáneamente un reporte tabular compatible con hojas de cálculo para facilitar la auditoría física.
-
-### Exportar Diagramas Visuales (PNG)
-Presione el botón `📷 PNG` en la barra de herramientas y seleccione un rack. El sistema procesará y descargará una imagen de alta resolución. Si el rack contiene equipos traseros, el PNG incluirá ambas caras (Frontal y Trasera) lado a lado automáticamente. Adicionalmente, si la sala contiene equipos ubicados en el piso, aparecerá una opción para exportar "Equipos de Piso" de forma independiente.
-
----
-
-## 6. Arquitectura Visual (Layout Map)
-
-Para facilitar la comprensión del sistema, a continuación se presenta el mapa estructural (Layout Map) de la aplicación, el cual divide la interfaz en zonas lógicas para su navegación y gestión.
-
-![Layout Map Estructural](../img/svg/mockup/svg_mocks_area/ui_layout_map_full.svg)
-*Figura: Mapa Estructural de Rack Designer 2.*
-
-Aquí tienes la descripción de cada área y su propósito:
-
-### 1. Logo / Top Left (Bloque Pizarra Oscuro)
-*   **Corresponde a:** La cabecera izquierda:
-    ![Cabecera Izquierda](../img/svg/mockup/svg_mocks_area/ui_app_header.svg)
-*   **Función:** Es el ancla de marca y navegación principal. Contiene el isotipo iluminado, el nombre de la app ("RACK Designer"), el estado o nombre del archivo actual ("Nuevo Proyecto") y el botón de menú tipo hamburguesa para acceder a configuraciones globales, guardar, abrir o exportar el proyecto.
-
-### 2. Top Header (Bloque Celeste)
-*   **Corresponde a:** La barra superior global:
-    ![Barra Superior Global](../img/svg/mockup/svg_mocks_area/ui_top_bar.svg)
-*   **Función:** Contiene los controles de estado global y búsqueda. Aquí el usuario cambia el modo principal de la aplicación (alternando entre **"Vista Física"** y **"Topología"**). También aloja los botones de Deshacer/Rehacer, el indicador de estado del sistema (el punto verde, que al hacerle clic activa el **"Modo Rendimiento"** pausando todas las animaciones del proyecto) y la barra de búsqueda global ("Buscar equipo, IP, MAC...").
-
-### 3. Toolbar / Tabs (Bloque Violeta)
-*   **Corresponde a:** Los controles de vista y zoom:
-    ![Controles de Vista y Zoom](../img/svg/mockup/svg_mocks_area/ui_zoom_controls.svg)
-*   **Función:** Actúa como una barra de herramientas flotante pegada al lienzo. Su objetivo exclusivo es manipular la cámara y el entorno visual. Incluye controles de **Zoom** (`-`, `+`, `1:1`), el selector de la ubicación o sala actual (ej. "Sala A1"), y botones para exportar el lienzo a imagen ("PNG") o ponerlo en pantalla completa ("Expandir").
-
-### 4. Sidebar (Bloque Gris/Lateral)
-*   **Corresponde a:** Los paneles laterales contextuales:
-    ![Sidebar](../img/svg/mockup/svg_mocks_area/ui_sidebar.svg)
-    ![Stats Panel](../img/svg/mockup/svg_mocks_area/ui_stats_panel.svg)
-*   **Función:** Es un panel dinámico multipropósito que cambia según lo que el usuario esté haciendo:
-    *   **Catálogo (Librería):** Muestra botones para agregar racks/equipos, una barra de búsqueda local, filtros (Servers, Red, Storage) y las tarjetas de los equipos arrastrables (Switch, Router, Firewall, UPS) indicando cuántas "U" ocupan.
-    *   **Estadísticas (Dashboard):** Muestra las métricas de la sala (cantidad de servidores, ocupación de unidades U, nodos de red) y las barras de progreso de Capacidad del Rack y Consumo Eléctrico (W).
-
-### 5. Main Canvas (Bloque Gris Claro/Central)
-*   **Corresponde a:** El espacio de trabajo principal y las vistas de detalle:
-    ![Lienzo Principal](../img/svg/mockup/svg_mocks_area/ui_main_canvas.svg)
-    ![Rack View](../img/svg/mockup/svg_mocks_area/ui_rack_view.svg)
-*   **Función:** 
-    *   **Lienzo interactivo:** Es el área cuadriculada principal donde el usuario arrastra y suelta gabinetes desde la Sidebar para armar la distribución física de la sala o el esquema de topología.
-    *   **Vista de Rack:** Si el usuario abre un gabinete, este mismo lienzo central se transforma para mostrar el detalle vertical frontal y trasero (ej. Rack 101 de 42U), permitiendo atornillar los equipos unidad por unidad.
-
-### 6. Bottom Bar / Pestañas (Bloque Rojo)
-*   **Corresponde a:** La barra inferior minimizada:
-    ![Barra Inferior](../img/svg/mockup/svg_mocks_area/ui_bottom_bar.svg)
-*   **Función:** Muestra pestañas rápidas ("Inventario", "Conexiones"), accesos directos para agregar equipos ("⚡ Agregar Equipo"), botones de exportación ("↓ CSV", "↓ Excel") y el control para expandir la tabla completa (▲).
-
-### 7. Tabla de Datos / Inventario Expandido (Bloque Salmón)
-*   **Corresponde a:** El panel inferior a pantalla completa:
-    ![Tabla de Inventario](../img/svg/mockup/svg_mocks_area/ui_table_inventory.svg)
-*   **Función:** Es el centro de gestión de datos crudos. Cuando se expande, revela la tabla completa permitiendo auditar y editar masivamente características avanzadas como marcas, modelos, IPs, MACs, contraseñas y consumo eléctrico de todos los equipos del proyecto.
-
----
-*Fin del Documento*
+![Resultado de Exportación a PNG](../img/svg/ui/ui-exported-png.svg)
+*Figura: Ejemplo del archivo de alta resolución exportado, mostrando el despiece técnico frontal y trasero del rack con sus unidades exactas.*
