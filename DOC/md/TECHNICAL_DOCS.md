@@ -20,6 +20,17 @@ RACK Designer es una Single Page Application (SPA) implementada en **Vanilla Jav
 * `js/main.js`: Lógica principal de inicialización y enrutamiento (Despachador) entre pestañas.
 * `js/ui/*.js`: Lógica de la interfaz de usuario segregada en dominios (Ej. `modals.js` para los popups, `faceplates.js` para renderizar visualmente los frontales de los gabinetes, `tables.js` para el panel de inventario).
 
+### Responsive Design y Layouts Estructurales
+La aplicación utiliza un sistema estricto de CSS Grid que transmuta dependiendo de la resolución de pantalla.
+
+**Estructura Base (Desktop / Tablet):**
+Un sistema tradicional de dos columnas, maximizando el espacio del lienzo de trabajo mientras se mantienen accesibles las herramientas laterales y los registros en la base.
+![Layout Desktop](../img/svg/mockup/svg_mocks_area/ui_layout_map_full.svg)
+
+**Adaptación Móvil (Responsive):**
+En pantallas estrechas, la interfaz muta a un sistema estrictamente vertical de una sola columna. El Sidebar (Panel Lateral) se colapsa en un menú tipo "Hamburguesa" junto al logo, liberando el 100% del ancho para el Main Canvas interactivo.
+![Layout Mobile](../img/svg/mockup/svg_mocks_area/ui_layout_map_mobile.svg)
+
 ## 2. Modelo de Datos (JSON Schema)
 
 El estado de la aplicación se almacena como un único objeto JSON jerárquico. 
