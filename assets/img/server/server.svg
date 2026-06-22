@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#1e293b" />
+    <rect x="0" y="0" width="20" height="48" fill="#0f172a" /> <!-- Left Ear -->
+    <rect x="380" y="0" width="20" height="48" fill="#0f172a" /> <!-- Right Ear -->
+    <!-- Drives/Vents -->
+    <g fill="#020617" stroke="#334155" stroke-width="1">
+      <rect x="30" y="8" width="30" height="32" rx="2" /><rect x="65" y="8" width="30" height="32" rx="2" /><rect x="100" y="8" width="30" height="32" rx="2" /><rect x="135" y="8" width="30" height="32" rx="2" /><rect x="170" y="8" width="30" height="32" rx="2" /><rect x="205" y="8" width="30" height="32" rx="2" />
+    </g>
+    <!-- LCD Panel -->
+    <rect x="250" y="12" width="100" height="24" fill="#064e3b" stroke="#047857" rx="2" />
+    <text x="255" y="27" fill="#34d399" font-family="monospace" font-size="10">STATUS OK</text>
+    <!-- Power Button -->
+    <circle cx="365" cy="24" r="6" fill="#10b981" />
+  </svg>

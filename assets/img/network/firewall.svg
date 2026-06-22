@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 24">
+    <rect width="400" height="24" fill="#450a0a" />
+    <rect x="0" y="0" width="16" height="24" fill="#280505" />
+    <rect x="384" y="0" width="16" height="24" fill="#280505" />
+    <text x="30" y="16" fill="#fca5a5" font-family="monospace" font-size="12" font-weight="bold">SECURITY APPLIANCE</text>
+    <!-- Ports -->
+    <g fill="#000" stroke="#7f1d1d" stroke-width="1">
+      <rect x="200" y="6" width="12" height="12" rx="1" /><rect x="216" y="6" width="12" height="12" rx="1" /><rect x="232" y="6" width="12" height="12" rx="1" /><rect x="248" y="6" width="12" height="12" rx="1" /><rect x="264" y="6" width="12" height="12" rx="1" /><rect x="280" y="6" width="12" height="12" rx="1" />
+    </g>
+    <circle cx="330" cy="12" r="2" fill="#ef4444" />
+    <circle cx="345" cy="12" r="2" fill="#10b981" />
+    <circle cx="360" cy="12" r="2" fill="#3b82f6" />
+  </svg>

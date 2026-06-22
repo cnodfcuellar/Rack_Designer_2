@@ -32,6 +32,7 @@ function initTopology() {
 
     // Dragging Nodes
     for (const dev of store._raw.devices) {
+      if (['organizer', 'tray'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
       const dx = mx - pos.x, dy = my - pos.y;
@@ -237,6 +238,7 @@ function initTopology() {
     let newCursor = 'default';
 
     for (const dev of store._raw.devices) {
+      if (['organizer', 'tray'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
       const dx = mx - pos.x, dy = my - pos.y;
@@ -306,6 +308,7 @@ function initTopology() {
 
     // 1) Doble clic sobre un nodo → abrir modal "Nueva Conexión"
     for (const dev of store._raw.devices) {
+      if (['organizer', 'tray'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
       const dx = mx - pos.x, dy = my - pos.y;

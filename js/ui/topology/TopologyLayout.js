@@ -9,7 +9,7 @@ function initTopoPositions() {
     let maxRackH = 100;
 
     racks.forEach(rack => {
-      const devices = store.allDevicesInRack(rack.id);
+      const devices = store.allDevicesInRack(rack.id).filter(d => !['organizer', 'tray'].includes(d.type));
       const rh = Math.max(200, devices.length * 60 + 80);
       const rw = 200;
       
@@ -43,7 +43,7 @@ function initTopoPositions() {
       roomSizes[room.id] = { w: roomW, h: roomH };
     }
 
-    const floorDevices = store.allFloorDevicesInRoom(room.id);
+    const floorDevices = store.allFloorDevicesInRoom(room.id).filter(d => !['organizer', 'tray'].includes(d.type));
     floorDevices.forEach((dev, fi) => {
       if (!nodePositions[dev.id]) {
         nodePositions[dev.id] = {

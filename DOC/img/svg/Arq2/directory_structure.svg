@@ -58,7 +58,7 @@
     <text x="150" y="375" fill="#bfdbfe" font-family="'Outfit'" font-size="13" font-weight="600" text-anchor="middle">📁 assets/</text>
     <path d="M 150 385 L 150 405" stroke="#334155" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
     <path d="M 150 405 L 170 405" stroke="#334155" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
-    <text x="175" y="409" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10">📁 img/</text>
+    <text x="175" y="409" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10">📁 img/ (Faceplates realistas) &amp; 📁 icons/ (Máscaras)</text>
 
     <!-- /css -->
     <path d="M 80 440 L 110 440" stroke="#334155" stroke-width="2" fill="none"/>

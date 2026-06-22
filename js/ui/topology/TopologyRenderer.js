@@ -161,6 +161,7 @@ function drawTopo() {
 
   // Draw Device Nodes
   store._raw.devices.forEach(dev => {
+    if (['organizer', 'tray'].includes(dev.type)) return;
     const pos = nodePositions[dev.id];
     if (!pos) return;
     const col = TYPE_COLORS[dev.type] || '#888';

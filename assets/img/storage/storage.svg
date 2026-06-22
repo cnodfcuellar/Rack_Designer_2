@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#1e293b" />
+    <rect x="0" y="0" width="16" height="48" fill="#0f172a" />
+    <rect x="384" y="0" width="16" height="48" fill="#0f172a" />
+    <!-- HDD Slots -->
+    <g fill="#020617" stroke="#475569" stroke-width="1">
+      <rect x="25" y="4" width="22" height="40" rx="2" /><rect x="51" y="4" width="22" height="40" rx="2" /><rect x="77" y="4" width="22" height="40" rx="2" /><rect x="103" y="4" width="22" height="40" rx="2" /><rect x="129" y="4" width="22" height="40" rx="2" /><rect x="155" y="4" width="22" height="40" rx="2" /><rect x="181" y="4" width="22" height="40" rx="2" /><rect x="207" y="4" width="22" height="40" rx="2" /><rect x="233" y="4" width="22" height="40" rx="2" /><rect x="259" y="4" width="22" height="40" rx="2" /><rect x="285" y="4" width="22" height="40" rx="2" /><rect x="311" y="4" width="22" height="40" rx="2" />
+    </g>
+    <!-- Blinking LEDs pattern on HDDs -->
+    <g fill="#06b6d4">
+      <circle cx="36" cy="38" r="2" /><circle cx="62" cy="38" r="2" /><circle cx="88" cy="38" r="2" /><circle cx="114" cy="38" r="2" /><circle cx="140" cy="38" r="2" /><circle cx="166" cy="38" r="2" /><circle cx="192" cy="38" r="2" /><circle cx="218" cy="38" r="2" /><circle cx="244" cy="38" r="2" /><circle cx="270" cy="38" r="2" /><circle cx="296" cy="38" r="2" /><circle cx="322" cy="38" r="2" />
+    </g>
+    <circle cx="355" cy="24" r="4" fill="#10b981" />
+    <circle cx="370" cy="24" r="4" fill="#ef4444" />
+  </svg>

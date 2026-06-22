@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 24">
+    <rect width="400" height="24" fill="#334155" />
+    <rect x="0" y="0" width="16" height="24" fill="#1e293b" />
+    <rect x="384" y="0" width="16" height="24" fill="#1e293b" />
+    <!-- Display panel closed -->
+    <rect x="40" y="2" width="200" height="20" fill="#0f172a" stroke="#475569" />
+    <text x="120" y="16" fill="#94a3b8" font-family="sans-serif" font-size="10">KVM CONSOLE</text>
+    <rect x="260" y="8" width="80" height="8" fill="#1e293b" rx="2" />
+  </svg>

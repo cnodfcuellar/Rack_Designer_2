@@ -78,7 +78,9 @@ Cada Gabinete posee un botón de opciones (`⋮`) en su cabecera superior. Al ha
 
 ## 3. Gestión de Equipos
 
-El catálogo proporciona una biblioteca rica de hardware agrupado por dominio técnico (Servidores, Redes, Almacenamiento, Cableado, Energía, Accesorios y Equipos de Piso). Para asegurar una lectura óptima y densidad técnica profesional, todos los dispositivos se representan mediante **iconos vectoriales SVG escalables**, los cuales se colorean de manera automática según el perfil del equipo, eliminando inconsistencias visuales.
+El catálogo proporciona una biblioteca rica de hardware agrupado por dominio técnico (Servidores, Redes, Almacenamiento, Cableado, Energía, Accesorios y Equipos de Piso). Para asegurar una lectura óptima y densidad técnica profesional, el sistema utiliza dos tipos de recursos gráficos:
+* **Iconos de Catálogo y Topología (`assets/icons/`):** Iconos vectoriales abstractos que se colorean dinámicamente según el perfil del equipo para facilitar su lectura en el lienzo de red.
+* **Diseños Frontales de Rack (`assets/img/`):** La vista física del gabinete utiliza diseños base generados por CSS para mantener una alta velocidad. Sin embargo, **puedes personalizar** cómo se ven los equipos en el rack subiendo tus propias imágenes (archivos `.svg` o `.png` fotorrealistas) a las carpetas dentro de `assets/img/` (por ejemplo, reemplazando `assets/img/network/switch.svg` con la foto real de tu equipo).
 
 ### Métodos de Instalación
 * **Arrastrar y Soltar (Drag & Drop):** Arrastra un equipo desde el catálogo izquierdo y suéltalo sobre una U específica.

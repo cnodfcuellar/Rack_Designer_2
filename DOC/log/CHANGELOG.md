@@ -1,3 +1,10 @@
+## [2026-06-22 08:00:00] Arquitectura de Activos Gráficos: Imágenes Fotorrealistas para Faceplates
+
+### Estructura y Organización de Assets
+- **Nueva Estructura de Directorios (`assets/img/`):** Se introdujo una jerarquía paralela a los iconos (`network`, `server`, `storage`, `power`, `wiring`, `accessories`, `floor`) destinada exclusivamente a alojar imágenes detalladas (SVGs fotorrealistas o PNGs) para la vista física de los equipos.
+- **Diferenciación de Renderizado:** La arquitectura ahora separa semánticamente los iconos abstractos (`assets/icons/`), usados como máscaras CSS en la topología e inventario, de los diseños físicos detallados (`assets/img/`), preparando el ecosistema para permitir a los usuarios subir personalizaciones gráficas (custom faceplates).
+- **Generador Automático de SVGs (`generate_svgs.cjs`):** Se creó e implementó un script Node.js para poblar dinámicamente el nuevo árbol de directorios con diseños vectoriales base y organizarlos automáticamente según la taxonomía del catálogo.
+
 ## [2026-06-22 06:45:00] Expansión del Catálogo SVG y Actualización de Demostración
 
 ### Arquitectura y Renderizado Visual
