@@ -1,3 +1,12 @@
+## [2026-06-22 10:30:00] Renderizado Híbrido de Faceplates y Mejoras de Interfaz
+
+### Funcionalidades Core
+- **Renderizado Híbrido Automático:** Se implementó una lógica híbrida inteligente en `faceplates.js` que intenta cargar primero las imágenes fotorrealistas (SVG/PNG) desde `assets/img/`. Si la imagen no se encuentra, el motor hace un *fallback* automático e instantáneo (vía evento `onerror` en el DOM) hacia el renderizado procedimental en código CSS.
+- **Control de Renderizado mediante Sistema de Archivos:** Los usuarios ahora pueden forzar al sistema a usar el renderizado CSS para una categoría de equipo específico simplemente renombrando su archivo de imagen para que comience con un punto (ej. `.switch.svg`). Esto oculta el archivo al motor de red, desencadenando la protección de fallback de forma transparente y sin necesidad de tocar la base de datos o el código fuente.
+
+### Interfaz de Usuario (UI)
+- **Panel Inferior Optimizado:** Se ajustó el estado inicial del panel inferior (Tabla de Inventario/Conexiones). Ahora el proyecto carga con este panel totalmente contraído por defecto (`bottomCollapsed = true`), maximizando el área visual de trabajo disponible para la topología y los gabinetes desde el primer segundo.
+
 ## [2026-06-22 08:00:00] Arquitectura de Activos Gráficos: Imágenes Fotorrealistas para Faceplates
 
 ### Estructura y Organización de Assets
