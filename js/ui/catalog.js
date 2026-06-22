@@ -1,23 +1,34 @@
 let CATALOG = [
-  { id:'c1', name:'Server HP ProLiant', type:'server',   size:2, power:460, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#10b981' },
-  { id:'c2', name:'Server Dell R740',   type:'server',   size:2, power:550, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#10b981' },
-  { id:'c3', name:'Server 1U',          type:'server',   size:1, power:200, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖥', color:'#10b981' },
-  { id:'c4', name:'Switch Cisco 48P',   type:'switch',   size:1, power:180, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔀', color:'#10b981' },
-  { id:'c5', name:'Switch Managed 24P', type:'switch',   size:1, power:120, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔀', color:'#10b981' },
-  { id:'c6', name:'Router Core',        type:'router',   size:1, power:90,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🌐', color:'#f59e0b' },
-  { id:'c7', name:'Firewall Fortinet',  type:'firewall', size:1, power:40,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔥', color:'#ef4444' },
-  { id:'c8', name:'UPS APC 2U',         type:'ups',      size:2, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🔋', color:'#8b5cf6' },
-  { id:'c9', name:'SAN Storage 4U',     type:'storage',  size:4, power:300, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💾', color:'#06b6d4' },
-  { id:'c10',name:'NAS 2U',             type:'storage',  size:2, power:150, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💾', color:'#06b6d4' },
-  { id:'c11', name:'PC Desktop',         type:'pc',       size:0, power:250, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'💻', color:'#0ea5e9' },
-  { id:'c12', name:'Cámara IP',          type:'camera',   size:0, power:15,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📷', color:'#8b5cf6' },
-  { id:'c13', name:'Access Point Wifi',  type:'ap',       size:0, power:20,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📶', color:'#10b981' },
-  { id:'c14', name:'Controlador Puerta', type:'door',     size:0, power:30,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🚪', color:'#f59e0b' },
-  { id:'c15', name:'Impresora Red',      type:'printer',  size:0, power:350, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'🖨️', color:'#06b6d4' },
-  { id:'c16', name:'Teléfono VoIP',      type:'phone',    size:0, power:10,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'📞', color:'#ef4444' },
+  { id:'c1', name:'Server HP ProLiant', type:'server',     size:2, power:460, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/server/server.svg', color:'#10b981' },
+  { id:'c2', name:'Server Dell R740',   type:'server',     size:2, power:550, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/server/server.svg', color:'#10b981' },
+  { id:'c3', name:'Server 1U',          type:'server',     size:1, power:200, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/server/server.svg', color:'#10b981' },
+  { id:'c4', name:'Switch Cisco 48P',   type:'switch',     size:1, power:180, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/network/switch.svg', color:'#10b981' },
+  { id:'c5', name:'Switch Managed 24P', type:'switch',     size:1, power:120, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/network/switch.svg', color:'#10b981' },
+  { id:'c6', name:'Router Core',        type:'router',     size:1, power:90,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/network/router.svg', color:'#f59e0b' },
+  { id:'c7', name:'Firewall Fortinet',  type:'firewall',   size:1, power:40,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/network/firewall.svg', color:'#ef4444' },
+  { id:'c8', name:'Access Point Wifi',  type:'ap',         size:0, power:20,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/network/ap.svg', color:'#10b981' },
+  { id:'c9', name:'SAN Storage 4U',     type:'storage',    size:4, power:300, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/storage/san.svg', color:'#06b6d4' },
+  { id:'c10',name:'NAS 2U',             type:'storage',    size:2, power:150, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/storage/nas.svg', color:'#06b6d4' },
+  { id:'c11',name:'Patch Panel 24P',    type:'patchpanel', size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/wiring/patchpanel.svg', color:'#38bdf8' },
+  { id:'c12',name:'Organizador Horiz',  type:'organizer',  size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/wiring/organizer.svg', color:'#94a3b8' },
+  { id:'c13',name:'UPS APC 2U',         type:'ups',        size:2, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/power/ups.svg', color:'#8b5cf6' },
+  { id:'c14',name:'PDU Básica 1U',      type:'pdu',        size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/power/pdu.svg', color:'#eab308' },
+  { id:'c15',name:'Bandeja Fija',       type:'tray',       size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/accessories/tray.svg', color:'#64748b' },
+  { id:'c16',name:'Consola KVM 1U',     type:'kvm',        size:1, power:15,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/accessories/kvm.svg', color:'#ec4899' },
+  { id:'c17',name:'PC Desktop',         type:'pc',         size:0, power:250, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/floor/pc.svg', color:'#0ea5e9' },
+  { id:'c18',name:'Cámara IP',          type:'camera',     size:0, power:15,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/floor/camera.svg', color:'#8b5cf6' },
+  { id:'c19',name:'Controlador Puerta', type:'door',       size:0, power:30,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/floor/door.svg', color:'#f59e0b' },
+  { id:'c20',name:'Impresora Red',      type:'printer',    size:0, power:350, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/floor/printer.svg', color:'#06b6d4' },
+  { id:'c21',name:'Teléfono VoIP',      type:'phone',      size:0, power:10,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/floor/phone.svg', color:'#ef4444' }
 ];
 
-const TYPE_COLORS = { server:'#10b981', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', ups:'#8b5cf6', storage:'#06b6d4', pc:'#0ea5e9', camera:'#8b5cf6', ap:'#10b981', door:'#f59e0b', printer:'#06b6d4', phone:'#ef4444' };
+const TYPE_COLORS = { 
+  server:'#10b981', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', 
+  storage:'#06b6d4', patchpanel:'#38bdf8', organizer:'#94a3b8', 
+  ups:'#8b5cf6', pdu:'#eab308', tray:'#64748b', kvm:'#ec4899', 
+  pc:'#0ea5e9', camera:'#8b5cf6', ap:'#10b981', door:'#f59e0b', 
+  printer:'#06b6d4', phone:'#ef4444' 
+};
 
 function addCatalogItem(item) {
   CATALOG.push(item);
@@ -38,18 +49,25 @@ function renderCatalog() {
   
   const list = CATALOG.filter(item => {
     const matchType = filter === 'all' ||
-      (filter === 'server'  && item.type === 'server') ||
-      (filter === 'switch'  && ['switch','router','firewall'].includes(item.type)) ||
-      (filter === 'storage' && ['storage','ups'].includes(item.type)) ||
-      (filter === 'floor'   && ['pc','camera','ap','door','printer','phone'].includes(item.type));
+      (filter === 'server'      && item.type === 'server') ||
+      (filter === 'network'     && ['switch','router','firewall'].includes(item.type)) ||
+      (filter === 'storage'     && ['storage'].includes(item.type)) ||
+      (filter === 'wiring'      && ['patchpanel','organizer'].includes(item.type)) ||
+      (filter === 'power'       && ['ups','pdu'].includes(item.type)) ||
+      (filter === 'accessories' && ['tray','kvm'].includes(item.type)) ||
+      (filter === 'floor'       && ['pc','camera','ap','door','printer','phone'].includes(item.type));
     const matchQuery = !query || item.name.toLowerCase().includes(query) || item.type.includes(query);
     return matchType && matchQuery;
   });
   
   const cat = document.getElementById('catalog');
-  cat.innerHTML = list.map(item => `
+  cat.innerHTML = list.map(item => {
+    const iconName = item.icon.split('/').pop().split('.')[0];
+    return `
     <div class="catalog-item" draggable="true" data-catalog-id="${item.id}">
-      <div class="cat-icon" style="background:${TYPE_COLORS[item.type]}22;color:${TYPE_COLORS[item.type]}">${escapeHTML(item.icon)}</div>
+      <div class="cat-icon" style="background:${TYPE_COLORS[item.type]}22; display:flex; align-items:center; justify-content:center;">
+        <div style="color:${TYPE_COLORS[item.type]}; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS[iconName] ? SVG_ICONS[iconName] : ''}</div>
+      </div>
       <div class="cat-info">
         <div class="cat-name">${escapeHTML(item.name)}</div>
         <div class="cat-meta">${escapeHTML(item.type).toUpperCase()} │ ${escapeHTML(String(item.power))}W</div>
@@ -59,7 +77,7 @@ function renderCatalog() {
         <button class="cat-btn menu" data-menu-cat="${item.id}" title="Opciones" style="font-size:16px; cursor:pointer; background:none; border:none; color:var(--text-muted); padding: 4px;">⋮</button>
       </div>
     </div>
-  `).join('');
+  `}).join('');
   
   cat.querySelectorAll('.catalog-item').forEach(el => {
     el.addEventListener('dragstart', onCatalogDragStart);

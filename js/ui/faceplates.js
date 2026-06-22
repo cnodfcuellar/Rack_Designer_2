@@ -63,7 +63,7 @@ function buildFaceplate(device, heightPx) {
   }
   if (type === 'firewall') {
     return `<div class="fp-firewall" style="height:${h}px">
-      <div class="fw-icon">🔥</div>
+      <div class="fw-icon" style="color:#ef4444; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['firewall'] ? SVG_ICONS['firewall'] : ''}</div>
       <div class="fw-mid">
         <div class="fw-name">${escapeHTML(device.name)}</div>
         <div class="fw-status">${escapeHTML(device.ip) || 'NO IP'} │ ACTIVE</div>
@@ -96,14 +96,6 @@ function buildFaceplate(device, heightPx) {
 }
 
 function getFloorFaceplate(device) {
-  const icons = {
-    pc:       '💻',
-    camera:   '📷',
-    ap:       '📶',
-    door:     '🚪',
-    printer:  '🖨️',
-    phone:    '📞',
-  };
   const colors = {
     pc:      '#0ea5e9',
     camera:  '#8b5cf6',
@@ -112,16 +104,16 @@ function getFloorFaceplate(device) {
     printer: '#06b6d4',
     phone:   '#ef4444',
   };
-  const icon  = icons[device.type]  || '📦';
   const color = colors[device.type] || '#8b9ab8';
   const name  = escapeHTML(device.name);
+  const svgIcon = typeof SVG_ICONS !== 'undefined' && SVG_ICONS[device.type] ? SVG_ICONS[device.type] : '';
 
   return `
     <div class="floor-device-card" 
          data-device-id="${device.id}" 
          draggable="true"
          style="--floor-color: ${color}">
-      <div class="floor-device-icon">${icon}</div>
+      <div class="floor-device-icon" style="color:${color}; width:24px; height:24px; display:flex; align-items:center; justify-content:center;">${svgIcon}</div>
       <div class="floor-device-info">
         <div class="floor-device-name">${name}</div>
         <div class="floor-device-meta">${escapeHTML(device.ip) || escapeHTML(device.type).toUpperCase()}</div>

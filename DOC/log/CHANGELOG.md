@@ -387,3 +387,20 @@
 
 - Fix: Componentes flotantes ajustados a var(--bg-panel) para soportar el modo claro.
 
+
+## [2026-06-21 21:00:00] Reorganización de Archivos y Ajustes UI
+* **Ubicación de Scripts Python:** Se agruparon todos los scripts .py dentro de una nueva carpeta .py para mantener la raíz del proyecto limpia. Se actualizó INSTRUCTIONS.md reflejando esta regla.
+* **Organización de Logs:** Se movió el archivo logs_cambios.txt de la raíz al directorio doc/log/.
+* **Corrección de Iconos PWA:** Se corrigieron las rutas en index.html y json/manifest.json que apuntaban a icons/ en lugar de ssets/icons/, restaurando el favicon.
+* **Panel de Estadísticas Colapsado:** Se modificó index.html para que el panel de estadísticas inicie oculto por defecto (clase hidden y chevron ►), optimizando el espacio inicial.
+
+## [2026-06-21 22:05:00] Expansión del Catálogo y Migración a SVG
+* **Estructuración del Catálogo:** Se añadieron nuevas opciones para equipos alineadas a la teoría de datacenters: patchpanel, organizer, pdu, 	ray, kvm.
+* **Filtros UI:** Se rediseñaron las pestañas laterales del catálogo dividiéndolas en Servidores, Red, Storage, Cableado, Energía y Accesorios.
+* **Migración a SVG Monocromático:** Se reemplazaron los emojis del catálogo y UI por archivos SVG ubicados en ssets/icons/.
+* **Sistema de Máscaras CSS:** Se implementó renderizado con mask-image en HTML para tintar los SVGs.
+* **Soporte Canvas SVG:** Se implementó caché de imágenes en TopologyRenderer.js para dibujar SVGs en la vista topológica.
+
+## [2026-06-21 22:15:00] Bugfix: Iconos de SAN y NAS
+* **Catálogo:** Se corrigió un error en el que el catálogo y la topología no encontraban los iconos para equipos cuyo archivo SVG se llamaba diferente al 	ype principal (ej. san.svg y 
+as.svg para la categoría storage). Ahora se extrae correctamente el nombre del archivo desde la ruta definida en el modelo de datos.

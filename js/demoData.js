@@ -1,9 +1,10 @@
 function loadDemoData() {
-  const r1 = uid(); const r2 = uid(); const r3 = uid();
+  const r1 = uid(); const r2 = uid(); const r3 = uid(); const r4 = uid();
   const rooms = [
     { id: r1, name: 'Data Center' },
     { id: r2, name: 'Edificio A2' },
-    { id: r3, name: 'Edificio B1' }
+    { id: r3, name: 'Edificio B1' },
+    { id: r4, name: 'Bodega' }
   ];
 
   const racks = [];
@@ -35,16 +36,21 @@ function loadDemoData() {
 
   rackSpecs.forEach((spec, index) => {
     const rackId = uid();
+    let height = 12;
+    if (spec.id_num === 101) height = 42;
+    else if (spec.id_num === 201 || spec.id_num === 301) height = 24;
+
     racks.push({
       id: rackId, roomId: spec.room, 
       name: spec.name, 
-      height: 42, color: colors[index % colors.length], devices: []
+      height: height, color: colors[index % colors.length], devices: []
     });
 
     // Switch - VLAN 10
     const swId = uid();
     switchesByRoom[spec.room].push(swId);
-    devices.push({ id: swId, rackId, name: `Switch ${spec.name}`, type: 'switch', slotStart: 40, size: 1, ip: `10.10.10.${spec.id_num}`, mac: `00:11:22:33:10:${spec.id_num.toString(16)}`, serial: `SW-${spec.id_num}`, brand: 'Cisco', model: 'Catalyst 9300', power: 250, plugs: 1, user: 'admin', pass: 'cisco', notes: 'VLAN 10 - Infraestructura' });
+    let swSlot = spec.id_num === 101 ? 40 : height;
+    devices.push({ id: swId, rackId, name: `Switch ${spec.name}`, type: 'switch', slotStart: swSlot, size: 1, ip: `10.10.10.${spec.id_num}`, mac: `00:11:22:33:10:${spec.id_num.toString(16)}`, serial: `SW-${spec.id_num}`, brand: 'Cisco', model: 'Catalyst 9300', power: 250, plugs: 1, user: 'admin', pass: 'cisco', notes: 'VLAN 10 - Infraestructura' });
 
     // UPS - VLAN 20
     const upsId = uid();
@@ -53,7 +59,8 @@ function loadDemoData() {
     // Servers - VLAN 30
     let baseIP = (index * 10) + 10;
     
-    for(let s=1; s<=5; s++) {
+    let numServers = height === 12 ? 3 : 5;
+    for(let s=1; s<=numServers; s++) {
       const srvId = uid();
       let srvIp = `10.10.30.${baseIP + s}`;
       devices.push({ id: srvId, rackId, name: `Servidor Nodo ${s} - ${spec.name}`, type: 'server', slotStart: 3 + (s-1)*3, size: 2, ip: srvIp, mac: 'AA:BB:CC:00:30:'+(baseIP+s).toString(16), serial: `SRV-${spec.id_num}-${s}`, brand: 'Dell', model: 'PowerEdge R740', power: 600, plugs: 2, user: 'root', pass: 'secret', notes: 'VLAN 30 - Servidores' });
@@ -96,6 +103,7 @@ function loadDemoData() {
   const prt1 = uid(); const prt2 = uid(); const prt3 = uid();
   const tel1 = uid(); const tel2 = uid();
   const ap1 = uid(); const ap2 = uid();
+  const bCam1 = uid(); const bCam2 = uid(); const bCam3 = uid(); const bAp = uid(); const bCtrl = uid();
 
   devices.push(
     // Cámaras - VLAN 60
@@ -111,7 +119,13 @@ function loadDemoData() {
     { id: tel2, rackId: null, category: 'floor', roomId: r3, name: 'Teléfono 02', type: 'phone', ip: '10.10.80.11', mac: '', serial: '', brand: 'Cisco', model: 'IP Phone 8841', power: 10, plugs: 1, user: '', pass: '', notes: 'VLAN 80' },
     // Access Points - IP Fija en VLAN 10 (proveen VLAN 50 / 90)
     { id: ap1, rackId: null, category: 'floor', roomId: r2, name: 'AP A2 Corporativo', type: 'ap', ip: '10.10.10.20', mac: '', serial: '', brand: 'Ubiquiti', model: 'UniFi AP AC Pro', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee VLAN 50 y 90' },
-    { id: ap2, rackId: null, category: 'floor', roomId: r3, name: 'AP B1 Corporativo', type: 'ap', ip: '10.10.10.30', mac: '', serial: '', brand: 'Ubiquiti', model: 'UniFi AP AC Pro', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee VLAN 50 y 90' }
+    { id: ap2, rackId: null, category: 'floor', roomId: r3, name: 'AP B1 Corporativo', type: 'ap', ip: '10.10.10.30', mac: '', serial: '', brand: 'Ubiquiti', model: 'UniFi AP AC Pro', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee VLAN 50 y 90' },
+    // Bodega (piso)
+    { id: bCam1, rackId: null, category: 'floor', roomId: r4, name: 'Cámara Bodega 1', type: 'camera', ip: '10.10.60.13', mac: '', serial: '', brand: 'Axis', model: 'P3245-V', power: 15, plugs: 1, user: 'admin', pass: '', notes: 'VLAN 60' },
+    { id: bCam2, rackId: null, category: 'floor', roomId: r4, name: 'Cámara Bodega 2', type: 'camera', ip: '10.10.60.14', mac: '', serial: '', brand: 'Axis', model: 'P3245-V', power: 15, plugs: 1, user: 'admin', pass: '', notes: 'VLAN 60' },
+    { id: bCam3, rackId: null, category: 'floor', roomId: r4, name: 'Cámara Bodega 3', type: 'camera', ip: '10.10.60.15', mac: '', serial: '', brand: 'Axis', model: 'P3245-V', power: 15, plugs: 1, user: 'admin', pass: '', notes: 'VLAN 60' },
+    { id: bAp, rackId: null, category: 'floor', roomId: r4, name: 'AP Bodega', type: 'ap', ip: '10.10.10.40', mac: '', serial: '', brand: 'Ubiquiti', model: 'UniFi AP AC Pro', power: 20, plugs: 1, user: 'admin', pass: '', notes: 'Provee WiFi Bodega' },
+    { id: bCtrl, rackId: null, category: 'floor', roomId: r4, name: 'Controladora Bodega', type: 'other', ip: '10.10.10.41', mac: '', serial: '', brand: 'ZKTeco', model: 'InBio 460', power: 30, plugs: 1, user: 'admin', pass: '', notes: 'Control de acceso' }
   );
 
   // Conexiones de equipos de piso al switch de su propia sala
@@ -125,7 +139,12 @@ function loadDemoData() {
     { id: uid(), sourceDeviceId: tel1, sourcePort: 'eth0', targetDeviceId: r2MainSw, targetPort: 'Gi2/0/20', cableType: 'Cobre', color: '#8b5cf6' },
     { id: uid(), sourceDeviceId: tel2, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/21', cableType: 'Cobre', color: '#8b5cf6' },
     { id: uid(), sourceDeviceId: ap1, sourcePort: 'eth0', targetDeviceId: r2MainSw, targetPort: 'Gi2/0/30', cableType: 'Cobre', color: '#0ea5e9' },
-    { id: uid(), sourceDeviceId: ap2, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/31', cableType: 'Cobre', color: '#0ea5e9' }
+    { id: uid(), sourceDeviceId: ap2, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/31', cableType: 'Cobre', color: '#0ea5e9' },
+    { id: uid(), sourceDeviceId: bCam1, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/4', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: bCam2, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/5', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: bCam3, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/6', cableType: 'Cobre', color: '#10b981' },
+    { id: uid(), sourceDeviceId: bAp, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/32', cableType: 'Cobre', color: '#0ea5e9' },
+    { id: uid(), sourceDeviceId: bCtrl, sourcePort: 'eth0', targetDeviceId: r3MainSw, targetPort: 'Gi2/0/40', cableType: 'Cobre', color: '#64748b' }
   );
 
   const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };

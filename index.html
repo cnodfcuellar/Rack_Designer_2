@@ -11,8 +11,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RACK Designer">
 <link rel="manifest" href="json/manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-512x512.png">
-<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="assets/icons/icon-512x512.png">
+<link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -37,7 +37,7 @@
       <div style="display: flex; align-items: center; gap: 8px;">
         <button id="mobile-menu-btn" class="menu-btn" style="display: none;">☰</button>
         <div class="logo">
-          <img src="icons/icon.svg" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
+          <img src="assets/icons/icon.svg" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
           <div>
             RACK Designer
             <span class="logo-sub" id="project-filename">Nuevo Proyecto</span>
@@ -92,11 +92,11 @@
     <div class="sb-title" style="display:flex; padding-right:8px;">
       <div id="toggle-stats" style="flex:1; display:flex; justify-content:space-between; align-items:center;">
         <span>ESTADÍSTICAS</span>
-        <span id="stats-chevron">▼</span>
+        <span id="stats-chevron">►</span>
       </div>
       <button id="btn-close-sidebar" class="mobile-only" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel">✕</button>
     </div>
-    <div class="sb-header" id="stats-container">
+    <div class="sb-header hidden" id="stats-container">
       <div class="sb-stats" id="sidebar-stats">
         <div class="stat-pill tooltip tooltip-bottom" data-tip="Gabinetes">
           <div class="stat-icon-wrap" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">
@@ -141,9 +141,12 @@
     </div>
     <div class="sb-filter-tabs">
       <button class="filter-tab active" data-filter="all">Todos</button>
-      <button class="filter-tab" data-filter="server">Servers</button>
-      <button class="filter-tab" data-filter="switch">Red</button>
+      <button class="filter-tab" data-filter="server">Servidores</button>
+      <button class="filter-tab" data-filter="network">Red</button>
       <button class="filter-tab" data-filter="storage">Storage</button>
+      <button class="filter-tab" data-filter="wiring">Cableado</button>
+      <button class="filter-tab" data-filter="power">Energía</button>
+      <button class="filter-tab" data-filter="accessories">Accesorios</button>
       <button class="filter-tab" data-filter="floor">Piso</button>
     </div>
     <div class="catalog" id="catalog"></div>
@@ -239,8 +242,13 @@
             <option value="switch">🔀 Switch</option>
             <option value="router">🌐 Router</option>
             <option value="firewall">🔥 Firewall</option>
-            <option value="ups">🔋 UPS</option>
             <option value="storage">💾 Storage</option>
+            <option value="patchpanel">🎛️ Patch Panel</option>
+            <option value="organizer">🖇️ Organizador</option>
+            <option value="ups">🔋 UPS</option>
+            <option value="pdu">🔌 PDU</option>
+            <option value="tray">🗄️ Bandeja</option>
+            <option value="kvm">⌨️ Consola KVM</option>
           </optgroup>
           <optgroup label="── Equipos de Piso ──" id="opt-floor" style="display: none;">
             <option value="pc">💻 PC / Workstation</option>
@@ -476,6 +484,7 @@
 
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/icons.js"></script>
   <script src="js/store.js"></script>
   <script src="js/ui/catalog.js"></script>
   <script src="js/ui/faceplates.js"></script>

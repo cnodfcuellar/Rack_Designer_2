@@ -32,7 +32,7 @@ function renderInventoryTable(wrap, query) {
     return [d.name, d.ip, d.mac, d.serial, d.type, d.user, d.pass].join(' ').toLowerCase().includes(query);
   });
   if (!devices.length) {
-    wrap.innerHTML = `<div class="empty-state"><div class="icon">📦</div><p>No hay equipos instalados.</p></div>`;
+    wrap.innerHTML = `<div class="empty-state"><div class="icon" style="color:var(--text-muted); width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['nas'] ? SVG_ICONS['nas'] : ''}</div><p>No hay equipos instalados.</p></div>`;
     return;
   }
   wrap.innerHTML = `<table class="data-table">
@@ -140,7 +140,7 @@ function renderConnectionsTable(wrap, query) {
     return [src?.name, dst?.name, c.cableType, c.sourcePort, c.targetPort].join(' ').toLowerCase().includes(query);
   });
   if (!conns.length) {
-    wrap.innerHTML = `<div class="empty-state"><div class="icon">🔌</div><p>No hay conexiones de red registradas.</p></div>`;
+    wrap.innerHTML = `<div class="empty-state"><div class="icon" style="color:var(--text-muted); width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['patchpanel'] ? SVG_ICONS['patchpanel'] : ''}</div><p>No hay conexiones de red registradas.</p></div>`;
     return;
   }
   wrap.innerHTML = `<table class="data-table">

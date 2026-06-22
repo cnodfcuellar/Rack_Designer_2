@@ -1,3 +1,21 @@
+const topoIconCache = {};
+function getTopoIcon(type) {
+  if (topoIconCache[type]) return topoIconCache[type];
+  const catItem = typeof CATALOG !== 'undefined' ? CATALOG.find(c => c.type === type) : null;
+  const iconName = catItem && catItem.icon ? catItem.icon.split('/').pop().split('.')[0] : type;
+  const svgStr = typeof SVG_ICONS !== 'undefined' ? SVG_ICONS[iconName] : null;
+  if (!svgStr) return null;
+  
+  const coloredSvg = svgStr.replace(/currentColor/g, '#ffffff');
+  const blob = new Blob([coloredSvg], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  
+  const img = new Image();
+  img.src = url;
+  topoIconCache[type] = img;
+  return img;
+}
+
 function drawTopo() {
   if(!canvas || !ctx) return;
   const W = canvas.width, H = canvas.height;
@@ -180,8 +198,13 @@ function drawTopo() {
     ctx.font = '16px serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
-    const icons = { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾', pc:'💻', camera:'📷', ap:'📶', door:'🚪', printer:'🖨️', phone:'📞' };
-    ctx.fillText(icons[dev.type]||'●', pos.x, pos.y);
+    const img = getTopoIcon(dev.type);
+    if (img && img.complete && img.naturalWidth > 0) {
+      ctx.drawImage(img, pos.x - 10, pos.y - 10, 20, 20);
+    } else {
+      ctx.font = '12px "Space Grotesk", sans-serif';
+      ctx.fillText(dev.type.substring(0, 2).toUpperCase(), pos.x, pos.y);
+    }
     
     ctx.font = 'bold 11px "Space Grotesk", sans-serif';
     ctx.fillStyle = '#ffffff';
