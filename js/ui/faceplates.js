@@ -2,11 +2,23 @@ function buildFaceplate(device, heightPx) {
   const h = heightPx;
   const type = device.type;
 
+  const typeMap = {
+    'server': 'server', 'switch': 'network', 'router': 'network',
+    'firewall': 'network', 'storage': 'storage', 'ups': 'power',
+    'patchpanel': 'wiring', 'pdu': 'power', 'kvm': 'accessories',
+    'tray': 'accessories', 'organizer': 'wiring', 'pc': 'floor',
+    'ap': 'network', 'camera': 'floor', 'printer': 'floor',
+    'phone': 'floor', 'door': 'floor', 'san': 'storage', 'nas': 'storage'
+  };
+  const category = typeMap[type] || 'accessories';
+
+  let cssFaceplate = '';
+
   if (type === 'server') {
     const brand = device.name.toLowerCase().includes('hp') ? 'PROLIANT' :
                   device.name.toLowerCase().includes('dell') ? 'DELL POWEREDGE' :
                   device.name.toUpperCase().slice(0, 12);
-    return `<div class="fp-server" style="height:${h}px">
+    cssFaceplate = `<div class="fp-server" style="height:${h}px">
       <div class="ear"></div>
       <div class="vent"></div>
       <div class="fp-mid">
@@ -19,7 +31,7 @@ function buildFaceplate(device, heightPx) {
       <div class="ear-r"></div>
     </div>`;
   }
-  if (type === 'switch') {
+  else if (type === 'switch') {
     const ports = Array.from({length: 24}, (_,i) => {
       const connected = store._raw.connections.some(c =>
         (c.sourceDeviceId === device.id || c.targetDeviceId === device.id));
@@ -28,13 +40,13 @@ function buildFaceplate(device, heightPx) {
     }).join('');
     const sfpPorts = Array.from({length:2}, (_,i) =>
       `<div class="sfp-port" style="--blink-delay:${(i*0.4).toFixed(2)}s"></div>`).join('');
-    return `<div class="fp-switch" style="height:${h}px">
+    cssFaceplate = `<div class="fp-switch" style="height:${h}px">
       <div class="ports-grid">${ports}</div>
       <div class="sw-right">${sfpPorts}</div>
     </div>`;
   }
-  if (type === 'ups') {
-    return `<div class="fp-ups" style="height:${h}px">
+  else if (type === 'ups') {
+    cssFaceplate = `<div class="fp-ups" style="height:${h}px">
       <div class="ups-left">
         <div class="ups-led green"></div>
         <div class="ups-led off"></div>
@@ -52,17 +64,17 @@ function buildFaceplate(device, heightPx) {
       </div>
     </div>`;
   }
-  if (type === 'router') {
+  else if (type === 'router') {
     const sfps = Array.from({length:8}, (_,i) =>
       `<div class="sfp-module" style="--blink-delay:${(i*0.3).toFixed(2)}s"></div>`).join('');
-    return `<div class="fp-router" style="height:${h}px">
+    cssFaceplate = `<div class="fp-router" style="height:${h}px">
       <div class="rtr-brand"><div class="rtr-logo">RT</div></div>
       <div class="sfp-row">${sfps}</div>
       <div class="vent-r"></div>
     </div>`;
   }
-  if (type === 'firewall') {
-    return `<div class="fp-firewall" style="height:${h}px">
+  else if (type === 'firewall') {
+    cssFaceplate = `<div class="fp-firewall" style="height:${h}px">
       <div class="fw-icon" style="color:#ef4444; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['firewall'] ? SVG_ICONS['firewall'] : ''}</div>
       <div class="fw-mid">
         <div class="fw-name">${escapeHTML(device.name)}</div>
@@ -75,10 +87,10 @@ function buildFaceplate(device, heightPx) {
       </div>
     </div>`;
   }
-  if (type === 'storage') {
+  else if (type === 'storage') {
     const drives = Array.from({length:10}, (_,i) =>
       `<div class="drive-slot ${i < 8 ? 'active' : ''}" style="--blink-delay:${(i*0.2).toFixed(2)}s"></div>`).join('');
-    return `<div class="fp-storage" style="height:${h}px">
+    cssFaceplate = `<div class="fp-storage" style="height:${h}px">
       <div class="st-left">
         <div class="ups-led green"></div>
         <div class="ups-led" style="background:var(--cyan);box-shadow:0 0 4px var(--cyan)"></div>
@@ -91,8 +103,23 @@ function buildFaceplate(device, heightPx) {
       </div>
     </div>`;
   }
-  // Default
-  return `<div style="height:${h}px;display:flex;align-items:center;padding:0 8px;background:#111;font-size:10px;color:#666">${escapeHTML(device.name)}</div>`;
+  else {
+    // Default
+    cssFaceplate = `<div style="height:${h}px;display:flex;align-items:center;padding:0 8px;background:#111;font-size:10px;color:#666">${escapeHTML(device.name)}</div>`;
+  }
+
+  // Wrapper híbrido: Intenta cargar la imagen SVG/PNG primero. Si falla (ej. porque se renombró a .archivo.svg), muestra el renderizado CSS.
+  return `
+    <div class="faceplate-wrapper" style="height:${h}px; width:100%; position:relative; overflow:hidden; border-radius: 4px;">
+      <img src="assets/img/${category}/${type}.svg" 
+           style="width:100%; height:100%; object-fit:contain; position:absolute; inset:0; z-index:2; display:block;"
+           onload="this.nextElementSibling.style.display='none';" 
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" 
+           alt="${type}" />
+      <div class="faceplate-css-fallback" style="height:100%; width:100%; position:relative; z-index:1;">
+        ${cssFaceplate}
+      </div>
+    </div>`;
 }
 
 function getFloorFaceplate(device) {
