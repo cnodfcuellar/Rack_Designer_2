@@ -323,7 +323,10 @@ function initGlobalEvents() {
     });
   });
 
-  let bottomCollapsed = false;
+  let bottomCollapsed = true;
+  document.getElementById('bottom').style.height = '38px';
+  document.getElementById('btn-collapse-bottom').textContent = '▲';
+
   document.getElementById('btn-collapse-bottom').addEventListener('click', () => {
     bottomCollapsed = !bottomCollapsed;
     const bot = document.getElementById('bottom');
