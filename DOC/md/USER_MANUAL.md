@@ -78,6 +78,8 @@ Cada Gabinete posee un botón de opciones (`⋮`) en su cabecera superior. Al ha
 
 ## 3. Gestión de Equipos
 
+El catálogo proporciona una biblioteca rica de hardware agrupado por dominio técnico (Servidores, Redes, Almacenamiento, Cableado, Energía, Accesorios y Equipos de Piso). Para asegurar una lectura óptima y densidad técnica profesional, todos los dispositivos se representan mediante **iconos vectoriales SVG escalables**, los cuales se colorean de manera automática según el perfil del equipo, eliminando inconsistencias visuales.
+
 ### Métodos de Instalación
 * **Arrastrar y Soltar (Drag & Drop):** Arrastra un equipo desde el catálogo izquierdo y suéltalo sobre una U específica.
 * **Por Menú Contextual:** Haz clic derecho en cualquier espacio vacío del Rack y selecciona "Instalar Equipo".

@@ -1,3 +1,16 @@
+## [2026-06-22 06:45:00] Expansión del Catálogo SVG y Actualización de Demostración
+
+### Arquitectura y Renderizado Visual
+- **Migración a SVG Dinámicos:** Se reemplazó el uso de Emojis del sistema por iconos SVG monocromáticos en todo el ecosistema gráfico. Los SVGs se colorean dinámicamente usando `mask-image` en el DOM y una caché offline (Canvas) para el motor topológico de alto rendimiento.
+- **Jerarquía de Iconos:** Nueva estructura organizada en `assets/icons/` dividida por dominio (`/network`, `/server`, `/power`, `/storage`, `/wiring`, `/accessories`, `/floor`).
+
+### Expansión Teórica del Datacenter
+- **Ampliación del Catálogo:** El catálogo base (`catalog.js`) fue sustancialmente enriquecido con infraestructura técnica realista. Se añadieron categorías: Cableado (Patch Panels, Organizadores), Energía (PDU), Almacenamiento (NAS, SAN), Accesorios (KVM, Bandejas) y periféricos de Piso (Controladoras, Accesos).
+
+### Demostración Técnica (`demoData.js`)
+- **Redimensionamiento de Racks:** Los gabinetes en la demostración ahora presentan tamaños realistas variados: el Core (`Rack 101`) de 42U, nodos secundarios (`201`, `301`) de 24U, y remotos de 12U.
+- **Sala "Bodega":** Se añadió una cuarta sala para equipos de piso (cámaras, AP, controladora), interconectada lógicamente por Ethernet hacia el switch de acceso del Rack 301 para ejemplificar el alcance distribuido de la red.
+
 ## [2026-06-19 19:10:00] Reestructuración Modular (Models/Core/API) y Lado de Montaje
 
 ### Arquitectura y Refactorización
