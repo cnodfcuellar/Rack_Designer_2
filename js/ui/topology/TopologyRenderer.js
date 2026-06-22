@@ -208,12 +208,12 @@ function drawTopo() {
     
     ctx.font = 'bold 11px "Space Grotesk", sans-serif';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(dev.name.slice(0, 16), pos.x, pos.y + r + 12);
+    ctx.fillText(dev.name.slice(0, 16), pos.x, pos.y - r - 26);
     
     if (dev.ip) {
       ctx.font = 'bold 10px "JetBrains Mono", monospace';
       const ipWidth = ctx.measureText(dev.ip).width;
-      const ipY = pos.y + r + 27;
+      const ipY = pos.y - r - 10;
       
       // Pill background
       ctx.fillStyle = '#e2e8f0'; // Light gray-white
