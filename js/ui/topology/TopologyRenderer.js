@@ -180,51 +180,91 @@ function drawTopo() {
     ctx.save();
     ctx.globalAlpha = isActive ? 1 : 0.15; // Dim significantly if not matching
     
-    if (isHoverTarget) {
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 6, 0, Math.PI*2);
-      ctx.fillStyle = '#ffffff66'; 
-      ctx.fill();
-    } else {
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 4, 0, Math.PI*2);
-      ctx.fillStyle = '#ffffff22'; 
-      ctx.fill();
-    }
-    
-    ctx.beginPath(); ctx.arc(pos.x, pos.y, r, 0, Math.PI*2);
-    ctx.fillStyle = '#0f172a';
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 2.5;
-    ctx.fill(); ctx.stroke();
-    
-    ctx.font = '16px serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#ffffff';
-    const img = getTopoIcon(dev.type);
-    if (img && img.complete && img.naturalWidth > 0) {
-      ctx.drawImage(img, pos.x - 10, pos.y - 10, 20, 20);
-    } else {
-      ctx.font = '12px "Space Grotesk", sans-serif';
-      ctx.fillText(dev.type.substring(0, 2).toUpperCase(), pos.x, pos.y);
-    }
-    
-    ctx.font = 'bold 11px "Space Grotesk", sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(dev.name.slice(0, 16), pos.x, pos.y - r - 26);
-    
-    if (dev.ip) {
-      ctx.font = 'bold 10px "JetBrains Mono", monospace';
-      const ipWidth = ctx.measureText(dev.ip).width;
-      const ipY = pos.y - r - 10;
+    if (window.TOPOLOGY_STYLE === 'circle') {
+      if (isHoverTarget) {
+        ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 6, 0, Math.PI*2);
+        ctx.fillStyle = '#ffffff66'; 
+        ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 4, 0, Math.PI*2);
+        ctx.fillStyle = '#ffffff22'; 
+        ctx.fill();
+      }
       
-      // Pill background
-      ctx.fillStyle = '#e2e8f0'; // Light gray-white
-      ctx.beginPath();
-      ctx.roundRect(pos.x - ipWidth/2 - 6, ipY - 8, ipWidth + 12, 16, 4);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, r, 0, Math.PI*2);
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.5;
+      ctx.fill(); ctx.stroke();
+      
+      ctx.font = '16px serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ffffff';
+      const img = getTopoIcon(dev.type);
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, pos.x - 10, pos.y - 10, 20, 20);
+      } else {
+        ctx.font = '12px "Space Grotesk", sans-serif';
+        ctx.fillText(dev.type.substring(0, 2).toUpperCase(), pos.x, pos.y);
+      }
+      
+      ctx.font = 'bold 11px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(dev.name.slice(0, 16), pos.x, pos.y - r - 26);
+      
+      if (dev.ip) {
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        const ipWidth = ctx.measureText(dev.ip).width;
+        const ipY = pos.y - r - 10;
+        
+        ctx.fillStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.roundRect(pos.x - ipWidth/2 - 6, ipY - 8, ipWidth + 12, 16, 4);
+        ctx.fill();
 
-      // Black text
-      ctx.fillStyle = '#000000';
-      ctx.fillText(dev.ip, pos.x, ipY);
+        ctx.fillStyle = '#000000';
+        ctx.fillText(dev.ip, pos.x, ipY);
+      }
+    } else {
+      // CARD STYLE
+      const cardW = 150;
+      const cardH = 50;
+      const cx = pos.x - cardW/2;
+      const cy = pos.y - cardH/2;
+
+      if (isHoverTarget) {
+        ctx.beginPath(); ctx.roundRect(cx - 4, cy - 4, cardW + 8, cardH + 8, 12);
+        ctx.fillStyle = '#ffffff33'; 
+        ctx.fill();
+      }
+      
+      ctx.beginPath(); ctx.roundRect(cx, cy, cardW, cardH, 8);
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.5;
+      ctx.fill(); ctx.stroke();
+      
+      const img = getTopoIcon(dev.type);
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, cx + 12, cy + 12, 16, 16);
+      } else {
+        ctx.font = '10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(dev.type.substring(0, 2).toUpperCase(), cx + 20, cy + 20);
+      }
+      
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.font = 'bold 12px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(dev.name.slice(0, 20), cx + 36, cy + 18);
+      
+      if (dev.ip) {
+        ctx.font = '11px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText(dev.ip, cx + 36, cy + 34);
+      }
     }
     
     ctx.restore();

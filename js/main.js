@@ -1,4 +1,5 @@
 let currentView = 'physical';
+window.TOPOLOGY_STYLE = 'card'; // 'card' o 'circle'
 
 function renderAll(event = {}) {
   const source = event.source || event.path || '';
@@ -68,6 +69,11 @@ function initGlobalEvents() {
     const pfx = currentView === 'physical' ? 'phys' : 'topo';
     store._raw[pfx+'Zoom'] = 1; store._raw[pfx+'PanX'] = 0; store._raw[pfx+'PanY'] = 0;
     updateZoomLabel();
+  });
+  
+  document.getElementById('btn-topo-style').addEventListener('click', () => {
+    window.TOPOLOGY_STYLE = window.TOPOLOGY_STYLE === 'card' ? 'circle' : 'card';
+    if (currentView === 'topology') renderTopology();
   });
 
   const statusDot = document.querySelector('.status-dot');
