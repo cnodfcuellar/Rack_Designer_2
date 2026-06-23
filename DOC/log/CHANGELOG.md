@@ -1,3 +1,18 @@
+## [2026-06-23] Sistema de Control de Acceso Basado en Roles (RBAC) y Actualización de Documentación
+
+### Seguridad y Roles de Usuario
+- **Sistema de Roles (RBAC):** Se implementó `js/auth/roles.js` (`RackAuth`) definiendo tres niveles de acceso: Administrador, Editor y Espectador.
+- **Protección de Sesión y Autenticación:** Se implementó un modal de inicio de sesión (`#modal-login`) gestionado mediante `sessionStorage`. El PIN de Administrador ("rack2024" por defecto) puede configurarse en un nuevo modal dedicado y se persiste cifrado en `localStorage`.
+- **Blindaje de Interfaz y Lógica:** 
+  - Se bloquearon las interacciones Drag & Drop (`dragstart`) y el doble clic para inserción rápida a los espectadores.
+  - Se añadieron verificaciones (`RackAuth.can()`) en todos los botones destructivos, menús contextuales y la rutina de autoguardado.
+  - **Modo Dios Exclusivo:** La revelación global de contraseñas (`window.SHOW_PASSWORDS`) fue restringida exclusivamente a usuarios con rol Administrador.
+
+### Documentación e Infraestructura
+- **Actualización de Documentos:** Se actualizó `USER_MANUAL.md` incorporando la sección sobre los roles de usuario. Se actualizó `TECHNICAL_DOCS.md` detallando la implementación y mecanismos de seguridad del RBAC.
+- **Generación de Manual Híbrido:** Se optimizó `build_standalone_manual.cjs` con la dependencia `marked` (instalada vía `pnpm`) para combinar los archivos `.md` y generar automáticamente la versión estática `DOC/html/FULL_MANUAL_STANDALONE.html` con imágenes SVG empotradas en Base64.
+- **Limpieza de Raíz y Scripts:** Se reorganizó el directorio base, moviendo los scripts Node.js a la carpeta `scripts/`. Se restableció la ubicación estricta del directorio `.py/` y los documentos internos `.agents/` (`DESIGN.md`, `INSTRUCTIONS.md`) conforme a las instrucciones directivas.
+
 ## [2026-06-22 10:30:00] Renderizado Híbrido de Faceplates y Mejoras de Interfaz
 
 ### Funcionalidades Core
