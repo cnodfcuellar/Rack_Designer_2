@@ -637,6 +637,19 @@ function init() {
     // Pequeño delay para que el DOM termine de renderizar
     setTimeout(() => initAuthModal(), 100);
   }
+
+  // PWA Service Worker Registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(registration => {
+          console.log('[Service Worker] Registrado con éxito con scope:', registration.scope);
+        })
+        .catch(err => {
+          console.error('[Service Worker] Error al registrar:', err);
+        });
+    });
+  }
 }
 
 init();

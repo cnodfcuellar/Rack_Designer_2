@@ -1,3 +1,21 @@
+## [2026-06-23] Optimización PWA y Accesibilidad ARIA (Frontend Developer)
+
+### Progressive Web App (PWA) y Core Web Vitals
+- **Instalación Offline:** Se creó el archivo `service-worker.js` para cachear la capa de presentación completa (HTML, CSS, JS, SVGs y fuentes). Esto asegura que RACK Designer 2 cargue instantáneamente y sea instalable como aplicación de escritorio/móvil independiente sin requerir conexión a la red.
+- **Registro del Service Worker:** Se integró la lógica de registro en `js/main.js` interceptando el evento `load` de la ventana para no bloquear el hilo de renderizado principal (protegiendo el LCP).
+
+### Accesibilidad (WCAG 2.1 AA)
+- **Navegación Semántica (Screen Readers):** Se inyectaron etiquetas `aria-label` en todos los controles interactivos y botones iconográficos (menú, controles de zoom, expansión de paneles, etc.) en `index.html`. Ahora los lectores de pantalla vocalizan la intención real de la acción en lugar de leer los caracteres ASCII.
+
+## [2026-06-23] Auditoría y Normalización de UI (UI Designer)
+
+### Sistema de Diseño y Accesibilidad
+- **Contraste Perfeccionado:** Se aclaró el token `--text-muted` de `#8496b0` a `#94a3b8` en `css/variables.css` y `.agents/DESIGN.md` para garantizar el cumplimiento estricto del ratio de contraste WCAG AA sobre fondos oscuros.
+- **Eliminación de "AI Slop":** Se reemplazó la sombra difuminada global (`--shadow`) por una sombra dura de estilo IDE (`0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.5)`) para una estética más profesional y densa.
+- **Micro-Alineación Estricta a 24px:** 
+  - Se corrigió `css/components/modals.css` para forzar que todos los inputs, selects y botones de los modales respeten la directriz obligatoria de 24px de altura (`height: 24px !important`).
+  - Se ajustó el padding asimétrico de la caja de búsqueda (`.h-search input`) en `css/layout.css` (`padding: 0 8px 0 30px`) para evitar el solapamiento del ícono de la lupa respetando las reglas de la cuadrícula.
+
 ## [2026-06-23] Sistema de Control de Acceso Basado en Roles (RBAC) y Actualización de Documentación
 
 ### Seguridad y Roles de Usuario

@@ -11,7 +11,7 @@
   --border-light: #2e3d5a;
   --text-primary: #f0f4ff;
   --text-secondary:#8b9ab8;
-  --text-muted:   #8496b0;
+  --text-muted:   #94a3b8;
   --accent:       #0ea5e9;
   --accent-glow:  #0ea5e933;
   --green:        #10b981;
@@ -53,7 +53,7 @@
   --text-xl:      16px;
   --radius:       6px;
   --radius-lg:    10px;
-  --shadow:       0 4px 24px #00000066;
+  --shadow:       0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.5);
   --shadow-glow:  0 0 20px var(--accent-glow);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

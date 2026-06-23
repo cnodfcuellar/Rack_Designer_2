@@ -35,7 +35,7 @@
   <header id="header">
     <div class="header-logo-area">
       <div style="display: flex; align-items: center; gap: 8px;">
-        <button id="mobile-menu-btn" class="menu-btn" style="display: none;">☰</button>
+        <button id="mobile-menu-btn" class="menu-btn" style="display: none;" aria-label="Abrir menú móvil">☰</button>
         <div class="logo">
           <img src="assets/icons/icon.svg" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
           <div>
@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="project-menu-wrap">
-        <button class="menu-btn" id="btn-project-menu">
+        <button class="menu-btn" id="btn-project-menu" aria-label="Menú del proyecto" aria-haspopup="true">
           <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none">
             <line x1="4" y1="7" x2="20" y2="7"></line>
             <line x1="4" y1="12" x2="20" y2="12"></line>
@@ -80,8 +80,8 @@
         <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
       </div>
       <div class="h-btn-group">
-        <button class="h-btn tooltip tooltip-bottom" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" disabled>↩</button>
-        <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪</button>
+        <button class="h-btn tooltip tooltip-bottom" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" aria-label="Deshacer acción" disabled>↩</button>
+        <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" aria-label="Rehacer acción" disabled>↪</button>
       </div>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
       <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(139,92,246,0.15); color:var(--purple); border:1px solid var(--purple); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;">✏️ Editor</div>
@@ -96,7 +96,7 @@
         <span>ESTADÍSTICAS</span>
         <span id="stats-chevron">►</span>
       </div>
-      <button id="btn-close-sidebar" class="mobile-only" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel">✕</button>
+      <button id="btn-close-sidebar" class="mobile-only" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel" aria-label="Cerrar panel de catálogo">✕</button>
     </div>
     <div class="sb-header hidden" id="stats-container">
       <div class="sb-stats" id="sidebar-stats">
@@ -157,14 +157,14 @@
   <!-- MAIN AREA -->
   <main id="main">
     <div class="main-toolbar">
-      <button class="h-btn" id="btn-zoom-out">-</button>
+      <button class="h-btn" id="btn-zoom-out" aria-label="Alejar zoom">-</button>
       <span class="zoom-label" id="zoom-level">100%</span>
-      <button class="h-btn" id="btn-zoom-in">+</button>
-      <button class="h-btn" id="btn-zoom-reset">⊙ 1:1</button>
+      <button class="h-btn" id="btn-zoom-in" aria-label="Acercar zoom">+</button>
+      <button class="h-btn" id="btn-zoom-reset" aria-label="Restablecer zoom a escala original">⊙ 1:1</button>
       <div class="h-divider"></div>
       
       <div class="room-tabs" id="room-tabs"></div>
-      <button class="room-tab-add" id="btn-add-room" title="Nueva sala">+</button>
+      <button class="room-tab-add" id="btn-add-room" title="Nueva sala" aria-label="Añadir nueva sala">+</button>
 
       <div class="spacer"></div>
       
@@ -194,7 +194,7 @@
       <button class="h-btn" id="btn-table-csv" style="margin-right:4px">⬇ CSV</button>
       <button class="h-btn" id="btn-table-excel" style="margin-right:8px">⬇ Excel</button>
       <button class="h-btn" id="btn-expand-bottom">⛶ Expandir</button>
-      <button class="h-btn" id="btn-collapse-bottom">▼</button>
+      <button class="h-btn" id="btn-collapse-bottom" aria-label="Contraer o expandir panel inferior">▼</button>
     </div>
     <div class="table-wrap" id="bottom-table-wrap"></div>
   </div>
