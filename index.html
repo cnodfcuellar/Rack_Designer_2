@@ -285,6 +285,17 @@
     </div>
 
     <div class="accordion-module">
+      <input type="checkbox" id="dev-has-ports" class="module-toggle" title="Habilitar puertos de red">
+      <div class="module-header"><label for="dev-has-ports"><i class="fa-solid fa-network-wired"></i> Interfaces de Red (Opcional)</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Puertos Ethernet (RJ45)</label><input type="number" min="0" max="96" id="dev-ports-eth" placeholder="Ej: 24"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Puertos Fibra (SFP)</label><input type="number" min="0" max="96" id="dev-ports-fib" placeholder="Ej: 4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
       <input type="checkbox" id="dev-has-loc" class="module-toggle" title="Habilitar detalles de Ubicación" checked>
       <div class="module-header"><label for="dev-has-loc"><i class="fa-solid fa-location-dot"></i> Ubicación Física</label></div>
       <div class="module-content">
@@ -383,7 +394,9 @@
         <select id="cable-src-dev"></select>
       </div>
       <div class="form-row"><label>Puerto Origen</label>
-        <input type="text" id="cable-src-port" placeholder="Eth0/1">
+        <div id="cable-src-port-container">
+          <input type="text" id="cable-src-port" placeholder="Eth0/1">
+        </div>
       </div>
     </div>
     <div class="form-grid">
@@ -391,7 +404,9 @@
         <select id="cable-dst-dev"></select>
       </div>
       <div class="form-row"><label>Puerto Destino</label>
-        <input type="text" id="cable-dst-port" placeholder="Eth0/2">
+        <div id="cable-dst-port-container">
+          <input type="text" id="cable-dst-port" placeholder="Eth0/2">
+        </div>
       </div>
     </div>
     <div class="form-grid">

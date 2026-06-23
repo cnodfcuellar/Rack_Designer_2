@@ -10,6 +10,15 @@ function openAddDeviceModal() {
   });
   const devStatus = document.getElementById('dev-status');
   if (devStatus) devStatus.value = 'active';
+  document.getElementById('dev-has-brand').checked = false;
+  document.getElementById('dev-has-loc').checked = true;
+  document.getElementById('dev-has-net').checked = false;
+  document.getElementById('dev-has-auth').checked = false;
+  document.getElementById('dev-has-power').checked = false;
+  document.getElementById('dev-has-notes').checked = false;
+  document.getElementById('dev-has-ports').checked = false;
+  document.getElementById('dev-ports-eth').value = '';
+  document.getElementById('dev-ports-fib').value = '';
 
   document.getElementById('dev-power').value = '200';
   document.getElementById('dev-plugs').value = '1';
@@ -64,7 +73,16 @@ function openEditCatalogModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
 
+  if (dev.ports) {
+    document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
+    document.getElementById('dev-ports-fib').value = dev.ports.fiber || '';
+  } else {
+    document.getElementById('dev-ports-eth').value = '';
+    document.getElementById('dev-ports-fib').value = '';
+  }
+
   document.getElementById('dev-has-brand').checked = !!(dev.brand || dev.model || dev.serial);
+  document.getElementById('dev-has-ports').checked = !!(dev.ports);
   document.getElementById('dev-has-loc').checked = true;
   document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
@@ -109,7 +127,16 @@ function openEditDeviceModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
 
+  if (dev.ports) {
+    document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
+    document.getElementById('dev-ports-fib').value = dev.ports.fiber || '';
+  } else {
+    document.getElementById('dev-ports-eth').value = '';
+    document.getElementById('dev-ports-fib').value = '';
+  }
+
   document.getElementById('dev-has-brand').checked = !!(dev.brand || dev.model || dev.serial);
+  document.getElementById('dev-has-ports').checked = !!(dev.ports);
   document.getElementById('dev-has-loc').checked = true;
   document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
@@ -157,8 +184,18 @@ function initDeviceModal() {
     const hasAuth = document.getElementById('dev-has-auth').checked;
     const hasPower = document.getElementById('dev-has-power').checked;
     const hasNotes = document.getElementById('dev-has-notes').checked;
+    const hasPorts = document.getElementById('dev-has-ports').checked;
     
     const devStatus = document.getElementById('dev-status');
+
+    let ports = null;
+    if (hasPorts) {
+      ports = {
+        ethernet: parseInt(document.getElementById('dev-ports-eth').value) || 0,
+        fiber: parseInt(document.getElementById('dev-ports-fib').value) || 0
+      };
+      if (ports.ethernet === 0 && ports.fiber === 0) ports = null;
+    }
 
     const props = {
       name, 
@@ -177,6 +214,7 @@ function initDeviceModal() {
       pass: hasAuth ? document.getElementById('dev-pass').value : '',
       notes: hasNotes ? document.getElementById('dev-notes').value.trim() : ''
     };
+    if (ports) props.ports = ports;
 
     if (editingCatalogId) {
       const item = CATALOG.find(c => c.id === editingCatalogId);

@@ -48,12 +48,15 @@ function openCableModal(defaultSrcId = null) {
   document.getElementById('cable-src-dev').innerHTML = opts;
   document.getElementById('cable-dst-dev').innerHTML = opts;
   if (defaultSrcId) document.getElementById('cable-src-dev').value = defaultSrcId;
+  
+  updateCableLocationDisplay('src');
+  updateCableLocationDisplay('dst');
+
   document.getElementById('cable-src-port').value = 'Eth0/1';
   document.getElementById('cable-dst-port').value = 'Eth0/2';
   document.getElementById('cable-color').value = '#3b82f6';
   document.getElementById('cable-color-picker').value = '#3b82f6';
-  updateCableLocationDisplay('src');
-  updateCableLocationDisplay('dst');
+  
   document.getElementById('modal-cable').classList.remove('hidden');
 }
 
@@ -71,27 +74,54 @@ function openEditCableModal(connId) {
 
   document.getElementById('cable-src-dev').value = conn.sourceDeviceId;
   document.getElementById('cable-dst-dev').value = conn.targetDeviceId;
+  
+  updateCableLocationDisplay('src');
+  updateCableLocationDisplay('dst');
+
   document.getElementById('cable-src-port').value = conn.sourcePort;
   document.getElementById('cable-dst-port').value = conn.targetPort;
   document.getElementById('cable-type').value = conn.cableType;
   document.getElementById('cable-color').value = conn.color;
   document.getElementById('cable-color-picker').value = conn.color;
-  updateCableLocationDisplay('src');
-  updateCableLocationDisplay('dst');
+  
   document.getElementById('modal-cable').classList.remove('hidden');
 }
 
 function updateCableLocationDisplay(prefix) {
   const el = document.getElementById(`cable-${prefix}-dev`);
   const locEl = document.getElementById(`cable-${prefix}-loc`);
-  if (!el || !locEl) return;
-  const devId = el.value;
-  if (!devId) {
-    locEl.value = 'Desconocido';
-    return;
-  }
+  const devId = el ? el.value : null;
   const dev = store.deviceById(devId);
-  locEl.value = getDeviceLocation(dev);
+
+  if (locEl) {
+    locEl.value = dev ? getDeviceLocation(dev) : 'Desconocido';
+  }
+  updateCablePortInput(prefix, dev);
+}
+
+function updateCablePortInput(prefix, dev) {
+  const container = document.getElementById(`cable-${prefix}-port-container`);
+  if (!container) return;
+  
+  if (dev && dev.ports) {
+    let opts = '';
+    const eth = dev.ports.ethernet || 0;
+    const fib = dev.ports.fiber || 0;
+    
+    if (eth > 0) {
+      opts += `<optgroup label="Ethernet">`;
+      for (let i = 1; i <= eth; i++) opts += `<option value="Eth-${i}">Eth-${i}</option>`;
+      opts += `</optgroup>`;
+    }
+    if (fib > 0) {
+      opts += `<optgroup label="SFP (Fibra)">`;
+      for (let i = 1; i <= fib; i++) opts += `<option value="SFP-${i}">SFP-${i}</option>`;
+      opts += `</optgroup>`;
+    }
+    container.innerHTML = `<select id="cable-${prefix}-port">${opts}</select>`;
+  } else {
+    container.innerHTML = `<input type="text" id="cable-${prefix}-port" placeholder="Eth0/1">`;
+  }
 }
 
 function initCableModal() {
