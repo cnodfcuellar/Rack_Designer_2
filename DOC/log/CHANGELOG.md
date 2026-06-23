@@ -1,3 +1,13 @@
+## [2026-06-23] Parches de Seguridad (Client-Side) y Normalización UI (Security Architect & UI Designer)
+
+### Seguridad Criptográfica y Control de Sesión
+- **Hashing SHA-256 (Web Crypto API):** Se eliminó el almacenamiento en texto plano del PIN de administrador (`rack2024`). El módulo `js/auth/roles.js` ahora computa y almacena asíncronamente únicamente huellas criptográficas SHA-256 (`localStorage`), bloqueando filtraciones de credenciales. Las funciones de validación en `js/main.js` fueron refactorizadas a un modelo `async/await`.
+- **Integridad de Sesión Anti-Tampering:** Se implementó un sello de integridad de memoria (*closure token*) mediante `crypto.randomUUID()`. Si un usuario altera manualmente su `sessionStorage` desde DevTools para elevar sus privilegios (ej. de `viewer` a `admin`), el sistema forzará un cierre de sesión automático al detectar la ausencia del token en RAM.
+
+### Arquitectura Visual ("IDE-Grade")
+- **Purga de "AI Slop" en UI:** Se eliminaron los estilos CSS "comerciales" (alturas excesivas, paddings gigantes y botones con degradados púrpuras) incrustados en `index.html` para el `#modal-login`. Se reestructuró para forzar el uso de las clases base del sistema (`.modal`, `.btn-confirm`, `.btn-cancel`), aplicando el **Acento Técnico (Cian puro)** y respetando la regla matemática de alturas de **24px** para controles.
+- **Scroll Interno y Límites de Visualización:** Se aplicó `max-height: 90vh` y `overflow-y: auto` de forma global a la clase `.modal` en `css/components/modals.css`, garantizando que los modales extensos (como la edición de un equipo con todos los paneles expandidos) se mantengan accesibles en pantallas de baja resolución (laptops) y no oculten los botones de acción ("Guardar" / "Cancelar"). Se implementó además una barra de desplazamiento nativa estilizada que encaja con el entorno profundo de RACK Designer 2.
+
 ## [2026-06-23] Optimización PWA y Accesibilidad ARIA (Frontend Developer)
 
 ### Progressive Web App (PWA) y Core Web Vitals

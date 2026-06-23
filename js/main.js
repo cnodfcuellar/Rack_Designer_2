@@ -83,9 +83,9 @@ function initAuthModal() {
   });
 
   // Admin login
-  document.getElementById('btn-login-admin')?.addEventListener('click', () => {
+  document.getElementById('btn-login-admin')?.addEventListener('click', async () => {
     const pin = document.getElementById('login-pin-input')?.value || '';
-    const user = RackAuth.tryAdminLogin(pin);
+    const user = await RackAuth.tryAdminLogin(pin);
     if (user) {
       closeLoginModal(user);
     } else {
@@ -128,7 +128,7 @@ function initChangePinModal() {
   document.getElementById('btn-pin-cancel')?.addEventListener('click', closePinModal);
 
   // Save new PIN
-  document.getElementById('btn-pin-save')?.addEventListener('click', () => {
+  document.getElementById('btn-pin-save')?.addEventListener('click', async () => {
     const current = document.getElementById('pin-current-input')?.value || '';
     const newPin  = document.getElementById('pin-new-input')?.value || '';
     const confirm = document.getElementById('pin-confirm-input')?.value || '';
@@ -138,7 +138,8 @@ function initChangePinModal() {
     const show = (el, msg) => { if(el){ el.style.display='block'; if(msg) el.textContent=msg; } };
     hide(errEl); hide(okEl);
 
-    if (current !== RackAuth.getAdminPin()) {
+    const isValidCurrent = await RackAuth.validateAdminPin(current);
+    if (!isValidCurrent) {
       return show(errEl, '❌ El PIN actual es incorrecto.');
     }
     if (newPin.length < 4) {
@@ -147,7 +148,7 @@ function initChangePinModal() {
     if (newPin !== confirm) {
       return show(errEl, '❌ Los PINs nuevos no coinciden.');
     }
-    RackAuth.setAdminPin(newPin);
+    await RackAuth.setAdminPin(newPin);
     show(okEl);
     setTimeout(closePinModal, 1500);
   });
