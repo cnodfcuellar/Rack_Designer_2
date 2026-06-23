@@ -38,6 +38,15 @@ RACK Designer cuenta con soporte completo para pantallas táctiles y dispositivo
 ![Interfaz Móvil Responsive](../img/svg/ui/mobil/ui-mobile.svg)
 *Figura: Interfaz base adaptada a pantallas táctiles mostrando los racks en formato vertical.*
 
+## 1.5 Sistema de Roles y Permisos
+RACK Designer cuenta con un sistema de seguridad de tres niveles para proteger tus diseños:
+* **👑 Administrador:** Tiene acceso total. Es el único que puede activar el **Modo Dios** (revelar contraseñas) y puede cambiar el PIN de administración.
+* **✏️ Editor:** Puede diseñar libremente, agregar, mover y editar equipos, gabinetes y cables. No tiene acceso al Modo Dios ni a cambiar el PIN.
+* **👁 Espectador:** Modo de solo lectura. Puede visualizar todo el centro de datos, examinar detalles y exportar planos/tablas, pero no puede alterar nada ni guardar cambios.
+
+> [!IMPORTANT]
+> La primera vez que accedas, el PIN de Administrador por defecto es `rack2024`. Te recomendamos cambiarlo inmediatamente accediendo al menú principal (☰) > 🔑 Cambiar PIN de Admin.
+
 ## 2. Infraestructura (Salas y Gabinetes)
 
 ### Gestión de Salas

@@ -139,10 +139,16 @@ El ciclo de arranque de la aplicación se ha optimizado para priorizar la veloci
 * **Lectura del Estado Inicial (Primer uso vs Recuperación):** Al inicializar `store.js`, el sistema verifica inmediatamente el `localStorage` del navegador. Si encuentra un proyecto guardado, lo restaura en la memoria. Si la memoria está vacía (primer uso), el sistema no bloquea el arranque cargando una maqueta gigante; en su lugar, genera dinámicamente un estado en blanco básico (una sola sala vacía).
 * **Carga Dinámica de Datos (Demos bajo demanda):** El archivo de datos de demostración (`demoData.js`) se ha desacoplado del flujo de arranque inicial. En lugar de ejecutarse al abrir `index.html`, este archivo se inyecta en el DOM de forma perezosa (`lazy loading`) mediante la creación dinámica de una etiqueta `<script>` únicamente cuando el usuario hace clic en el botón "✨ Cargar demos". Esto previene tiempos de bloqueo, economiza memoria y protege el trabajo del usuario.
 
-### Seguridad Global y Modo Dios
-Para prevenir la exposición indeseada de credenciales durante su uso habitual, se implementó el **Modo Dios** a través del estado de la variable global `window.SHOW_PASSWORDS`. 
-* **Bloqueo Activo:** Todo el sistema renderiza por defecto los campos de contraseñas de las entidades como `••••••••` en Tooltips, el HUD de la topología y las celdas de las tablas de datos, así como en las exportaciones CSV/Excel generadas. 
-* **Desbloqueo de Credenciales:** Tras activar el flag en el panel principal, el orquestador repinta (`renderAll`) el ecosistema para desclasificar y revelar visualmente los secretos sin comprometer la versión de almacenamiento.
+### Seguridad y Control de Acceso (RBAC)
+Para prevenir la exposición indeseada de credenciales y modificaciones accidentales, se implementó un sistema de Control de Acceso Basado en Roles (RBAC) gestionado por la clase `RackAuth` en `js/auth/roles.js`.
+* **Roles Disponibles:** `ADMIN`, `EDITOR` y `VIEWER`.
+* **Persistencia de Sesión:** El token de sesión (`RACK_SESSION_USER`) se almacena en `sessionStorage` para asegurar que expire al cerrar la pestaña, elevando el nivel de seguridad local.
+* **Manejo del PIN:** El PIN del administrador (`RACK_ADMIN_PIN`) se almacena cifrado en texto plano en `localStorage` (ya que es una herramienta local estática).
+* **Guards de Seguridad Visuales y Lógicos:**
+  * **Botones Básicos:** Los botones de crear o añadir equipos en el DOM se desactivan con atributo `disabled` para los Viewers.
+  * **Drag & Drop:** Interceptamos `dragstart` (`onCatalogDragStart`, `onDeviceDragStart`) y cancelamos la acción nativa de arrastre (`e.preventDefault()`) si el usuario no tiene permisos (`!RackAuth.can('editDevices')`).
+  * **Auto-Guardado y Menús:** Acciones destructivas o de persistencia en `store.js` y `fileManager` están protegidas mediante validaciones explícitas del rol (`can('clearProject')`).
+* **Modo Dios:** Una variable global `window.SHOW_PASSWORDS`, que ahora está restringida exclusivamente al Administrador, pinta todas las contraseñas que por defecto se ocultan como `••••••••`. El orquestador repinta (`renderAll`) el ecosistema al ser activado.
 
 ### Los Lienzos de Trabajo (Canvas vs DOM)
 El sistema divide su lógica gráfica en dos entornos independientes y adaptados a su propósito:
