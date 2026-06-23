@@ -35,8 +35,8 @@ function processMarkdown(filePath) {
     return newContent;
 }
 
-const userManualPath = path.join(__dirname, 'DOC/md/USER_MANUAL.md');
-const techDocsPath = path.join(__dirname, 'DOC/md/TECHNICAL_DOCS.md');
+const userManualPath = path.join(__dirname, '../DOC/md/USER_MANUAL.md');
+const techDocsPath = path.join(__dirname, '../DOC/md/TECHNICAL_DOCS.md');
 
 console.log('Processing USER_MANUAL.md...');
 const userManual = processMarkdown(userManualPath);
@@ -47,7 +47,7 @@ const techDocs = processMarkdown(techDocsPath);
 const combinedMd = `# Rack Designer - Documentación Completa (Standalone)\n\nEsta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.\n\n---\n\n` + userManual + `\n\n---\n\n` + techDocs;
 
 // Write MD
-fs.writeFileSync(path.join(__dirname, 'DOC/md/FULL_MANUAL_STANDALONE.md'), combinedMd);
+fs.writeFileSync(path.join(__dirname, '../DOC/md/FULL_MANUAL_STANDALONE.md'), combinedMd);
 console.log('Standalone MD created successfully: DOC/md/FULL_MANUAL_STANDALONE.md');
 
 // Write HTML
@@ -93,5 +93,5 @@ const htmlTemplate = `<!DOCTYPE html>
 </body>
 </html>`;
 
-fs.writeFileSync(path.join(__dirname, 'DOC/html/FULL_MANUAL_STANDALONE.html'), htmlTemplate);
+fs.writeFileSync(path.join(__dirname, '../DOC/html/FULL_MANUAL_STANDALONE.html'), htmlTemplate);
 console.log('Standalone HTML created successfully: DOC/html/FULL_MANUAL_STANDALONE.html');
