@@ -83,7 +83,11 @@ function renderCatalog() {
     el.addEventListener('dragstart', onCatalogDragStart);
     el.addEventListener('dragend',   onCatalogDragEnd);
     el.addEventListener('dblclick', () => {
-      openQuickPlacementModal(el.dataset.catalogId);
+      if (RackAuth.can('editDevices')) {
+        openQuickPlacementModal(el.dataset.catalogId);
+      } else {
+        notify('🚫 Espectadores no pueden editar dispositivos.', 'error', 3000);
+      }
     });
   });
 
@@ -102,10 +106,17 @@ function renderCatalog() {
       menu.style.cssText = `left:${e.clientX}px; top:${e.clientY}px`;
       menu.classList.remove('hidden');
 
-      menu.querySelectorAll('.ctx-item[data-action]').forEach(item => {
-        item.addEventListener('click', () => {
+      menu.querySelectorAll('.ctx-item').forEach(item => {
+        item.addEventListener('click', e => {
+          e.stopPropagation();
           menu.classList.add('hidden');
           const id = item.dataset.id;
+          
+          if (!RackAuth.can('editDevices')) {
+            notify('🚫 Solo editores pueden modificar dispositivos.', 'error', 3000);
+            return;
+          }
+
           if (item.dataset.action === 'cat-place') openQuickPlacementModal(id);
           if (item.dataset.action === 'cat-edit') openEditCatalogModal(id);
           if (item.dataset.action === 'cat-delete') {

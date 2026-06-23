@@ -163,6 +163,10 @@ function bindRackEvents(container, flippedRacks) {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       document.getElementById(`rack-menu-${btn.dataset.editRack}`)?.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('🚫 Espectadores no pueden editar gabinetes.', 'error', 3000);
+        return;
+      }
       openEditRackModal(btn.dataset.editRack);
     });
   });
@@ -170,6 +174,10 @@ function bindRackEvents(container, flippedRacks) {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       document.getElementById(`rack-menu-${btn.dataset.delRack}`)?.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('🚫 Espectadores no pueden eliminar gabinetes.', 'error', 3000);
+        return;
+      }
       if (confirm('¿Eliminar este gabinete y todos sus equipos?')) {
         store.deleteRack(btn.dataset.delRack);
         notify('Gabinete eliminado', 'warn');
@@ -190,6 +198,10 @@ function bindRackEvents(container, flippedRacks) {
       e.stopPropagation();
       const rackId = btn.dataset.clearRack;
       document.getElementById(`rack-menu-${rackId}`)?.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('🚫 Espectadores no pueden limpiar gabinetes.', 'error', 3000);
+        return;
+      }
       if (confirm('⚠️ ¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.')) {
         const devices = store.allDevicesInRack(rackId);
         devices.forEach(d => store.deleteDevice(d.id));
@@ -262,6 +274,10 @@ function bindRackEvents(container, flippedRacks) {
 }
 
 function onCatalogDragStart(e) {
+  if (!RackAuth.can('editDevices')) {
+    e.preventDefault();
+    return;
+  }
   const id = e.currentTarget.dataset.catalogId;
   const item = CATALOG.find(c => c.id === id);
   dragState = { type: 'catalog', item: deepClone(item) };
@@ -284,6 +300,10 @@ function onCatalogDragEnd(e) {
 }
 
 function onDeviceDragStart(e) {
+  if (!RackAuth.can('editDevices')) {
+    e.preventDefault();
+    return;
+  }
   e.stopPropagation();
   const devId = e.currentTarget.dataset.deviceId;
   const dev = store.deviceById(devId);

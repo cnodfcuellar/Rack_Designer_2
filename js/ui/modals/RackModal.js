@@ -1,4 +1,8 @@
 function openAddRackModal() {
+  if (!RackAuth.can('editDevices')) {
+    notify('🚫 Espectadores no pueden crear gabinetes.', 'error', 3000);
+    return;
+  }
   if (window.closeMobileSidebar) window.closeMobileSidebar();
   editingRackId = null;
   document.getElementById('modal-rack-title').textContent = 'Nuevo Gabinete';
@@ -10,6 +14,10 @@ function openAddRackModal() {
 }
 
 function openEditRackModal(id) {
+  if (!RackAuth.can('editDevices')) {
+    notify('🚫 Espectadores no pueden editar gabinetes.', 'error', 3000);
+    return;
+  }
   editingRackId = id;
   const rack = store.rackById(id);
   if (!rack) return;

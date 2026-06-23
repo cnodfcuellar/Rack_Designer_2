@@ -61,7 +61,8 @@
           <div class="dropdown-item" id="menu-demo">✨ Cargar demos</div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item" id="menu-theme">☀️ Cambiar a Modo Claro</div>
-          <div class="dropdown-item" id="menu-toggle-passwords">👁 Modo Dios: Revelar Claves</div>
+          <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;">👁 Modo Dios: Revelar Claves</div>
+          <div class="dropdown-item" id="menu-change-pin" style="display:none;">🔑 Cambiar PIN de Admin</div>
           <div class="dropdown-item" id="menu-export-cat">📤 Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat">📥 Importar catálogo</div>
         </div>
@@ -83,6 +84,7 @@
         <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" disabled>↪</button>
       </div>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
+      <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(139,92,246,0.15); color:var(--purple); border:1px solid var(--purple); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;">✏️ Editor</div>
       <input type="file" id="file-import" accept=".json" style="display:none">
     </div>
   </header>
@@ -506,6 +508,7 @@
   <script src="js/ui/topology.js"></script>
   <script src="js/ui/tables.js"></script>
   <script src="js/ui/fileManager.js"></script>
+  <script src="js/auth/roles.js"></script>
   <script src="js/main.js"></script>
 
 <!-- ============================
@@ -520,5 +523,66 @@
     });
   }
 </script>
+
+<!-- ============================
+     MODAL DE LOGIN
+============================= -->
+<div id="modal-login" style="display:flex; visibility:hidden; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center; transition:visibility 0s, opacity 0.2s; opacity:0; pointer-events:none;">
+  <div style="background:var(--bg-secondary,#1e293b); border:1px solid var(--border,#334155); border-radius:16px; padding:36px 32px; max-width:400px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
+    <div style="font-size:3rem; margin-bottom:8px;">🔐</div>
+    <h2 style="margin:0 0 6px; font-size:1.4rem; color:var(--text,#f8fafc);">⚡ Rack Designer</h2>
+    <p style="color:var(--text-secondary,#94a3b8); font-size:13px; margin-bottom:24px; line-height:1.5;">
+      Ingresa el PIN de administrador para acceso total,<br>o continúa como Editor o Espectador.
+    </p>
+    <!-- PIN Input -->
+    <div style="position:relative; margin-bottom:10px;">
+      <input type="password" id="login-pin-input" placeholder="PIN de administrador" autocomplete="off"
+        style="width:100%; box-sizing:border-box; padding:10px 40px 10px 14px; border-radius:8px;
+               border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
+               color:var(--text,#f8fafc); font-size:14px; outline:none;">
+      <button id="login-pin-toggle" type="button" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; color:var(--text-secondary);" title="Mostrar/ocultar">👁</button>
+    </div>
+    <div id="login-error" style="color:#f87171; font-size:12px; margin-bottom:10px; display:none;">❌ PIN incorrecto. Acceso denegado como Admin.</div>
+    <!-- First-time PIN notice -->
+    <div id="login-pin-notice" style="color:#fbbf24; font-size:12px; margin-bottom:14px; display:none;">⚠️ PIN no configurado aún. El PIN por defecto es <code style='background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;'>rack2024</code>. Cámbialo después de entrar como Admin.</div>
+    <!-- Role buttons -->
+    <button id="btn-login-admin" style="width:100%; margin-bottom:8px; padding:11px; border-radius:8px; border:none; background:linear-gradient(135deg,#6366f1,#a855f7); color:#fff; font-size:14px; font-weight:700; cursor:pointer;">🔑 Entrar como Administrador</button>
+    <div style="display:flex; gap:8px; margin-bottom:16px;">
+      <button id="btn-login-editor" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border,#334155); background:transparent; color:var(--text,#f8fafc); font-size:13px; font-weight:600; cursor:pointer;">✏️ Editor</button>
+      <button id="btn-login-viewer" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border,#334155); background:transparent; color:var(--text,#f8fafc); font-size:13px; font-weight:600; cursor:pointer;">👁 Espectador</button>
+    </div>
+    <p style="margin:0; font-size:11px; color:var(--text-muted,#475569);">La sesión expira al cerrar el navegador.</p>
+  </div>
+</div>
+
+<!-- ============================
+     MODAL DE CAMBIO DE PIN
+============================= -->
+<div id="modal-change-pin" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); align-items:center; justify-content:center;">
+  <div style="background:var(--bg-secondary,#1e293b); border:1px solid var(--border,#334155); border-radius:16px; padding:32px 28px; max-width:380px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
+    <div style="font-size:2.5rem; margin-bottom:8px;">🔑</div>
+    <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--text,#f8fafc);">Cambiar PIN de Administrador</h2>
+    <p style="color:var(--text-secondary,#94a3b8); font-size:13px; margin-bottom:20px;">El nuevo PIN debe tener mínimo 4 caracteres.</p>
+    <input type="password" id="pin-current-input" placeholder="PIN actual" autocomplete="off"
+      style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:8px; margin-bottom:8px;
+             border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
+             color:var(--text,#f8fafc); font-size:14px; outline:none;">
+    <input type="password" id="pin-new-input" placeholder="Nuevo PIN" autocomplete="new-password"
+      style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:8px; margin-bottom:8px;
+             border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
+             color:var(--text,#f8fafc); font-size:14px; outline:none;">
+    <input type="password" id="pin-confirm-input" placeholder="Confirmar nuevo PIN" autocomplete="new-password"
+      style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:8px; margin-bottom:10px;
+             border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
+             color:var(--text,#f8fafc); font-size:14px; outline:none;">
+    <div id="pin-change-error" style="color:#f87171; font-size:12px; margin-bottom:10px; display:none;"></div>
+    <div id="pin-change-success" style="color:#4ade80; font-size:12px; margin-bottom:10px; display:none;">✅ PIN actualizado correctamente.</div>
+    <div style="display:flex; gap:8px;">
+      <button id="btn-pin-cancel" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border,#334155); background:transparent; color:var(--text,#f8fafc); font-size:13px; font-weight:600; cursor:pointer;">Cancelar</button>
+      <button id="btn-pin-save" style="flex:1; padding:10px; border-radius:8px; border:none; background:linear-gradient(135deg,#6366f1,#a855f7); color:#fff; font-size:13px; font-weight:700; cursor:pointer;">Guardar PIN</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

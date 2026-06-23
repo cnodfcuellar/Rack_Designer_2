@@ -1,4 +1,8 @@
 function openQuickPlacementModal(catalogId = null) {
+  if (!RackAuth.can('editDevices')) {
+    notify('🚫 Espectadores no pueden ubicar dispositivos.', 'error', 3000);
+    return;
+  }
   if (window.closeMobileSidebar) window.closeMobileSidebar();
   const displayRow = document.getElementById('qp-dev-display-row');
   const selectRow = document.getElementById('qp-dev-select-row');

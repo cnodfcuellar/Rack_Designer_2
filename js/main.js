@@ -1,5 +1,167 @@
 let currentView = 'physical';
 window.TOPOLOGY_STYLE = 'card'; // 'card' o 'circle'
+window.SHOW_PASSWORDS = false;
+
+// ===== AUTENTICACIÓN Y ROLES =====
+
+function applyRoleUI(user) {
+  const badge = document.getElementById('user-badge');
+  if (!badge) return;
+  const isAdm = user.role === RackAuth.ROLES.ADMIN;
+  const isView = user.role === RackAuth.ROLES.VIEWER;
+
+  // Badge en el header
+  badge.style.display = 'inline-block';
+  badge.textContent = isAdm ? '👑 Admin' : isView ? '👁 Espectador' : '✏️ Editor';
+  badge.style.color = isAdm ? 'var(--cyan)' : isView ? 'var(--text-secondary)' : 'var(--purple)';
+  badge.style.borderColor = isAdm ? 'var(--cyan)' : isView ? 'var(--border)' : 'var(--purple)';
+  badge.style.background = isAdm ? 'rgba(34,211,238,0.1)' : isView ? 'rgba(100,116,139,0.1)' : 'rgba(139,92,246,0.15)';
+  badge.title = `Sesión: ${user.name}`;
+
+  // Opciones exclusivas de admin en el menú
+  const godMode = document.getElementById('menu-toggle-passwords');
+  const changePinMenu = document.getElementById('menu-change-pin');
+  if (godMode) godMode.style.display = isAdm ? '' : 'none';
+  if (changePinMenu) changePinMenu.style.display = isAdm ? '' : 'none';
+
+  // Botones de escritura deshabilitados para viewer
+  const writeOnlyBtns = [
+    'btn-add-rack', 'btn-add-device-modal',
+    'table-btn-add-device', 'table-btn-add-placement', 'table-btn-add-conn'
+  ];
+  writeOnlyBtns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.disabled = isView; el.style.opacity = isView ? '0.4' : ''; }
+  });
+}
+
+function closePinModal() {
+  const m = document.getElementById('modal-change-pin');
+  if (m) m.style.display = 'none';
+  ['pin-current-input','pin-new-input','pin-confirm-input'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  const err = document.getElementById('pin-change-error'); if(err) { err.style.display='none'; err.textContent=''; }
+  const ok = document.getElementById('pin-change-success'); if(ok) ok.style.display='none';
+}
+
+function initAuthModal() {
+  const modal = document.getElementById('modal-login');
+  if (!modal) {
+    console.error('[RackAuth] modal-login no encontrado en el DOM');
+    return;
+  }
+
+  // Show PIN notice if not yet configured
+  if (!RackAuth.isPinConfigured()) {
+    const notice = document.getElementById('login-pin-notice');
+    if (notice) notice.style.display = 'block';
+  }
+
+  function showModal() {
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'all';
+  }
+
+  function hideModal() {
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+  }
+
+  function closeLoginModal(user) {
+    hideModal();
+    applyRoleUI(user);
+    notify(`Bienvenido, ${user.name} 👋`, 'success', 2500);
+  }
+
+  // Toggle show/hide PIN
+  document.getElementById('login-pin-toggle')?.addEventListener('click', () => {
+    const input = document.getElementById('login-pin-input');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+
+  // Admin login
+  document.getElementById('btn-login-admin')?.addEventListener('click', () => {
+    const pin = document.getElementById('login-pin-input')?.value || '';
+    const user = RackAuth.tryAdminLogin(pin);
+    if (user) {
+      closeLoginModal(user);
+    } else {
+      const errEl = document.getElementById('login-error');
+      if (errEl) { errEl.style.display = 'block'; }
+      setTimeout(() => { if(errEl) errEl.style.display = 'none'; }, 3000);
+    }
+  });
+
+  // Editor login
+  document.getElementById('btn-login-editor')?.addEventListener('click', () => {
+    closeLoginModal(RackAuth.loginAsEditor());
+  });
+
+  // Viewer login
+  document.getElementById('btn-login-viewer')?.addEventListener('click', () => {
+    closeLoginModal(RackAuth.loginAsViewer());
+  });
+
+  // Enter key on PIN input
+  document.getElementById('login-pin-input')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('btn-login-admin')?.click();
+  });
+
+  // Show modal
+  showModal();
+}
+
+function initChangePinModal() {
+  // Open from menu
+  document.getElementById('menu-change-pin')?.addEventListener('click', () => {
+    const dropdown = document.getElementById('project-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+    if (!RackAuth.can('changeAdminPin')) return;
+    const m = document.getElementById('modal-change-pin');
+    if (m) m.style.display = 'flex';
+  });
+
+  // Cancel
+  document.getElementById('btn-pin-cancel')?.addEventListener('click', closePinModal);
+
+  // Save new PIN
+  document.getElementById('btn-pin-save')?.addEventListener('click', () => {
+    const current = document.getElementById('pin-current-input')?.value || '';
+    const newPin  = document.getElementById('pin-new-input')?.value || '';
+    const confirm = document.getElementById('pin-confirm-input')?.value || '';
+    const errEl   = document.getElementById('pin-change-error');
+    const okEl    = document.getElementById('pin-change-success');
+    const hide = el => { if(el) el.style.display='none'; };
+    const show = (el, msg) => { if(el){ el.style.display='block'; if(msg) el.textContent=msg; } };
+    hide(errEl); hide(okEl);
+
+    if (current !== RackAuth.getAdminPin()) {
+      return show(errEl, '❌ El PIN actual es incorrecto.');
+    }
+    if (newPin.length < 4) {
+      return show(errEl, '❌ El nuevo PIN debe tener al menos 4 caracteres.');
+    }
+    if (newPin !== confirm) {
+      return show(errEl, '❌ Los PINs nuevos no coinciden.');
+    }
+    RackAuth.setAdminPin(newPin);
+    show(okEl);
+    setTimeout(closePinModal, 1500);
+  });
+
+  // Click on badge → logout confirmation
+  document.getElementById('user-badge')?.addEventListener('click', () => {
+    if (confirm(`¿Cerrar sesión como ${RackAuth.getCurrentUser()?.name}?\n\nSe mostrará el modal de login.`)) {
+      RackAuth.logout();
+      initAuthModal();
+    }
+  });
+}
+
+// ===== FIN AUTENTICACIÓN =====
 
 function renderAll(event = {}) {
   const source = event.source || event.path || '';
@@ -48,7 +210,8 @@ function renderAll(event = {}) {
 store.on('change', (e) => {
   renderAll(e);
   if (e && !['loadData', 'undo', 'redo', 'importJSON'].includes(e.source || e.path)) {
-    if (typeof fileManager !== 'undefined') {
+    // Solo guardar automáticamente si el usuario tiene permisos de edición
+    if (typeof fileManager !== 'undefined' && RackAuth.can('editDevices')) {
       fileManager.autoSave();
     }
   }
@@ -160,11 +323,18 @@ function initGlobalEvents() {
 
     window.SHOW_PASSWORDS = false;
     document.getElementById('menu-toggle-passwords')?.addEventListener('click', (e) => {
+      if (!RackAuth.can('toggleGodMode')) {
+        notify('⛔ Solo administradores pueden activar el Modo Dios.', 'error', 3000);
+        dropdown.classList.add('hidden');
+        return;
+      }
       dropdown.classList.add('hidden');
       window.SHOW_PASSWORDS = !window.SHOW_PASSWORDS;
       document.getElementById('menu-toggle-passwords').textContent = window.SHOW_PASSWORDS ? '🙈 Modo Dios: Ocultar Claves' : '👁 Modo Dios: Revelar Claves';
       renderAll();
     });
+
+    initChangePinModal();
 
     // Set initial text
     if (document.documentElement.getAttribute('data-theme') === 'light') {
@@ -178,6 +348,10 @@ function initGlobalEvents() {
     });
     document.getElementById('menu-save')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('🚫 Espectadores no pueden guardar proyectos.', 'error', 3000);
+        return;
+      }
       if (typeof fileManager !== 'undefined') fileManager.saveProject();
       else {
         const data = { version: 1, project: store._raw, catalog: CATALOG };
@@ -186,10 +360,18 @@ function initGlobalEvents() {
     });
     document.getElementById('menu-save-as')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('🚫 Espectadores no pueden guardar proyectos.', 'error', 3000);
+        return;
+      }
       if (typeof fileManager !== 'undefined') fileManager.saveProjectAs();
     });
     document.getElementById('menu-clear')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
+      if (!RackAuth.can('clearProject')) {
+        notify('🚫 Espectadores no pueden limpiar el proyecto.', 'error', 3000);
+        return;
+      }
       if (confirm('¿Estás seguro de que deseas limpiar el proyecto? Perderás todos los datos no guardados.')) {
         const roomId = uid();
         store.loadData({
@@ -213,6 +395,10 @@ function initGlobalEvents() {
     });
     document.getElementById('menu-demo')?.addEventListener('click', async () => {
       dropdown.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('🚫 Espectadores no pueden cargar demostraciones.', 'error', 3000);
+        return;
+      }
       const wantSave = confirm('¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
       if (!wantSave) {
         const proceed = confirm('⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
@@ -437,6 +623,20 @@ function init() {
 
   renderAll();
   notify('⚡ RACK Designer modularizado', 'success', 2500);
+
+  // Inicializar sistema de autenticación
+  // Siempre mostramos el modal al iniciar (sessionStorage no persiste entre sesiones)
+  const existingUser = RackAuth.getCurrentUser();
+  if (existingUser) {
+    // Ya hay sesión activa en esta misma pestaña (ej: recarga con F5)
+    console.log('[RackAuth] Sesión restaurada:', existingUser.role);
+    applyRoleUI(existingUser);
+  } else {
+    // Primera visita o nueva pestaña → mostrar login
+    console.log('[RackAuth] Sin sesión, mostrando modal de login...');
+    // Pequeño delay para que el DOM termine de renderizar
+    setTimeout(() => initAuthModal(), 100);
+  }
 }
 
 init();
