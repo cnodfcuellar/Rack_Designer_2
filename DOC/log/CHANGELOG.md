@@ -1,3 +1,10 @@
+## [2026-06-23] Sistema Dinámico de Interfaces de Red Opcionales (Workflow Architect)
+
+### Configuración Híbrida de Puertos
+- **Arquitectura de Datos (`store.js`):** El esquema de los equipos (`devices`) se ha expandido para soportar un objeto `ports` (`{ ethernet, fiber }`) totalmente opcional, manteniendo retrocompatibilidad absoluta con inventarios anteriores.
+- **Formulario Inteligente (`DeviceModal.js`):** Se inyectó un nuevo módulo colapsable ("Interfaces de Red") en el modal principal de edición que permite al usuario definir numéricamente la cantidad de puertos SFP (Fibra) y Ethernet de cada equipo.
+- **Conexionado Dinámico (`CableModal.js` y `index.html`):** Los campos de "Puerto Origen" y "Puerto Destino" en la interfaz de parcheo evolucionaron de ser únicamente texto libre a ser mutables. Si el sistema detecta que el usuario está cableando un equipo con puertos definidos, la UI inyecta instantáneamente un desplegable restrictivo `<select>` (ej: `Eth-1`, `Eth-2`, `SFP-1`); si el equipo no los define, revierte limpiamente a un campo de texto `<input>`.
+
 ## [2026-06-23] Parches de Seguridad (Client-Side) y Normalización UI (Security Architect & UI Designer)
 
 ### Seguridad Criptográfica y Control de Sesión
