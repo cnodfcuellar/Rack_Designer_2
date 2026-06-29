@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="860" viewBox="0 0 1100 860">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0a1520"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity="0.6"/></filter>
+    <marker id="arrowE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00d4ff"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00f5a0"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="860" fill="url(#bg)"/>
+  <rect width="1100" height="860" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="500" height="52" rx="6" fill="#0d1f30" stroke="#f59e0b" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#f59e0b" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f59e0b" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  DATA PERSISTENCE</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">AUTOSAVE  ·  HISTORY  ·  UNDO/REDO ENGINE</text>
+
+  <!-- Timeline horizontal flow -->
+  <!-- MUTATION BOX -->
+  <rect x="40" y="120" width="180" height="90" rx="10" fill="#0d1a2a" stroke="#00d4ff" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="120" width="180" height="5" rx="3" fill="#00d4ff"/>
+  <text x="130" y="143" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7dd3fc" font-weight="700" letter-spacing="1">MUTATION</text>
+  <text x="130" y="163" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">Any store write</text>
+  <text x="130" y="181" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">via Proxy.set()</text>
+
+  <line x1="220" y1="165" x2="270" y2="165" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowE)"/>
+
+  <!-- PROXY BOX -->
+  <rect x="274" y="120" width="180" height="90" rx="10" fill="#0d1a2a" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="274" y="120" width="180" height="5" rx="3" fill="#f59e0b"/>
+  <text x="364" y="143" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" font-weight="700" letter-spacing="1">PROXY FIRES</text>
+  <text x="364" y="163" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">_onMutation()</text>
+  <text x="364" y="181" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Async handler</text>
+
+  <line x1="454" y1="165" x2="504" y2="165" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowE)"/>
+
+  <!-- DEBOUNCE BOX -->
+  <rect x="508" y="120" width="220" height="90" rx="10" fill="#0d1a2a" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="508" y="120" width="220" height="5" rx="3" fill="#f59e0b"/>
+  <text x="618" y="143" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" font-weight="700" letter-spacing="1">DEBOUNCE TIMER</text>
+  <text x="618" y="163" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">clearTimeout(saveTimer)</text>
+  <text x="618" y="181" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">saveTimer = setTimeout(save, 3000)</text>
+
+  <line x1="728" y1="165" x2="778" y2="165" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowE)"/>
+
+  <!-- SAVE TRIGGER BOX -->
+  <rect x="782" y="120" width="270" height="90" rx="10" fill="#0d1a2a" stroke="#00f5a0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="782" y="120" width="270" height="5" rx="3" fill="#00f5a0"/>
+  <text x="917" y="143" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#86efac" font-weight="700" letter-spacing="1">AUTOSAVE TRIGGERS (3s idle)</text>
+  <text x="917" y="163" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">_save() runs → both targets:</text>
+  <text x="917" y="181" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">localStorage + fileHandle.write()</text>
+
+  <!-- Down arrows -->
+  <line x1="364" y1="210" x2="364" y2="260" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowE)"/>
+  <line x1="917" y1="210" x2="917" y2="260" stroke="#00f5a0" stroke-width="2" marker-end="url(#arrowG)"/>
+  <line x1="130" y1="210" x2="130" y2="260" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowC)"/>
+
+  <!-- ====== BOTTOM 3 SYSTEMS ====== -->
+
+  <!-- 1: SNAPSHOT HISTORY -->
+  <rect x="60" y="264" width="380" height="380" rx="14" fill="#060d1a" stroke="#00d4ff" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="60" y="264" width="380" height="7" rx="4" fill="#00d4ff"/>
+  <text x="250" y="288" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7dd3fc" font-weight="700" letter-spacing="2">HISTORY  ·  SNAPSHOT SYSTEM</text>
+
+  <!-- Stack visual -->
+  <g transform="translate(110, 308)">
+    <rect width="280" height="30" rx="4" fill="#0d1f30" stroke="#1e3a5f" stroke-width="1"/>
+    <text x="10" y="20" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">[ 0 ] Initial state</text>
+    <rect x="240" y="6" width="30" height="18" rx="3" fill="#1e3a5f"/>
+    <text x="255" y="19" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">old</text>
+
+    <rect y="36" width="280" height="30" rx="4" fill="#0d1f30" stroke="#1e3a5f" stroke-width="1"/>
+    <text x="10" y="56" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">[ 1 ] Rack-01 added</text>
+    <rect x="240" y="42" width="30" height="18" rx="3" fill="#1e3a5f"/>
+    <text x="255" y="55" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">old</text>
+
+    <rect y="72" width="280" height="30" rx="4" fill="#0d1f30" stroke="#1e3a5f" stroke-width="1"/>
+    <text x="10" y="92" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">[ 2 ] Server moved</text>
+    <rect x="240" y="78" width="30" height="18" rx="3" fill="#1e3a5f"/>
+    <text x="255" y="91" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">old</text>
+
+    <!-- Current -->
+    <rect y="108" width="280" height="34" rx="4" fill="#0d2a4a" stroke="#00d4ff" stroke-width="1.5"/>
+    <text x="10" y="130" font-family="'Segoe UI', monospace" font-size="11" fill="#7dd3fc" font-weight="600">[ 3 ] Cable connected  ◀ CURRENT</text>
+
+    <rect y="148" width="280" height="30" rx="4" fill="#051015" stroke="#0d2030" stroke-width="0.8"/>
+    <text x="10" y="168" font-family="'Segoe UI', monospace" font-size="10" fill="#334155">[ 4 ] (future)</text>
+
+    <rect y="184" width="280" height="30" rx="4" fill="#051015" stroke="#0d2030" stroke-width="0.8"/>
+    <text x="10" y="204" font-family="'Segoe UI', monospace" font-size="10" fill="#334155">[ 5 ] (future)</text>
+  </g>
+
+  <!-- Ctrl+Z / Ctrl+Y -->
+  <rect x="110" y="552" width="126" height="36" rx="8" fill="#00d4ff" fill-opacity="0.1" stroke="#00d4ff" stroke-width="1"/>
+  <text x="173" y="575" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#00d4ff" font-weight="700">Ctrl + Z</text>
+  <rect x="244" y="552" width="126" height="36" rx="8" fill="#00d4ff" fill-opacity="0.1" stroke="#00d4ff" stroke-width="1"/>
+  <text x="307" y="575" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#00d4ff" font-weight="700">Ctrl + Y</text>
+  <text x="250" y="618" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Max 50 snapshots · JSON.stringify deep clone</text>
+
+  <!-- 2: LOCALSTORAGE -->
+  <rect x="480" y="264" width="300" height="380" rx="14" fill="#060d1a" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="480" y="264" width="300" height="7" rx="4" fill="#f59e0b"/>
+  <text x="630" y="288" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" font-weight="700" letter-spacing="2">LOCALSTORAGE</text>
+
+  <!-- Browser icon simulation -->
+  <rect x="520" y="306" width="220" height="100" rx="6" fill="#0d1520" stroke="#1e3060" stroke-width="1"/>
+  <rect x="520" y="306" width="220" height="22" rx="6" fill="#1e2a50"/>
+  <circle cx="534" cy="317" r="5" fill="#f87171" fill-opacity="0.6"/>
+  <circle cx="548" cy="317" r="5" fill="#fbbf24" fill-opacity="0.6"/>
+  <circle cx="562" cy="317" r="5" fill="#4ade80" fill-opacity="0.6"/>
+  <text x="630" y="318" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b">DevTools → Application → Local Storage</text>
+  <text x="540" y="346" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">KEY: "rackDesignerData"</text>
+  <text x="540" y="362" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">VALUE: {"{"}rooms:[...],devices:[...]{"}"}</text>
+  <text x="540" y="378" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">SIZE: ~200KB compressed</text>
+  <text x="540" y="394" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">Persists across browser sessions</text>
+
+  <text x="630" y="434" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">On page load: JSON.parse() hydrates store</text>
+  <text x="630" y="452" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">If empty → blank project template</text>
+  <text x="630" y="470" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">If corrupted → silently skip (try/catch)</text>
+
+  <!-- Timer visual -->
+  <rect x="520" y="488" width="220" height="50" rx="8" fill="#1a1000" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="630" y="510" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f59e0b" font-weight="700">⏱ 3 second debounce</text>
+  <text x="630" y="528" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#92400e">Rapid edits don't spam writes</text>
+
+  <rect x="520" y="556" width="220" height="36" rx="8" fill="#1a0d00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="630" y="579" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#fde68a">localStorage.setItem(key, json)</text>
+
+  <!-- 3: FILE HANDLE -->
+  <rect x="820" y="264" width="240" height="380" rx="14" fill="#060d1a" stroke="#00f5a0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="820" y="264" width="240" height="7" rx="4" fill="#00f5a0"/>
+  <text x="940" y="288" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#86efac" font-weight="700" letter-spacing="2">FILE HANDLE</text>
+
+  <rect x="850" y="306" width="180" height="160" rx="8" fill="#051510" stroke="#1a6b45" stroke-width="1"/>
+  <!-- File icon -->
+  <rect x="880" y="320" width="60" height="70" rx="4" fill="#0a2a1a" stroke="#1a6b45" stroke-width="1"/>
+  <path d="M 920 320 L 940 340 L 940 390 L 880 390 L 880 320 Z" fill="#0a2a1a" stroke="#1a6b45" stroke-width="1"/>
+  <path d="M 920 320 L 920 340 L 940 340" fill="none" stroke="#1a6b45" stroke-width="1"/>
+  <text x="910" y="370" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#4ade80">.json</text>
+  <text x="975" y="340" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">my-dc.json</text>
+  <text x="975" y="358" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">FileSystemFile</text>
+  <text x="975" y="376" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">Handle</text>
+  <text x="975" y="394" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">in memory</text>
+  <text x="975" y="412" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">on disk</text>
+
+  <text x="940" y="482" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">User granted write access</text>
+  <text x="940" y="500" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Handle kept in RAM</text>
+  <text x="940" y="518" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Silent overwrite on save</text>
+
+  <rect x="850" y="534" width="180" height="36" rx="8" fill="#051a10" stroke="#00f5a0" stroke-width="0.8"/>
+  <text x="940" y="557" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#4ade80">writable.write(jsonStr)</text>
+  <rect x="850" y="578" width="180" height="36" rx="8" fill="#051a10" stroke="#00f5a0" stroke-width="0.8"/>
+  <text x="940" y="601" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Falls back if no handle</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="826" x2="1060" y2="826" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="843" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Autosave &amp; History Engine</text>
+  <text x="1052" y="843" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/autosave_history.svg</text>
+</svg>

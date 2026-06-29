@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="780" viewBox="0 0 1100 780">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0a1520"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/></filter>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a855f7"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f87171"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="780" fill="url(#bg)"/>
+  <rect width="1100" height="780" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="480" height="52" rx="6" fill="#0d1f30" stroke="#a855f7" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#a855f7" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#a855f7" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  PROGRESSIVE WEB APP</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">PWA  ·  OFFLINE-FIRST  ·  SERVICE WORKER</text>
+
+  <!-- Browser network request -->
+  <rect x="350" y="108" width="400" height="68" rx="10" fill="#0d1a2a" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="350" y="108" width="400" height="5" rx="3" fill="#a855f7"/>
+  <text x="550" y="132" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c4b5fd" font-weight="700" letter-spacing="1">BROWSER REQUESTS RESOURCE</text>
+  <text x="550" y="152" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">fetch('/index.html')  ·  fetch('/js/main.js')  ·  fetch('/css/style.css')</text>
+  <text x="550" y="168" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">All requests intercepted before reaching network</text>
+
+  <!-- Arrow to SW -->
+  <line x1="550" y1="176" x2="550" y2="218" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowP)"/>
+
+  <!-- Service Worker Box -->
+  <rect x="200" y="222" width="700" height="110" rx="12" fill="#0a0a1a" stroke="#a855f7" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="200" y="222" width="700" height="6" rx="4" fill="#a855f7"/>
+  <text x="550" y="248" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c4b5fd" font-weight="700" letter-spacing="2">⚡ SERVICE WORKER  ·  INTERCEPT LAYER  ·  service-worker.js</text>
+  <text x="550" y="270" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">self.addEventListener('fetch', event =&gt; {'{'}  event.respondWith(cacheFirst(request)) {'}'})</text>
+  <text x="550" y="290" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Registered in main.js via navigator.serviceWorker.register()</text>
+  <text x="550" y="310" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Runs in background thread · No UI blocking · Lifecycle: install → activate → fetch</text>
+
+  <!-- Branch: Cache hit vs miss -->
+  <line x1="400" y1="332" x2="220" y2="388" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowG)"/>
+  <line x1="700" y1="332" x2="880" y2="388" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowR)"/>
+  <circle cx="550" cy="332" r="5" fill="#c4b5fd"/>
+  <text x="300" y="386" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#4ade80">Cache HIT ✓</text>
+  <text x="800" y="386" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#f87171">Cache MISS ✗</text>
+
+  <!-- Cache HIT box -->
+  <rect x="60" y="396" width="380" height="240" rx="14" fill="#051510" stroke="#4ade80" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="60" y="396" width="380" height="7" rx="4" fill="#4ade80"/>
+  <text x="250" y="420" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#86efac" font-weight="700" letter-spacing="1">SERVED FROM CACHE</text>
+  <text x="250" y="440" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#065f46">Works offline · Instant load</text>
+
+  <!-- Cache contents -->
+  <rect x="80" y="452" width="340" height="160" rx="8" fill="#060e08" stroke="#1a6b45" stroke-width="1"/>
+  <text x="100" y="472" font-family="'Segoe UI', sans-serif" font-size="9" fill="#34d399" font-weight="600">Cache: "rack-designer-v1.2"</text>
+  <text x="110" y="492" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">✓ /index.html</text>
+  <text x="110" y="508" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">✓ /js/main.js</text>
+  <text x="110" y="524" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">✓ /js/store.js</text>
+  <text x="110" y="540" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">✓ /css/style.css</text>
+  <text x="110" y="556" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">✓ /assets/icons/**</text>
+  <text x="110" y="572" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">✓ /assets/img/**</text>
+  <text x="110" y="588" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">Version bump clears old cache</text>
+
+  <!-- Cache MISS box -->
+  <rect x="660" y="396" width="380" height="240" rx="14" fill="#100508" stroke="#f87171" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="660" y="396" width="380" height="7" rx="4" fill="#f87171"/>
+  <text x="850" y="420" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5" font-weight="700" letter-spacing="1">FETCH FROM NETWORK</text>
+  <text x="850" y="440" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#7f1d1d">Resource not in cache</text>
+
+  <rect x="680" y="452" width="340" height="130" rx="8" fill="#0c0508" stroke="#4a1520" stroke-width="1"/>
+  <text x="850" y="474" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">1. Request goes to network</text>
+  <text x="850" y="492" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">2. Response received</text>
+  <text x="850" y="510" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">3. Clone → store in cache</text>
+  <text x="850" y="528" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">4. Return response to browser</text>
+  <text x="850" y="548" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Next request → Cache HIT</text>
+  <text x="850" y="568" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">If offline → show cached or error</text>
+
+  <!-- PWA Install box -->
+  <rect x="60" y="660" width="980" height="80" rx="12" fill="#0a0514" stroke="#a855f7" stroke-width="1"/>
+  <text x="550" y="686" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#c4b5fd" font-weight="700" letter-spacing="2">PWA INSTALLATION  ·  DESKTOP &amp; MOBILE</text>
+  <text x="550" y="710" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#94a3b8">manifest.json → name · icons · display:standalone · background_color  ·  Browser prompts "Add to Home Screen"</text>
+  <text x="550" y="728" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Runs without browser chrome · Looks like a native app · Works 100% offline once installed</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="752" x2="1060" y2="752" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="768" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  PWA Service Worker</text>
+  <text x="1052" y="768" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/pwa_service_worker.svg</text>
+</svg>

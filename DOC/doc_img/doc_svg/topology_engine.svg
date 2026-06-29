@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0a1520"/>
+    </linearGradient>
+    <linearGradient id="canvasGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a2a"/>
+      <stop offset="100%" style="stop-color:#06101a"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity="0.6"/></filter>
+    <filter id="neon"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a855f7"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="820" fill="url(#bg)"/>
+  <rect width="1100" height="820" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="500" height="52" rx="6" fill="#0d1f30" stroke="#22d3ee" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#22d3ee" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22d3ee" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  CANVAS ENGINE</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">TOPOLOGY ENGINE  ·  MVC ARCHITECTURE</text>
+
+  <!-- Central MVC Diamond -->
+  <text x="550" y="148" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#22d3ee" font-weight="700" letter-spacing="2">TOPOLOGYORCHESTRATOR</text>
+  <rect x="360" y="156" width="380" height="72" rx="10" fill="#0a1a28" stroke="#22d3ee" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="360" y="156" width="380" height="5" rx="3" fill="#22d3ee"/>
+  <text x="550" y="180" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#a5f3fc">Entry point: ui/topology/index.js</text>
+  <text x="550" y="198" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Initializes subsystems · Binds events · Starts RAF loop</text>
+  <text x="550" y="216" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Receives 'store-updated' → triggers full redraw</text>
+
+  <!-- 3-way fan down -->
+  <line x1="440" y1="228" x2="200" y2="292" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowC)"/>
+  <line x1="550" y1="228" x2="550" y2="292" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowC)"/>
+  <line x1="660" y1="228" x2="900" y2="292" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrowC)"/>
+  <circle cx="550" cy="228" r="5" fill="#22d3ee"/>
+
+  <!-- MVC boxes -->
+  <!-- STATE -->
+  <rect x="60" y="296" width="280" height="180" rx="12" fill="#060e18" stroke="#22d3ee" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="60" y="296" width="280" height="7" rx="4" fill="#22d3ee"/>
+  <text x="200" y="320" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a5f3fc" font-weight="700" letter-spacing="2">MODEL  ·  TopologyState</text>
+  <text x="200" y="344" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">nodes: Map of devices</text>
+  <text x="200" y="362" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">edges: cable connections</text>
+  <text x="200" y="380" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">positions: {x, y} per node</text>
+  <text x="200" y="398" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">scale: zoom level</text>
+  <text x="200" y="416" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">pan: {dx, dy} offset</text>
+  <text x="200" y="436" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#0e7490" font-weight="600">Pure data — no rendering logic</text>
+  <text x="200" y="452" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#0e7490">topology/TopologyState.js</text>
+
+  <!-- LAYOUT -->
+  <rect x="410" y="296" width="280" height="180" rx="12" fill="#060e18" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="410" y="296" width="280" height="7" rx="4" fill="#a855f7"/>
+  <text x="550" y="320" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#c4b5fd" font-weight="700" letter-spacing="2">CONTROLLER  ·  TopologyLayout</text>
+  <text x="550" y="344" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">Auto-position nodes</text>
+  <text x="550" y="362" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Force-directed layout</text>
+  <text x="550" y="380" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Collision detection</text>
+  <text x="550" y="398" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Grid snap (optional)</text>
+  <text x="550" y="416" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Room grouping math</text>
+  <text x="550" y="436" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#6d28d9" font-weight="600">Pure math — no DOM/Canvas access</text>
+  <text x="550" y="452" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#6d28d9">topology/TopologyLayout.js</text>
+
+  <!-- RENDERER -->
+  <rect x="760" y="296" width="280" height="180" rx="12" fill="#060e18" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="760" y="296" width="280" height="7" rx="4" fill="#10b981"/>
+  <text x="900" y="320" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6ee7b7" font-weight="700" letter-spacing="2">VIEW  ·  TopologyRenderer</text>
+  <text x="900" y="344" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">ctx.drawImage (node icons)</text>
+  <text x="900" y="362" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">ctx.bezierCurveTo (cables)</text>
+  <text x="900" y="380" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Particle system (flowT)</text>
+  <text x="900" y="398" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">requestAnimationFrame (60fps)</text>
+  <text x="900" y="416" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">WeakMap proxy cache</text>
+  <text x="900" y="436" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#065f46" font-weight="600">Only layer that touches Canvas 2D</text>
+  <text x="900" y="452" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#065f46">topology/TopologyRenderer.js</text>
+
+  <!-- CANVAS PREVIEW -->
+  <rect x="60" y="506" width="980" height="240" rx="14" fill="url(#canvasGrad)" stroke="#1e3a5f" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="532" font-family="'Segoe UI', sans-serif" font-size="10" fill="#22d3ee" letter-spacing="2" font-weight="600">CANVAS 2D RENDER OUTPUT SIMULATION</text>
+  <line x1="80" y1="540" x2="1020" y2="540" stroke="#22d3ee" stroke-width="0.5" stroke-opacity="0.3"/>
+
+  <!-- Simulated nodes -->
+  <!-- Room 1 -->
+  <rect x="100" y="560" width="160" height="100" rx="6" fill="#0a1f2a" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <text x="180" y="578" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">Room: Server Room</text>
+  <!-- Node 1 -->
+  <circle cx="140" cy="610" r="20" fill="#0d2a3a" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="140" y="607" text-anchor="middle" font-size="12">🖥</text>
+  <text x="140" y="620" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="7" fill="#7dd3fc">Rack-01</text>
+  <!-- Node 2 -->
+  <circle cx="210" cy="610" r="18" fill="#0d2a3a" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="210" y="607" text-anchor="middle" font-size="11">🔀</text>
+  <text x="210" y="620" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="7" fill="#7dd3fc">SW-Core</text>
+
+  <!-- Bezier cable with particle -->
+  <path d="M 160 610 Q 260 550 320 590" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-opacity="0.5"/>
+  <path d="M 160 610 Q 260 550 320 590" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,6" stroke-opacity="0.3"/>
+  <!-- Particle on cable -->
+  <circle cx="230" cy="573" r="3" fill="#00f5a0" filter="url(#neon)"/>
+
+  <!-- Room 2 -->
+  <rect x="300" y="555" width="200" height="120" rx="6" fill="#0a1a20" stroke="#1e3a5f" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <text x="400" y="573" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">Room: Network</text>
+  <circle cx="350" cy="608" r="20" fill="#0d2a3a" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="350" y="605" text-anchor="middle" font-size="12">📡</text>
+  <text x="350" y="618" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="7" fill="#c4b5fd">Router</text>
+  <circle cx="440" cy="620" r="18" fill="#0d2a3a" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="440" y="617" text-anchor="middle" font-size="11">🔒</text>
+  <text x="440" y="630" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="7" fill="#c4b5fd">FW-01</text>
+
+  <!-- More cables -->
+  <path d="M 228 610 Q 280 640 330 608" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.6"/>
+  <circle cx="280" cy="628" r="3" fill="#a855f7" filter="url(#neon)"/>
+  <path d="M 368 608 Q 400 570 438 610" fill="none" stroke="#a855f7" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- Right info panel -->
+  <rect x="560" y="555" width="160" height="80" rx="6" fill="#0a1a20" stroke="#334155" stroke-width="0.8"/>
+  <text x="580" y="574" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b" font-weight="600">PERFORMANCE</text>
+  <text x="580" y="592" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">60fps RAF loop</text>
+  <text x="580" y="608" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">ctx.clearRect() per frame</text>
+  <text x="580" y="624" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">flowT % 1 overflow safe</text>
+
+  <rect x="740" y="555" width="270" height="80" rx="6" fill="#0a1a20" stroke="#334155" stroke-width="0.8"/>
+  <text x="760" y="574" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b" font-weight="600">INTERACTION</text>
+  <text x="760" y="592" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">Zoom: wheel event → scale</text>
+  <text x="760" y="608" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">Pan: mousedown drag → dx/dy</text>
+  <text x="760" y="624" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Click node → select / edit</text>
+
+  <!-- Legend line -->
+  <text x="80" y="720" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">LEGEND:</text>
+  <circle cx="150" cy="717" r="6" fill="#22d3ee" fill-opacity="0.3" stroke="#22d3ee" stroke-width="1"/>
+  <text x="164" y="722" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Rack/Device</text>
+  <circle cx="260" cy="717" r="6" fill="#a855f7" fill-opacity="0.3" stroke="#a855f7" stroke-width="1"/>
+  <text x="274" y="722" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Network gear</text>
+  <circle cx="380" cy="717" r="4" fill="#00f5a0"/>
+  <text x="394" y="722" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Packet particle</text>
+  <line x1="480" y1="717" x2="520" y2="717" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="532" y="722" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Active cable</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="782" x2="1060" y2="782" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="798" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Topology Engine MVC</text>
+  <text x="1052" y="798" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/topology_engine.svg</text>
+</svg>

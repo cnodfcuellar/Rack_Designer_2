@@ -1,3 +1,31 @@
+## [2026-06-24] Rediseño y Reubicación de Diagramas SVG (AI Agents)
+
+### Actualización de Documentación
+- **Manual de Usuario:** Se actualizó la sección 4 de `doc/doc_md/USER_MANUAL.md` ("Flujo de Trabajo End-to-End"), sustituyendo el tutorial paso a paso por una descripción arquitectónica detallada en 4 fases (Preparación, Diseño Físico, Diseño Lógico, y Auditoría/Respaldo).
+
+### Corrección de Directorio y Rediseño Visual Completo
+- **Reubicación:** Los diagramas SVG se movieron al directorio correcto `doc/doc_img/doc_svg/`.
+- **Rediseño Profesional Premium:** Los 18 diagramas fueron completamente rediseñados con estética de nivel técnico-industrial: gradientes multicapa, tipografía Segoe UI, simulaciones visuales de interfaz (rack slots, canvas 2D, selects/inputs), filtros SVG de glow/shadow, colores acento semánticos por dominio, y layouts con proporciones de cuadrícula estrictas. Se eliminó el diseño plano y básico anterior.
+- **Diagramas generados en `doc/doc_img/doc_svg/`:**
+  - `architecture_overview.svg` — Capas Data / Logic / Presentation con cards por módulo.
+  - `store_reactivity.svg` — Flujo ES6 Proxy → localStorage/historial/UI con ramas visuales.
+  - `roles_permissions.svg` — 3 columnas de roles con ícono de persona, permisos y token de sesión.
+  - `theme_switcher.svg` — Tokens CSS Dark/Light con swatches de color reales.
+  - `device_skins_fallback.svg` — Comparativa SVG faceplate vs CSS fallback con preview de rack.
+  - `autosave_history.svg` — Stack de historial, timer debounce, localStorage y fileHandle.
+  - `security_rbac_crypto.svg` — Flujo SHA-256, código Web Crypto API, y escenario anti-tamper.
+  - `topology_engine.svg` — Arquitectura MVC + simulación de canvas 2D con nodos y cables.
+  - `drag_drop_flow.svg` — 3 fases: Catálogo → Rack slot → Floor drop con eventos.
+  - `export_system.svg` — 4 formatos de exportación con simulaciones de JSON/CSV/canvas.
+  - `pwa_service_worker.svg` — Intercepción de fetch, rama cache HIT/MISS, manifest install.
+  - `hybrid_network_ports.svg` — Selector dinámico SELECT vs INPUT con simulación de UI.
+  - `module_dependencies.svg` — Grafo radial con main.js como nodo central.
+  - `directory_structure.svg` — Árbol de carpetas coloreado por dominio con descripciones.
+  - `file_manager_api.svg` — Open/Save/AutoSave flows con comparativa nativa vs blob fallback.
+  - `modals_accordions.svg` — Lista de modales + simulación de acordeón de DeviceModal.
+  - `ui_layout_map.svg` — Simulación visual completa de la aplicación con paneles anotados.
+  - `user_personas.svg` — 3 tipos de usuario con avatares y matrices de capacidades.
+
 ## [2026-06-23] Sistema Dinámico de Interfaces de Red Opcionales (Workflow Architect)
 
 ### Configuración Híbrida de Puertos

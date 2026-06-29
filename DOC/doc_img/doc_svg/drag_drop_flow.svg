@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0a1520"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/></filter>
+    <marker id="arrowO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f97316"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4ade80"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="800" fill="url(#bg)"/>
+  <rect width="1100" height="800" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="500" height="52" rx="6" fill="#0d1f30" stroke="#f97316" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#f97316" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f97316" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  DRAG AND DROP SYSTEM</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">DRAG &amp; DROP  ·  INTERACTION FLOW</text>
+
+  <!-- Phase 1: Catalog -->
+  <rect x="40" y="108" width="300" height="500" rx="14" fill="#0d0f0a" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="108" width="300" height="7" rx="4" fill="#f97316"/>
+  <text x="190" y="132" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fdba74" font-weight="700" letter-spacing="2">① CATALOG PANEL  ·  SOURCE</text>
+
+  <!-- Catalog cards simulation -->
+  <rect x="70" y="148" width="240" height="52" rx="6" fill="#1a1005" stroke="#f97316" stroke-width="1.5"/>
+  <text x="100" y="168" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fdba74" font-weight="600">🖥  1U Server</text>
+  <text x="100" y="186" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">draggable="true" | id: server-1u</text>
+  <text x="276" y="172" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f97316">⠿ DRAG</text>
+
+  <rect x="70" y="208" width="240" height="52" rx="6" fill="#120a02" stroke="#78350f" stroke-width="0.8"/>
+  <text x="100" y="228" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8" font-weight="600">🔀  2U Switch</text>
+  <text x="100" y="246" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">draggable="true"</text>
+
+  <rect x="70" y="268" width="240" height="52" rx="6" fill="#120a02" stroke="#78350f" stroke-width="0.8"/>
+  <text x="100" y="288" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8" font-weight="600">🔋  PDU</text>
+  <text x="100" y="306" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">draggable="true"</text>
+
+  <!-- Event chain in catalog -->
+  <rect x="70" y="340" width="240" height="120" rx="8" fill="#0d1520" stroke="#334155" stroke-width="1"/>
+  <text x="190" y="362" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f97316" font-weight="700" letter-spacing="1">EVENTS FIRED</text>
+  <text x="90" y="386" font-family="'Segoe UI', monospace" font-size="10" fill="#fdba74">dragstart:</text>
+  <text x="180" y="386" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">dataTransfer.setData()</text>
+  <text x="90" y="404" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Sets device type, category</text>
+  <text x="90" y="422" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Sets drag image (ghost)</text>
+  <text x="90" y="440" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Sets opacity → 0.4</text>
+
+  <rect x="70" y="474" width="240" height="100" rx="8" fill="#0d1520" stroke="#334155" stroke-width="1"/>
+  <text x="190" y="496" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b" font-weight="600">CATALOG SEARCH FILTER</text>
+  <text x="90" y="516" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Tabs: All / Server / Network</text>
+  <text x="90" y="534" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Input filter by name/type</text>
+  <text x="90" y="552" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Still draggable when filtered</text>
+
+  <!-- Phase 2: Middle flow arrows -->
+  <path d="M 340 200 L 400 200" stroke="#f97316" stroke-width="2.5" marker-end="url(#arrowO)"/>
+  <path d="M 340 390 L 400 510" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowG)"/>
+  <text x="352" y="195" font-family="'Segoe UI', monospace" font-size="9" fill="#f97316">drag</text>
+
+  <!-- Phase 3: Drop zones -->
+  <rect x="404" y="108" width="320" height="500" rx="14" fill="#060e0a" stroke="#4ade80" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="404" y="108" width="320" height="7" rx="4" fill="#4ade80"/>
+  <text x="564" y="132" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#86efac" font-weight="700" letter-spacing="2">② DROP ZONE  ·  RACK SLOTS</text>
+
+  <!-- Rack slot simulation -->
+  <rect x="434" y="152" width="260" height="30" rx="4" fill="#0a1f10" stroke="#1a6b45" stroke-width="0.8"/>
+  <text x="564" y="172" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">Slot 1U — empty</text>
+
+  <rect x="434" y="188" width="260" height="40" rx="4" fill="#051a10" stroke="#4ade80" stroke-width="1.5"/>
+  <rect x="434" y="188" width="260" height="40" rx="4" fill="#4ade80" fill-opacity="0.06"/>
+  <text x="564" y="213" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#4ade80" font-weight="600">▼ DROP HERE ▼  (1U Server)</text>
+
+  <rect x="434" y="234" width="260" height="30" rx="4" fill="#0a1f10" stroke="#1a6b45" stroke-width="0.8"/>
+  <text x="564" y="254" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">Slot 3U — empty</text>
+
+  <rect x="434" y="270" width="260" height="50" rx="4" fill="#0d2a1a" stroke="#1a6b45" stroke-width="0.8"/>
+  <text x="564" y="292" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">🖥  DELL R750</text>
+  <text x="564" y="308" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">2U  ·  occupied</text>
+
+  <!-- Drop events -->
+  <rect x="434" y="340" width="260" height="130" rx="8" fill="#0d1520" stroke="#334155" stroke-width="1"/>
+  <text x="564" y="362" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" font-weight="700" letter-spacing="1">DROP EVENTS</text>
+  <text x="454" y="384" font-family="'Segoe UI', monospace" font-size="10" fill="#86efac">dragover:</text>
+  <text x="534" y="384" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">preventDefault()</text>
+  <text x="454" y="402" font-family="'Segoe UI', monospace" font-size="10" fill="#86efac">dragenter:</text>
+  <text x="534" y="402" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">highlight slot green</text>
+  <text x="454" y="420" font-family="'Segoe UI', monospace" font-size="10" fill="#86efac">drop:</text>
+  <text x="534" y="420" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">getData + validate U</text>
+  <text x="454" y="438" font-family="'Segoe UI', monospace" font-size="10" fill="#86efac">dragleave:</text>
+  <text x="534" y="438" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">remove highlight</text>
+  <text x="454" y="456" font-family="'Segoe UI', monospace" font-size="10" fill="#86efac">dragend:</text>
+  <text x="534" y="456" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">restore opacity 1.0</text>
+
+  <rect x="434" y="486" width="260" height="88" rx="8" fill="#050d06" stroke="#1a6b45" stroke-width="1"/>
+  <text x="564" y="508" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" font-weight="700" letter-spacing="1">VALIDATION</text>
+  <text x="454" y="528" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">canPlace() checks U space</text>
+  <text x="454" y="546" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Separate Front / Rear slots</text>
+  <text x="454" y="564" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Fail → shake animation</text>
+
+  <!-- Phase 4: Floor drop -->
+  <path d="M 724 390 L 756 510" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowG)"/>
+
+  <rect x="760" y="108" width="300" height="500" rx="14" fill="#060808" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="760" y="108" width="300" height="7" rx="4" fill="#64748b"/>
+  <text x="910" y="132" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8" font-weight="700" letter-spacing="2">③ FLOOR DROP  ·  PERIPHERALS</text>
+
+  <!-- Floor area simulation -->
+  <rect x="790" y="152" width="240" height="130" rx="6" fill="#0a0a0a" stroke="#334155" stroke-width="0.8" stroke-dasharray="4,4"/>
+  <text x="910" y="175" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#334155">Floor zone (drag here)</text>
+  <!-- Floor devices -->
+  <rect x="810" y="190" width="80" height="70" rx="6" fill="#0d1520" stroke="#64748b" stroke-width="0.8"/>
+  <text x="850" y="218" text-anchor="middle" font-size="18">📷</text>
+  <text x="850" y="236" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b">Camera</text>
+  <rect x="900" y="190" width="80" height="70" rx="6" fill="#0d1520" stroke="#64748b" stroke-width="0.8"/>
+  <text x="940" y="218" text-anchor="middle" font-size="18">📶</text>
+  <text x="940" y="236" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b">Access Point</text>
+
+  <rect x="790" y="298" width="240" height="120" rx="8" fill="#0d1520" stroke="#334155" stroke-width="1"/>
+  <text x="910" y="320" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8" font-weight="700" letter-spacing="1">FLOOR EVENTS</text>
+  <text x="810" y="342" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">No U-slot constraint</text>
+  <text x="810" y="360" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">device.rackId = null</text>
+  <text x="810" y="378" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">device.isFloor = true</text>
+  <text x="810" y="396" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Cards rendered in floor grid</text>
+
+  <rect x="790" y="434" width="240" height="80" rx="8" fill="#0d1520" stroke="#334155" stroke-width="1"/>
+  <text x="910" y="456" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b" font-weight="700" letter-spacing="1">QUICK PLACEMENT (⚡)</text>
+  <text x="810" y="478" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Alternative: PlacementModal</text>
+  <text x="810" y="496" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Select rack + U slot via UI</text>
+
+  <!-- Result box at bottom -->
+  <rect x="40" y="628" width="1020" height="80" rx="12" fill="#050e08" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="560" y="654" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" font-weight="700" letter-spacing="2">ON SUCCESSFUL DROP → STORE UPDATE</text>
+  <text x="280" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">store.data.devices.push(newDevice)</text>
+  <text x="560" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#94a3b8">→ ES6 Proxy fires</text>
+  <text x="800" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#4ade80">→ rack.js re-renders slot</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="768" x2="1060" y2="768" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="784" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Drag &amp; Drop Flow</text>
+  <text x="1052" y="784" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/drag_drop_flow.svg</text>
+</svg>

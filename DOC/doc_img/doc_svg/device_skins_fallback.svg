@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0c1528"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity="0.6"/></filter>
+    <filter id="glowB"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00f5a0"/>
+    </marker>
+    <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f87171"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="820" fill="url(#bg)"/>
+  <rect width="1100" height="820" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="500" height="52" rx="6" fill="#0d1f30" stroke="#3b82f6" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#3b82f6" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#3b82f6" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  VISUAL RENDERING</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">DEVICE SKINS  ·  FACEPLATE ENGINE</text>
+
+  <!-- TOP: Device loaded into Rack slot -->
+  <rect x="350" y="108" width="400" height="72" rx="10" fill="#0d1a2a" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="350" y="108" width="400" height="5" rx="3" fill="#3b82f6"/>
+  <text x="550" y="134" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#93c5fd" font-weight="700" letter-spacing="1">DEVICE INSERTED IN RACK SLOT</text>
+  <text x="550" y="154" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">rack.js → renderDevice(device)</text>
+  <text x="550" y="172" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Creates &lt;img&gt; tag pointing to assets/img/{type}.svg</text>
+
+  <!-- Arrow down -->
+  <line x1="550" y1="180" x2="550" y2="220" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowB)"/>
+
+  <!-- Attempt load box -->
+  <rect x="300" y="224" width="500" height="58" rx="10" fill="#060e1a" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="550" y="248" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#60a5fa" font-weight="700" letter-spacing="1">ATTEMPT SVG LOAD</text>
+  <text x="550" y="268" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">img.src = "assets/img/server.svg"</text>
+
+  <!-- Branch -->
+  <line x1="400" y1="282" x2="200" y2="340" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <line x1="700" y1="282" x2="900" y2="340" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <circle cx="550" cy="282" r="5" fill="#60a5fa"/>
+
+  <!-- SUCCESS PATH -->
+  <text x="200" y="338" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#00f5a0">img.onload ✓</text>
+
+  <rect x="60" y="348" width="360" height="340" rx="14" fill="#051510" stroke="#00f5a0" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="60" y="348" width="360" height="7" rx="4" fill="#00f5a0"/>
+
+  <text x="240" y="376" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#4ade80" font-weight="700" letter-spacing="1">✅ PHOTOREALISTIC SVG LOADED</text>
+
+  <!-- Simulated faceplate preview -->
+  <rect x="100" y="390" width="280" height="120" rx="6" fill="#0d1a0a" stroke="#1a6b45" stroke-width="1"/>
+  <rect x="110" y="400" width="260" height="100" rx="4" fill="#1a2a1a"/>
+  <!-- Server chassis simulation -->
+  <rect x="120" y="410" width="240" height="20" rx="2" fill="#1e3a1e" stroke="#2d5a2d" stroke-width="0.5"/>
+  <circle cx="340" cy="420" r="6" fill="#00f5a0" fill-opacity="0.6"/>
+  <circle cx="325" cy="420" r="4" fill="#fbbf24" fill-opacity="0.5"/>
+  <rect x="120" y="436" width="100" height="10" rx="2" fill="#264026"/>
+  <rect x="225" y="436" width="80" height="10" rx="2" fill="#264026"/>
+  <rect x="120" y="452" width="240" height="30" rx="2" fill="#1a2a1a" stroke="#264026" stroke-width="0.5"/>
+  <text x="240" y="472" text-anchor="middle" font-family="monospace" font-size="8" fill="#4ade80">[ ■ ] DELL PowerEdge R750</text>
+
+  <text x="240" y="530" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Pixel-perfect hardware image</text>
+  <text x="240" y="548" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Scales to exact U-height</text>
+  <text x="240" y="566" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">CSS mask → recolor on hover</text>
+  <text x="240" y="584" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">All 7 categories supported</text>
+  <text x="240" y="604" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Dark / Light theme aware</text>
+
+  <!-- Feature badges -->
+  <rect x="100" y="620" width="100" height="24" rx="12" fill="#00f5a0" fill-opacity="0.1" stroke="#00f5a0" stroke-width="0.8"/>
+  <text x="150" y="636" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#00f5a0" font-weight="600">SVG native</text>
+  <rect x="210" y="620" width="120" height="24" rx="12" fill="#00f5a0" fill-opacity="0.1" stroke="#00f5a0" stroke-width="0.8"/>
+  <text x="270" y="636" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#00f5a0" font-weight="600">Photorealistic</text>
+  <rect x="340" y="620" width="60" height="24" rx="12" fill="#00f5a0" fill-opacity="0.1" stroke="#00f5a0" stroke-width="0.8"/>
+  <text x="370" y="636" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#00f5a0" font-weight="600">HD</text>
+
+  <!-- FAIL PATH -->
+  <text x="900" y="338" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#f87171">img.onerror ✗</text>
+
+  <rect x="680" y="348" width="360" height="340" rx="14" fill="#150505" stroke="#f87171" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="680" y="348" width="360" height="7" rx="4" fill="#f87171"/>
+
+  <text x="860" y="376" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5" font-weight="700" letter-spacing="1">⚡ CSS FALLBACK RENDERER</text>
+
+  <!-- Simulated CSS faceplate preview -->
+  <rect x="720" y="390" width="280" height="120" rx="6" fill="#1a0505" stroke="#6b2020" stroke-width="1"/>
+  <rect x="730" y="400" width="260" height="100" rx="4" fill="#1a0808"/>
+  <!-- CSS drawn server placeholder -->
+  <rect x="740" y="410" width="240" height="80" rx="3" fill="#200e0e" stroke="#4a1515" stroke-width="0.8"/>
+  <rect x="750" y="418" width="30" height="30" rx="2" fill="#f87171" fill-opacity="0.3"/>
+  <text x="765" y="437" text-anchor="middle" font-size="14">🖥</text>
+  <rect x="792" y="420" width="170" height="8" rx="2" fill="#4a1515"/>
+  <rect x="792" y="434" width="120" height="6" rx="2" fill="#3a1010"/>
+  <text x="860" y="468" text-anchor="middle" font-family="monospace" font-size="9" fill="#fca5a5">[ Server - type: server ]</text>
+
+  <text x="860" y="530" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Procedural CSS box rendering</text>
+  <text x="860" y="548" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Icon + Label + Border color</text>
+  <text x="860" y="566" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Colors from CSS variables</text>
+  <text x="860" y="584" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Zero dependencies</text>
+  <text x="860" y="604" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Triggered via .{name}.svg rename</text>
+
+  <!-- Feature badges -->
+  <rect x="720" y="620" width="90" height="24" rx="12" fill="#f87171" fill-opacity="0.1" stroke="#f87171" stroke-width="0.8"/>
+  <text x="765" y="636" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" font-weight="600">Fallback</text>
+  <rect x="820" y="620" width="80" height="24" rx="12" fill="#f87171" fill-opacity="0.1" stroke="#f87171" stroke-width="0.8"/>
+  <text x="860" y="636" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" font-weight="600">Pure CSS</text>
+  <rect x="910" y="620" width="110" height="24" rx="12" fill="#f87171" fill-opacity="0.1" stroke="#f87171" stroke-width="0.8"/>
+  <text x="965" y="636" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" font-weight="600">No assets needed</text>
+
+  <!-- TRIGGER NOTE -->
+  <rect x="220" y="700" width="660" height="70" rx="10" fill="#0d1a2a" stroke="#334155" stroke-width="1" filter="url(#shadow)"/>
+  <text x="550" y="726" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8" font-weight="600">⚙ DEVELOPER CONTROL</text>
+  <text x="550" y="746" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#64748b">Force CSS fallback for any device type by renaming its image:</text>
+  <text x="550" y="762" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#60a5fa">server.svg  →  .server.svg  (hidden from the HTTP engine)</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="790" x2="1060" y2="790" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="806" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Faceplate Skin Engine</text>
+  <text x="1052" y="806" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/device_skins_fallback.svg</text>
+</svg>

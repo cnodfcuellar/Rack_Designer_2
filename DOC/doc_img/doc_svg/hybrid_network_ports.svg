@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0a1520"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/></filter>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00d4ff"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a855f7"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="820" fill="url(#bg)"/>
+  <rect width="1100" height="820" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="500" height="52" rx="6" fill="#0d1f30" stroke="#00d4ff" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#00d4ff" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#00d4ff" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  NETWORK PORTS</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">HYBRID PORT SYSTEM  ·  DYNAMIC UI SWITCH</text>
+
+  <!-- Device config trigger -->
+  <rect x="300" y="110" width="500" height="72" rx="10" fill="#0d1a2a" stroke="#00d4ff" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="300" y="110" width="500" height="5" rx="3" fill="#00d4ff"/>
+  <text x="550" y="134" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#7dd3fc" font-weight="700" letter-spacing="1">DEVICE HAS PORT CONFIGURATION</text>
+  <text x="550" y="156" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">device.ports = {'{'}  ethernet: 24,  fiber: 4  {'}'}</text>
+  <text x="550" y="174" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Set in DeviceModal → Network Interfaces accordion</text>
+
+  <!-- CableModal detects -->
+  <line x1="550" y1="182" x2="550" y2="220" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowC)"/>
+  <rect x="320" y="224" width="460" height="60" rx="10" fill="#060e1a" stroke="#00d4ff" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="550" y="248" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7dd3fc" font-weight="700" letter-spacing="1">CABLE MODAL  ·  PORT DETECTION</text>
+  <text x="550" y="270" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">CableModal.js checks device.ports on open · if defined → inject dynamic UI</text>
+
+  <!-- Branch: defined vs undefined -->
+  <line x1="430" y1="284" x2="220" y2="334" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowG)"/>
+  <line x1="670" y1="284" x2="880" y2="334" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowP)"/>
+  <circle cx="550" cy="284" r="5" fill="#7dd3fc"/>
+  <text x="300" y="332" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#4ade80">ports defined ✓</text>
+  <text x="800" y="332" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#a855f7">ports undefined</text>
+
+  <!-- Defined: SELECT path -->
+  <rect x="60" y="344" width="460" height="390" rx="14" fill="#051510" stroke="#4ade80" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="60" y="344" width="460" height="7" rx="4" fill="#4ade80"/>
+  <text x="290" y="368" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#86efac" font-weight="700" letter-spacing="1">RESTRICTIVE MODE  ·  &lt;select&gt; DROPDOWN</text>
+
+  <!-- Select UI simulation -->
+  <rect x="90" y="384" width="400" height="220" rx="8" fill="#060e08" stroke="#1a6b45" stroke-width="1"/>
+  <text x="290" y="406" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" font-weight="600">Cable Patching Form</text>
+
+  <!-- Port A select -->
+  <text x="110" y="432" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Origin Port:</text>
+  <rect x="200" y="418" width="260" height="26" rx="4" fill="#0a1f10" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="212" y="435" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">Eth-01  ▾</text>
+  <!-- Dropdown options -->
+  <rect x="200" y="444" width="260" height="80" rx="4" fill="#0d2a1a" stroke="#1a6b45" stroke-width="1"/>
+  <rect x="200" y="444" width="260" height="20" rx="0" fill="#4ade80" fill-opacity="0.2"/>
+  <text x="212" y="458" font-family="'Segoe UI', monospace" font-size="9" fill="#e2e8f0">● Eth-01 (Gigabit)</text>
+  <text x="212" y="474" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">  Eth-02 (Gigabit)</text>
+  <text x="212" y="490" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">  Eth-03 (Gigabit)</text>
+  <text x="212" y="506" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">  SFP-01 (10G Fiber)</text>
+  <text x="212" y="522" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">  SFP-02 (10G Fiber)</text>
+
+  <!-- Port B select -->
+  <text x="110" y="550" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Destination Port:</text>
+  <rect x="220" y="536" width="240" height="26" rx="4" fill="#0a1f10" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="232" y="553" font-family="'Segoe UI', sans-serif" font-size="10" fill="#e2e8f0">Select port...  ▾</text>
+
+  <text x="290" y="620" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Generated from device.ports.ethernet count</text>
+  <text x="290" y="638" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">+ device.ports.fiber count</text>
+  <text x="290" y="658" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#064e3b">Prevents invalid port references in topology</text>
+  <rect x="90" y="670" width="400" height="28" rx="8" fill="#4ade80" fill-opacity="0.1" stroke="#4ade80" stroke-width="0.8"/>
+  <text x="290" y="688" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" font-weight="600">Strict · No free text · Prevents typos</text>
+  <text x="290" y="720" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Ports: Eth-01..Eth-24, SFP-01..SFP-04</text>
+
+  <!-- Undefined: INPUT path -->
+  <rect x="580" y="344" width="460" height="390" rx="14" fill="#050818" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="580" y="344" width="460" height="7" rx="4" fill="#a855f7"/>
+  <text x="810" y="368" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c4b5fd" font-weight="700" letter-spacing="1">FREE TEXT MODE  ·  &lt;input&gt; TEXT</text>
+
+  <!-- Input UI simulation -->
+  <rect x="610" y="384" width="400" height="220" rx="8" fill="#060810" stroke="#3d2d7a" stroke-width="1"/>
+  <text x="810" y="406" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#c4b5fd" font-weight="600">Cable Patching Form</text>
+
+  <!-- Port A input -->
+  <text x="630" y="432" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Origin Port:</text>
+  <rect x="720" y="418" width="260" height="26" rx="4" fill="#0a0818" stroke="#6d3ab8" stroke-width="1"/>
+  <text x="732" y="435" font-family="'Segoe UI', monospace" font-size="10" fill="#e2e8f0">gi0/1</text>
+  <text x="988" y="435" font-family="'Segoe UI', monospace" font-size="8" fill="#334155">▌</text>
+  <text x="810" y="464" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">Any value accepted</text>
+  <text x="810" y="480" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">"gi0/1", "port 3", "trunk", etc.</text>
+
+  <!-- Port B input -->
+  <text x="630" y="520" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Destination:</text>
+  <rect x="720" y="506" width="260" height="26" rx="4" fill="#0a0818" stroke="#6d3ab8" stroke-width="1"/>
+  <text x="732" y="523" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Type port name...</text>
+
+  <text x="810" y="560" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#334155">───────────────────</text>
+  <text x="810" y="580" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">For devices without defined ports</text>
+  <text x="810" y="598" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Patch panels · Custom hardware</text>
+  <text x="810" y="616" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Legacy equipment</text>
+
+  <rect x="610" y="670" width="400" height="28" rx="8" fill="#a855f7" fill-opacity="0.1" stroke="#a855f7" stroke-width="0.8"/>
+  <text x="810" y="688" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a855f7" font-weight="600">Flexible · Free entry · Human readable</text>
+  <text x="810" y="720" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Backwards compatible · No port schema needed</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="786" x2="1060" y2="786" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="802" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Hybrid Network Ports</text>
+  <text x="1052" y="802" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/hybrid_network_ports.svg</text>
+</svg>

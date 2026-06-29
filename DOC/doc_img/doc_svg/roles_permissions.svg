@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="820" viewBox="0 0 1100 820">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0c1528"/>
+    </linearGradient>
+    <linearGradient id="redG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f43f5e;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#be123c;stop-opacity:0.05"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/></filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f43f5e"/>
+    </marker>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00d4ff"/>
+    </marker>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="820" fill="url(#bg)"/>
+  <rect width="1100" height="820" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="500" height="52" rx="6" fill="#0d1f30" stroke="#f43f5e" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#f43f5e" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f43f5e" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  SECURITY</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">RBAC  ·  ROLES &amp; PERMISSIONS MATRIX</text>
+
+  <!-- Role columns header -->
+  <text x="200" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8" letter-spacing="2">ADMIN (GOD MODE)</text>
+  <text x="550" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8" letter-spacing="2">EDITOR</text>
+  <text x="900" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8" letter-spacing="2">VIEWER</text>
+
+  <!-- Admin Card -->
+  <rect x="60" y="130" width="280" height="560" rx="14" fill="#0d0a1a" stroke="#f43f5e" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="60" y="130" width="280" height="70" rx="14" fill="#f43f5e" fill-opacity="0.12"/>
+  <rect x="60" y="130" width="280" height="8" rx="5" fill="#f43f5e"/>
+  <!-- Crown icon -->
+  <circle cx="200" cy="176" r="24" fill="#f43f5e" fill-opacity="0.15" stroke="#f43f5e" stroke-width="1"/>
+  <text x="200" y="183" text-anchor="middle" font-size="22">👑</text>
+  <text x="200" y="210" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="16" fill="#fca5a5" font-weight="700">Administrator</text>
+
+  <!-- Admin permissions -->
+  <line x1="80" y1="225" x2="320" y2="225" stroke="#f43f5e" stroke-width="0.5" stroke-opacity="0.3"/>
+  <!-- Permission row template -->
+  <g font-family="'Segoe UI', sans-serif" font-size="12">
+    <rect x="80" y="235" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="255" fill="#fca5a5">✓</text>
+    <text x="128" y="255" fill="#e2e8f0">Full system access</text>
+
+    <rect x="80" y="272" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="292" fill="#fca5a5">✓</text>
+    <text x="128" y="292" fill="#e2e8f0">View all passwords</text>
+
+    <rect x="80" y="309" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="329" fill="#fca5a5">✓</text>
+    <text x="128" y="329" fill="#e2e8f0">Edit architecture</text>
+
+    <rect x="80" y="346" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="366" fill="#fca5a5">✓</text>
+    <text x="128" y="366" fill="#e2e8f0">Export reports</text>
+
+    <rect x="80" y="383" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="403" fill="#fca5a5">✓</text>
+    <text x="128" y="403" fill="#e2e8f0">Manage users &amp; roles</text>
+
+    <rect x="80" y="420" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="440" fill="#fca5a5">✓</text>
+    <text x="128" y="440" fill="#e2e8f0">Drag &amp; Drop</text>
+
+    <rect x="80" y="457" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="477" fill="#fca5a5">✓</text>
+    <text x="128" y="477" fill="#e2e8f0">Delete racks / devices</text>
+
+    <rect x="80" y="494" width="240" height="30" rx="4" fill="#f43f5e" fill-opacity="0.05"/>
+    <text x="110" y="514" fill="#fca5a5">✓</text>
+    <text x="128" y="514" fill="#e2e8f0">Change system settings</text>
+  </g>
+
+  <!-- Admin crypto badge -->
+  <rect x="80" y="558" width="240" height="110" rx="8" fill="#1a0010" stroke="#f43f5e" stroke-width="0.8"/>
+  <text x="200" y="578" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f43f5e" letter-spacing="2" font-weight="600">AUTHENTICATION</text>
+  <text x="200" y="600" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Web Crypto API</text>
+  <text x="200" y="618" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">SHA-256 Hash (PIN)</text>
+  <text x="200" y="636" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">RAM Token (anti-tamper)</text>
+  <text x="200" y="655" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Auto-logout on tamper</text>
+
+  <!-- Editor Card -->
+  <rect x="410" y="130" width="280" height="560" rx="14" fill="#0d1a0a" stroke="#fbbf24" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="410" y="130" width="280" height="8" rx="5" fill="#fbbf24"/>
+  <rect x="410" y="130" width="280" height="70" rx="14" fill="#fbbf24" fill-opacity="0.08"/>
+  <circle cx="550" cy="176" r="24" fill="#fbbf24" fill-opacity="0.12" stroke="#fbbf24" stroke-width="1"/>
+  <text x="550" y="183" text-anchor="middle" font-size="22">🛠</text>
+  <text x="550" y="210" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="16" fill="#fde68a" font-weight="700">Editor</text>
+
+  <line x1="430" y1="225" x2="670" y2="225" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.3"/>
+
+  <g font-family="'Segoe UI', sans-serif" font-size="12">
+    <rect x="430" y="235" width="240" height="30" rx="4" fill="#fbbf24" fill-opacity="0.05"/>
+    <text x="460" y="255" fill="#fde68a">✓</text>
+    <text x="478" y="255" fill="#e2e8f0">View all data</text>
+
+    <rect x="430" y="272" width="240" height="30" rx="4" fill="#1a1200" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="460" y="292" fill="#f87171">✗</text>
+    <text x="478" y="292" fill="#64748b">Passwords → ••••••••</text>
+
+    <rect x="430" y="309" width="240" height="30" rx="4" fill="#fbbf24" fill-opacity="0.05"/>
+    <text x="460" y="329" fill="#fde68a">✓</text>
+    <text x="478" y="329" fill="#e2e8f0">Add / Move devices</text>
+
+    <rect x="430" y="346" width="240" height="30" rx="4" fill="#fbbf24" fill-opacity="0.05"/>
+    <text x="460" y="366" fill="#fde68a">✓</text>
+    <text x="478" y="366" fill="#e2e8f0">Manage cables</text>
+
+    <rect x="430" y="383" width="240" height="30" rx="4" fill="#fbbf24" fill-opacity="0.05"/>
+    <text x="460" y="403" fill="#fde68a">✓</text>
+    <text x="478" y="403" fill="#e2e8f0">Export data</text>
+
+    <rect x="430" y="420" width="240" height="30" rx="4" fill="#1a1200" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="460" y="440" fill="#f87171">✗</text>
+    <text x="478" y="440" fill="#64748b">Manage users</text>
+
+    <rect x="430" y="457" width="240" height="30" rx="4" fill="#fbbf24" fill-opacity="0.05"/>
+    <text x="460" y="477" fill="#fde68a">✓</text>
+    <text x="478" y="477" fill="#e2e8f0">Delete (with confirm)</text>
+
+    <rect x="430" y="494" width="240" height="30" rx="4" fill="#1a1200" stroke="#fbbf24" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="460" y="514" fill="#f87171">✗</text>
+    <text x="478" y="514" fill="#64748b">System settings</text>
+  </g>
+  <rect x="430" y="558" width="240" height="110" rx="8" fill="#120d00" stroke="#fbbf24" stroke-width="0.8"/>
+  <text x="550" y="578" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fbbf24" letter-spacing="2" font-weight="600">SESSION TOKEN</text>
+  <text x="550" y="600" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">sessionStorage</text>
+  <text x="550" y="618" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Role: "editor"</text>
+  <text x="550" y="636" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Integrity check on each</text>
+  <text x="550" y="655" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">protected action call</text>
+
+  <!-- Viewer Card -->
+  <rect x="760" y="130" width="280" height="560" rx="14" fill="#0d1220" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="760" y="130" width="280" height="8" rx="5" fill="#64748b"/>
+  <rect x="760" y="130" width="280" height="70" rx="14" fill="#64748b" fill-opacity="0.06"/>
+  <circle cx="900" cy="176" r="24" fill="#64748b" fill-opacity="0.12" stroke="#64748b" stroke-width="1"/>
+  <text x="900" y="183" text-anchor="middle" font-size="22">👁</text>
+  <text x="900" y="210" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="16" fill="#94a3b8" font-weight="700">Viewer</text>
+
+  <line x1="780" y1="225" x2="1020" y2="225" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+
+  <g font-family="'Segoe UI', sans-serif" font-size="12">
+    <rect x="780" y="235" width="240" height="30" rx="4" fill="#64748b" fill-opacity="0.05"/>
+    <text x="810" y="255" fill="#86efac">✓</text>
+    <text x="828" y="255" fill="#e2e8f0">Read-only tables</text>
+
+    <rect x="780" y="272" width="240" height="30" rx="4" fill="#0d0f1a" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="810" y="292" fill="#f87171">✗</text>
+    <text x="828" y="292" fill="#64748b">Passwords → ••••••••</text>
+
+    <rect x="780" y="309" width="240" height="30" rx="4" fill="#0d0f1a" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="810" y="329" fill="#f87171">✗</text>
+    <text x="828" y="329" fill="#64748b">No drag &amp; drop</text>
+
+    <rect x="780" y="346" width="240" height="30" rx="4" fill="#64748b" fill-opacity="0.05"/>
+    <text x="810" y="366" fill="#86efac">✓</text>
+    <text x="828" y="366" fill="#e2e8f0">View topology map</text>
+
+    <rect x="780" y="383" width="240" height="30" rx="4" fill="#0d0f1a" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="810" y="403" fill="#f87171">✗</text>
+    <text x="828" y="403" fill="#64748b">No export</text>
+
+    <rect x="780" y="420" width="240" height="30" rx="4" fill="#0d0f1a" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="810" y="440" fill="#f87171">✗</text>
+    <text x="828" y="440" fill="#64748b">No user management</text>
+
+    <rect x="780" y="457" width="240" height="30" rx="4" fill="#0d0f1a" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="810" y="477" fill="#f87171">✗</text>
+    <text x="828" y="477" fill="#64748b">No delete</text>
+
+    <rect x="780" y="494" width="240" height="30" rx="4" fill="#0d0f1a" stroke="#64748b" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="810" y="514" fill="#f87171">✗</text>
+    <text x="828" y="514" fill="#64748b">No settings</text>
+  </g>
+
+  <rect x="780" y="558" width="240" height="110" rx="8" fill="#070a12" stroke="#64748b" stroke-width="0.8"/>
+  <text x="900" y="578" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" letter-spacing="2" font-weight="600">SESSION TOKEN</text>
+  <text x="900" y="600" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">sessionStorage</text>
+  <text x="900" y="618" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">Role: "viewer"</text>
+  <text x="900" y="636" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">RackAuth.can("edit")</text>
+  <text x="900" y="655" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">→ returns false</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="782" x2="1060" y2="782" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="798" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  RBAC Roles and Permissions</text>
+  <text x="1052" y="798" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/roles_permissions.svg</text>
+</svg>

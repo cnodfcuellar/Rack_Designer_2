@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060d1a"/>
+      <stop offset="100%" style="stop-color:#0a1520"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/></filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1100" height="800" fill="url(#bg)"/>
+  <rect width="1100" height="800" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <rect x="40" y="28" width="460" height="52" rx="6" fill="#0d1f30" stroke="#94a3b8" stroke-width="0.8" stroke-opacity="0.6"/>
+  <line x1="40" y1="28" x2="40" y2="80" stroke="#94a3b8" stroke-width="3"/>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  PROJECT STRUCTURE</text>
+  <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">DIRECTORY STRUCTURE  ·  FULL PROJECT MAP</text>
+
+  <!-- Main tree area -->
+  <rect x="60" y="108" width="980" height="638" rx="12" fill="#060d1a" stroke="#1e3a5f" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="60" y="108" width="980" height="7" rx="4" fill="#334155"/>
+
+  <!-- Root -->
+  <text x="100" y="145" font-family="'Segoe UI', monospace" font-size="14" fill="#f0f6ff" font-weight="700">📂  Rack_Designer_2/  <tspan font-size="10" fill="#64748b">→ Project Root</tspan></text>
+
+  <!-- Column 1: Core files -->
+  <text x="130" y="180" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="180" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">📄 index.html</text>
+  <text x="380" y="180" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Entry point · Full DOM layout</text>
+
+  <text x="130" y="202" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="202" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">📄 service-worker.js</text>
+  <text x="380" y="202" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">PWA offline cache · Cache-first</text>
+
+  <text x="130" y="224" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="224" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">📄 package.json</text>
+  <text x="380" y="224" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">pnpm dependencies (marked, xlsx)</text>
+
+  <text x="130" y="246" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="246" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">📄 .gitignore</text>
+  <text x="380" y="246" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Excludes .agents/, node_modules/, .backup/</text>
+
+  <!-- Separator -->
+  <line x1="120" y1="256" x2="1020" y2="256" stroke="#1e3a5f" stroke-width="0.5"/>
+
+  <!-- .agents/ -->
+  <text x="130" y="278" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="278" font-family="'Segoe UI', monospace" font-size="11" fill="#f43f5e" font-weight="700">📁 .agents/</text>
+  <text x="380" y="278" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">AI agent instructions (git-ignored)</text>
+  <text x="190" y="296" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">├── DESIGN.md</text>
+  <text x="370" y="296" font-family="'Segoe UI', monospace" font-size="9" fill="#334155">→ UI rules, 24px grid, color palette</text>
+  <text x="190" y="312" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">├── INSTRUCTIONS.md</text>
+  <text x="370" y="312" font-family="'Segoe UI', monospace" font-size="9" fill="#334155">→ Workflow rules, pnpm mandate, changelog</text>
+  <text x="190" y="328" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">└── PROJECT_ANALYSIS.md</text>
+  <text x="370" y="328" font-family="'Segoe UI', monospace" font-size="9" fill="#334155">→ This architecture documentation</text>
+
+  <!-- js/ -->
+  <text x="130" y="356" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="356" font-family="'Segoe UI', monospace" font-size="11" fill="#a855f7" font-weight="700">📁 js/</text>
+  <text x="380" y="356" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">All JavaScript source code</text>
+  <text x="190" y="374" font-family="'Segoe UI', monospace" font-size="10" fill="#c4b5fd">├── main.js</text>
+  <text x="330" y="374" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ Orchestrator · init · events · performance mode</text>
+  <text x="190" y="390" font-family="'Segoe UI', monospace" font-size="10" fill="#c4b5fd">├── store.js</text>
+  <text x="330" y="390" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ Reactive state (ES6 Proxy · WeakMap · localStorage)</text>
+  <text x="190" y="406" font-family="'Segoe UI', monospace" font-size="10" fill="#c4b5fd">├── utils.js</text>
+  <text x="330" y="406" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ uuid() · validators · notification helpers</text>
+  <text x="190" y="422" font-family="'Segoe UI', monospace" font-size="10" fill="#c4b5fd">├── demoData.js</text>
+  <text x="330" y="422" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ Lazy-injected sample infrastructure</text>
+  <text x="190" y="438" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── 📁 models/</text>
+  <text x="330" y="438" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ Rack.js · Device.js · Cable.js</text>
+  <text x="190" y="454" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── 📁 auth/</text>
+  <text x="330" y="454" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ roles.js (RBAC · SHA-256 · token)</text>
+  <text x="190" y="470" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── 📁 core/</text>
+  <text x="330" y="470" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ export.js (CSV · PNG · XLSX)</text>
+  <text x="190" y="486" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── 📁 api/</text>
+  <text x="330" y="486" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ apiClient.js (future REST backend)</text>
+  <text x="190" y="502" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">└── 📁 ui/</text>
+  <text x="330" y="502" font-family="'Segoe UI', monospace" font-size="9" fill="#64748b">→ rack.js · catalog.js · tables.js · fileManager.js · modals/ · topology/</text>
+
+  <!-- Separator -->
+  <line x1="120" y1="514" x2="1020" y2="514" stroke="#1e3a5f" stroke-width="0.5"/>
+
+  <!-- Two column split for css, assets, doc -->
+  <!-- css/ -->
+  <text x="130" y="538" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="538" font-family="'Segoe UI', monospace" font-size="11" fill="#fbbf24" font-weight="700">📁 css/</text>
+  <text x="380" y="538" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Modular design system</text>
+  <text x="190" y="554" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── variables.css  → Color tokens · 24px grid · Fonts</text>
+  <text x="190" y="570" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── layout.css  → Grid · Flexbox · Header · Panels</text>
+  <text x="190" y="586" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── style.css  → Master @import file</text>
+  <text x="190" y="602" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">└── 📁 components/  → modals.css · rack.css · panels.css</text>
+
+  <!-- assets/ + doc/ -->
+  <text x="130" y="630" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">├──</text>
+  <text x="170" y="630" font-family="'Segoe UI', monospace" font-size="11" fill="#10b981" font-weight="700">📁 assets/</text>
+  <text x="380" y="630" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Static graphic resources</text>
+  <text x="190" y="646" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── icons/  → Monochrome SVGs by domain (/network /server /storage...)</text>
+  <text x="190" y="662" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">└── img/  → Photorealistic faceplates (SVG/PNG)</text>
+
+  <text x="130" y="688" font-family="'Segoe UI', monospace" font-size="11" fill="#64748b">└──</text>
+  <text x="170" y="688" font-family="'Segoe UI', monospace" font-size="11" fill="#60a5fa" font-weight="700">📁 doc/</text>
+  <text x="380" y="688" font-family="'Segoe UI', monospace" font-size="10" fill="#64748b">Project documentation</text>
+  <text x="190" y="704" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── log/CHANGELOG.md  → Mandatory change log (per session)</text>
+  <text x="190" y="720" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">├── doc-md/  → USER_MANUAL.md · TECHNICAL_DOCS.md</text>
+  <text x="190" y="736" font-family="'Segoe UI', monospace" font-size="10" fill="#94a3b8">└── doc_img/doc_svg/  → Architecture SVG diagrams (this file)</text>
+
+  <!-- Footer -->
+  <line x1="40" y1="762" x2="1060" y2="762" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
+  <text x="48" y="778" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Directory Structure</text>
+  <text x="1052" y="778" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/directory_structure.svg</text>
+</svg>

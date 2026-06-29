@@ -72,26 +72,27 @@ graph TD
 
 ## 4. Flujo de Trabajo (End-to-End)
 
-Sigue este tutorial paso a paso para crear tu primer centro de datos desde cero:
+El flujo de trabajo principal ("End-to-End") del usuario final en **RACK Designer 2** está pensado para ser un proceso visual e intuitivo, desde que se abre la aplicación hasta que se documenta y exporta la infraestructura. 
 
-### Fase 1: Preparar el Terreno
-1. **Acceso:** Abre `index.html` en tu navegador.
-2. **Rol:** Ingresa al Menú (☰) e inicia sesión como Administrador (PIN: `rack2024`).
-3. **Sala:** Haz clic en "Nueva Sala" y llámala "MDF Principal".
+### 1. Preparación del Entorno (Autenticación y Espacio)
+- **Acceso:** El usuario abre el archivo `index.html` en su navegador (todo funciona 100% offline, sin instalaciones complejas).
+- **Rol y Seguridad:** Accede al menú principal e inicia sesión ingresando su PIN para obtener permisos de edición (o permisos de Administrador para control total y ver contraseñas).
+- **Crear Sala:** Crea una nueva "Sala" (Room) para agrupar lógicamente los gabinetes (ej. "Datacenter Principal" o "Site A").
 
-### Fase 2: Instalar la Infraestructura Física
-4. **Rack:** Haz clic derecho en el lienzo azul dentro de tu nueva sala y elige "Nuevo Gabinete". Nómbralo "Rack Core" con un tamaño de 42U.
-5. **Hardware:** Abre el catálogo lateral. Arrastra un "Switch de Red 1U" a la Unidad 42 (arriba) y un "Servidor 2U" a la Unidad 10 (abajo).
-6. **Propiedades:** Haz *doble clic* sobre el Servidor recién instalado. Llena su dirección IP, Mac Address y consumo (ej. 500W). Guarda los cambios.
+### 2. Diseño Físico (Instalación de Hardware)
+- **Crear Gabinetes:** Dentro de la sala, el usuario crea "Racks" virtuales definiendo su capacidad física en unidades de rack (Ej. 42U) y su color.
+- **Drag & Drop:** Utilizando el catálogo lateral (sidebar), el usuario arrastra equipos (Switches, Servidores, PDUs, Patch Panels) hacia las ranuras o "U" específicas del rack. El catálogo se puede filtrar fácilmente por tipo de hardware.
+- **Configuración de Equipos:** Al hacer doble clic en cualquier equipo insertado, se abre un modal de edición donde el usuario registra sus credenciales, direcciones IP, MAC address, consumo energético en Watts, cantidad de puertos y notas adicionales.
 
-### Fase 3: Conectar Lógicamente (Topología)
-7. **Cambiar de Vista:** En la barra superior, haz clic en "Topología".
-8. **Enlazar:** Haz *doble clic* en el nodo de tu Switch y luego clic en el nodo de tu Servidor.
-9. **Puertos:** En el menú emergente, selecciona el puerto "ETH-01" del Switch y el puerto "NIC-1" del Servidor. Aplica el cable azul.
+### 3. Diseño Lógico (Topología y Cableado)
+- **Cambio de Vista:** Desde el menú superior, el usuario cambia de "Vista Física" a la vista de "Topología".
+- **Parcheo Interactivo:** En este lienzo interactivo 2D, el usuario hace doble clic en un nodo origen (ej. un Switch) y luego en el nodo destino (ej. un Servidor) para tender un cable de red.
+- **Asignación de Puertos:** Selecciona de forma exacta qué puerto físico conecta con cuál (ej. `ETH-24` conectando con `NIC-1`) y el color del cable para identificar la VLAN o el tipo de enlace.
 
-### Fase 4: Auditoría y Respaldo
-10. **Tablas:** Abre el panel inferior y ve a la pestaña "Conexiones". Verás tu enlace documentado. Exporta esta tabla a CSV si lo deseas.
-11. **Guardar:** Ve al Menú Principal (☰) y haz clic en **Guardar Proyecto**. Se descargará un archivo `rack_backup.json` en tu carpeta de descargas. ¡Has terminado tu primer diseño!
+### 4. Auditoría, Exportación y Respaldo
+- **Panel de Control Inferior:** El usuario despliega el panel inferior para ver tablas masivas autogeneradas que consolidan todo el hardware ("Inventario") y todos los cables tendidos ("Conexiones").
+- **Reportes:** Con un clic, exporta estas tablas de inventario hacia un archivo de Excel (`.xlsx`) o `.csv` para compartir con gerencia o contabilidad.
+- **Autoguardado y Respaldos:** Aunque el sistema va autoguardando todo temporalmente, el usuario finaliza su día yendo al menú principal y haciendo clic en **"Guardar Proyecto"**. Esto genera un archivo `.json` que descarga en su computadora con la copia maestra de todo su diseño, el cual puede volver a cargar el día de mañana.
 
 ---
 > [!TIP]
