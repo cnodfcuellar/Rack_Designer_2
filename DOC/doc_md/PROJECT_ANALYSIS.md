@@ -45,6 +45,7 @@ Módulos que escuchan al `store` y mutan el DOM:
 * **`js/ui/modals/`**: Submódulos separados para cada ventana específica (`DeviceModal.js` para formularios colapsables, `CableModal.js` para los parcheos de red inteligentes, `RoomModal.js`, etc.).
 * **`js/ui/rack.js`**: Motor de renderizado del hardware. Pinta el chasis del gabinete y encaja los equipos SVG pixel-perfect dentro de sus ranuras U.
 * **`js/ui/catalog.js`**: Administra la galería lateral izquierda (el catálogo) y sus lógicas de Drag & Drop (arrastrar y soltar).
+* **`js/ui/outliner.js`**: Genera el árbol de jerarquía (Outliner) en el panel derecho, permitiendo visualizar la estructura completa de salas, racks y equipos de piso, además de renderizar las estadísticas globales.
 * **`js/ui/tables.js`**: Controla el bloque inferior masivo del sistema, pintando las tablas de inventario en tiempo real.
 * **`js/ui/fileManager.js`**: Interfaz moderna de interacción con el sistema de archivos local (`window.showOpenFilePicker`) para abrir y guardar los `.json` directamente en el disco.
 * **`js/ui/topology/`**: El ecosistema gráfico de red en Canvas 2D. Está dividido en un patrón MVC estricto: `TopologyState`, `TopologyRenderer`, `TopologyLayout` y un `TopologyOrchestrator`.
@@ -54,7 +55,7 @@ Módulos que escuchan al `store` y mutan el DOM:
 ## 5. Directorio `css/` (Sistema de Diseño)
 Arquitectura modular de estilos.
 * **`variables.css`**: Todos los tokens del proyecto (colores dark/light, grosores, medidas fijas).
-* **`layout.css`**: El andamiaje (Grid y Flexbox) que posiciona la cabecera, catálogo, lienzo central y panel inferior.
+* **`layout.css`**: El andamiaje (CSS Grid de 3 columnas) que posiciona la cabecera, catálogo izquierdo, lienzo central, panel derecho (Outliner) y panel inferior.
 * **`style.css`**: Archivo puente que consolida todas las importaciones.
 * **`css/components/`**: Archivos de micro-estilos para modales, paneles colapsables e inputs genéricos.
 

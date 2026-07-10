@@ -26,14 +26,14 @@ Para mantener el código mantenible, no mezcles lógica:
 * `/js/api/` y `/js/core/`: Conexión externa (mocks) y utilidades pesadas como exportación JSON.
 * `/js/store.js`: **Persistencia y Reactividad.** Define cómo mutan los datos. No sabe nada de HTML o CSS, sólo coordina los Modelos y dispara eventos.
 * `/js/utils.js`: Funciones auxiliares genéricas (generación de UUIDs, validaciones).
-* `/js/ui/`: **La Vista.** Aquí van los componentes que pintan el HTML (ej. `rack.js`, `topology.js`, `modals.js`). Estos archivos leen del store y generan el DOM.
+* `/js/ui/`: **La Vista.** Aquí van los componentes que pintan el HTML (ej. `rack.js`, `topology.js`, `modals.js`, `outliner.js`). Estos archivos leen del store y generan el DOM.
 * `/css/` y `/assets/`: Estilos CSS segmentados y recursos estáticos (imágenes).
 * `/doc/` y `/tests/`: Documentación y pruebas unitarias base.
 
 ### 4. ¿Dónde encontrar la documentación técnica profunda?
-Antes de tocar el código de renderizado o intentar entender cómo funciona el Canvas de la Topología o el Drag & Drop, abre el archivo:
-👉 `doc/html/arquitectura_2.html` en tu navegador.
-Ahí encontrarás diagramas interactivos detallando el ciclo de vida, los módulos, cómo funciona el Viaje en el Tiempo (Undo/Redo) y el ruteo del cableado.
+Antes de tocar el código de renderizado o intentar entender cómo funciona el Canvas de la Topología o el Drag & Drop, abre los siguientes archivos:
+👉 `doc/doc_md/CODEBASE_ORIENTATION_MAP.md` y `doc/doc_md/PROJECT_ANALYSIS.md`
+Ahí encontrarás el mapa arquitectónico detallando el ciclo de vida, los módulos, cómo funciona el Viaje en el Tiempo (Undo/Redo) y el ruteo del cableado.
 
 ### 5. ¿Qué librerías externas se usan?
 Se cargan vía CDN directamente en el `<head>` del `index.html`:
