@@ -42,7 +42,7 @@ function renderOutliner() {
             const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
             html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
               <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--blue); margin-right:4px;"></span>
-              ${escapeHTML(dev.name)} <span style="font-size:11px; opacity:0.7;">(U${dev.position})</span>
+              ${escapeHTML(dev.name)}
             </li>`;
           });
       }
