@@ -15,8 +15,11 @@
 - **Protección de renderizado:** Se envolvió `renderRackSelector()` en `try-catch` para evitar que un error en el selector de racks rompa toda la cadena de `renderAll()`.
 - **Error de Referencia de Topología**: Se corrigió un `ReferenceError: renderTopology is not defined` en `js/main.js` al hacer clic en el botón de **Estilo** en la vista de topología. Se reemplazó la llamada por un control condicional seguro a `drawTopo()`.
 
-### Mejoras Visuales
-- **Barra de Herramientas Transparente:** La barra de controles del canvas (zoom, PNG, Estilo, Expandir) ahora tiene fondo 100% transparente y flota sobre el canvas en la parte superior con `position: absolute`. Los botones individuales mantienen `pointer-events: auto` mientras el fondo deja pasar clics al canvas debajo.
+### Mejoras Visuales y UX
+- **Rediseño del Header:** Se reorganizó la cabecera principal (`.header-main-area`). Los selectores de Salas y Racks se movieron a la izquierda con íconos de despliegue (`▶`), y los tabs de vista (Física/Topología) se alinearon a la derecha.
+- **Barra de Herramientas Transparente:** La barra de controles del canvas ahora tiene fondo 100% transparente y flota sobre el canvas en la parte superior.
+- **Equipos de Piso Inteligentes:** El panel inferior de equipos de piso ahora tiene ancho autoescalable: ocupa exactamente el ancho de un rack (`260px`) si está vacío, o se expande al `100%` debajo de los racks si está ocupado.
+- **Menú Unificado en Piso:** Se reemplazaron los botones directos de editar/eliminar en las tarjetas de piso por un único botón de opciones (`⋮`) que despliega el menú contextual, unificando la experiencia con el resto de la interfaz. También se corrigió un problema de CSS (`faceplates.css`) que impedía ver estos botones al hacer hover.
 
 
 ## [2026-06-24] Rediseño y Reubicación de Diagramas SVG (AI Agents)

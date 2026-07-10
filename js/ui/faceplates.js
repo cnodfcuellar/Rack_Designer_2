@@ -146,8 +146,7 @@ function getFloorFaceplate(device) {
         <div class="floor-device-meta">${escapeHTML(device.ip) || escapeHTML(device.type).toUpperCase()}</div>
       </div>
       <div class="device-actions">
-        <button class="dev-btn edit" data-edit-dev="${device.id}" title="Editar">✎</button>
-        <button class="dev-btn del" data-del-dev="${device.id}" title="Eliminar">🗑</button>
+        <button class="dev-btn menu" data-menu-dev="${device.id}" title="Opciones" style="background:none; border:none; font-size:16px; padding:0 8px; color:var(--text-muted); cursor:pointer;">⋮</button>
       </div>
     </div>`;
 }

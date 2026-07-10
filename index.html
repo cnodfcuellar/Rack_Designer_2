@@ -69,16 +69,11 @@
       </div>
     </div>
     <div class="header-main-area">
-      <div class="view-tabs" style="margin-left: 24px;">
-        <button class="view-tab active" data-view="physical"><span class="status-dot-nav active"></span> Vista Física</button>
-        <button class="view-tab" data-view="topology"><span class="status-dot-nav"></span> Topología</button>
-      </div>
-
       <div class="h-divider"></div>
 
       <!-- Menú Desplegable de Salas -->
       <div class="nav-dropdown-wrapper" id="room-dropdown-wrapper">
-        <button class="nav-dropdown-toggle" id="room-dropdown-toggle">v</button>
+        <button class="nav-dropdown-toggle" id="room-dropdown-toggle">▶</button>
         <div id="room-tabs-active"></div>
         <button class="nav-btn-add" id="btn-add-room" title="Nueva sala" aria-label="Añadir nueva sala">+</button>
         <div class="nav-dropdown-list hidden" id="room-dropdown-list"></div>
@@ -88,10 +83,17 @@
 
       <!-- Menú Desplegable de Racks -->
       <div class="nav-dropdown-wrapper" id="rack-dropdown-wrapper">
-        <button class="nav-dropdown-toggle" id="rack-dropdown-toggle">v</button>
+        <button class="nav-dropdown-toggle" id="rack-dropdown-toggle">▶</button>
         <div id="rack-tabs-active"></div>
         <button class="nav-btn-add" id="btn-add-rack-nav" title="Nuevo rack" aria-label="Añadir nuevo rack">+</button>
         <div class="nav-dropdown-list hidden" id="rack-dropdown-list"></div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="physical"><span class="status-dot-nav active"></span> Vista Física</button>
+        <button class="view-tab" data-view="topology"><span class="status-dot-nav"></span> Topología</button>
       </div>
 
       <div class="spacer"></div>

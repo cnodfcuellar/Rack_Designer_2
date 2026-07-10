@@ -247,6 +247,12 @@ function bindRackEvents(container, flippedRacks) {
       }
     });
   });
+  container.querySelectorAll('.dev-btn.menu').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      showContextMenu(e.clientX, e.clientY, btn.dataset.menuDev);
+    });
+  });
 
   container.querySelectorAll('.floor-device-card').forEach(card => {
     card.addEventListener('dblclick', e => {
@@ -492,7 +498,7 @@ function renderFloorSection(roomId) {
   const section = document.createElement('div');
   section.className = 'floor-section';
   section.dataset.roomId = roomId;
-  section.style.width = '100%';
+  section.style.width = floorDevices.length === 0 ? '260px' : '100%';
   section.innerHTML = `
     <div class="floor-section-header">
       <span>Equipos de Piso / Periféricos</span>
