@@ -16,7 +16,7 @@ function renderOutliner() {
     html += `
       <li>
         <details open>
-          <summary style="cursor:pointer; padding:4px 0; font-weight:600; color:var(--text); user-select:none;">
+          <summary class="outliner-item" data-type="room" data-id="${room.id}" style="cursor:pointer; padding:4px 0; font-weight:600; color:var(--text); user-select:none; ${window.appState && window.appState.selectedType==='room' && window.appState.selectedId===room.id ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : ''}">
              ${escapeHTML(room.name)}
           </summary>
           <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
@@ -28,7 +28,7 @@ function renderOutliner() {
       html += `
         <li>
           <details>
-            <summary style="cursor:pointer; padding:3px 0; color:var(--text-secondary); user-select:none;">
+            <summary class="outliner-item" data-type="rack" data-id="${rack.id}" style="cursor:pointer; padding:3px 0; color:var(--text-secondary); user-select:none; ${window.appState && window.appState.selectedType==='rack' && window.appState.selectedId===rack.id ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : ''}">
                ${escapeHTML(rack.name)}
             </summary>
             <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
@@ -38,9 +38,9 @@ function renderOutliner() {
           html += `<li style="padding:2px 0; color:var(--text-muted); font-size:12px; font-style:italic;">Vacío</li>`;
       } else {
           rackDevs.forEach(dev => {
-            const isSelected = window.appState && window.appState.selectedDeviceId === dev.id;
+            const isSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
             const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
-            html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-dev-id="${dev.id}" title="Click para inspector, Doble clic para editar">
+            html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
               <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--blue); margin-right:4px;"></span>
               ${escapeHTML(dev.name)} <span style="font-size:11px; opacity:0.7;">(U${dev.position})</span>
             </li>`;
@@ -65,9 +65,9 @@ function renderOutliner() {
             <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
       `;
       floorDevs.forEach(dev => {
-        const isSelected = window.appState && window.appState.selectedDeviceId === dev.id;
+        const isSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
         const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
-        html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-dev-id="${dev.id}" title="Click para inspector, Doble clic para editar">
+        html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
               <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--purple); margin-right:4px;"></span>
               ${escapeHTML(dev.name)}
             </li>`;
@@ -93,27 +93,32 @@ function renderOutliner() {
   container.querySelectorAll('.outliner-item').forEach(item => {
     item.addEventListener('click', e => {
       e.stopPropagation();
-      const devId = item.dataset.devId;
+      const type = item.dataset.type;
+      const id = item.dataset.id;
       
       // Set global selection state
       window.appState = window.appState || {};
-      window.appState.selectedDeviceId = devId;
+      window.appState.selectedType = type;
+      window.appState.selectedId = id;
 
       // Highlight selected node (remove from others)
       container.querySelectorAll('.outliner-item').forEach(el => el.style.background = 'transparent');
       item.style.background = 'rgba(255,255,255,0.05)';
       item.style.borderRadius = '4px';
 
-      if (devId && typeof window.renderInspector === 'function') {
-        window.renderInspector('device', devId);
+      if (id && type && typeof window.renderInspector === 'function') {
+        window.renderInspector(type, id);
       }
     });
 
     item.addEventListener('dblclick', e => {
       e.stopPropagation();
-      const devId = item.dataset.devId;
-      if (devId && typeof window.openEditDeviceModal === 'function') {
-        window.openEditDeviceModal(devId);
+      const type = item.dataset.type;
+      const id = item.dataset.id;
+      if (type === 'device' && id && typeof window.openEditDeviceModal === 'function') {
+        window.openEditDeviceModal(id);
+      } else if (type === 'rack' && id && typeof window.openEditRackModal === 'function') {
+        window.openEditRackModal(id);
       }
     });
 
@@ -128,8 +133,8 @@ function renderOutliner() {
     });
   });
 
-  // Re-render inspector if a device is currently selected
-  if (window.appState && window.appState.selectedDeviceId && typeof window.renderInspector === 'function') {
-    window.renderInspector('device', window.appState.selectedDeviceId);
+  // Re-render inspector if an entity is currently selected
+  if (window.appState && window.appState.selectedType && window.appState.selectedId && typeof window.renderInspector === 'function') {
+    window.renderInspector(window.appState.selectedType, window.appState.selectedId);
   }
 }

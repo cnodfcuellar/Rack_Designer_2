@@ -83,5 +83,75 @@ window.renderInspector = function(entityType, entityId) {
     `;
 
     container.innerHTML = html;
+  } else if (entityType === 'rack') {
+    const rack = data.racks.find(r => r.id === entityId);
+    if (!rack) return;
+    const room = data.rooms.find(r => r.id === rack.roomId);
+    
+    let html = `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+            <i class="fa-solid fa-server"></i>
+          </div>
+          <div style="flex:1; overflow:hidden;">
+            <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</div>
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">GABINETE</div>
+          </div>
+        </div>
+        
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Ubicación:</span>
+            <span style="color:var(--text); font-size:12px; font-weight:600;">${room ? escapeHTML(room.name) : 'Desconocida'}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Capacidad:</span>
+            <span style="color:var(--text); font-size:12px; font-weight:600;">${rack.height} U</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Color:</span>
+            <span style="display:inline-block; width:16px; height:16px; border-radius:4px; background:${rack.color || '#0ea5e9'};"></span>
+          </div>
+        </div>
+        
+        <button class="btn-secondary" style="width:100%; justify-content:center; padding:8px; margin-top:4px;" onclick="if(typeof openEditRackModal === 'function') openEditRackModal('${rack.id}')">
+          <i class="fa-solid fa-pen-to-square"></i> Editar Gabinete
+        </button>
+      </div>
+    `;
+    container.innerHTML = html;
+  } else if (entityType === 'room') {
+    const room = data.rooms.find(r => r.id === entityId);
+    if (!room) return;
+    
+    const racksCount = data.racks.filter(r => r.roomId === room.id).length;
+    const devsCount = data.devices.filter(d => d.roomId === room.id).length;
+    
+    let html = `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <div style="flex:1; overflow:hidden;">
+            <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(room.name)}</div>
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">SALA / DATACENTER</div>
+          </div>
+        </div>
+        
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Total Gabinetes:</span>
+            <span style="color:var(--text); font-size:12px; font-weight:600;">${racksCount}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Total Equipos:</span>
+            <span style="color:var(--text); font-size:12px; font-weight:600;">${devsCount}</span>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML = html;
   }
 };
