@@ -69,10 +69,29 @@
       </div>
     </div>
     <div class="header-main-area">
-      
       <div class="view-tabs" style="margin-left: 24px;">
-        <button class="view-tab active" data-view="physical">⬛ Vista Física</button>
-        <button class="view-tab" data-view="topology">◎ Topología</button>
+        <button class="view-tab active" data-view="physical"><span class="status-dot-nav active"></span> Vista Física</button>
+        <button class="view-tab" data-view="topology"><span class="status-dot-nav"></span> Topología</button>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <!-- Menú Desplegable de Salas -->
+      <div class="nav-dropdown-wrapper" id="room-dropdown-wrapper">
+        <button class="nav-dropdown-toggle" id="room-dropdown-toggle">v</button>
+        <div id="room-tabs-active"></div>
+        <button class="nav-btn-add" id="btn-add-room" title="Nueva sala" aria-label="Añadir nueva sala">+</button>
+        <div class="nav-dropdown-list hidden" id="room-dropdown-list"></div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <!-- Menú Desplegable de Racks -->
+      <div class="nav-dropdown-wrapper" id="rack-dropdown-wrapper">
+        <button class="nav-dropdown-toggle" id="rack-dropdown-toggle">v</button>
+        <div id="rack-tabs-active"></div>
+        <button class="nav-btn-add" id="btn-add-rack-nav" title="Nuevo rack" aria-label="Añadir nuevo rack">+</button>
+        <div class="nav-dropdown-list hidden" id="rack-dropdown-list"></div>
       </div>
 
       <div class="spacer"></div>
@@ -161,11 +180,7 @@
       <span class="zoom-label" id="zoom-level">100%</span>
       <button class="h-btn" id="btn-zoom-in" aria-label="Acercar zoom">+</button>
       <button class="h-btn" id="btn-zoom-reset" aria-label="Restablecer zoom a escala original">⊙ 1:1</button>
-      <div class="h-divider"></div>
       
-      <div class="room-tabs" id="room-tabs"></div>
-      <button class="room-tab-add" id="btn-add-room" title="Nueva sala" aria-label="Añadir nueva sala">+</button>
-
       <div class="spacer"></div>
       
       <button class="h-btn" id="btn-export-png">📸 PNG</button>
@@ -524,6 +539,7 @@
   <script src="js/ui/tables.js"></script>
   <script src="js/ui/fileManager.js"></script>
   <script src="js/auth/roles.js"></script>
+  <script src="js/demoData.js"></script>
   <script src="js/main.js"></script>
 
 <!-- ============================

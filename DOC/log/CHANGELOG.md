@@ -1,3 +1,24 @@
+## [2026-07-10] Mapa de Orientación del Código (Onboarding Engineer)
+
+### Actualización de Documentación
+- **Mapa de Orientación**: Creación de `doc/doc_md/CODEBASE_ORIENTATION_MAP.md` que detalla de forma exhaustiva y técnica la arquitectura modular, flujos de datos reactivos (Proxy ES6), y límites de las capas del proyecto para agilizar el onboarding de desarrolladores.
+
+### Rediseño de la Cabecera Principal y Navegación
+- **Dropdowns de Salas y Racks:** Se rediseñó la cabecera principal (`header-main-area`) trasladando la navegación de salas desde la barra inferior hacia la parte superior.
+- **Selector Inteligente de Racks:** Se añadió un menú desplegable que lista dinámicamente todos los racks de la sala activa, permitiendo salto rápido y resaltado visual (scroll).
+- **Estilos CSS Modernizados:** Se utilizaron menús flotantes (`position: absolute`) para evitar la deformación del layout principal al desplegar, además de sustituir emojis por puntos indicadores CSS de estado activo/inactivo (`.status-dot-nav`).
+
+### Corrección de Errores (Bugfixes)
+- **Error Crítico de Racks en Sala:** Se corrigió un error grave al intentar usar `store.allRacksInRoom()` que no existía, cambiándolo por el filtrado nativo `store._raw.racks.filter(...)`, lo cual rompía la inicialización visual completa del entorno.
+- **Fallo al Cerrar Sesión:** El handler de logout estaba enterrado dentro de `initChangePinModal()`, haciéndolo dependiente de la inicialización del menú de proyecto. Se reubicó directamente en `init()` para garantizar su registro independiente. Se usa `window.location.reload()` para un reseteo limpio.
+- **Demos no cargaban en `file:///`:** La carga dinámica de `demoData.js` via `document.createElement('script')` fallaba por restricciones CORS del navegador en protocolo `file:///`. Se añadió `demoData.js` como `<script>` estático en `index.html`.
+- **Protección de renderizado:** Se envolvió `renderRackSelector()` en `try-catch` para evitar que un error en el selector de racks rompa toda la cadena de `renderAll()`.
+- **Error de Referencia de Topología**: Se corrigió un `ReferenceError: renderTopology is not defined` en `js/main.js` al hacer clic en el botón de **Estilo** en la vista de topología. Se reemplazó la llamada por un control condicional seguro a `drawTopo()`.
+
+### Mejoras Visuales
+- **Barra de Herramientas Transparente:** La barra de controles del canvas (zoom, PNG, Estilo, Expandir) ahora tiene fondo 100% transparente y flota sobre el canvas en la parte superior con `position: absolute`. Los botones individuales mantienen `pointer-events: auto` mientras el fondo deja pasar clics al canvas debajo.
+
+
 ## [2026-06-24] Rediseño y Reubicación de Diagramas SVG (AI Agents)
 
 ### Actualización de Documentación

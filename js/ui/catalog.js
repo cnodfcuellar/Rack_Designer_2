@@ -132,40 +132,120 @@ function renderCatalog() {
 }
 
 function renderRoomTabs() {
-  const tabs = document.getElementById('room-tabs');
-  if(!tabs) return;
-  tabs.innerHTML = store._raw.rooms.map(r => `
+  const activeContainer = document.getElementById('room-tabs-active');
+  const dropdownList = document.getElementById('room-dropdown-list');
+  if(!activeContainer || !dropdownList) return;
+
+  const currentRoom = store._raw.rooms.find(r => r.id === store._raw.currentRoomId) || store._raw.rooms[0];
+  
+  // Render active room
+  activeContainer.innerHTML = `
+    <button class="room-tab active" data-room-id="${escapeHTML(currentRoom.id)}">
+      <span class="status-dot-nav active"></span> ${escapeHTML(currentRoom.name)}
+    </button>
+  `;
+
+  // Render dropdown list
+  dropdownList.innerHTML = store._raw.rooms.map(r => `
     <button class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}">
-      🏢 ${escapeHTML(r.name)}
+      <span class="status-dot-nav ${r.id === store._raw.currentRoomId ? 'active' : ''}"></span> ${escapeHTML(r.name)}
       ${store._raw.rooms.length > 1 ? `<span class="close-btn" data-del-room="${escapeHTML(r.id)}">✕</span>` : ''}
     </button>
   `).join('');
-  tabs.querySelectorAll('.room-tab').forEach(btn => {
-    btn.addEventListener('click', e => {
-      if (e.target.dataset.delRoom) { deleteRoom(e.target.dataset.delRoom); return; }
-      store._raw.currentRoomId = btn.dataset.roomId;
-      store._emit('change', { source: 'changeRoom' });
-    });
-    
-    const editRoom = (e) => {
-      if (e.target.dataset.delRoom) return;
-      e.preventDefault();
-      const roomId = btn.dataset.roomId;
-      const room = store._raw.rooms.find(r => r.id === roomId);
-      if (room) {
-        const newName = prompt('Editar nombre de la sala:', room.name);
-        if (newName !== null && newName.trim() !== '') {
-          store.snapshot();
-          room.name = newName.trim();
-          store._save();
-          store._emit('change', { source: 'room-rename' });
-          notify('Sala renombrada a ' + room.name, 'success');
+
+  // Attach events
+  const attachEvents = (container) => {
+    container.querySelectorAll('.room-tab').forEach(btn => {
+      btn.addEventListener('click', e => {
+        if (e.target.dataset.delRoom) { deleteRoom(e.target.dataset.delRoom); return; }
+        store._raw.currentRoomId = btn.dataset.roomId;
+        store._emit('change', { source: 'changeRoom' });
+        dropdownList.classList.add('hidden'); // Close dropdown on select
+      });
+      
+      const editRoom = (e) => {
+        if (e.target.dataset.delRoom) return;
+        e.preventDefault();
+        const roomId = btn.dataset.roomId;
+        const room = store._raw.rooms.find(r => r.id === roomId);
+        if (room) {
+          const newName = prompt('Editar nombre de la sala:', room.name);
+          if (newName !== null && newName.trim() !== '') {
+            store.snapshot();
+            room.name = newName.trim();
+            store._save();
+            store._emit('change', { source: 'room-rename' });
+            notify('Sala renombrada a ' + room.name, 'success');
+          }
         }
+      };
+      btn.addEventListener('dblclick', editRoom);
+      btn.addEventListener('contextmenu', editRoom);
+    });
+  };
+
+  attachEvents(activeContainer);
+  attachEvents(dropdownList);
+}
+
+function renderRackSelector() {
+  try {
+  const activeContainer = document.getElementById('rack-tabs-active');
+  const dropdownList = document.getElementById('rack-dropdown-list');
+  const dropdownWrapper = document.getElementById('rack-dropdown-wrapper');
+  if(!activeContainer || !dropdownList || !dropdownWrapper) return;
+
+  const racks = store._raw.racks.filter(r => r.roomId === store._raw.currentRoomId);
+  
+  if (racks.length === 0) {
+    activeContainer.innerHTML = `<button class="room-tab" style="cursor:default; opacity:0.5;">Sin Racks</button>`;
+    dropdownList.innerHTML = '';
+    return;
+  }
+
+  // Por ahora, mostrar el primer rack de la lista como "activo" en la barra
+  // (La selección de rack es solo visual para scrollear hacia él, no guarda un 'currentRackId' en el store actual)
+  // Pero podemos simplemente mostrar "Racks (N)" o el primero.
+  // En tu diseño dice [ • Rack101 ]. Asumiremos que muestra el primer rack por defecto o el último clickeado.
+  // Para mantenerlo simple, mostraremos el texto "Seleccionar Rack" o el primer rack.
+  const displayRack = racks[0];
+
+  activeContainer.innerHTML = `
+    <button class="room-tab active" data-rack-id="${escapeHTML(displayRack.id)}">
+      <span class="status-dot-nav active"></span> Racks (${racks.length})
+    </button>
+  `;
+
+  dropdownList.innerHTML = racks.map(r => `
+    <button class="room-tab" data-target-rack="${escapeHTML(r.id)}">
+      <span class="status-dot-nav"></span> ${escapeHTML(r.name)}
+    </button>
+  `).join('');
+
+  dropdownList.querySelectorAll('.room-tab').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = btn.dataset.targetRack;
+      const el = document.querySelector(`.rack-wrapper[data-rack-id="${targetId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'center' });
+        
+        // Destacar el rack visualmente
+        el.style.boxShadow = '0 0 20px var(--accent)';
+        setTimeout(() => { el.style.boxShadow = ''; }, 1500);
       }
-    };
-    btn.addEventListener('dblclick', editRoom);
-    btn.addEventListener('contextmenu', editRoom);
+      dropdownList.classList.add('hidden');
+      
+      // Actualizar el texto del activo
+      const rackName = store._raw.racks.find(r => r.id === targetId)?.name || 'Rack';
+      activeContainer.innerHTML = `
+        <button class="room-tab active">
+          <span class="status-dot-nav active"></span> ${escapeHTML(rackName)}
+        </button>
+      `;
+    });
   });
+  } catch(e) { console.error('[renderRackSelector] Error:', e); }
 }
 
 function renderStats() {

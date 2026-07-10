@@ -152,14 +152,6 @@ function initChangePinModal() {
     show(okEl);
     setTimeout(closePinModal, 1500);
   });
-
-  // Click on badge → logout confirmation
-  document.getElementById('user-badge')?.addEventListener('click', () => {
-    if (confirm(`¿Cerrar sesión como ${RackAuth.getCurrentUser()?.name}?\n\nSe mostrará el modal de login.`)) {
-      RackAuth.logout();
-      initAuthModal();
-    }
-  });
 }
 
 // ===== FIN AUTENTICACIÓN =====
@@ -169,6 +161,7 @@ function renderAll(event = {}) {
   
   if (!source || ['loadData', 'undo', 'redo'].includes(source)) {
     renderRoomTabs();
+    renderRackSelector();
     renderStats();
     renderCatalog();
     renderPhysical();
@@ -180,6 +173,7 @@ function renderAll(event = {}) {
 
   if (source.includes('Room') || source === 'room-rename' || source === 'changeRoom') {
     renderRoomTabs();
+    renderRackSelector();
     renderPhysical();
     if (currentView === 'topology') {
       initTopoPositions();
@@ -187,6 +181,7 @@ function renderAll(event = {}) {
   }
   
   if (source.includes('Rack')) {
+    renderRackSelector();
     renderStats();
     renderPhysical();
   }
@@ -237,7 +232,7 @@ function initGlobalEvents() {
   
   document.getElementById('btn-topo-style').addEventListener('click', () => {
     window.TOPOLOGY_STYLE = window.TOPOLOGY_STYLE === 'card' ? 'circle' : 'card';
-    if (currentView === 'topology') renderTopology();
+    if (currentView === 'topology' && typeof drawTopo === 'function') drawTopo();
   });
 
   const statusDot = document.querySelector('.status-dot');
@@ -302,10 +297,28 @@ function initGlobalEvents() {
       dropdown.classList.toggle('hidden');
     });
     document.addEventListener('click', e => {
-      if (!dropdown.contains(e.target)) dropdown.classList.add('hidden');
+      if (!dropdown.contains(e.target) && !btnMenu.contains(e.target)) dropdown.classList.add('hidden');
       if (!e.target.closest('.rack-hdr-btns')) {
         document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => m.classList.add('hidden'));
       }
+      
+      // Close nav dropdowns
+      if (!e.target.closest('.nav-dropdown-wrapper')) {
+        document.querySelectorAll('.nav-dropdown-list').forEach(list => list.classList.add('hidden'));
+      }
+    });
+
+    document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const wrapper = btn.closest('.nav-dropdown-wrapper');
+        const list = wrapper.querySelector('.nav-dropdown-list');
+        // Close others
+        document.querySelectorAll('.nav-dropdown-list').forEach(l => {
+          if (l !== list) l.classList.add('hidden');
+        });
+        list.classList.toggle('hidden');
+      });
     });
 
     document.getElementById('menu-theme')?.addEventListener('click', () => {
@@ -558,6 +571,7 @@ function initGlobalEvents() {
 
   // Header buttons
   document.getElementById('btn-add-rack').addEventListener('click', openAddRackModal);
+  document.getElementById('btn-add-rack-nav')?.addEventListener('click', openAddRackModal);
   document.getElementById('btn-add-device-modal').addEventListener('click', openAddDeviceModal);
   const addDevTableBtn = document.getElementById('table-btn-add-device');
   if(addDevTableBtn) addDevTableBtn.addEventListener('click', openAddDeviceModal);
@@ -637,6 +651,19 @@ function init() {
     console.log('[RackAuth] Sin sesión, mostrando modal de login...');
     // Pequeño delay para que el DOM termine de renderizar
     setTimeout(() => initAuthModal(), 100);
+  }
+
+  // Logout — registrar siempre, funciona con file:// y http://
+  const badge = document.getElementById('user-badge');
+  if (badge) {
+    badge.addEventListener('click', () => {
+      const user = RackAuth.getCurrentUser();
+      const userName = user ? user.name : 'Usuario';
+      if (confirm('¿Cerrar sesión como ' + userName + '?')) {
+        RackAuth.logout();
+        window.location.reload();
+      }
+    });
   }
 
   // PWA Service Worker Registration
