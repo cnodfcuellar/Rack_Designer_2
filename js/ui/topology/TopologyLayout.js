@@ -2,6 +2,7 @@ function initTopoPositions() {
   loadTopoState();
   const margin = 80;
   let currentRoomX = margin;
+  const spacing = window.TOPO_SPACING || 60;
 
   store._raw.rooms.forEach(room => {
     const racks = store._raw.racks.filter(r => r.roomId === room.id);
@@ -10,7 +11,7 @@ function initTopoPositions() {
 
     racks.forEach(rack => {
       const devices = store.allDevicesInRack(rack.id).filter(d => !['organizer', 'tray'].includes(d.type));
-      const rh = Math.max(200, devices.length * 60 + 80);
+      const rh = Math.max(200, devices.length * spacing + 80);
       const rw = 200;
       
       if (!rackPositions[rack.id]) {
@@ -24,7 +25,7 @@ function initTopoPositions() {
         if (!nodePositions[dev.id]) {
           nodePositions[dev.id] = {
             x: rackPositions[rack.id].x + rackSizes[rack.id].w / 2,
-            y: rackPositions[rack.id].y + 60 + di * 60
+            y: rackPositions[rack.id].y + 60 + di * spacing
           };
         }
       });
@@ -47,7 +48,7 @@ function initTopoPositions() {
     floorDevices.forEach((dev, fi) => {
       if (!nodePositions[dev.id]) {
         nodePositions[dev.id] = {
-          x: roomPositions[room.id].x + 50 + (fi % 4) * 60,
+          x: roomPositions[room.id].x + 50 + (fi % 4) * spacing,
           y: roomPositions[room.id].y + roomSizes[room.id].h - 50
         };
       }
@@ -63,3 +64,43 @@ function resizeCanvas() {
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
 }
+
+window.recalcTopoSpacing = function(newSpacing) {
+  window.TOPO_SPACING = newSpacing;
+  
+  store._raw.rooms.forEach(room => {
+    const racks = store._raw.racks.filter(r => r.roomId === room.id);
+    let maxRackH = 100;
+    
+    racks.forEach(rack => {
+      const devices = store.allDevicesInRack(rack.id).filter(d => !['organizer', 'tray'].includes(d.type));
+      const rh = Math.max(200, devices.length * newSpacing + 80);
+      
+      if (rackSizes[rack.id]) {
+        rackSizes[rack.id].h = rh;
+      }
+      
+      devices.forEach((dev, di) => {
+        if (nodePositions[dev.id] && rackPositions[rack.id]) {
+          nodePositions[dev.id].y = rackPositions[rack.id].y + 60 + di * newSpacing;
+        }
+      });
+      
+      if (rh > maxRackH) maxRackH = rh;
+    });
+    
+    if (roomSizes[room.id]) {
+      roomSizes[room.id].h = maxRackH + 140;
+    }
+    
+    const floorDevices = store.allFloorDevicesInRoom(room.id).filter(d => !['organizer', 'tray'].includes(d.type));
+    floorDevices.forEach((dev, fi) => {
+      if (nodePositions[dev.id] && roomPositions[room.id]) {
+        nodePositions[dev.id].y = roomPositions[room.id].y + roomSizes[room.id].h - 50;
+        nodePositions[dev.id].x = roomPositions[room.id].x + 50 + (fi % 4) * newSpacing;
+      }
+    });
+  });
+  
+  saveTopo();
+};
