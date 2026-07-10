@@ -26,7 +26,7 @@ Para mantener el código mantenible, no mezcles lógica:
 * `/js/api/` y `/js/core/`: Conexión externa (mocks) y utilidades pesadas como exportación JSON.
 * `/js/store.js`: **Persistencia y Reactividad.** Define cómo mutan los datos. No sabe nada de HTML o CSS, sólo coordina los Modelos y dispara eventos.
 * `/js/utils.js`: Funciones auxiliares genéricas (generación de UUIDs, validaciones).
-* `/js/ui/`: **La Vista.** Aquí van los componentes que pintan el HTML (ej. `rack.js`, `topology.js`, `modals.js`, `outliner.js`). Estos archivos leen del store y generan el DOM.
+* `/js/ui/`: **La Vista.** Aquí van los componentes que pintan el HTML (ej. `rack.js`, `topology.js`, `modals.js`, `outliner.js`, `inspector.js`). Estos archivos leen del store y generan el DOM.
 * `/css/` y `/assets/`: Estilos CSS segmentados y recursos estáticos (imágenes).
 * `/doc/` y `/tests/`: Documentación y pruebas unitarias base.
 

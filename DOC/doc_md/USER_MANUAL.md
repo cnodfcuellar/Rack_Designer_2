@@ -49,10 +49,11 @@ Alterna entre vista **Física** (los racks de frente) y vista de **Topología** 
 - **Nodos:** Cada equipo y sala se representa como un círculo interactivo.
 - **Conectar Puertos:** Haz *Doble Clic* en un equipo de origen, luego en el equipo de destino. Se abrirá el menú para elegir puertos físicos (Ej. ETH1 a ETH2) y crear el enlace.
 
-### E. Panel Derecho (Outliner y Estadísticas)
-El panel lateral derecho condensa la información global:
-- **Outliner (Árbol Jerárquico):** Un explorador en forma de árbol, similar al de herramientas 3D, que lista dinámicamente tus Salas, Gabinetes y Equipos (incluidos los Equipos de Piso). Al dar clic sobre cualquier equipo, se abrirá directamente su ventana de edición.
-- **Estadísticas de Capacidad:** En la parte inferior de este panel, se consolida la cantidad de gabinetes, número total de equipos, unidades U ocupadas frente a las totales, y la estimación de consumo de energía.
+### E. Panel Derecho (Outliner, Inspector y Estadísticas)
+El panel lateral derecho condensa la información global de la infraestructura:
+- **Outliner (Árbol Jerárquico):** Un explorador en forma de árbol que lista dinámicamente tus Salas, Gabinetes y Equipos. Al hacer un clic simple sobre cualquier elemento, sus propiedades se mostrarán en el Inspector. Con doble clic, se abrirá directamente su ventana de edición.
+- **Inspector de Propiedades:** Situado debajo del Outliner, muestra un resumen rápido y de solo lectura de las características del elemento seleccionado (como direcciones IP, MAC, conectores, consumo o capacidad) y provee un botón de acceso rápido para editarlo.
+- **Estadísticas de Capacidad:** En la parte inferior, se consolida la cantidad de gabinetes, número total de equipos, unidades U ocupadas frente a las totales y la estimación de consumo de energía. Puedes hacer clic en el título "Estadísticas" (o en la flecha ▼) para contraer esta sección y darle más espacio visual al Inspector.
 
 ---
 

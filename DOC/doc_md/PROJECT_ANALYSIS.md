@@ -45,7 +45,8 @@ Módulos que escuchan al `store` y mutan el DOM:
 * **`js/ui/modals/`**: Submódulos separados para cada ventana específica (`DeviceModal.js` para formularios colapsables, `CableModal.js` para los parcheos de red inteligentes, `RoomModal.js`, etc.).
 * **`js/ui/rack.js`**: Motor de renderizado del hardware. Pinta el chasis del gabinete y encaja los equipos SVG pixel-perfect dentro de sus ranuras U.
 * **`js/ui/catalog.js`**: Administra la galería lateral izquierda (el catálogo) y sus lógicas de Drag & Drop (arrastrar y soltar).
-* **`js/ui/outliner.js`**: Genera el árbol de jerarquía (Outliner) en el panel derecho, permitiendo visualizar la estructura completa de salas, racks y equipos de piso, además de renderizar las estadísticas globales.
+* **`js/ui/outliner.js`**: Genera el árbol de jerarquía (Outliner) interactivo en el panel derecho superior. Gestiona el estado de selección de Salas, Gabinetes y Equipos.
+* **`js/ui/inspector.js`**: Controlador del "Inspector de Propiedades" central en el panel derecho. Renderiza dinámicamente tarjetas de solo lectura con atributos físicos y lógicos del ítem seleccionado.
 * **`js/ui/tables.js`**: Controla el bloque inferior masivo del sistema, pintando las tablas de inventario en tiempo real.
 * **`js/ui/fileManager.js`**: Interfaz moderna de interacción con el sistema de archivos local (`window.showOpenFilePicker`) para abrir y guardar los `.json` directamente en el disco.
 * **`js/ui/topology/`**: El ecosistema gráfico de red en Canvas 2D. Está dividido en un patrón MVC estricto: `TopologyState`, `TopologyRenderer`, `TopologyLayout` y un `TopologyOrchestrator`.

@@ -33,8 +33,9 @@ Este documento sirve como guía arquitectónica y técnica para desarrolladores 
 3. [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js): Inicializador y despachador de eventos globales. Vincula los componentes visuales y la inicialización de autenticación.
 4. [js/auth/roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js): Implementación de la criptografía SHA-256 y la verificación de permisos por rol.
 5. [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js): Controlador del renderizado físico de los racks y la detección de inserción rápida o drag-and-drop.
-6. [js/ui/outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js): Genera el árbol jerárquico (Salas > Racks > Equipos) y centraliza la visualización de inventario estructurado.
-7. [js/ui/topology/TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js): Coordinador principal de la vista de red (Canvas 2D), inicializando render loops y manejadores de interacción.
+6. [js/ui/outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js): Genera el árbol jerárquico (Salas > Racks > Equipos) e interactúa con el estado de selección.
+7. [js/ui/inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js): Controlador del panel central derecho que lee el estado de selección y pinta una tarjeta de lectura rápida con las propiedades del objeto.
+8. [js/ui/topology/TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js): Coordinador principal de la vista de red (Canvas 2D), inicializando render loops y manejadores de interacción.
 
 ### Flujo Principal de Código
 ```mermaid

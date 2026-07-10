@@ -1,3 +1,15 @@
+## [2026-07-10] Panel de Propiedades y Refactorización del Outliner
+
+### Nuevas Características y UI
+- **Inspector de Propiedades:** Se introdujo un panel central dinámico (`js/ui/inspector.js`) que renderiza de manera instantánea y en modo de solo lectura los detalles del objeto seleccionado en el Outliner. Soporta mostrar propiedades completas de Salas, Gabinetes y Equipos (con íconos dinámicos FontAwesome).
+- **Outliner Mejorado:** El árbol jerárquico (`js/ui/outliner.js`) ahora soporta un estado de selección interactivo global. Al hacer clic simple sobre una Sala, Gabinete o Equipo, el Inspector se actualiza. El doble clic continúa abriendo el modal de edición correspondiente (DeviceModal, RoomModal, RackModal). Se removió un artefacto visual de "U" no definida de la vista.
+- **Estadísticas Colapsables:** El panel de estadísticas inferior ahora puede contraerse haciendo clic en su cabecera para otorgar más espacio visual al nuevo Inspector.
+- **Soporte SVG:** Se actualizó el layout a `modals_accordions.svg` con la nueva configuración.
+
+### Actualización de Documentación
+- **Manual de Usuario:** Se actualizó `USER_MANUAL.md` para reflejar el comportamiento del nuevo Panel Derecho (Outliner interactivo, Inspector y Estadísticas colapsables).
+- **Arquitectura:** Se integró `inspector.js` a `CODEBASE_ORIENTATION_MAP.md` y `PROJECT_ANALYSIS.md` junto con los flujos de lectura en README.
+
 ## [2026-07-10] Mapa de Orientación del Código (Onboarding Engineer)
 
 ### Actualización de Documentación
