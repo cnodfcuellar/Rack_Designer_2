@@ -166,8 +166,11 @@
         <div style="text-align:center; padding-top:20px; color:var(--text-muted); font-style:italic;">Ningún elemento seleccionado</div>
       </div>
     </div>
-    <div class="right-panel-section">
-      <div class="panel-header">Estadísticas</div>
+    <div class="right-panel-section" id="stats-section">
+      <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('stats-section').classList.toggle('collapsed')">
+        <span>Estadísticas</span>
+        <span class="toggle-icon">▼</span>
+      </div>
       <div id="stats-content" style="flex: 1; overflow-y: auto; padding: 12px;">
         <div class="sb-stats" id="sidebar-stats">
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Gabinetes">
