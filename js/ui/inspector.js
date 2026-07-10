@@ -18,7 +18,7 @@ window.renderInspector = function(entityType, entityId) {
   const container = document.getElementById('inspector-content');
   if (!container) return;
 
-  const data = window.store._raw;
+  const data = store._raw;
   if (!entityId || !entityType) {
     container.innerHTML = '<div style="text-align:center; padding-top:20px; color:var(--text-muted); font-style:italic;">Ningún elemento seleccionado</div>';
     return;
