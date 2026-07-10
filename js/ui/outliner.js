@@ -38,7 +38,9 @@ function renderOutliner() {
           html += `<li style="padding:2px 0; color:var(--text-muted); font-size:12px; font-style:italic;">Vacío</li>`;
       } else {
           rackDevs.forEach(dev => {
-            html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer;" class="outliner-item" data-dev-id="${dev.id}" title="Click para editar">
+            const isSelected = window.appState && window.appState.selectedDeviceId === dev.id;
+            const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
+            html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-dev-id="${dev.id}" title="Click para inspector, Doble clic para editar">
               <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--blue); margin-right:4px;"></span>
               ${escapeHTML(dev.name)} <span style="font-size:11px; opacity:0.7;">(U${dev.position})</span>
             </li>`;
@@ -63,7 +65,9 @@ function renderOutliner() {
             <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
       `;
       floorDevs.forEach(dev => {
-        html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer;" class="outliner-item" data-dev-id="${dev.id}" title="Click para editar">
+        const isSelected = window.appState && window.appState.selectedDeviceId === dev.id;
+        const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
+        html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-dev-id="${dev.id}" title="Click para inspector, Doble clic para editar">
               <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--purple); margin-right:4px;"></span>
               ${escapeHTML(dev.name)}
             </li>`;
@@ -90,12 +94,42 @@ function renderOutliner() {
     item.addEventListener('click', e => {
       e.stopPropagation();
       const devId = item.dataset.devId;
-      if (devId && typeof openEditDeviceModal === 'function') {
-        openEditDeviceModal(devId);
+      
+      // Set global selection state
+      window.appState = window.appState || {};
+      window.appState.selectedDeviceId = devId;
+
+      // Highlight selected node (remove from others)
+      container.querySelectorAll('.outliner-item').forEach(el => el.style.background = 'transparent');
+      item.style.background = 'rgba(255,255,255,0.05)';
+      item.style.borderRadius = '4px';
+
+      if (devId && typeof window.renderInspector === 'function') {
+        window.renderInspector('device', devId);
       }
     });
+
+    item.addEventListener('dblclick', e => {
+      e.stopPropagation();
+      const devId = item.dataset.devId;
+      if (devId && typeof window.openEditDeviceModal === 'function') {
+        window.openEditDeviceModal(devId);
+      }
+    });
+
     // Add hover effect
-    item.addEventListener('mouseenter', () => { item.style.color = 'var(--text)'; });
-    item.addEventListener('mouseleave', () => { item.style.color = 'var(--text-muted)'; });
+    item.addEventListener('mouseenter', () => { 
+      item.style.color = 'var(--text)'; 
+      if(item.style.background === 'transparent' || !item.style.background) item.style.background = 'rgba(255,255,255,0.02)';
+    });
+    item.addEventListener('mouseleave', () => { 
+      item.style.color = 'var(--text-muted)'; 
+      if(item.style.background === 'rgba(255, 255, 255, 0.02)') item.style.background = 'transparent';
+    });
   });
+
+  // Re-render inspector if a device is currently selected
+  if (window.appState && window.appState.selectedDeviceId && typeof window.renderInspector === 'function') {
+    window.renderInspector('device', window.appState.selectedDeviceId);
+  }
 }
