@@ -42,13 +42,17 @@ Todo en RACK Designer 2 vive dentro de una **Sala**:
 El panel inferior es tu centro de comandos:
 - **Catálogo Lateral:** Arrastra (Drag & Drop) servidores, switches, PDUs o routers desde el menú lateral izquierdo hacia una U vacía en tu rack.
 - **Filtros de Catálogo:** Usa los botones (Network, Server, Storage, Piso) para filtrar la lista de hardware disponible.
-- **Vista de Estadísticas:** Muestra el consumo eléctrico (Watts), Unidades U libres y peso estimado.
 - **Tablas de Inventario y Conexiones:** Visualiza todos tus equipos en formato Excel.
 
 ### D. Topología y Redes (Vista Lógica)
 Alterna entre vista **Física** (los racks de frente) y vista de **Topología** usando los botones centrales superiores.
 - **Nodos:** Cada equipo y sala se representa como un círculo interactivo.
 - **Conectar Puertos:** Haz *Doble Clic* en un equipo de origen, luego en el equipo de destino. Se abrirá el menú para elegir puertos físicos (Ej. ETH1 a ETH2) y crear el enlace.
+
+### E. Panel Derecho (Outliner y Estadísticas)
+El panel lateral derecho condensa la información global:
+- **Outliner (Árbol Jerárquico):** Un explorador en forma de árbol, similar al de herramientas 3D, que lista dinámicamente tus Salas, Gabinetes y Equipos (incluidos los Equipos de Piso). Al dar clic sobre cualquier equipo, se abrirá directamente su ventana de edición.
+- **Estadísticas de Capacidad:** En la parte inferior de este panel, se consolida la cantidad de gabinetes, número total de equipos, unidades U ocupadas frente a las totales, y la estimación de consumo de energía.
 
 ---
 

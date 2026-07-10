@@ -23,7 +23,7 @@ Este documento sirve como guía arquitectónica y técnica para desarrolladores 
 - **Archivos locales**: Carga de plantillas JSON o archivos `.rack` y backups del catálogo de inventario.
 
 ### Salidas Primarias
-- **Renderizado del DOM / Canvas 2D**: Actualizaciones continuas sobre la cabecera, catálogo, estadísticas, chasis físicos y el lienzo dinámico del Canvas.
+- **Renderizado del DOM / Canvas 2D**: Actualizaciones continuas sobre la cabecera, catálogo, panel derecho (Outliner y Estadísticas), chasis físicos y el lienzo dinámico del Canvas.
 - **Exportaciones**: Descargas en formatos PNG (fotografías fotorrealistas con front/rear side-by-side de racks), archivos CSV y hojas de cálculo Excel (`xlsx.full.min.js`).
 - **Persistencia**: Escritura directa en archivos del disco duro (`showSaveFilePicker` / file handle) y autoguardado en `localStorage` bajo la clave `RACK_DESIGNER_STATE`.
 
@@ -33,7 +33,8 @@ Este documento sirve como guía arquitectónica y técnica para desarrolladores 
 3. [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js): Inicializador y despachador de eventos globales. Vincula los componentes visuales y la inicialización de autenticación.
 4. [js/auth/roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js): Implementación de la criptografía SHA-256 y la verificación de permisos por rol.
 5. [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js): Controlador del renderizado físico de los racks y la detección de inserción rápida o drag-and-drop.
-6. [js/ui/topology/TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js): Coordinador principal de la vista de red (Canvas 2D), inicializando render loops y manejadores de interacción.
+6. [js/ui/outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js): Genera el árbol jerárquico (Salas > Racks > Equipos) y centraliza la visualización de inventario estructurado.
+7. [js/ui/topology/TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js): Coordinador principal de la vista de red (Canvas 2D), inicializando render loops y manejadores de interacción.
 
 ### Flujo Principal de Código
 ```mermaid
