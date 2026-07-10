@@ -284,13 +284,16 @@ function initGlobalEvents() {
       updateZoomLabel();
       const phys = document.getElementById('view-physical');
       const topo = document.getElementById('topology-canvas');
+      const btnStyle = document.getElementById('btn-topo-style');
       if (currentView === 'physical') {
         phys.classList.remove('hidden');
         topo.style.display = 'none';
+        if (btnStyle) btnStyle.style.display = 'none';
         stopTopo();
       } else {
         phys.classList.add('hidden');
         topo.style.display = 'block';
+        if (btnStyle) btnStyle.style.display = '';
         startTopo();
       }
     });
