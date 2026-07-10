@@ -240,7 +240,6 @@ function initGlobalEvents() {
   
   document.getElementById('btn-topo-style').addEventListener('click', () => {
     window.TOPOLOGY_STYLE = window.TOPOLOGY_STYLE === 'card' ? 'circle' : 'card';
-    if (currentView === 'topology' && typeof drawTopo === 'function') drawTopo();
   });
 
   const statusDot = document.querySelector('.status-dot');
@@ -288,12 +287,12 @@ function initGlobalEvents() {
       if (currentView === 'physical') {
         phys.classList.remove('hidden');
         topo.style.display = 'none';
-        if (btnStyle) btnStyle.style.display = 'none';
+        if (btnStyle) btnStyle.classList.add('force-hide');
         stopTopo();
       } else {
         phys.classList.add('hidden');
         topo.style.display = 'block';
-        if (btnStyle) btnStyle.style.display = '';
+        if (btnStyle) btnStyle.classList.remove('force-hide');
         startTopo();
       }
     });
@@ -642,7 +641,7 @@ function init() {
   const topoCanvas = document.getElementById('topology-canvas');
   if(topoCanvas) topoCanvas.style.display = 'none';
   const btnStyle = document.getElementById('btn-topo-style');
-  if (btnStyle) btnStyle.style.display = 'none';
+  if (btnStyle) btnStyle.classList.add('force-hide');
 
   renderAll();
   notify('⚡ RACK Designer modularizado', 'success', 2500);
