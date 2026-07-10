@@ -113,7 +113,7 @@ function drawTopo() {
 
   // Draw Connections
   if (!document.body.classList.contains('no-animations')) {
-    flowT = (flowT + 0.015) % 1;
+    flowT = (flowT + 0.0075) % 1;
   }
   store._raw.connections.forEach(conn => {
     const srcPos = nodePositions[conn.sourceDeviceId];
