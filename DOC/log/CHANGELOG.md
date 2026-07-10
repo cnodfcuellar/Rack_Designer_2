@@ -20,6 +20,8 @@
 - **Barra de Herramientas Transparente:** La barra de controles del canvas ahora tiene fondo 100% transparente y flota sobre el canvas en la parte superior.
 - **Equipos de Piso Inteligentes:** El panel inferior de equipos de piso ahora tiene ancho autoescalable: ocupa exactamente el ancho de un rack (`260px`) si está vacío, o se expande al `100%` debajo de los racks si está ocupado.
 - **Menú Unificado en Piso:** Se reemplazaron los botones directos de editar/eliminar en las tarjetas de piso por un único botón de opciones (`⋮`) que despliega el menú contextual, unificando la experiencia con el resto de la interfaz. También se corrigió un problema de CSS (`faceplates.css`) que impedía ver estos botones al hacer hover.
+- **Nuevo Panel Derecho (Outliner):** Se dividió la pantalla en 3 columnas principales, añadiendo un panel derecho (260px). Se implementó un Outliner (árbol jerárquico estilo Blender) para visualizar y acceder rápidamente a todos los equipos, agrupados por Sala, Rack y Equipos de Piso.
+- **Reubicación de Estadísticas:** Se eliminó la caja redundante del título de estadísticas en el panel izquierdo y se trasladaron los "pills" de indicadores (Gabinetes, Equipos, U ocupadas, Potencia) al nuevo panel derecho para compartir espacio debajo del Outliner, aprovechando mejor la verticalidad.
 
 
 ## [2026-06-24] Rediseño y Reubicación de Diagramas SVG (AI Agents)

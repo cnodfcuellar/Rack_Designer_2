@@ -4,17 +4,21 @@
 #app { 
   display: grid; 
   grid-template-rows: var(--header-h) 1fr auto; 
-  grid-template-columns: var(--sidebar-w) 1fr; 
+  grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w); 
   grid-template-areas: 
-    "header header"
-    "sidebar main"
-    "bottom bottom";
+    "header header header"
+    "sidebar main right-panel"
+    "bottom bottom bottom";
   height: 100vh; 
   overflow: hidden; 
 }
 #header  { grid-area: header; display: flex; align-items: center; padding: 0; background: var(--bg-card); border-bottom: 1px solid var(--border); z-index: 100; }
 #sidebar { grid-area: sidebar; background: var(--bg-card); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; z-index: 90; }
 #main    { grid-area: main; overflow: hidden; position: relative; background: var(--bg-main); z-index: 10; }
+#right-panel { grid-area: right-panel; background: var(--bg-card); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; z-index: 90; }
+.right-panel-section { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.right-panel-section:nth-child(2) { border-top: 1px solid var(--border); }
+.right-panel-section .panel-header { background: var(--bg-card2); padding: 8px 12px; font-weight: bold; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
 #bottom  { grid-area: bottom; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; flex-direction: column; transition: opacity 0.2s ease, transform 0.2s ease; height: var(--bottom-h); overflow: hidden; z-index: 50; }
 #bottom.collapsed { height: 38px !important; }
 

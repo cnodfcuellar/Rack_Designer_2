@@ -39,6 +39,7 @@
 }
 :root {
   --sidebar-w:    280px;
+  --right-panel-w: 260px;
   --header-h:     56px;
   --bottom-h:     220px;
   --rack-unit-h:  24px;

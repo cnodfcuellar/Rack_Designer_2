@@ -163,6 +163,8 @@ function renderAll(event = {}) {
     renderRoomTabs();
     renderRackSelector();
     renderStats();
+    renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
     renderCatalog();
     renderPhysical();
     renderBottomPanel();
@@ -183,17 +185,23 @@ function renderAll(event = {}) {
   if (source.includes('Rack')) {
     renderRackSelector();
     renderStats();
+    renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
     renderPhysical();
   }
   
   if (source.includes('Device') || source === 'addFloorDevice' || source === 'moveDevice' || source === 'deleteDevice' || source === 'updateDevice' || source === 'addDeviceToRack') {
     renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    
     renderPhysical();
     renderBottomPanel();
   }
   
   if (source.includes('Connection')) {
     renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    
     renderBottomPanel();
   }
 
@@ -595,12 +603,7 @@ function initGlobalEvents() {
     e.target.textContent = bottom.classList.contains('fullscreen') ? '⛶ Contraer' : '⛶ Expandir';
   });
 
-  document.getElementById('toggle-stats').addEventListener('click', () => {
-    const container = document.getElementById('stats-container');
-    const chevron = document.getElementById('stats-chevron');
-    container.classList.toggle('hidden');
-    chevron.textContent = container.classList.contains('hidden') ? '►' : '▼';
-  });
+
 
   const tableSearch = document.getElementById('table-search');
   if(tableSearch) tableSearch.addEventListener('input', renderBottomPanel);
