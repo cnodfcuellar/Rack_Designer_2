@@ -251,6 +251,13 @@ function initGlobalEvents() {
     });
   }
 
+  const btnAutoOrder = document.getElementById('btn-topo-autoorder');
+  if (btnAutoOrder) {
+    btnAutoOrder.addEventListener('click', () => {
+      if (typeof autoOrderTopo === 'function') autoOrderTopo();
+    });
+  }
+
   const statusDot = document.querySelector('.status-dot');
   if (statusDot) {
     statusDot.style.cursor = 'pointer';
@@ -294,17 +301,20 @@ function initGlobalEvents() {
       const topo = document.getElementById('topology-canvas');
       const btnStyle = document.getElementById('btn-topo-style');
       const spacingSlider = document.getElementById('topo-spacing');
+      const btnAutoOrd = document.getElementById('btn-topo-autoorder');
       if (currentView === 'physical') {
         phys.classList.remove('hidden');
         topo.style.display = 'none';
         if (btnStyle) btnStyle.classList.add('force-hide');
         if (spacingSlider) spacingSlider.classList.add('force-hide');
+        if (btnAutoOrd) btnAutoOrd.classList.add('force-hide');
         stopTopo();
       } else {
         phys.classList.add('hidden');
         topo.style.display = 'block';
         if (btnStyle) btnStyle.classList.remove('force-hide');
         if (spacingSlider) spacingSlider.classList.remove('force-hide');
+        if (btnAutoOrd) btnAutoOrd.classList.remove('force-hide');
         startTopo();
       }
     });

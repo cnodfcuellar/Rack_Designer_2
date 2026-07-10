@@ -65,6 +65,62 @@ function resizeCanvas() {
   canvas.height = canvas.offsetHeight;
 }
 
+window.autoOrderTopo = function() {
+  const margin = 80;
+  let currentRoomX = margin;
+  const spacing = window.TOPO_SPACING || 60;
+
+  // Reset all positions so everything is recalculated from scratch
+  nodePositions = {};
+  rackPositions = {};
+  roomPositions = {};
+  rackSizes = {};
+  roomSizes = {};
+
+  store._raw.rooms.forEach(room => {
+    const racks = store._raw.racks.filter(r => r.roomId === room.id);
+    let currentRackX = currentRoomX + 40;
+    let maxRackH = 100;
+
+    racks.forEach(rack => {
+      const devices = store.allDevicesInRack(rack.id).filter(d => !['organizer', 'tray'].includes(d.type));
+      const rh = Math.max(200, devices.length * spacing + 80);
+      const rw = 200;
+
+      rackPositions[rack.id] = { x: currentRackX, y: margin + 80 };
+      rackSizes[rack.id] = { w: rw, h: rh };
+
+      devices.forEach((dev, di) => {
+        nodePositions[dev.id] = {
+          x: rackPositions[rack.id].x + rackSizes[rack.id].w / 2,
+          y: rackPositions[rack.id].y + 60 + di * spacing
+        };
+      });
+
+      currentRackX += rackSizes[rack.id].w + 40;
+      if (rackSizes[rack.id].h > maxRackH) maxRackH = rackSizes[rack.id].h;
+    });
+
+    const roomW = Math.max(300, currentRackX - currentRoomX);
+    const roomH = maxRackH + 140;
+    roomPositions[room.id] = { x: currentRoomX, y: margin };
+    roomSizes[room.id] = { w: roomW, h: roomH };
+
+    const floorDevices = store.allFloorDevicesInRoom(room.id).filter(d => !['organizer', 'tray'].includes(d.type));
+    floorDevices.forEach((dev, fi) => {
+      nodePositions[dev.id] = {
+        x: roomPositions[room.id].x + 50 + (fi % 4) * spacing,
+        y: roomPositions[room.id].y + roomSizes[room.id].h - 50
+      };
+    });
+
+    currentRoomX += roomSizes[room.id].w + 80;
+  });
+
+  saveTopo();
+  notify('🗂 Topología reordenada automáticamente', 'success', 2000);
+};
+
 window.recalcTopoSpacing = function(newSpacing) {
   window.TOPO_SPACING = newSpacing;
   
