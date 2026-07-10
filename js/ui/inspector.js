@@ -1,5 +1,19 @@
 /* js/ui/inspector.js */
 
+function getIconForDeviceType(type) {
+  switch(type) {
+    case 'server': return 'fa-solid fa-server';
+    case 'switch':
+    case 'router': return 'fa-solid fa-network-wired';
+    case 'patch_panel': return 'fa-solid fa-grip-vertical';
+    case 'pdu': return 'fa-solid fa-plug';
+    case 'ups': return 'fa-solid fa-battery-half';
+    case 'firewall': return 'fa-solid fa-shield-halved';
+    case 'storage': return 'fa-solid fa-database';
+    default: return 'fa-solid fa-box';
+  }
+}
+
 window.renderInspector = function(entityType, entityId) {
   const container = document.getElementById('inspector-content');
   if (!container) return;
@@ -26,7 +40,7 @@ window.renderInspector = function(entityType, entityId) {
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
-            <i class="${getIconForType(dev.type)}"></i>
+            <i class="${getIconForDeviceType(dev.type)}"></i>
           </div>
           <div style="flex:1; overflow:hidden;">
             <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;" title="${escapeHTML(dev.name)}">${escapeHTML(dev.name)}</div>
