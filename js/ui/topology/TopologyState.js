@@ -25,9 +25,15 @@ function loadTopoState() {
     roomPositions = top.roomPositions || {};
     roomSizes = top.roomSizes || {};
     rackSizes = top.rackSizes || {};
+    // Restore saved spacing value and sync slider UI
+    if (top.topoSpacing) {
+      window.TOPO_SPACING = top.topoSpacing;
+      const slider = document.getElementById('topo-spacing');
+      if (slider) slider.value = top.topoSpacing;
+    }
   }
 }
 
 function saveTopo() {
-  store.saveTopologyState({ nodePositions, rackPositions, roomPositions, roomSizes, rackSizes });
+  store.saveTopologyState({ nodePositions, rackPositions, roomPositions, roomSizes, rackSizes, topoSpacing: window.TOPO_SPACING || 60 });
 }

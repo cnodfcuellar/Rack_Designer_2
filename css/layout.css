@@ -498,3 +498,13 @@ input[type="text"], input[type="number"], input[type="password"], select, .botto
     box-sizing: border-box !important;
 }
 .force-hide { display: none !important; }
+
+/* Topology spacing slider - NOT a button, no h-btn normalization needed */
+.topo-slider {
+  height: 24px;
+  width: 100px;
+  cursor: pointer;
+  accent-color: var(--accent);
+  background: transparent;
+  vertical-align: middle;
+}
