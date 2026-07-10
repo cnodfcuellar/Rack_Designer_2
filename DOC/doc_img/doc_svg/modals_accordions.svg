@@ -84,7 +84,7 @@
   <rect x="624" y="168" width="412" height="36" rx="6" fill="#0d1a2a" stroke="#60a5fa" stroke-width="1.5"/>
   <text x="644" y="190" font-family="'Segoe UI', sans-serif" font-size="10" fill="#93c5fd" font-weight="600">▼ Identity &amp; Location</text>
   <text x="1016" y="190" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="9" fill="#4ade80">always visible</text>
-  <rect x="624" y="204" width="412" height="50" rx="0" rx="0" fill="#050e18" stroke="#1e3a5f" stroke-width="0.5"/>
+  <rect x="624" y="204" width="412" height="50" rx="0" fill="#050e18" stroke="#1e3a5f" stroke-width="0.5"/>
   <text x="644" y="224" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">Name: [_____________]   Rack: [_____] U: [__]</text>
   <text x="644" y="242" font-family="'Segoe UI', monospace" font-size="9" fill="#94a3b8">Category: [Server ▾]   Mount: [Front ▾]</text>
 
