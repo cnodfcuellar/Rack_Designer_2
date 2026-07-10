@@ -641,6 +641,8 @@ function init() {
   // Asegurar que canvas de topología empiece oculto
   const topoCanvas = document.getElementById('topology-canvas');
   if(topoCanvas) topoCanvas.style.display = 'none';
+  const btnStyle = document.getElementById('btn-topo-style');
+  if (btnStyle) btnStyle.style.display = 'none';
 
   renderAll();
   notify('⚡ RACK Designer modularizado', 'success', 2500);
