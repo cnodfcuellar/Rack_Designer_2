@@ -105,7 +105,7 @@
         <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" aria-label="Rehacer acción" disabled>↪</button>
       </div>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
-      <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(139,92,246,0.15); color:var(--purple); border:1px solid var(--purple); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;">✏️ Editor</div>
+      <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid var(--accent); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;">✏️ Editor</div>
       <input type="file" id="file-import" accept=".json" style="display:none">
     </div>
   </header>
@@ -177,7 +177,7 @@
         <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px;">Métricas del Proyecto Global</div>
         <div class="sb-stats" id="sidebar-stats">
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Salas">
-            <div class="stat-icon-wrap" style="color: #a855f7; background: rgba(168, 85, 247, 0.15);">
+            <div class="stat-icon-wrap" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">
               <i class="svg-icon icon-building" style="width:16px; height:16px;"></i>
             </div>
             <div class="value" id="stat-global-rooms" style="color: #fff;">0</div>
@@ -220,7 +220,7 @@
       </div>
       <div class="spacer"></div>
       <button class="btn-primary" id="table-btn-add-device" style="margin-right:8px; display:none;">+ Equipo</button>
-      <button class="btn-primary" id="table-btn-add-placement" style="margin-right:8px; display:none; background:rgba(139, 92, 246, 0.15); border-color:var(--purple); color:var(--purple)">⚡ Agregar Equipo</button>
+      <button class="btn-primary" id="table-btn-add-placement" style="margin-right:8px; display:none; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent)">⚡ Agregar Equipo</button>
       <button class="btn-primary" id="table-btn-add-conn" style="margin-right:8px; display:none;">+ Conexión</button>
       <div class="h-search" style="margin-right:8px">
         <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
@@ -593,7 +593,7 @@
 <!-- ============================
      MODAL DE LOGIN
 ============================= -->
-<div id="modal-login" style="display:flex; visibility:hidden; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center; transition:visibility 0s, opacity 0.2s; opacity:0; pointer-events:none;">
+<div id="modal-login" style="display:flex; visibility:hidden; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; transition:visibility 0s, opacity 0.2s; opacity:0; pointer-events:none;">
   <div class="modal" style="text-align: center; max-width: 320px; padding: 24px;">
     <h2 class="modal-title" style="justify-content: center; margin-bottom: 8px;">⚡ RACK Designer Next</h2>
     <div class="modal-sub" style="margin-bottom: 16px; font-size: var(--text-xs);">
@@ -622,7 +622,7 @@
 <!-- ============================
      MODAL DE CAMBIO DE PIN
 ============================= -->
-<div id="modal-change-pin" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); align-items:center; justify-content:center;">
+<div id="modal-change-pin" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
   <div style="background:var(--bg-secondary,#1e293b); border:1px solid var(--border,#334155); border-radius:16px; padding:32px 28px; max-width:380px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
     <div style="font-size:2.5rem; margin-bottom:8px;">🔑</div>
     <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--text,#f8fafc);">Cambiar PIN de Administrador</h2>
@@ -643,7 +643,7 @@
     <div id="pin-change-success" style="color:#4ade80; font-size:12px; margin-bottom:10px; display:none;">✅ PIN actualizado correctamente.</div>
     <div style="display:flex; gap:8px;">
       <button id="btn-pin-cancel" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border,#334155); background:transparent; color:var(--text,#f8fafc); font-size:13px; font-weight:600; cursor:pointer;">Cancelar</button>
-      <button id="btn-pin-save" style="flex:1; padding:10px; border-radius:8px; border:none; background:linear-gradient(135deg,#6366f1,#a855f7); color:#fff; font-size:13px; font-weight:700; cursor:pointer;">Guardar PIN</button>
+      <button id="btn-pin-save" style="flex:1; padding:10px; border-radius:6px; border:none; background:var(--accent); color:var(--bg-main); font-size:13px; font-weight:700; cursor:pointer;">Guardar PIN</button>
     </div>
   </div>
 </div>

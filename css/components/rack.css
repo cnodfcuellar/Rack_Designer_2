@@ -8,7 +8,7 @@
 .rack-title { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); }
 .rack-color-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .rack-hdr-btns { display: flex; gap: 4px; }
-.rack-btn { width: 22px; height: 22px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: var(--text-sm); transition: all 0.15s; }
+.rack-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: var(--text-sm); transition: all 0.15s; }
 .rack-btn:hover { border-color: var(--accent); color: var(--accent); }
 .rack-btn.del:hover { border-color: var(--red); color: var(--red); }
 .rack-body { display: flex; background: var(--bg-card1); }

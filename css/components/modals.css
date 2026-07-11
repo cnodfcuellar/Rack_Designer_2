@@ -1,10 +1,10 @@
 /* ============================================================
    MODALS
 ============================================================ */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 100000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
 .modal-overlay.hidden { display: none; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-.modal { background: var(--bg-panel); backdrop-filter: blur(20px) saturate(200%); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; min-width: 380px; max-width: 540px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,0,0,0.6), 0 0 30px var(--accent-glow); animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.modal { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; min-width: 380px; max-width: 540px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.5); animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .modal::-webkit-scrollbar { width: 6px; }
 .modal::-webkit-scrollbar-track { background: transparent; }
 .modal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -53,8 +53,8 @@
   animation: fadeOut 0.2s forwards;
 }
 @keyframes fadeOut {
-  from { opacity: 1; backdrop-filter: blur(6px); }
-  to { opacity: 0; backdrop-filter: blur(0px); }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .custom-dialog.scale-in {

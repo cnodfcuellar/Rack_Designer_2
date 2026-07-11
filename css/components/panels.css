@@ -21,7 +21,7 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 .type-badge.switch   { background: #10b98122; color: var(--green); }
 .type-badge.firewall { background: #ef444422; color: var(--red); }
 .type-badge.router   { background: #f59e0b22; color: var(--amber); }
-.type-badge.ups      { background: #8b5cf622; color: var(--purple); }
+.type-badge.ups      { background: #38bdf822; color: var(--accent); }
 .type-badge.storage  { background: #06b6d422; color: var(--cyan); }
 .tbl-action { padding: 2px 7px; border-radius: 3px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: var(--text-xs); cursor: pointer; transition: all 0.15s; font-family: var(--font-ui); }
 .tbl-action:hover { border-color: var(--red); color: var(--red); }
