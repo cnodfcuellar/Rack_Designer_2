@@ -461,12 +461,12 @@ function onDeviceMouseEnter(e) {
 
     const safeName = dev.name || 'Desconocido';
     const safeType = dev.type ? String(dev.type).toUpperCase() : 'DESCONOCIDO';
-    const safeIp   = (dev.network && dev.network.ip) || 'N/A';
-    const safeUser = (dev.credentials && dev.credentials.user) || 'N/A';
+    const safeIp   = dev.ip || 'N/A';
+    const safeUser = dev.user || 'N/A';
     
     let safePass = 'N/A';
-    if (dev.credentials && dev.credentials.pass) {
-      safePass = (typeof window !== 'undefined' && window.SHOW_PASSWORDS) ? dev.credentials.pass : '••••••••';
+    if (dev.pass) {
+      safePass = (typeof window !== 'undefined' && window.SHOW_PASSWORDS) ? dev.pass : '••••••••';
     }
 
     tooltip.innerHTML = `
