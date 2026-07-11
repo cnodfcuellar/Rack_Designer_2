@@ -226,8 +226,13 @@
       <div class="h-search" style="margin-right:8px">
         <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
       </div>
-      <button class="h-btn" id="btn-table-csv" style="margin-right:4px">⬇ CSV</button>
-      <button class="h-btn" id="btn-table-excel" style="margin-right:8px">⬇ Excel</button>
+      <div class="dropdown-wrap" id="export-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
+        <button class="h-btn" id="btn-export-menu" aria-haspopup="true">⬇ Exportar ▼</button>
+        <div class="dropdown-menu hidden" id="export-dropdown" style="bottom: 100%; top: auto; right: 0; margin-bottom: 8px; width: 180px;">
+          <div class="dropdown-item" id="btn-table-csv">📄 Exportar a CSV</div>
+          <div class="dropdown-item" id="btn-table-excel">📊 Exportar a Excel</div>
+        </div>
+      </div>
       <button class="h-btn" id="btn-expand-bottom">⛶ Expandir</button>
       <button class="h-btn" id="btn-collapse-bottom" aria-label="Contraer o expandir panel inferior">▼</button>
     </div>

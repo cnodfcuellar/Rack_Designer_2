@@ -101,7 +101,7 @@ El flujo de trabajo principal ("End-to-End") del usuario final en **RACK Designe
 
 ### 4. Auditoría, Exportación y Respaldo
 - **Panel de Control Inferior:** El usuario despliega el panel inferior para ver tablas masivas autogeneradas que consolidan todo el hardware ("Inventario") y todos los cables tendidos ("Conexiones").
-- **Reportes:** Con un clic, exporta estas tablas de inventario hacia un archivo de Excel (`.xlsx`) o `.csv` para compartir con gerencia o contabilidad.
+- **Reportes:** Con el botón **"⬇ Exportar"**, puedes descargar estas tablas de inventario y conexiones hacia un archivo de Excel (`.xlsx`) o `.csv` para compartir con gerencia o contabilidad.
 - **Autoguardado y Respaldos:** Aunque el sistema va autoguardando todo temporalmente, el usuario finaliza su día yendo al menú principal y haciendo clic en **"Guardar Proyecto"**. Esto genera un archivo `.json` que descarga en su computadora con la copia maestra de todo su diseño, el cual puede volver a cargar el día de mañana.
 
 ---

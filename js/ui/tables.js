@@ -212,6 +212,20 @@ function getConnectionsData() {
 document.addEventListener('DOMContentLoaded', () => {
   const btnCsv = document.getElementById('btn-table-csv');
   const btnExcel = document.getElementById('btn-table-excel');
+  const btnExportMenu = document.getElementById('btn-export-menu');
+  const exportDropdown = document.getElementById('export-dropdown');
+
+  if (btnExportMenu && exportDropdown) {
+    btnExportMenu.addEventListener('click', e => {
+      e.stopPropagation();
+      exportDropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', e => {
+      if (!btnExportMenu.contains(e.target)) {
+        exportDropdown.classList.add('hidden');
+      }
+    });
+  }
   
   if (btnCsv) {
     btnCsv.addEventListener('click', () => {
