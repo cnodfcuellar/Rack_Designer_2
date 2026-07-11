@@ -174,39 +174,32 @@
         <span class="toggle-icon">▼</span>
       </div>
       <div id="stats-content" style="flex: 1; overflow-y: auto; padding: 12px;">
+        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px;">Métricas del Proyecto Global</div>
         <div class="sb-stats" id="sidebar-stats">
-          <div class="stat-pill tooltip tooltip-bottom" data-tip="Gabinetes">
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Salas">
+            <div class="stat-icon-wrap" style="color: #a855f7; background: rgba(168, 85, 247, 0.15);">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <div class="value" id="stat-global-rooms" style="color: #fff;">0</div>
+          </div>
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Gabinetes">
             <div class="stat-icon-wrap" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg>
+              <i class="fa-solid fa-server"></i>
             </div>
-            <div class="value green" id="stat-racks">0</div>
+            <div class="value" id="stat-global-racks" style="color: #fff;">0</div>
           </div>
-          <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos">
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos en Rack">
             <div class="stat-icon-wrap" style="color: #f43f5e; background: rgba(244, 63, 94, 0.15);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="6" rx="1"></rect><rect x="2" y="14" width="20" height="6" rx="1"></rect><line x1="6" y1="7" x2="6" y2="7"></line><line x1="6" y1="17" x2="6" y2="17"></line></svg>
+              <i class="fa-solid fa-network-wired"></i>
             </div>
-            <div class="value" id="stat-devices" style="color: #fff;">0</div>
+            <div class="value" id="stat-global-rack-devs" style="color: #fff;">0</div>
           </div>
-          <div class="stat-pill tooltip tooltip-bottom" data-tip="Unidades U">
-            <div class="stat-icon-wrap" style="color: #f59e0b; background: rgba(245, 158, 11, 0.15);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v9a6 6 0 1 0 12 0V4"></path></svg>
-            </div>
-            <div class="value amber" id="stat-units">0/0</div>
-          </div>
-          <div class="stat-pill tooltip tooltip-bottom" data-tip="Conexiones">
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos de Piso">
             <div class="stat-icon-wrap" style="color: #22c55e; background: rgba(34, 197, 94, 0.15);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M12 8v4"></path><path d="M5 16v-2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"></path></svg>
+              <i class="fa-solid fa-desktop"></i>
             </div>
-            <div class="value" id="stat-connections" style="color: #fff;">0</div>
+            <div class="value" id="stat-global-floor-devs" style="color: #fff;">0</div>
           </div>
-        </div>
-        <div class="cap-bar-wrap" style="margin-top: 16px;">
-          <div class="cap-bar-labels"><span>RACK CAPACITY</span><span id="cap-rack-pct">0%</span></div>
-          <div class="cap-bar"><div class="cap-bar-fill rack" id="cap-rack-bar" style="width:0%"></div></div>
-        </div>
-        <div class="cap-bar-wrap" style="margin-top: 8px;">
-          <div class="cap-bar-labels"><span>POWER</span><span id="cap-power-val">0 W</span></div>
-          <div class="cap-bar"><div class="cap-bar-fill power" id="cap-power-bar" style="width:0%"></div></div>
         </div>
       </div>
     </div>

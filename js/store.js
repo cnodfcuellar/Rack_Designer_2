@@ -297,6 +297,25 @@ class Store {
     
     return { racks: racks.length, devices: allDevices.length, totalU, usedU, power, connections: roomConnections };
   }
+
+  /** Estadísticas globales del proyecto */
+  getGlobalStats() {
+    const totalRooms = this._raw.rooms.length;
+    const totalRacks = this._raw.racks.length;
+    
+    // Equipos en rack vs Equipos de piso
+    // Los equipos de piso se identifican por estar en FLOOR_TYPES o por tener category === 'floor' 
+    // pero de forma más robusta, un equipo de piso no tiene rackId.
+    let rackDevicesCount = 0;
+    let floorDevicesCount = 0;
+
+    this._raw.devices.forEach(d => {
+      if (d.rackId) rackDevicesCount++;
+      else floorDevicesCount++;
+    });
+
+    return { totalRooms, totalRacks, rackDevicesCount, floorDevicesCount };
+  }
 }
 
 const store = new Store();

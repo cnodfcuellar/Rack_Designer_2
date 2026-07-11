@@ -249,21 +249,13 @@ function renderRackSelector() {
 }
 
 function renderStats() {
-  const s = store.getStats();
-  const elRacks = document.getElementById('stat-racks');
-  if(!elRacks) return;
+  const s = store.getGlobalStats();
   
-  elRacks.textContent = s.racks;
-  document.getElementById('stat-devices').textContent = s.devices;
-  document.getElementById('stat-units').textContent = `${s.usedU}/${s.totalU}`;
-  document.getElementById('stat-connections').textContent = s.connections;
+  const elRooms = document.getElementById('stat-global-rooms');
+  if(!elRooms) return;
   
-  const rackPct = s.totalU ? Math.round((s.usedU / s.totalU) * 100) : 0;
-  document.getElementById('cap-rack-pct').textContent = `${rackPct}%`;
-  document.getElementById('cap-rack-bar').style.width = `${rackPct}%`;
-  
-  const maxPower = 5000;
-  const powerPct = Math.min(100, Math.round((s.power / maxPower) * 100));
-  document.getElementById('cap-power-val').textContent = `${s.power} W`;
-  document.getElementById('cap-power-bar').style.width = `${powerPct}%`;
+  elRooms.textContent = s.totalRooms;
+  document.getElementById('stat-global-racks').textContent = s.totalRacks;
+  document.getElementById('stat-global-rack-devs').textContent = s.rackDevicesCount;
+  document.getElementById('stat-global-floor-devs').textContent = s.floorDevicesCount;
 }
