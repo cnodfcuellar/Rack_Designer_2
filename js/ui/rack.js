@@ -477,12 +477,33 @@ function onDeviceMouseEnter(e) {
       <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(String(safePass))}</span></div>
     `;
     
-    let x = e.clientX + 15;
-    let y = e.clientY + 15;
-    if(x + 220 > window.innerWidth) x = e.clientX - 235;
-    // Safely get height even if hidden
+    const rackEl = e.currentTarget.closest('.rack-wrapper');
     const tooltipHeight = tooltip.offsetHeight || 150;
-    if(y + tooltipHeight > window.innerHeight) y = window.innerHeight - tooltipHeight - 10;
+    let x = 0;
+    let y = 0;
+
+    if (rackEl) {
+      const rect = rackEl.getBoundingClientRect();
+      const fpRect = e.currentTarget.getBoundingClientRect();
+      x = rect.right + 20;
+      y = fpRect.top + (fpRect.height / 2) - (tooltipHeight / 2);
+      if (x + 220 > window.innerWidth) {
+        x = rect.left - 240;
+      }
+    } else {
+      const rect = e.currentTarget.getBoundingClientRect();
+      x = rect.right + 10;
+      y = rect.top + (rect.height / 2) - (tooltipHeight / 2);
+      if (x + 220 > window.innerWidth) {
+        x = rect.left - 230;
+      }
+    }
+
+    if (y < 20) y = 20;
+    if (y + tooltipHeight > window.innerHeight - 20) {
+      y = window.innerHeight - tooltipHeight - 20;
+    }
+
     tooltip.style.left = `${x}px`;
     tooltip.style.top = `${y}px`;
 
@@ -493,14 +514,7 @@ function onDeviceMouseEnter(e) {
 }
 
 function onDeviceMouseMove(e) {
-  const tooltip = document.getElementById('device-tooltip');
-  if(!tooltip || !tooltip.classList.contains('visible')) return;
-  let x = e.clientX + 15;
-  let y = e.clientY + 15;
-  if(x + 220 > window.innerWidth) x = e.clientX - 235;
-  if(y + tooltip.offsetHeight > window.innerHeight) y = window.innerHeight - tooltip.offsetHeight - 10;
-  tooltip.style.left = `${x}px`;
-  tooltip.style.top = `${y}px`;
+  // Empty to avoid pointer events recalculation loops
 }
 
 function onDeviceMouseLeave(e) {
