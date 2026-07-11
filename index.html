@@ -178,31 +178,31 @@
         <div class="sb-stats" id="sidebar-stats">
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Salas">
             <div class="stat-icon-wrap" style="color: #a855f7; background: rgba(168, 85, 247, 0.15);">
-              <i class="fa-solid fa-building"></i>
+              <i class="svg-icon icon-building" style="width:16px; height:16px;"></i>
             </div>
             <div class="value" id="stat-global-rooms" style="color: #fff;">0</div>
           </div>
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Gabinetes">
             <div class="stat-icon-wrap" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">
-              <i class="fa-solid fa-server"></i>
+              <i class="svg-icon icon-server" style="width:16px; height:16px;"></i>
             </div>
             <div class="value" id="stat-global-racks" style="color: #fff;">0</div>
           </div>
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos en Rack">
             <div class="stat-icon-wrap" style="color: #f43f5e; background: rgba(244, 63, 94, 0.15);">
-              <i class="fa-solid fa-network-wired"></i>
+              <i class="svg-icon icon-network" style="width:16px; height:16px;"></i>
             </div>
             <div class="value" id="stat-global-rack-devs" style="color: #fff;">0</div>
           </div>
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos de Piso">
             <div class="stat-icon-wrap" style="color: #22c55e; background: rgba(34, 197, 94, 0.15);">
-              <i class="fa-solid fa-desktop"></i>
+              <i class="svg-icon icon-desktop" style="width:16px; height:16px;"></i>
             </div>
             <div class="value" id="stat-global-floor-devs" style="color: #fff;">0</div>
           </div>
           <div class="stat-pill tooltip tooltip-bottom" data-tip="Total Conexiones">
             <div class="stat-icon-wrap" style="color: #f59e0b; background: rgba(245, 158, 11, 0.15);">
-              <i class="fa-solid fa-link"></i>
+              <i class="svg-icon icon-link" style="width:16px; height:16px;"></i>
             </div>
             <div class="value" id="stat-global-connections" style="color: #fff;">0</div>
           </div>
@@ -313,7 +313,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-brand" class="module-toggle" title="Habilitar detalles de Fabricante">
-      <div class="module-header"><label for="dev-has-brand"><i class="fa-solid fa-industry"></i> Fabricante</label></div>
+      <div class="module-header"><label for="dev-has-brand"><i class="svg-icon icon-industry" style="width:11px; height:11px; margin-right:6px;"></i> Fabricante</label></div>
       <div class="module-content">
         <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="form-row" style="margin-bottom:0;"><label>Marca</label><input type="text" id="dev-brand" placeholder="HP, Cisco..."></div>
@@ -324,7 +324,7 @@
     </div>
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-skin" class="module-toggle" title="Habilitar Skin Personalizado">
-      <div class="module-header"><label for="dev-has-skin"><i class="fa-solid fa-image"></i> Skin / Apariencia</label></div>
+      <div class="module-header"><label for="dev-has-skin"><i class="svg-icon icon-image" style="width:11px; height:11px; margin-right:6px;"></i> Skin / Apariencia</label></div>
       <div class="module-content">
         <div class="form-grid">
           <div class="form-row" style="margin-bottom:0;"><label>Nombre del archivo en assets/img/</label><input type="text" id="dev-skin" placeholder="mi_servidor.png"></div>
@@ -334,7 +334,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-ports" class="module-toggle" title="Habilitar puertos de red">
-      <div class="module-header"><label for="dev-has-ports"><i class="fa-solid fa-network-wired"></i> Interfaces de Red (Opcional)</label></div>
+      <div class="module-header"><label for="dev-has-ports"><i class="svg-icon icon-network" style="width:11px; height:11px; margin-right:6px;"></i> Interfaces de Red (Opcional)</label></div>
       <div class="module-content">
         <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
           <div class="form-row" style="margin-bottom:0;"><label>Puertos Ethernet (RJ45)</label><input type="number" min="0" max="96" id="dev-ports-eth" placeholder="Ej: 24"></div>
@@ -345,7 +345,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-loc" class="module-toggle" title="Habilitar detalles de Ubicación" checked>
-      <div class="module-header"><label for="dev-has-loc"><i class="fa-solid fa-location-dot"></i> Ubicación Física</label></div>
+      <div class="module-header"><label for="dev-has-loc"><i class="svg-icon icon-location" style="width:11px; height:11px; margin-right:6px;"></i> Ubicación Física</label></div>
       <div class="module-content">
         <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="form-row" style="margin-bottom:0;"><label>Categoría</label>
@@ -374,7 +374,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-net" class="module-toggle" title="Habilitar Red">
-      <div class="module-header"><label for="dev-has-net"><i class="fa-solid fa-network-wired"></i> Red</label></div>
+      <div class="module-header"><label for="dev-has-net"><i class="svg-icon icon-network" style="width:11px; height:11px; margin-right:6px;"></i> Red</label></div>
       <div class="module-content">
         <div class="form-grid">
           <div class="form-row" style="margin-bottom:0;"><label>Dirección IP</label><input type="text" id="dev-ip" placeholder="192.168.1.10"></div>
@@ -385,7 +385,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-auth" class="module-toggle" title="Habilitar Credenciales">
-      <div class="module-header"><label for="dev-has-auth"><i class="fa-solid fa-lock"></i> Credenciales</label></div>
+      <div class="module-header"><label for="dev-has-auth"><i class="svg-icon icon-lock" style="width:11px; height:11px; margin-right:6px;"></i> Credenciales</label></div>
       <div class="module-content">
         <div class="form-grid">
           <div class="form-row" style="margin-bottom:0;"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
@@ -396,7 +396,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-power" class="module-toggle" title="Habilitar Energía">
-      <div class="module-header"><label for="dev-has-power"><i class="fa-solid fa-bolt"></i> Energía</label></div>
+      <div class="module-header"><label for="dev-has-power"><i class="svg-icon icon-bolt" style="width:11px; height:11px; margin-right:6px;"></i> Energía</label></div>
       <div class="module-content">
         <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="form-row" style="margin-bottom:0;"><label>Consumo (W)</label><input type="number" id="dev-power" value="200" min="0"></div>
@@ -408,7 +408,7 @@
 
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-notes" class="module-toggle" title="Habilitar Notas">
-      <div class="module-header"><label for="dev-has-notes"><i class="fa-solid fa-file-lines"></i> Notas</label></div>
+      <div class="module-header"><label for="dev-has-notes"><i class="svg-icon icon-file" style="width:11px; height:11px; margin-right:6px;"></i> Notas</label></div>
       <div class="module-content">
         <div class="form-row" style="margin-bottom:0;"><textarea id="dev-notes" rows="2" placeholder="Observaciones técnicas…" style="resize:vertical"></textarea></div>
       </div>

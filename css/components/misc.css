@@ -55,3 +55,32 @@
 #device-tooltip .tt-row { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 4px; display: flex; justify-content: space-between; }
 #device-tooltip .tt-row span:first-child { color: var(--text-muted); }
 
+/* Iconografía SVG Local Offline */
+.svg-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  vertical-align: middle;
+}
+
+.icon-building { -webkit-mask-image: url('../../assets/icons/ui/building.svg'); mask-image: url('../../assets/icons/ui/building.svg'); }
+.icon-server   { -webkit-mask-image: url('../../assets/icons/ui/server.svg'); mask-image: url('../../assets/icons/ui/server.svg'); }
+.icon-network  { -webkit-mask-image: url('../../assets/icons/ui/network.svg'); mask-image: url('../../assets/icons/ui/network.svg'); }
+.icon-desktop  { -webkit-mask-image: url('../../assets/icons/ui/desktop.svg'); mask-image: url('../../assets/icons/ui/desktop.svg'); }
+.icon-link     { -webkit-mask-image: url('../../assets/icons/ui/link.svg'); mask-image: url('../../assets/icons/ui/link.svg'); }
+.icon-industry { -webkit-mask-image: url('../../assets/icons/ui/industry.svg'); mask-image: url('../../assets/icons/ui/industry.svg'); }
+.icon-image    { -webkit-mask-image: url('../../assets/icons/ui/image.svg'); mask-image: url('../../assets/icons/ui/image.svg'); }
+.icon-location { -webkit-mask-image: url('../../assets/icons/ui/location.svg'); mask-image: url('../../assets/icons/ui/location.svg'); }
+.icon-lock     { -webkit-mask-image: url('../../assets/icons/ui/lock.svg'); mask-image: url('../../assets/icons/ui/lock.svg'); }
+.icon-bolt     { -webkit-mask-image: url('../../assets/icons/ui/bolt.svg'); mask-image: url('../../assets/icons/ui/bolt.svg'); }
+.icon-file     { -webkit-mask-image: url('../../assets/icons/ui/file-text.svg'); mask-image: url('../../assets/icons/ui/file-text.svg'); }
+.icon-edit     { -webkit-mask-image: url('../../assets/icons/ui/edit.svg'); mask-image: url('../../assets/icons/ui/edit.svg'); }
+.icon-trash    { -webkit-mask-image: url('../../assets/icons/ui/trash.svg'); mask-image: url('../../assets/icons/ui/trash.svg'); }
+

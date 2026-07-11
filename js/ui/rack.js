@@ -171,14 +171,15 @@ function bindRackEvents(container, flippedRacks) {
     });
   });
   container.querySelectorAll('[data-del-rack]').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.addEventListener('click', async e => {
       e.stopPropagation();
       document.getElementById(`rack-menu-${btn.dataset.delRack}`)?.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
         notify('🚫 Espectadores no pueden eliminar gabinetes.', 'error', 3000);
         return;
       }
-      if (confirm('¿Eliminar este gabinete y todos sus equipos?')) {
+      const ok = await customConfirm('Eliminar Gabinete', '¿Estás seguro de eliminar este gabinete y todos los equipos instalados en él? Esta acción no se puede deshacer.');
+      if (ok) {
         store.deleteRack(btn.dataset.delRack);
         notify('Gabinete eliminado', 'warn');
       }
@@ -194,7 +195,7 @@ function bindRackEvents(container, flippedRacks) {
   });
 
   container.querySelectorAll('[data-clear-rack]').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.addEventListener('click', async e => {
       e.stopPropagation();
       const rackId = btn.dataset.clearRack;
       document.getElementById(`rack-menu-${rackId}`)?.classList.add('hidden');
@@ -202,7 +203,8 @@ function bindRackEvents(container, flippedRacks) {
         notify('🚫 Espectadores no pueden limpiar gabinetes.', 'error', 3000);
         return;
       }
-      if (confirm('⚠️ ¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.')) {
+      const ok = await customConfirm('Limpiar Gabinete', '⚠️ ¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.');
+      if (ok) {
         const devices = store.allDevicesInRack(rackId);
         devices.forEach(d => store.deleteDevice(d.id));
         notify('Gabinete limpiado exitosamente', 'success');
@@ -239,9 +241,10 @@ function bindRackEvents(container, flippedRacks) {
     });
   });
   container.querySelectorAll('.dev-btn.del').forEach(btn => {
-    btn.addEventListener('click', e => {
+    btn.addEventListener('click', async e => {
       e.stopPropagation();
-      if (confirm('¿Eliminar este equipo?')) {
+      const ok = await customConfirm('Eliminar Equipo', '¿Estás seguro de eliminar este equipo?');
+      if (ok) {
         store.deleteDevice(btn.dataset.delDev);
         notify('Equipo eliminado', 'warn');
       }

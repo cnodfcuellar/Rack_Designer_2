@@ -1,16 +1,27 @@
 /* js/ui/inspector.js */
 
 function getIconForDeviceType(type) {
-  switch(type) {
-    case 'server': return 'fa-solid fa-server';
+  const t = String(type).toLowerCase();
+  switch(t) {
+    case 'server':
+    case 'storage':
+      return 'svg-icon icon-server';
     case 'switch':
-    case 'router': return 'fa-solid fa-network-wired';
-    case 'patch_panel': return 'fa-solid fa-grip-vertical';
-    case 'pdu': return 'fa-solid fa-plug';
-    case 'ups': return 'fa-solid fa-battery-half';
-    case 'firewall': return 'fa-solid fa-shield-halved';
-    case 'storage': return 'fa-solid fa-database';
-    default: return 'fa-solid fa-box';
+    case 'router':
+    case 'ap':
+    case 'patchpanel':
+    case 'organizer':
+      return 'svg-icon icon-network';
+    case 'pc':
+      return 'svg-icon icon-desktop';
+    case 'pdu':
+    case 'ups':
+      return 'svg-icon icon-bolt';
+    case 'firewall':
+    case 'door':
+      return 'svg-icon icon-lock';
+    default:
+      return 'svg-icon icon-server';
   }
 }
 
@@ -104,7 +115,7 @@ window.renderInspector = function(entityType, entityId) {
         </div>
         
         <button class="btn-secondary" style="width:100%; justify-content:center; padding:8px; margin-top:4px;" onclick="window.openEditDeviceModal('${dev.id}')">
-          <i class="fa-solid fa-pen-to-square"></i> Editar Equipo
+          <i class="svg-icon icon-edit" style="width:12px; height:12px; margin-right:4px;"></i> Editar Equipo
         </button>
       </div>
     `;
@@ -119,7 +130,7 @@ window.renderInspector = function(entityType, entityId) {
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
-            <i class="fa-solid fa-server"></i>
+            <i class="svg-icon icon-server" style="width:16px; height:16px;"></i>
           </div>
           <div style="flex:1; overflow:hidden;">
             <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</div>
@@ -143,7 +154,7 @@ window.renderInspector = function(entityType, entityId) {
         </div>
         
         <button class="btn-secondary" style="width:100%; justify-content:center; padding:8px; margin-top:4px;" onclick="if(typeof openEditRackModal === 'function') openEditRackModal('${rack.id}')">
-          <i class="fa-solid fa-pen-to-square"></i> Editar Gabinete
+          <i class="svg-icon icon-edit" style="width:12px; height:12px; margin-right:4px;"></i> Editar Gabinete
         </button>
       </div>
     `;
@@ -162,7 +173,7 @@ window.renderInspector = function(entityType, entityId) {
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
-            <i class="fa-solid fa-building"></i>
+            <i class="svg-icon icon-building" style="width:16px; height:16px;"></i>
           </div>
           <div style="flex:1; overflow:hidden;">
             <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(room.name)}</div>

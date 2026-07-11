@@ -63,3 +63,46 @@ function getDeviceLocation(device) {
   }
   return 'Sin asignar';
 }
+
+function customConfirm(title, message) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.style.zIndex = '110000';
+    
+    overlay.innerHTML = `
+      <div class="modal custom-dialog scale-in" style="max-width: 400px; padding: 20px;">
+        <div class="modal-title" style="font-size: 18px; display: flex; align-items: center; gap: 8px;">
+          <span style="color: var(--amber, #f59e0b);">⚠️</span> ${escapeHTML(title)}
+        </div>
+        <div class="modal-sub" style="margin-top: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-family: var(--font-ui), sans-serif;">
+          ${escapeHTML(message)}
+        </div>
+        <div class="modal-footer" style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="btn-cancel" id="dialog-btn-cancel" style="padding: 8px 16px;">Cancelar</button>
+          <button class="btn-confirm" id="dialog-btn-confirm" style="padding: 8px 16px; background: var(--red, #ef4444); border: none; color: #fff; font-weight: 600; border-radius: 6px; cursor: pointer;">Confirmar</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    const cleanup = (value) => {
+      overlay.classList.add('fade-out');
+      overlay.addEventListener('animationend', () => {
+        overlay.remove();
+      });
+      setTimeout(() => {
+        if (document.body.contains(overlay)) overlay.remove();
+      }, 300);
+      resolve(value);
+    };
+
+    overlay.querySelector('#dialog-btn-confirm').addEventListener('click', () => cleanup(true));
+    overlay.querySelector('#dialog-btn-cancel').addEventListener('click', () => cleanup(false));
+    
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) cleanup(false);
+    });
+  });
+}

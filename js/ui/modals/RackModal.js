@@ -30,7 +30,7 @@ function openEditRackModal(id) {
 }
 
 function initRackModal() {
-  document.getElementById('modal-rack-save').addEventListener('click', () => {
+  document.getElementById('modal-rack-save').addEventListener('click', async () => {
     const name   = document.getElementById('rack-name').value.trim();
     const height = parseInt(document.getElementById('rack-height').value);
     const color  = document.getElementById('rack-color').value;
@@ -42,7 +42,8 @@ function initRackModal() {
 
       if (overflowingDevices.length > 0) {
         const confirmMsg = `Al reducir a ${height}U, se perderán ${overflowingDevices.length} equipo(s) y sus conexiones porque quedan fuera de límite. ¿Deseas continuar y eliminarlos?`;
-        if (!confirm(confirmMsg)) {
+        const ok = await customConfirm('Reducir Altura', confirmMsg);
+        if (!ok) {
           return;
         }
         overflowingDevices.forEach(d => store.deleteDevice(d.id));

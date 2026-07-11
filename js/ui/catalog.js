@@ -107,7 +107,7 @@ function renderCatalog() {
       menu.classList.remove('hidden');
 
       menu.querySelectorAll('.ctx-item').forEach(item => {
-        item.addEventListener('click', e => {
+        item.addEventListener('click', async e => {
           e.stopPropagation();
           menu.classList.add('hidden');
           const id = item.dataset.id;
@@ -120,7 +120,8 @@ function renderCatalog() {
           if (item.dataset.action === 'cat-place') openQuickPlacementModal(id);
           if (item.dataset.action === 'cat-edit') openEditCatalogModal(id);
           if (item.dataset.action === 'cat-delete') {
-            if(confirm('¿Eliminar plantilla del catálogo?')) {
+            const ok = await customConfirm('Eliminar Plantilla', '¿Eliminar plantilla del catálogo?');
+            if(ok) {
               CATALOG = CATALOG.filter(c => c.id !== id);
               renderCatalog();
             }
@@ -156,8 +157,8 @@ function renderRoomTabs() {
   // Attach events
   const attachEvents = (container) => {
     container.querySelectorAll('.room-tab').forEach(btn => {
-      btn.addEventListener('click', e => {
-        if (e.target.dataset.delRoom) { deleteRoom(e.target.dataset.delRoom); return; }
+      btn.addEventListener('click', async e => {
+        if (e.target.dataset.delRoom) { await deleteRoom(e.target.dataset.delRoom); return; }
         store._raw.currentRoomId = btn.dataset.roomId;
         store._emit('change', { source: 'changeRoom' });
         dropdownList.classList.add('hidden'); // Close dropdown on select

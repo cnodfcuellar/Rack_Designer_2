@@ -412,13 +412,14 @@ function initGlobalEvents() {
       }
       if (typeof fileManager !== 'undefined') fileManager.saveProjectAs();
     });
-    document.getElementById('menu-clear')?.addEventListener('click', () => {
+    document.getElementById('menu-clear')?.addEventListener('click', async () => {
       dropdown.classList.add('hidden');
       if (!RackAuth.can('clearProject')) {
         notify('🚫 Espectadores no pueden limpiar el proyecto.', 'error', 3000);
         return;
       }
-      if (confirm('¿Estás seguro de que deseas limpiar el proyecto? Perderás todos los datos no guardados.')) {
+      const ok = await customConfirm('Limpiar Proyecto', '¿Estás seguro de que deseas limpiar el proyecto? Perderás todos los datos no guardados.');
+      if (ok) {
         const roomId = uid();
         store.loadData({
           rooms: [{ id: roomId, name: 'Sala A1' }],
@@ -445,9 +446,9 @@ function initGlobalEvents() {
         notify('🚫 Espectadores no pueden cargar demostraciones.', 'error', 3000);
         return;
       }
-      const wantSave = confirm('¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
+      const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
       if (!wantSave) {
-        const proceed = confirm('⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
+        const proceed = await customConfirm('Advertencia', '⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
         if (!proceed) return;
       }
 
@@ -685,10 +686,11 @@ function init() {
   // Logout — registrar siempre, funciona con file:// y http://
   const badge = document.getElementById('user-badge');
   if (badge) {
-    badge.addEventListener('click', () => {
+    badge.addEventListener('click', async () => {
       const user = RackAuth.getCurrentUser();
       const userName = user ? user.name : 'Usuario';
-      if (confirm('¿Cerrar sesión como ' + userName + '?')) {
+      const ok = await customConfirm('Cerrar Sesión', '¿Cerrar sesión como ' + userName + '?');
+      if (ok) {
         RackAuth.logout();
         window.location.reload();
       }

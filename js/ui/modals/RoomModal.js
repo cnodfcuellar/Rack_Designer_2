@@ -1,6 +1,7 @@
-function deleteRoom(id) {
+async function deleteRoom(id) {
   if (store._raw.rooms.length <= 1) { notify('No puedes eliminar la única sala', 'warn'); return; }
-  if (!confirm('¿Eliminar esta sala y todos sus gabinetes?')) return;
+  const ok = await customConfirm('Eliminar Sala', '¿Eliminar esta sala y todos sus gabinetes?');
+  if (!ok) return;
   store.snapshot();
   
   const racks = store._raw.racks.filter(r => r.roomId === id);
