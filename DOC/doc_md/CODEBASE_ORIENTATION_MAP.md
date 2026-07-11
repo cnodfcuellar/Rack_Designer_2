@@ -72,7 +72,7 @@ graph TD
 | `.agents/` | Directivas internas de comportamiento y diseño para agentes de IA | Ignorado por Git. Contiene especificaciones de UI/UX, arquitectura y seguridad. |
 | `.py/` | Scripts auxiliares en Python | Lógica aislada para parsing y refactorización automatizada de documentación. |
 | `assets/icons/` | Iconos monocromáticos en formato SVG | Dividido por categoría de hardware. Se colorean dinámicamente mediante `mask-image` en CSS. |
-| `assets/img/` | Diseños detallados y fotorrealistas de faceplates SVG/PNG | Se usan para el chasis físico del rack. Soporta fallback automático a CSS. |
+| `assets/svg/` | Diseños detallados y fotorrealistas de faceplates SVG/PNG | Se usan para el chasis físico del rack. Soporta fallback automático a CSS. |
 | `css/` | Sistema modular de diseño (Vanilla CSS) | Separado por componentes (modales, racks, paneles, variables y estructura global). |
 | `doc/doc_md/` | Documentación técnica y funcional para desarrolladores y usuarios | Contiene el manual de usuario, análisis del proyecto y este mapa. |
 | `doc/log/` | Registros históricos de cambios en desarrollo | `CHANGELOG.md` es el diario oficial de control de cambios. |

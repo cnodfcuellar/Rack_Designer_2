@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const imgDir = path.join(__dirname, '../assets', 'img');
+const imgDir = path.join(__dirname, '../assets', 'svg');
 if (!fs.existsSync(imgDir)) {
   fs.mkdirSync(imgDir, { recursive: true });
 }
@@ -170,4 +170,4 @@ for (const [name, content] of Object.entries(svgs)) {
   if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
   fs.writeFileSync(path.join(dirPath, name + '.svg'), content);
 }
-console.log('SVGs generated inside assets/img/ subfolders!');
+console.log('SVGs generated inside assets/svg/ subfolders!');

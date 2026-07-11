@@ -64,7 +64,7 @@ Arquitectura modular de estilos.
 
 ## 6. Directorios de Recursos Estáticos (`assets/`)
 * **`assets/icons/`**: Íconos monocromáticos SVG abstractos clasificados por carpetas (`/network`, `/server`, `/storage`, etc.), usados con CSS Masking para colorearlos dinámicamente en el lienzo de topología.
-* **`assets/img/`**: Diseños físicos de equipos vectoriales (faceplates) que se muestran fotorealistas al insertar un dispositivo en el Rack virtual.
+* **`assets/svg/`**: Diseños físicos de equipos vectoriales (faceplates) que se muestran fotorealistas al insertar un dispositivo en el Rack virtual.
 
 ---
 

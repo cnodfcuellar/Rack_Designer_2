@@ -106,4 +106,4 @@ El flujo de trabajo principal ("End-to-End") del usuario final en **RACK Designe
 
 ---
 > [!TIP]
-> **No necesitas modificar código** para añadir equipos visualmente distintos. Puedes reemplazar las imágenes en la carpeta `assets/img/` de tu instalación local usando el mismo nombre de archivo (`.svg` o `.png`).
+> **No necesitas modificar código** para añadir equipos visualmente distintos. Puedes reemplazar las imágenes en la carpeta `assets/svg/` de tu instalación local usando el mismo nombre de archivo (`.svg` o `.png`).
