@@ -4,7 +4,7 @@ function openAddDeviceModal() {
   editingCatalogId = null;
   document.getElementById('modal-device-title').textContent = 'Nuevo Equipo';
   document.getElementById('modal-device-sub').textContent = 'Registrar un nuevo dispositivo en el inventario';
-  ['dev-name','dev-brand','dev-model','dev-ip','dev-mac','dev-serial','dev-user','dev-pass','dev-notes'].forEach(id => {
+  ['dev-name','dev-brand','dev-model','dev-ip','dev-mac','dev-serial','dev-user','dev-pass','dev-notes','dev-skin'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
@@ -34,6 +34,7 @@ function openAddDeviceModal() {
   document.getElementById('dev-has-auth').checked = false;
   document.getElementById('dev-has-power').checked = false;
   document.getElementById('dev-has-notes').checked = false;
+  document.getElementById('dev-has-skin').checked = false;
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -72,6 +73,7 @@ function openEditCatalogModal(id) {
   passInput.value = dev.pass || '';
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
+  document.getElementById('dev-skin').value = dev.skin || '';
 
   if (dev.ports) {
     document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
@@ -88,6 +90,7 @@ function openEditCatalogModal(id) {
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
   document.getElementById('dev-has-notes').checked = !!(dev.notes);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin);
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -126,6 +129,7 @@ function openEditDeviceModal(id) {
   passInput.value = dev.pass || '';
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
+  document.getElementById('dev-skin').value = dev.skin || '';
 
   if (dev.ports) {
     document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
@@ -142,6 +146,7 @@ function openEditDeviceModal(id) {
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
   document.getElementById('dev-has-notes').checked = !!(dev.notes);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin);
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -184,6 +189,7 @@ function initDeviceModal() {
     const hasAuth = document.getElementById('dev-has-auth').checked;
     const hasPower = document.getElementById('dev-has-power').checked;
     const hasNotes = document.getElementById('dev-has-notes').checked;
+    const hasSkin = document.getElementById('dev-has-skin').checked;
     const hasPorts = document.getElementById('dev-has-ports').checked;
     
     const devStatus = document.getElementById('dev-status');
@@ -212,7 +218,8 @@ function initDeviceModal() {
       plugsOut: hasPower ? (parseInt(document.getElementById('dev-plugs-out').value) || 0) : 0,
       user: hasAuth ? document.getElementById('dev-user').value.trim() : '',
       pass: hasAuth ? document.getElementById('dev-pass').value : '',
-      notes: hasNotes ? document.getElementById('dev-notes').value.trim() : ''
+      notes: hasNotes ? document.getElementById('dev-notes').value.trim() : '',
+      skin: hasSkin ? document.getElementById('dev-skin').value.trim() : ''
     };
     if (ports) props.ports = ports;
 

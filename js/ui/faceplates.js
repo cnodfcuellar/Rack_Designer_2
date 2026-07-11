@@ -109,9 +109,11 @@ function buildFaceplate(device, heightPx) {
   }
 
   // Wrapper híbrido: Intenta cargar la imagen SVG/PNG primero. Si falla (ej. porque se renombró a .archivo.svg), muestra el renderizado CSS.
+  const imgSrc = device.skin ? `assets/img/${device.skin}` : `assets/svg/${category}/${type}.svg`;
+  
   return `
     <div class="faceplate-wrapper" style="height:${h}px; width:100%; position:relative; overflow:hidden; border-radius: 4px;">
-      <img src="assets/svg/${category}/${type}.svg" 
+      <img src="${imgSrc}" 
            style="width:100%; height:100%; object-fit:contain; position:absolute; inset:0; z-index:2; display:block;"
            onload="this.nextElementSibling.style.display='none';" 
            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" 
