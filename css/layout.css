@@ -497,7 +497,7 @@ input[type="text"], input[type="number"], input[type="password"], select, .botto
     line-height: 22px !important;
     box-sizing: border-box !important;
 }
-.force-hide { display: none !important; }
+.h-btn.force-hide, .topo-slider.force-hide, .force-hide { display: none !important; }
 
 /* Topology spacing slider - NOT a button, no h-btn normalization needed */
 .topo-slider {

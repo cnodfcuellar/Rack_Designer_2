@@ -661,8 +661,10 @@ function init() {
   // Asegurar que canvas de topología empiece oculto
   const topoCanvas = document.getElementById('topology-canvas');
   if(topoCanvas) topoCanvas.style.display = 'none';
-  const btnStyle = document.getElementById('btn-topo-style');
-  if (btnStyle) btnStyle.classList.add('force-hide');
+  ['btn-topo-style', 'topo-spacing', 'btn-topo-autoorder'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('force-hide');
+  });
 
   renderAll();
   notify('⚡ RACK Designer Next modularizado', 'success', 2500);
