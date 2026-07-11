@@ -76,13 +76,10 @@ graph TD
 | `css/` | Sistema modular de diseño (Vanilla CSS) | Separado por componentes (modales, racks, paneles, variables y estructura global). |
 | `doc/doc_md/` | Documentación técnica y funcional para desarrolladores y usuarios | Contiene el manual de usuario, análisis del proyecto y este mapa. |
 | `doc/log/` | Registros históricos de cambios en desarrollo | `CHANGELOG.md` es el diario oficial de control de cambios. |
-| `js/api/` | Módulo de comunicación externa | Preparado para futura integración con backends mediante REST APIs. |
 | `js/auth/` | Sistema de Control de Acceso Basado en Roles (RBAC) | Criptografía cliente con SHA-256 nativa. |
-| `js/core/` | Lógica algorítmica pesada sin dependencias de UI | Centraliza operaciones pesadas como conversiones de datos. |
-| `js/models/` | Modelos de Dominio puros (Lógica de Negocio) | Clases instanciables (`Rack`, `Device`, `Cable`). |
-| `js/ui/` | Capa de Presentación (Controladores del DOM) | Modula por vistas: racks, tablas, diálogo de modales y topología. |
+| `js/ui/` | Capa de Presentación (Controladores del DOM) | Modula por vistas: racks, tablas, diálogo de modales y topología (patrón MVC en `topology/`). |
 | `scripts/` | Herramientas de automatización en node.js | Scripts de compilación del manual y generación de assets. |
-| `tests/` | Suite de pruebas unitarias | Configurado para Jest/TDD. |
+| `tests/` | Suite de pruebas unitarias | Actualmente sin tests funcionales (comentados). |
 
 ---
 
@@ -91,14 +88,9 @@ graph TD
 ### A. Capa de Presentación (Presentation Layer)
 Formada por los archivos bajo `js/ui/` e `index.html`. 
 - **Responsabilidad**: Escuchar el evento `'change'` del `store`, leer el estado actual y reconstruir los nodos DOM correspondientes. 
-- **Aislamiento**: Ningún archivo de UI modifica directamente el estado interno (`_raw`) de forma manual, todo se hace a través de la interfaz del `store.state`.
+- **Aislamiento**: Ningún archivo de UI modifica directamente el estado interno (`_raw`) de forma manual, todo se hace a través de la interfaz del `store.state` o métodos expuestos del store (`updateRoom`, `setZoom`, `setPan`, etc.).
 
-### B. Capa de Dominio (Domain Layer)
-Ubicada en `js/models/`.
-- **Responsabilidad**: Define las entidades básicas independientes del framework o la interfaz del navegador.
-- **Aislamiento**: Son clases puras de ES6 (`Rack.js`, `Device.js`, `Cable.js`) que validan dimensiones, tipos de puerto y enrutamiento lógico.
-
-### C. Capa de Persistencia y E/S (Persistence & I/O Layer)
+### B. Capa de Persistencia y E/S (Persistence & I/O Layer)
 Gestionada por [js/store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_next/js/store.js) and [js/ui/fileManager.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_next/js/ui/fileManager.js).
 - **Responsabilidad**: Persistir los datos del datacenter.
 - **Comportamiento**: `store.js` autoguarda en `localStorage` tras cada mutación detectada por el Proxy. `fileManager.js` controla el flujo asíncrono con la API del Sistema de Archivos local para reescribir de forma transparente el archivo físico abierto por el usuario.
@@ -124,3 +116,10 @@ Gestionada por [js/store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/
 4. El Proxy dispara el evento `'change'` al que está suscrito `js/main.js`.
 5. `js/main.js` intercepta el cambio, ejecuta `renderAll()` para pintar el equipo en el rack físico e invoca asíncronamente a `fileManager.autoSave()`.
 6. `fileManager.autoSave()` aplica un retraso de 3 segundos (debounce). Si no ocurren nuevos cambios en este lapso, escribe directamente los datos serializados en el archivo físico en disco utilizando el `fileHandle` persistido en memoria.
+
+### Flujo de Pan/Zoom (Debounce Optimizado)
+1. El usuario arrastra el canvas de topología o usa la rueda del ratón para hacer zoom.
+2. `TopologyEvents.js` detecta el movimiento y llama a `store.setPan()` o `store.setZoom()`.
+3. Estos métodos actualizan `store._raw.topoPanX/topoPanY/topoZoom` y llaman a `_saveDebounced()`.
+4. `_saveDebounced()` usa `requestAnimationFrame` para agrupar múltiples escrituras en un solo frame (~60 Writes/seg se reducen a 1 Write/frame).
+5. El Proxy dispara `'change'` que `main.js` intercepta para actualizar la vista.

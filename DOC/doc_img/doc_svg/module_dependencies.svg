@@ -22,7 +22,7 @@
   <!-- Header -->
   <rect x="40" y="28" width="480" height="52" rx="6" fill="#0d1f30" stroke="#a855f7" stroke-width="0.8" stroke-opacity="0.6"/>
   <line x1="40" y1="28" x2="40" y2="80" stroke="#a855f7" stroke-width="3"/>
-  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#a855f7" letter-spacing="3" font-weight="600">RACK DESIGNER 2  ·  MODULE ARCHITECTURE</text>
+  <text x="60" y="49" font-family="'Segoe UI', sans-serif" font-size="9" fill="#a855f7" letter-spacing="3" font-weight="600">RACK DESIGNER NEXT  ·  MODULE ARCHITECTURE</text>
   <text x="60" y="68" font-family="'Segoe UI', sans-serif" font-size="20" fill="#f0f6ff" font-weight="700">MODULE DEPENDENCIES  ·  DEPENDENCY MAP</text>
 
   <!-- Central node: main.js -->
@@ -79,7 +79,7 @@
   <line x1="590" y1="440" x2="750" y2="622" stroke="#22d3ee" stroke-width="1.5" stroke-opacity="0.5" stroke-dasharray="6,4" marker-end="url(#arrowC)"/>
   <circle cx="770" cy="648" r="44" fill="#050a10" stroke="#22d3ee" stroke-width="1.5" filter="url(#shadow)"/>
   <text x="770" y="643" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#a5f3fc" font-weight="700">topology/</text>
-  <text x="770" y="659" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">Canvas Engine</text>
+  <text x="770" y="659" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">Canvas Engine (MVC)</text>
 
   <!-- modals/ -->
   <line x1="610" y1="430" x2="870" y2="560" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.5" stroke-dasharray="6,4" marker-end="url(#arrowP)"/>
@@ -88,17 +88,11 @@
   <text x="910" y="593" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">UI Popups</text>
 
   <!-- fileManager.js -->
-  <line x1="610" y1="360" x2="952" y2="360" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.5" stroke-dasharray="6,4" marker-end="url(#arrowP)"/>
+  <line x1="610" y1="360" x2="920" y2="360" stroke="#fbbf24" stroke-width="1.5" stroke-opacity="0.5" stroke-dasharray="6,4" marker-end="url(#arrowP)"/>
   <circle cx="968" cy="360" r="42" fill="#0d0d05" stroke="#fbbf24" stroke-width="1.5" filter="url(#shadow)"/>
   <text x="968" y="354" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#fde68a" font-weight="700">file</text>
   <text x="968" y="368" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="10" fill="#fde68a" font-weight="700">Manager.js</text>
   <text x="968" y="384" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b">FS API</text>
-
-  <!-- export.js -->
-  <line x1="610" y1="340" x2="870" y2="200" stroke="#f97316" stroke-width="1.5" stroke-opacity="0.5" stroke-dasharray="6,4" marker-end="url(#arrowP)"/>
-  <circle cx="902" cy="180" r="42" fill="#0d0805" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
-  <text x="902" y="174" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#fdba74" font-weight="700">export.js</text>
-  <text x="902" y="190" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">CSV/PNG/JSON</text>
 
   <!-- Legend -->
   <rect x="60" y="720" width="980" height="52" rx="10" fill="#0d1520" stroke="#334155" stroke-width="1"/>
@@ -109,10 +103,10 @@
   <text x="318" y="744" font-family="'Segoe UI', sans-serif" font-size="9" fill="#c4b5fd">UI modules</text>
   <line x1="400" y1="740" x2="430" y2="740" stroke="#10b981" stroke-width="2" stroke-dasharray="5,3"/>
   <text x="438" y="744" font-family="'Segoe UI', sans-serif" font-size="9" fill="#6ee7b7">Render modules</text>
-  <text x="90" y="762" font-family="'Segoe UI', monospace" font-size="9" fill="#334155">All modules register 'store-updated' listeners · No direct cross-module coupling · main.js is the sole orchestrator</text>
+  <text x="90" y="762" font-family="'Segoe UI', monospace" font-size="9" fill="#334155">All modules register 'change' listeners · No direct cross-module coupling · main.js is the sole orchestrator</text>
 
   <!-- Footer -->
   <line x1="40" y1="782" x2="1060" y2="782" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
-  <text x="48" y="798" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer 2  ·  Module Dependencies</text>
+  <text x="48" y="798" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">RACK Designer Next  ·  Module Dependencies</text>
   <text x="1052" y="798" text-anchor="end" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">doc_img/doc_svg/module_dependencies.svg</text>
 </svg>

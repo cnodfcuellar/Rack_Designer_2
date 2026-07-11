@@ -36,6 +36,14 @@ class Store {
     try { localStorage.setItem('RACK_DESIGNER_NEXT_STATE', JSON.stringify(this._raw)); } catch(e) {}
   }
 
+  _saveDebounced() {
+    if (this._saveTimer) cancelAnimationFrame(this._saveTimer);
+    this._saveTimer = requestAnimationFrame(() => {
+      this._saveTimer = null;
+      this._save();
+    });
+  }
+
   _makeProxy(obj, path = '') {
     if (typeof obj !== 'object' || obj === null) return obj;
     if (this._proxyCache.has(obj)) return this._proxyCache.get(obj);
@@ -150,6 +158,61 @@ class Store {
     this._emit('change', { source: 'addRoom' });
   }
 
+  updateRoom(id, props) {
+    this.snapshot();
+    const room = this._raw.rooms.find(r => r.id === id);
+    if (room) Object.assign(room, props);
+    this._save();
+    this._emit('change', { source: 'room-rename' });
+  }
+
+  setCurrentRoom(id) {
+    this._raw.currentRoomId = id;
+    this._save();
+    this._emit('change', { source: 'changeRoom' });
+  }
+
+  setZoom(view, value) {
+    const pfx = view === 'physical' ? 'phys' : 'topo';
+    this._raw[pfx + 'Zoom'] = value;
+    this._saveDebounced();
+    this._emit('change', { source: 'setZoom' });
+  }
+
+  setPan(view, x, y) {
+    const pfx = view === 'physical' ? 'phys' : 'topo';
+    this._raw[pfx + 'PanX'] = x;
+    this._raw[pfx + 'PanY'] = y;
+    this._saveDebounced();
+    this._emit('change', { source: 'setPan' });
+  }
+
+  deleteRoom(id) {
+    if (this._raw.rooms.length <= 1) return false;
+    this.snapshot();
+    
+    const racks = this._raw.racks.filter(r => r.roomId === id);
+    const rackIds = racks.map(r => r.id);
+    const devicesToDelete = this._raw.devices.filter(d => 
+      rackIds.includes(d.rackId) || (d.category === 'floor' && d.roomId === id)
+    );
+    const deviceIdsToDelete = new Set(devicesToDelete.map(d => d.id));
+    
+    this._raw.connections = this._raw.connections.filter(c => 
+      !deviceIdsToDelete.has(c.sourceDeviceId) && !deviceIdsToDelete.has(c.targetDeviceId)
+    );
+    this._raw.devices = this._raw.devices.filter(d => !deviceIdsToDelete.has(d.id));
+    this._raw.racks = this._raw.racks.filter(r => r.roomId !== id);
+    this._raw.rooms = this._raw.rooms.filter(r => r.id !== id);
+    this._raw.currentRoomId = this._raw.rooms[0]?.id;
+
+    this._cleanTopologyPositions({ roomIds: [id], rackIds, deviceIds: [...deviceIdsToDelete] });
+    
+    this._save();
+    this._emit('change', { source: 'deleteRoom' });
+    return true;
+  }
+
   addRack({ name, height, color }) {
     this.snapshot();
     this._raw.racks.push({ id: uid(), roomId: this._raw.currentRoomId, name, height: parseInt(height), color, devices: [] });
@@ -167,8 +230,12 @@ class Store {
 
   deleteRack(id) {
     this.snapshot();
+    const deviceIds = this._raw.devices.filter(d => d.rackId === id).map(d => d.id);
     this._raw.racks = this._raw.racks.filter(r => r.id !== id);
     this._raw.devices = this._raw.devices.filter(d => d.rackId !== id);
+
+    this._cleanTopologyPositions({ rackIds: [id], deviceIds });
+    
     this._save(); 
     this._emit('change', { source: 'deleteRack' });
   }
@@ -260,6 +327,14 @@ class Store {
     this._raw.connections = this._raw.connections.filter(c => c.id !== id);
     this._save(); 
     this._emit('change', { source: 'deleteConnection' });
+  }
+
+  _cleanTopologyPositions({ roomIds = [], rackIds = [], deviceIds = [] } = {}) {
+    const t = this._raw.topology;
+    if (!t) return;
+    if (roomIds.length)  { for (const id of roomIds)  { delete t.roomPositions[id]; delete t.roomSizes[id]; } }
+    if (rackIds.length)  { for (const id of rackIds)  { delete t.rackPositions[id]; delete t.rackSizes[id]; } }
+    if (deviceIds.length) { for (const id of deviceIds) { delete t.nodePositions[id]; } }
   }
 
   saveTopologyState(data) {

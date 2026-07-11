@@ -45,7 +45,7 @@ window.renderInspector = function(entityType, entityId) {
     const rack = data.racks.find(r => r.id === dev.rackId);
     const room = data.rooms.find(r => r.id === dev.roomId);
     
-    const locationStr = rack ? `${escapeHTML(rack.name)} (U${dev.position})` : (room ? `${escapeHTML(room.name)} (Piso)` : 'Desconocida');
+    const locationStr = rack ? `${escapeHTML(rack.name)} (U${dev.slotStart})` : (room ? `${escapeHTML(room.name)} (Piso)` : 'Desconocida');
 
     let html = `
       <div style="display:flex; flex-direction:column; gap:12px;">

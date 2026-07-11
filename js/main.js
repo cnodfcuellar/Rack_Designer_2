@@ -163,7 +163,6 @@ function renderAll(event = {}) {
     renderRoomTabs();
     renderRackSelector();
     renderStats();
-    renderStats();
     if (typeof renderOutliner === 'function') renderOutliner();
     renderCatalog();
     renderPhysical();
@@ -176,6 +175,7 @@ function renderAll(event = {}) {
   if (source.includes('Room') || source === 'room-rename' || source === 'changeRoom') {
     renderRoomTabs();
     renderRackSelector();
+    renderStats();
     renderPhysical();
     if (currentView === 'topology') {
       initTopoPositions();
@@ -184,7 +184,6 @@ function renderAll(event = {}) {
   
   if (source.includes('Rack')) {
     renderRackSelector();
-    renderStats();
     renderStats();
     if (typeof renderOutliner === 'function') renderOutliner();
     renderPhysical();
@@ -224,17 +223,17 @@ store.on('change', (e) => {
 function initGlobalEvents() {
   document.getElementById('btn-zoom-in').addEventListener('click', () => {
     const pfx = currentView === 'physical' ? 'phys' : 'topo';
-    store._raw[pfx+'Zoom'] = Math.min(3, (store._raw[pfx+'Zoom']||1) * 1.2);
+    store.setZoom(currentView, Math.min(3, (store._raw[pfx+'Zoom']||1) * 1.2));
     updateZoomLabel();
   });
   document.getElementById('btn-zoom-out').addEventListener('click', () => {
     const pfx = currentView === 'physical' ? 'phys' : 'topo';
-    store._raw[pfx+'Zoom'] = Math.max(0.2, (store._raw[pfx+'Zoom']||1) / 1.2);
+    store.setZoom(currentView, Math.max(0.2, (store._raw[pfx+'Zoom']||1) / 1.2));
     updateZoomLabel();
   });
   document.getElementById('btn-zoom-reset').addEventListener('click', () => {
-    const pfx = currentView === 'physical' ? 'phys' : 'topo';
-    store._raw[pfx+'Zoom'] = 1; store._raw[pfx+'PanX'] = 0; store._raw[pfx+'PanY'] = 0;
+    store.setZoom(currentView, 1);
+    store.setPan(currentView, 0, 0);
     updateZoomLabel();
   });
   
@@ -281,8 +280,7 @@ function initGlobalEvents() {
     window.addEventListener('pointermove', e => {
       if (physPanStart && currentView === 'physical') {
         const z = store._raw.physZoom || 1;
-        store._raw.physPanX = panOrig.x + (e.clientX - physPanStart.x) / z;
-        store._raw.physPanY = panOrig.y + (e.clientY - physPanStart.y) / z;
+        store.setPan('physical', panOrig.x + (e.clientX - physPanStart.x) / z, panOrig.y + (e.clientY - physPanStart.y) / z);
         updateZoomLabel();
       }
     });
@@ -697,18 +695,6 @@ function init() {
     });
   }
 
-  // PWA Service Worker Registration
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(registration => {
-          console.log('[Service Worker] Registrado con éxito con scope:', registration.scope);
-        })
-        .catch(err => {
-          console.error('[Service Worker] Error al registrar:', err);
-        });
-    });
-  }
 }
 
 init();

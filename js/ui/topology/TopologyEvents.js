@@ -228,8 +228,7 @@ function initTopology() {
     }
     
     if (panStart) {
-      store._raw.topoPanX = panOrig.x + (e.clientX - panStart.x);
-      store._raw.topoPanY = panOrig.y + (e.clientY - panStart.y);
+      store.setPan('topology', panOrig.x + (e.clientX - panStart.x), panOrig.y + (e.clientY - panStart.y));
       return;
     }
 
@@ -363,7 +362,7 @@ function initTopology() {
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    store._raw.topoZoom = Math.min(3, Math.max(0.1, (store._raw.topoZoom || 1) * delta));
+    store.setZoom('topology', Math.min(3, Math.max(0.1, (store._raw.topoZoom || 1) * delta)));
     updateZoomLabel();
   });
 }

@@ -122,8 +122,9 @@ function renderCatalog() {
           if (item.dataset.action === 'cat-delete') {
             const ok = await customConfirm('Eliminar Plantilla', '¿Eliminar plantilla del catálogo?');
             if(ok) {
+              const remaining = CATALOG.filter(c => c.id !== id);
               CATALOG.length = 0;
-              CATALOG.push(...CATALOG.filter(c => c.id !== id));
+              CATALOG.push(...remaining);
               renderCatalog();
             }
           }
@@ -160,8 +161,7 @@ function renderRoomTabs() {
     container.querySelectorAll('.room-tab').forEach(btn => {
       btn.addEventListener('click', async e => {
         if (e.target.dataset.delRoom) { await deleteRoom(e.target.dataset.delRoom); return; }
-        store._raw.currentRoomId = btn.dataset.roomId;
-        store._emit('change', { source: 'changeRoom' });
+        store.setCurrentRoom(btn.dataset.roomId);
         dropdownList.classList.add('hidden'); // Close dropdown on select
       });
       
@@ -173,11 +173,8 @@ function renderRoomTabs() {
         if (room) {
           const newName = prompt('Editar nombre de la sala:', room.name);
           if (newName !== null && newName.trim() !== '') {
-            store.snapshot();
-            room.name = newName.trim();
-            store._save();
-            store._emit('change', { source: 'room-rename' });
-            notify('Sala renombrada a ' + room.name, 'success');
+            store.updateRoom(roomId, { name: newName.trim() });
+            notify('Sala renombrada a ' + newName.trim(), 'success');
           }
         }
       };

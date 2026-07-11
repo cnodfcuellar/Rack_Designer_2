@@ -10,7 +10,8 @@ RACK Designer Next es una Aplicación Web Progresiva (PWA) interactiva, diseñad
 ## 2. Archivos Raíz (Configuración y Entry Points)
 * **`index.html`**: El punto de entrada principal. Contiene toda la estructura DOM (esqueleto del dashboard, lienzo central, paneles laterales y modales ocultos).
 * **`package.json` / `pnpm-lock.yaml`**: Archivos del gestor de paquetes de Node.js. Especifican las dependencias del ecosistema de desarrollo (ej. `marked` para compilar la documentación). Nota: El proyecto requiere estrictamente el uso de `pnpm`.
-* **`service-worker.js`**: Archivo de registro principal del Service Worker para la PWA, habilitando el caché sin conexión (Offline-first) y la instalación de escritorio/móvil.
+* **`service-worker.js`**: Archivo de registro principal del Service Worker para la PWA, habilitando el caché sin conexión (Offline-first) y la instalación de escritorio/móvil. Cache name: `rack-designer-next-cache-v2`.
+* **`AGENTS.md`**: Guía de onboarding para agentes de IA. Contiene arquitectura, convenciones críticas,禁止事项 y archivos clave del proyecto.
 * **`README.md`**: Información superficial del repositorio.
 * **`.gitignore`**: Reglas de exclusión de Git (ignora `.backup`, `.agents`, `node_modules`).
 
@@ -27,17 +28,13 @@ RACK Designer Next es una Aplicación Web Progresiva (PWA) interactiva, diseñad
 El cerebro de la aplicación, fuertemente modulado:
 
 ### 4.1. Core y Estado (Base)
-* **`store.js`**: El corazón del sistema. Define el estado global reactivo de la aplicación interceptando los datos con un `Proxy` ES6. Autoguarda automáticamente los cambios en el `localStorage` y dispara eventos (`store-updated`) hacia los componentes visuales.
+* **`store.js`**: El corazón del sistema. Define el estado global reactivo de la aplicación interceptando los datos con un `Proxy` ES6. Autoguarda automáticamente los cambios en el `localStorage` (con debounce para pan/zoom) y dispara eventos (`change`) hacia los componentes visuales. Expone métodos para CRUD de salas, racks, equipos y conexiones, así como `setZoom()`, `setPan()`, `setCurrentRoom()`, `updateRoom()`, `deleteRoom()` y `_cleanTopologyPositions()`.
 * **`main.js`**: El orquestador de arranque. Inicializa la UI, vincula los eventos globales del DOM, gestiona la protección de datos e inicializa el modo de rendimiento.
 * **`utils.js`**: Librería de funciones matemáticas y helpers puros (generación segura de IDs con `crypto.randomUUID()`, validadores, etc.).
 * **`demoData.js`**: Un archivo inyectable (Lazy Load) que contiene una infraestructura ficticia masiva (racks, servidores) para demostraciones instantáneas.
 
 ### 4.2. Módulos de Lógica Pura
-* **`js/models/`**: Contiene las clases instanciables de negocio independientes de la UI.
-  * `Rack.js`, `Device.js`, `Cable.js`: Definen las entidades matemáticas y validan sus propiedades antes de enviarlas al `store`.
 * **`js/auth/roles.js`**: Módulo del Sistema de Control de Accesos (RBAC). Gestiona criptográficamente el inicio de sesión (Web Crypto SHA-256) evitando el almacenamiento de texto plano.
-* **`js/api/apiClient.js`**: Capa abstracta preparada para la futura integración con bases de datos o backends externos (APIs REST).
-* **`js/core/export.js`**: Lógica algorítmica y pesada para transformar la topología JSON en formatos descargables.
 
 ### 4.3. Controladores de Interfaz (`js/ui/`)
 Módulos que escuchan al `store` y mutan el DOM:
@@ -49,7 +46,7 @@ Módulos que escuchan al `store` y mutan el DOM:
 * **`js/ui/inspector.js`**: Controlador del "Inspector de Propiedades" central en el panel derecho. Renderiza dinámicamente tarjetas de solo lectura con atributos físicos y lógicos del ítem seleccionado.
 * **`js/ui/tables.js`**: Controla el bloque inferior masivo del sistema, pintando las tablas de inventario en tiempo real.
 * **`js/ui/fileManager.js`**: Interfaz moderna de interacción con el sistema de archivos local (`window.showOpenFilePicker`) para abrir y guardar los `.json` directamente en el disco.
-* **`js/ui/topology/`**: El ecosistema gráfico de red en Canvas 2D. Está dividido en un patrón MVC estricto: `TopologyState`, `TopologyRenderer`, `TopologyLayout` y un `TopologyOrchestrator`.
+* **`js/ui/topology/`**: El ecosistema gráfico de red en Canvas 2D. Está dividido en un patrón MVC estricto: `TopologyState` (estado y persistencia), `TopologyEvents` (interacción del usuario), `TopologyLayout` (motor de posicionamiento), `TopologyRenderer` (dibujado Canvas 2D) y `TopologyOrchestrator` (coordinador principal).
 
 ---
 
@@ -70,11 +67,13 @@ Arquitectura modular de estilos.
 
 ## 7. Directorio `doc/` (Documentación)
 * **`doc/log/CHANGELOG.md`**: Diario obligatorio de modificaciones para que cualquier agente y el humano mantengan el hilo conductor.
-* **`doc/doc-md/USER_MANUAL.md`**: Guía operativa y funcional para el operador final de la infraestructura.
+* **`doc/doc_md/USER_MANUAL.md`**: Guía operativa y funcional para el operador final de la infraestructura.
+* **`doc/doc_md/CODEBASE_ORIENTATION_MAP.md`**: Mapa arquitectónico y técnico para desarrolladores.
+* **`doc/doc_img/doc_svg/`**: Diagramas SVG de arquitectura, estructura de directorios y flujos.
 
 ---
 
 ## 8. Directorios de Utilidad (Scripts / Tests / Py)
 * **`scripts/`**: Pequeños programas Node.js de construcción. Por ejemplo, `build_standalone_manual.cjs` (combina archivos Markdown usando `marked` en un solo manual HTML).
-* **`tests/`**: Suite de pruebas y TDD (Test Driven Development) para proteger componentes críticos, como `Rack.test.js`.
-* **`.py/`**: *(En caso de existir)* Directorio aislado obligatoriamente para alojar scripts analíticos auxiliares de Python.
+* **`tests/`**: Suite de pruebas y TDD (Test Driven Development) para proteger componentes críticos. Nota: Actualmente sin tests funcionales (comentados).
+* **`.py/`**: Directorio aislado para scripts analíticos auxiliares de Python.

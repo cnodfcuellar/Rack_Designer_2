@@ -1,3 +1,59 @@
+## [2026-07-11] Corrección Masiva de Bugs, Limpieza de Código Muerto y Optimización de Performance
+
+### Correcciones Críticas (8 bugs)
+- **Bug #1 — Catálogo eliminaba TODAS las plantillas:** `CATALOG = CATALOG.filter(...)` reasignaba el array completo. Corregido a `CATALOG.length = 0; CATALOG.push(...)` para preservar la referencia.
+- **Bug #2 — Service Worker con paths incorrectos:** `service-worker.js` referenciaba archivos inexistentes (`js/core/store.js`, `js/core/RackAuth.js`, `js/ui/canvas.js`). Reescrito con las rutas reales del proyecto. Cache name cambiado de `rack-designer-next-cache-v1` a `rack-designer-next-cache-v2`.
+- **Bug #3 — Doble render al cambiar sala:** `catalog.js` llamaba `store.setCurrentRoom()` + `store._emit('change')` duplicando el evento. Eliminada la emisión manual.
+- **Bug #4 — Inspector mostraba `Uundefined`:** `inspector.js:48` usaba `dev.position` (inexistente). Corregido a `dev.slotStart`.
+- **Bug #5 — deleteRoom dejaba huérfanos en topología:** Las posiciones de `roomPositions`, `rackPositions`, `nodePositions` no se limpiaban al eliminar una sala. Agregado método `_cleanTopologyPositions()` en `store.js`.
+- **Bug #6 — deleteRack dejaba huérfanos en topología:** Mismo problema que Bug #5 pero al eliminar un rack. `deleteRack()` ahora llama `_cleanTopologyPositions()`.
+- **Bug #7 — deleteRoom no actualizaba estadísticas:** `renderAll()` no incluía `renderStats()` en el branch de `Room`. Agregada la llamada.
+- **Bug #8 — Pan/Zoom causaba ~60 writes/sec a localStorage:** `setPan()` y `setZoom()` llamaban `_save()` en cada mousemove. Agregado método `_saveDebounced()` con `requestAnimationFrame` para agrupar escrituras.
+
+### Correcciones Adicionales
+- **Bug #9 — Doble registro Service Worker:** `main.js` y `index.html` ambos registraban el SW. Eliminada la línea redundante de `main.js`.
+
+### Optimización
+- **Eliminados `renderStats()` duplicados:** `main.js` tenía llamadas duplicadas en los branches de loadData/undo/redo y Rack.
+
+### Eliminación de Código Muerto (6 archivos)
+- `js/models/Rack.js`, `Device.js`, `Cable.js` — Clases nunca instanciadas
+- `js/api/apiClient.js` — Módulo nunca importado (stubs)
+- `js/core/export.js` — Módulo nunca importado (stubs)
+- `js/ui/topology.js` — Archivo vacío (solo comentario)
+- Eliminados directorios vacíos `js/models/` y `js/api/`
+- Eliminado `<script>` tag de `topology.js` en `index.html`
+- Eliminada entrada de cache en `service-worker.js`
+
+### Métodos Nuevos en store.js
+- `updateRoom(id, props)` — Actualiza propiedades de una sala
+- `setCurrentRoom(id)` — Cambia la sala activa
+- `setZoom(view, value)` — Establece zoom con debounce
+- `setPan(view, x, y)` — Establece pan con debounce
+- `deleteRoom(id)` — Elimina sala con limpieza de topología
+- `_cleanTopologyPositions({ roomIds, rackIds, deviceIds })` — Limpia posiciones obsoletas
+- `_saveDebounced()` — Escritura diferida con `requestAnimationFrame`
+
+### Archivos Modificados
+- `js/store.js` — Nuevos métodos, debounce, limpieza de topología
+- `js/main.js` — Eliminado SW duplicado, eliminados renderStats duplicados, agregado renderStats para deleteRoom
+- `js/ui/catalog.js` — Fix delete-all-templates, fix doble render
+- `js/ui/inspector.js` — Fix `dev.position` → `dev.slotStart`
+- `js/ui/topology/TopologyEvents.js` — Fix doble modal
+- `js/ui/modals/RoomModal.js` — Usa `store.deleteRoom()`
+- `service-worker.js` — Reescrito con paths correctos, cache v2
+- `index.html` — Eliminado script tag de topology.js
+- `AGENTS.md` — Nuevo archivo de onboarding para agentes de IA
+
+### Documentación
+- Actualizado CHANGELOG.md (este archivo)
+- Actualizado PROJECT_ANALYSIS.md
+- Actualizado CODEBASE_ORIENTATION_MAP.md
+- Regenerado directory_structure.svg
+- Regenerado module_dependencies.svg
+
+---
+
 ## [2026-07-10] Motor de Topología Mejorado — Layout, Espaciado y Auto-Orden
 
 ### Nuevas Características
