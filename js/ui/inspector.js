@@ -65,7 +65,7 @@ window.renderInspector = function(entityType, entityId) {
           
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Consumo:</span>
-            <span style="color:var(--amber); font-size:12px; font-weight:600;">${dev.power ? dev.power.watts : 0} W</span>
+            <span style="color:var(--amber); font-size:12px; font-weight:600;">${dev.power || 0} W</span>
           </div>
     `;
 
