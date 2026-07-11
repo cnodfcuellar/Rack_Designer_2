@@ -83,4 +83,6 @@
 .icon-file     { -webkit-mask-image: url('../../assets/icons/ui/file-text.svg'); mask-image: url('../../assets/icons/ui/file-text.svg'); }
 .icon-edit     { -webkit-mask-image: url('../../assets/icons/ui/edit.svg'); mask-image: url('../../assets/icons/ui/edit.svg'); }
 .icon-trash    { -webkit-mask-image: url('../../assets/icons/ui/trash.svg'); mask-image: url('../../assets/icons/ui/trash.svg'); }
+.icon-physical { -webkit-mask-image: url('../../assets/icons/ui/physical.svg'); mask-image: url('../../assets/icons/ui/physical.svg'); }
+.icon-topology { -webkit-mask-image: url('../../assets/icons/ui/topology.svg'); mask-image: url('../../assets/icons/ui/topology.svg'); }
 
