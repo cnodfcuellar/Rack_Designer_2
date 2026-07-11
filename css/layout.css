@@ -533,20 +533,6 @@ input[type="text"], input[type="number"], input[type="password"], select, .botto
 .outliner-summary[data-type="room"] { color: var(--text); font-weight: 600; }
 .outliner-summary:hover { background: rgba(255,255,255,0.04); color: var(--text); }
 
-/* Chevron icon — rotates when details is open */
-.outliner-chevron {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: var(--text-muted);
-  transition: transform 0.2s ease;
-}
-.outliner-chevron svg { width: 12px; height: 12px; }
-details[open] > .outliner-summary > .outliner-chevron { transform: rotate(90deg); }
-
 /* Node type icon */
 .outliner-node-icon {
   width: 13px;
