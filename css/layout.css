@@ -512,9 +512,11 @@ input[type="text"], input[type="number"], input[type="password"], select, .botto
 /* ============================================================
    OUTLINER TREE
 ============================================================ */
-/* Remove native browser triangle from <details><summary> */
+/* Remove native browser triangle from <details><summary> — all browsers */
 .outliner-summary { list-style: none; }
 .outliner-summary::-webkit-details-marker { display: none; }
+.outliner-summary::marker { display: none; }
+summary.outliner-summary { display: flex; }
 
 /* Summary row layout */
 .outliner-summary {
