@@ -460,10 +460,10 @@ function onDeviceMouseEnter(e) {
 
   tooltip.innerHTML = `
     <div class="tt-title">${escapeHTML(dev.name)}</div>
-    <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(dev.type.toUpperCase())}</span></div>
-    <div class="tt-row"><span>IP:</span> <span>${escapeHTML(dev.ip || 'N/A')}</span></div>
-    <div class="tt-row"><span>User:</span> <span>${escapeHTML(dev.user || 'N/A')}</span></div>
-    <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A')}</span></div>
+    <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(dev.type ? dev.type.toUpperCase() : 'DESCONOCIDO')}</span></div>
+    <div class="tt-row"><span>IP:</span> <span>${escapeHTML((dev.network && dev.network.ip) || 'N/A')}</span></div>
+    <div class="tt-row"><span>User:</span> <span>${escapeHTML((dev.credentials && dev.credentials.user) || 'N/A')}</span></div>
+    <div class="tt-row"><span>Pass:</span> <span>${escapeHTML((dev.credentials && dev.credentials.pass) ? (window.SHOW_PASSWORDS ? dev.credentials.pass : '••••••••') : 'N/A')}</span></div>
   `;
   
   let x = e.clientX + 15;
