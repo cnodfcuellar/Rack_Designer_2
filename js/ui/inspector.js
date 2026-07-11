@@ -69,20 +69,20 @@ window.renderInspector = function(entityType, entityId) {
           </div>
     `;
 
-    if (dev.network && dev.network.ip) {
+    if (dev.ip) {
       html += `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">IP:</span>
-            <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.network.ip)}</span>
+            <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.ip)}</span>
           </div>
       `;
     }
 
-    if (dev.network && dev.network.mac) {
+    if (dev.mac) {
       html += `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">MAC:</span>
-            <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.network.mac)}</span>
+            <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.mac)}</span>
           </div>
       `;
     }
