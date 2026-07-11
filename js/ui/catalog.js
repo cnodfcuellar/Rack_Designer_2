@@ -258,4 +258,5 @@ function renderStats() {
   document.getElementById('stat-global-racks').textContent = s.totalRacks;
   document.getElementById('stat-global-rack-devs').textContent = s.rackDevicesCount;
   document.getElementById('stat-global-floor-devs').textContent = s.floorDevicesCount;
+  document.getElementById('stat-global-connections').textContent = s.totalConnections;
 }

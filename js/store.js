@@ -314,7 +314,9 @@ class Store {
       else floorDevicesCount++;
     });
 
-    return { totalRooms, totalRacks, rackDevicesCount, floorDevicesCount };
+    const totalConnections = this._raw.connections.length;
+
+    return { totalRooms, totalRacks, rackDevicesCount, floorDevicesCount, totalConnections };
   }
 }
 
