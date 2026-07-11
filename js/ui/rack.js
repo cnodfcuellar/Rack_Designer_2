@@ -460,8 +460,8 @@ function onDeviceMouseEnter(e) {
     if(!tooltip) return;
 
     const safeName = dev.name || 'Desconocido';
-    const safeType = dev.type ? dev.type.toUpperCase() : 'DESCONOCIDO';
-    const safeIp = (dev.network && dev.network.ip) || 'N/A';
+    const safeType = dev.type ? String(dev.type).toUpperCase() : 'DESCONOCIDO';
+    const safeIp   = (dev.network && dev.network.ip) || 'N/A';
     const safeUser = (dev.credentials && dev.credentials.user) || 'N/A';
     
     let safePass = 'N/A';
@@ -471,7 +471,7 @@ function onDeviceMouseEnter(e) {
 
     tooltip.innerHTML = `
       <div class="tt-title">${escapeHTML(String(safeName))}</div>
-      <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(String(safeType))}</span></div>
+      <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(safeType)}</span></div>
       <div class="tt-row"><span>IP:</span> <span>${escapeHTML(String(safeIp))}</span></div>
       <div class="tt-row"><span>User:</span> <span>${escapeHTML(String(safeUser))}</span></div>
       <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(String(safePass))}</span></div>
