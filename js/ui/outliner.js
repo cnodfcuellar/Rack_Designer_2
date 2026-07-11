@@ -16,8 +16,10 @@ function renderOutliner() {
     html += `
       <li>
         <details open>
-          <summary class="outliner-item" data-type="room" data-id="${room.id}" style="cursor:pointer; padding:4px 0; font-weight:600; color:var(--text); user-select:none; ${window.appState && window.appState.selectedType==='room' && window.appState.selectedId===room.id ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : ''}">
-             ${escapeHTML(room.name)}
+          <summary class="outliner-item outliner-summary" data-type="room" data-id="${room.id}">
+            <span class="outliner-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            <svg class="outliner-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            ${escapeHTML(room.name)}
           </summary>
           <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
     `;
@@ -28,8 +30,10 @@ function renderOutliner() {
       html += `
         <li>
           <details>
-            <summary class="outliner-item" data-type="rack" data-id="${rack.id}" style="cursor:pointer; padding:3px 0; color:var(--text-secondary); user-select:none; ${window.appState && window.appState.selectedType==='rack' && window.appState.selectedId===rack.id ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : ''}">
-               ${escapeHTML(rack.name)}
+            <summary class="outliner-item outliner-summary" data-type="rack" data-id="${rack.id}">
+              <span class="outliner-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              <svg class="outliner-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              ${escapeHTML(rack.name)}
             </summary>
             <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
       `;
@@ -40,8 +44,9 @@ function renderOutliner() {
           rackDevs.forEach(dev => {
             const isSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
             const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
-            html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
-              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--blue); margin-right:4px;"></span>
+            html += `<li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
+              <span style="width:12px; display:inline-block;"></span>
+              <svg class="outliner-node-icon" style="color:var(--blue);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
               ${escapeHTML(dev.name)}
             </li>`;
           });
@@ -59,7 +64,9 @@ function renderOutliner() {
       html += `
         <li>
           <details>
-            <summary style="cursor:pointer; padding:3px 0; color:var(--text-secondary); user-select:none;">
+            <summary class="outliner-summary" style="cursor:pointer; padding:3px 0; color:var(--text-secondary); user-select:none;">
+              <span class="outliner-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              <svg class="outliner-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
                Equipos de Piso
             </summary>
             <ul style="list-style:none; padding-left:16px; margin:0; border-left:1px dashed var(--border);">
@@ -67,8 +74,9 @@ function renderOutliner() {
       floorDevs.forEach(dev => {
         const isSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
         const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
-        html += `<li style="padding:2px 0; color:var(--text-muted); cursor:pointer; ${bgStyle}" class="outliner-item" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
-              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--purple); margin-right:4px;"></span>
+        html += `<li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
+              <span style="width:12px; display:inline-block;"></span>
+              <svg class="outliner-node-icon" style="color:var(--purple);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
               ${escapeHTML(dev.name)}
             </li>`;
       });

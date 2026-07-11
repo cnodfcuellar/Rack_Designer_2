@@ -508,3 +508,66 @@ input[type="text"], input[type="number"], input[type="password"], select, .botto
   background: transparent;
   vertical-align: middle;
 }
+
+/* ============================================================
+   OUTLINER TREE
+============================================================ */
+/* Remove native browser triangle from <details><summary> */
+.outliner-summary { list-style: none; }
+.outliner-summary::-webkit-details-marker { display: none; }
+
+/* Summary row layout */
+.outliner-summary {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.outliner-summary[data-type="room"] { color: var(--text); font-weight: 600; }
+.outliner-summary:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+
+/* Chevron icon — rotates when details is open */
+.outliner-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+.outliner-chevron svg { width: 12px; height: 12px; }
+details[open] > .outliner-summary > .outliner-chevron { transform: rotate(90deg); }
+
+/* Node type icon */
+.outliner-node-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.outliner-summary[data-type="room"] .outliner-node-icon { color: var(--accent); opacity: 1; }
+.outliner-summary[data-type="rack"] .outliner-node-icon { color: var(--blue); opacity: 0.85; }
+
+/* Device list item */
+.outliner-device {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.outliner-device:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+.outliner-device .outliner-node-icon { width: 11px; height: 11px; }
