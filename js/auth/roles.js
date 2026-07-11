@@ -1,6 +1,6 @@
 /**
  * js/auth/roles.js
- * Sistema de roles de usuario para Rack Designer 2.
+ * Sistema de roles de usuario para Rack Designer Next.
  * Sin dependencias externas. Se expone como window.RackAuth.
  */
 (function () {

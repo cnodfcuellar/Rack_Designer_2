@@ -1,9 +1,9 @@
-# Análisis Arquitectónico del Proyecto: RACK Designer 2
+# Análisis Arquitectónico del Proyecto: RACK Designer Next
 
 Este documento es una guía estructural dirigida a todos los agentes de IA y desarrolladores, proporcionando un mapa mental de la arquitectura del proyecto, la ubicación de sus módulos y la responsabilidad de cada archivo.
 
 ## 1. Visión General de la Arquitectura
-RACK Designer 2 es una Aplicación Web Progresiva (PWA) interactiva, diseñada para modelar infraestructuras de centros de datos (Gabinetes, Servidores, Switch, Conexiones de Red). No utiliza frameworks monolíticos pesados (como React o Angular); en su lugar, está construida con **Vanilla JavaScript Moderno (ES6+)** implementando una arquitectura limpia (Clean Architecture) orientada a eventos, con un patrón MVC altamente optimizado y un sistema de estado reactivo mediante `Proxy`.
+RACK Designer Next es una Aplicación Web Progresiva (PWA) interactiva, diseñada para modelar infraestructuras de centros de datos (Gabinetes, Servidores, Switch, Conexiones de Red). No utiliza frameworks monolíticos pesados (como React o Angular); en su lugar, está construida con **Vanilla JavaScript Moderno (ES6+)** implementando una arquitectura limpia (Clean Architecture) orientada a eventos, con un patrón MVC altamente optimizado y un sistema de estado reactivo mediante `Proxy`.
 
 ---
 

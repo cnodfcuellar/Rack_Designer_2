@@ -44,7 +44,7 @@ const userManual = processMarkdown(userManualPath);
 console.log('Processing TECHNICAL_DOCS.md...');
 const techDocs = processMarkdown(techDocsPath);
 
-const combinedMd = `# Rack Designer - Documentación Completa (Standalone)\n\nEsta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.\n\n---\n\n` + userManual + `\n\n---\n\n` + techDocs;
+const combinedMd = `# Rack Designer Next - Documentación Completa (Standalone)\n\nEsta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.\n\n---\n\n` + userManual + `\n\n---\n\n` + techDocs;
 
 // Write MD
 fs.writeFileSync(path.join(__dirname, '../DOC/md/FULL_MANUAL_STANDALONE.md'), combinedMd);
@@ -58,7 +58,7 @@ const htmlTemplate = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rack Designer - Manual Autónomo</title>
+    <title>Rack Designer Next - Manual Autónomo</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

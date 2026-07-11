@@ -1,6 +1,6 @@
-# Manual de Usuario - RACK Designer 2
+# Manual de Usuario - RACK Designer Next
 
-Bienvenido al manual oficial de **RACK Designer 2**, tu herramienta 100% offline para el diseño, documentación e inventario de Centros de Datos.
+Bienvenido al manual oficial de **RACK Designer Next**, tu herramienta 100% offline para el diseño, documentación e inventario de Centros de Datos.
 
 Este manual está diseñado en un formato ligero y nativo de Markdown (`.md`), lo que significa que puedes leerlo y visualizar todos sus diagramas sin necesidad de conexión a internet usando tu editor de código o visor Markdown favorito.
 
@@ -8,7 +8,7 @@ Este manual está diseñado en un formato ligero y nativo de Markdown (`.md`), l
 
 ## 1. Conceptos Básicos
 
-**RACK Designer 2** te permite crear representaciones físicas y lógicas de tu infraestructura de red. La información siempre permanece local en tu navegador y puedes respaldarla en archivos `.json` en tu computadora.
+**RACK Designer Next** te permite crear representaciones físicas y lógicas de tu infraestructura de red. La información siempre permanece local en tu navegador y puedes respaldarla en archivos `.json` en tu computadora.
 
 ### 1.1 Modos de Visualización
 - **Modo Claro / Oscuro:** Cambia la paleta de colores para reducir la fatiga visual. Accesible desde el Menú Principal (☰).
@@ -26,14 +26,14 @@ El sistema protege tus diseños localmente mediante un sistema de pines:
 
 ### A. Menú Principal (Hamburguesa ☰)
 Ubicado en la esquina superior derecha, gestiona la persistencia de datos:
-- **Cargar Proyecto:** Importa un archivo `.json` de RACK Designer 2 previamente guardado.
+- **Cargar Proyecto:** Importa un archivo `.json` de RACK Designer Next previamente guardado.
 - **Guardar Proyecto:** Exporta todo el diseño (Salas, Gabinetes, Equipos y Enlaces) a un archivo `.json` descargable.
 - **Cargar Demo:** Sobrescribe tu lienzo con una infraestructura de ejemplo preconstruida.
 - **Modo Dios:** (Requiere Admin) Revela los campos de contraseñas de todos los equipos.
 - **Cambiar PIN Admin:** Modifica la contraseña maestra.
 
 ### B. Gestión de Salas y Gabinetes (Racks)
-Todo en RACK Designer 2 vive dentro de una **Sala**:
+Todo en RACK Designer Next vive dentro de una **Sala**:
 - **Nueva Sala:** Haz clic en "Agregar Sala" para crear una zona.
 - **Nuevo Gabinete:** Clic derecho dentro de una sala vacía o usar el botón flotante. Define el número de unidades (ej. 42U) y el color.
 - **Opciones del Gabinete (⋮):** Cada rack tiene un menú en su cabecera para: Instalar Equipos, Editar, Limpiar (vaciar el rack entero) o Eliminar el gabinete.
@@ -82,7 +82,7 @@ graph TD
 
 ## 4. Flujo de Trabajo (End-to-End)
 
-El flujo de trabajo principal ("End-to-End") del usuario final en **RACK Designer 2** está pensado para ser un proceso visual e intuitivo, desde que se abre la aplicación hasta que se documenta y exporta la infraestructura. 
+El flujo de trabajo principal ("End-to-End") del usuario final en **RACK Designer Next** está pensado para ser un proceso visual e intuitivo, desde que se abre la aplicación hasta que se documenta y exporta la infraestructura. 
 
 ### 1. Preparación del Entorno (Autenticación y Espacio)
 - **Acceso:** El usuario abre el archivo `index.html` en su navegador (todo funciona 100% offline, sin instalaciones complejas).

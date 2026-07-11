@@ -122,7 +122,8 @@ function renderCatalog() {
           if (item.dataset.action === 'cat-delete') {
             const ok = await customConfirm('Eliminar Plantilla', '¿Eliminar plantilla del catálogo?');
             if(ok) {
-              CATALOG = CATALOG.filter(c => c.id !== id);
+              CATALOG.length = 0;
+              CATALOG.push(...CATALOG.filter(c => c.id !== id));
               renderCatalog();
             }
           }

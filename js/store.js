@@ -26,14 +26,14 @@ class Store {
 
   _load() {
     try {
-      const saved = localStorage.getItem('RACK_DESIGNER_STATE');
+      const saved = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
       if (saved) return JSON.parse(saved);
     } catch(e) {}
     return this._defaultState();
   }
 
   _save() {
-    try { localStorage.setItem('RACK_DESIGNER_STATE', JSON.stringify(this._raw)); } catch(e) {}
+    try { localStorage.setItem('RACK_DESIGNER_NEXT_STATE', JSON.stringify(this._raw)); } catch(e) {}
   }
 
   _makeProxy(obj, path = '') {
@@ -293,7 +293,7 @@ class Store {
     const usedU  = rackDevices.reduce((s, d) => s + d.size, 0);
     const power  = allDevices.reduce((s, d) => s + (parseInt(d.power) || 0), 0);
     const allDeviceIds = new Set(allDevices.map(d => d.id));
-    const roomConnections = this._raw.connections.filter(c => allDeviceIds.has(c.from) || allDeviceIds.has(c.to)).length;
+    const roomConnections = this._raw.connections.filter(c => allDeviceIds.has(c.sourceDeviceId) || allDeviceIds.has(c.targetDeviceId)).length;
     
     return { racks: racks.length, devices: allDevices.length, totalU, usedU, power, connections: roomConnections };
   }

@@ -1,11 +1,11 @@
-# Prompt de Reconstrucción del Proyecto RACK Designer 2 (Atomic Design & 100% Offline)
+# Prompt de Reconstrucción del Proyecto RACK Designer Next (Atomic Design & 100% Offline)
 
 Este documento contiene un prompt maestro extremadamente detallado que puede ser entregado a un agente de inteligencia artificial o desarrollador para reconstruir este proyecto desde cero. Los requerimientos exigen cumplir con los estándares de **Atomic Design**, mantener la arquitectura reactiva basada en un **Proxy de estado global unidireccional (Vanilla JS)**, conservar todas las características, asegurar que la interfaz sea visualmente idéntica (rich glassmorphism dark theme, layouts optimizados, etc.) y garantizar que el proyecto sea **100% Offline-First**.
 
 ---
 
 ```markdown
-Actúa como un Ingeniero de Software Frontend Senior experto en Vanilla JavaScript (ES6+), CSS3 moderno y HTML5. Tu objetivo es crear desde cero un clon exacto y completamente funcional del sistema "RACK Designer 2", una consola web interactiva de simulación y diseño de datacenters (racks, equipos, topologías de red y cableado).
+Actúa como un Ingeniero de Software Frontend Senior experto en Vanilla JavaScript (ES6+), CSS3 moderno y HTML5. Tu objetivo es crear desde cero un clon exacto y completamente funcional del sistema "RACK Designer Next", una consola web interactiva de simulación y diseño de datacenters (racks, equipos, topologías de red y cableado).
 
 No debes utilizar frameworks de terceros como React, Vue, Angular o Tailwind CSS. Toda la lógica del DOM y los estilos deben ser Vanilla nativos, estructurados estrictamente bajo los principios de **Atomic Design** y organizados de manera modular.
 
@@ -17,7 +17,7 @@ La aplicación debe funcionar completamente sin conexión a Internet y sin neces
    - Almacenar en caché todos los archivos locales del proyecto (HTML, CSS, JS, imágenes, iconos SVG).
    - Pre-cachear todas las librerías cargadas por CDN en el `<head>` del HTML (`xlsx.full.min.js`, `html2canvas.min.js`, FontAwesome, Google Fonts). La aplicación no debe realizar llamadas externas de red a Internet tras la primera carga.
 2. **Cero Dependencias de Servidor**: Toda la lógica (hashing de claves, cálculos de topología, generación y parseo de archivos, exportación de informes) debe procesarse localmente en la CPU del cliente utilizando APIs del navegador.
-3. **Persistencia Redundante**: Los datos del diseño del datacenter deben almacenarse localmente y sin latencia en el navegador usando `localStorage` (clave `RACK_DESIGNER_STATE`) para asegurar que el usuario no pierda información si se cierra la ventana o el navegador se apaga abruptamente.
+3. **Persistencia Redundante**: Los datos del diseño del datacenter deben almacenarse localmente y sin latencia en el navegador usando `localStorage` (clave `RACK_DESIGNER_NEXT_STATE`) para asegurar que el usuario no pierda información si se cierra la ventana o el navegador se apaga abruptamente.
 4. **Acceso al Disco Duro Local**: Implementar la **File System Access API** (`window.showOpenFilePicker` y `window.showSaveFilePicker`) para cargar y guardar los archivos `.rack` o `.json` directamente en el almacenamiento del usuario, de forma puramente local y transparente.
 
 ---

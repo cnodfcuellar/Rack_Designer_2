@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const wsConn = XLSX.utils.aoa_to_sheet(getConnectionsData());
       XLSX.utils.book_append_sheet(wb, wsConn, "Conexiones");
       
-      XLSX.writeFile(wb, 'Rack_Designer_Completo.xlsx');
+      XLSX.writeFile(wb, 'Rack_Designer_Next_Completo.xlsx');
       notify('Excel exportado con éxito', 'success');
     });
   }

@@ -1,9 +1,9 @@
 // ============================================================
-//  RACK Designer — Service Worker (PWA Offline Support)
+//  RACK Designer Next — Service Worker (PWA Offline Support)
 //  Versión: 1.0.0
 // ============================================================
 
-const CACHE_NAME = 'rack-designer-v1.1';
+const CACHE_NAME = 'rack-designer-next-v1.1';
 
 // Lista de archivos a cachear para funcionamiento offline
 const ASSETS_TO_CACHE = [

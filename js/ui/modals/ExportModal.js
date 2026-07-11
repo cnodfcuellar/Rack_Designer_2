@@ -54,7 +54,7 @@ function exportCSV() {
 
 function exportJSON() {
   const json = JSON.stringify(store._raw, null, 2);
-  downloadBlob(json, 'Rack_Designer_Backup.rack', 'application/json');
+  downloadBlob(json, 'Rack_Designer_Next_Backup.rack', 'application/json');
   notify('Proyecto exportado como archivo .rack', 'success');
 }
 

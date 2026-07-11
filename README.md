@@ -1,4 +1,4 @@
-# RACK Designer 2
+# RACK Designer Next
 
 Un diseñador web interactivo para gabinetes de telecomunicaciones (Racks) y cableado de red (Topología).
 

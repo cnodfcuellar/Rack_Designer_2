@@ -282,9 +282,6 @@ function initTopology() {
   });
 
   canvas.addEventListener('pointerup', e => {
-    if (draggingNode && e.detail === 2) {
-      openCableModal(draggingNode);
-    }
     if (draggingNode || draggingRack || draggingRoom || resizingRack || resizingRoom) {
       saveTopo(); // Guardar cualquier cambio de posición o tamaño
     }

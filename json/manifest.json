@@ -1,7 +1,7 @@
 {
-  "name": "RACK Designer — Datacenter Console",
-  "short_name": "RACK Designer",
-  "description": "Diseña, documenta y gestiona tu datacenter de forma visual con RACK Designer.",
+  "name": "RACK Designer Next — Datacenter Console",
+  "short_name": "RACK Designer Next",
+  "description": "Diseña, documenta y gestiona tu datacenter de forma visual con RACK Designer Next.",
   "start_url": "../index.html",
   "display": "standalone",
   "orientation": "landscape",

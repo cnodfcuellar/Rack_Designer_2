@@ -667,7 +667,7 @@ function init() {
   if (btnStyle) btnStyle.classList.add('force-hide');
 
   renderAll();
-  notify('⚡ RACK Designer modularizado', 'success', 2500);
+  notify('⚡ RACK Designer Next modularizado', 'success', 2500);
 
   // Inicializar sistema de autenticación
   // Siempre mostramos el modal al iniciar (sessionStorage no persiste entre sesiones)

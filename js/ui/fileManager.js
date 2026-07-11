@@ -35,7 +35,7 @@ const fileManager = {
       try {
         const [handle] = await window.showOpenFilePicker({
           types: [{
-            description: 'Archivos Rack Designer',
+            description: 'Archivos Rack Designer Next',
             accept: { 'application/json': ['.rack', '.json'] }
           }],
           multiple: false

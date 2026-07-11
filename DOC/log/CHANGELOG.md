@@ -105,12 +105,12 @@
 
 ### Arquitectura Visual ("IDE-Grade")
 - **Purga de "AI Slop" en UI:** Se eliminaron los estilos CSS "comerciales" (alturas excesivas, paddings gigantes y botones con degradados púrpuras) incrustados en `index.html` para el `#modal-login`. Se reestructuró para forzar el uso de las clases base del sistema (`.modal`, `.btn-confirm`, `.btn-cancel`), aplicando el **Acento Técnico (Cian puro)** y respetando la regla matemática de alturas de **24px** para controles.
-- **Scroll Interno y Límites de Visualización:** Se aplicó `max-height: 90vh` y `overflow-y: auto` de forma global a la clase `.modal` en `css/components/modals.css`, garantizando que los modales extensos (como la edición de un equipo con todos los paneles expandidos) se mantengan accesibles en pantallas de baja resolución (laptops) y no oculten los botones de acción ("Guardar" / "Cancelar"). Se implementó además una barra de desplazamiento nativa estilizada que encaja con el entorno profundo de RACK Designer 2.
+- **Scroll Interno y Límites de Visualización:** Se aplicó `max-height: 90vh` y `overflow-y: auto` de forma global a la clase `.modal` en `css/components/modals.css`, garantizando que los modales extensos (como la edición de un equipo con todos los paneles expandidos) se mantengan accesibles en pantallas de baja resolución (laptops) y no oculten los botones de acción ("Guardar" / "Cancelar"). Se implementó además una barra de desplazamiento nativa estilizada que encaja con el entorno profundo de RACK Designer Next.
 
 ## [2026-06-23] Optimización PWA y Accesibilidad ARIA (Frontend Developer)
 
 ### Progressive Web App (PWA) y Core Web Vitals
-- **Instalación Offline:** Se creó el archivo `service-worker.js` para cachear la capa de presentación completa (HTML, CSS, JS, SVGs y fuentes). Esto asegura que RACK Designer 2 cargue instantáneamente y sea instalable como aplicación de escritorio/móvil independiente sin requerir conexión a la red.
+- **Instalación Offline:** Se creó el archivo `service-worker.js` para cachear la capa de presentación completa (HTML, CSS, JS, SVGs y fuentes). Esto asegura que RACK Designer Next cargue instantáneamente y sea instalable como aplicación de escritorio/móvil independiente sin requerir conexión a la red.
 - **Registro del Service Worker:** Se integró la lógica de registro en `js/main.js` interceptando el evento `load` de la ventana para no bloquear el hilo de renderizado principal (protegiendo el LCP).
 
 ### Accesibilidad (WCAG 2.1 AA)
