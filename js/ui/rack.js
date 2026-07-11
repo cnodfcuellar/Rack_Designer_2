@@ -451,29 +451,45 @@ document.addEventListener('click', () => {
 });
 
 function onDeviceMouseEnter(e) {
-  const devId = e.currentTarget.dataset.deviceId;
-  const dev = store.deviceById(devId);
-  if(!dev) return;
+  try {
+    const devId = e.currentTarget.dataset.deviceId;
+    const dev = store.deviceById(devId);
+    if(!dev) return;
 
-  const tooltip = document.getElementById('device-tooltip');
-  if(!tooltip) return;
+    const tooltip = document.getElementById('device-tooltip');
+    if(!tooltip) return;
 
-  tooltip.innerHTML = `
-    <div class="tt-title">${escapeHTML(dev.name)}</div>
-    <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(dev.type ? dev.type.toUpperCase() : 'DESCONOCIDO')}</span></div>
-    <div class="tt-row"><span>IP:</span> <span>${escapeHTML((dev.network && dev.network.ip) || 'N/A')}</span></div>
-    <div class="tt-row"><span>User:</span> <span>${escapeHTML((dev.credentials && dev.credentials.user) || 'N/A')}</span></div>
-    <div class="tt-row"><span>Pass:</span> <span>${escapeHTML((dev.credentials && dev.credentials.pass) ? (window.SHOW_PASSWORDS ? dev.credentials.pass : '••••••••') : 'N/A')}</span></div>
-  `;
-  
-  let x = e.clientX + 15;
-  let y = e.clientY + 15;
-  if(x + 220 > window.innerWidth) x = e.clientX - 235;
-  if(y + tooltip.offsetHeight > window.innerHeight) y = window.innerHeight - tooltip.offsetHeight - 10;
-  tooltip.style.left = `${x}px`;
-  tooltip.style.top = `${y}px`;
+    const safeName = dev.name || 'Desconocido';
+    const safeType = dev.type ? dev.type.toUpperCase() : 'DESCONOCIDO';
+    const safeIp = (dev.network && dev.network.ip) || 'N/A';
+    const safeUser = (dev.credentials && dev.credentials.user) || 'N/A';
+    
+    let safePass = 'N/A';
+    if (dev.credentials && dev.credentials.pass) {
+      safePass = (typeof window !== 'undefined' && window.SHOW_PASSWORDS) ? dev.credentials.pass : '••••••••';
+    }
 
-  tooltip.classList.add('visible');
+    tooltip.innerHTML = `
+      <div class="tt-title">${escapeHTML(String(safeName))}</div>
+      <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(String(safeType))}</span></div>
+      <div class="tt-row"><span>IP:</span> <span>${escapeHTML(String(safeIp))}</span></div>
+      <div class="tt-row"><span>User:</span> <span>${escapeHTML(String(safeUser))}</span></div>
+      <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(String(safePass))}</span></div>
+    `;
+    
+    let x = e.clientX + 15;
+    let y = e.clientY + 15;
+    if(x + 220 > window.innerWidth) x = e.clientX - 235;
+    // Safely get height even if hidden
+    const tooltipHeight = tooltip.offsetHeight || 150;
+    if(y + tooltipHeight > window.innerHeight) y = window.innerHeight - tooltipHeight - 10;
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${y}px`;
+
+    tooltip.classList.add('visible');
+  } catch (err) {
+    console.error('Error showing tooltip:', err);
+  }
 }
 
 function onDeviceMouseMove(e) {
