@@ -140,7 +140,10 @@ window.renderInspector = function(entityType, entityId) {
     if (!room) return;
     
     const racksCount = data.racks.filter(r => r.roomId === room.id).length;
-    const devsCount = data.devices.filter(d => d.roomId === room.id).length;
+    
+    // Contar equipos de piso (tienen roomId) y equipos en rack (tienen rackId de un rack de esta sala)
+    const roomRackIds = new Set(data.racks.filter(r => r.roomId === room.id).map(r => r.id));
+    const devsCount = data.devices.filter(d => d.roomId === room.id || roomRackIds.has(d.rackId)).length;
     
     let html = `
       <div style="display:flex; flex-direction:column; gap:12px;">

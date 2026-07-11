@@ -292,7 +292,10 @@ class Store {
     const totalU = racks.reduce((s, r) => s + r.height, 0);
     const usedU  = rackDevices.reduce((s, d) => s + d.size, 0);
     const power  = allDevices.reduce((s, d) => s + (parseInt(d.power) || 0), 0);
-    return { racks: racks.length, devices: allDevices.length, totalU, usedU, power, connections: this._raw.connections.length };
+    const allDeviceIds = new Set(allDevices.map(d => d.id));
+    const roomConnections = this._raw.connections.filter(c => allDeviceIds.has(c.from) || allDeviceIds.has(c.to)).length;
+    
+    return { racks: racks.length, devices: allDevices.length, totalU, usedU, power, connections: roomConnections };
   }
 }
 
