@@ -35,7 +35,8 @@ Este documento sirve como guía arquitectónica y técnica para desarrolladores 
 5. [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js): Controlador del renderizado físico de los racks y la detección de inserción rápida o drag-and-drop.
 6. [js/ui/outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js): Genera el árbol jerárquico (Salas > Racks > Equipos) e interactúa con el estado de selección.
 7. [js/ui/inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js): Controlador del panel central derecho que lee el estado de selección y pinta una tarjeta de lectura rápida con las propiedades del objeto.
-8. [js/ui/topology/TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js): Coordinador principal de la vista de red (Canvas 2D), inicializando render loops y manejadores de interacción.
+8. [js/ui/topology/TopologyLayout.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyLayout.js): Motor de posicionamiento del Canvas de Topología. Expone `_computeLayout()` (función interna compartida), `initTopoPositions()` (primera carga), `autoOrderTopo()` (botón ⚡) y `recalcTopoSpacing()` (slider). Usa dimensiones reales de tarjeta (`CARD_W=160, CARD_H=60`) para garantizar que no haya colisiones visuales.
+9. [js/ui/topology/TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js): Coordinador principal de la vista de red (Canvas 2D), inicializando render loops y manejadores de interacción.
 
 ### Flujo Principal de Código
 ```mermaid

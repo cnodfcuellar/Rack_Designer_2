@@ -1,3 +1,29 @@
+## [2026-07-10] Motor de Topología Mejorado — Layout, Espaciado y Auto-Orden
+
+### Nuevas Características
+- **Botón Auto-Orden (⚡):** Nuevo botón en la barra de la vista de Topología que resetea y recalcula todas las posiciones (salas, racks, nodos) desde cero usando el algoritmo de layout óptimo basado en el tamaño real de las tarjetas.
+- **Slider de Espaciado de Nodos:** Control deslizable (rango 40–150 px) para ajustar la separación vertical entre equipos dentro de los racks en tiempo real. El valor persiste entre recargas.
+- **Botón de Estilo de Topología (🎛):** Alterna la representación gráfica de los nodos entre modo Tarjeta (card) y modo Círculo (circle).
+
+### Correcciones Críticas (Motor de Layout)
+- **Reescritura completa de `TopologyLayout.js`:** El motor de posicionamiento fue rediseñado desde cero para basarse en el **tamaño real de las tarjetas** (`CARD_W=160, CARD_H=60`) en lugar de valores fijos arbitrarios. Esto elimina de raíz las colisiones visuales entre nodos.
+- **Grid de dispositivos de piso:** Los equipos instalados directamente en la sala (fuera de un rack) ahora se distribuyen en una **cuadrícula inteligente** (hasta 4 columnas, múltiples filas) en vez de una sola fila horizontal aplastada.
+- **Ancho de rack dinámico:** El ancho de cada rack se calcula según el nombre del rack y el nombre del equipo más largo, evitando texto desbordado o recortado.
+- **Función privada `_computeLayout()`:** Las tres funciones (`initTopoPositions`, `autoOrderTopo`, `recalcTopoSpacing`) ahora comparten un núcleo matemático común para garantizar consistencia en todos los escenarios.
+
+### Correcciones de UI
+- **Botón "Estilo" y Slider invisibles en Vista Física:** Se reemplazó la manipulación de `style.display` con una clase CSS `.force-hide { display: none !important; }` para garantizar que los controles de topología nunca sean visibles fuera de su contexto.
+- **Bucle de animación duplicado:** El clic en el botón de Estilo ya no llamaba a `drawTopo()` manualmente, lo que duplicaba el motor de animación y aceleraba los cables.
+- **Velocidad de animación:** Se redujo a la mitad la velocidad de las partículas en las conexiones (`flowT` de `0.015` → `0.0075`).
+
+### Archivos Modificados
+- `js/ui/topology/TopologyLayout.js` — Reescritura completa (motor de layout)
+- `js/ui/topology/TopologyState.js` — Persistencia de `TOPO_SPACING` en el estado guardado
+- `js/ui/topology/TopologyRenderer.js` — Ajuste de velocidad de animación
+- `js/main.js` — Registro de eventos de slider/botones; toggle de visibilidad por vista
+- `index.html` — Botones Auto-Orden y Slider en la barra de herramientas
+- `css/layout.css` — Clase `.force-hide` y `.topo-slider`
+
 ## [2026-07-10] Panel de Propiedades y Refactorización del Outliner
 
 ### Nuevas Características y UI

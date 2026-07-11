@@ -46,8 +46,13 @@ El panel inferior es tu centro de comandos:
 
 ### D. Topología y Redes (Vista Lógica)
 Alterna entre vista **Física** (los racks de frente) y vista de **Topología** usando los botones centrales superiores.
-- **Nodos:** Cada equipo y sala se representa como un círculo interactivo.
-- **Conectar Puertos:** Haz *Doble Clic* en un equipo de origen, luego en el equipo de destino. Se abrirá el menú para elegir puertos físicos (Ej. ETH1 a ETH2) y crear el enlace.
+- **Nodos:** Cada equipo se representa como una tarjeta interactiva (o círculo, según el modo elegido) con su nombre, IP y tipo.
+- **Conectar Puertos:** Haz *Doble Clic* en un equipo de origen, luego en el equipo de destino para abrir el menú de conexión de puertos físicos (Ej. ETH1 a ETH2).
+- **Controles de la Barra de Topología** (sólo visibles en esta vista):
+  - **🎛 Estilo:** Alterna la visualización entre modo **Tarjeta** (muestra nombre e IP dentro de una caja) y modo **Círculo** (icono circular compacto).
+  - **Slider de Espaciado:** Desliza la barra para aumentar o disminuir la distancia vertical entre equipos dentro de los racks. Útil cuando tienes muchos dispositivos en un mismo gabinete y se solapan.
+  - **⚡ Auto-Orden:** Restablece y recalcula automáticamente todas las posiciones de salas, racks y equipos usando el algoritmo óptimo. Ideal para reorganizar tras haber movido muchos elementos a mano.
+- **Mover Elementos:** Arrastra cualquier nodo, rack (cuadro verde) o sala (cuadro naranja) para reorganizar el diagrama manualmente. Los cambios persisten al recargar.
 
 ### E. Panel Derecho (Outliner, Inspector y Estadísticas)
 El panel lateral derecho condensa la información global de la infraestructura:
