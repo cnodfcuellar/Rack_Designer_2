@@ -56,16 +56,8 @@ window.renderInspector = function(entityType, entityId) {
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:var(--text-muted); font-size:12px;">Estado:</span>
-            <span style="color:var(--text); font-size:12px; display:flex; align-items:center; gap:4px;">
-              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dev.status === 'active' ? 'var(--green)' : 'var(--red)'};"></span>
-              ${dev.status === 'active' ? 'Activo' : 'Inactivo'}
-            </span>
-          </div>
-          
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:var(--text-muted); font-size:12px;">Consumo:</span>
-            <span style="color:var(--amber); font-size:12px; font-weight:600;">${dev.power || 0} W</span>
+            <span style="color:var(--text-muted); font-size:12px;">Tipo:</span>
+            <span style="color:var(--text); font-size:12px; font-weight:600;">${escapeHTML(String(dev.type).toUpperCase())}</span>
           </div>
     `;
 
@@ -83,6 +75,27 @@ window.renderInspector = function(entityType, entityId) {
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">MAC:</span>
             <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.mac)}</span>
+          </div>
+      `;
+    }
+
+    html += `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Usuario:</span>
+            <span style="color:var(--text); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.user || 'N/A')}</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Contraseña:</span>
+            <span style="color:var(--text); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A')}</span>
+          </div>
+    `;
+
+    if (dev.notes && dev.notes.trim()) {
+      html += `
+          <div style="margin-top:4px; border-top:1px solid var(--border); padding-top:6px; display:flex; flex-direction:column; gap:4px;">
+            <span style="color:var(--text-muted); font-size:11px; font-weight:600; text-transform:uppercase;">Notas:</span>
+            <div style="color:var(--text-secondary); font-size:12px; white-space:pre-wrap; font-style:italic; background:rgba(255,255,255,0.02); padding:6px; border-radius:4px; border:1px solid var(--border-light); max-height:80px; overflow-y:auto;">${escapeHTML(dev.notes)}</div>
           </div>
       `;
     }
