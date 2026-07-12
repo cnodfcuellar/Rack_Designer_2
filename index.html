@@ -35,7 +35,7 @@
   <header id="header">
     <div class="header-logo-area">
       <div style="display: flex; align-items: center; gap: 8px;">
-        <button id="mobile-menu-btn" class="menu-btn" style="display: none;" aria-label="Abrir menú móvil">☰</button>
+        <button id="mobile-menu-btn" class="menu-btn" style="display: none;" aria-label="Abrir menú móvil"><i class="svg-icon icon-menu" style="width:16px; height:16px;"></i></button>
         <div class="logo">
           <img src="assets/icons/icon.svg" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
           <div>
@@ -53,18 +53,18 @@
           </svg>
         </button>
         <div class="dropdown-menu hidden" id="project-dropdown">
-          <div class="dropdown-item" id="menu-open">📂 Abrir proyecto</div>
-          <div class="dropdown-item" id="menu-save">💾 Guardar proyecto</div>
-          <div class="dropdown-item" id="menu-save-as">💾 Guardar como...</div>
+          <div class="dropdown-item" id="menu-open"><i class="svg-icon icon-folder" style="width:14px; height:14px; margin-right:6px;"></i>Abrir proyecto</div>
+          <div class="dropdown-item" id="menu-save"><i class="svg-icon icon-save" style="width:14px; height:14px; margin-right:6px;"></i>Guardar proyecto</div>
+          <div class="dropdown-item" id="menu-save-as"><i class="svg-icon icon-save" style="width:14px; height:14px; margin-right:6px;"></i>Guardar como...</div>
           <div class="dropdown-divider"></div>
-          <div class="dropdown-item" id="menu-clear" style="color: var(--red);">🧹 Limpiar proyecto</div>
-          <div class="dropdown-item" id="menu-demo">✨ Cargar demos</div>
+          <div class="dropdown-item" id="menu-clear" style="color: var(--red);"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar proyecto</div>
+          <div class="dropdown-item" id="menu-demo"><i class="svg-icon icon-sparkle" style="width:14px; height:14px; margin-right:6px;"></i>Cargar demos</div>
           <div class="dropdown-divider"></div>
-          <div class="dropdown-item" id="menu-theme">☀️ Cambiar a Modo Claro</div>
-          <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;">👁 Modo Dios: Revelar Claves</div>
-          <div class="dropdown-item" id="menu-change-pin" style="display:none;">🔑 Cambiar PIN de Admin</div>
-          <div class="dropdown-item" id="menu-export-cat">📤 Exportar catálogo</div>
-          <div class="dropdown-item" id="menu-import-cat">📥 Importar catálogo</div>
+          <div class="dropdown-item" id="menu-theme"><i class="svg-icon icon-sun" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar a Modo Claro</div>
+          <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
+          <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
+          <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
+          <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
       </div>
     </div>
@@ -73,8 +73,11 @@
 
       <!-- Menú Desplegable de Salas -->
       <div class="nav-dropdown-wrapper" id="room-dropdown-wrapper">
-        <button class="nav-dropdown-toggle" id="room-dropdown-toggle" title="Listar Salas" aria-label="Listar salas"><i class="svg-icon icon-building" style="width:15px; height:15px;"></i></button>
-        <div id="room-tabs-active"></div>
+        <button class="nav-dropdown-toggle" id="room-dropdown-toggle" title="Seleccionar Sala" aria-label="Seleccionar sala">
+          <i class="svg-icon icon-building" style="width:14px; height:14px;"></i>
+          <span id="room-dropdown-label">Data Center</span>
+          <i class="svg-icon icon-chevron" style="width:12px; height:12px;"></i>
+        </button>
         <button class="nav-btn-add" id="btn-add-room" title="Nueva sala" aria-label="Añadir nueva sala">+</button>
         <div class="nav-dropdown-list hidden" id="room-dropdown-list"></div>
       </div>
@@ -83,8 +86,11 @@
 
       <!-- Menú Desplegable de Racks -->
       <div class="nav-dropdown-wrapper" id="rack-dropdown-wrapper">
-        <button class="nav-dropdown-toggle" id="rack-dropdown-toggle" title="Listar Gabinetes" aria-label="Listar gabinetes"><i class="svg-icon icon-server" style="width:15px; height:15px;"></i></button>
-        <div id="rack-tabs-active"></div>
+        <button class="nav-dropdown-toggle" id="rack-dropdown-toggle" title="Seleccionar Rack" aria-label="Seleccionar rack">
+          <i class="svg-icon icon-server" style="width:14px; height:14px;"></i>
+          <span id="rack-dropdown-label">Racks</span>
+          <i class="svg-icon icon-chevron" style="width:12px; height:12px;"></i>
+        </button>
         <button class="nav-btn-add" id="btn-add-rack-nav" title="Nuevo rack" aria-label="Añadir nuevo rack">+</button>
         <div class="nav-dropdown-list hidden" id="rack-dropdown-list"></div>
       </div>
@@ -105,7 +111,7 @@
         <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" aria-label="Rehacer acción" disabled>↪</button>
       </div>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
-      <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid var(--accent); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;">✏️ Editor</div>
+      <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid var(--accent); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;"><i class="svg-icon icon-edit" style="width:11px; height:11px; margin-right:4px;"></i>Editor</div>
       <input type="file" id="file-import" accept=".json" style="display:none">
     </div>
   </header>
@@ -113,7 +119,7 @@
   <!-- SIDEBAR -->
   <aside id="sidebar">
     <div class="sb-title mobile-only" style="display:flex; justify-content:flex-end; padding-right:8px; border-bottom: 1px solid var(--border);">
-      <button id="btn-close-sidebar" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel" aria-label="Cerrar panel de catálogo">✕</button>
+      <button id="btn-close-sidebar" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel" aria-label="Cerrar panel de catálogo"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
     </div>
     <div class="sb-actions">
       <button class="btn-primary" id="btn-add-rack">+ Rack</button>
@@ -142,14 +148,14 @@
       <span class="zoom-label" id="zoom-level">100%</span>
       <button class="h-btn" id="btn-zoom-in" aria-label="Acercar zoom">+</button>
       <button class="h-btn" id="btn-zoom-reset" aria-label="Restablecer zoom a escala original">⊙ 1:1</button>
-      <button class="h-btn force-hide" id="btn-topo-style">🎛 Estilo</button>
+      <button class="h-btn force-hide" id="btn-topo-style"><i class="svg-icon icon-sliders" style="width:14px; height:14px; margin-right:4px;"></i>Estilo</button>
       <input type="range" id="topo-spacing" min="40" max="150" value="60" class="topo-slider force-hide" title="Espaciado de Nodos">
-      <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos">⚡ Auto-Orden</button>
+      <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Auto-Orden</button>
       
       <div class="spacer"></div>
       
-      <button class="h-btn" id="btn-export-png">📸 PNG</button>
-      <button class="h-btn" id="btn-expand-main">⛶ Expandir</button>
+      <button class="h-btn" id="btn-export-png"><i class="svg-icon icon-image" style="width:14px; height:14px; margin-right:4px;"></i>PNG</button>
+      <button class="h-btn" id="btn-expand-main"><i class="svg-icon icon-maximize" style="width:14px; height:14px; margin-right:4px;"></i>Expandir</button>
     </div>
     <div id="view-physical"></div>
     <canvas id="topology-canvas"></canvas>
@@ -220,7 +226,7 @@
       </div>
       <div class="spacer"></div>
       <button class="btn-primary" id="table-btn-add-device" style="margin-right:8px; display:none;">+ Equipo</button>
-      <button class="btn-primary" id="table-btn-add-placement" style="margin-right:8px; display:none; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent)">⚡ Agregar Equipo</button>
+      <button class="btn-primary" id="table-btn-add-placement" style="margin-right:8px; display:none; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent)"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Agregar Equipo</button>
       <button class="btn-primary" id="table-btn-add-conn" style="margin-right:8px; display:none;">+ Conexión</button>
       <div class="h-search" style="margin-right:8px">
         <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
@@ -228,11 +234,11 @@
       <div class="dropdown-wrap" id="export-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
         <button class="h-btn" id="btn-export-menu" aria-haspopup="true">⬇ Exportar ▼</button>
         <div class="dropdown-menu hidden" id="export-dropdown" style="top: 100%; bottom: auto; right: 0; margin-top: 8px; width: 180px; z-index: 9999;">
-          <div class="dropdown-item" id="btn-table-csv">📄 Exportar a CSV</div>
-          <div class="dropdown-item" id="btn-table-excel">📊 Exportar a Excel</div>
+          <div class="dropdown-item" id="btn-table-csv"><i class="svg-icon icon-file" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a CSV</div>
+          <div class="dropdown-item" id="btn-table-excel"><i class="svg-icon icon-chart" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a Excel</div>
         </div>
       </div>
-      <button class="h-btn" id="btn-expand-bottom">⛶ Expandir</button>
+      <button class="h-btn" id="btn-expand-bottom"><i class="svg-icon icon-maximize" style="width:14px; height:14px; margin-right:4px;"></i>Expandir</button>
       <button class="h-btn" id="btn-collapse-bottom" aria-label="Contraer o expandir panel inferior">▼</button>
     </div>
     <div class="table-wrap" id="bottom-table-wrap"></div>
@@ -251,7 +257,7 @@
 <!-- MODALS -->
 <div class="modal-overlay hidden" id="modal-rack">
   <div class="modal">
-    <div class="modal-title">🗄️ <span id="modal-rack-title">Nuevo Gabinete</span></div>
+    <div class="modal-title"><i class="svg-icon icon-server" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-rack-title">Nuevo Gabinete</span></div>
     <div class="modal-sub">Configura las propiedades del gabinete físico</div>
     <div class="form-row"><label>Nombre del Gabinete</label><input type="text" id="rack-name" placeholder="Rack A1 — Producción"></div>
     <div class="form-grid">
@@ -272,7 +278,7 @@
 
 <div class="modal-overlay hidden" id="modal-device">
   <div class="modal">
-    <div class="modal-title">🖥️ <span id="modal-device-title">Editar Equipo</span></div>
+    <div class="modal-title"><i class="svg-icon icon-desktop" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-device-title">Editar Equipo</span></div>
     
     <div class="modal-sub" id="modal-device-sub" style="margin-bottom:8px">Información General</div>
     <div class="form-row"><label>Nombre del Equipo *</label><input type="text" id="dev-name" placeholder="Ej: SRV-001"></div>
@@ -280,33 +286,33 @@
       <div class="form-row"><label>Tipo de Equipo *</label>
         <select id="dev-type">
           <optgroup label="── Equipos en Rack ──" id="opt-rack">
-            <option value="server">🖥 Servidor</option>
-            <option value="switch">🔀 Switch</option>
-            <option value="router">🌐 Router</option>
-            <option value="firewall">🔥 Firewall</option>
-            <option value="storage">💾 Storage</option>
-            <option value="patchpanel">🎛️ Patch Panel</option>
-            <option value="organizer">🖇️ Organizador</option>
-            <option value="ups">🔋 UPS</option>
-            <option value="pdu">🔌 PDU</option>
-            <option value="tray">🗄️ Bandeja</option>
-            <option value="kvm">⌨️ Consola KVM</option>
+            <option value="server">Servidor</option>
+            <option value="switch">Switch</option>
+            <option value="router">Router</option>
+            <option value="firewall">Firewall</option>
+            <option value="storage">Storage</option>
+            <option value="patchpanel">Patch Panel</option>
+            <option value="organizer">Organizador</option>
+            <option value="ups">UPS</option>
+            <option value="pdu">PDU</option>
+            <option value="tray">Bandeja</option>
+            <option value="kvm">Consola KVM</option>
           </optgroup>
           <optgroup label="── Equipos de Piso ──" id="opt-floor" style="display: none;">
-            <option value="pc">💻 PC / Workstation</option>
-            <option value="camera">📷 Cámara IP</option>
-            <option value="ap">📶 Access Point</option>
-            <option value="door">🚪 Ctrl de Puerta</option>
-            <option value="printer">🖨️ Impresora</option>
-            <option value="phone">📞 Teléfono VoIP</option>
+            <option value="pc">PC / Workstation</option>
+            <option value="camera">Cámara IP</option>
+            <option value="ap">Access Point</option>
+            <option value="door">Ctrl de Puerta</option>
+            <option value="printer">Impresora</option>
+            <option value="phone">Teléfono VoIP</option>
           </optgroup>
         </select>
       </div>
       <div class="form-row"><label>Estado *</label>
         <select id="dev-status">
-          <option value="active">🟢 Activo</option>
-          <option value="maintenance">🟠 Mantenimiento</option>
-          <option value="offline">🔴 Apagado</option>
+          <option value="active">Activo</option>
+          <option value="maintenance">Mantenimiento</option>
+          <option value="offline">Apagado</option>
         </select>
       </div>
     </div>
@@ -350,8 +356,8 @@
         <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="form-row" style="margin-bottom:0;"><label>Categoría</label>
             <select id="dev-category">
-              <option value="rack">🗄️ Gabinete (Rack)</option>
-              <option value="floor">🏢 Equipo de Piso</option>
+              <option value="rack">Gabinete (Rack)</option>
+              <option value="floor">Equipo de Piso</option>
             </select>
           </div>
           <div class="form-row" id="dev-size-row" style="margin-bottom:0;">
@@ -423,7 +429,7 @@
 
 <div class="modal-overlay hidden" id="modal-room">
   <div class="modal">
-    <div class="modal-title">🏢 Nueva Sala</div>
+    <div class="modal-title"><i class="svg-icon icon-building" style="width:16px; height:16px; margin-right:8px;"></i>Nueva Sala</div>
     <div class="modal-sub">Agregar una sala al centro de datos</div>
     <div class="form-row"><label>Nombre de la Sala</label><input type="text" id="room-name" placeholder="Sala A — Centro de Datos Principal"></div>
     <div class="modal-footer">
@@ -435,7 +441,7 @@
 
 <div class="modal-overlay hidden" id="modal-cable">
   <div class="modal">
-    <div class="modal-title">🔌 <span id="modal-cable-title">Conectar Equipos</span></div>
+    <div class="modal-title"><i class="svg-icon icon-plug" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-cable-title">Conectar Equipos</span></div>
     <div class="modal-sub">Conectar puertos entre equipos</div>
     <div class="form-grid">
       <div class="form-row"><label>Equipo Origen</label>
@@ -460,10 +466,10 @@
     <div class="form-grid">
       <div class="form-row"><label>Tipo de Cable</label>
         <select id="cable-type">
-          <option value="Cobre">🟦 Cobre (Cat6/Cat6A)</option>
-          <option value="Fibra SM">🔴 Fibra Monomodo</option>
-          <option value="Fibra MM">🟡 Fibra Multimodo</option>
-          <option value="DAC">🟢 DAC (Direct Attach)</option>
+          <option value="Cobre">Cobre (Cat6/Cat6A)</option>
+          <option value="Fibra SM">Fibra Monomodo</option>
+          <option value="Fibra MM">Fibra Multimodo</option>
+          <option value="DAC">DAC (Direct Attach)</option>
         </select>
       </div>
       <div class="form-row"><label>Color del Cable</label>
@@ -482,7 +488,7 @@
 
 <div class="modal-overlay hidden" id="modal-export-png">
   <div class="modal">
-    <div class="modal-title">📸 Exportar Rack a PNG</div>
+    <div class="modal-title"><i class="svg-icon icon-image" style="width:16px; height:16px; margin-right:8px;"></i>Exportar Rack a PNG</div>
     <div class="modal-sub">Selecciona el gabinete que deseas exportar</div>
     <div id="png-rack-list"></div>
     <div class="modal-footer">
@@ -493,7 +499,7 @@
 
 <div class="modal-overlay hidden" id="modal-quick-placement">
   <div class="modal" style="max-width: 450px;">
-    <div class="modal-title">⚡ <span id="qp-modal-title">Ubicación Rápida</span></div>
+    <div class="modal-title"><i class="svg-icon icon-bolt" style="width:16px; height:16px; margin-right:8px;"></i><span id="qp-modal-title">Ubicación Rápida</span></div>
     <div class="modal-sub" id="qp-modal-sub">Ubicar de forma asistida sin arrastrar</div>
     
     <div class="form-row" id="qp-dev-display-row">
@@ -595,23 +601,23 @@
 ============================= -->
 <div id="modal-login" style="display:flex; visibility:hidden; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; transition:visibility 0s, opacity 0.2s; opacity:0; pointer-events:none;">
   <div class="modal" style="text-align: center; max-width: 320px; padding: 24px;">
-    <h2 class="modal-title" style="justify-content: center; margin-bottom: 8px;">⚡ RACK Designer Next</h2>
+    <h2 class="modal-title" style="justify-content: center; margin-bottom: 8px;"><i class="svg-icon icon-bolt" style="width:20px; height:20px; margin-right:8px;"></i>RACK Designer Next</h2>
     <div class="modal-sub" style="margin-bottom: 16px; font-size: var(--text-xs);">
       Consola centralizada del Datacenter.<br>Identifíquese para continuar.
     </div>
     <!-- PIN Input -->
     <div class="form-row" style="position:relative; margin-bottom:12px;">
       <input type="password" id="login-pin-input" placeholder="PIN de administrador" autocomplete="off" style="text-align: center; padding-right: 28px !important;">
-      <button id="login-pin-toggle" type="button" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:12px; color:var(--text-secondary);" title="Mostrar/ocultar">👁</button>
+      <button id="login-pin-toggle" type="button" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:12px; color:var(--text-secondary);" title="Mostrar/ocultar"><i class="svg-icon icon-eye" style="width:14px; height:14px;"></i></button>
     </div>
-    <div id="login-error" style="color:var(--danger); font-size:var(--text-xs); margin-bottom:10px; display:none;">❌ PIN incorrecto. Acceso denegado.</div>
+    <div id="login-error" style="color:var(--danger); font-size:var(--text-xs); margin-bottom:10px; display:none;"><i class="svg-icon icon-x" style="width:12px; height:12px; margin-right:4px;"></i>PIN incorrecto. Acceso denegado.</div>
     <!-- First-time PIN notice -->
-    <div id="login-pin-notice" style="color:var(--warning); font-size:var(--text-xs); margin-bottom:12px; display:none;">⚠️ PIN por defecto: <code style='background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;'>rack2024</code></div>
+    <div id="login-pin-notice" style="color:var(--warning); font-size:var(--text-xs); margin-bottom:12px; display:none;"><i class="svg-icon icon-warning" style="width:12px; height:12px; margin-right:4px;"></i>PIN por defecto: <code style='background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;'>rack2024</code></div>
     <!-- Role buttons -->
-    <button id="btn-login-admin" class="btn-confirm" style="width:100%; margin-bottom:8px;">🔑 Admin Auth</button>
+    <button id="btn-login-admin" class="btn-confirm" style="width:100%; margin-bottom:8px;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Admin Auth</button>
     <div style="display:flex; gap:8px; margin-bottom:16px;">
-      <button id="btn-login-editor" class="btn-cancel" style="flex:1;">✏️ Editor</button>
-      <button id="btn-login-viewer" class="btn-cancel" style="flex:1;">👁 Espectador</button>
+      <button id="btn-login-editor" class="btn-cancel" style="flex:1;"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:4px;"></i>Editor</button>
+      <button id="btn-login-viewer" class="btn-cancel" style="flex:1;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:4px;"></i>Espectador</button>
     </div>
     <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">
       SESSION_EXPIRATION = VOLATILE
@@ -624,7 +630,7 @@
 ============================= -->
 <div id="modal-change-pin" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
   <div style="background:var(--bg-secondary,#1e293b); border:1px solid var(--border,#334155); border-radius:16px; padding:32px 28px; max-width:380px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
-    <div style="font-size:2.5rem; margin-bottom:8px;">🔑</div>
+    <div style="font-size:2.5rem; margin-bottom:8px;"><i class="svg-icon icon-lock" style="width:40px; height:40px;"></i></div>
     <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--text,#f8fafc);">Cambiar PIN de Administrador</h2>
     <p style="color:var(--text-secondary,#94a3b8); font-size:13px; margin-bottom:20px;">El nuevo PIN debe tener mínimo 4 caracteres.</p>
     <input type="password" id="pin-current-input" placeholder="PIN actual" autocomplete="off"
@@ -640,7 +646,7 @@
              border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
              color:var(--text,#f8fafc); font-size:14px; outline:none;">
     <div id="pin-change-error" style="color:#f87171; font-size:12px; margin-bottom:10px; display:none;"></div>
-    <div id="pin-change-success" style="color:#4ade80; font-size:12px; margin-bottom:10px; display:none;">✅ PIN actualizado correctamente.</div>
+    <div id="pin-change-success" style="color:#4ade80; font-size:12px; margin-bottom:10px; display:none;"><i class="svg-icon icon-check" style="width:12px; height:12px; margin-right:4px;"></i>PIN actualizado correctamente.</div>
     <div style="display:flex; gap:8px;">
       <button id="btn-pin-cancel" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border,#334155); background:transparent; color:var(--text,#f8fafc); font-size:13px; font-weight:600; cursor:pointer;">Cancelar</button>
       <button id="btn-pin-save" style="flex:1; padding:10px; border-radius:6px; border:none; background:var(--accent); color:var(--bg-main); font-size:13px; font-weight:700; cursor:pointer;">Guardar PIN</button>

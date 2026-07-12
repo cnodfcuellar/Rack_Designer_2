@@ -1,3 +1,34 @@
+## [2026-07-11] Reemplazo Masivo de Emojis por SVG Icons — Design System Compliance
+
+### Cambio Principal: Eliminación de Emojis del Codebase
+- **~140 emojis reemplazados** por `<i class="svg-icon icon-X"></i>` SVG icons en todo el proyecto
+- **32 nuevas clases de iconos SVG** agregadas a `css/components/misc.css` (mask-image pattern)
+- Iconos nuevos: `icon-menu`, `icon-folder`, `icon-save`, `icon-sun`, `icon-moon`, `icon-eye`, `icon-eye-off`, `icon-upload`, `icon-download`, `icon-x`, `icon-sliders`, `icon-maximize`, `icon-chart`, `icon-flame`, `icon-database`, `icon-battery`, `icon-plug`, `icon-check`, `icon-warning`, `icon-crown`, `icon-prohibited`, `icon-rotate`, `icon-sparkle`, `icon-layout`, `icon-kebab`, `icon-paperclip`
+- Iconos existentes reutilizados: `icon-bolt`, `icon-lock`, `icon-edit`, `icon-trash`, `icon-image`, `icon-file`, `icon-desktop`, `icon-building`, `icon-server`
+
+### Archivos Modificados
+- **index.html** — Todos los emojis en botones, divs, spans, modales reemplazados. Emojis en `<option>` y `<title>` eliminados/conservados (imposible usar HTML en estos elementos)
+- **js/main.js** — Badge de usuario (textContent→innerHTML), toggle theme, toggle passwords, expand/contrar, notificaciones
+- **js/ui/rack.js** — Empty state icon, device action buttons, flip button, dropdown menus, context menu, floor section button
+- **js/ui/catalog.js** — Context menu items, notificaciones de viewer
+- **js/ui/tables.js** — Edit/delete action buttons
+- **js/ui/modals/ExportModal.js** — PNG export button text
+- **js/ui/modals/DeviceModal.js** — **Bug fix**: Iconos de catálogo corruptos (emojis como `💻` en vez de paths como `assets/icons/floor/pc.svg`)
+- **js/ui/modals/RackModal.js** — Notificaciones de viewer
+- **js/ui/modals/PlacementModal.js** — Titles, room/rack option text
+- **js/ui/topology/TopologyLayout.js** — Notificación de auto-orden
+- **js/utils.js** — Notify function (Unicode symbols → SVG icons), customConfirm dialog
+
+### Bug Fix Adicional
+- **DeviceModal.js icon paths**: Los iconos de catálogo se asignaban como emojis (`💻`, `🖥`, etc.) que nunca se renderizaban en el grid. Corregido a rutas SVG reales (`assets/icons/floor/pc.svg`, `assets/icons/server/server.svg`, etc.)
+- **rack.js purple leftover**: Botón "Agregar Equipo" del floor section todavía usaba `rgba(139,92,246,0.15)` y `var(--purple)`. Corregido a `rgba(56,189,248,0.15)` y `var(--accent)`
+
+### Nota sobre Emojis Restantes
+- `<title>⚡ RACK Designer Next</title>` — Conservado (imposible usar HTML en title)
+- `✕` Unicode (U+2715) en close buttons — Conservado (carácter estándar de UI, no emoji)
+
+---
+
 ## [2026-07-11] Corrección Masiva de Bugs, Limpieza de Código Muerto y Optimización de Performance
 
 ### Correcciones Críticas (8 bugs)

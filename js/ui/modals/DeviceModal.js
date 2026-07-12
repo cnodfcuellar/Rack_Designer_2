@@ -232,8 +232,8 @@ function initDeviceModal() {
         item.plugsOut = parseInt(props.plugsOut) || 0;
         item.size = FLOOR_TYPES.has(props.type) ? 0 : (parseInt(props.size) || 1);
         item.icon = FLOOR_TYPES.has(props.type)
-          ? { pc:'💻', camera:'📷', ap:'📶', door:'🚪', printer:'🖨️', phone:'📞' }[props.type]
-          : { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾' }[props.type];
+          ? { pc:'assets/icons/floor/pc.svg', camera:'assets/icons/floor/camera.svg', ap:'assets/icons/network/ap.svg', door:'assets/icons/floor/door.svg', printer:'assets/icons/floor/printer.svg', phone:'assets/icons/floor/phone.svg' }[props.type]
+          : { server:'assets/icons/server/server.svg', switch:'assets/icons/network/switch.svg', router:'assets/icons/network/router.svg', firewall:'assets/icons/network/firewall.svg', ups:'assets/icons/power/ups.svg', storage:'assets/icons/storage/san.svg' }[props.type];
         item.color = TYPE_COLORS[item.type] || '#8b9ab8';
         renderCatalog();
         notify('Plantilla de catálogo actualizada', 'success');
@@ -252,7 +252,7 @@ function initDeviceModal() {
         const newItem = {
           id: uid(),
           ...props,
-          icon: { server:'🖥', switch:'🔀', router:'🌐', firewall:'🔥', ups:'🔋', storage:'💾' }[props.type] || '🖥',
+          icon: { server:'assets/icons/server/server.svg', switch:'assets/icons/network/switch.svg', router:'assets/icons/network/router.svg', firewall:'assets/icons/network/firewall.svg', ups:'assets/icons/power/ups.svg', storage:'assets/icons/storage/san.svg' }[props.type] || 'assets/icons/server/server.svg',
           color: TYPE_COLORS[props.type] || '#8b9ab8'
         };
         if (typeof addCatalogItem === 'function') addCatalogItem(newItem);

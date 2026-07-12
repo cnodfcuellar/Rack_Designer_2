@@ -1,0 +1,598 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2600" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arrow-cyan-rev" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 10 0 L 0 5 L 10 10 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <rect width="2000" height="2600" fill="#0b0f19" rx="12"/>
+
+  <!-- Title -->
+  <text x="1000" y="40" text-anchor="middle" fill="#38bdf8" font-size="28" font-weight="800">RACK Designer Next — Project Flow Diagram</text>
+  <text x="1000" y="68" text-anchor="middle" fill="#64748b" font-size="14">Initialization → User Interaction → State Mutation → Proxy Trap → Event Emission → UI Re-render</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 1: APPLICATION INITIALIZATION -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="90" width="1920" height="320" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="60" y="118" fill="#38bdf8" font-size="18" font-weight="800">FLOW 1: APPLICATION INITIALIZATION</text>
+
+  <!-- Step 1: HTML Load -->
+  <rect x="60" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="140" y="162" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">HTML Load</text>
+  <text x="140" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">index.html parses</text>
+
+  <line x1="220" y1="168" x2="260" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: CSS Load -->
+  <rect x="262" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="342" y="162" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">CSS Load</text>
+  <text x="342" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">variables→layout→panels</text>
+
+  <line x1="422" y1="168" x2="462" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: JS Load -->
+  <rect x="464" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#10b981" stroke-width="1.5"/>
+  <text x="544" y="162" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">JS Load</text>
+  <text x="544" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">All &lt;script&gt; tags execute</text>
+
+  <line x1="624" y1="168" x2="664" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: store.js constructor -->
+  <rect x="666" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="746" y="162" text-anchor="middle" fill="#8b5cf6" font-size="12" font-weight="700">store.constructor()</text>
+  <text x="746" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">_load() from localStorage</text>
+
+  <line x1="826" y1="168" x2="866" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 5: Proxy Setup -->
+  <rect x="868" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="948" y="162" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">Proxy Setup</text>
+  <text x="948" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">_makeProxy(state)</text>
+
+  <line x1="1028" y1="168" x2="1068" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 6: init() -->
+  <rect x="1070" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="1150" y="162" text-anchor="middle" fill="#06b6d4" font-size="12" font-weight="700">main.js init()</text>
+  <text x="1150" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">All event bindings</text>
+
+  <line x1="1230" y1="168" x2="1270" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 7: Auth Check -->
+  <rect x="1272" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1352" y="162" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">Auth Check</text>
+  <text x="1352" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">sessionStorage session?</text>
+
+  <line x1="1432" y1="168" x2="1472" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 8: renderAll() -->
+  <rect x="1474" y="138" width="160" height="60" rx="10" fill="#151c2e" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1554" y="162" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">renderAll()</text>
+  <text x="1554" y="180" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Initial full render</text>
+
+  <line x1="1634" y1="168" x2="1674" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 9: UI Ready -->
+  <rect x="1676" y="138" width="160" height="60" rx="10" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="2"/>
+  <text x="1756" y="162" text-anchor="middle" fill="#10b981" font-size="12" font-weight="800">UI READY</text>
+  <text x="1756" y="180" text-anchor="middle" fill="#10b981" font-size="9" class="mono">App interactive</text>
+
+  <!-- Auth branch -->
+  <rect x="1272" y="214" width="160" height="40" rx="8" fill="#f59e0b" opacity="0.1" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="1352" y="240" text-anchor="middle" fill="#f59e0b" font-size="9">No session → Login Modal</text>
+  <line x1="1352" y1="198" x2="1352" y2="214" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="3,2"/>
+
+  <!-- Auth methods -->
+  <rect x="60" y="220" width="580" height="80" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+  <text x="72" y="240" fill="#64748b" font-size="10" font-weight="700">init() BINDS:</text>
+  <text x="72" y="258" fill="#94a3b8" font-size="9" class="mono">initModals() · initAuthModal() · initGlobalEvents() · initCatalog() · initPhysicalDrag()</text>
+  <text x="72" y="274" fill="#94a3b8" font-size="9" class="mono">initFileEvents() · store.on('change', renderAll) · initRoomDropdowns() · initBottomPanel()</text>
+  <text x="72" y="290" fill="#94a3b8" font-size="9" class="mono">initExportMenu() · initExpandButtons() · ResizeObserver on #main</text>
+
+  <!-- Store load branch -->
+  <rect x="666" y="214" width="160" height="50" rx="8" fill="#8b5cf6" opacity="0.1" stroke="#8b5cf6" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="746" y="234" text-anchor="middle" fill="#8b5cf6" font-size="9">localStorage exists?</text>
+  <text x="746" y="250" text-anchor="middle" fill="#8b5cf6" font-size="8">Yes: parse JSON</text>
+  <rect x="666" y="270" width="160" height="30" rx="8" fill="#8b5cf6" opacity="0.1" stroke="#8b5cf6" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="746" y="290" text-anchor="middle" fill="#8b5cf6" font-size="8">No: _defaultState()</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 2: USER ACTION → STATE MUTATION → RE-RENDER -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="430" width="1920" height="420" rx="12" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+  <text x="60" y="458" fill="#10b981" font-size="18" font-weight="800">FLOW 2: USER ACTION → STATE MUTATION → RE-RENDER (Core Reactive Loop)</text>
+
+  <!-- User Action -->
+  <rect x="60" y="480" width="200" height="70" rx="12" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="2"/>
+  <text x="160" y="506" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="800">USER ACTION</text>
+  <text x="160" y="524" text-anchor="middle" fill="#94a3b8" font-size="9">Click, Drag, Drop,</text>
+  <text x="160" y="538" text-anchor="middle" fill="#94a3b8" font-size="9">Keyboard, Double-click</text>
+
+  <line x1="260" y1="515" x2="300" y2="515" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+
+  <!-- UI Handler -->
+  <rect x="302" y="480" width="200" height="70" rx="12" fill="#151c2e" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="402" y="506" text-anchor="middle" fill="#0ea5e9" font-size="13" font-weight="700">UI EVENT HANDLER</text>
+  <text x="402" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">onSlotDrop()</text>
+  <text x="402" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">onDeviceDoubleClick()</text>
+
+  <line x1="502" y1="515" x2="542" y2="515" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Store Method -->
+  <rect x="544" y="480" width="200" height="70" rx="12" fill="#151c2e" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="644" y="506" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="700">STORE METHOD</text>
+  <text x="644" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">store.addDeviceToRack()</text>
+  <text x="644" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">store.updateDevice()</text>
+
+  <line x1="744" y1="515" x2="784" y2="515" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- snapshot() -->
+  <rect x="786" y="480" width="140" height="70" rx="12" fill="#151c2e" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="856" y="506" text-anchor="middle" fill="#ef4444" font-size="13" font-weight="700">snapshot()</text>
+  <text x="856" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">deepClone(_raw)</text>
+  <text x="856" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">→ _undoStack</text>
+
+  <line x1="926" y1="515" x2="966" y2="515" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Mutate _raw -->
+  <rect x="968" y="480" width="160" height="70" rx="12" fill="#151c2e" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="1048" y="506" text-anchor="middle" fill="#8b5cf6" font-size="13" font-weight="700">MUTATE _raw</text>
+  <text x="1048" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Object.assign() or</text>
+  <text x="1048" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">push()/splice()</text>
+
+  <line x1="1128" y1="515" x2="1168" y2="515" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Proxy Trap -->
+  <rect x="1170" y="480" width="160" height="70" rx="12" fill="#151c2e" stroke="#f43f5e" stroke-width="1.5"/>
+  <text x="1250" y="506" text-anchor="middle" fill="#f43f5e" font-size="13" font-weight="700">PROXY TRAP</text>
+  <text x="1250" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">set(target, key, val)</text>
+  <text x="1250" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">intercepts every write</text>
+
+  <line x1="1330" y1="515" x2="1370" y2="515" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- _save() -->
+  <rect x="1372" y="480" width="140" height="70" rx="12" fill="#151c2e" stroke="#06b6d4" stroke-width="1.5"/>
+  <text x="1442" y="506" text-anchor="middle" fill="#06b6d4" font-size="13" font-weight="700">_save()</text>
+  <text x="1442" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">localStorage.setItem()</text>
+  <text x="1442" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">JSON.stringify(_raw)</text>
+
+  <line x1="1512" y1="515" x2="1552" y2="515" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- _emit('change') -->
+  <rect x="1554" y="480" width="160" height="70" rx="12" fill="#151c2e" stroke="#10b981" stroke-width="1.5"/>
+  <text x="1634" y="506" text-anchor="middle" fill="#10b981" font-size="13" font-weight="700">_emit('change')</text>
+  <text x="1634" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">{ source: '...' }</text>
+  <text x="1634" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">notifies all listeners</text>
+
+  <line x1="1714" y1="515" x2="1754" y2="515" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- renderAll() -->
+  <rect x="1756" y="480" width="160" height="70" rx="12" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="2"/>
+  <text x="1836" y="506" text-anchor="middle" fill="#10b981" font-size="13" font-weight="800">renderAll()</text>
+  <text x="1836" y="524" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Re-renders affected</text>
+  <text x="1836" y="540" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">UI views</text>
+
+  <!-- renderAll detail box -->
+  <rect x="60" y="570" width="1860" height="80" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+  <text x="72" y="590" fill="#64748b" font-size="10" font-weight="700">renderAll({ source }) DISPATCHES:</text>
+
+  <rect x="72" y="600" width="130" height="24" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="0.5"/>
+  <text x="137" y="616" text-anchor="middle" fill="#10b981" font-size="9" class="mono">renderRoomTabs()</text>
+
+  <rect x="212" y="600" width="140" height="24" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="282" y="616" text-anchor="middle" fill="#38bdf8" font-size="9" class="mono">renderRackSelector()</text>
+
+  <rect x="362" y="600" width="120" height="24" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="422" y="616" text-anchor="middle" fill="#f59e0b" font-size="9" class="mono">renderStats()</text>
+
+  <rect x="492" y="600" width="140" height="24" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="562" y="616" text-anchor="middle" fill="#8b5cf6" font-size="9" class="mono">renderPhysical()</text>
+
+  <rect x="642" y="600" width="150" height="24" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="0.5"/>
+  <text x="717" y="616" text-anchor="middle" fill="#ef4444" font-size="9" class="mono">renderBottomPanel()</text>
+
+  <rect x="802" y="600" width="130" height="24" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="0.5"/>
+  <text x="867" y="616" text-anchor="middle" fill="#06b6d4" font-size="9" class="mono">renderOutliner()</text>
+
+  <rect x="942" y="600" width="140" height="24" rx="6" fill="#0f172a" stroke="#f43f5e" stroke-width="0.5"/>
+  <text x="1012" y="616" text-anchor="middle" fill="#f43f5e" font-size="9" class="mono">renderInspector()</text>
+
+  <text x="1120" y="616" fill="#64748b" font-size="9">+ catalog refresh, floor devices, search filter</text>
+
+  <!-- Source mapping -->
+  <rect x="60" y="660" width="1860" height="100" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+  <text x="72" y="680" fill="#64748b" font-size="10" font-weight="700">SOURCE → RENDER MAPPING:</text>
+
+  <text x="72" y="700" fill="#94a3b8" font-size="9" class="mono">addRack / deleteRack / updateRack → renderPhysical(), renderStats(), renderOutliner(), renderRackSelector()</text>
+  <text x="72" y="716" fill="#94a3b8" font-size="9" class="mono">addDeviceToRack / moveDevice / deleteDevice → renderPhysical(), renderStats(), renderOutliner(), renderBottomPanel()</text>
+  <text x="72" y="732" fill="#94a3b8" font-size="9" class="mono">addConnection / deleteConnection → renderStats(), renderOutliner(), renderBottomPanel(), renderPhysical() (port indicators)</text>
+  <text x="72" y="748" fill="#94a3b8" font-size="9" class="mono">changeRoom → renderRoomTabs(), renderRackSelector(), renderStats(), renderPhysical()</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 3: SPECIFIC USER FLOWS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="880" width="940" height="440" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+  <text x="60" y="908" fill="#f59e0b" font-size="18" font-weight="800">FLOW 3a: DEVICE CREATION (Drag &amp; Drop)</text>
+
+  <!-- Timeline -->
+  <line x1="100" y1="940" x2="100" y2="1280" stroke="#25304b" stroke-width="2"/>
+
+  <!-- Nodes on timeline -->
+  <circle cx="100" cy="950" r="8" fill="#38bdf8"/>
+  <text x="120" y="955" fill="#38bdf8" font-size="11" font-weight="700">1. onCatalogDragStart()</text>
+  <text x="120" y="971" fill="#94a3b8" font-size="9" class="mono">Sets dragState = { template, type: 'catalog' }</text>
+  <text x="120" y="985" fill="#94a3b8" font-size="9" class="mono">dataTransfer.setData('text/plain', ...)</text>
+
+  <circle cx="100" cy="1010" r="8" fill="#0ea5e9"/>
+  <text x="120" y="1015" fill="#0ea5e9" font-size="11" font-weight="700">2. onSlotDragOver()</text>
+  <text x="120" y="1031" fill="#94a3b8" font-size="9" class="mono">Checks collision: allDevicesInRack()</text>
+  <text x="120" y="1045" fill="#94a3b8" font-size="9" class="mono">Validates U bounds, adds .drop-highlight</text>
+
+  <circle cx="100" cy="1070" r="8" fill="#10b981"/>
+  <text x="120" y="1075" fill="#10b981" font-size="11" font-weight="700">3. onSlotDrop()</text>
+  <text x="120" y="1091" fill="#94a3b8" font-size="9" class="mono">Gets template from CATALOG by id</text>
+  <text x="120" y="1105" fill="#94a3b8" font-size="9" class="mono">Calls store.addDeviceToRack(template, rackId, slotU, side)</text>
+
+  <circle cx="100" cy="1130" r="8" fill="#f59e0b"/>
+  <text x="120" y="1135" fill="#f59e0b" font-size="11" font-weight="700">4. store.addDeviceToRack()</text>
+  <text x="120" y="1151" fill="#94a3b8" font-size="9" class="mono">snapshot() → deepClone(_raw) → push _undoStack</text>
+  <text x="120" y="1165" fill="#94a3b8" font-size="9" class="mono">Creates device: { id: uid(), rackId, slotStart, ...template }</text>
+  <text x="120" y="1179" fill="#94a3b8" font-size="9" class="mono">this._raw.devices.push(device)</text>
+
+  <circle cx="100" cy="1200" r="8" fill="#8b5cf6"/>
+  <text x="120" y="1205" fill="#8b5cf6" font-size="11" font-weight="700">5. Proxy set trap fires</text>
+  <text x="120" y="1221" fill="#94a3b8" font-size="9" class="mono">Intercepts devices.push()</text>
+  <text x="120" y="1235" fill="#94a3b8" font-size="9" class="mono">Calls _save() → localStorage.setItem()</text>
+  <text x="120" y="1249" fill="#94a3b8" font-size="9" class="mono">Calls _emit('change', { source: 'addDeviceToRack' })</text>
+
+  <circle cx="100" cy="1270" r="8" fill="#06b6d4"/>
+  <text x="120" y="1275" fill="#06b6d4" font-size="11" font-weight="700">6. renderAll({ source: 'addDeviceToRack' })</text>
+  <text x="120" y="1291" fill="#94a3b8" font-size="9" class="mono">renderPhysical() → new faceplate appears in rack slot</text>
+  <text x="120" y="1305" fill="#94a3b8" font-size="9" class="mono">renderStats() · renderOutliner() · renderBottomPanel()</text>
+
+  <!-- FLOW 3b: Connection Creation -->
+  <rect x="1000" y="880" width="960" height="440" rx="12" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+  <text x="1020" y="908" fill="#ef4444" font-size="18" font-weight="800">FLOW 3b: CONNECTION CREATION</text>
+
+  <line x1="1060" y1="940" x2="1060" y2="1280" stroke="#25304b" stroke-width="2"/>
+
+  <circle cx="1060" cy="950" r="8" fill="#ef4444"/>
+  <text x="1080" y="955" fill="#ef4444" font-size="11" font-weight="700">1. openCableModal(defaultSrcId?)</text>
+  <text x="1080" y="971" fill="#94a3b8" font-size="9" class="mono">From context menu or table button</text>
+  <text x="1080" y="985" fill="#94a3b8" font-size="9" class="mono">Pre-fills source if provided</text>
+
+  <circle cx="1060" cy="1010" r="8" fill="#f59e0b"/>
+  <text x="1080" y="1015" fill="#f59e0b" font-size="11" font-weight="700">2. User fills form</text>
+  <text x="1080" y="1031" fill="#94a3b8" font-size="9" class="mono">Selects source device (grouped by room/rack)</text>
+  <text x="1080" y="1045" fill="#94a3b8" font-size="9" class="mono">Selects target device, ports, cable type, color</text>
+
+  <circle cx="1060" cy="1070" r="8" fill="#10b981"/>
+  <text x="1080" y="1075" fill="#10b981" font-size="11" font-weight="700">3. "Conectar" click</text>
+  <text x="1080" y="1091" fill="#94a3b8" font-size="9" class="mono">Validates source ≠ target</text>
+  <text x="1080" y="1105" fill="#94a3b8" font-size="9" class="mono">Calls store.addConnection({ ... })</text>
+
+  <circle cx="1060" cy="1130" r="8" fill="#8b5cf6"/>
+  <text x="1080" y="1135" fill="#8b5cf6" font-size="11" font-weight="700">4. store.addConnection()</text>
+  <text x="1080" y="1151" fill="#94a3b8" font-size="9" class="mono">snapshot() → creates { id: uid(), sourceDeviceId,</text>
+  <text x="1080" y="1165" fill="#94a3b8" font-size="9" class="mono">  sourcePort, targetDeviceId, targetPort, cableType, color }</text>
+  <text x="1080" y="1179" fill="#94a3b8" font-size="9" class="mono">this._raw.connections.push(conn)</text>
+
+  <circle cx="1060" cy="1200" r="8" fill="#38bdf8"/>
+  <text x="1080" y="1205" fill="#38bdf8" font-size="11" font-weight="700">5. Re-render</text>
+  <text x="1080" y="1221" fill="#94a3b8" font-size="9" class="mono">renderPhysical() → switch faceplate port lit</text>
+  <text x="1080" y="1235" fill="#94a3b8" font-size="9" class="mono">renderStats() · renderOutliner() · renderBottomPanel()</text>
+
+  <circle cx="1060" cy="1270" r="8" fill="#06b6d4"/>
+  <text x="1080" y="1275" fill="#06b6d4" font-size="11" font-weight="700">6. Topology update (if visible)</text>
+  <text x="1080" y="1291" fill="#94a3b8" font-size="9" class="mono">drawTopo() renders new Bezier curve</text>
+  <text x="1080" y="1305" fill="#94a3b8" font-size="9" class="mono">4 animated particles appear on cable</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 4: UNDO/REDO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="1340" width="940" height="280" rx="12" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="60" y="1368" fill="#8b5cf6" font-size="18" font-weight="800">FLOW 4: UNDO / REDO</text>
+
+  <!-- Undo stack visualization -->
+  <rect x="60" y="1390" width="120" height="30" rx="6" fill="#ef4444" opacity="0.2" stroke="#ef4444" stroke-width="1"/>
+  <text x="120" y="1410" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="700">State A</text>
+
+  <rect x="200" y="1390" width="120" height="30" rx="6" fill="#f59e0b" opacity="0.2" stroke="#f59e0b" stroke-width="1"/>
+  <text x="260" y="1410" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700">State B</text>
+
+  <rect x="340" y="1390" width="120" height="30" rx="6" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="1"/>
+  <text x="400" y="1410" text-anchor="middle" fill="#10b981" font-size="10" font-weight="700">State C (current)</text>
+
+  <line x1="180" y1="1405" x2="200" y2="1405" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="320" y1="1405" x2="340" y2="1405" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- Undo flow -->
+  <text x="60" y="1450" fill="#8b5cf6" font-size="12" font-weight="700">UNDO (Ctrl+Z):</text>
+  <text x="60" y="1470" fill="#94a3b8" font-size="10" class="mono">1. Push current state (C) to _redoStack</text>
+  <text x="60" y="1488" fill="#94a3b8" font-size="10" class="mono">2. Pop from _undoStack → prev state (B)</text>
+  <text x="60" y="1506" fill="#94a3b8" font-size="10" class="mono">3. Object.assign(this._raw, prev) → overwrites current</text>
+  <text x="60" y="1524" fill="#94a3b8" font-size="10" class="mono">4. _save() → localStorage updated</text>
+  <text x="60" y="1542" fill="#94a3b8" font-size="10" class="mono">5. _emit('change', { path: 'undo' })</text>
+  <text x="60" y="1560" fill="#94a3b8" font-size="10" class="mono">6. renderAll() → full UI redraw from restored state</text>
+  <text x="60" y="1578" fill="#94a3b8" font-size="10" class="mono">7. _updateHistoryButtons() → enables redo, shows count</text>
+
+  <!-- Redo flow -->
+  <text x="500" y="1450" fill="#8b5cf6" font-size="12" font-weight="700">REDO (Ctrl+Y):</text>
+  <text x="500" y="1470" fill="#94a3b8" font-size="10" class="mono">1. Push current state (B) to _undoStack</text>
+  <text x="500" y="1488" fill="#94a3b8" font-size="10" class="mono">2. Pop from _redoStack → next state (C)</text>
+  <text x="500" y="1506" fill="#94a3b8" font-size="10" class="mono">3. Object.assign(this._raw, next)</text>
+  <text x="500" y="1524" fill="#94a3b8" font-size="10" class="mono">4. _save() → _emit('change', { path: 'redo' })</text>
+  <text x="500" y="1542" fill="#94a3b8" font-size="10" class="mono">5. renderAll() → full UI redraw</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 5: TOPOLOGY LIFECYCLE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="1000" y="1340" width="960" height="280" rx="12" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
+  <text x="1020" y="1368" fill="#06b6d4" font-size="18" font-weight="800">FLOW 5: TOPOLOGY CANVAS LIFECYCLE</text>
+
+  <line x1="1060" y1="1390" x2="1060" y2="1590" stroke="#25304b" stroke-width="2"/>
+
+  <circle cx="1060" cy="1400" r="8" fill="#06b6d4"/>
+  <text x="1080" y="1405" fill="#06b6d4" font-size="11" font-weight="700">1. User clicks "Topologia" tab</text>
+  <text x="1080" y="1421" fill="#94a3b8" font-size="9" class="mono">view-tab click → switches active view</text>
+
+  <circle cx="1060" cy="1440" r="8" fill="#38bdf8"/>
+  <text x="1080" y="1445" fill="#38bdf8" font-size="11" font-weight="700">2. startTopo()</text>
+  <text x="1080" y="1461" fill="#94a3b8" font-size="9" class="mono">resizeCanvas() → matches #main dimensions</text>
+  <text x="1080" y="1475" fill="#94a3b8" font-size="9" class="mono">initTopoPositions() → fills missing positions</text>
+
+  <circle cx="1060" cy="1500" r="8" fill="#10b981"/>
+  <text x="1080" y="1505" fill="#10b981" font-size="11" font-weight="700">3. Animation loop starts</text>
+  <text x="1080" y="1521" fill="#94a3b8" font-size="9" class="mono">requestAnimationFrame(drawTopo)</text>
+  <text x="1080" y="1535" fill="#94a3b8" font-size="9" class="mono">flowT += 0.0075 per frame</text>
+
+  <circle cx="1060" cy="1560" r="8" fill="#f59e0b"/>
+  <text x="1080" y="1565" fill="#f59e0b" font-size="11" font-weight="700">4. drawTopo() per frame</text>
+  <text x="1080" y="1581" fill="#94a3b8" font-size="9" class="mono">Clear canvas → draw rooms → draw racks</text>
+  <text x="1080" y="1595" fill="#94a3b8" font-size="9" class="mono">→ draw connections (bezier) → draw particles</text>
+  <text x="1080" y="1609" fill="#94a3b8" font-size="9" class="mono">→ draw nodes → draw hover HUD</text>
+
+  <!-- Topology interaction -->
+  <rect x="1400" y="1390" width="540" height="220" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+  <text x="1412" y="1410" fill="#64748b" font-size="10" font-weight="700">TOPOLOGY INTERACTIONS:</text>
+  <text x="1412" y="1430" fill="#94a3b8" font-size="9" class="mono">Drag node → updates nodePositions[id]</text>
+  <text x="1412" y="1446" fill="#94a3b8" font-size="9" class="mono">  → saveTopo() → store.saveTopologyState()</text>
+  <text x="1412" y="1462" fill="#94a3b8" font-size="9" class="mono">Drag rack → updates rackPositions[id]</text>
+  <text x="1412" y="1478" fill="#94a3b8" font-size="9" class="mono">Drag room → updates roomPositions[id]</text>
+  <text x="1412" y="1494" fill="#94a3b8" font-size="9" class="mono">Resize handle → updates roomSizes/rackSizes</text>
+  <text x="1412" y="1510" fill="#94a3b8" font-size="9" class="mono">Wheel → store.setZoom('topology', value)</text>
+  <text x="1412" y="1526" fill="#94a3b8" font-size="9" class="mono">Pan (middle-click drag) → store.setPan()</text>
+  <text x="1412" y="1542" fill="#94a3b8" font-size="9" class="mono">Double-click node → openCableModal(devId)</text>
+  <text x="1412" y="1558" fill="#94a3b8" font-size="9" class="mono">Double-click cable → openEditCableModal()</text>
+  <text x="1412" y="1574" fill="#94a3b8" font-size="9" class="mono">Hover node → dims unrelated, highlights connected</text>
+  <text x="1412" y="1590" fill="#94a3b8" font-size="9" class="mono">stopTopo() → cancels requestAnimationFrame</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 6: SAVE/LOAD -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="1640" width="1920" height="260" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+  <text x="60" y="1668" fill="#f59e0b" font-size="18" font-weight="800">FLOW 6: SAVE / LOAD PROJECT</text>
+
+  <!-- Save flow -->
+  <rect x="60" y="1690" width="880" height="190" rx="8" fill="#151c2e" stroke="#10b981" stroke-width="0.5"/>
+  <text x="72" y="1710" fill="#10b981" font-size="13" font-weight="700">SAVE:</text>
+
+  <rect x="80" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="0.5"/>
+  <text x="150" y="1744" text-anchor="middle" fill="#10b981" font-size="9" class="mono">fileManager.save()</text>
+
+  <line x1="220" y1="1739" x2="240" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="242" y="1724" width="160" height="30" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="322" y="1744" text-anchor="middle" fill="#f59e0b" font-size="9" class="mono">File System API?</text>
+
+  <line x1="402" y1="1739" x2="422" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="424" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="494" y="1744" text-anchor="middle" fill="#38bdf8" font-size="9" class="mono">writeToFile()</text>
+
+  <line x1="564" y1="1739" x2="584" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="586" y="1724" width="180" height="30" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="676" y="1744" text-anchor="middle" fill="#8b5cf6" font-size="9" class="mono">{ version: 1, project, catalog }</text>
+
+  <text x="80" y="1780" fill="#64748b" font-size="9" class="mono">Fallback: downloadJSON() → blob → &lt;a download&gt;</text>
+  <text x="80" y="1796" fill="#64748b" font-size="9" class="mono">Auto-save: 3s debounce via requestAnimationFrame when file handle exists</text>
+  <text x="80" y="1812" fill="#64748b" font-size="9" class="mono">Data: store._raw (full state) + CATALOG array</text>
+  <text x="80" y="1828" fill="#64748b" font-size="9" class="mono">Format: .rack (JSON text file)</text>
+
+  <!-- Load flow -->
+  <rect x="960" y="1690" width="980" height="190" rx="8" fill="#151c2e" stroke="#0ea5e9" stroke-width="0.5"/>
+  <text x="972" y="1710" fill="#0ea5e9" font-size="13" font-weight="700">LOAD:</text>
+
+  <rect x="980" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#0ea5e9" stroke-width="0.5"/>
+  <text x="1050" y="1744" text-anchor="middle" fill="#0ea5e9" font-size="9" class="mono">fileManager.open()</text>
+
+  <line x1="1120" y1="1739" x2="1140" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="1142" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="1212" y="1744" text-anchor="middle" fill="#f59e0b" font-size="9" class="mono">showOpenFilePicker()</text>
+
+  <line x1="1282" y1="1739" x2="1302" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="1304" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="0.5"/>
+  <text x="1374" y="1744" text-anchor="middle" fill="#10b981" font-size="9" class="mono">JSON.parse(text)</text>
+
+  <line x1="1444" y1="1739" x2="1464" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="1466" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="1536" y="1744" text-anchor="middle" fill="#8b5cf6" font-size="9" class="mono">store.loadData()</text>
+
+  <line x1="1606" y1="1739" x2="1626" y2="1739" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <rect x="1628" y="1724" width="140" height="30" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="0.5"/>
+  <text x="1698" y="1744" text-anchor="middle" fill="#06b6d4" font-size="9" class="mono">renderAll() full redraw</text>
+
+  <text x="980" y="1780" fill="#64748b" font-size="9" class="mono">Fallback: #import-file → FileReader → JSON.parse</text>
+  <text x="980" y="1796" fill="#64748b" font-size="9" class="mono">loadData(): clears _raw, Object.assign(data), reinitializes topology</text>
+  <text x="980" y="1812" fill="#64748b" font-size="9" class="mono">Clears undo/redo stacks on load</text>
+  <text x="980" y="1828" fill="#64748b" font-size="9" class="mono">Emits 'change' with source: 'loadData'</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 7: EXPORT FLOWS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="1920" width="1920" height="220" rx="12" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+  <text x="60" y="1948" fill="#ef4444" font-size="18" font-weight="800">FLOW 7: EXPORT (PNG / CSV / Excel / JSON)</text>
+
+  <!-- PNG Export -->
+  <rect x="60" y="1970" width="580" height="150" rx="8" fill="#151c2e" stroke="#ef4444" stroke-width="0.5"/>
+  <text x="72" y="1990" fill="#ef4444" font-size="12" font-weight="700">PNG Export:</text>
+  <text x="72" y="2010" fill="#94a3b8" font-size="10" class="mono">1. exportRackToPNG(rackId) / exportFloorToPNG()</text>
+  <text x="72" y="2028" fill="#94a3b8" font-size="10" class="mono">2. Creates offscreen &lt;canvas&gt; element</text>
+  <text x="72" y="2046" fill="#94a3b8" font-size="10" class="mono">3. Draws rack with Canvas 2D API</text>
+  <text x="72" y="2064" fill="#94a3b8" font-size="10" class="mono">4. canvas.toDataURL('image/png')</text>
+  <text x="72" y="2082" fill="#94a3b8" font-size="10" class="mono">5. Creates &lt;a download&gt; → downloads PNG file</text>
+  <text x="72" y="2100" fill="#64748b" font-size="9" class="mono">Topology: swaps ctx/canvas globals, calls drawTopo()</text>
+
+  <!-- CSV/Excel Export -->
+  <rect x="660" y="1970" width="580" height="150" rx="8" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="672" y="1990" fill="#f59e0b" font-size="12" font-weight="700">CSV / Excel Export:</text>
+  <text x="672" y="2010" fill="#94a3b8" font-size="10" class="mono">1. getInventoryData() → array of row objects</text>
+  <text x="672" y="2028" fill="#94a3b8" font-size="10" class="mono">2. getConnectionsData() → array of row objects</text>
+  <text x="672" y="2046" fill="#94a3b8" font-size="10" class="mono">3. CSV: builds comma-separated string → blob</text>
+  <text x="672" y="2064" fill="#94a3b8" font-size="10" class="mono">4. Excel: XLSX.write() → workbook blob</text>
+  <text x="672" y="2082" fill="#94a3b8" font-size="10" class="mono">5. downloadJSON() → creates download link</text>
+  <text x="672" y="2100" fill="#64748b" font-size="9" class="mono">SheetJS library handles .xlsx format</text>
+
+  <!-- JSON Export -->
+  <rect x="1260" y="1970" width="680" height="150" rx="8" fill="#151c2e" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="1272" y="1990" fill="#8b5cf6" font-size="12" font-weight="700">JSON Export (Full Backup):</text>
+  <text x="1272" y="2010" fill="#94a3b8" font-size="10" class="mono">1. exportJSON() → { version: 1, project: store._raw, catalog: CATALOG }</text>
+  <text x="1272" y="2028" fill="#94a3b8" font-size="10" class="mono">2. downloadJSON(data, 'rack-designer-project.rack')</text>
+  <text x="1272" y="2046" fill="#94a3b8" font-size="10" class="mono">3. new Blob([JSON.stringify(data)], { type: 'application/json' })</text>
+  <text x="1272" y="2064" fill="#94a3b8" font-size="10" class="mono">4. URL.createObjectURL(blob) → &lt;a download&gt; click</text>
+  <text x="1272" y="2082" fill="#94a3b8" font-size="10" class="mono">5. URL.revokeObjectURL() → cleanup</text>
+  <text x="1272" y="2100" fill="#64748b" font-size="9" class="mono">Import: reverse process → JSON.parse → store.loadData()</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 8: AUTH FLOW -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="2160" width="940" height="200" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
+  <text x="60" y="2188" fill="#f59e0b" font-size="18" font-weight="800">FLOW 8: AUTHENTICATION</text>
+
+  <line x1="100" y1="2220" x2="100" y2="2330" stroke="#25304b" stroke-width="2"/>
+
+  <circle cx="100" cy="2230" r="8" fill="#f59e0b"/>
+  <text x="120" y="2235" fill="#f59e0b" font-size="11" font-weight="700">1. Page load → initAuthModal()</text>
+  <text x="120" y="2251" fill="#94a3b8" font-size="9" class="mono">RackAuth.getCurrentUser() from sessionStorage</text>
+
+  <circle cx="100" cy="2270" r="8" fill="#ef4444"/>
+  <text x="120" y="2275" fill="#ef4444" font-size="11" font-weight="700">2. No session → Show Login Modal</text>
+  <text x="120" y="2291" fill="#94a3b8" font-size="9" class="mono">User clicks Admin/Editor/Viewer button</text>
+
+  <circle cx="100" cy="2310" r="8" fill="#10b981"/>
+  <text x="120" y="2315" fill="#10b981" font-size="11" font-weight="700">3. Auth method</text>
+  <text x="120" y="2331" fill="#94a3b8" font-size="9" class="mono">Admin: SHA-256(pin) === stored hash → session created</text>
+  <text x="120" y="2347" fill="#94a3b8" font-size="9" class="mono">Editor: loginAsEditor() → session (no PIN needed)</text>
+
+  <rect x="500" y="2210" width="460" height="140" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+  <text x="512" y="2230" fill="#64748b" font-size="10" font-weight="700">ROLE PERMISSIONS:</text>
+  <text x="512" y="2250" fill="#ef4444" font-size="10" font-weight="600">Admin: toggleGodMode, editDevices, addRacks,</text>
+  <text x="512" y="2266" fill="#ef4444" font-size="10">  deleteRacks, addConnections, clearProject, changeAdminPin</text>
+  <text x="512" y="2286" fill="#f59e0b" font-size="10" font-weight="600">Editor: editDevices, addRacks, deleteRacks,</text>
+  <text x="512" y="2302" fill="#f59e0b" font-size="10">  addConnections (NO changeAdminPin)</text>
+  <text x="512" y="2322" fill="#10b981" font-size="10" font-weight="600">Viewer: viewData only (read-only UI)</text>
+  <text x="512" y="2338" fill="#94a3b8" font-size="9" class="mono">UI: buttons disabled/hidden per role</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FLOW 9: EVENT SYSTEM -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="1000" y="2160" width="960" height="200" rx="12" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="1020" y="2188" fill="#8b5cf6" font-size="18" font-weight="800">FLOW 9: EVENT SYSTEM</text>
+
+  <rect x="1020" y="2200" width="440" height="140" rx="8" fill="#151c2e" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="1032" y="2220" fill="#8b5cf6" font-size="11" font-weight="700">STORE EVENTS (pub/sub):</text>
+  <text x="1032" y="2240" fill="#94a3b8" font-size="9" class="mono">store.on('change', callback)</text>
+  <text x="1032" y="2258" fill="#94a3b8" font-size="9" class="mono">_listeners['change'].push(cb)</text>
+  <text x="1032" y="2276" fill="#94a3b8" font-size="9" class="mono">_emit('change', { source, path, key, value })</text>
+  <text x="1032" y="2294" fill="#94a3b8" font-size="9" class="mono">main.js listens: store.on('change', renderAll)</text>
+  <text x="1032" y="2312" fill="#64748b" font-size="8">Single listener, source-based dispatch in renderAll()</text>
+
+  <rect x="1480" y="2200" width="460" height="140" rx="8" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="1492" y="2220" fill="#38bdf8" font-size="11" font-weight="700">DOM EVENTS:</text>
+  <text x="1492" y="2240" fill="#94a3b8" font-size="9" class="mono">click, input, change, keydown, wheel</text>
+  <text x="1492" y="2258" fill="#94a3b8" font-size="9" class="mono">pointerdown, pointermove, pointerup</text>
+  <text x="1492" y="2276" fill="#94a3b8" font-size="9" class="mono">dblcontextmenu (right-click)</text>
+  <text x="1492" y="2294" fill="#94a3b8" font-size="9" class="mono">dragstart, dragover, drop (catalog→rack)</text>
+  <text x="1492" y="2312" fill="#94a3b8" font-size="9" class="mono">resize (ResizeObserver on #main)</text>
+  <text x="1492" y="2330" fill="#64748b" font-size="8">All bound in initGlobalEvents() + initCatalog()</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- LEGEND -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="2390" width="1920" height="180" rx="12" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+  <text x="60" y="2418" fill="#38bdf8" font-size="18" font-weight="800">LEGEND</text>
+
+  <!-- Flow colors -->
+  <rect x="60" y="2434" width="16" height="16" rx="4" fill="#38bdf8"/>
+  <text x="84" y="2448" fill="#94a3b8" font-size="10">User Action / UI</text>
+
+  <rect x="200" y="2434" width="16" height="16" rx="4" fill="#0ea5e9"/>
+  <text x="224" y="2448" fill="#94a3b8" font-size="10">Event Handler</text>
+
+  <rect x="340" y="2434" width="16" height="16" rx="4" fill="#f59e0b"/>
+  <text x="364" y="2448" fill="#94a3b8" font-size="10">Store Method</text>
+
+  <rect x="480" y="2434" width="16" height="16" rx="4" fill="#ef4444"/>
+  <text x="504" y="2448" fill="#94a3b8" font-size="10">Snapshot / Undo</text>
+
+  <rect x="620" y="2434" width="16" height="16" rx="4" fill="#8b5cf6"/>
+  <text x="644" y="2448" fill="#94a3b8" font-size="10">State Mutation</text>
+
+  <rect x="760" y="2434" width="16" height="16" rx="4" fill="#f43f5e"/>
+  <text x="784" y="2448" fill="#94a3b8" font-size="10">Proxy Trap</text>
+
+  <rect x="900" y="2434" width="16" height="16" rx="4" fill="#06b6d4"/>
+  <text x="924" y="2448" fill="#94a3b8" font-size="10">Persistence</text>
+
+  <rect x="1040" y="2434" width="16" height="16" rx="4" fill="#10b981"/>
+  <text x="1064" y="2448" fill="#94a3b8" font-size="10">Emission / Re-render</text>
+
+  <!-- Arrow types -->
+  <line x1="1220" y1="2442" x2="1260" y2="2442" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="1270" y="2448" fill="#94a3b8" font-size="10">Sequential flow</text>
+
+  <line x1="1400" y1="2442" x2="1440" y2="2442" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+  <text x="1450" y="2448" fill="#94a3b8" font-size="10">User-initiated</text>
+
+  <line x1="1580" y1="2442" x2="1620" y2="2442" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="1630" y="2448" fill="#94a3b8" font-size="10">Auto (Proxy)</text>
+
+  <line x1="60" y1="2480" x2="100" y2="2480" stroke="#475569" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="110" y="2486" fill="#94a3b8" font-size="10">Optional / branch</text>
+
+  <!-- Key principle -->
+  <rect x="60" y="2500" width="1880" height="50" rx="8" fill="#0ea5e9" opacity="0.08" stroke="#0ea5e9" stroke-width="0.5"/>
+  <text x="1000" y="2522" text-anchor="middle" fill="#0ea5e9" font-size="13" font-weight="700">CORE PRINCIPLE: Never mutate DOM directly. Always update store.state → Proxy triggers _emit('change') → renderAll() redraws UI.</text>
+  <text x="1000" y="2540" text-anchor="middle" fill="#64748b" font-size="10">All state lives in store._raw (Proxy ES6). Auto-saves to localStorage on every mutation. Undo/redo via deepClone snapshots (max 30).</text>
+
+</svg>

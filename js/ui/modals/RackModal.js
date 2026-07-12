@@ -1,6 +1,6 @@
 function openAddRackModal() {
   if (!RackAuth.can('editDevices')) {
-    notify('🚫 Espectadores no pueden crear gabinetes.', 'error', 3000);
+    notify('Espectadores no pueden crear gabinetes.', 'error', 3000);
     return;
   }
   if (window.closeMobileSidebar) window.closeMobileSidebar();
@@ -15,7 +15,7 @@ function openAddRackModal() {
 
 function openEditRackModal(id) {
   if (!RackAuth.can('editDevices')) {
-    notify('🚫 Espectadores no pueden editar gabinetes.', 'error', 3000);
+    notify('Espectadores no pueden editar gabinetes.', 'error', 3000);
     return;
   }
   editingRackId = id;

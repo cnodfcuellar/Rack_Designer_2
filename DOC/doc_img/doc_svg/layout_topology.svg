@@ -1,0 +1,408 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 700" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Space Grotesk', 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- CANVAS BACKGROUND -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect width="1400" height="700" fill="#2255aa"/>
+
+  <!-- Dot grid (40px spacing) -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.5" fill="#ffffff" opacity="0.13"/>
+    </pattern>
+  </defs>
+  <rect width="1400" height="700" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="700" y="30" text-anchor="middle" fill="#ffffff" font-size="12" opacity="0.5">Topology View — Canvas 2D (#2255aa background, 40px dot grid)</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROOM 1: Data Center -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="40" y="60" width="520" height="560" rx="24" fill="#f97316" fill-opacity="0.66" stroke="#ffffff" stroke-width="4"/>
+  <!-- Room label -->
+  <text x="64" y="100" fill="#ffffff" font-size="24" font-weight="700">Data Center</text>
+
+  <!-- Resize handle (bottom-right triangle) -->
+  <polygon points="548,608 560,608 560,620" fill="#c2410c" opacity="0.6"/>
+
+  <!-- ── Rack 101 ── -->
+  <rect x="64" y="120" width="160" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="79" y="145" fill="#ffffff" font-size="16" font-weight="700">Rack 101</text>
+  <!-- Resize handle -->
+  <polygon points="208,448 216,448 216,456" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Device: Switch Rack 101 -->
+  <rect x="74" y="155" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <rect x="82" y="163" width="16" height="16" rx="4" fill="#10b981" opacity="0.3"/>
+  <text x="90" y="175" text-anchor="middle" fill="#10b981" font-size="8" font-weight="600">⬡</text>
+  <text x="106" y="172" fill="#ffffff" font-size="12" font-weight="700">Switch Rack 101</text>
+  <text x="106" y="187" fill="#94a3b8" font-size="11" class="mono">10.10.10.1</text>
+
+  <!-- Device: UPS Rack 101 -->
+  <rect x="74" y="205" width="140" height="42" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+  <rect x="82" y="213" width="16" height="16" rx="4" fill="#0ea5e9" opacity="0.3"/>
+  <text x="90" y="225" text-anchor="middle" fill="#0ea5e9" font-size="8" font-weight="600">⬡</text>
+  <text x="106" y="222" fill="#ffffff" font-size="12" font-weight="700">UPS Rack 101</text>
+  <text x="106" y="237" fill="#94a3b8" font-size="11" class="mono">10.10.10.101</text>
+
+  <!-- Device: Servidor Nodo 1 - Rack 101 -->
+  <rect x="74" y="255" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="106" y="275" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 1 - Ra...</text>
+  <text x="106" y="290" fill="#94a3b8" font-size="11" class="mono">10.10.10.11</text>
+
+  <!-- Device: Servidor Nodo 2 - Rack 101 -->
+  <rect x="74" y="305" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="106" y="325" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 2 - Ra...</text>
+  <text x="106" y="340" fill="#94a3b8" font-size="11" class="mono">10.10.10.12</text>
+
+  <!-- Device: Servidor Nodo 3 - Rack 101 -->
+  <rect x="74" y="355" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="106" y="375" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 3 - Ra...</text>
+  <text x="106" y="390" fill="#94a3b8" font-size="11" class="mono">10.10.10.13</text>
+
+  <!-- Device: Servidor Nodo 4 - Rack 101 -->
+  <rect x="74" y="405" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="106" y="425" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 4 - Ra...</text>
+  <text x="106" y="440" fill="#94a3b8" font-size="11" class="mono">10.10.10.14</text>
+
+  <!-- ── Rack 102 ── -->
+  <rect x="244" y="120" width="160" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="259" y="145" fill="#ffffff" font-size="16" font-weight="700">Rack 102</text>
+  <polygon points="388,448 396,448 396,456" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Device: Switch Rack 102 -->
+  <rect x="254" y="155" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="286" y="175" fill="#ffffff" font-size="12" font-weight="700">Switch Rack 102</text>
+  <text x="286" y="190" fill="#94a3b8" font-size="11" class="mono">10.10.10.102</text>
+
+  <!-- Device: UPS Rack 102 -->
+  <rect x="254" y="205" width="140" height="42" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+  <text x="286" y="225" fill="#ffffff" font-size="12" font-weight="700">UPS Rack 102</text>
+  <text x="286" y="240" fill="#94a3b8" font-size="11" class="mono">10.10.10.102</text>
+
+  <!-- Device: Servidor Nodo 1 - Rack 102 -->
+  <rect x="254" y="255" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="286" y="275" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 1 - Ra...</text>
+  <text x="286" y="290" fill="#94a3b8" font-size="11" class="mono">10.10.10.21</text>
+
+  <!-- Device: Servidor Nodo 2 - Rack 102 -->
+  <rect x="254" y="305" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="286" y="325" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 2 - Ra...</text>
+  <text x="286" y="340" fill="#94a3b8" font-size="11" class="mono">10.10.10.22</text>
+
+  <!-- Device: Servidor Nodo 3 - Rack 102 -->
+  <rect x="254" y="355" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="286" y="375" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 3 - Ra...</text>
+  <text x="286" y="390" fill="#94a3b8" font-size="11" class="mono">10.10.10.23</text>
+
+  <!-- Device: Servidor Nodo 4 - Rack 102 -->
+  <rect x="254" y="405" width="140" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="286" y="425" fill="#ffffff" font-size="12" font-weight="700">Servidor Nodo 4 - Ra...</text>
+  <text x="286" y="440" fill="#94a3b8" font-size="11" class="mono">10.10.10.24</text>
+
+  <!-- ── Rack 103 ── -->
+  <rect x="424" y="120" width="120" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="439" y="145" fill="#ffffff" font-size="16" font-weight="700">Rack 103</text>
+
+  <!-- Device: Switch Rack 103 -->
+  <rect x="434" y="155" width="100" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="484" y="175" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Switch</text>
+  <text x="484" y="190" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.103</text>
+
+  <!-- Device: UPS Rack 103 -->
+  <rect x="434" y="205" width="100" height="42" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+  <text x="484" y="225" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">UPS</text>
+  <text x="484" y="240" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.103</text>
+
+  <!-- Device: Servidor Nodo 1 -->
+  <rect x="434" y="255" width="100" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="484" y="275" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 1</text>
+  <text x="484" y="290" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.31</text>
+
+  <!-- Device: Servidor Nodo 2 -->
+  <rect x="434" y="305" width="100" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="484" y="325" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 2</text>
+  <text x="484" y="340" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.32</text>
+
+  <!-- ── Floor devices (Data Center) ── -->
+  <!-- Camera 01 -->
+  <rect x="64" y="475" width="140" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="96" y="495" fill="#ffffff" font-size="12" font-weight="700">Camera 01</text>
+  <text x="96" y="510" fill="#94a3b8" font-size="11" class="mono">10.10.88.10</text>
+
+  <!-- Impresora Admin -->
+  <rect x="224" y="475" width="140" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="256" y="495" fill="#ffffff" font-size="12" font-weight="700">Impresora Admin</text>
+  <text x="256" y="510" fill="#94a3b8" font-size="11" class="mono">10.10.78.19</text>
+
+  <!-- Camera IP -->
+  <rect x="64" y="525" width="140" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="96" y="545" fill="#ffffff" font-size="12" font-weight="700">Camera IP</text>
+  <text x="96" y="560" fill="#94a3b8" font-size="11" class="mono">10.10.88.11</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROOM 2: Edificio A2 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="620" y="60" width="320" height="560" rx="24" fill="#f97316" fill-opacity="0.66" stroke="#c2410c" stroke-width="3"/>
+  <text x="644" y="100" fill="#ffffff" font-size="24" font-weight="700">Edificio A2</text>
+  <polygon points="928,608 940,608 940,620" fill="#c2410c" opacity="0.6"/>
+
+  <!-- ── Rack 201 ── -->
+  <rect x="644" y="120" width="140" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="659" y="145" fill="#ffffff" font-size="16" font-weight="700">Rack 201</text>
+
+  <!-- Device: Switch Rack 201 -->
+  <rect x="654" y="155" width="120" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="714" y="175" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Switch</text>
+  <text x="714" y="190" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.10.201</text>
+
+  <!-- Device: UPS Rack 201 -->
+  <rect x="654" y="205" width="120" height="42" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+  <text x="714" y="225" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">UPS</text>
+  <text x="714" y="240" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.10.101</text>
+
+  <!-- Device: Servidor Nodo 1 -->
+  <rect x="654" y="255" width="120" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="714" y="275" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 1</text>
+  <text x="714" y="290" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.10.51</text>
+
+  <!-- Device: Servidor Nodo 2 -->
+  <rect x="654" y="305" width="120" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="714" y="325" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 2</text>
+  <text x="714" y="340" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.10.52</text>
+
+  <!-- Device: Servidor Nodo 3 -->
+  <rect x="654" y="355" width="120" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="714" y="375" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 3</text>
+  <text x="714" y="390" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.10.53</text>
+
+  <!-- Device: Servidor Nodo 4 -->
+  <rect x="654" y="405" width="120" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="714" y="425" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 4</text>
+  <text x="714" y="440" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.10.54</text>
+
+  <!-- ── Rack 202 ── -->
+  <rect x="804" y="120" width="120" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="819" y="145" fill="#ffffff" font-size="16" font-weight="700">Rack 202</text>
+
+  <rect x="814" y="155" width="100" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="864" y="175" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Switch</text>
+  <text x="864" y="190" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.202</text>
+
+  <rect x="814" y="205" width="100" height="42" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
+  <text x="864" y="225" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">UPS</text>
+  <text x="864" y="240" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.202</text>
+
+  <rect x="814" y="255" width="100" height="42" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+  <text x="864" y="275" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Nodo 1</text>
+  <text x="864" y="290" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.10.61</text>
+
+  <!-- ── Floor devices (Edificio A2) ── -->
+  <rect x="644" y="475" width="120" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="704" y="495" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Camera 02</text>
+  <text x="704" y="510" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">10.10.88.11</text>
+
+  <rect x="784" y="475" width="120" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="844" y="495" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Impresora</text>
+  <text x="844" y="510" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">10.10.19.39</text>
+
+  <rect x="644" y="525" width="120" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="704" y="545" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Telefono 01</text>
+  <text x="704" y="560" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">10.10.88.10</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROOM 3: Edificio B1 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="980" y="60" width="380" height="560" rx="24" fill="#f97316" fill-opacity="0.66" stroke="#c2410c" stroke-width="3"/>
+  <text x="1004" y="100" fill="#ffffff" font-size="24" font-weight="700">Edificio B1</text>
+  <polygon points="1348,608 1360,608 1360,620" fill="#c2410c" opacity="0.6"/>
+
+  <!-- ── Rack 301 ── -->
+  <rect x="1004" y="120" width="100" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="1019" y="145" fill="#ffffff" font-size="14" font-weight="700">Rack 301</text>
+
+  <rect x="1014" y="155" width="80" height="36" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="1054" y="178" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Switch</text>
+
+  <rect x="1014" y="197" width="80" height="36" rx="6" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="1054" y="220" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">UPS</text>
+
+  <rect x="1014" y="239" width="80" height="36" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="1054" y="262" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Nodo 1</text>
+
+  <rect x="1014" y="281" width="80" height="36" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="1054" y="304" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Nodo 2</text>
+
+  <!-- ── Rack 302 ── -->
+  <rect x="1114" y="120" width="100" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="1129" y="145" fill="#ffffff" font-size="14" font-weight="700">Rack 302</text>
+
+  <rect x="1124" y="155" width="80" height="36" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="1164" y="178" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Switch</text>
+
+  <rect x="1124" y="197" width="80" height="36" rx="6" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="1164" y="220" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">UPS</text>
+
+  <rect x="1124" y="239" width="80" height="36" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="1164" y="262" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Nodo 1</text>
+
+  <!-- ── Rack 303 ── -->
+  <rect x="1224" y="120" width="100" height="340" rx="12" fill="#65a30d" fill-opacity="0.66" stroke="#ffffff" stroke-width="2"/>
+  <text x="1239" y="145" fill="#ffffff" font-size="14" font-weight="700">Rack 303</text>
+
+  <rect x="1234" y="155" width="80" height="36" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <text x="1274" y="178" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Switch</text>
+
+  <rect x="1234" y="197" width="80" height="36" rx="6" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="1274" y="220" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">UPS</text>
+
+  <!-- ── Floor devices (Edificio B1) ── -->
+  <rect x="1004" y="475" width="100" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="1054" y="495" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Camera 03</text>
+  <text x="1054" y="510" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.88.12</text>
+
+  <rect x="1114" y="475" width="100" height="42" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="1164" y="495" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700">Impresora</text>
+  <text x="1164" y="510" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">.19.29</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- CONNECTIONS (Cubic Bezier Curves) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Connection: Switch 101 → Switch 102 (green) -->
+  <path d="M 144 176 C 220 176, 280 176, 284 176" stroke="#10b981" stroke-width="3" fill="none" opacity="0.9" filter="url(#glow)"/>
+  <!-- Particles -->
+  <circle cx="180" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="230" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Switch 101 → Switch 103 (green) -->
+  <path d="M 144 176 C 290 176, 400 176, 434 176" stroke="#10b981" stroke-width="3" fill="none" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="320" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Switch 101 → Switch 201 (cyan — cross-room) -->
+  <path d="M 144 176 C 400 176, 600 176, 654 176" stroke="#38bdf8" stroke-width="3" fill="none" opacity="0.8"/>
+  <circle cx="420" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="520" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Switch 201 → Switch 202 (green) -->
+  <path d="M 714 176 C 750 176, 790 176, 814 176" stroke="#10b981" stroke-width="3" fill="none" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="760" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Switch 201 → Switch 301 (cyan — cross-room) -->
+  <path d="M 714 176 C 860 176, 980 176, 1014 176" stroke="#38bdf8" stroke-width="3" fill="none" opacity="0.8"/>
+  <circle cx="880" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="960" cy="176" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Switch 301 → Switch 302 (green) -->
+  <path d="M 1054 176 C 1080 176, 1110 176, 1124 176" stroke="#10b981" stroke-width="3" fill="none" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- Connection: Switch 302 → Switch 303 (green) -->
+  <path d="M 1164 176 C 1185 176, 1215 176, 1234 176" stroke="#10b981" stroke-width="3" fill="none" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- Connection: UPS 101 → Servidor Nodo 1 Rack 101 (white — power) -->
+  <path d="M 144 226 C 144 240, 144 250, 144 260" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.6"/>
+  <circle cx="144" cy="243" r="2.5" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Connection: Servidor Nodo 1 Rack 101 → Servidor Nodo 1 Rack 102 (green — data) -->
+  <path d="M 144 276 C 200 276, 260 276, 284 276" stroke="#10b981" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <circle cx="210" cy="276" r="3" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Servidor Nodo 1 Rack 102 → Servidor Nodo 1 Rack 201 (green — cross-room data) -->
+  <path d="M 284 276 C 470 276, 600 276, 654 276" stroke="#10b981" stroke-width="2.5" fill="none" opacity="0.7"/>
+  <circle cx="490" cy="276" r="3" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="580" cy="276" r="3" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Connection: Camera 01 → Switch 101 (amber — IP cam) -->
+  <path d="M 96 496 C 96 460, 144 300, 144 197" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="120" cy="380" r="2.5" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Connection: Camera 02 → Switch 201 (amber — IP cam) -->
+  <path d="M 704 496 C 704 460, 714 300, 714 197" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="710" cy="380" r="2.5" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Connection: Camera 03 → Switch 301 (amber — IP cam) -->
+  <path d="M 1054 496 C 1054 460, 1054 300, 1054 197" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="1054" cy="380" r="2.5" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Connection: Impresora Admin → Switch 101 (white — network) -->
+  <path d="M 256 496 C 256 440, 144 340, 144 197" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HOVER HUD (tooltip example) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="320" y="118" width="180" height="100" rx="8" fill="#0f172a" fill-opacity="0.95" stroke="#10b981" stroke-width="2"/>
+  <text x="336" y="142" fill="#ffffff" font-size="13" font-weight="700">Switch Rack 101</text>
+  <text x="336" y="158" fill="#94a3b8" font-size="11" class="mono">Tipo: switch</text>
+  <text x="336" y="174" fill="#94a3b8" font-size="11" class="mono">IP: 10.10.10.1</text>
+  <text x="336" y="190" fill="#94a3b8" font-size="11" class="mono">Usuario: admin</text>
+  <text x="336" y="206" fill="#94a3b8" font-size="11" class="mono">Pass: ****</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ANNOTATIONS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Legend -->
+  <rect x="20" y="640" width="1360" height="48" rx="8" fill="#0f172a" fill-opacity="0.7"/>
+
+  <text x="36" y="660" fill="#ffffff" font-size="10" font-weight="700">LEGEND:</text>
+
+  <!-- Room -->
+  <rect x="100" y="650" width="20" height="14" rx="4" fill="#f97316"/>
+  <text x="126" y="662" fill="#ffffff" font-size="10">Room</text>
+
+  <!-- Rack -->
+  <rect x="170" y="650" width="20" height="14" rx="4" fill="#65a30d"/>
+  <text x="196" y="662" fill="#ffffff" font-size="10">Rack</text>
+
+  <!-- Device node -->
+  <rect x="240" y="650" width="20" height="14" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="266" y="662" fill="#ffffff" font-size="10">Device</text>
+
+  <!-- Connection types -->
+  <line x1="330" y1="657" x2="360" y2="657" stroke="#10b981" stroke-width="2.5"/>
+  <text x="366" y="662" fill="#ffffff" font-size="10">Data</text>
+
+  <line x1="410" y1="657" x2="440" y2="657" stroke="#38bdf8" stroke-width="2.5"/>
+  <text x="446" y="662" fill="#ffffff" font-size="10">Uplink</text>
+
+  <line x1="500" y1="657" x2="530" y2="657" stroke="#f59e0b" stroke-width="2"/>
+  <text x="536" y="662" fill="#ffffff" font-size="10">IP Cam</text>
+
+  <line x1="590" y1="657" x2="620" y2="657" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+  <text x="626" y="662" fill="#ffffff" font-size="10">Power</text>
+
+  <!-- Particle -->
+  <circle cx="700" cy="657" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+  <text x="710" y="662" fill="#ffffff" font-size="10">Particle (animated, 4 per cable)</text>
+
+  <!-- Node types -->
+  <rect x="900" y="650" width="16" height="14" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="922" y="662" fill="#ffffff" font-size="10">Server (green)</text>
+
+  <rect x="1020" y="650" width="16" height="14" rx="6" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="1042" y="662" fill="#ffffff" font-size="10">UPS (cyan)</text>
+
+  <rect x="1110" y="650" width="16" height="14" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="1132" y="662" fill="#ffffff" font-size="10">Camera (amber)</text>
+
+  <rect x="1230" y="650" width="16" height="14" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="1252" y="662" fill="#ffffff" font-size="10">Firewall (red)</text>
+
+  <!-- Canvas properties -->
+  <text x="36" y="682" fill="#94a3b8" font-size="9" class="mono">Canvas: #2255aa bg | Grid: 40px, #ffffff22 dots | Room: #f97316, r=24 | Rack: #65a30d, r=12 | Node: #0f172a, r=8, 150x50px | Connections: cubic bezier, 4 particles/cable | Font: Space Grotesk</text>
+
+</svg>

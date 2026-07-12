@@ -1,88 +1,459 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="1100" height="820" viewBox="0 0 1100 820" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" fill="none">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060d1a" />
-      <stop offset="100%" style="stop-color:#0a1520" />
-    </linearGradient>
-    <filter id="shadow" x="-0.0007" y="-0.0011" width="1.001" height="1.002">
-      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6" />
-    </filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.3" stroke-opacity="0.04" />
-    </pattern>
     <style>
-      .text-title { font-family: 'Segoe UI', sans-serif; font-size: 20px; fill: #f0f6ff; font-weight: 700; }
-      .text-sub { font-family: 'Segoe UI', sans-serif; font-size: 9px; fill: #94a3b8; letter-spacing: 3px; font-weight: 600; }
-      .text-panel { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #00d4ff; font-weight: 600; letter-spacing: 1px; }
-      .text-desc { font-family: 'Segoe UI', sans-serif; font-size: 11px; fill: #94a3b8; }
-      .panel { fill: #08101a; stroke: #1e3a5f; stroke-width: 1.5px; }
-      .header-panel { fill: #0a121e; stroke: #1e3a5f; stroke-width: 1.5px; }
-      .main-panel { fill: #060a14; stroke: #1e3a5f; stroke-width: 1.5px; }
-      .section-box { fill: #0d1a2a; stroke: #1e3a5f; stroke-width: 1px; rx: 6px; }
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
     </style>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="14" cy="14" r="0.8" fill="#334155" opacity="0.5"/>
+    </pattern>
   </defs>
 
   <!-- Background -->
-  <rect width="1100" height="820" fill="url(#bg)" />
-  <rect width="1100" height="820" fill="url(#grid)" />
+  <rect width="1200" height="750" fill="#0b0f19" rx="12"/>
 
-  <!-- Title Area -->
-  <rect x="40" y="28" width="520" height="52" rx="6" fill="#0d1f30" stroke="#e2e8f0" stroke-width="0.8" stroke-opacity="0.4" />
-  <line x1="40" y1="28" x2="40" y2="80" stroke="#e2e8f0" stroke-width="3" />
-  <text x="60" y="49" class="text-sub">RACK DESIGNER 2  ·  UI LAYOUT</text>
-  <text x="60" y="68" class="text-title">APPLICATION LAYOUT  ·  3-COLUMN ARCHITECTURE</text>
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#38bdf8" font-size="18" font-weight="700">RACK Designer Next — UI Layout (Desktop 1920px)</text>
 
-  <!-- App Chrome Container -->
-  <rect x="40" y="108" width="1020" height="660" rx="12" fill="#060a14" stroke="#1e3a5f" stroke-width="1.5" filter="url(#shadow)" />
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HEADER -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="20" y="50" width="1160" height="56" rx="0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
 
-  <!-- HEADER (Spans all columns) -->
-  <rect x="40" y="108" width="1020" height="60" class="header-panel" />
-  <text x="70" y="142" class="text-panel">HEADER</text>
-  <text x="140" y="142" class="text-desc">| Logo, Project Menu, Room/Rack Navigation, View Tabs</text>
+  <!-- Header Logo Area (280px) -->
+  <rect x="20" y="50" width="280" height="56" rx="0" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <!-- Logo icon -->
+  <rect x="36" y="66" width="24" height="24" rx="4" fill="#38bdf8" opacity="0.2"/>
+  <text x="48" y="83" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">RD</text>
+  <!-- Title -->
+  <text x="68" y="80" fill="#e2e8f0" font-size="12" font-weight="600">RACK Designer Next</text>
+  <text x="68" y="95" fill="#64748b" font-size="9">Nuevo Proyecto</text>
+  <!-- Menu button -->
+  <rect x="276" y="68" width="18" height="18" rx="3" fill="transparent"/>
+  <text x="285" y="81" text-anchor="middle" fill="#64748b" font-size="12">⋮</text>
 
-  <!-- LEFT SIDEBAR -->
-  <rect x="40" y="168" width="240" height="480" class="panel" />
-  <text x="70" y="195" class="text-panel">LEFT SIDEBAR</text>
-  <text x="70" y="215" class="text-desc">Equipment Catalog</text>
-  <!-- Mock items in sidebar -->
-  <rect x="60" y="230" width="200" height="40" class="section-box" />
-  <rect x="60" y="280" width="200" height="40" class="section-box" />
-  <rect x="60" y="330" width="200" height="40" class="section-box" />
+  <!-- Header Main Area -->
+  <!-- Room Dropdown -->
+  <rect x="312" y="62" width="110" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="322" y="78" fill="#94a3b8" font-size="10">🏢</text>
+  <text x="338" y="78" fill="#e2e8f0" font-size="10">Data Center</text>
+  <text x="412" y="78" fill="#64748b" font-size="8">▾</text>
+  <!-- + button -->
+  <rect x="428" y="62" width="24" height="24" rx="4" fill="transparent" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="440" y="78" text-anchor="middle" fill="#64748b" font-size="12">+</text>
 
-  <!-- MAIN CANVAS -->
-  <rect x="280" y="168" width="540" height="480" class="main-panel" />
-  <text x="310" y="195" class="text-panel">MAIN CANVAS</text>
-  <text x="310" y="215" class="text-desc">Interactive Workspace (Physical Racks or Network Topology)</text>
-  <!-- Mock Rack -->
-  <rect x="420" y="250" width="260" height="350" fill="none" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4" rx="4" />
-  <text x="550" y="420" text-anchor="middle" class="text-desc" style="fill:#00d4ff;">+ RACK</text>
+  <!-- Divider -->
+  <line x1="462" y1="60" x2="462" y2="98" stroke="#334155" stroke-width="1"/>
 
-  <!-- RIGHT PANEL -->
-  <rect x="820" y="168" width="240" height="480" class="panel" />
+  <!-- Rack Dropdown -->
+  <rect x="474" y="62" width="100" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="484" y="78" fill="#94a3b8" font-size="10">🖥</text>
+  <text x="500" y="78" fill="#e2e8f0" font-size="10">Racks (3)</text>
+  <text x="564" y="78" fill="#64748b" font-size="8">▾</text>
+  <!-- + button -->
+  <rect x="580" y="62" width="24" height="24" rx="4" fill="transparent" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="592" y="78" text-anchor="middle" fill="#64748b" font-size="12">+</text>
+
+  <!-- Divider -->
+  <line x1="614" y1="60" x2="614" y2="98" stroke="#334155" stroke-width="1"/>
+
+  <!-- View Tabs -->
+  <rect x="626" y="62" width="80" height="24" rx="4" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+  <text x="666" y="78" text-anchor="middle" fill="#38bdf8" font-size="10">Vista Fisica</text>
+  <rect x="712" y="62" width="72" height="24" rx="4" fill="transparent" stroke="#334155" stroke-width="1"/>
+  <text x="748" y="78" text-anchor="middle" fill="#94a3b8" font-size="10">Topologia</text>
+
+  <!-- Search -->
+  <rect x="810" y="62" width="160" height="24" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="820" y="78" fill="#475569" font-size="9">⌕ Buscar equipo, IP...</text>
+
+  <!-- Undo/Redo -->
+  <rect x="982" y="62" width="24" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="994" y="78" text-anchor="middle" fill="#64748b" font-size="10">↩</text>
+  <rect x="1010" y="62" width="24" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="1022" y="78" text-anchor="middle" fill="#64748b" font-size="10">↪</text>
+
+  <!-- Status Dot -->
+  <circle cx="1052" cy="74" r="4" fill="#22c55e" opacity="0.8"/>
+
+  <!-- User Badge -->
+  <rect x="1070" y="64" width="80" height="20" rx="10" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="1110" y="78" text-anchor="middle" fill="#38bdf8" font-size="9">✏ Editor</text>
+
+  <!-- Header dimension label -->
+  <line x1="1190" y1="50" x2="1190" y2="106" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="1196" y="82" fill="#475569" font-size="8" class="mono">56px</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SIDEBAR (280px) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="20" y="106" width="280" height="380" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+  <!-- Sidebar dimension label -->
+  <line x1="20" y1="492" x2="300" y2="492" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="160" y="502" text-anchor="middle" fill="#475569" font-size="8" class="mono">280px</text>
+
+  <!-- Action Buttons -->
+  <rect x="32" y="118" width="126" height="24" rx="4" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="95" y="134" text-anchor="middle" fill="#38bdf8" font-size="10">+ Rack</text>
+  <rect x="164" y="118" width="126" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="227" y="134" text-anchor="middle" fill="#94a3b8" font-size="10">+ Equipo</text>
+
+  <!-- Search -->
+  <rect x="32" y="150" width="258" height="24" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="42" y="166" fill="#475569" font-size="9">Buscar por nombre o tipo...</text>
+
+  <!-- Filter Tabs -->
+  <rect x="32" y="182" width="48" height="20" rx="10" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="56" y="196" text-anchor="middle" fill="#38bdf8" font-size="8">Todos</text>
+  <rect x="86" y="182" width="52" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
+  <text x="112" y="196" text-anchor="middle" fill="#64748b" font-size="8">Servidor</text>
+  <rect x="144" y="182" width="40" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
+  <text x="164" y="196" text-anchor="middle" fill="#64748b" font-size="8">Red</text>
+  <rect x="190" y="182" width="50" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
+  <text x="215" y="196" text-anchor="middle" fill="#64748b" font-size="8">Storage</text>
+  <rect x="246" y="182" width="44" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
+  <text x="268" y="196" text-anchor="middle" fill="#64748b" font-size="8">Piso</text>
+
+  <!-- Catalog Items -->
+  <text x="32" y="220" fill="#64748b" font-size="8" font-weight="600" opacity="0.5">CATALOG</text>
+
+  <!-- Item 1 -->
+  <rect x="32" y="228" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <rect x="40" y="236" width="24" height="24" rx="4" fill="#10b981" opacity="0.15"/>
+  <text x="52" y="252" text-anchor="middle" fill="#10b981" font-size="10">⬡</text>
+  <text x="72" y="246" fill="#e2e8f0" font-size="10">Server HP ProLiant</text>
+  <text x="72" y="260" fill="#64748b" font-size="8">SERVER · 460W</text>
+  <text x="266" y="252" text-anchor="middle" fill="#94a3b8" font-size="9">2U</text>
+
+  <!-- Item 2 -->
+  <rect x="32" y="274" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <rect x="40" y="282" width="24" height="24" rx="4" fill="#10b981" opacity="0.15"/>
+  <text x="52" y="298" text-anchor="middle" fill="#10b981" font-size="10">⬡</text>
+  <text x="72" y="292" fill="#e2e8f0" font-size="10">Switch Cisco 48P</text>
+  <text x="72" y="306" fill="#64748b" font-size="8">SWITCH · 180W</text>
+  <text x="266" y="298" text-anchor="middle" fill="#94a3b8" font-size="9">1U</text>
+
+  <!-- Item 3 -->
+  <rect x="32" y="320" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <rect x="40" y="328" width="24" height="24" rx="4" fill="#f59e0b" opacity="0.15"/>
+  <text x="52" y="344" text-anchor="middle" fill="#f59e0b" font-size="10">⬡</text>
+  <text x="72" y="338" fill="#e2e8f0" font-size="10">Router Core</text>
+  <text x="72" y="352" fill="#64748b" font-size="8">ROUTER · 90W</text>
+  <text x="266" y="344" text-anchor="middle" fill="#94a3b8" font-size="9">1U</text>
+
+  <!-- Item 4 -->
+  <rect x="32" y="366" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <rect x="40" y="374" width="24" height="24" rx="4" fill="#ef4444" opacity="0.15"/>
+  <text x="52" y="390" text-anchor="middle" fill="#ef4444" font-size="10">⬡</text>
+  <text x="72" y="384" fill="#e2e8f0" font-size="10">Firewall Fortinet</text>
+  <text x="72" y="398" fill="#64748b" font-size="8">FIREWALL · 40W</text>
+  <text x="266" y="390" text-anchor="middle" fill="#94a3b8" font-size="9">1U</text>
+
+  <!-- Item 5 -->
+  <rect x="32" y="412" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <rect x="40" y="420" width="24" height="24" rx="4" fill="#06b6d4" opacity="0.15"/>
+  <text x="52" y="436" text-anchor="middle" fill="#06b6d4" font-size="10">⬡</text>
+  <text x="72" y="430" fill="#e2e8f0" font-size="10">SAN Storage 4U</text>
+  <text x="72" y="444" fill="#64748b" font-size="8">STORAGE · 300W</text>
+  <text x="266" y="436" text-anchor="middle" fill="#94a3b8" font-size="9">4U</text>
+
+  <!-- Item 6 (floor) -->
+  <rect x="32" y="458" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <rect x="40" y="466" width="24" height="24" rx="4" fill="#0ea5e9" opacity="0.15"/>
+  <text x="52" y="482" text-anchor="middle" fill="#0ea5e9" font-size="10">⬡</text>
+  <text x="72" y="476" fill="#e2e8f0" font-size="10">PC Desktop</text>
+  <text x="72" y="490" fill="#64748b" font-size="8">PC · 250W</text>
+  <text x="260" y="482" text-anchor="middle" fill="#f59e0b" font-size="8">Piso</text>
+
+  <!-- Drag indicator -->
+  <text x="280" y="478" text-anchor="end" fill="#475569" font-size="7" opacity="0.5">⋮⋮</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- MAIN CANVAS AREA (1fr) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="302" y="106" width="598" height="380" fill="#0b0f19" stroke="#334155" stroke-width="1"/>
+  <rect x="302" y="106" width="598" height="380" fill="url(#dots)"/>
+
+  <!-- Main toolbar (floating) -->
+  <rect x="314" y="116" width="574" height="28" rx="4" fill="#1e293b" opacity="0.9" stroke="#334155" stroke-width="0.5"/>
+  <!-- Zoom controls -->
+  <text x="326" y="134" fill="#64748b" font-size="10">−</text>
+  <text x="350" y="134" text-anchor="middle" fill="#e2e8f0" font-size="9" class="mono">100%</text>
+  <text x="378" y="134" fill="#64748b" font-size="10">+</text>
+  <text x="400" y="134" fill="#475569" font-size="8">1:1</text>
+  <!-- Topology controls (hidden by default) -->
+  <text x="440" y="134" fill="#64748b" font-size="8" opacity="0.4">[ Estilo ] [ Slider ] [ Auto-Orden ]</text>
+  <!-- Spacer -->
+  <!-- Export/Expand -->
+  <rect x="790" y="120" width="40" height="20" rx="3" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="810" y="134" text-anchor="middle" fill="#94a3b8" font-size="8">PNG</text>
+  <rect x="836" y="120" width="50" height="20" rx="3" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="861" y="134" text-anchor="middle" fill="#94a3b8" font-size="8">Expandir</text>
+
+  <!-- Rack Card 1 -->
+  <rect x="330" y="160" width="260" height="300" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <!-- Rack header -->
+  <rect x="330" y="160" width="260" height="32" rx="6" fill="#0f172a"/>
+  <circle cx="346" cy="176" r="4" fill="#0ea5e9"/>
+  <text x="356" y="180" fill="#e2e8f0" font-size="11" font-weight="600">Rack-A1</text>
+  <text x="550" y="180" fill="#64748b" font-size="10">🔄</text>
+  <text x="570" y="180" fill="#64748b" font-size="10">⋮</text>
+  <!-- Rail numbers -->
+  <text x="336" y="204" fill="#475569" font-size="7" class="mono">1</text>
+  <text x="336" y="228" fill="#475569" font-size="7" class="mono">2</text>
+  <text x="336" y="252" fill="#475569" font-size="7" class="mono">3</text>
+  <text x="336" y="276" fill="#475569" font-size="7" class="mono">4</text>
+  <text x="336" y="300" fill="#475569" font-size="7" class="mono">5</text>
+  <text x="336" y="324" fill="#475569" font-size="7" class="mono">6</text>
+  <text x="336" y="348" fill="#475569" font-size="7" class="mono">7</text>
+  <text x="336" y="372" fill="#475569" font-size="7" class="mono">8</text>
+  <text x="336" y="396" fill="#475569" font-size="7" class="mono">9</text>
+  <text x="332" y="420" fill="#475569" font-size="7" class="mono">10</text>
+
+  <!-- Device: Server (2U) -->
+  <rect x="350" y="196" width="220" height="46" rx="3" fill="#10b981" opacity="0.1" stroke="#10b981" stroke-width="0.5"/>
+  <text x="360" y="214" fill="#10b981" font-size="9" font-weight="600">SRV-001</text>
+  <text x="360" y="230" fill="#64748b" font-size="8">HP ProLiant · 2U · 460W</text>
+  <text x="560" y="220" fill="#64748b" font-size="8">✎ 🗑</text>
+
+  <!-- Device: Switch (1U) -->
+  <rect x="350" y="248" width="220" height="22" rx="3" fill="#10b981" opacity="0.1" stroke="#10b981" stroke-width="0.5"/>
+  <text x="360" y="263" fill="#10b981" font-size="9" font-weight="600">SW-001</text>
+  <text x="430" y="263" fill="#64748b" font-size="8">Cisco 48P · 1U</text>
+
+  <!-- Device: Router (1U) -->
+  <rect x="350" y="276" width="220" height="22" rx="3" fill="#f59e0b" opacity="0.1" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="360" y="291" fill="#f59e0b" font-size="9" font-weight="600">RTR-001</text>
+  <text x="430" y="291" fill="#64748b" font-size="8">Router Core · 1U</text>
+
+  <!-- Empty slots -->
+  <rect x="350" y="304" width="220" height="22" rx="2" fill="transparent" stroke="#1e293b" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <rect x="350" y="332" width="220" height="22" rx="2" fill="transparent" stroke="#1e293b" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <rect x="350" y="360" width="220" height="22" rx="2" fill="transparent" stroke="#1e293b" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+  <!-- Rack Card 2 -->
+  <rect x="610" y="160" width="260" height="300" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="610" y="160" width="260" height="32" rx="6" fill="#0f172a"/>
+  <circle cx="626" cy="176" r="4" fill="#0ea5e9"/>
+  <text x="636" y="180" fill="#e2e8f0" font-size="11" font-weight="600">Rack-A2</text>
+  <text x="830" y="180" fill="#64748b" font-size="10">🔄</text>
+  <text x="850" y="180" fill="#64748b" font-size="10">⋮</text>
+  <!-- Device: UPS (2U) -->
+  <rect x="630" y="196" width="220" height="46" rx="3" fill="#8b5cf6" opacity="0.1" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="640" y="214" fill="#8b5cf6" font-size="9" font-weight="600">UPS-001</text>
+  <text x="640" y="230" fill="#64748b" font-size="8">APC 2U · 0W</text>
+
+  <!-- Device: Patch Panel (1U) -->
+  <rect x="630" y="248" width="220" height="22" rx="3" fill="#38bdf8" opacity="0.1" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="640" y="263" fill="#38bdf8" font-size="9" font-weight="600">PP-001</text>
+  <text x="700" y="263" fill="#64748b" font-size="8">Patch Panel 24P</text>
+
+  <!-- Floor devices section -->
+  <rect x="330" y="470" width="540" height="16" rx="3" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="340" y="481" fill="#94a3b8" font-size="8">Equipos de Piso</text>
+  <text x="850" y="481" fill="#38bdf8" font-size="8">+ Agregar Equipo</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- RIGHT PANEL (260px) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="902" y="106" width="260" height="380" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+  <!-- Dimension label -->
+  <text x="1032" y="502" text-anchor="middle" fill="#475569" font-size="8" class="mono">260px</text>
+
   <!-- Outliner Section -->
-  <rect x="820" y="168" width="240" height="300" fill="none" />
-  <text x="840" y="195" class="text-panel">RIGHT PANEL</text>
-  <text x="840" y="215" class="text-desc">Outliner (Tree View)</text>
-  <!-- Mock Tree items -->
-  <rect x="840" y="230" width="200" height="20" fill="#0d1a2a" rx="4" />
-  <rect x="860" y="255" width="180" height="20" fill="#0d1a2a" rx="4" />
-  <rect x="860" y="280" width="180" height="20" fill="#0d1a2a" rx="4" />
-  
-  <line x1="820" y1="468" x2="1060" y2="468" stroke="#1e3a5f" stroke-width="1.5" />
-  
-  <!-- Stats Section -->
-  <rect x="820" y="468" width="240" height="180" fill="none" />
-  <text x="840" y="495" class="text-panel" style="font-size:12px;">STATISTICS</text>
-  <rect x="840" y="510" width="40" height="40" class="section-box" />
-  <rect x="890" y="510" width="40" height="40" class="section-box" />
-  <rect x="940" y="510" width="40" height="40" class="section-box" />
-  <rect x="990" y="510" width="40" height="40" class="section-box" />
+  <rect x="902" y="106" width="260" height="24" fill="#0f172a"/>
+  <text x="914" y="122" fill="#94a3b8" font-size="9" font-weight="600">📋 Outliner</text>
 
-  <!-- BOTTOM PANEL -->
-  <rect x="40" y="648" width="1020" height="120" class="panel" />
-  <text x="70" y="675" class="text-panel">BOTTOM PANEL</text>
-  <text x="70" y="695" class="text-desc">Inventory Tables / Connections Data (Collapsible)</text>
-  <rect x="70" y="710" width="960" height="40" class="section-box" />
+  <rect x="914" y="138" width="240" height="16" rx="2" fill="transparent"/>
+  <text x="920" y="150" fill="#38bdf8" font-size="9">▸ Data Center</text>
+
+  <rect x="920" y="156" width="234" height="16" rx="2" fill="transparent"/>
+  <text x="926" y="168" fill="#e2e8f0" font-size="9">  ▸ Rack-A1</text>
+
+  <rect x="926" y="174" width="228" height="14" rx="2" fill="transparent"/>
+  <text x="932" y="185" fill="#94a3b8" font-size="8">    ▸ SRV-001</text>
+
+  <rect x="926" y="190" width="228" height="14" rx="2" fill="transparent"/>
+  <text x="932" y="201" fill="#94a3b8" font-size="8">    ▸ SW-001</text>
+
+  <rect x="926" y="206" width="228" height="14" rx="2" fill="transparent"/>
+  <text x="932" y="217" fill="#94a3b8" font-size="8">    ▸ RTR-001</text>
+
+  <rect x="920" y="224" width="234" height="16" rx="2" fill="transparent"/>
+  <text x="926" y="236" fill="#e2e8f0" font-size="9">  ▸ Rack-A2</text>
+
+  <rect x="926" y="242" width="228" height="14" rx="2" fill="transparent"/>
+  <text x="932" y="253" fill="#94a3b8" font-size="8">    ▸ UPS-001</text>
+
+  <rect x="926" y="258" width="228" height="14" rx="2" fill="transparent"/>
+  <text x="932" y="269" fill="#94a3b8" font-size="8">    ▸ PP-001</text>
+
+  <!-- Divider -->
+  <line x1="902" y1="278" x2="1162" y2="278" stroke="#334155" stroke-width="1"/>
+
+  <!-- Inspector Section -->
+  <rect x="902" y="278" width="260" height="24" fill="#0f172a"/>
+  <text x="914" y="294" fill="#94a3b8" font-size="9" font-weight="600">🔍 Inspector</text>
+
+  <text x="920" y="320" fill="#64748b" font-size="9">Ningun elemento</text>
+  <text x="920" y="334" fill="#64748b" font-size="9">seleccionado</text>
+
+  <!-- Divider -->
+  <line x1="902" y1="350" x2="1162" y2="350" stroke="#334155" stroke-width="1"/>
+
+  <!-- Statistics Section -->
+  <rect x="902" y="350" width="260" height="24" fill="#0f172a"/>
+  <text x="914" y="366" fill="#94a3b8" font-size="9" font-weight="600">📊 Estadisticas</text>
+
+  <!-- Stat pills -->
+  <rect x="914" y="382" width="44" height="36" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="936" y="398" text-anchor="middle" fill="#64748b" font-size="7">Salas</text>
+  <text x="936" y="412" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">4</text>
+
+  <rect x="964" y="382" width="44" height="36" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="986" y="398" text-anchor="middle" fill="#64748b" font-size="7">Racks</text>
+  <text x="986" y="412" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">8</text>
+
+  <rect x="1014" y="382" width="44" height="36" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="1036" y="398" text-anchor="middle" fill="#64748b" font-size="7">Equip</text>
+  <text x="1036" y="412" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">24</text>
+
+  <rect x="1064" y="382" width="44" height="36" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="1086" y="398" text-anchor="middle" fill="#64748b" font-size="7">Piso</text>
+  <text x="1086" y="412" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">6</text>
+
+  <rect x="1114" y="382" width="44" height="36" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="1136" y="398" text-anchor="middle" fill="#64748b" font-size="7">Cables</text>
+  <text x="1136" y="412" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="700">5</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- BOTTOM PANEL (220px) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="20" y="488" width="1140" height="220" rx="0" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+  <!-- Dimension label -->
+  <line x1="1190" y1="488" x2="1190" y2="708" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="1196" y="602" fill="#475569" font-size="8" class="mono">220px</text>
+
+  <!-- Bottom header -->
+  <rect x="20" y="488" width="1140" height="38" fill="#0f172a"/>
+
+  <!-- Tab pills -->
+  <rect x="32" y="496" width="80" height="22" rx="4" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="72" y="511" text-anchor="middle" fill="#38bdf8" font-size="9">Inventario</text>
+  <rect x="118" y="496" width="90" height="22" rx="4" fill="transparent" stroke="#334155" stroke-width="0.5"/>
+  <text x="163" y="511" text-anchor="middle" fill="#94a3b8" font-size="9">Conexiones</text>
+
+  <!-- Action buttons -->
+  <rect x="230" y="496" width="80" height="22" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="270" y="511" text-anchor="middle" fill="#94a3b8" font-size="9">+ Equipo</text>
+
+  <!-- Search -->
+  <rect x="700" y="496" width="140" height="22" rx="4" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+  <text x="710" y="511" fill="#475569" font-size="8">Buscar...</text>
+
+  <!-- Export dropdown -->
+  <rect x="850" y="496" width="60" height="22" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="880" y="511" text-anchor="middle" fill="#94a3b8" font-size="8">Export ▾</text>
+
+  <!-- Expand/Collapse -->
+  <rect x="920" y="496" width="50" height="22" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="945" y="511" text-anchor="middle" fill="#94a3b8" font-size="8">Expandir</text>
+  <rect x="978" y="496" width="22" height="22" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <text x="989" y="511" text-anchor="middle" fill="#64748b" font-size="8">▾</text>
+
+  <!-- Table Header -->
+  <rect x="20" y="526" width="1140" height="24" fill="#0f172a"/>
+  <text x="40" y="542" fill="#64748b" font-size="8" font-weight="600">NOMBRE</text>
+  <text x="200" y="542" fill="#64748b" font-size="8" font-weight="600">TIPO</text>
+  <text x="300" y="542" fill="#64748b" font-size="8" font-weight="600">TAM</text>
+  <text x="370" y="542" fill="#64748b" font-size="8" font-weight="600">UBICACION</text>
+  <text x="520" y="542" fill="#64748b" font-size="8" font-weight="600">IP</text>
+  <text x="650" y="542" fill="#64748b" font-size="8" font-weight="600">MAC</text>
+  <text x="800" y="542" fill="#64748b" font-size="8" font-weight="600">ESTADO</text>
+  <text x="920" y="542" fill="#64748b" font-size="8" font-weight="600">W</text>
+  <text x="1050" y="542" fill="#64748b" font-size="8" font-weight="600">ACCIONES</text>
+
+  <!-- Table Row 1 -->
+  <rect x="20" y="550" width="1140" height="26" fill="#0b0f19"/>
+  <text x="40" y="567" fill="#e2e8f0" font-size="9">SRV-001</text>
+  <text x="200" y="567" fill="#10b981" font-size="8">server</text>
+  <text x="300" y="567" fill="#94a3b8" font-size="8">2U</text>
+  <text x="370" y="567" fill="#94a3b8" font-size="8">Rack-A1 / U1-U2</text>
+  <text x="520" y="567" fill="#94a3b8" font-size="8">192.168.1.10</text>
+  <text x="650" y="567" fill="#475569" font-size="8">AA:BB:CC:DD:EE:FF</text>
+  <circle cx="810" cy="563" r="4" fill="#22c55e"/>
+  <text x="820" y="567" fill="#22c55e" font-size="8">activo</text>
+  <text x="920" y="567" fill="#94a3b8" font-size="8">460</text>
+  <text x="1050" y="567" fill="#38bdf8" font-size="8">✎</text>
+  <text x="1070" y="567" fill="#ef4444" font-size="8">🗑</text>
+
+  <!-- Table Row 2 -->
+  <rect x="20" y="576" width="1140" height="26" fill="#1e293b"/>
+  <text x="40" y="593" fill="#e2e8f0" font-size="9">SW-001</text>
+  <text x="200" y="593" fill="#10b981" font-size="8">switch</text>
+  <text x="300" y="593" fill="#94a3b8" font-size="8">1U</text>
+  <text x="370" y="593" fill="#94a3b8" font-size="8">Rack-A1 / U3</text>
+  <text x="520" y="593" fill="#94a3b8" font-size="8">192.168.1.1</text>
+  <text x="650" y="593" fill="#475569" font-size="8">AA:BB:CC:DD:EE:01</text>
+  <circle cx="810" cy="589" r="4" fill="#22c55e"/>
+  <text x="820" y="593" fill="#22c55e" font-size="8">activo</text>
+  <text x="920" y="593" fill="#94a3b8" font-size="8">180</text>
+  <text x="1050" y="593" fill="#38bdf8" font-size="8">✎</text>
+  <text x="1070" y="593" fill="#ef4444" font-size="8">🗑</text>
+
+  <!-- Table Row 3 -->
+  <rect x="20" y="602" width="1140" height="26" fill="#0b0f19"/>
+  <text x="40" y="619" fill="#e2e8f0" font-size="9">UPS-001</text>
+  <text x="200" y="619" fill="#8b5cf6" font-size="8">ups</text>
+  <text x="300" y="619" fill="#94a3b8" font-size="8">2U</text>
+  <text x="370" y="619" fill="#94a3b8" font-size="8">Rack-A2 / U1-U2</text>
+  <text x="520" y="619" fill="#475569" font-size="8">-</text>
+  <text x="650" y="619" fill="#475569" font-size="8">-</text>
+  <circle cx="810" cy="615" r="4" fill="#f59e0b"/>
+  <text x="820" y="619" fill="#f59e0b" font-size="8">mant.</text>
+  <text x="920" y="619" fill="#94a3b8" font-size="8">0</text>
+  <text x="1050" y="619" fill="#38bdf8" font-size="8">✎</text>
+  <text x="1070" y="619" fill="#ef4444" font-size="8">🗑</text>
+
+  <!-- Table Row 4 -->
+  <rect x="20" y="628" width="1140" height="26" fill="#1e293b"/>
+  <text x="40" y="645" fill="#e2e8f0" font-size="9">PC-001</text>
+  <text x="200" y="645" fill="#0ea5e9" font-size="8">pc</text>
+  <text x="300" y="645" fill="#f59e0b" font-size="8">Piso</text>
+  <text x="370" y="645" fill="#94a3b8" font-size="8">Sala A / Piso</text>
+  <text x="520" y="645" fill="#94a3b8" font-size="8">192.168.1.50</text>
+  <text x="650" y="645" fill="#475569" font-size="8">AA:BB:CC:DD:EE:50</text>
+  <circle cx="810" cy="641" r="4" fill="#22c55e"/>
+  <text x="820" y="645" fill="#22c55e" font-size="8">activo</text>
+  <text x="920" y="645" fill="#94a3b8" font-size="8">250</text>
+  <text x="1050" y="645" fill="#38bdf8" font-size="8">✎</text>
+  <text x="1070" y="645" fill="#ef4444" font-size="8">🗑</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- GRID LINES / DIMENSION ANNOTATIONS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Column dimension labels at bottom -->
+  <line x1="20" y1="720" x2="300" y2="720" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="160" y="735" text-anchor="middle" fill="#475569" font-size="9" class="mono">280px — Sidebar</text>
+
+  <line x1="302" y1="720" x2="900" y2="720" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="601" y="735" text-anchor="middle" fill="#475569" font-size="9" class="mono">1fr — Main Canvas</text>
+
+  <line x1="902" y1="720" x2="1162" y2="720" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="1032" y="735" text-anchor="middle" fill="#475569" font-size="9" class="mono">260px — Right Panel</text>
+
+  <!-- Grid area labels -->
+  <text x="160" y="100" text-anchor="middle" fill="#475569" font-size="8" font-weight="600">header-logo-area</text>
+  <text x="700" y="100" text-anchor="middle" fill="#475569" font-size="8" font-weight="600">header-main-area (flex:1)</text>
+  <text x="160" y="500" text-anchor="middle" fill="#475569" font-size="8" font-weight="600">sidebar</text>
+  <text x="601" y="500" text-anchor="middle" fill="#475569" font-size="8" font-weight="600">main</text>
+  <text x="1032" y="500" text-anchor="middle" fill="#475569" font-size="8" font-weight="600">right-panel</text>
+  <text x="590" y="530" text-anchor="middle" fill="#475569" font-size="8" font-weight="600">bottom</text>
 
 </svg>

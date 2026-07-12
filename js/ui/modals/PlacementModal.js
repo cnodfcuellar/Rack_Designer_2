@@ -1,6 +1,6 @@
 function openQuickPlacementModal(catalogId = null) {
   if (!RackAuth.can('editDevices')) {
-    notify('🚫 Espectadores no pueden ubicar dispositivos.', 'error', 3000);
+    notify('Espectadores no pueden ubicar dispositivos.', 'error', 3000);
     return;
   }
   if (window.closeMobileSidebar) window.closeMobileSidebar();
@@ -31,7 +31,7 @@ function openQuickPlacementModal(catalogId = null) {
   const isFloor = FLOOR_TYPES.has(qpCatalogItem.type);
 
   // Set titles
-  document.getElementById('qp-modal-title').textContent = isFloor ? '⚡ Ubicar Periférico en Sala' : '⚡ Ubicar en Rack Asistido';
+    document.getElementById('qp-modal-title').textContent = isFloor ? 'Ubicar Periférico en Sala' : 'Ubicar en Rack Asistido';
   document.getElementById('qp-modal-sub').textContent = isFloor 
     ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
     : `Instalar ${qpCatalogItem.size}U de forma asistida sin arrastrar`;
@@ -45,7 +45,7 @@ function openQuickPlacementModal(catalogId = null) {
   // Populate Rooms
   const roomSelect = document.getElementById('qp-room');
   roomSelect.innerHTML = store._raw.rooms.map(r => 
-    `<option value="${escapeHTML(r.id)}" ${r.id === store._raw.currentRoomId ? 'selected' : ''}>🏢 ${escapeHTML(r.name)}</option>`
+    `<option value="${escapeHTML(r.id)}" ${r.id === store._raw.currentRoomId ? 'selected' : ''}>${escapeHTML(r.name)}</option>`
   ).join('');
 
   // Toggle rows
@@ -76,7 +76,7 @@ function repopulateQPRacks() {
   }
   
   rackSelect.innerHTML = racks.map((r, i) => 
-    `<option value="${escapeHTML(r.id)}" ${i === 0 ? 'selected' : ''}>🗄️ ${escapeHTML(r.name)} (${r.height}U)</option>`
+    `<option value="${escapeHTML(r.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(r.name)} (${r.height}U)</option>`
   ).join('');
   
   repopulateQPSlots();
@@ -123,7 +123,7 @@ function initPlacementModal() {
     const rackRow = document.getElementById('qp-rack-row');
     const slotRow = document.getElementById('qp-slot-row');
     
-    document.getElementById('qp-modal-title').textContent = isFloor ? '⚡ Ubicar Periférico en Sala' : '⚡ Ubicar en Rack Asistido';
+  document.getElementById('qp-modal-title').textContent = isFloor ? 'Ubicar Periférico en Sala' : 'Ubicar en Rack Asistido';
     document.getElementById('qp-modal-sub').textContent = isFloor 
       ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
       : `Instalar ${item.size}U de forma asistida sin arrastrar`;

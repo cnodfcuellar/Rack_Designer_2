@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 360" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+  </defs>
+
+  <rect width="1100" height="360" fill="#0b0f19" rx="8"/>
+  <text x="550" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Bottom Panel Layout — #bottom (220px height, full width)</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- BOTTOM PANEL -->
+  <!-- ═══════════════════════════════════════ -->
+  <rect x="10" y="30" width="1080" height="290" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+
+  <!-- A. bottom-header (38px) -->
+  <rect x="10" y="30" width="1080" height="38" fill="#0f172a"/>
+  <line x1="10" y1="68" x2="1090" y2="68" stroke="#25304b" stroke-width="1"/>
+
+  <!-- Tab pills -->
+  <rect x="22" y="38" width="80" height="22" rx="6" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="0.5"/>
+  <!-- Server icon 12x12 -->
+  <rect x="30" y="43" width="10" height="10" rx="2" fill="#0ea5e9" opacity="0.4"/>
+  <text x="35" y="51" text-anchor="middle" fill="#0ea5e9" font-size="6">▸</text>
+  <text x="48" y="53" fill="#0ea5e9" font-size="10" font-weight="500">Inventario</text>
+
+  <rect x="108" y="38" width="88" height="22" rx="6" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="116" y="43" width="10" height="10" rx="2" fill="#8b9ab8" opacity="0.3"/>
+  <text x="121" y="51" text-anchor="middle" fill="#8b9ab8" font-size="6">▸</text>
+  <text x="136" y="53" fill="#8b9ab8" font-size="10">Conexiones</text>
+
+  <!-- Spacer -->
+  <rect x="204" y="38" width="100" height="22" fill="transparent"/>
+
+  <!-- + Equipo button (context) -->
+  <rect x="310" y="38" width="70" height="22" rx="6" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="0.5"/>
+  <text x="345" y="53" text-anchor="middle" fill="#0ea5e9" font-size="10">+ Equipo</text>
+
+  <!-- Table search -->
+  <rect x="580" y="38" width="160" height="22" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <text x="590" y="53" fill="#475569" font-size="9" class="mono">Filtrar tabla...</text>
+
+  <!-- Export dropdown -->
+  <rect x="750" y="38" width="70" height="22" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <text x="785" y="53" text-anchor="middle" fill="#8b9ab8" font-size="9">⬇ Exportar ▾</text>
+
+  <!-- Expand -->
+  <rect x="830" y="38" width="60" height="22" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <text x="860" y="53" text-anchor="middle" fill="#8b9ab8" font-size="9">Expandir</text>
+
+  <!-- Collapse -->
+  <rect x="896" y="38" width="22" height="22" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <text x="907" y="53" text-anchor="middle" fill="#64748b" font-size="9">▾</text>
+
+  <!-- B. Table Header -->
+  <rect x="10" y="68" width="1080" height="24" fill="#0b0f19"/>
+  <line x1="10" y1="92" x2="1090" y2="92" stroke="#25304b" stroke-width="0.5"/>
+
+  <!-- Column headers -->
+  <text x="30" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">NOMBRE</text>
+  <text x="160" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">TIPO</text>
+  <text x="260" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">TAM</text>
+  <text x="340" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">UBICACION</text>
+  <text x="510" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">IP</text>
+  <text x="650" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">MAC</text>
+  <text x="810" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">ESTADO</text>
+  <text x="910" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">W</text>
+  <text x="1020" y="84" fill="#94a3b8" font-size="10" font-weight="600" class="mono">ACCIONES</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TABLE ROWS -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Row 1: Server -->
+  <rect x="10" y="92" width="1080" height="28" fill="#0b0f19"/>
+  <line x1="10" y1="120" x2="1090" y2="120" stroke="#25304b" stroke-width="0.5"/>
+  <text x="30" y="110" fill="#f0f4ff" font-size="10" class="mono">SRV-001</text>
+  <!-- Type badge -->
+  <rect x="160" y="100" width="52" height="16" rx="3" fill="#0ea5e922"/>
+  <text x="186" y="111" text-anchor="middle" fill="#0ea5e9" font-size="9" font-weight="700" class="mono">server</text>
+  <text x="260" y="110" fill="#94a3b8" font-size="10" class="mono">2U</text>
+  <text x="340" y="110" fill="#94a3b8" font-size="10" class="mono">Rack-A1 / U1-U2</text>
+  <text x="510" y="110" fill="#94a3b8" font-size="10" class="mono">192.168.1.10</text>
+  <text x="650" y="110" fill="#475569" font-size="10" class="mono">AA:BB:CC:DD:EE:FF</text>
+  <!-- Status dot -->
+  <circle cx="820" cy="106" r="4" fill="#22c55e"/>
+  <text x="830" y="110" fill="#22c55e" font-size="10">activo</text>
+  <text x="910" y="110" fill="#94a3b8" font-size="10" class="mono">460</text>
+  <!-- Actions -->
+  <text x="1020" y="110" fill="#38bdf8" font-size="10">✎</text>
+  <text x="1040" y="110" fill="#ef4444" font-size="10">🗑</text>
+  <text x="1060" y="110" fill="#64748b" font-size="10">⋮</text>
+
+  <!-- Row 2: Switch -->
+  <rect x="10" y="120" width="1080" height="28" fill="#151c2e"/>
+  <line x1="10" y1="148" x2="1090" y2="148" stroke="#25304b" stroke-width="0.5"/>
+  <text x="30" y="138" fill="#f0f4ff" font-size="10" class="mono">SW-001</text>
+  <rect x="160" y="128" width="48" height="16" rx="3" fill="#10b98122"/>
+  <text x="184" y="139" text-anchor="middle" fill="#10b981" font-size="9" font-weight="700" class="mono">switch</text>
+  <text x="260" y="138" fill="#94a3b8" font-size="10" class="mono">1U</text>
+  <text x="340" y="138" fill="#94a3b8" font-size="10" class="mono">Rack-A1 / U3</text>
+  <text x="510" y="138" fill="#94a3b8" font-size="10" class="mono">192.168.1.1</text>
+  <text x="650" y="138" fill="#475569" font-size="10" class="mono">AA:BB:CC:DD:EE:01</text>
+  <circle cx="820" cy="134" r="4" fill="#22c55e"/>
+  <text x="830" y="138" fill="#22c55e" font-size="10">activo</text>
+  <text x="910" y="138" fill="#94a3b8" font-size="10" class="mono">180</text>
+  <text x="1020" y="138" fill="#38bdf8" font-size="10">✎</text>
+  <text x="1040" y="138" fill="#ef4444" font-size="10">🗑</text>
+  <text x="1060" y="138" fill="#64748b" font-size="10">⋮</text>
+
+  <!-- Row 3: Router -->
+  <rect x="10" y="148" width="1080" height="28" fill="#0b0f19"/>
+  <line x1="10" y1="176" x2="1090" y2="176" stroke="#25304b" stroke-width="0.5"/>
+  <text x="30" y="166" fill="#f0f4ff" font-size="10" class="mono">RTR-001</text>
+  <rect x="160" y="156" width="50" height="16" rx="3" fill="#f59e0b22"/>
+  <text x="185" y="167" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700" class="mono">router</text>
+  <text x="260" y="166" fill="#94a3b8" font-size="10" class="mono">1U</text>
+  <text x="340" y="166" fill="#94a3b8" font-size="10" class="mono">Rack-A1 / U4</text>
+  <text x="510" y="166" fill="#94a3b8" font-size="10" class="mono">192.168.1.254</text>
+  <text x="650" y="166" fill="#475569" font-size="10" class="mono">AA:BB:CC:DD:EE:FE</text>
+  <circle cx="820" cy="162" r="4" fill="#22c55e"/>
+  <text x="830" y="166" fill="#22c55e" font-size="10">activo</text>
+  <text x="910" y="166" fill="#94a3b8" font-size="10" class="mono">90</text>
+  <text x="1020" y="166" fill="#38bdf8" font-size="10">✎</text>
+  <text x="1040" y="166" fill="#ef4444" font-size="10">🗑</text>
+  <text x="1060" y="166" fill="#64748b" font-size="10">⋮</text>
+
+  <!-- Row 4: UPS -->
+  <rect x="10" y="176" width="1080" height="28" fill="#151c2e"/>
+  <line x1="10" y1="204" x2="1090" y2="204" stroke="#25304b" stroke-width="0.5"/>
+  <text x="30" y="194" fill="#f0f4ff" font-size="10" class="mono">UPS-001</text>
+  <rect x="160" y="184" width="34" height="16" rx="3" fill="#0ea5e922"/>
+  <text x="177" y="195" text-anchor="middle" fill="#0ea5e9" font-size="9" font-weight="700" class="mono">ups</text>
+  <text x="260" y="194" fill="#94a3b8" font-size="10" class="mono">2U</text>
+  <text x="340" y="194" fill="#94a3b8" font-size="10" class="mono">Rack-A2 / U1-U2</text>
+  <text x="510" y="194" fill="#475569" font-size="10" class="mono">-</text>
+  <text x="650" y="194" fill="#475569" font-size="10" class="mono">-</text>
+  <circle cx="820" cy="190" r="4" fill="#f59e0b"/>
+  <text x="830" y="194" fill="#f59e0b" font-size="10">mant.</text>
+  <text x="910" y="194" fill="#94a3b8" font-size="10" class="mono">0</text>
+  <text x="1020" y="194" fill="#38bdf8" font-size="10">✎</text>
+  <text x="1040" y="194" fill="#ef4444" font-size="10">🗑</text>
+  <text x="1060" y="194" fill="#64748b" font-size="10">⋮</text>
+
+  <!-- Row 5: PC Floor -->
+  <rect x="10" y="204" width="1080" height="28" fill="#0b0f19"/>
+  <line x1="10" y1="232" x2="1090" y2="232" stroke="#25304b" stroke-width="0.5"/>
+  <text x="30" y="222" fill="#f0f4ff" font-size="10" class="mono">PC-001</text>
+  <rect x="160" y="212" width="26" height="16" rx="3" fill="#0ea5e922"/>
+  <text x="173" y="223" text-anchor="middle" fill="#0ea5e9" font-size="9" font-weight="700" class="mono">pc</text>
+  <rect x="260" y="212" width="32" height="16" rx="3" fill="#f59e0b22"/>
+  <text x="276" y="223" text-anchor="middle" fill="#f59e0b" font-size="8" font-weight="600">Piso</text>
+  <text x="340" y="222" fill="#94a3b8" font-size="10" class="mono">Sala A / Piso</text>
+  <text x="510" y="222" fill="#94a3b8" font-size="10" class="mono">192.168.1.50</text>
+  <text x="650" y="222" fill="#475569" font-size="10" class="mono">AA:BB:CC:DD:EE:50</text>
+  <circle cx="820" cy="218" r="4" fill="#22c55e"/>
+  <text x="830" y="222" fill="#22c55e" font-size="10">activo</text>
+  <text x="910" y="222" fill="#94a3b8" font-size="10" class="mono">250</text>
+  <text x="1020" y="222" fill="#38bdf8" font-size="10">✎</text>
+  <text x="1040" y="222" fill="#ef4444" font-size="10">🗑</text>
+  <text x="1060" y="222" fill="#64748b" font-size="10">⋮</text>
+
+  <!-- Row 6: Firewall -->
+  <rect x="10" y="232" width="1080" height="28" fill="#151c2e"/>
+  <line x1="10" y1="260" x2="1090" y2="260" stroke="#25304b" stroke-width="0.5"/>
+  <text x="30" y="250" fill="#f0f4ff" font-size="10" class="mono">FW-001</text>
+  <rect x="160" y="240" width="50" height="16" rx="3" fill="#ef444422"/>
+  <text x="185" y="251" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="700" class="mono">firewall</text>
+  <text x="260" y="250" fill="#94a3b8" font-size="10" class="mono">1U</text>
+  <text x="340" y="250" fill="#94a3b8" font-size="10" class="mono">Rack-A2 / U4</text>
+  <text x="510" y="250" fill="#94a3b8" font-size="10" class="mono">192.168.1.253</text>
+  <text x="650" y="250" fill="#475569" font-size="10" class="mono">AA:BB:CC:DD:EE:FD</text>
+  <circle cx="820" cy="246" r="4" fill="#22c55e"/>
+  <text x="830" y="250" fill="#22c55e" font-size="10">activo</text>
+  <text x="910" y="250" fill="#94a3b8" font-size="10" class="mono">40</text>
+  <text x="1020" y="250" fill="#38bdf8" font-size="10">✎</text>
+  <text x="1040" y="250" fill="#ef4444" font-size="10">🗑</text>
+  <text x="1060" y="250" fill="#64748b" font-size="10">⋮</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ANNOTATIONS -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Height dimension -->
+  <line x1="1096" y1="30" x2="1096" y2="320" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="1090" y="180" fill="#475569" font-size="8" class="mono" text-anchor="end" transform="rotate(90 1090 180)">220px (var(--bottom-h))</text>
+
+  <!-- Width dimension -->
+  <line x1="10" y1="330" x2="1090" y2="330" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="550" y="344" text-anchor="middle" fill="#475569" font-size="9" class="mono">100% width (grid-area: bottom, spans all 3 columns)</text>
+
+  <!-- Header height annotation -->
+  <line x1="1096" y1="30" x2="1096" y2="68" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="1086" y="52" fill="#475569" font-size="7" class="mono" text-anchor="end">38px</text>
+
+  <!-- Section labels -->
+  <line x1="276" y1="30" x2="290" y2="30" stroke="#475569" stroke-width="0.5"/>
+  <text x="294" y="34" fill="#475569" font-size="8" class="mono">.bottom-header (height: 38px, flex-shrink: 0)</text>
+  <line x1="276" y1="68" x2="290" y2="68" stroke="#475569" stroke-width="0.5"/>
+  <text x="294" y="72" fill="#475569" font-size="8" class="mono">.table-wrap (flex: 1, overflow: auto)</text>
+
+  <!-- Type badge legend -->
+  <rect x="10" y="270" width="300" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
+  <text x="18" y="285" fill="#475569" font-size="8" font-weight="600">TYPE BADGES:</text>
+  <rect x="100" y="276" width="42" height="12" rx="3" fill="#0ea5e922"/>
+  <text x="121" y="285" text-anchor="middle" fill="#0ea5e9" font-size="7" font-weight="700" class="mono">server</text>
+  <rect x="148" y="276" width="48" height="12" rx="3" fill="#10b98122"/>
+  <text x="172" y="285" text-anchor="middle" fill="#10b981" font-size="7" font-weight="700" class="mono">switch</text>
+  <rect x="202" y="276" width="46" height="12" rx="3" fill="#f59e0b22"/>
+  <text x="225" y="285" text-anchor="middle" fill="#f59e0b" font-size="7" font-weight="700" class="mono">router</text>
+  <rect x="254" y="276" width="46" height="12" rx="3" fill="#ef444422"/>
+  <text x="277" y="285" text-anchor="middle" fill="#ef4444" font-size="7" font-weight="700" class="mono">firewall</text>
+
+  <!-- CSS variables legend -->
+  <rect x="10" y="296" width="500" height="14" rx="3" fill="#1e293b" opacity="0.5"/>
+  <text x="18" y="306" fill="#64748b" font-size="7" class="mono">table: font-size 11px, mono | th: sticky top, uppercase 10px | td: 5px 12px padding | tr:hover: bg-card2 | .collapsed: height 38px</text>
+
+</svg>

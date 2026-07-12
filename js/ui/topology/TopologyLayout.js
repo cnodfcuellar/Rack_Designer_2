@@ -143,7 +143,7 @@ window.autoOrderTopo = function() {
   Object.assign(nodePositions,  newNodePos);
 
   saveTopo();
-  notify('🗂 Topología reordenada automáticamente', 'success', 2000);
+  notify('Topología reordenada automáticamente', 'success', 2000);
 };
 
 // ──────────────────────────────────────────────────────────────────

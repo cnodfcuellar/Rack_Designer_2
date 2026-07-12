@@ -19,7 +19,7 @@ function renderPhysical() {
     container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start;">
       <div style="display:flex; justify-content:center; width:100%;">
         <div class="empty-state" style="display:flex; flex-direction:column; align-items:center;">
-          <div class="icon">🗄️</div>
+          <div class="icon"><i class="svg-icon icon-server" style="width:48px; height:48px;"></i></div>
           <p>No hay gabinetes en esta sala.</p>
           <div style="display:flex; gap:12px; margin-top:16px;">
             <button class="btn-primary" id="empty-btn-add-rack">+ Rack</button>
@@ -56,8 +56,8 @@ function renderPhysical() {
                  draggable="true">
               ${buildFaceplate(dev, h)}
               <div class="device-actions">
-                <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar">✎</button>
-                <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar">🗑</button>
+                <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
+                <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
               </div>
             </div>
           </div>`;
@@ -67,7 +67,7 @@ function renderPhysical() {
     }
     const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
     const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
-    const btnText = side === 'front' ? '🔄' : '🖥️';
+    const btnText = side === 'front' ? '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
 
     return `
       <div class="rack-card" data-rack-id="${rack.id}" data-side="${side}" style="${side === 'rear' ? 'border-color: #3b82f6; background: #0c1420' : ''}">
@@ -80,11 +80,11 @@ function renderPhysical() {
             <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
             <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
             <div class="dropdown-menu hidden" id="rack-menu-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
-              <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}">⚡ Agregar Equipo</div>
-              <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}">🧹 Limpiar Gabinete</div>
+              <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
+              <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
               <div class="dropdown-divider"></div>
-              <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}">✎ Editar Gabinete</div>
-              <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}">🗑 Eliminar Gabinete</div>
+              <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar Gabinete</div>
+              <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar Gabinete</div>
             </div>
           </div>
         </div>
@@ -144,7 +144,7 @@ function bindRackEvents(container, flippedRacks) {
       const rear = flipper.querySelector('.rack-rear');
       if (face) face.style.pointerEvents = isFlipped ? 'none' : 'auto';
       if (rear) rear.style.pointerEvents = isFlipped ? 'auto' : 'none';
-      btn.textContent = isFlipped ? '🖥️' : '🔄';
+      btn.innerHTML = isFlipped ? '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>';
     });
   });
   container.querySelectorAll('[data-rack-menu-toggle]').forEach(btn => {
@@ -164,7 +164,7 @@ function bindRackEvents(container, flippedRacks) {
       e.stopPropagation();
       document.getElementById(`rack-menu-${btn.dataset.editRack}`)?.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
-        notify('🚫 Espectadores no pueden editar gabinetes.', 'error', 3000);
+        notify('Espectadores no pueden editar gabinetes.', 'error', 3000);
         return;
       }
       openEditRackModal(btn.dataset.editRack);
@@ -175,7 +175,7 @@ function bindRackEvents(container, flippedRacks) {
       e.stopPropagation();
       document.getElementById(`rack-menu-${btn.dataset.delRack}`)?.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
-        notify('🚫 Espectadores no pueden eliminar gabinetes.', 'error', 3000);
+        notify('Espectadores no pueden eliminar gabinetes.', 'error', 3000);
         return;
       }
       const ok = await customConfirm('Eliminar Gabinete', '¿Estás seguro de eliminar este gabinete y todos los equipos instalados en él? Esta acción no se puede deshacer.');
@@ -200,10 +200,10 @@ function bindRackEvents(container, flippedRacks) {
       const rackId = btn.dataset.clearRack;
       document.getElementById(`rack-menu-${rackId}`)?.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
-        notify('🚫 Espectadores no pueden limpiar gabinetes.', 'error', 3000);
+        notify('Espectadores no pueden limpiar gabinetes.', 'error', 3000);
         return;
       }
-      const ok = await customConfirm('Limpiar Gabinete', '⚠️ ¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.');
+      const ok = await customConfirm('Limpiar Gabinete', '¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.');
       if (ok) {
         const devices = store.allDevicesInRack(rackId);
         devices.forEach(d => store.deleteDevice(d.id));
@@ -277,7 +277,7 @@ function bindRackEvents(container, flippedRacks) {
       if (face) face.style.pointerEvents = 'none';
       if (rear) rear.style.pointerEvents = 'auto';
       const btn = document.querySelector(`[data-flip-rack="${rackId}"]`);
-      if (btn) btn.textContent = '🖥️';
+      if (btn) btn.innerHTML = '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
     }
   });
 }
@@ -429,10 +429,10 @@ function showContextMenu(x, y, devId) {
   if(!menu) return;
   const dev = store.deviceById(devId);
   menu.innerHTML = `
-    <div class="ctx-item" data-action="edit" data-id="${escapeHTML(devId)}">✎ Editar equipo</div>
-    <div class="ctx-item" data-action="cable" data-id="${escapeHTML(devId)}">🔌 Agregar cable</div>
+    <div class="ctx-item" data-action="edit" data-id="${escapeHTML(devId)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar equipo</div>
+    <div class="ctx-item" data-action="cable" data-id="${escapeHTML(devId)}"><i class="svg-icon icon-plug" style="width:14px; height:14px; margin-right:6px;"></i>Agregar cable</div>
     <div class="ctx-sep"></div>
-    <div class="ctx-item danger" data-action="delete" data-id="${escapeHTML(devId)}">🗑 Eliminar ${escapeHTML(dev?.name || '')}</div>
+    <div class="ctx-item danger" data-action="delete" data-id="${escapeHTML(devId)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar ${escapeHTML(dev?.name || '')}</div>
   `;
   menu.style.cssText = `left:${x}px; top:${y}px`;
   menu.classList.remove('hidden');
@@ -523,7 +523,7 @@ function renderFloorSection(roomId) {
     <div class="floor-section-header">
       <span>Equipos de Piso / Periféricos</span>
       <div style="display:flex; align-items:center; gap:12px;">
-        <button class="btn-primary" id="floor-btn-add-device" style="padding: 2px 8px; font-size: 12px; height: 24px; background:rgba(139, 92, 246, 0.15); border-color:var(--purple); color:var(--purple)">⚡ Agregar Equipo</button>
+        <button class="btn-primary" id="floor-btn-add-device" style="padding: 2px 8px; font-size: 12px; height: 24px; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent)"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Agregar Equipo</button>
         <span class="floor-device-count">${floorDevices.length} dispositivos</span>
       </div>
     </div>

@@ -3,7 +3,7 @@ function openPNGModal() {
   const racks = store.currentRacks;
   let html = racks.map(r => `
     <button class="btn-secondary" style="width:100%;margin-bottom:8px;justify-content:flex-start" data-export-rack="${escapeHTML(r.id)}">
-      📸 Exportar: ${escapeHTML(r.name)} (${r.height}U)
+      <i class="svg-icon icon-image" style="width:14px; height:14px; margin-right:6px;"></i>Exportar: ${escapeHTML(r.name)} (${r.height}U)
     </button>
   `).join('');
 
@@ -12,7 +12,7 @@ function openPNGModal() {
     html += `
       <div style="margin-top: 16px; margin-bottom: 8px; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 8px;">OTROS EQUIPOS</div>
       <button class="btn-secondary" id="btn-export-floor" style="width:100%; margin-bottom:8px; justify-content:flex-start; border-color: #f59e0b; color: #f59e0b;">
-        📸 Exportar Equipos de Piso (${floorDevices.length})
+        <i class="svg-icon icon-image" style="width:14px; height:14px; margin-right:6px;"></i>Exportar Equipos de Piso (${floorDevices.length})
       </button>
     `;
   }

@@ -86,7 +86,7 @@ function renderCatalog() {
       if (RackAuth.can('editDevices')) {
         openQuickPlacementModal(el.dataset.catalogId);
       } else {
-        notify('🚫 Espectadores no pueden editar dispositivos.', 'error', 3000);
+        notify('Espectadores no pueden editar dispositivos.', 'error', 3000);
       }
     });
   });
@@ -98,10 +98,10 @@ function renderCatalog() {
       const menu = document.getElementById('ctx-menu');
       if(!menu) return;
       menu.innerHTML = `
-        <div class="ctx-item" data-action="cat-place" data-id="${escapeHTML(catId)}">⚡ Ubicación Rápida</div>
-        <div class="ctx-item" data-action="cat-edit" data-id="${escapeHTML(catId)}">✎ Editar plantilla</div>
+        <div class="ctx-item" data-action="cat-place" data-id="${escapeHTML(catId)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Ubicación Rápida</div>
+        <div class="ctx-item" data-action="cat-edit" data-id="${escapeHTML(catId)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar plantilla</div>
         <div class="ctx-sep"></div>
-        <div class="ctx-item danger" data-action="cat-delete" data-id="${escapeHTML(catId)}">🗑 Eliminar plantilla</div>
+        <div class="ctx-item danger" data-action="cat-delete" data-id="${escapeHTML(catId)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar plantilla</div>
       `;
       menu.style.cssText = `left:${e.clientX}px; top:${e.clientY}px`;
       menu.classList.remove('hidden');
@@ -113,7 +113,7 @@ function renderCatalog() {
           const id = item.dataset.id;
           
           if (!RackAuth.can('editDevices')) {
-            notify('🚫 Solo editores pueden modificar dispositivos.', 'error', 3000);
+            notify('Solo editores pueden modificar dispositivos.', 'error', 3000);
             return;
           }
 
@@ -135,18 +135,14 @@ function renderCatalog() {
 }
 
 function renderRoomTabs() {
-  const activeContainer = document.getElementById('room-tabs-active');
   const dropdownList = document.getElementById('room-dropdown-list');
-  if(!activeContainer || !dropdownList) return;
+  const label = document.getElementById('room-dropdown-label');
+  if(!dropdownList || !label) return;
 
   const currentRoom = store._raw.rooms.find(r => r.id === store._raw.currentRoomId) || store._raw.rooms[0];
   
-  // Render active room
-  activeContainer.innerHTML = `
-    <button class="room-tab active" data-room-id="${escapeHTML(currentRoom.id)}">
-      <span class="status-dot-nav active"></span> ${escapeHTML(currentRoom.name)}
-    </button>
-  `;
+  // Update label text
+  label.textContent = currentRoom.name;
 
   // Render dropdown list
   dropdownList.innerHTML = store._raw.rooms.map(r => `
@@ -157,63 +153,47 @@ function renderRoomTabs() {
   `).join('');
 
   // Attach events
-  const attachEvents = (container) => {
-    container.querySelectorAll('.room-tab').forEach(btn => {
-      btn.addEventListener('click', async e => {
-        if (e.target.dataset.delRoom) { await deleteRoom(e.target.dataset.delRoom); return; }
-        store.setCurrentRoom(btn.dataset.roomId);
-        dropdownList.classList.add('hidden'); // Close dropdown on select
-      });
-      
-      const editRoom = (e) => {
-        if (e.target.dataset.delRoom) return;
-        e.preventDefault();
-        const roomId = btn.dataset.roomId;
-        const room = store._raw.rooms.find(r => r.id === roomId);
-        if (room) {
-          const newName = prompt('Editar nombre de la sala:', room.name);
-          if (newName !== null && newName.trim() !== '') {
-            store.updateRoom(roomId, { name: newName.trim() });
-            notify('Sala renombrada a ' + newName.trim(), 'success');
-          }
-        }
-      };
-      btn.addEventListener('dblclick', editRoom);
-      btn.addEventListener('contextmenu', editRoom);
+  dropdownList.querySelectorAll('.room-tab').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      if (e.target.dataset.delRoom) { await deleteRoom(e.target.dataset.delRoom); return; }
+      store.setCurrentRoom(btn.dataset.roomId);
+      dropdownList.classList.add('hidden');
     });
-  };
-
-  attachEvents(activeContainer);
-  attachEvents(dropdownList);
+    
+    const editRoom = (e) => {
+      if (e.target.dataset.delRoom) return;
+      e.preventDefault();
+      const roomId = btn.dataset.roomId;
+      const room = store._raw.rooms.find(r => r.id === roomId);
+      if (room) {
+        const newName = prompt('Editar nombre de la sala:', room.name);
+        if (newName !== null && newName.trim() !== '') {
+          store.updateRoom(roomId, { name: newName.trim() });
+          notify('Sala renombrada a ' + newName.trim(), 'success');
+        }
+      }
+    };
+    btn.addEventListener('dblclick', editRoom);
+    btn.addEventListener('contextmenu', editRoom);
+  });
 }
 
 function renderRackSelector() {
   try {
-  const activeContainer = document.getElementById('rack-tabs-active');
   const dropdownList = document.getElementById('rack-dropdown-list');
-  const dropdownWrapper = document.getElementById('rack-dropdown-wrapper');
-  if(!activeContainer || !dropdownList || !dropdownWrapper) return;
+  const label = document.getElementById('rack-dropdown-label');
+  if(!dropdownList || !label) return;
 
   const racks = store._raw.racks.filter(r => r.roomId === store._raw.currentRoomId);
   
   if (racks.length === 0) {
-    activeContainer.innerHTML = `<button class="room-tab" style="cursor:default; opacity:0.5;">Sin Racks</button>`;
+    label.textContent = 'Sin Racks';
     dropdownList.innerHTML = '';
     return;
   }
 
-  // Por ahora, mostrar el primer rack de la lista como "activo" en la barra
-  // (La selección de rack es solo visual para scrollear hacia él, no guarda un 'currentRackId' en el store actual)
-  // Pero podemos simplemente mostrar "Racks (N)" o el primero.
-  // En tu diseño dice [ • Rack101 ]. Asumiremos que muestra el primer rack por defecto o el último clickeado.
-  // Para mantenerlo simple, mostraremos el texto "Seleccionar Rack" o el primer rack.
-  const displayRack = racks[0];
-
-  activeContainer.innerHTML = `
-    <button class="room-tab active" data-rack-id="${escapeHTML(displayRack.id)}">
-      <span class="status-dot-nav active"></span> Racks (${racks.length})
-    </button>
-  `;
+  // Update label text
+  label.textContent = `Racks (${racks.length})`;
 
   dropdownList.innerHTML = racks.map(r => `
     <button class="room-tab" data-target-rack="${escapeHTML(r.id)}">
@@ -228,20 +208,12 @@ function renderRackSelector() {
       const el = document.querySelector(`.rack-wrapper[data-rack-id="${targetId}"]`);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'center' });
-        
-        // Destacar el rack visualmente
         el.style.boxShadow = '0 0 20px var(--accent)';
         setTimeout(() => { el.style.boxShadow = ''; }, 1500);
       }
       dropdownList.classList.add('hidden');
-      
-      // Actualizar el texto del activo
       const rackName = store._raw.racks.find(r => r.id === targetId)?.name || 'Rack';
-      activeContainer.innerHTML = `
-        <button class="room-tab active">
-          <span class="status-dot-nav active"></span> ${escapeHTML(rackName)}
-        </button>
-      `;
+      label.textContent = rackName;
     });
   });
   } catch(e) { console.error('[renderRackSelector] Error:', e); }

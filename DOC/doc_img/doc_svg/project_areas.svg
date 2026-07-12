@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#0b0f19" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="48" text-anchor="middle" fill="#38bdf8" font-size="22" font-weight="700">RACK Designer Next — Project Areas</text>
+  <text x="600" y="72" text-anchor="middle" fill="#64748b" font-size="13">100% Vanilla JS PWA · No build step · Reactive Proxy Architecture</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 1: Core Architecture -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- index.html (Entry Point) -->
+  <rect x="30" y="100" width="220" height="90" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect x="30" y="100" width="220" height="28" rx="8" fill="#0f172a"/>
+  <text x="140" y="119" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">HTML</text>
+  <text x="140" y="148" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">index.html</text>
+  <text x="140" y="166" text-anchor="middle" fill="#94a3b8" font-size="10">Entry Point · DOM Skeleton</text>
+  <text x="140" y="180" text-anchor="middle" fill="#64748b" font-size="9">script tags · CSS links</text>
+
+  <!-- store.js (State Brain) -->
+  <rect x="310" y="100" width="220" height="90" rx="8" fill="#1e293b" stroke="#22c55e" stroke-width="1.5"/>
+  <rect x="310" y="100" width="220" height="28" rx="8" fill="#0f172a"/>
+  <text x="420" y="119" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="700">STATE</text>
+  <text x="420" y="148" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">js/store.js</text>
+  <text x="420" y="166" text-anchor="middle" fill="#94a3b8" font-size="10">ES6 Proxy · localStorage</text>
+  <text x="420" y="180" text-anchor="middle" fill="#64748b" font-size="9">Event emitter · undo/redo</text>
+
+  <!-- main.js (Orchestrator) -->
+  <rect x="590" y="100" width="220" height="90" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="590" y="100" width="220" height="28" rx="8" fill="#0f172a"/>
+  <text x="700" y="119" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">ORCHESTRATOR</text>
+  <text x="700" y="148" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">js/main.js</text>
+  <text x="700" y="166" text-anchor="middle" fill="#94a3b8" font-size="10">renderAll() · Event binding</text>
+  <text x="700" y="180" text-anchor="middle" fill="#64748b" font-size="9">Init · Auth · Routing</text>
+
+  <!-- Auth -->
+  <rect x="870" y="100" width="160" height="90" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="870" y="100" width="160" height="28" rx="8" fill="#0f172a"/>
+  <text x="950" y="119" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">AUTH</text>
+  <text x="950" y="148" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">auth/roles.js</text>
+  <text x="950" y="166" text-anchor="middle" fill="#94a3b8" font-size="10">SHA-256 PIN</text>
+  <text x="950" y="180" text-anchor="middle" fill="#64748b" font-size="9">Admin/Editor/Viewer</text>
+
+  <!-- Arrows: index.html → store → main -->
+  <line x1="250" y1="145" x2="310" y2="145" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="310,145 303,140 303,150" fill="#475569"/>
+  <line x1="530" y1="145" x2="590" y2="145" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="590,145 583,140 583,150" fill="#475569"/>
+  <!-- Auth arrow from main -->
+  <line x1="810" y1="145" x2="870" y2="145" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="870,145 863,140 863,150" fill="#475569"/>
+
+  <!-- Data Flow Label -->
+  <text x="420" y="208" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">User Action → Store Mutate → Event → renderAll() → DOM Update</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 2: UI View Layer -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Section Label -->
+  <text x="30" y="240" fill="#38bdf8" font-size="11" font-weight="700" opacity="0.6">UI VIEW LAYER</text>
+  <line x1="30" y1="248" x2="1170" y2="248" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Physical View -->
+  <rect x="30" y="260" width="155" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="30" y="260" width="155" height="24" rx="8" fill="#0f172a"/>
+  <text x="107" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">PHYSICAL</text>
+  <text x="107" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">rack.js</text>
+  <text x="107" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Rack cards · Slots</text>
+  <text x="107" y="330" text-anchor="middle" fill="#64748b" font-size="9">Drag-drop · Flip</text>
+  <text x="107" y="350" text-anchor="middle" fill="#94a3b8" font-size="9">faceplates.js</text>
+
+  <!-- Catalog -->
+  <rect x="200" y="260" width="155" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="200" y="260" width="155" height="24" rx="8" fill="#0f172a"/>
+  <text x="277" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">CATALOG</text>
+  <text x="277" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">catalog.js</text>
+  <text x="277" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Device templates</text>
+  <text x="277" y="330" text-anchor="middle" fill="#64748b" font-size="9">Drag source · SVG icons</text>
+  <text x="277" y="350" text-anchor="middle" fill="#94a3b8" font-size="9">icons.js registry</text>
+
+  <!-- Inspector -->
+  <rect x="370" y="260" width="155" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="370" y="260" width="155" height="24" rx="8" fill="#0f172a"/>
+  <text x="447" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">INSPECTOR</text>
+  <text x="447" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">inspector.js</text>
+  <text x="447" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Property panel</text>
+  <text x="447" y="330" text-anchor="middle" fill="#64748b" font-size="9">Device details</text>
+
+  <!-- Outliner -->
+  <rect x="540" y="260" width="155" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="540" y="260" width="155" height="24" rx="8" fill="#0f172a"/>
+  <text x="617" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">OUTLINER</text>
+  <text x="617" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">outliner.js</text>
+  <text x="617" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Tree view hierarchy</text>
+  <text x="617" y="330" text-anchor="middle" fill="#64748b" font-size="9">Room → Rack → Device</text>
+
+  <!-- Tables -->
+  <rect x="710" y="260" width="155" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="710" y="260" width="155" height="24" rx="8" fill="#0f172a"/>
+  <text x="787" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">TABLES</text>
+  <text x="787" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">tables.js</text>
+  <text x="787" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Connections grid</text>
+  <text x="787" y="330" text-anchor="middle" fill="#64748b" font-size="9">Editable cells · CSV</text>
+
+  <!-- File Manager -->
+  <rect x="880" y="260" width="155" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="880" y="260" width="155" height="24" rx="8" fill="#0f172a"/>
+  <text x="957" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">FILE MANAGER</text>
+  <text x="957" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">fileManager.js</text>
+  <text x="957" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Import/Export JSON</text>
+  <text x="957" y="330" text-anchor="middle" fill="#64748b" font-size="9">Save/Load projects</text>
+
+  <!-- Modals -->
+  <rect x="1050" y="260" width="120" height="100" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="1050" y="260" width="120" height="24" rx="8" fill="#0f172a"/>
+  <text x="1110" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">MODALS</text>
+  <text x="1110" y="300" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">modals.js</text>
+  <text x="1110" y="316" text-anchor="middle" fill="#94a3b8" font-size="8">Cable · Device</text>
+  <text x="1110" y="328" text-anchor="middle" fill="#94a3b8" font-size="8">Export · Rack</text>
+  <text x="1110" y="340" text-anchor="middle" fill="#94a3b8" font-size="8">Room · Placement</text>
+  <text x="1110" y="352" text-anchor="middle" fill="#64748b" font-size="8">Globals · 7 modals</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 3: Topology Engine -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <text x="30" y="395" fill="#a855f7" font-size="11" font-weight="700" opacity="0.6">TOPOLOGY ENGINE (Canvas 2D)</text>
+  <line x1="30" y1="403" x2="1170" y2="403" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Topology Orchestrator -->
+  <rect x="30" y="415" width="180" height="80" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <rect x="30" y="415" width="180" height="24" rx="8" fill="#0f172a"/>
+  <text x="120" y="431" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="700">ORCHESTRATOR</text>
+  <text x="120" y="455" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">TopologyOrchestrator.js</text>
+  <text x="120" y="473" text-anchor="middle" fill="#94a3b8" font-size="9">Wires all topology pieces</text>
+
+  <!-- Topology Renderer -->
+  <rect x="235" y="415" width="180" height="80" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <rect x="235" y="415" width="180" height="24" rx="8" fill="#0f172a"/>
+  <text x="325" y="431" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="700">RENDERER</text>
+  <text x="325" y="455" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">TopologyRenderer.js</text>
+  <text x="325" y="473" text-anchor="middle" fill="#94a3b8" font-size="9">Canvas 2D drawing</text>
+
+  <!-- Topology Layout -->
+  <rect x="440" y="415" width="180" height="80" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <rect x="440" y="415" width="180" height="24" rx="8" fill="#0f172a"/>
+  <text x="530" y="431" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="700">LAYOUT</text>
+  <text x="530" y="455" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">TopologyLayout.js</text>
+  <text x="530" y="473" text-anchor="middle" fill="#94a3b8" font-size="9">Auto-positioning · Spacing</text>
+
+  <!-- Topology Events -->
+  <rect x="645" y="415" width="180" height="80" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <rect x="645" y="415" width="180" height="24" rx="8" fill="#0f172a"/>
+  <text x="735" y="431" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="700">EVENTS</text>
+  <text x="735" y="455" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">TopologyEvents.js</text>
+  <text x="735" y="473" text-anchor="middle" fill="#94a3b8" font-size="9">Mouse · Touch · Drag</text>
+
+  <!-- Topology State -->
+  <rect x="850" y="415" width="180" height="80" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <rect x="850" y="415" width="180" height="24" rx="8" fill="#0f172a"/>
+  <text x="940" y="431" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="700">STATE</text>
+  <text x="940" y="455" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">TopologyState.js</text>
+  <text x="940" y="473" text-anchor="middle" fill="#94a3b8" font-size="9">Selection · Hover · Viewport</text>
+
+  <!-- Topo arrows -->
+  <line x1="210" y1="455" x2="235" y2="455" stroke="#475569" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="415" y1="455" x2="440" y2="455" stroke="#475569" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="620" y1="455" x2="645" y2="455" stroke="#475569" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="825" y1="455" x2="850" y2="455" stroke="#475569" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 4: Infrastructure -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <text x="30" y="530" fill="#f59e0b" font-size="11" font-weight="700" opacity="0.6">INFRASTRUCTURE</text>
+  <line x1="30" y1="538" x2="1170" y2="538" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- CSS Modules -->
+  <rect x="30" y="550" width="170" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="30" y="550" width="170" height="24" rx="8" fill="#0f172a"/>
+  <text x="115" y="566" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700">CSS MODULES</text>
+  <text x="115" y="590" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">css/</text>
+  <text x="115" y="606" text-anchor="middle" fill="#94a3b8" font-size="9">variables · layout · style</text>
+  <text x="115" y="618" text-anchor="middle" fill="#94a3b8" font-size="9">modals · rack · panels</text>
+  <text x="115" y="628" text-anchor="middle" fill="#64748b" font-size="8">faceplates · misc</text>
+
+  <!-- Assets -->
+  <rect x="220" y="550" width="170" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="220" y="550" width="170" height="24" rx="8" fill="#0f172a"/>
+  <text x="305" y="566" text-anchor="middle" fill="#22c55e" font-size="10" font-weight="700">ASSETS</text>
+  <text x="305" y="590" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">assets/</text>
+  <text x="305" y="606" text-anchor="middle" fill="#94a3b8" font-size="9">icons/ · svg/ · img/</text>
+  <text x="305" y="618" text-anchor="middle" fill="#64748b" font-size="8">Device icons by category</text>
+  <text x="305" y="628" text-anchor="middle" fill="#64748b" font-size="8">server · network · power</text>
+
+  <!-- Service Worker / PWA -->
+  <rect x="410" y="550" width="170" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="410" y="550" width="170" height="24" rx="8" fill="#0f172a"/>
+  <text x="495" y="566" text-anchor="middle" fill="#06b6d4" font-size="10" font-weight="700">PWA</text>
+  <text x="495" y="590" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">service-worker.js</text>
+  <text x="495" y="606" text-anchor="middle" fill="#94a3b8" font-size="9">Offline cache · v2</text>
+  <text x="495" y="618" text-anchor="middle" fill="#64748b" font-size="8">manifest.json</text>
+  <text x="495" y="628" text-anchor="middle" fill="#64748b" font-size="8">json/manifest.json</text>
+
+  <!-- Documentation -->
+  <rect x="600" y="550" width="170" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="600" y="550" width="170" height="24" rx="8" fill="#0f172a"/>
+  <text x="685" y="566" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="700">DOCS</text>
+  <text x="685" y="590" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">doc/</text>
+  <text x="685" y="606" text-anchor="middle" fill="#94a3b8" font-size="9">19 SVG diagrams</text>
+  <text x="685" y="618" text-anchor="middle" fill="#64748b" font-size="8">PROJECT_ANALYSIS.md</text>
+  <text x="685" y="628" text-anchor="middle" fill="#64748b" font-size="8">USER_MANUAL.md</text>
+
+  <!-- Scripts / Build -->
+  <rect x="790" y="550" width="170" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="790" y="550" width="170" height="24" rx="8" fill="#0f172a"/>
+  <text x="875" y="566" text-anchor="middle" fill="#ec4899" font-size="10" font-weight="700">SCRIPTS</text>
+  <text x="875" y="590" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">scripts/</text>
+  <text x="875" y="606" text-anchor="middle" fill="#94a3b8" font-size="9">build_standalone_manual</text>
+  <text x="875" y="618" text-anchor="middle" fill="#64748b" font-size="8">generate_svgs.cjs</text>
+
+  <!-- Agents -->
+  <rect x="980" y="550" width="190" height="80" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="980" y="550" width="190" height="24" rx="8" fill="#0f172a"/>
+  <text x="1075" y="566" text-anchor="middle" fill="#64748b" font-size="10" font-weight="700">AI AGENTS</text>
+  <text x="1075" y="590" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">.agents/</text>
+  <text x="1075" y="606" text-anchor="middle" fill="#94a3b8" font-size="9">11 agent profiles</text>
+  <text x="1075" y="618" text-anchor="middle" fill="#64748b" font-size="8">DESIGN.md · INSTRUCTIONS.md</text>
+  <text x="1075" y="628" text-anchor="middle" fill="#64748b" font-size="8">Security · Frontend · DevOps</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- Footer: Stats -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <line x1="30" y1="660" x2="1170" y2="660" stroke="#1e293b" stroke-width="1"/>
+  <text x="600" y="680" text-anchor="middle" fill="#475569" font-size="10">
+    ~25 JS files · 8 CSS files · 19 SVG diagrams · 11 AI agents · 7 modals · 2 views (Physical + Topology)
+  </text>
+</svg>

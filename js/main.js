@@ -12,7 +12,7 @@ function applyRoleUI(user) {
 
   // Badge en el header
   badge.style.display = 'inline-block';
-  badge.textContent = isAdm ? '👑 Admin' : isView ? '👁 Espectador' : '✏️ Editor';
+  badge.innerHTML = isAdm ? '<i class="svg-icon icon-crown" style="width:12px;height:12px;margin-right:4px;"></i>Admin' : isView ? '<i class="svg-icon icon-eye" style="width:12px;height:12px;margin-right:4px;"></i>Espectador' : '<i class="svg-icon icon-edit" style="width:12px;height:12px;margin-right:4px;"></i>Editor';
   badge.style.color = isAdm ? 'var(--cyan)' : isView ? 'var(--text-secondary)' : 'var(--purple)';
   badge.style.borderColor = isAdm ? 'var(--cyan)' : isView ? 'var(--border)' : 'var(--purple)';
   badge.style.background = isAdm ? 'rgba(34,211,238,0.1)' : isView ? 'rgba(100,116,139,0.1)' : 'rgba(139,92,246,0.15)';
@@ -73,7 +73,7 @@ function initAuthModal() {
   function closeLoginModal(user) {
     hideModal();
     applyRoleUI(user);
-    notify(`Bienvenido, ${user.name} 👋`, 'success', 2500);
+    notify(`Bienvenido, ${user.name}`, 'success', 2500);
   }
 
   // Toggle show/hide PIN
@@ -140,13 +140,13 @@ function initChangePinModal() {
 
     const isValidCurrent = await RackAuth.validateAdminPin(current);
     if (!isValidCurrent) {
-      return show(errEl, '❌ El PIN actual es incorrecto.');
+      return show(errEl, 'El PIN actual es incorrecto.');
     }
     if (newPin.length < 4) {
-      return show(errEl, '❌ El nuevo PIN debe tener al menos 4 caracteres.');
+      return show(errEl, 'El nuevo PIN debe tener al menos 4 caracteres.');
     }
     if (newPin !== confirm) {
-      return show(errEl, '❌ Los PINs nuevos no coinciden.');
+      return show(errEl, 'Los PINs nuevos no coinciden.');
     }
     await RackAuth.setAdminPin(newPin);
     show(okEl);
@@ -357,24 +357,24 @@ function initGlobalEvents() {
       if (isLight) {
         document.documentElement.removeAttribute('data-theme');
         localStorage.setItem('theme', 'dark');
-        document.getElementById('menu-theme').textContent = '☀️ Cambiar a Modo Claro';
+        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-sun" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Claro';
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');
-        document.getElementById('menu-theme').textContent = '🌙 Cambiar a Modo Oscuro';
+        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
       }
     });
 
     window.SHOW_PASSWORDS = false;
     document.getElementById('menu-toggle-passwords')?.addEventListener('click', (e) => {
       if (!RackAuth.can('toggleGodMode')) {
-        notify('⛔ Solo administradores pueden activar el Modo Dios.', 'error', 3000);
+        notify('Solo administradores pueden activar el Modo Dios.', 'error', 3000);
         dropdown.classList.add('hidden');
         return;
       }
       dropdown.classList.add('hidden');
       window.SHOW_PASSWORDS = !window.SHOW_PASSWORDS;
-      document.getElementById('menu-toggle-passwords').textContent = window.SHOW_PASSWORDS ? '🙈 Modo Dios: Ocultar Claves' : '👁 Modo Dios: Revelar Claves';
+      document.getElementById('menu-toggle-passwords').innerHTML = window.SHOW_PASSWORDS ? '<i class="svg-icon icon-eye-off" style="width:14px;height:14px;margin-right:6px;"></i>Modo Dios: Ocultar Claves' : '<i class="svg-icon icon-eye" style="width:14px;height:14px;margin-right:6px;"></i>Modo Dios: Revelar Claves';
       renderAll();
     });
 
@@ -382,7 +382,7 @@ function initGlobalEvents() {
 
     // Set initial text
     if (document.documentElement.getAttribute('data-theme') === 'light') {
-      document.getElementById('menu-theme').textContent = '🌙 Cambiar a Modo Oscuro';
+      document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
     }
 
     document.getElementById('menu-open')?.addEventListener('click', () => {
@@ -393,7 +393,7 @@ function initGlobalEvents() {
     document.getElementById('menu-save')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
-        notify('🚫 Espectadores no pueden guardar proyectos.', 'error', 3000);
+        notify('Espectadores no pueden guardar proyectos.', 'error', 3000);
         return;
       }
       if (typeof fileManager !== 'undefined') fileManager.saveProject();
@@ -405,7 +405,7 @@ function initGlobalEvents() {
     document.getElementById('menu-save-as')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
-        notify('🚫 Espectadores no pueden guardar proyectos.', 'error', 3000);
+        notify('Espectadores no pueden guardar proyectos.', 'error', 3000);
         return;
       }
       if (typeof fileManager !== 'undefined') fileManager.saveProjectAs();
@@ -413,7 +413,7 @@ function initGlobalEvents() {
     document.getElementById('menu-clear')?.addEventListener('click', async () => {
       dropdown.classList.add('hidden');
       if (!RackAuth.can('clearProject')) {
-        notify('🚫 Espectadores no pueden limpiar el proyecto.', 'error', 3000);
+        notify('Espectadores no pueden limpiar el proyecto.', 'error', 3000);
         return;
       }
       const ok = await customConfirm('Limpiar Proyecto', '¿Estás seguro de que deseas limpiar el proyecto? Perderás todos los datos no guardados.');
@@ -441,12 +441,12 @@ function initGlobalEvents() {
     document.getElementById('menu-demo')?.addEventListener('click', async () => {
       dropdown.classList.add('hidden');
       if (!RackAuth.can('editDevices')) {
-        notify('🚫 Espectadores no pueden cargar demostraciones.', 'error', 3000);
+        notify('Espectadores no pueden cargar demostraciones.', 'error', 3000);
         return;
       }
       const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
       if (!wantSave) {
-        const proceed = await customConfirm('Advertencia', '⚠️ ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
+        const proceed = await customConfirm('Advertencia', 'ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
         if (!proceed) return;
       }
 
@@ -617,13 +617,13 @@ function initGlobalEvents() {
   document.getElementById('btn-expand-main').addEventListener('click', (e) => {
     const main = document.getElementById('main');
     main.classList.toggle('fullscreen');
-    e.target.textContent = main.classList.contains('fullscreen') ? '⛶ Contraer' : '⛶ Expandir';
+    e.target.innerHTML = main.classList.contains('fullscreen') ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Contraer' : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Expandir';
   });
 
   document.getElementById('btn-expand-bottom').addEventListener('click', (e) => {
     const bottom = document.getElementById('bottom');
     bottom.classList.toggle('fullscreen');
-    e.target.textContent = bottom.classList.contains('fullscreen') ? '⛶ Contraer' : '⛶ Expandir';
+    e.target.innerHTML = bottom.classList.contains('fullscreen') ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Contraer' : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Expandir';
   });
 
 
@@ -652,7 +652,7 @@ function initGlobalEvents() {
   if(mainEl) resizeObs.observe(mainEl);
 }
 
-// demoData.js se carga dinámicamente solo cuando el usuario pulsa "✨ Cargar demos"
+// demoData.js se carga dinámicamente solo cuando el usuario pulsa "Cargar demos"
 function init() {
   initTopology();
   initModals();
@@ -667,7 +667,7 @@ function init() {
   });
 
   renderAll();
-  notify('⚡ RACK Designer Next modularizado', 'success', 2500);
+  notify('RACK Designer Next modularizado', 'success', 2500);
 
   // Inicializar sistema de autenticación
   // Siempre mostramos el modal al iniciar (sessionStorage no persiste entre sesiones)

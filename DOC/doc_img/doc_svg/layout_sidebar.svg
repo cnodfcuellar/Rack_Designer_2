@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 780" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+  </defs>
+
+  <rect width="360" height="780" fill="#0b0f19" rx="8"/>
+  <text x="180" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Sidebar Layout — #sidebar (280px width)</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SIDEBAR -->
+  <!-- ═══════════════════════════════════════ -->
+  <rect x="10" y="30" width="280" height="740" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+
+  <!-- A. sb-actions (action buttons) -->
+  <rect x="10" y="30" width="280" height="52" fill="#151c2e" stroke="#25304b" stroke-width="0" stroke-dasharray="0"/>
+  <line x1="10" y1="82" x2="290" y2="82" stroke="#25304b" stroke-width="1"/>
+
+  <!-- + Rack button -->
+  <rect x="24" y="42" width="126" height="24" rx="6" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="87" y="58" text-anchor="middle" fill="#0ea5e9" font-size="11" font-weight="600">+ Rack</text>
+
+  <!-- + Equipo button -->
+  <rect x="156" y="42" width="126" height="24" rx="6" fill="transparent" stroke="#25304b" stroke-width="1"/>
+  <text x="219" y="58" text-anchor="middle" fill="#8b9ab8" font-size="11">+ Equipo</text>
+
+  <!-- B. sb-search -->
+  <rect x="10" y="82" width="280" height="44" fill="#151c2e"/>
+  <line x1="10" y1="126" x2="290" y2="126" stroke="#25304b" stroke-width="1"/>
+
+  <rect x="24" y="92" width="252" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="1"/>
+  <text x="34" y="108" fill="#475569" font-size="10" class="mono">Buscar por nombre o tipo...</text>
+
+  <!-- C. sb-filter-tabs -->
+  <rect x="10" y="126" width="280" height="40" fill="#151c2e"/>
+  <line x1="10" y1="166" x2="290" y2="166" stroke="#25304b" stroke-width="1"/>
+
+  <!-- Filter tab pills -->
+  <rect x="24" y="136" width="42" height="20" rx="10" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="0.5"/>
+  <text x="45" y="150" text-anchor="middle" fill="#0ea5e9" font-size="9">Todos</text>
+
+  <rect x="70" y="136" width="58" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="99" y="150" text-anchor="middle" fill="#64748b" font-size="9">Servidor</text>
+
+  <rect x="132" y="136" width="38" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="151" y="150" text-anchor="middle" fill="#64748b" font-size="9">Red</text>
+
+  <rect x="174" y="136" width="50" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="199" y="150" text-anchor="middle" fill="#64748b" font-size="9">Storage</text>
+
+  <rect x="228" y="136" width="52" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="254" y="150" text-anchor="middle" fill="#64748b" font-size="9">Cableado</text>
+
+  <!-- Second row -->
+  <rect x="24" y="154" width="46" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="47" y="168" text-anchor="middle" fill="#64748b" font-size="9">Energia</text>
+
+  <rect x="74" y="154" width="62" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="105" y="168" text-anchor="middle" fill="#64748b" font-size="9">Accesorios</text>
+
+  <rect x="140" y="154" width="36" height="20" rx="10" fill="transparent" stroke="#25304b" stroke-width="0.5"/>
+  <text x="158" y="168" text-anchor="middle" fill="#64748b" font-size="9">Piso</text>
+
+  <!-- D. catalog -->
+  <rect x="10" y="166" width="280" height="604" fill="#151c2e"/>
+  <line x1="10" y1="166" x2="290" y2="166" stroke="#25304b" stroke-width="1"/>
+
+  <!-- Catalog item 1: Server -->
+  <rect x="24" y="176" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="184" width="32" height="32" rx="6" fill="#10b981" opacity="0.15"/>
+  <text x="48" y="204" text-anchor="middle" fill="#10b981" font-size="12">⬡</text>
+  <text x="72" y="198" fill="#f0f4ff" font-size="11" font-weight="600">Server HP ProLiant DL380</text>
+  <text x="72" y="212" fill="#94a3b8" font-size="10" class="mono">SERVER · 460W · 2U</text>
+  <text x="260" y="204" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">2U</text>
+
+  <!-- Catalog item 2: Switch -->
+  <rect x="24" y="230" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="238" width="32" height="32" rx="6" fill="#10b981" opacity="0.15"/>
+  <text x="48" y="258" text-anchor="middle" fill="#10b981" font-size="12">⬡</text>
+  <text x="72" y="252" fill="#f0f4ff" font-size="11" font-weight="600">Switch Cisco Catalyst 48P</text>
+  <text x="72" y="266" fill="#94a3b8" font-size="10" class="mono">SWITCH · 180W · 1U</text>
+  <text x="260" y="258" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">1U</text>
+
+  <!-- Catalog item 3: Router -->
+  <rect x="24" y="284" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="292" width="32" height="32" rx="6" fill="#f59e0b" opacity="0.15"/>
+  <text x="48" y="312" text-anchor="middle" fill="#f59e0b" font-size="12">⬡</text>
+  <text x="72" y="306" fill="#f0f4ff" font-size="11" font-weight="600">Router Core ASR1001</text>
+  <text x="72" y="320" fill="#94a3b8" font-size="10" class="mono">ROUTER · 90W · 1U</text>
+  <text x="260" y="312" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">1U</text>
+
+  <!-- Catalog item 4: Firewall -->
+  <rect x="24" y="338" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="346" width="32" height="32" rx="6" fill="#ef4444" opacity="0.15"/>
+  <text x="48" y="366" text-anchor="middle" fill="#ef4444" font-size="12">⬡</text>
+  <text x="72" y="360" fill="#f0f4ff" font-size="11" font-weight="600">Firewall Fortinet 60F</text>
+  <text x="72" y="374" fill="#94a3b8" font-size="10" class="mono">FIREWALL · 40W · 1U</text>
+  <text x="260" y="366" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">1U</text>
+
+  <!-- Catalog item 5: UPS -->
+  <rect x="24" y="392" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="400" width="32" height="32" rx="6" fill="#0ea5e9" opacity="0.15"/>
+  <text x="48" y="420" text-anchor="middle" fill="#0ea5e9" font-size="12">⬡</text>
+  <text x="72" y="414" fill="#f0f4ff" font-size="11" font-weight="600">UPS APC Smart-UPS 3000</text>
+  <text x="72" y="428" fill="#94a3b8" font-size="10" class="mono">UPS · 0W · 2U</text>
+  <text x="260" y="420" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">2U</text>
+
+  <!-- Catalog item 6: Storage -->
+  <rect x="24" y="446" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="454" width="32" height="32" rx="6" fill="#06b6d4" opacity="0.15"/>
+  <text x="48" y="474" text-anchor="middle" fill="#06b6d4" font-size="12">⬡</text>
+  <text x="72" y="468" fill="#f0f4ff" font-size="11" font-weight="600">SAN Storage NetApp 4U</text>
+  <text x="72" y="482" fill="#94a3b8" font-size="10" class="mono">STORAGE · 300W · 4U</text>
+  <text x="260" y="474" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">4U</text>
+
+  <!-- Catalog item 7: Patch Panel -->
+  <rect x="24" y="500" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="508" width="32" height="32" rx="6" fill="#8b9ab8" opacity="0.15"/>
+  <text x="48" y="528" text-anchor="middle" fill="#8b9ab8" font-size="12">⬡</text>
+  <text x="72" y="522" fill="#f0f4ff" font-size="11" font-weight="600">Patch Panel 24Puertos</text>
+  <text x="72" y="536" fill="#94a3b8" font-size="10" class="mono">WIRING · 0W · 1U</text>
+  <text x="260" y="528" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">1U</text>
+
+  <!-- Catalog item 8: PC Floor (Piso) -->
+  <rect x="24" y="554" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="562" width="32" height="32" rx="6" fill="#0ea5e9" opacity="0.15"/>
+  <text x="48" y="582" text-anchor="middle" fill="#0ea5e9" font-size="12">⬡</text>
+  <text x="72" y="576" fill="#f0f4ff" font-size="11" font-weight="600">PC Desktop Dell OptiPlex</text>
+  <text x="72" y="590" fill="#94a3b8" font-size="10" class="mono">PC · 250W</text>
+  <rect x="232" y="568" width="36" height="16" rx="8" fill="#f59e0b22" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="250" y="580" text-anchor="middle" fill="#f59e0b" font-size="8" font-weight="600">Piso</text>
+
+  <!-- Catalog item 9: Monitor Floor -->
+  <rect x="24" y="608" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <rect x="32" y="616" width="32" height="32" rx="6" fill="#0ea5e9" opacity="0.15"/>
+  <text x="48" y="636" text-anchor="middle" fill="#0ea5e9" font-size="12">⬡</text>
+  <text x="72" y="630" fill="#f0f4ff" font-size="11" font-weight="600">Monitor 24"</text>
+  <text x="72" y="644" fill="#94a3b8" font-size="10" class="mono">MONITOR · 30W</text>
+  <rect x="232" y="622" width="36" height="16" rx="8" fill="#f59e0b22" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="250" y="634" text-anchor="middle" fill="#f59e0b" font-size="8" font-weight="600">Piso</text>
+
+  <!-- Drag indicator -->
+  <text x="278" y="204" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="258" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="312" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="366" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="420" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="474" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="528" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="582" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+  <text x="278" y="636" fill="#475569" font-size="7" opacity="0.4">⋮⋮</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ANNOTATIONS -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Width dimension -->
+  <line x1="10" y1="680" x2="290" y2="680" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="150" y="692" text-anchor="middle" fill="#475569" font-size="9" class="mono">280px (var(--sidebar-w))</text>
+
+  <!-- Section labels -->
+  <line x1="296" y1="30" x2="310" y2="30" stroke="#475569" stroke-width="0.5"/>
+  <text x="314" y="34" fill="#475569" font-size="8" class="mono">sb-actions</text>
+  <line x1="296" y1="82" x2="310" y2="82" stroke="#475569" stroke-width="0.5"/>
+  <text x="314" y="86" fill="#475569" font-size="8" class="mono">sb-search</text>
+  <line x1="296" y1="126" x2="310" y2="126" stroke="#475569" stroke-width="0.5"/>
+  <text x="314" y="130" fill="#475569" font-size="8" class="mono">sb-filter-tabs</text>
+  <line x1="296" y1="166" x2="310" y2="166" stroke="#475569" stroke-width="0.5"/>
+  <text x="314" y="170" fill="#475569" font-size="8" class="mono">.catalog (flex:1, overflow-y:auto)</text>
+
+  <!-- Height annotations -->
+  <line x1="300" y1="30" x2="300" y2="82" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="306" y="60" fill="#475569" font-size="7" class="mono" transform="rotate(90 306 60)">52px</text>
+
+  <line x1="300" y1="82" x2="300" y2="126" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="306" y="108" fill="#475569" font-size="7" class="mono" transform="rotate(90 306 108)">44px</text>
+
+  <line x1="300" y1="126" x2="300" y2="166" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="306" y="148" fill="#475569" font-size="7" class="mono" transform="rotate(90 306 148)">40px</text>
+
+  <!-- CSS variables legend -->
+  <rect x="10" y="700" width="280" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
+  <text x="20" y="715" fill="#475569" font-size="8" font-weight="600">VARS:</text>
+  <text x="60" y="715" fill="#64748b" font-size="8" class="mono">--sidebar-w: 280px</text>
+  <text x="190" y="715" fill="#64748b" font-size="8" class="mono">gap: 6px</text>
+
+  <!-- Layout note -->
+  <rect x="10" y="726" width="280" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
+  <text x="20" y="741" fill="#64748b" font-size="8" class="mono">display: flex; flex-direction: column; overflow: hidden</text>
+
+</svg>

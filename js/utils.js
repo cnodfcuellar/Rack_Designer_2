@@ -21,8 +21,8 @@ function escapeHTML(str) {
 function notify(msg, type = 'info', duration = 3000) {
   const el = document.createElement('div');
   el.className = `notif ${type}`;
-  const icons = { info: '●', success: '✓', error: '✗', warn: '⚠' };
-  el.innerHTML = `<span>${icons[type]||'●'}</span> ${escapeHTML(msg)}`;
+  const icons = { info: '<i class="svg-icon icon-bolt" style="width:14px;height:14px;"></i>', success: '<i class="svg-icon icon-check" style="width:14px;height:14px;"></i>', error: '<i class="svg-icon icon-x" style="width:14px;height:14px;"></i>', warn: '<i class="svg-icon icon-warning" style="width:14px;height:14px;"></i>' };
+  el.innerHTML = `${icons[type]||'<i class="svg-icon icon-bolt" style="width:14px;height:14px;"></i>'} ${escapeHTML(msg)}`;
   const area = document.getElementById('notif-area');
   area.appendChild(el);
   while (area.children.length > 5) {
@@ -73,7 +73,7 @@ function customConfirm(title, message) {
     overlay.innerHTML = `
       <div class="modal custom-dialog scale-in" style="max-width: 400px; padding: 20px;">
         <div class="modal-title" style="font-size: 18px; display: flex; align-items: center; gap: 8px;">
-          <span style="color: var(--amber, #f59e0b);">⚠️</span> ${escapeHTML(title)}
+          <i class="svg-icon icon-warning" style="width:18px; height:18px; color: var(--amber, #f59e0b);"></i> ${escapeHTML(title)}
         </div>
         <div class="modal-sub" style="margin-top: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-family: var(--font-ui), sans-serif;">
           ${escapeHTML(message)}
