@@ -304,7 +304,7 @@
 
   <circle cx="1060" cy="1200" r="8" fill="#38bdf8"/>
   <text x="1080" y="1205" fill="#38bdf8" font-size="11" font-weight="700">5. Re-render</text>
-  <text x="1080" y="1221" fill="#94a3b8" font-size="9" class="mono">renderPhysical() → switch faceplate port lit</text>
+  <text x="1080" y="1221" fill="#94a3b8" font-size="9" class="mono">renderPhysical() → port lit + drawPhysicalCables() SVG trace</text>
   <text x="1080" y="1235" fill="#94a3b8" font-size="9" class="mono">renderStats() · renderOutliner() · renderBottomPanel()</text>
 
   <circle cx="1060" cy="1270" r="8" fill="#06b6d4"/>

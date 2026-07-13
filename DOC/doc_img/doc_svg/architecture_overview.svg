@@ -152,7 +152,7 @@
   <!-- Main Canvas -->
   <rect x="500" y="410" width="280" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
   <text x="640" y="430" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">#main</text>
-  <text x="640" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Physical View (DOM) · Topology View (Canvas 2D)</text>
+  <text x="640" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Physical View (DOM + SVG) · Topology View (Canvas 2D)</text>
 
   <!-- Right Panel -->
   <rect x="800" y="410" width="200" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
@@ -395,7 +395,7 @@
   <rect x="1560" y="1160" width="360" height="200" rx="12" fill="url(#g-purple)" stroke="#8b5cf6" stroke-width="0.5"/>
   <text x="1740" y="1186" text-anchor="middle" fill="#8b5cf6" font-size="14" font-weight="700">VIEWS &amp; RENDERING</text>
   <rect x="1572" y="1196" width="336" height="154" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1584" y="1214" fill="#94a3b8" font-size="10">Physical View: CSS rack faceplates</text>
+  <text x="1584" y="1214" fill="#94a3b8" font-size="10">Physical View: CSS Racks + SVG Cables</text>
   <text x="1584" y="1230" fill="#94a3b8" font-size="10">Topology View: Canvas 2D network diagram</text>
   <text x="1584" y="1246" fill="#94a3b8" font-size="10">Animated particles on connections</text>
   <text x="1584" y="1262" fill="#94a3b8" font-size="10">Card/Circle node styles</text>
