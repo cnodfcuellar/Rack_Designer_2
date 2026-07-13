@@ -4,6 +4,27 @@
 
 ---
 
+## 🏢 Desglose de Funcionalidades Completas
+*Detalle extraído del mapa arquitectónico principal (`architecture_overview.svg`).*
+
+### ⚙️ Gestión Core
+- **Salas (Rooms):** Creación y eliminación en cascada, navegación por dropdown, auto-limpieza de posiciones topológicas, actualización de estadísticas en vivo.
+- **Gabinetes (Racks):** Alturas personalizables (4-48U), colores dinámicos, animación CSS 3D (*flip* frontal/trasero), guías de unidades (U markers) y prevención de desbordamientos.
+- **Equipos (Devices):** 21 plantillas en 7 categorías. Soporte detallado de hardware: credenciales, consumo energético (W), direcciones IP/MAC validadas y carga de *skins* personalizadas.
+
+### 🔌 Conexiones y Vistas (Rendering)
+- **Vista Física (DOM + SVG):** Renderizado de chasis y faceplates en CSS puro, superpuesto con una capa interactiva vectorial para el enrutamiento inteligente de cables ortogonales.
+- **Vista Topológica (Canvas 2D):** Diagrama de red con motor de físicas (*auto-order*), nodos arrastrables, animaciones de partículas fluyendo por los enlaces, *Pan* y *Zoom* infinito.
+- **Tipos de Cables:** Soporte para Cobre, Fibra (SM/MM) y DAC, con selector de colores personalizados y asignación gráfica de puertos en los *switches*.
+
+### 🗃️ Interacción y Flujos de Datos
+- **Drag & Drop Inteligente:** Inserción de catálogo a rack, movimiento de equipos entre gabinetes, y despliegue de equipos de piso (*Floor Devices*).
+- **Deshacer / Rehacer (Undo/Redo):** Máquina del tiempo reactiva con hasta 30 instantáneas aisladas (`deepClone`).
+- **Exportación Masiva:** Imágenes PNG (Racks y Topología), hojas de cálculo Excel/CSV (Inventario y Conexiones vía SheetJS), y la API moderna de File System para backups JSON (`.rack`).
+- **Motor de Búsqueda:** Búsqueda global superior (IP/MAC/Nombre), filtros tabulados en el catálogo y atenuación visual de componentes que no coincidan.
+
+---
+
 ## 🚀 Guía Rápida para Desarrolladores (Onboarding)
 
 Si vas a continuar desarrollando este proyecto, estas son las reglas fundamentales que rigen la arquitectura. **Leer esto evitará que rompas el flujo de la aplicación.**

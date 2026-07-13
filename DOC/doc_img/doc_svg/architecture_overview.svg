@@ -1,705 +1,4057 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2800" fill="none">
-  <defs>
-    <style>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 2400 2800"
+   fill="none"
+   version="1.1"
+   id="svg348"
+   sodipodi:docname="architecture_overview.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview348"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.35785714"
+     inkscape:cx="873.25349"
+     inkscape:cy="2222.9541"
+     inkscape:window-width="1366"
+     inkscape:window-height="697"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg348" />
+  <defs
+     id="defs15">
+    <style
+       id="style1">
       @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap');
       @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
       text { font-family: 'Outfit', sans-serif; }
       .mono { font-family: 'JetBrains Mono', monospace; }
     </style>
-    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    <marker
+       id="arrow"
+       viewBox="0 0 10 10"
+       refX="10"
+       refY="5"
+       markerWidth="8"
+       markerHeight="8"
+       orient="auto-start-auto">
+      <path
+         d="M 0 0 L 10 5 L 0 10 z"
+         fill="#475569"
+         id="path1" />
     </marker>
-    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    <marker
+       id="arrow-cyan"
+       viewBox="0 0 10 10"
+       refX="10"
+       refY="5"
+       markerWidth="8"
+       markerHeight="8"
+       orient="auto-start-auto">
+      <path
+         d="M 0 0 L 10 5 L 0 10 z"
+         fill="#38bdf8"
+         id="path2" />
     </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+    <marker
+       id="arrow-green"
+       viewBox="0 0 10 10"
+       refX="10"
+       refY="5"
+       markerWidth="8"
+       markerHeight="8"
+       orient="auto-start-auto">
+      <path
+         d="M 0 0 L 10 5 L 0 10 z"
+         fill="#10b981"
+         id="path3" />
     </marker>
-    <marker id="arrow-amber" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+    <marker
+       id="arrow-amber"
+       viewBox="0 0 10 10"
+       refX="10"
+       refY="5"
+       markerWidth="8"
+       markerHeight="8"
+       orient="auto-start-auto">
+      <path
+         d="M 0 0 L 10 5 L 0 10 z"
+         fill="#f59e0b"
+         id="path4" />
     </marker>
-    <linearGradient id="g-accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.05"/>
+    <linearGradient
+       id="g-accent"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#0ea5e9"
+         stop-opacity="0.15"
+         id="stop4" />
+      <stop
+         offset="100%"
+         stop-color="#38bdf8"
+         stop-opacity="0.05"
+         id="stop5" />
     </linearGradient>
-    <linearGradient id="g-green" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.05"/>
+    <linearGradient
+       id="g-green"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#10b981"
+         stop-opacity="0.15"
+         id="stop6" />
+      <stop
+         offset="100%"
+         stop-color="#22c55e"
+         stop-opacity="0.05"
+         id="stop7" />
     </linearGradient>
-    <linearGradient id="g-amber" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.05"/>
+    <linearGradient
+       id="g-amber"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#f59e0b"
+         stop-opacity="0.15"
+         id="stop8" />
+      <stop
+         offset="100%"
+         stop-color="#fbbf24"
+         stop-opacity="0.05"
+         id="stop9" />
     </linearGradient>
-    <linearGradient id="g-red" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#f87171" stop-opacity="0.05"/>
+    <linearGradient
+       id="g-red"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#ef4444"
+         stop-opacity="0.15"
+         id="stop10" />
+      <stop
+         offset="100%"
+         stop-color="#f87171"
+         stop-opacity="0.05"
+         id="stop11" />
     </linearGradient>
-    <linearGradient id="g-purple" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.05"/>
+    <linearGradient
+       id="g-purple"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#8b5cf6"
+         stop-opacity="0.15"
+         id="stop12" />
+      <stop
+         offset="100%"
+         stop-color="#a78bfa"
+         stop-opacity="0.05"
+         id="stop13" />
     </linearGradient>
-    <linearGradient id="g-cyan" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.05"/>
+    <linearGradient
+       id="g-cyan"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#06b6d4"
+         stop-opacity="0.15"
+         id="stop14" />
+      <stop
+         offset="100%"
+         stop-color="#22d3ee"
+         stop-opacity="0.05"
+         id="stop15" />
     </linearGradient>
   </defs>
-
   <!-- Background -->
-  <rect width="2400" height="2800" fill="#0b0f19" rx="12"/>
-
+  <rect
+     width="2400"
+     height="2800"
+     fill="#0b0f19"
+     rx="12"
+     id="rect15" />
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- TITLE BLOCK -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <rect x="40" y="30" width="2320" height="120" rx="12" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="1200" y="72" text-anchor="middle" fill="#38bdf8" font-size="32" font-weight="800">RACK Designer Next — Architecture Overview</text>
-  <text x="1200" y="100" text-anchor="middle" fill="#8b9ab8" font-size="16" font-weight="400">PWA · 100% Vanilla JavaScript (ES6+) · HTML5 · CSS3 · Canvas 2D · No Build Step</text>
-  <text x="1200" y="128" text-anchor="middle" fill="#64748b" font-size="13" class="mono">Dark Abyssal Theme (#0b0f19) · Accent Cyan (#38bdf8) · Outfit + JetBrains Mono Fonts · 12px Base Scale · 24px Control Height</text>
-
+  <rect
+     x="40"
+     y="30"
+     width="2320"
+     height="120"
+     rx="12"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect16" />
+  <text
+     x="1200"
+     y="72"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="32"
+     font-weight="800"
+     id="text16">RACK Designer Next — Architecture Overview</text>
+  <text
+     x="1200"
+     y="100"
+     text-anchor="middle"
+     fill="#8b9ab8"
+     font-size="16"
+     font-weight="400"
+     id="text17">PWA · 100% Vanilla JavaScript (ES6+) · HTML5 · CSS3 · Canvas 2D · No Build Step</text>
+  <text
+     x="1200"
+     y="128"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="13"
+     class="mono"
+     id="text18">Dark Abyssal Theme (#0b0f19) · Accent Cyan (#38bdf8) · Outfit + JetBrains Mono Fonts · 12px Base Scale · 24px Control Height</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 1: TECH STACK -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <rect x="40" y="170" width="2320" height="120" rx="12" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="60" y="196" fill="#38bdf8" font-size="18" font-weight="700">TECH STACK</text>
-
+  <rect
+     x="40"
+     y="170"
+     width="2320"
+     height="120"
+     rx="12"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect18" />
+  <text
+     x="60"
+     y="196"
+     fill="#38bdf8"
+     font-size="18"
+     font-weight="700"
+     id="text19">TECH STACK</text>
   <!-- Tech badges -->
-  <rect x="60" y="210" width="110" height="32" rx="8" fill="#f7df1e" opacity="0.15" stroke="#f7df1e" stroke-width="0.5"/>
-  <text x="115" y="231" text-anchor="middle" fill="#f7df1e" font-size="12" font-weight="600">JavaScript ES6+</text>
-
-  <rect x="180" y="210" width="70" height="32" rx="8" fill="#e34f26" opacity="0.15" stroke="#e34f26" stroke-width="0.5"/>
-  <text x="215" y="231" text-anchor="middle" fill="#e34f26" font-size="12" font-weight="600">HTML5</text>
-
-  <rect x="260" y="210" width="60" height="32" rx="8" fill="#264de4" opacity="0.15" stroke="#264de4" stroke-width="0.5"/>
-  <text x="290" y="231" text-anchor="middle" fill="#264de4" font-size="12" font-weight="600">CSS3</text>
-
-  <rect x="330" y="210" width="100" height="32" rx="8" fill="#0ea5e9" opacity="0.15" stroke="#0ea5e9" stroke-width="0.5"/>
-  <text x="380" y="231" text-anchor="middle" fill="#0ea5e9" font-size="12" font-weight="600">Canvas 2D</text>
-
-  <rect x="440" y="210" width="60" height="32" rx="8" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-width="0.5"/>
-  <text x="470" y="231" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="600">PWA</text>
-
-  <rect x="510" y="210" width="80" height="32" rx="8" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="550" y="231" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="600">SHA-256</text>
-
-  <rect x="600" y="210" width="120" height="32" rx="8" fill="#8b5cf6" opacity="0.15" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="660" y="231" text-anchor="middle" fill="#8b5cf6" font-size="12" font-weight="600">File System API</text>
-
-  <rect x="730" y="210" width="110" height="32" rx="8" fill="#ef4444" opacity="0.15" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="785" y="231" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="600">SheetJS/XLSX</text>
-
-  <rect x="850" y="210" width="100" height="32" rx="8" fill="#06b6d4" opacity="0.15" stroke="#06b6d4" stroke-width="0.5"/>
-  <text x="900" y="231" text-anchor="middle" fill="#06b6d4" font-size="12" font-weight="600">Proxy ES6</text>
-
-  <rect x="960" y="210" width="120" height="32" rx="8" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="0.5"/>
-  <text x="1020" y="231" text-anchor="middle" fill="#10b981" font-size="12" font-weight="600">Service Worker</text>
-
-  <rect x="1090" y="210" width="100" height="32" rx="8" fill="#f43f5e" opacity="0.15" stroke="#f43f5e" stroke-width="0.5"/>
-  <text x="1140" y="231" text-anchor="middle" fill="#f43f5e" font-size="12" font-weight="600">localStorage</text>
-
-  <rect x="1200" y="210" width="130" height="32" rx="8" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="1265" y="231" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="600">sessionStorage</text>
-
-  <rect x="1340" y="210" width="80" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="1380" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">No Build</text>
-
-  <rect x="1430" y="210" width="80" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="1470" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">pnpm</text>
-
-  <rect x="1520" y="210" width="80" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="1560" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">Unicode</text>
-
-  <rect x="1610" y="210" width="100" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="1660" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">SVG Icons</text>
-
-  <rect x="1720" y="210" width="100" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="1770" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">mask-image</text>
-
-  <rect x="1830" y="210" width="110" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="1885" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">requestAnimationFrame</text>
-
-  <rect x="1950" y="210" width="120" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="2010" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">Cubic Bezier</text>
-
-  <rect x="2080" y="210" width="100" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="2130" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">CSS Grid</text>
-
-  <rect x="2190" y="210" width="100" height="32" rx="8" fill="#94a3b8" opacity="0.15" stroke="#94a3b8" stroke-width="0.5"/>
-  <text x="2240" y="231" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">Flexbox</text>
-
+  <rect
+     x="60"
+     y="210"
+     width="110"
+     height="32"
+     rx="8"
+     fill="#f7df1e"
+     opacity="0.15"
+     stroke="#f7df1e"
+     stroke-width="0.5"
+     id="rect19" />
+  <text
+     x="115"
+     y="231"
+     text-anchor="middle"
+     fill="#f7df1e"
+     font-size="12"
+     font-weight="600"
+     id="text20">JavaScript ES6+</text>
+  <rect
+     x="180"
+     y="210"
+     width="70"
+     height="32"
+     rx="8"
+     fill="#e34f26"
+     opacity="0.15"
+     stroke="#e34f26"
+     stroke-width="0.5"
+     id="rect20" />
+  <text
+     x="215"
+     y="231"
+     text-anchor="middle"
+     fill="#e34f26"
+     font-size="12"
+     font-weight="600"
+     id="text21">HTML5</text>
+  <rect
+     x="260"
+     y="210"
+     width="60"
+     height="32"
+     rx="8"
+     fill="#264de4"
+     opacity="0.15"
+     stroke="#264de4"
+     stroke-width="0.5"
+     id="rect21" />
+  <text
+     x="290"
+     y="231"
+     text-anchor="middle"
+     fill="#264de4"
+     font-size="12"
+     font-weight="600"
+     id="text22">CSS3</text>
+  <rect
+     x="330"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#0ea5e9"
+     opacity="0.15"
+     stroke="#0ea5e9"
+     stroke-width="0.5"
+     id="rect22" />
+  <text
+     x="380"
+     y="231"
+     text-anchor="middle"
+     fill="#0ea5e9"
+     font-size="12"
+     font-weight="600"
+     id="text23">Canvas 2D</text>
+  <rect
+     x="440"
+     y="210"
+     width="60"
+     height="32"
+     rx="8"
+     fill="#22c55e"
+     opacity="0.15"
+     stroke="#22c55e"
+     stroke-width="0.5"
+     id="rect23" />
+  <text
+     x="470"
+     y="231"
+     text-anchor="middle"
+     fill="#22c55e"
+     font-size="12"
+     font-weight="600"
+     id="text24">PWA</text>
+  <rect
+     x="510"
+     y="210"
+     width="80"
+     height="32"
+     rx="8"
+     fill="#f59e0b"
+     opacity="0.15"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect24" />
+  <text
+     x="550"
+     y="231"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="12"
+     font-weight="600"
+     id="text25">SHA-256</text>
+  <rect
+     x="600"
+     y="210"
+     width="120"
+     height="32"
+     rx="8"
+     fill="#8b5cf6"
+     opacity="0.15"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect25" />
+  <text
+     x="660"
+     y="231"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="12"
+     font-weight="600"
+     id="text26">File System API</text>
+  <rect
+     x="730"
+     y="210"
+     width="110"
+     height="32"
+     rx="8"
+     fill="#ef4444"
+     opacity="0.15"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect26" />
+  <text
+     x="785"
+     y="231"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="12"
+     font-weight="600"
+     id="text27">SheetJS/XLSX</text>
+  <rect
+     x="850"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#06b6d4"
+     opacity="0.15"
+     stroke="#06b6d4"
+     stroke-width="0.5"
+     id="rect27" />
+  <text
+     x="900"
+     y="231"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="12"
+     font-weight="600"
+     id="text28">Proxy ES6</text>
+  <rect
+     x="960"
+     y="210"
+     width="120"
+     height="32"
+     rx="8"
+     fill="#10b981"
+     opacity="0.15"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect28" />
+  <text
+     x="1020"
+     y="231"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="12"
+     font-weight="600"
+     id="text29">Service Worker</text>
+  <rect
+     x="1090"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#f43f5e"
+     opacity="0.15"
+     stroke="#f43f5e"
+     stroke-width="0.5"
+     id="rect29" />
+  <text
+     x="1140"
+     y="231"
+     text-anchor="middle"
+     fill="#f43f5e"
+     font-size="12"
+     font-weight="600"
+     id="text30">localStorage</text>
+  <rect
+     x="1200"
+     y="210"
+     width="130"
+     height="32"
+     rx="8"
+     fill="#38bdf8"
+     opacity="0.15"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect30" />
+  <text
+     x="1265"
+     y="231"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="12"
+     font-weight="600"
+     id="text31">sessionStorage</text>
+  <rect
+     x="1340"
+     y="210"
+     width="80"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect31" />
+  <text
+     x="1380"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text32">No Build</text>
+  <rect
+     x="1430"
+     y="210"
+     width="80"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect32" />
+  <text
+     x="1470"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text33">pnpm</text>
+  <rect
+     x="1520"
+     y="210"
+     width="80"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect33" />
+  <text
+     x="1560"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text34">Unicode</text>
+  <rect
+     x="1610"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect34" />
+  <text
+     x="1660"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text35">SVG Icons</text>
+  <rect
+     x="1720"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect35" />
+  <text
+     x="1770"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text36">mask-image</text>
+  <rect
+     x="1830"
+     y="210"
+     width="110"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect36" />
+  <text
+     x="1884.9541"
+     y="228.9807"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="8.04182px"
+     font-weight="600"
+     id="text37"
+     style="stroke-width:0.670152">requestAnimationFrame</text>
+  <rect
+     x="1950"
+     y="210"
+     width="120"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect37" />
+  <text
+     x="2010"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text38">Cubic Bezier</text>
+  <rect
+     x="2080"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect38" />
+  <text
+     x="2130"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text39">CSS Grid</text>
+  <rect
+     x="2190"
+     y="210"
+     width="100"
+     height="32"
+     rx="8"
+     fill="#94a3b8"
+     opacity="0.15"
+     stroke="#94a3b8"
+     stroke-width="0.5"
+     id="rect39" />
+  <text
+     x="2240"
+     y="231"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="600"
+     id="text40">Flexbox</text>
   <!-- Key conventions -->
-  <text x="60" y="268" fill="#64748b" font-size="11" class="mono">24px height ALL controls · No glassmorphism · No purple (#8b5cf6→#38bdf8) · FontAwesome only for emojis · Abyssal dark theme · 12px base scale</text>
-
+  <text
+     x="60"
+     y="268"
+     fill="#64748b"
+     font-size="11"
+     class="mono"
+     id="text41">24px height ALL controls · No glassmorphism · No purple (#8b5cf6→#38bdf8) · FontAwesome only for emojis · Abyssal dark theme · 12px base scale</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 2: ARCHITECTURE LAYERS -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <text x="60" y="330" fill="#38bdf8" font-size="22" font-weight="800">ARCHITECTURE LAYERS</text>
-  <text x="60" y="350" fill="#64748b" font-size="12">Reactive Proxy Pattern: User Action → Store Method → Proxy Trap → _emit('change') → main.js renderAll() → UI Re-render</text>
-
+  <text
+     x="60"
+     y="330"
+     fill="#38bdf8"
+     font-size="22"
+     font-weight="800"
+     id="text42">ARCHITECTURE LAYERS</text>
+  <text
+     x="60"
+     y="350"
+     fill="#64748b"
+     font-size="12"
+     id="text43">Reactive Proxy Pattern: User Action → Store Method → Proxy Trap → _emit('change') → main.js renderAll() → UI Re-render</text>
   <!-- Layer 1: Presentation Layer -->
-  <rect x="40" y="370" width="2320" height="340" rx="12" fill="url(#g-accent)" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="4,2"/>
-  <text x="60" y="396" fill="#0ea5e9" font-size="16" font-weight="700">LAYER 1: PRESENTATION (UI)</text>
-  <text x="260" y="396" fill="#64748b" font-size="11">DOM rendering, event handling, user interaction</text>
-
+  <rect
+     x="40"
+     y="370"
+     width="2320"
+     height="340"
+     rx="12"
+     fill="url(#g-accent)"
+     stroke="#0ea5e9"
+     stroke-width="1"
+     stroke-dasharray="4,2"
+     id="rect43" />
+  <text
+     x="60"
+     y="396"
+     fill="#0ea5e9"
+     font-size="16"
+     font-weight="700"
+     id="text44">LAYER 1: PRESENTATION (UI)</text>
+  <text
+     x="260"
+     y="396"
+     fill="#64748b"
+     font-size="11"
+     id="text45">DOM rendering, event handling, user interaction</text>
   <!-- Header -->
-  <rect x="60" y="410" width="200" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="160" y="430" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">#header</text>
-  <text x="160" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Logo · Room/Rack Dropdowns · View Tabs</text>
-
+  <rect
+     x="60"
+     y="410"
+     width="200"
+     height="50"
+     rx="8"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect45" />
+  <text
+     x="160"
+     y="430"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="12"
+     font-weight="700"
+     id="text46">#header</text>
+  <text
+     x="160"
+     y="448"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text47">Logo · Room/Rack Dropdowns · View Tabs</text>
   <!-- Sidebar -->
-  <rect x="280" y="410" width="200" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="380" y="430" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">#sidebar</text>
-  <text x="380" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Catalog · Filters · Device Templates</text>
-
+  <rect
+     x="280"
+     y="410"
+     width="200"
+     height="50"
+     rx="8"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect47" />
+  <text
+     x="380"
+     y="430"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="12"
+     font-weight="700"
+     id="text48">#sidebar</text>
+  <text
+     x="380"
+     y="448"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text49">Catalog · Filters · Device Templates</text>
   <!-- Main Canvas -->
-  <rect x="500" y="410" width="280" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="640" y="430" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">#main</text>
-  <text x="640" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Physical View (DOM + SVG) · Topology View (Canvas 2D)</text>
-
+  <rect
+     x="500"
+     y="410"
+     width="280"
+     height="50"
+     rx="8"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect49" />
+  <text
+     x="640"
+     y="430"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="12"
+     font-weight="700"
+     id="text50">#main</text>
+  <text
+     x="640"
+     y="448"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text51">Physical View (DOM + SVG) · Topology View (Canvas 2D)</text>
   <!-- Right Panel -->
-  <rect x="800" y="410" width="200" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="900" y="430" text-anchor="middle" fill="#8b5cf6" font-size="12" font-weight="700">#right-panel</text>
-  <text x="900" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Outliner · Inspector · Statistics</text>
-
+  <rect
+     x="800"
+     y="410"
+     width="200"
+     height="50"
+     rx="8"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect51" />
+  <text
+     x="900"
+     y="430"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="12"
+     font-weight="700"
+     id="text52">#right-panel</text>
+  <text
+     x="900"
+     y="448"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text53">Outliner · Inspector · Statistics</text>
   <!-- Bottom Panel -->
-  <rect x="1020" y="410" width="200" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
-  <text x="1120" y="430" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">#bottom</text>
-  <text x="1120" y="448" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Inventory · Connections · Tables</text>
-
+  <rect
+     x="1020"
+     y="410"
+     width="200"
+     height="50"
+     rx="8"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect53" />
+  <text
+     x="1120"
+     y="430"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="12"
+     font-weight="700"
+     id="text54">#bottom</text>
+  <text
+     x="1120"
+     y="448"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text55">Inventory · Connections · Tables</text>
   <!-- JS UI Files -->
-  <rect x="60" y="474" width="1200" height="220" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
-  <text x="80" y="496" fill="#64748b" font-size="10" font-weight="700">JS UI FILES:</text>
-
+  <rect
+     x="60"
+     y="474"
+     width="1200"
+     height="220"
+     rx="8"
+     fill="#0f172a"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect55" />
+  <text
+     x="80"
+     y="496"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text56">JS UI FILES:</text>
   <!-- Row 1 -->
-  <rect x="80" y="506" width="140" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="150" y="524" text-anchor="middle" fill="#38bdf8" font-size="10" class="mono">catalog.js</text>
-  <rect x="230" y="506" width="130" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="295" y="524" text-anchor="middle" fill="#10b981" font-size="10" class="mono">rack.js</text>
-  <rect x="370" y="506" width="150" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="445" y="524" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">faceplates.js</text>
-  <rect x="530" y="506" width="120" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="590" y="524" text-anchor="middle" fill="#ef4444" font-size="10" class="mono">tables.js</text>
-  <rect x="660" y="506" width="130" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="725" y="524" text-anchor="middle" fill="#8b5cf6" font-size="10" class="mono">outliner.js</text>
-  <rect x="800" y="506" width="130" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="865" y="524" text-anchor="middle" fill="#06b6d4" font-size="10" class="mono">inspector.js</text>
-  <rect x="940" y="506" width="120" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="1000" y="524" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">fileManager.js</text>
-  <rect x="1070" y="506" width="100" height="28" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="1120" y="524" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">icons.js</text>
-
+  <rect
+     x="80"
+     y="506"
+     width="140"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect56" />
+  <text
+     x="150"
+     y="524"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="10"
+     class="mono"
+     id="text57">catalog.js</text>
+  <rect
+     x="230"
+     y="506"
+     width="130"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect57" />
+  <text
+     x="295"
+     y="524"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="10"
+     class="mono"
+     id="text58">rack.js</text>
+  <rect
+     x="370"
+     y="506"
+     width="150"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect58" />
+  <text
+     x="445"
+     y="524"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text59">faceplates.js</text>
+  <rect
+     x="530"
+     y="506"
+     width="120"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect59" />
+  <text
+     x="590"
+     y="524"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="10"
+     class="mono"
+     id="text60">tables.js</text>
+  <rect
+     x="660"
+     y="506"
+     width="130"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect60" />
+  <text
+     x="725"
+     y="524"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="10"
+     class="mono"
+     id="text61">outliner.js</text>
+  <rect
+     x="800"
+     y="506"
+     width="130"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect61" />
+  <text
+     x="865"
+     y="524"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="10"
+     class="mono"
+     id="text62">inspector.js</text>
+  <rect
+     x="940"
+     y="506"
+     width="120"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect62" />
+  <text
+     x="1000"
+     y="524"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text63">fileManager.js</text>
+  <rect
+     x="1070"
+     y="506"
+     width="100"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect63" />
+  <text
+     x="1120"
+     y="524"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text64">icons.js</text>
   <!-- Row 2: Modals -->
-  <text x="80" y="560" fill="#64748b" font-size="10" font-weight="700">MODALS:</text>
-  <rect x="80" y="568" width="120" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="140" y="584" text-anchor="middle" fill="#38bdf8" font-size="9" class="mono">RackModal.js</text>
-  <rect x="210" y="568" width="130" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="275" y="584" text-anchor="middle" fill="#10b981" font-size="9" class="mono">DeviceModal.js</text>
-  <rect x="350" y="568" width="120" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="410" y="584" text-anchor="middle" fill="#f59e0b" font-size="9" class="mono">CableModal.js</text>
-  <rect x="480" y="568" width="110" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="535" y="584" text-anchor="middle" fill="#ef4444" font-size="9" class="mono">RoomModal.js</text>
-  <rect x="600" y="568" width="130" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="665" y="584" text-anchor="middle" fill="#8b5cf6" font-size="9" class="mono">ExportModal.js</text>
-  <rect x="740" y="568" width="150" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="815" y="584" text-anchor="middle" fill="#06b6d4" font-size="9" class="mono">PlacementModal.js</text>
-  <rect x="900" y="568" width="100" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
-  <text x="950" y="584" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Globals.js</text>
-
+  <text
+     x="80"
+     y="560"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text65">MODALS:</text>
+  <rect
+     x="80"
+     y="568"
+     width="120"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect65" />
+  <text
+     x="140"
+     y="584"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="9"
+     class="mono"
+     id="text66">RackModal.js</text>
+  <rect
+     x="210"
+     y="568"
+     width="130"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect66" />
+  <text
+     x="275"
+     y="584"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="9"
+     class="mono"
+     id="text67">DeviceModal.js</text>
+  <rect
+     x="350"
+     y="568"
+     width="120"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect67" />
+  <text
+     x="410"
+     y="584"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="9"
+     class="mono"
+     id="text68">CableModal.js</text>
+  <rect
+     x="480"
+     y="568"
+     width="110"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect68" />
+  <text
+     x="535"
+     y="584"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="9"
+     class="mono"
+     id="text69">RoomModal.js</text>
+  <rect
+     x="600"
+     y="568"
+     width="130"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect69" />
+  <text
+     x="665"
+     y="584"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="9"
+     class="mono"
+     id="text70">ExportModal.js</text>
+  <rect
+     x="740"
+     y="568"
+     width="150"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect70" />
+  <text
+     x="815"
+     y="584"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="9"
+     class="mono"
+     id="text71">PlacementModal.js</text>
+  <rect
+     x="900"
+     y="568"
+     width="100"
+     height="24"
+     rx="6"
+     fill="#1a2235"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect71" />
+  <text
+     x="950"
+     y="584"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text72">Globals.js</text>
   <!-- Row 3: Topology Engine -->
-  <text x="80" y="616" fill="#64748b" font-size="10" font-weight="700">TOPOLOGY ENGINE (Canvas 2D):</text>
-  <rect x="80" y="624" width="140" height="24" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="0.5"/>
-  <text x="150" y="640" text-anchor="middle" fill="#10b981" font-size="9" class="mono">TopologyLayout.js</text>
-  <rect x="230" y="624" width="150" height="24" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="305" y="640" text-anchor="middle" fill="#38bdf8" font-size="9" class="mono">TopologyRenderer.js</text>
-  <rect x="390" y="624" width="140" height="24" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="460" y="640" text-anchor="middle" fill="#f59e0b" font-size="9" class="mono">TopologyEvents.js</text>
-  <rect x="540" y="624" width="170" height="24" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="625" y="640" text-anchor="middle" fill="#8b5cf6" font-size="9" class="mono">TopologyOrchestrator.js</text>
-  <rect x="720" y="624" width="140" height="24" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="790" y="640" text-anchor="middle" fill="#ef4444" font-size="9" class="mono">TopologyState.js</text>
-
+  <text
+     x="80"
+     y="616"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text73">TOPOLOGY ENGINE (Canvas 2D):</text>
+  <rect
+     x="80"
+     y="624"
+     width="140"
+     height="24"
+     rx="6"
+     fill="#0f172a"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect73" />
+  <text
+     x="150"
+     y="640"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="9"
+     class="mono"
+     id="text74">TopologyLayout.js</text>
+  <rect
+     x="230"
+     y="624"
+     width="150"
+     height="24"
+     rx="6"
+     fill="#0f172a"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect74" />
+  <text
+     x="305"
+     y="640"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="9"
+     class="mono"
+     id="text75">TopologyRenderer.js</text>
+  <rect
+     x="390"
+     y="624"
+     width="140"
+     height="24"
+     rx="6"
+     fill="#0f172a"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect75" />
+  <text
+     x="460"
+     y="640"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="9"
+     class="mono"
+     id="text76">TopologyEvents.js</text>
+  <rect
+     x="540"
+     y="624"
+     width="170"
+     height="24"
+     rx="6"
+     fill="#0f172a"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect76" />
+  <text
+     x="625"
+     y="640"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="9"
+     class="mono"
+     id="text77">TopologyOrchestrator.js</text>
+  <rect
+     x="720"
+     y="624"
+     width="140"
+     height="24"
+     rx="6"
+     fill="#0f172a"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect77" />
+  <text
+     x="790"
+     y="640"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="9"
+     class="mono"
+     id="text78">TopologyState.js</text>
   <!-- Row 4: Vendor -->
-  <text x="80" y="676" fill="#64748b" font-size="10" font-weight="700">VENDOR:</text>
-  <rect x="160" y="664" width="140" height="24" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="230" y="680" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">xlsx.full.min.js</text>
-  <rect x="310" y="664" width="180" height="24" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="400" y="680" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">mobile-drag-drop.min.js</text>
-  <rect x="500" y="664" width="220" height="24" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="610" y="680" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">mobile-drag-drop-scroll.min.js</text>
-
+  <text
+     x="80"
+     y="676"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text79">VENDOR:</text>
+  <rect
+     x="160"
+     y="664"
+     width="140"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect79" />
+  <text
+     x="230"
+     y="680"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text80">xlsx.full.min.js</text>
+  <rect
+     x="310"
+     y="664"
+     width="180"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect80" />
+  <text
+     x="400"
+     y="680"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text81">mobile-drag-drop.min.js</text>
+  <rect
+     x="500"
+     y="664"
+     width="220"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect81" />
+  <text
+     x="610"
+     y="680"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text82">mobile-drag-drop-scroll.min.js</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- LAYER 2: STATE MANAGEMENT -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <rect x="40" y="720" width="2320" height="200" rx="12" fill="url(#g-green)" stroke="#10b981" stroke-width="1" stroke-dasharray="4,2"/>
-  <text x="60" y="746" fill="#10b981" font-size="16" font-weight="700">LAYER 2: STATE MANAGEMENT (Proxy ES6)</text>
-  <text x="400" y="746" fill="#64748b" font-size="11">All state in store._raw · ES6 Proxy auto-saves to localStorage · Emits 'change' events · Undo/Redo (30 snapshots)</text>
-
+  <rect
+     x="40"
+     y="720"
+     width="2320"
+     height="200"
+     rx="12"
+     fill="url(#g-green)"
+     stroke="#10b981"
+     stroke-width="1"
+     stroke-dasharray="4,2"
+     id="rect82" />
+  <text
+     x="60"
+     y="746"
+     fill="#10b981"
+     font-size="16"
+     font-weight="700"
+     id="text83">LAYER 2: STATE MANAGEMENT (Proxy ES6)</text>
+  <text
+     x="400"
+     y="746"
+     fill="#64748b"
+     font-size="11"
+     id="text84">All state in store._raw · ES6 Proxy auto-saves to localStorage · Emits 'change' events · Undo/Redo (30 snapshots)</text>
   <!-- store.js -->
-  <rect x="60" y="760" width="500" height="140" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-  <text x="310" y="782" text-anchor="middle" fill="#10b981" font-size="13" font-weight="700">js/store.js — Reactive Proxy State</text>
-
+  <rect
+     x="60"
+     y="760"
+     width="500"
+     height="140"
+     rx="8"
+     fill="#0f172a"
+     stroke="#10b981"
+     stroke-width="1"
+     id="rect84" />
+  <text
+     x="310"
+     y="782"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="13"
+     font-weight="700"
+     id="text85">js/store.js — Reactive Proxy State</text>
   <!-- State properties -->
-  <rect x="72" y="794" width="230" height="100" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="84" y="810" fill="#64748b" font-size="9" font-weight="700">STATE PROPERTIES:</text>
-  <text x="84" y="824" fill="#94a3b8" font-size="9" class="mono">rooms[], racks[], devices[]</text>
-  <text x="84" y="838" fill="#94a3b8" font-size="9" class="mono">connections[], catalog[]</text>
-  <text x="84" y="852" fill="#94a3b8" font-size="9" class="mono">currentRoomId, physZoom, physPanX/Y</text>
-  <text x="84" y="866" fill="#94a3b8" font-size="9" class="mono">topoZoom, topoPanX/Y</text>
-  <text x="84" y="880" fill="#94a3b8" font-size="9" class="mono">topology: { nodePositions, rackPositions</text>
-  <text x="84" y="892" fill="#94a3b8" font-size="9" class="mono">  roomPositions, roomSizes, rackSizes }</text>
-
+  <rect
+     x="72"
+     y="794"
+     width="230"
+     height="100"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect85" />
+  <text
+     x="84"
+     y="810"
+     fill="#64748b"
+     font-size="9"
+     font-weight="700"
+     id="text86">STATE PROPERTIES:</text>
+  <text
+     x="84"
+     y="824"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text87">rooms[], racks[], devices[]</text>
+  <text
+     x="84"
+     y="838"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text88">connections[], catalog[]</text>
+  <text
+     x="84"
+     y="852"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text89">currentRoomId, physZoom, physPanX/Y</text>
+  <text
+     x="84"
+     y="866"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text90">topoZoom, topoPanX/Y</text>
+  <text
+     x="84"
+     y="880"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text91">topology: { nodePositions, rackPositions</text>
+  <text
+     x="84"
+     y="892"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text92">  roomPositions, roomSizes, rackSizes }</text>
   <!-- Store methods -->
-  <rect x="314" y="794" width="230" height="100" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="326" y="810" fill="#64748b" font-size="9" font-weight="700">MUTATION METHODS:</text>
-  <text x="326" y="824" fill="#94a3b8" font-size="9" class="mono">addRoom, updateRoom, deleteRoom</text>
-  <text x="326" y="838" fill="#94a3b8" font-size="9" class="mono">addRack, updateRack, deleteRack</text>
-  <text x="326" y="852" fill="#94a3b8" font-size="9" class="mono">addDeviceToRack, addFloorDevice</text>
-  <text x="326" y="866" fill="#94a3b8" font-size="9" class="mono">moveDevice, updateDevice, deleteDevice</text>
-  <text x="326" y="880" fill="#94a3b8" font-size="9" class="mono">addConnection, updateConnection, deleteConnection</text>
-  <text x="326" y="892" fill="#94a3b8" font-size="9" class="mono">setCurrentRoom, setZoom, setPan, loadData</text>
-
+  <rect
+     x="314"
+     y="794"
+     width="230"
+     height="100"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect92" />
+  <text
+     x="326"
+     y="810"
+     fill="#64748b"
+     font-size="9"
+     font-weight="700"
+     id="text93">MUTATION METHODS:</text>
+  <text
+     x="326"
+     y="824"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text94">addRoom, updateRoom, deleteRoom</text>
+  <text
+     x="326"
+     y="838"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text95">addRack, updateRack, deleteRack</text>
+  <text
+     x="326"
+     y="852"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text96">addDeviceToRack, addFloorDevice</text>
+  <text
+     x="326"
+     y="866"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text97">moveDevice, updateDevice, deleteDevice</text>
+  <text
+     x="326"
+     y="880"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text98">addConnection, updateConnection, deleteConnection</text>
+  <text
+     x="326"
+     y="892"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text99">setCurrentRoom, setZoom, setPan, loadData</text>
   <!-- Auth -->
-  <rect x="580" y="760" width="280" height="140" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
-  <text x="720" y="782" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="700">js/auth/roles.js — RBAC</text>
-  <text x="720" y="800" text-anchor="middle" fill="#64748b" font-size="9">Exposed as window.RackAuth</text>
-  <rect x="592" y="810" width="256" height="82" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="604" y="826" fill="#64748b" font-size="9" font-weight="700">3 ROLES:</text>
-  <text x="604" y="842" fill="#ef4444" font-size="9" font-weight="600">Admin — full access, PIN: rack2024</text>
-  <text x="604" y="858" fill="#f59e0b" font-size="9" font-weight="600">Editor — no PIN change</text>
-  <text x="604" y="874" fill="#10b981" font-size="9" font-weight="600">Viewer — read-only</text>
-  <text x="604" y="888" fill="#94a3b8" font-size="9" class="mono">SHA-256 · sessionStorage · can('action')</text>
-
+  <rect
+     x="580"
+     y="760"
+     width="280"
+     height="140"
+     rx="8"
+     fill="#0f172a"
+     stroke="#f59e0b"
+     stroke-width="1"
+     id="rect99" />
+  <text
+     x="720"
+     y="782"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="13"
+     font-weight="700"
+     id="text100">js/auth/roles.js — RBAC</text>
+  <text
+     x="720"
+     y="800"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="9"
+     id="text101">Exposed as window.RackAuth</text>
+  <rect
+     x="592"
+     y="810"
+     width="256"
+     height="82"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect101" />
+  <text
+     x="604"
+     y="826"
+     fill="#64748b"
+     font-size="9"
+     font-weight="700"
+     id="text102">3 ROLES:</text>
+  <text
+     x="604"
+     y="842"
+     fill="#ef4444"
+     font-size="9"
+     font-weight="600"
+     id="text103">Admin — full access, PIN: rack2024</text>
+  <text
+     x="604"
+     y="858"
+     fill="#f59e0b"
+     font-size="9"
+     font-weight="600"
+     id="text104">Editor — no PIN change</text>
+  <text
+     x="604"
+     y="874"
+     fill="#10b981"
+     font-size="9"
+     font-weight="600"
+     id="text105">Viewer — read-only</text>
+  <text
+     x="604"
+     y="888"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text106">SHA-256 · sessionStorage · can('action')</text>
   <!-- Utils -->
-  <rect x="880" y="760" width="200" height="140" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
-  <text x="980" y="782" text-anchor="middle" fill="#ef4444" font-size="13" font-weight="700">js/utils.js</text>
-  <rect x="892" y="794" width="176" height="98" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="904" y="810" fill="#64748b" font-size="9" font-weight="700">FUNCTIONS:</text>
-  <text x="904" y="826" fill="#94a3b8" font-size="9" class="mono">uid() — unique ID gen</text>
-  <text x="904" y="842" fill="#94a3b8" font-size="9" class="mono">deepClone(obj)</text>
-  <text x="904" y="858" fill="#94a3b8" font-size="9" class="mono">lerp(a,b,t) — interpolation</text>
-  <text x="904" y="874" fill="#94a3b8" font-size="9" class="mono">notify(msg, type)</text>
-  <text x="904" y="890" fill="#94a3b8" font-size="9" class="mono">downloadJSON(data, name)</text>
-
+  <rect
+     x="880"
+     y="760"
+     width="200"
+     height="140"
+     rx="8"
+     fill="#0f172a"
+     stroke="#ef4444"
+     stroke-width="1"
+     id="rect106" />
+  <text
+     x="980"
+     y="782"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="13"
+     font-weight="700"
+     id="text107">js/utils.js</text>
+  <rect
+     x="892"
+     y="794"
+     width="176"
+     height="98"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect107" />
+  <text
+     x="904"
+     y="810"
+     fill="#64748b"
+     font-size="9"
+     font-weight="700"
+     id="text108">FUNCTIONS:</text>
+  <text
+     x="904"
+     y="826"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text109">uid() — unique ID gen</text>
+  <text
+     x="904"
+     y="842"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text110">deepClone(obj)</text>
+  <text
+     x="904"
+     y="858"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text111">lerp(a,b,t) — interpolation</text>
+  <text
+     x="904"
+     y="874"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text112">notify(msg, type)</text>
+  <text
+     x="904"
+     y="890"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text113">downloadJSON(data, name)</text>
   <!-- Data persistence -->
-  <rect x="1100" y="760" width="300" height="140" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
-  <text x="1250" y="782" text-anchor="middle" fill="#06b6d4" font-size="13" font-weight="700">DATA PERSISTENCE</text>
-  <rect x="1112" y="794" width="276" height="98" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="1124" y="810" fill="#64748b" font-size="9" font-weight="700">STORAGE:</text>
-  <text x="1124" y="826" fill="#94a3b8" font-size="9" class="mono">localStorage → RACK_DESIGNER_NEXT_STATE</text>
-  <text x="1124" y="842" fill="#94a3b8" font-size="9" class="mono">sessionStorage → RackAuth session</text>
-  <text x="1124" y="858" fill="#94a3b8" font-size="9" class="mono">File System API → .rack files</text>
-  <text x="1124" y="874" fill="#94a3b8" font-size="9" class="mono">Fallback: download/upload JSON</text>
-  <text x="1124" y="890" fill="#94a3b8" font-size="9" class="mono">Auto-save: requestAnimationFrame debounce</text>
-
+  <rect
+     x="1100"
+     y="760"
+     width="300"
+     height="140"
+     rx="8"
+     fill="#0f172a"
+     stroke="#06b6d4"
+     stroke-width="1"
+     id="rect113" />
+  <text
+     x="1250"
+     y="782"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="13"
+     font-weight="700"
+     id="text114">DATA PERSISTENCE</text>
+  <rect
+     x="1112"
+     y="794"
+     width="276"
+     height="98"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect114" />
+  <text
+     x="1124"
+     y="810"
+     fill="#64748b"
+     font-size="9"
+     font-weight="700"
+     id="text115">STORAGE:</text>
+  <text
+     x="1124"
+     y="826"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text116">localStorage → RACK_DESIGNER_NEXT_STATE</text>
+  <text
+     x="1124"
+     y="842"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text117">sessionStorage → RackAuth session</text>
+  <text
+     x="1124"
+     y="858"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text118">File System API → .rack files</text>
+  <text
+     x="1124"
+     y="874"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text119">Fallback: download/upload JSON</text>
+  <text
+     x="1124"
+     y="890"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text120">Auto-save: requestAnimationFrame debounce</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- LAYER 3: CSS ARCHITECTURE -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <rect x="40" y="940" width="2320" height="160" rx="12" fill="url(#g-amber)" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,2"/>
-  <text x="60" y="966" fill="#f59e0b" font-size="16" font-weight="700">LAYER 3: CSS ARCHITECTURE</text>
-  <text x="310" y="966" fill="#64748b" font-size="11">Import order: variables → layout → panels → rack → faceplates → modals → misc</text>
-
-  <rect x="60" y="980" width="140" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="130" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">variables.css</text>
-  <text x="130" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Dark/Light themes · CSS vars</text>
-
-  <rect x="210" y="980" width="130" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="275" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">layout.css</text>
-  <text x="275" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Grid · Header · Sidebar</text>
-
-  <rect x="350" y="980" width="160" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="430" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">panels.css</text>
-  <text x="430" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Bottom panel · Tables · Tabs</text>
-
-  <rect x="520" y="980" width="120" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="580" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">rack.css</text>
-  <text x="580" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Rack cards · Flip 3D</text>
-
-  <rect x="650" y="980" width="170" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="735" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">faceplates.css</text>
-  <text x="735" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Device faceplates · LEDs</text>
-
-  <rect x="830" y="980" width="140" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="900" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">modals.css</text>
-  <text x="900" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Modals · Accordion · Forms</text>
-
-  <rect x="980" y="980" width="120" height="28" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="1040" y="998" text-anchor="middle" fill="#f59e0b" font-size="10" class="mono">misc.css</text>
-  <text x="1040" y="1024" text-anchor="middle" fill="#64748b" font-size="8">Icons · Tooltip · Drag</text>
-
+  <rect
+     x="40"
+     y="940"
+     width="2320"
+     height="160"
+     rx="12"
+     fill="url(#g-amber)"
+     stroke="#f59e0b"
+     stroke-width="1"
+     stroke-dasharray="4,2"
+     id="rect120" />
+  <text
+     x="60"
+     y="966"
+     fill="#f59e0b"
+     font-size="16"
+     font-weight="700"
+     id="text121">LAYER 3: CSS ARCHITECTURE</text>
+  <text
+     x="310"
+     y="966"
+     fill="#64748b"
+     font-size="11"
+     id="text122">Import order: variables → layout → panels → rack → faceplates → modals → misc</text>
+  <rect
+     x="60"
+     y="980"
+     width="140"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect122" />
+  <text
+     x="130"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text123">variables.css</text>
+  <text
+     x="130"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text124">Dark/Light themes · CSS vars</text>
+  <rect
+     x="210"
+     y="980"
+     width="130"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect124" />
+  <text
+     x="275"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text125">layout.css</text>
+  <text
+     x="275"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text126">Grid · Header · Sidebar</text>
+  <rect
+     x="350"
+     y="980"
+     width="160"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect126" />
+  <text
+     x="430"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text127">panels.css</text>
+  <text
+     x="430"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text128">Bottom panel · Tables · Tabs</text>
+  <rect
+     x="520"
+     y="980"
+     width="120"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect128" />
+  <text
+     x="580"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text129">rack.css</text>
+  <text
+     x="580"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text130">Rack cards · Flip 3D</text>
+  <rect
+     x="650"
+     y="980"
+     width="170"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect130" />
+  <text
+     x="735"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text131">faceplates.css</text>
+  <text
+     x="735"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text132">Device faceplates · LEDs</text>
+  <rect
+     x="830"
+     y="980"
+     width="140"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect132" />
+  <text
+     x="900"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text133">modals.css</text>
+  <text
+     x="900"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text134">Modals · Accordion · Forms</text>
+  <rect
+     x="980"
+     y="980"
+     width="120"
+     height="28"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect134" />
+  <text
+     x="1040"
+     y="998"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text135">misc.css</text>
+  <text
+     x="1040"
+     y="1024"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text136">Icons · Tooltip · Drag</text>
   <!-- Responsive breakpoints -->
-  <text x="1150" y="1000" fill="#64748b" font-size="10" font-weight="700">RESPONSIVE:</text>
-  <rect x="1260" y="986" width="100" height="22" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="1310" y="1002" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Desktop 3-col</text>
-  <rect x="1370" y="986" width="100" height="22" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="1420" y="1002" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Tablet ≤1024</text>
-  <rect x="1480" y="986" width="100" height="22" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
-  <text x="1530" y="1002" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Mobile ≤768</text>
-
+  <text
+     x="1150"
+     y="1000"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text137">RESPONSIVE:</text>
+  <rect
+     x="1260"
+     y="986"
+     width="100"
+     height="22"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect137" />
+  <text
+     x="1310"
+     y="1002"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text138">Desktop 3-col</text>
+  <rect
+     x="1370"
+     y="986"
+     width="100"
+     height="22"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect138" />
+  <text
+     x="1420"
+     y="1002"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text139">Tablet ≤1024</text>
+  <rect
+     x="1480"
+     y="986"
+     width="100"
+     height="22"
+     rx="6"
+     fill="#151c2e"
+     stroke="#25304b"
+     stroke-width="0.5"
+     id="rect139" />
+  <text
+     x="1530"
+     y="1002"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     class="mono"
+     id="text140">Mobile ≤768</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 3: FEATURES -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <text x="60" y="1140" fill="#38bdf8" font-size="22" font-weight="800">ALL FEATURES</text>
-
+  <text
+     x="60"
+     y="1140"
+     fill="#38bdf8"
+     font-size="22"
+     font-weight="800"
+     id="text141">ALL FEATURES</text>
   <!-- Feature grid -->
   <!-- Row 1 -->
-  <rect x="40" y="1160" width="360" height="200" rx="12" fill="url(#g-green)" stroke="#10b981" stroke-width="0.5"/>
-  <text x="220" y="1186" text-anchor="middle" fill="#10b981" font-size="14" font-weight="700">ROOM MANAGEMENT</text>
-  <rect x="52" y="1196" width="336" height="154" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="64" y="1214" fill="#94a3b8" font-size="10">Create rooms (data center buildings)</text>
-  <text x="64" y="1230" fill="#94a3b8" font-size="10">Delete rooms (cascades to racks, devices, connections)</text>
-  <text x="64" y="1246" fill="#94a3b8" font-size="10">Switch between rooms via dropdown</text>
-  <text x="64" y="1262" fill="#94a3b8" font-size="10">Rename rooms (double-click in dropdown)</text>
-  <text x="64" y="1278" fill="#94a3b8" font-size="10">Multiple rooms per project</text>
-  <text x="64" y="1294" fill="#94a3b8" font-size="10">Room dropdown with + button</text>
-  <text x="64" y="1310" fill="#94a3b8" font-size="10">Auto-clean topology positions on delete</text>
-  <text x="64" y="1326" fill="#94a3b8" font-size="10">Context menu actions</text>
-  <text x="64" y="1342" fill="#94a3b8" font-size="10">Statistics update on change</text>
-
-  <rect x="420" y="1160" width="360" height="200" rx="12" fill="url(#g-accent)" stroke="#0ea5e9" stroke-width="0.5"/>
-  <text x="600" y="1186" text-anchor="middle" fill="#0ea5e9" font-size="14" font-weight="700">RACK MANAGEMENT</text>
-  <rect x="432" y="1196" width="336" height="154" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="444" y="1214" fill="#94a3b8" font-size="10">Create racks with name, height (4-48U), color</text>
-  <text x="444" y="1230" fill="#94a3b8" font-size="10">Edit rack properties (height overflow warning)</text>
-  <text x="444" y="1246" fill="#94a3b8" font-size="10">Delete racks (cascades to devices, connections)</text>
-  <text x="444" y="1262" fill="#94a3b8" font-size="10">Clear rack (remove all devices)</text>
-  <text x="444" y="1278" fill="#94a3b8" font-size="10">Front/rear view flip (3D CSS animation)</text>
-  <text x="444" y="1294" fill="#94a3b8" font-size="10">Rack dropdown navigation</text>
-  <text x="444" y="1310" fill="#94a3b8" font-size="10">Rail numbers (U markers)</text>
-  <text x="444" y="1326" fill="#94a3b8" font-size="10">Drop highlight on drag-over</text>
-  <text x="444" y="1342" fill="#94a3b8" font-size="10">Rear panel with ports/outlets</text>
-
-  <rect x="800" y="1160" width="360" height="200" rx="12" fill="url(#g-amber)" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="980" y="1186" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="700">DEVICE MANAGEMENT</text>
-  <rect x="812" y="1196" width="336" height="154" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="824" y="1214" fill="#94a3b8" font-size="10">21 device templates across 7 categories</text>
-  <text x="824" y="1230" fill="#94a3b8" font-size="10">Name, type, status (active/maint/offline)</text>
-  <text x="824" y="1246" fill="#94a3b8" font-size="10">Brand, model, serial, custom skin image</text>
-  <text x="824" y="1262" fill="#94a3b8" font-size="10">Network ports (Ethernet/Fiber) config</text>
-  <text x="824" y="1278" fill="#94a3b8" font-size="10">IP address, MAC address (validated)</text>
-  <text x="824" y="1294" fill="#94a3b8" font-size="10">Credentials (user/pass), power (W)</text>
-  <text x="824" y="1310" fill="#94a3b8" font-size="10">Drag &amp; drop from catalog to rack</text>
-  <text x="824" y="1326" fill="#94a3b8" font-size="10">Double-click to edit, right-click menu</text>
-  <text x="824" y="1342" fill="#94a3b8" font-size="10">Quick Placement modal, floor devices</text>
-
-  <rect x="1180" y="1160" width="360" height="200" rx="12" fill="url(#g-red)" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="1360" y="1186" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="700">CONNECTIONS</text>
-  <rect x="1192" y="1196" width="336" height="154" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1204" y="1214" fill="#94a3b8" font-size="10">Create/edit/delete cable connections</text>
-  <text x="1204" y="1230" fill="#94a3b8" font-size="10">Source/dest devices with grouped dropdowns</text>
-  <text x="1204" y="1246" fill="#94a3b8" font-size="10">Port auto-complete (Ethernet/Fiber)</text>
-  <text x="1204" y="1262" fill="#94a3b8" font-size="10">Cable types: Cobre, Fibra SM/MM, DAC</text>
-  <text x="1204" y="1278" fill="#94a3b8" font-size="10">Cable color picker</text>
-  <text x="1204" y="1294" fill="#94a3b8" font-size="10">Visual indicators on switch faceplates</text>
-  <text x="1204" y="1310" fill="#94a3b8" font-size="10">Topology: animated Bezier curves</text>
-  <text x="1204" y="1326" fill="#94a3b8" font-size="10">Double-click cable to edit</text>
-  <text x="1204" y="1342" fill="#94a3b8" font-size="10">Connection table in bottom panel</text>
-
-  <rect x="1560" y="1160" width="360" height="200" rx="12" fill="url(#g-purple)" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="1740" y="1186" text-anchor="middle" fill="#8b5cf6" font-size="14" font-weight="700">VIEWS &amp; RENDERING</text>
-  <rect x="1572" y="1196" width="336" height="154" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1584" y="1214" fill="#94a3b8" font-size="10">Physical View: CSS Racks + SVG Cables</text>
-  <text x="1584" y="1230" fill="#94a3b8" font-size="10">Topology View: Canvas 2D network diagram</text>
-  <text x="1584" y="1246" fill="#94a3b8" font-size="10">Animated particles on connections</text>
-  <text x="1584" y="1262" fill="#94a3b8" font-size="10">Card/Circle node styles</text>
-  <text x="1584" y="1278" fill="#94a3b8" font-size="10">Hover: highlight connected, dim rest</text>
-  <text x="1584" y="1294" fill="#94a3b8" font-size="10">Pan/Zoom on both views</text>
-  <text x="1584" y="1310" fill="#94a3b8" font-size="10">Drag nodes/racks/rooms in topology</text>
-  <text x="1584" y="1326" fill="#94a3b8" font-size="10">Adjustable spacing slider</text>
-  <text x="1584" y="1342" fill="#94a3b8" font-size="10">Auto-order layout algorithm</text>
-
+  <rect
+     x="40"
+     y="1160"
+     width="360"
+     height="200"
+     rx="12"
+     fill="url(#g-green)"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect141" />
+  <text
+     x="220"
+     y="1186"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="14"
+     font-weight="700"
+     id="text142">ROOM MANAGEMENT</text>
+  <rect
+     x="52"
+     y="1196"
+     width="336"
+     height="154"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect142" />
+  <text
+     x="64"
+     y="1214"
+     fill="#94a3b8"
+     font-size="10"
+     id="text143">Create rooms (data center buildings)</text>
+  <text
+     x="64"
+     y="1230"
+     fill="#94a3b8"
+     font-size="10"
+     id="text144">Delete rooms (cascades to racks, devices, connections)</text>
+  <text
+     x="64"
+     y="1246"
+     fill="#94a3b8"
+     font-size="10"
+     id="text145">Switch between rooms via dropdown</text>
+  <text
+     x="64"
+     y="1262"
+     fill="#94a3b8"
+     font-size="10"
+     id="text146">Rename rooms (double-click in dropdown)</text>
+  <text
+     x="64"
+     y="1278"
+     fill="#94a3b8"
+     font-size="10"
+     id="text147">Multiple rooms per project</text>
+  <text
+     x="64"
+     y="1294"
+     fill="#94a3b8"
+     font-size="10"
+     id="text148">Room dropdown with + button</text>
+  <text
+     x="64"
+     y="1310"
+     fill="#94a3b8"
+     font-size="10"
+     id="text149">Auto-clean topology positions on delete</text>
+  <text
+     x="64"
+     y="1326"
+     fill="#94a3b8"
+     font-size="10"
+     id="text150">Context menu actions</text>
+  <text
+     x="64"
+     y="1342"
+     fill="#94a3b8"
+     font-size="10"
+     id="text151">Statistics update on change</text>
+  <rect
+     x="420"
+     y="1160"
+     width="360"
+     height="200"
+     rx="12"
+     fill="url(#g-accent)"
+     stroke="#0ea5e9"
+     stroke-width="0.5"
+     id="rect151" />
+  <text
+     x="600"
+     y="1186"
+     text-anchor="middle"
+     fill="#0ea5e9"
+     font-size="14"
+     font-weight="700"
+     id="text152">RACK MANAGEMENT</text>
+  <rect
+     x="432"
+     y="1196"
+     width="336"
+     height="154"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect152" />
+  <text
+     x="444"
+     y="1214"
+     fill="#94a3b8"
+     font-size="10"
+     id="text153">Create racks with name, height (4-48U), color</text>
+  <text
+     x="444"
+     y="1230"
+     fill="#94a3b8"
+     font-size="10"
+     id="text154">Edit rack properties (height overflow warning)</text>
+  <text
+     x="444"
+     y="1246"
+     fill="#94a3b8"
+     font-size="10"
+     id="text155">Delete racks (cascades to devices, connections)</text>
+  <text
+     x="444"
+     y="1262"
+     fill="#94a3b8"
+     font-size="10"
+     id="text156">Clear rack (remove all devices)</text>
+  <text
+     x="444"
+     y="1278"
+     fill="#94a3b8"
+     font-size="10"
+     id="text157">Front/rear view flip (3D CSS animation)</text>
+  <text
+     x="444"
+     y="1294"
+     fill="#94a3b8"
+     font-size="10"
+     id="text158">Rack dropdown navigation</text>
+  <text
+     x="444"
+     y="1310"
+     fill="#94a3b8"
+     font-size="10"
+     id="text159">Rail numbers (U markers)</text>
+  <text
+     x="444"
+     y="1326"
+     fill="#94a3b8"
+     font-size="10"
+     id="text160">Drop highlight on drag-over</text>
+  <text
+     x="444"
+     y="1342"
+     fill="#94a3b8"
+     font-size="10"
+     id="text161">Rear panel with ports/outlets</text>
+  <rect
+     x="800"
+     y="1160"
+     width="360"
+     height="200"
+     rx="12"
+     fill="url(#g-amber)"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect161" />
+  <text
+     x="980"
+     y="1186"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="14"
+     font-weight="700"
+     id="text162">DEVICE MANAGEMENT</text>
+  <rect
+     x="812"
+     y="1196"
+     width="336"
+     height="154"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect162" />
+  <text
+     x="824"
+     y="1214"
+     fill="#94a3b8"
+     font-size="10"
+     id="text163">21 device templates across 7 categories</text>
+  <text
+     x="824"
+     y="1230"
+     fill="#94a3b8"
+     font-size="10"
+     id="text164">Name, type, status (active/maint/offline)</text>
+  <text
+     x="824"
+     y="1246"
+     fill="#94a3b8"
+     font-size="10"
+     id="text165">Brand, model, serial, custom skin image</text>
+  <text
+     x="824"
+     y="1262"
+     fill="#94a3b8"
+     font-size="10"
+     id="text166">Network ports (Ethernet/Fiber) config</text>
+  <text
+     x="824"
+     y="1278"
+     fill="#94a3b8"
+     font-size="10"
+     id="text167">IP address, MAC address (validated)</text>
+  <text
+     x="824"
+     y="1294"
+     fill="#94a3b8"
+     font-size="10"
+     id="text168">Credentials (user/pass), power (W)</text>
+  <text
+     x="824"
+     y="1310"
+     fill="#94a3b8"
+     font-size="10"
+     id="text169">Drag &amp; drop from catalog to rack</text>
+  <text
+     x="824"
+     y="1326"
+     fill="#94a3b8"
+     font-size="10"
+     id="text170">Double-click to edit, right-click menu</text>
+  <text
+     x="824"
+     y="1342"
+     fill="#94a3b8"
+     font-size="10"
+     id="text171">Quick Placement modal, floor devices</text>
+  <rect
+     x="1180"
+     y="1160"
+     width="360"
+     height="200"
+     rx="12"
+     fill="url(#g-red)"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect171" />
+  <text
+     x="1360"
+     y="1186"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="14"
+     font-weight="700"
+     id="text172">CONNECTIONS</text>
+  <rect
+     x="1192"
+     y="1196"
+     width="336"
+     height="154"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect172" />
+  <text
+     x="1204"
+     y="1214"
+     fill="#94a3b8"
+     font-size="10"
+     id="text173">Create/edit/delete cable connections</text>
+  <text
+     x="1204"
+     y="1230"
+     fill="#94a3b8"
+     font-size="10"
+     id="text174">Source/dest devices with grouped dropdowns</text>
+  <text
+     x="1204"
+     y="1246"
+     fill="#94a3b8"
+     font-size="10"
+     id="text175">Port auto-complete (Ethernet/Fiber)</text>
+  <text
+     x="1204"
+     y="1262"
+     fill="#94a3b8"
+     font-size="10"
+     id="text176">Cable types: Cobre, Fibra SM/MM, DAC</text>
+  <text
+     x="1204"
+     y="1278"
+     fill="#94a3b8"
+     font-size="10"
+     id="text177">Cable color picker</text>
+  <text
+     x="1204"
+     y="1294"
+     fill="#94a3b8"
+     font-size="10"
+     id="text178">Visual indicators on switch faceplates</text>
+  <text
+     x="1204"
+     y="1310"
+     fill="#94a3b8"
+     font-size="10"
+     id="text179">Topology: animated Bezier curves</text>
+  <text
+     x="1204"
+     y="1326"
+     fill="#94a3b8"
+     font-size="10"
+     id="text180">Double-click cable to edit</text>
+  <text
+     x="1204"
+     y="1342"
+     fill="#94a3b8"
+     font-size="10"
+     id="text181">Connection table in bottom panel</text>
+  <rect
+     x="1560"
+     y="1160"
+     width="360"
+     height="200"
+     rx="12"
+     fill="url(#g-purple)"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect181" />
+  <text
+     x="1740"
+     y="1186"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="14"
+     font-weight="700"
+     id="text182">VIEWS &amp; RENDERING</text>
+  <rect
+     x="1572"
+     y="1196"
+     width="336"
+     height="154"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect182" />
+  <text
+     x="1584"
+     y="1214"
+     fill="#94a3b8"
+     font-size="10"
+     id="text183">Physical View: CSS Racks + SVG Cables</text>
+  <text
+     x="1584"
+     y="1230"
+     fill="#94a3b8"
+     font-size="10"
+     id="text184">Topology View: Canvas 2D network diagram</text>
+  <text
+     x="1584"
+     y="1246"
+     fill="#94a3b8"
+     font-size="10"
+     id="text185">Animated particles on connections</text>
+  <text
+     x="1584"
+     y="1262"
+     fill="#94a3b8"
+     font-size="10"
+     id="text186">Card/Circle node styles</text>
+  <text
+     x="1584"
+     y="1278"
+     fill="#94a3b8"
+     font-size="10"
+     id="text187">Hover: highlight connected, dim rest</text>
+  <text
+     x="1584"
+     y="1294"
+     fill="#94a3b8"
+     font-size="10"
+     id="text188">Pan/Zoom on both views</text>
+  <text
+     x="1584"
+     y="1310"
+     fill="#94a3b8"
+     font-size="10"
+     id="text189">Drag nodes/racks/rooms in topology</text>
+  <text
+     x="1584"
+     y="1326"
+     fill="#94a3b8"
+     font-size="10"
+     id="text190">Adjustable spacing slider</text>
+  <text
+     x="1584"
+     y="1342"
+     fill="#94a3b8"
+     font-size="10"
+     id="text191">Auto-order layout algorithm</text>
   <!-- Row 2 -->
-  <rect x="40" y="1380" width="360" height="180" rx="12" fill="url(#g-cyan)" stroke="#06b6d4" stroke-width="0.5"/>
-  <text x="220" y="1406" text-anchor="middle" fill="#06b6d4" font-size="14" font-weight="700">CATALOG SYSTEM</text>
-  <rect x="52" y="1416" width="336" height="134" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="64" y="1434" fill="#94a3b8" font-size="10">21 predefined device templates</text>
-  <text x="64" y="1450" fill="#94a3b8" font-size="10">7 categories (server/network/storage/etc.)</text>
-  <text x="64" y="1466" fill="#94a3b8" font-size="10">Filter by category tabs</text>
-  <text x="64" y="1482" fill="#94a3b8" font-size="10">Search by name or type</text>
-  <text x="64" y="1498" fill="#94a3b8" font-size="10">Edit/delete via context menu</text>
-  <text x="64" y="1514" fill="#94a3b8" font-size="10">Export/import catalog as JSON</text>
-  <text x="64" y="1530" fill="#94a3b8" font-size="10">Drag from catalog to rack</text>
-
-  <rect x="420" y="1380" width="360" height="180" rx="12" fill="url(#g-red)" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="600" y="1406" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="700">EXPORT &amp; IMPORT</text>
-  <rect x="432" y="1416" width="336" height="134" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="444" y="1434" fill="#94a3b8" font-size="10">PNG: Rack front/rear via Canvas 2D</text>
-  <text x="444" y="1450" fill="#94a3b8" font-size="10">PNG: Floor devices via Canvas 2D</text>
-  <text x="444" y="1466" fill="#94a3b8" font-size="10">PNG: Topology diagram (offscreen canvas)</text>
-  <text x="444" y="1482" fill="#94a3b8" font-size="10">CSV: Inventory + Connections tables</text>
-  <text x="444" y="1498" fill="#94a3b8" font-size="10">Excel: Full workbook (SheetJS)</text>
-  <text x="444" y="1514" fill="#94a3b8" font-size="10">JSON: Full project backup (.rack)</text>
-  <text x="444" y="1530" fill="#94a3b8" font-size="10">File System Access API + fallback</text>
-
-  <rect x="800" y="1380" width="360" height="180" rx="12" fill="url(#g-green)" stroke="#10b981" stroke-width="0.5"/>
-  <text x="980" y="1406" text-anchor="middle" fill="#10b981" font-size="14" font-weight="700">UNDO / REDO</text>
-  <rect x="812" y="1416" width="336" height="134" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="824" y="1434" fill="#94a3b8" font-size="10">Snapshot-based undo (max 30 states)</text>
-  <text x="824" y="1450" fill="#94a3b8" font-size="10">Ctrl+Z / Ctrl+Y keyboard shortcuts</text>
-  <text x="824" y="1466" fill="#94a3b8" font-size="10">Undo/Redo buttons in header</text>
-  <text x="824" y="1482" fill="#94a3b8" font-size="10">State count display</text>
-  <text x="824" y="1498" fill="#94a3b8" font-size="10">deepClone for snapshot isolation</text>
-  <text x="824" y="1514" fill="#94a3b8" font-size="10">Full state restore on undo/redo</text>
-
-  <rect x="1180" y="1380" width="360" height="180" rx="12" fill="url(#g-amber)" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="1360" y="1406" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="700">SEARCH &amp; FILTER</text>
-  <rect x="1192" y="1416" width="336" height="134" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1204" y="1434" fill="#94a3b8" font-size="10">Global search (header): IP/MAC/name/type</text>
-  <text x="1204" y="1450" fill="#94a3b8" font-size="10">Catalog search (sidebar): name/type</text>
-  <text x="1204" y="1466" fill="#94a3b8" font-size="10">Table search (bottom panel): filter rows</text>
-  <text x="1204" y="1482" fill="#94a3b8" font-size="10">Catalog filter tabs (7 categories)</text>
-  <text x="1204" y="1498" fill="#94a3b8" font-size="10">Topology: dim non-matching nodes</text>
-  <text x="1204" y="1514" fill="#94a3b8" font-size="10">Physical: highlight matching devices</text>
-
-  <rect x="1560" y="1380" width="360" height="180" rx="12" fill="url(#g-purple)" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="1740" y="1406" text-anchor="middle" fill="#8b5cf6" font-size="14" font-weight="700">THEMING &amp; UI</text>
-  <rect x="1572" y="1416" width="336" height="134" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1584" y="1434" fill="#94a3b8" font-size="10">Dark mode (default) / Light mode toggle</text>
-  <text x="1584" y="1450" fill="#94a3b8" font-size="10">FOUC prevention (inline head script)</text>
-  <text x="1584" y="1466" fill="#94a3b8" font-size="10">24px height ALL controls</text>
-  <text x="1584" y="1482" fill="#94a3b8" font-size="10">SVG icon mask system (32+ icons)</text>
-  <text x="1584" y="1498" fill="#94a3b8" font-size="10">Notification toasts (4 types)</text>
-  <text x="1584" y="1514" fill="#94a3b8" font-size="10">Custom confirm dialog (async/await)</text>
-
+  <rect
+     x="40"
+     y="1380"
+     width="360"
+     height="180"
+     rx="12"
+     fill="url(#g-cyan)"
+     stroke="#06b6d4"
+     stroke-width="0.5"
+     id="rect191" />
+  <text
+     x="220"
+     y="1406"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="14"
+     font-weight="700"
+     id="text192">CATALOG SYSTEM</text>
+  <rect
+     x="52"
+     y="1416"
+     width="336"
+     height="134"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect192" />
+  <text
+     x="64"
+     y="1434"
+     fill="#94a3b8"
+     font-size="10"
+     id="text193">21 predefined device templates</text>
+  <text
+     x="64"
+     y="1450"
+     fill="#94a3b8"
+     font-size="10"
+     id="text194">7 categories (server/network/storage/etc.)</text>
+  <text
+     x="64"
+     y="1466"
+     fill="#94a3b8"
+     font-size="10"
+     id="text195">Filter by category tabs</text>
+  <text
+     x="64"
+     y="1482"
+     fill="#94a3b8"
+     font-size="10"
+     id="text196">Search by name or type</text>
+  <text
+     x="64"
+     y="1498"
+     fill="#94a3b8"
+     font-size="10"
+     id="text197">Edit/delete via context menu</text>
+  <text
+     x="64"
+     y="1514"
+     fill="#94a3b8"
+     font-size="10"
+     id="text198">Export/import catalog as JSON</text>
+  <text
+     x="64"
+     y="1530"
+     fill="#94a3b8"
+     font-size="10"
+     id="text199">Drag from catalog to rack</text>
+  <rect
+     x="420"
+     y="1380"
+     width="360"
+     height="180"
+     rx="12"
+     fill="url(#g-red)"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect199" />
+  <text
+     x="600"
+     y="1406"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="14"
+     font-weight="700"
+     id="text200">EXPORT &amp; IMPORT</text>
+  <rect
+     x="432"
+     y="1416"
+     width="336"
+     height="134"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect200" />
+  <text
+     x="444"
+     y="1434"
+     fill="#94a3b8"
+     font-size="10"
+     id="text201">PNG: Rack front/rear via Canvas 2D</text>
+  <text
+     x="444"
+     y="1450"
+     fill="#94a3b8"
+     font-size="10"
+     id="text202">PNG: Floor devices via Canvas 2D</text>
+  <text
+     x="444"
+     y="1466"
+     fill="#94a3b8"
+     font-size="10"
+     id="text203">PNG: Topology diagram (offscreen canvas)</text>
+  <text
+     x="444"
+     y="1482"
+     fill="#94a3b8"
+     font-size="10"
+     id="text204">CSV: Inventory + Connections tables</text>
+  <text
+     x="444"
+     y="1498"
+     fill="#94a3b8"
+     font-size="10"
+     id="text205">Excel: Full workbook (SheetJS)</text>
+  <text
+     x="444"
+     y="1514"
+     fill="#94a3b8"
+     font-size="10"
+     id="text206">JSON: Full project backup (.rack)</text>
+  <text
+     x="444"
+     y="1530"
+     fill="#94a3b8"
+     font-size="10"
+     id="text207">File System Access API + fallback</text>
+  <rect
+     x="800"
+     y="1380"
+     width="360"
+     height="180"
+     rx="12"
+     fill="url(#g-green)"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect207" />
+  <text
+     x="980"
+     y="1406"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="14"
+     font-weight="700"
+     id="text208">UNDO / REDO</text>
+  <rect
+     x="812"
+     y="1416"
+     width="336"
+     height="134"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect208" />
+  <text
+     x="824"
+     y="1434"
+     fill="#94a3b8"
+     font-size="10"
+     id="text209">Snapshot-based undo (max 30 states)</text>
+  <text
+     x="824"
+     y="1450"
+     fill="#94a3b8"
+     font-size="10"
+     id="text210">Ctrl+Z / Ctrl+Y keyboard shortcuts</text>
+  <text
+     x="824"
+     y="1466"
+     fill="#94a3b8"
+     font-size="10"
+     id="text211">Undo/Redo buttons in header</text>
+  <text
+     x="824"
+     y="1482"
+     fill="#94a3b8"
+     font-size="10"
+     id="text212">State count display</text>
+  <text
+     x="824"
+     y="1498"
+     fill="#94a3b8"
+     font-size="10"
+     id="text213">deepClone for snapshot isolation</text>
+  <text
+     x="824"
+     y="1514"
+     fill="#94a3b8"
+     font-size="10"
+     id="text214">Full state restore on undo/redo</text>
+  <rect
+     x="1180"
+     y="1380"
+     width="360"
+     height="180"
+     rx="12"
+     fill="url(#g-amber)"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect214" />
+  <text
+     x="1360"
+     y="1406"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="14"
+     font-weight="700"
+     id="text215">SEARCH &amp; FILTER</text>
+  <rect
+     x="1192"
+     y="1416"
+     width="336"
+     height="134"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect215" />
+  <text
+     x="1204"
+     y="1434"
+     fill="#94a3b8"
+     font-size="10"
+     id="text216">Global search (header): IP/MAC/name/type</text>
+  <text
+     x="1204"
+     y="1450"
+     fill="#94a3b8"
+     font-size="10"
+     id="text217">Catalog search (sidebar): name/type</text>
+  <text
+     x="1204"
+     y="1466"
+     fill="#94a3b8"
+     font-size="10"
+     id="text218">Table search (bottom panel): filter rows</text>
+  <text
+     x="1204"
+     y="1482"
+     fill="#94a3b8"
+     font-size="10"
+     id="text219">Catalog filter tabs (7 categories)</text>
+  <text
+     x="1204"
+     y="1498"
+     fill="#94a3b8"
+     font-size="10"
+     id="text220">Topology: dim non-matching nodes</text>
+  <text
+     x="1204"
+     y="1514"
+     fill="#94a3b8"
+     font-size="10"
+     id="text221">Physical: highlight matching devices</text>
+  <rect
+     x="1560"
+     y="1380"
+     width="360"
+     height="180"
+     rx="12"
+     fill="url(#g-purple)"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect221" />
+  <text
+     x="1740"
+     y="1406"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="14"
+     font-weight="700"
+     id="text222">THEMING &amp; UI</text>
+  <rect
+     x="1572"
+     y="1416"
+     width="336"
+     height="134"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect222" />
+  <text
+     x="1584"
+     y="1434"
+     fill="#94a3b8"
+     font-size="10"
+     id="text223">Dark mode (default) / Light mode toggle</text>
+  <text
+     x="1584"
+     y="1450"
+     fill="#94a3b8"
+     font-size="10"
+     id="text224">FOUC prevention (inline head script)</text>
+  <text
+     x="1584"
+     y="1466"
+     fill="#94a3b8"
+     font-size="10"
+     id="text225">24px height ALL controls</text>
+  <text
+     x="1584"
+     y="1482"
+     fill="#94a3b8"
+     font-size="10"
+     id="text226">SVG icon mask system (32+ icons)</text>
+  <text
+     x="1584"
+     y="1498"
+     fill="#94a3b8"
+     font-size="10"
+     id="text227">Notification toasts (4 types)</text>
+  <text
+     x="1584"
+     y="1514"
+     fill="#94a3b8"
+     font-size="10"
+     id="text228">Custom confirm dialog (async/await)</text>
   <!-- Row 3 -->
-  <rect x="40" y="1580" width="360" height="160" rx="12" fill="url(#g-accent)" stroke="#0ea5e9" stroke-width="0.5"/>
-  <text x="220" y="1606" text-anchor="middle" fill="#0ea5e9" font-size="14" font-weight="700">AUTH &amp; RBAC</text>
-  <rect x="52" y="1616" width="336" height="114" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="64" y="1634" fill="#94a3b8" font-size="10">3 roles: Admin, Editor, Viewer</text>
-  <text x="64" y="1650" fill="#94a3b8" font-size="10">SHA-256 PIN hashing</text>
-  <text x="64" y="1666" fill="#94a3b8" font-size="10">Session in sessionStorage (volatile)</text>
-  <text x="64" y="1682" fill="#94a3b8" font-size="10">UI adapts per role</text>
-  <text x="64" y="1698" fill="#94a3b8" font-size="10">God Mode toggle (admin only)</text>
-
-  <rect x="420" y="1580" width="360" height="160" rx="12" fill="url(#g-cyan)" stroke="#06b6d4" stroke-width="0.5"/>
-  <text x="600" y="1606" text-anchor="middle" fill="#06b6d4" font-size="14" font-weight="700">PWA &amp; OFFLINE</text>
-  <rect x="432" y="1616" width="336" height="114" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="444" y="1634" fill="#94a3b8" font-size="10">Service Worker offline caching</text>
-  <text x="444" y="1650" fill="#94a3b8" font-size="10">Web App Manifest</text>
-  <text x="444" y="1666" fill="#94a3b8" font-size="10">Apple mobile web app capable</text>
-  <text x="444" y="1682" fill="#94a3b8" font-size="10">Theme color meta tags</text>
-  <text x="444" y="1698" fill="#94a3b8" font-size="10">Installable on home screen</text>
-
-  <rect x="800" y="1580" width="360" height="160" rx="12" fill="url(#g-amber)" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="980" y="1606" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="700">INTERACTION</text>
-  <rect x="812" y="1616" width="336" height="114" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="824" y="1634" fill="#94a3b8" font-size="10">Drag &amp; drop (catalog→rack, move device)</text>
-  <text x="824" y="1650" fill="#94a3b8" font-size="10">Right-click context menus</text>
-  <text x="824" y="1666" fill="#94a3b8" font-size="10">Double-click to edit</text>
-  <text x="824" y="1682" fill="#94a3b8" font-size="10">Hover tooltips &amp; HUD</text>
-  <text x="824" y="1698" fill="#94a3b8" font-size="10">Keyboard shortcuts (Ctrl+Z/Y, Esc)</text>
-
-  <rect x="1180" y="1580" width="360" height="160" rx="12" fill="url(#g-green)" stroke="#10b981" stroke-width="0.5"/>
-  <text x="1360" y="1606" text-anchor="middle" fill="#10b981" font-size="14" font-weight="700">STATISTICS</text>
-  <rect x="1192" y="1616" width="336" height="114" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1204" y="1634" fill="#94a3b8" font-size="10">Global metrics: rooms, racks, devices</text>
-  <text x="1204" y="1650" fill="#94a3b8" font-size="10">Rack devices, floor devices, connections</text>
-  <text x="1204" y="1666" fill="#94a3b8" font-size="10">Right panel stat pills with icons</text>
-  <text x="1204" y="1682" fill="#94a3b8" font-size="10">Live updates on any mutation</text>
-
-  <rect x="1560" y="1580" width="360" height="160" rx="12" fill="url(#g-red)" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="1740" y="1606" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="700">DEMO DATA</text>
-  <rect x="1572" y="1616" width="336" height="114" rx="6" fill="#0f172a" opacity="0.5"/>
-  <text x="1584" y="1634" fill="#94a3b8" font-size="10">One-click demo data loader</text>
-  <text x="1584" y="1650" fill="#94a3b8" font-size="10">4 rooms, 12 racks, 50+ devices</text>
-  <text x="1584" y="1666" fill="#94a3b8" font-size="10">30+ connections</text>
-  <text x="1584" y="1682" fill="#94a3b8" font-size="10">Mix of rack-mounted + floor devices</text>
-
+  <rect
+     x="40"
+     y="1580"
+     width="360"
+     height="160"
+     rx="12"
+     fill="url(#g-accent)"
+     stroke="#0ea5e9"
+     stroke-width="0.5"
+     id="rect228" />
+  <text
+     x="220"
+     y="1606"
+     text-anchor="middle"
+     fill="#0ea5e9"
+     font-size="14"
+     font-weight="700"
+     id="text229">AUTH &amp; RBAC</text>
+  <rect
+     x="52"
+     y="1616"
+     width="336"
+     height="114"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect229" />
+  <text
+     x="64"
+     y="1634"
+     fill="#94a3b8"
+     font-size="10"
+     id="text230">3 roles: Admin, Editor, Viewer</text>
+  <text
+     x="64"
+     y="1650"
+     fill="#94a3b8"
+     font-size="10"
+     id="text231">SHA-256 PIN hashing</text>
+  <text
+     x="64"
+     y="1666"
+     fill="#94a3b8"
+     font-size="10"
+     id="text232">Session in sessionStorage (volatile)</text>
+  <text
+     x="64"
+     y="1682"
+     fill="#94a3b8"
+     font-size="10"
+     id="text233">UI adapts per role</text>
+  <text
+     x="64"
+     y="1698"
+     fill="#94a3b8"
+     font-size="10"
+     id="text234">God Mode toggle (admin only)</text>
+  <rect
+     x="420"
+     y="1580"
+     width="360"
+     height="160"
+     rx="12"
+     fill="url(#g-cyan)"
+     stroke="#06b6d4"
+     stroke-width="0.5"
+     id="rect234" />
+  <text
+     x="600"
+     y="1606"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="14"
+     font-weight="700"
+     id="text235">PWA &amp; OFFLINE</text>
+  <rect
+     x="432"
+     y="1616"
+     width="336"
+     height="114"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect235" />
+  <text
+     x="444"
+     y="1634"
+     fill="#94a3b8"
+     font-size="10"
+     id="text236">Service Worker offline caching</text>
+  <text
+     x="444"
+     y="1650"
+     fill="#94a3b8"
+     font-size="10"
+     id="text237">Web App Manifest</text>
+  <text
+     x="444"
+     y="1666"
+     fill="#94a3b8"
+     font-size="10"
+     id="text238">Apple mobile web app capable</text>
+  <text
+     x="444"
+     y="1682"
+     fill="#94a3b8"
+     font-size="10"
+     id="text239">Theme color meta tags</text>
+  <text
+     x="444"
+     y="1698"
+     fill="#94a3b8"
+     font-size="10"
+     id="text240">Installable on home screen</text>
+  <rect
+     x="800"
+     y="1580"
+     width="360"
+     height="160"
+     rx="12"
+     fill="url(#g-amber)"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect240" />
+  <text
+     x="980"
+     y="1606"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="14"
+     font-weight="700"
+     id="text241">INTERACTION</text>
+  <rect
+     x="812"
+     y="1616"
+     width="336"
+     height="114"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect241" />
+  <text
+     x="824"
+     y="1634"
+     fill="#94a3b8"
+     font-size="10"
+     id="text242">Drag &amp; drop (catalog→rack, move device)</text>
+  <text
+     x="824"
+     y="1650"
+     fill="#94a3b8"
+     font-size="10"
+     id="text243">Right-click context menus</text>
+  <text
+     x="824"
+     y="1666"
+     fill="#94a3b8"
+     font-size="10"
+     id="text244">Double-click to edit</text>
+  <text
+     x="824"
+     y="1682"
+     fill="#94a3b8"
+     font-size="10"
+     id="text245">Hover tooltips &amp; HUD</text>
+  <text
+     x="824"
+     y="1698"
+     fill="#94a3b8"
+     font-size="10"
+     id="text246">Keyboard shortcuts (Ctrl+Z/Y, Esc)</text>
+  <rect
+     x="1180"
+     y="1580"
+     width="360"
+     height="160"
+     rx="12"
+     fill="url(#g-green)"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect246" />
+  <text
+     x="1360"
+     y="1606"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="14"
+     font-weight="700"
+     id="text247">STATISTICS</text>
+  <rect
+     x="1192"
+     y="1616"
+     width="336"
+     height="114"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect247" />
+  <text
+     x="1204"
+     y="1634"
+     fill="#94a3b8"
+     font-size="10"
+     id="text248">Global metrics: rooms, racks, devices</text>
+  <text
+     x="1204"
+     y="1650"
+     fill="#94a3b8"
+     font-size="10"
+     id="text249">Rack devices, floor devices, connections</text>
+  <text
+     x="1204"
+     y="1666"
+     fill="#94a3b8"
+     font-size="10"
+     id="text250">Right panel stat pills with icons</text>
+  <text
+     x="1204"
+     y="1682"
+     fill="#94a3b8"
+     font-size="10"
+     id="text251">Live updates on any mutation</text>
+  <rect
+     x="1560"
+     y="1580"
+     width="360"
+     height="160"
+     rx="12"
+     fill="url(#g-red)"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect251" />
+  <text
+     x="1740"
+     y="1606"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="14"
+     font-weight="700"
+     id="text252">DEMO DATA</text>
+  <rect
+     x="1572"
+     y="1616"
+     width="336"
+     height="114"
+     rx="6"
+     fill="#0f172a"
+     opacity="0.5"
+     id="rect252" />
+  <text
+     x="1584"
+     y="1634"
+     fill="#94a3b8"
+     font-size="10"
+     id="text253">One-click demo data loader</text>
+  <text
+     x="1584"
+     y="1650"
+     fill="#94a3b8"
+     font-size="10"
+     id="text254">4 rooms, 12 racks, 50+ devices</text>
+  <text
+     x="1584"
+     y="1666"
+     fill="#94a3b8"
+     font-size="10"
+     id="text255">30+ connections</text>
+  <text
+     x="1584"
+     y="1682"
+     fill="#94a3b8"
+     font-size="10"
+     id="text256">Mix of rack-mounted + floor devices</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 4: DATA FLOW -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <text x="60" y="1800" fill="#38bdf8" font-size="22" font-weight="800">DATA FLOW</text>
-
+  <text
+     x="60"
+     y="1800"
+     fill="#38bdf8"
+     font-size="22"
+     font-weight="800"
+     id="text257">DATA FLOW</text>
   <!-- Flow 1: Device Creation -->
-  <rect x="40" y="1820" width="1140" height="100" rx="12" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
-  <text x="60" y="1846" fill="#10b981" font-size="13" font-weight="700">FLOW 1: Device Creation (Catalog → Rack)</text>
-
-  <rect x="60" y="1858" width="100" height="30" rx="6" fill="#151c2e" stroke="#10b981" stroke-width="0.5"/>
-  <text x="110" y="1878" text-anchor="middle" fill="#10b981" font-size="9">User Drag</text>
-
-  <line x1="160" y1="1873" x2="180" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="182" y="1858" width="110" height="30" rx="6" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="237" y="1878" text-anchor="middle" fill="#38bdf8" font-size="9">onSlotDrop()</text>
-
-  <line x1="292" y1="1873" x2="312" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="314" y="1858" width="140" height="30" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="384" y="1878" text-anchor="middle" fill="#f59e0b" font-size="9">store.addDeviceToRack()</text>
-
-  <line x1="454" y1="1873" x2="474" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="476" y="1858" width="100" height="30" rx="6" fill="#151c2e" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="526" y="1878" text-anchor="middle" fill="#ef4444" font-size="9">snapshot()</text>
-
-  <line x1="576" y1="1873" x2="596" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="598" y="1858" width="90" height="30" rx="6" fill="#151c2e" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="643" y="1878" text-anchor="middle" fill="#8b5cf6" font-size="9">_save()</text>
-
-  <line x1="688" y1="1873" x2="708" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="710" y="1858" width="100" height="30" rx="6" fill="#151c2e" stroke="#06b6d4" stroke-width="0.5"/>
-  <text x="760" y="1878" text-anchor="middle" fill="#06b6d4" font-size="9">_emit('change')</text>
-
-  <line x1="810" y1="1873" x2="830" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="832" y="1858" width="100" height="30" rx="6" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="882" y="1878" text-anchor="middle" fill="#38bdf8" font-size="9">renderAll()</text>
-
-  <line x1="932" y1="1873" x2="952" y2="1873" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-
-  <rect x="954" y="1858" width="100" height="30" rx="6" fill="#151c2e" stroke="#10b981" stroke-width="0.5"/>
-  <text x="1004" y="1878" text-anchor="middle" fill="#10b981" font-size="9">UI Re-render</text>
-
+  <rect
+     x="40"
+     y="1820"
+     width="1140"
+     height="100"
+     rx="12"
+     fill="#0f172a"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect257" />
+  <text
+     x="60"
+     y="1846"
+     fill="#10b981"
+     font-size="13"
+     font-weight="700"
+     id="text258">FLOW 1: Device Creation (Catalog → Rack)</text>
+  <rect
+     x="60"
+     y="1858"
+     width="100"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect258" />
+  <text
+     x="110"
+     y="1878"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="9"
+     id="text259">User Drag</text>
+  <line
+     x1="160"
+     y1="1873"
+     x2="180"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line259" />
+  <rect
+     x="182"
+     y="1858"
+     width="110"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect259" />
+  <text
+     x="237"
+     y="1878"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="9"
+     id="text260">onSlotDrop()</text>
+  <line
+     x1="292"
+     y1="1873"
+     x2="312"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line260" />
+  <rect
+     x="314"
+     y="1858"
+     width="140"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect260" />
+  <text
+     x="384"
+     y="1878"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="9"
+     id="text261">store.addDeviceToRack()</text>
+  <line
+     x1="454"
+     y1="1873"
+     x2="474"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line261" />
+  <rect
+     x="476"
+     y="1858"
+     width="100"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect261" />
+  <text
+     x="526"
+     y="1878"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="9"
+     id="text262">snapshot()</text>
+  <line
+     x1="576"
+     y1="1873"
+     x2="596"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line262" />
+  <rect
+     x="598"
+     y="1858"
+     width="90"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect262" />
+  <text
+     x="643"
+     y="1878"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="9"
+     id="text263">_save()</text>
+  <line
+     x1="688"
+     y1="1873"
+     x2="708"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line263" />
+  <rect
+     x="710"
+     y="1858"
+     width="100"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#06b6d4"
+     stroke-width="0.5"
+     id="rect263" />
+  <text
+     x="760"
+     y="1878"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="9"
+     id="text264">_emit('change')</text>
+  <line
+     x1="810"
+     y1="1873"
+     x2="830"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line264" />
+  <rect
+     x="832"
+     y="1858"
+     width="100"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect264" />
+  <text
+     x="882"
+     y="1878"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="9"
+     id="text265">renderAll()</text>
+  <line
+     x1="932"
+     y1="1873"
+     x2="952"
+     y2="1873"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line265" />
+  <rect
+     x="954"
+     y="1858"
+     width="100"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect265" />
+  <text
+     x="1004"
+     y="1878"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="9"
+     id="text266">UI Re-render</text>
   <!-- Flow 2: Undo/Redo -->
-  <rect x="40" y="1940" width="700" height="80" rx="12" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
-  <text x="60" y="1966" fill="#ef4444" font-size="13" font-weight="700">FLOW 2: Undo/Redo</text>
-
-  <rect x="60" y="1978" width="80" height="24" rx="6" fill="#151c2e" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="100" y="1994" text-anchor="middle" fill="#ef4444" font-size="9">Ctrl+Z</text>
-  <line x1="140" y1="1990" x2="156" y2="1990" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-  <rect x="158" y="1978" width="70" height="24" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="193" y="1994" text-anchor="middle" fill="#f59e0b" font-size="9">store.undo()</text>
-  <line x1="228" y1="1990" x2="244" y2="1990" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-  <rect x="246" y="1978" width="100" height="24" rx="6" fill="#151c2e" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="296" y="1994" text-anchor="middle" fill="#8b5cf6" font-size="9">pop undoStack</text>
-  <line x1="346" y1="1990" x2="362" y2="1990" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-  <rect x="364" y="1978" width="100" height="24" rx="6" fill="#151c2e" stroke="#06b6d4" stroke-width="0.5"/>
-  <text x="414" y="1994" text-anchor="middle" fill="#06b6d4" font-size="9">Object.assign</text>
-  <line x1="464" y1="1990" x2="480" y2="1990" stroke="#475569" stroke-width="1" marker-end="url(#arrow)"/>
-  <rect x="482" y="1978" width="70" height="24" rx="6" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="517" y="1994" text-anchor="middle" fill="#38bdf8" font-size="9">renderAll()</text>
-
+  <rect
+     x="40"
+     y="1940"
+     width="700"
+     height="80"
+     rx="12"
+     fill="#0f172a"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect266" />
+  <text
+     x="60"
+     y="1966"
+     fill="#ef4444"
+     font-size="13"
+     font-weight="700"
+     id="text267">FLOW 2: Undo/Redo</text>
+  <rect
+     x="60"
+     y="1978"
+     width="80"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect267" />
+  <text
+     x="100"
+     y="1994"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="9"
+     id="text268">Ctrl+Z</text>
+  <line
+     x1="140"
+     y1="1990"
+     x2="156"
+     y2="1990"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line268" />
+  <rect
+     x="158"
+     y="1978"
+     width="70"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect268" />
+  <text
+     x="193"
+     y="1994"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="9"
+     id="text269">store.undo()</text>
+  <line
+     x1="228"
+     y1="1990"
+     x2="244"
+     y2="1990"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line269" />
+  <rect
+     x="246"
+     y="1978"
+     width="100"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect269" />
+  <text
+     x="296"
+     y="1994"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="9"
+     id="text270">pop undoStack</text>
+  <line
+     x1="346"
+     y1="1990"
+     x2="362"
+     y2="1990"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line270" />
+  <rect
+     x="364"
+     y="1978"
+     width="100"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#06b6d4"
+     stroke-width="0.5"
+     id="rect270" />
+  <text
+     x="414"
+     y="1994"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="9"
+     id="text271">Object.assign</text>
+  <line
+     x1="464"
+     y1="1990"
+     x2="480"
+     y2="1990"
+     stroke="#475569"
+     stroke-width="1"
+     marker-end="url(#arrow)"
+     id="line271" />
+  <rect
+     x="482"
+     y="1978"
+     width="70"
+     height="24"
+     rx="6"
+     fill="#151c2e"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect271" />
+  <text
+     x="517"
+     y="1994"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="9"
+     id="text272">renderAll()</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 5: MODALS -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <text x="60" y="2070" fill="#38bdf8" font-size="22" font-weight="800">MODALS (8 total)</text>
-
-  <rect x="40" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
-  <text x="180" y="2116" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">RackModal</text>
-  <text x="180" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Create/Edit rack</text>
-  <text x="180" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">Name · Height (4-48U) · Color</text>
-  <text x="180" y="2162" text-anchor="middle" fill="#64748b" font-size="8">Height overflow warning</text>
-
-  <rect x="340" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#0ea5e9" stroke-width="1"/>
-  <text x="480" y="2116" text-anchor="middle" fill="#0ea5e9" font-size="12" font-weight="700">DeviceModal</text>
-  <text x="480" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Create/Edit device + catalog edit</text>
-  <text x="480" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">7 accordion modules (brand/skin/ports/etc)</text>
-  <text x="480" y="2162" text-anchor="middle" fill="#64748b" font-size="8">IP/MAC validation</text>
-
-  <rect x="640" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1"/>
-  <text x="780" y="2116" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">CableModal</text>
-  <text x="780" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Create/Edit connection</text>
-  <text x="780" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">Source/Dest · Ports · Cable type · Color</text>
-  <text x="780" y="2162" text-anchor="middle" fill="#64748b" font-size="8">Port auto-complete</text>
-
-  <rect x="940" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
-  <text x="1080" y="2116" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">RoomModal</text>
-  <text x="1080" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Create/Delete room</text>
-  <text x="1080" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">Name input</text>
-  <text x="1080" y="2162" text-anchor="middle" fill="#64748b" font-size="8">Confirmation dialog</text>
-
-  <rect x="1240" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
-  <text x="1380" y="2116" text-anchor="middle" fill="#8b5cf6" font-size="12" font-weight="700">ExportModal</text>
-  <text x="1380" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">PNG export (rack/floor/topology)</text>
-  <text x="1380" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">CSV · Excel (SheetJS) · JSON</text>
-  <text x="1380" y="2162" text-anchor="middle" fill="#64748b" font-size="8">Offscreen Canvas 2D</text>
-
-  <rect x="1540" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#06b6d4" stroke-width="1"/>
-  <text x="1680" y="2116" text-anchor="middle" fill="#06b6d4" font-size="12" font-weight="700">PlacementModal</text>
-  <text x="1680" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Assisted device placement</text>
-  <text x="1680" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">Room · Rack · Slot · Side selects</text>
-  <text x="1680" y="2162" text-anchor="middle" fill="#64748b" font-size="8">Cascading dropdowns</text>
-
-  <rect x="1840" y="2090" width="280" height="80" rx="10" fill="#0f172a" stroke="#f43f5e" stroke-width="1"/>
-  <text x="1980" y="2116" text-anchor="middle" fill="#f43f5e" font-size="12" font-weight="700">LoginModal</text>
-  <text x="1980" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Authentication</text>
-  <text x="1980" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">PIN input · Role buttons</text>
-  <text x="1980" y="2162" text-anchor="middle" fill="#64748b" font-size="8">SHA-256 hashing</text>
-
-  <rect x="2140" y="2090" width="220" height="80" rx="10" fill="#0f172a" stroke="#94a3b8" stroke-width="1"/>
-  <text x="2250" y="2116" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="700">ChangePINModal</text>
-  <text x="2250" y="2134" text-anchor="middle" fill="#94a3b8" font-size="9">Admin PIN change</text>
-  <text x="2250" y="2150" text-anchor="middle" fill="#94a3b8" font-size="9">Current · New · Confirm</text>
-  <text x="2250" y="2162" text-anchor="middle" fill="#64748b" font-size="8">Admin only</text>
-
+  <text
+     x="60"
+     y="2070"
+     fill="#38bdf8"
+     font-size="22"
+     font-weight="800"
+     id="text273">MODALS (8 total)</text>
+  <rect
+     x="40"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#10b981"
+     stroke-width="1"
+     id="rect273" />
+  <text
+     x="180"
+     y="2116"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="12"
+     font-weight="700"
+     id="text274">RackModal</text>
+  <text
+     x="180"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text275">Create/Edit rack</text>
+  <text
+     x="180"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text276">Name · Height (4-48U) · Color</text>
+  <text
+     x="180"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text277">Height overflow warning</text>
+  <rect
+     x="340"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#0ea5e9"
+     stroke-width="1"
+     id="rect277" />
+  <text
+     x="480"
+     y="2116"
+     text-anchor="middle"
+     fill="#0ea5e9"
+     font-size="12"
+     font-weight="700"
+     id="text278">DeviceModal</text>
+  <text
+     x="480"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text279">Create/Edit device + catalog edit</text>
+  <text
+     x="480"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text280">7 accordion modules (brand/skin/ports/etc)</text>
+  <text
+     x="480"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text281">IP/MAC validation</text>
+  <rect
+     x="640"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#f59e0b"
+     stroke-width="1"
+     id="rect281" />
+  <text
+     x="780"
+     y="2116"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="12"
+     font-weight="700"
+     id="text282">CableModal</text>
+  <text
+     x="780"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text283">Create/Edit connection</text>
+  <text
+     x="780"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text284">Source/Dest · Ports · Cable type · Color</text>
+  <text
+     x="780"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text285">Port auto-complete</text>
+  <rect
+     x="940"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#ef4444"
+     stroke-width="1"
+     id="rect285" />
+  <text
+     x="1080"
+     y="2116"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="12"
+     font-weight="700"
+     id="text286">RoomModal</text>
+  <text
+     x="1080"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text287">Create/Delete room</text>
+  <text
+     x="1080"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text288">Name input</text>
+  <text
+     x="1080"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text289">Confirmation dialog</text>
+  <rect
+     x="1240"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#8b5cf6"
+     stroke-width="1"
+     id="rect289" />
+  <text
+     x="1380"
+     y="2116"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="12"
+     font-weight="700"
+     id="text290">ExportModal</text>
+  <text
+     x="1380"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text291">PNG export (rack/floor/topology)</text>
+  <text
+     x="1380"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text292">CSV · Excel (SheetJS) · JSON</text>
+  <text
+     x="1380"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text293">Offscreen Canvas 2D</text>
+  <rect
+     x="1540"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#06b6d4"
+     stroke-width="1"
+     id="rect293" />
+  <text
+     x="1680"
+     y="2116"
+     text-anchor="middle"
+     fill="#06b6d4"
+     font-size="12"
+     font-weight="700"
+     id="text294">PlacementModal</text>
+  <text
+     x="1680"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text295">Assisted device placement</text>
+  <text
+     x="1680"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text296">Room · Rack · Slot · Side selects</text>
+  <text
+     x="1680"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text297">Cascading dropdowns</text>
+  <rect
+     x="1840"
+     y="2090"
+     width="280"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#f43f5e"
+     stroke-width="1"
+     id="rect297" />
+  <text
+     x="1980"
+     y="2116"
+     text-anchor="middle"
+     fill="#f43f5e"
+     font-size="12"
+     font-weight="700"
+     id="text298">LoginModal</text>
+  <text
+     x="1980"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text299">Authentication</text>
+  <text
+     x="1980"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text300">PIN input · Role buttons</text>
+  <text
+     x="1980"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text301">SHA-256 hashing</text>
+  <rect
+     x="2140"
+     y="2090"
+     width="220"
+     height="80"
+     rx="10"
+     fill="#0f172a"
+     stroke="#94a3b8"
+     stroke-width="1"
+     id="rect301" />
+  <text
+     x="2250"
+     y="2116"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="12"
+     font-weight="700"
+     id="text302">ChangePINModal</text>
+  <text
+     x="2250"
+     y="2134"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text303">Admin PIN change</text>
+  <text
+     x="2250"
+     y="2150"
+     text-anchor="middle"
+     fill="#94a3b8"
+     font-size="9"
+     id="text304">Current · New · Confirm</text>
+  <text
+     x="2250"
+     y="2162"
+     text-anchor="middle"
+     fill="#64748b"
+     font-size="8"
+     id="text305">Admin only</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 6: GRID LAYOUT -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <text x="60" y="2220" fill="#38bdf8" font-size="22" font-weight="800">CSS GRID LAYOUT</text>
-
-  <rect x="40" y="2240" width="1100" height="200" rx="12" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
-
+  <text
+     x="60"
+     y="2220"
+     fill="#38bdf8"
+     font-size="22"
+     font-weight="800"
+     id="text306">CSS GRID LAYOUT</text>
+  <rect
+     x="40"
+     y="2240"
+     width="1100"
+     height="200"
+     rx="12"
+     fill="#0f172a"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect306" />
   <!-- Grid visualization -->
-  <rect x="60" y="2260" width="220" height="40" rx="6" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="170" y="2286" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">header (56px)</text>
-  <rect x="290" y="2260" width="560" height="40" rx="6" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="570" y="2286" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">header (56px)</text>
-  <rect x="860" y="2260" width="270" height="40" rx="6" fill="#151c2e" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="995" y="2286" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">header (56px)</text>
-
-  <rect x="60" y="2310" width="220" height="80" rx="6" fill="#151c2e" stroke="#10b981" stroke-width="0.5"/>
-  <text x="170" y="2346" text-anchor="middle" fill="#10b981" font-size="10" font-weight="600">sidebar (280px)</text>
-  <rect x="290" y="2310" width="560" height="80" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="570" y="2346" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="600">main (1fr)</text>
-  <rect x="860" y="2310" width="270" height="80" rx="6" fill="#151c2e" stroke="#8b5cf6" stroke-width="0.5"/>
-  <text x="995" y="2346" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="600">right-panel (260px)</text>
-
-  <rect x="60" y="2400" width="1070" height="30" rx="6" fill="#151c2e" stroke="#ef4444" stroke-width="0.5"/>
-  <text x="595" y="2420" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="600">bottom (220px, spans all 3 columns)</text>
-
+  <rect
+     x="60"
+     y="2260"
+     width="220"
+     height="40"
+     rx="6"
+     fill="#151c2e"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect307" />
+  <text
+     x="170"
+     y="2286"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="10"
+     font-weight="600"
+     id="text307">header (56px)</text>
+  <rect
+     x="290"
+     y="2260"
+     width="560"
+     height="40"
+     rx="6"
+     fill="#151c2e"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect308" />
+  <text
+     x="570"
+     y="2286"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="10"
+     font-weight="600"
+     id="text308">header (56px)</text>
+  <rect
+     x="860"
+     y="2260"
+     width="270"
+     height="40"
+     rx="6"
+     fill="#151c2e"
+     stroke="#38bdf8"
+     stroke-width="0.5"
+     id="rect309" />
+  <text
+     x="995"
+     y="2286"
+     text-anchor="middle"
+     fill="#38bdf8"
+     font-size="10"
+     font-weight="600"
+     id="text309">header (56px)</text>
+  <rect
+     x="60"
+     y="2310"
+     width="220"
+     height="80"
+     rx="6"
+     fill="#151c2e"
+     stroke="#10b981"
+     stroke-width="0.5"
+     id="rect310" />
+  <text
+     x="170"
+     y="2346"
+     text-anchor="middle"
+     fill="#10b981"
+     font-size="10"
+     font-weight="600"
+     id="text310">sidebar (280px)</text>
+  <rect
+     x="290"
+     y="2310"
+     width="560"
+     height="80"
+     rx="6"
+     fill="#151c2e"
+     stroke="#f59e0b"
+     stroke-width="0.5"
+     id="rect311" />
+  <text
+     x="570"
+     y="2346"
+     text-anchor="middle"
+     fill="#f59e0b"
+     font-size="10"
+     font-weight="600"
+     id="text311">main (1fr)</text>
+  <rect
+     x="860"
+     y="2310"
+     width="270"
+     height="80"
+     rx="6"
+     fill="#151c2e"
+     stroke="#8b5cf6"
+     stroke-width="0.5"
+     id="rect312" />
+  <text
+     x="995"
+     y="2346"
+     text-anchor="middle"
+     fill="#8b5cf6"
+     font-size="10"
+     font-weight="600"
+     id="text312">right-panel (260px)</text>
+  <rect
+     x="60"
+     y="2400"
+     width="1070"
+     height="30"
+     rx="6"
+     fill="#151c2e"
+     stroke="#ef4444"
+     stroke-width="0.5"
+     id="rect313" />
+  <text
+     x="595"
+     y="2420"
+     text-anchor="middle"
+     fill="#ef4444"
+     font-size="10"
+     font-weight="600"
+     id="text313">bottom (220px, spans all 3 columns)</text>
   <!-- Grid areas text -->
-  <text x="1180" y="2270" fill="#64748b" font-size="10" font-weight="700">GRID AREAS:</text>
-  <text x="1180" y="2290" fill="#94a3b8" font-size="10" class="mono">grid-template-areas:</text>
-  <text x="1190" y="2308" fill="#94a3b8" font-size="10" class="mono">"header  header  header"</text>
-  <text x="1190" y="2326" fill="#94a3b8" font-size="10" class="mono">"sidebar main    right-panel"</text>
-  <text x="1190" y="2344" fill="#94a3b8" font-size="10" class="mono">"bottom  bottom  bottom"</text>
-
-  <text x="1180" y="2374" fill="#64748b" font-size="10" font-weight="700">CSS VARS:</text>
-  <text x="1180" y="2392" fill="#94a3b8" font-size="10" class="mono">--sidebar-w: 280px</text>
-  <text x="1180" y="2410" fill="#94a3b8" font-size="10" class="mono">--right-panel-w: 260px</text>
-  <text x="1180" y="2428" fill="#94a3b8" font-size="10" class="mono">--header-h: 56px</text>
-  <text x="1180" y="2446" fill="#94a3b8" font-size="10" class="mono">--bottom-h: 220px</text>
-
+  <text
+     x="1180"
+     y="2270"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text314">GRID AREAS:</text>
+  <text
+     x="1180"
+     y="2290"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text315">grid-template-areas:</text>
+  <text
+     x="1190"
+     y="2308"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text316">&quot;header  header  header&quot;</text>
+  <text
+     x="1190"
+     y="2326"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text317">&quot;sidebar main    right-panel&quot;</text>
+  <text
+     x="1190"
+     y="2344"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text318">&quot;bottom  bottom  bottom&quot;</text>
+  <text
+     x="1180"
+     y="2374"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text319">CSS VARS:</text>
+  <text
+     x="1180"
+     y="2392"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text320">--sidebar-w: 280px</text>
+  <text
+     x="1180"
+     y="2410"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text321">--right-panel-w: 260px</text>
+  <text
+     x="1180"
+     y="2428"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text322">--header-h: 56px</text>
+  <text
+     x="1180"
+     y="2446"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text323">--bottom-h: 220px</text>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- SECTION 7: FILE STRUCTURE -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <text x="60" y="2490" fill="#38bdf8" font-size="22" font-weight="800">FILE STRUCTURE</text>
-
-  <rect x="40" y="2510" width="1140" height="260" rx="12" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
-
-  <text x="60" y="2536" fill="#64748b" font-size="10" font-weight="700">CORE:</text>
-  <text x="100" y="2536" fill="#38bdf8" font-size="10" class="mono">store.js · main.js · utils.js · icons.js · demoData.js</text>
-
-  <text x="60" y="2556" fill="#64748b" font-size="10" font-weight="700">AUTH:</text>
-  <text x="100" y="2556" fill="#f59e0b" font-size="10" class="mono">js/auth/roles.js</text>
-
-  <text x="60" y="2576" fill="#64748b" font-size="10" font-weight="700">UI:</text>
-  <text x="100" y="2576" fill="#10b981" font-size="10" class="mono">catalog.js · rack.js · faceplates.js · tables.js · outliner.js · inspector.js · fileManager.js · modals.js</text>
-
-  <text x="60" y="2596" fill="#64748b" font-size="10" font-weight="700">MODALS:</text>
-  <text x="130" y="2596" fill="#8b5cf6" font-size="10" class="mono">RackModal.js · DeviceModal.js · CableModal.js · RoomModal.js · ExportModal.js · PlacementModal.js · Globals.js</text>
-
-  <text x="60" y="2616" fill="#64748b" font-size="10" font-weight="700">TOPOLOGY:</text>
-  <text x="140" y="2616" fill="#ef4444" font-size="10" class="mono">TopologyLayout.js · TopologyRenderer.js · TopologyEvents.js · TopologyOrchestrator.js · TopologyState.js</text>
-
-  <text x="60" y="2636" fill="#64748b" font-size="10" font-weight="700">VENDOR:</text>
-  <text x="130" y="2636" fill="#94a3b8" font-size="10" class="mono">xlsx.full.min.js · mobile-drag-drop.min.js · mobile-drag-drop-scroll.min.js</text>
-
-  <text x="60" y="2656" fill="#64748b" font-size="10" font-weight="700">CSS:</text>
-  <text x="100" y="2656" fill="#f59e0b" font-size="10" class="mono">variables.css · layout.css · panels.css · rack.css · faceplates.css · modals.css · misc.css</text>
-
-  <text x="60" y="2676" fill="#64748b" font-size="10" font-weight="700">HTML:</text>
-  <text x="100" y="2676" fill="#38bdf8" font-size="10" class="mono">index.html (all sections + modals + script tags)</text>
-
-  <text x="60" y="2696" fill="#64748b" font-size="10" font-weight="700">PWA:</text>
-  <text x="100" y="2696" fill="#10b981" font-size="10" class="mono">service-worker.js · json/manifest.json</text>
-
-  <text x="60" y="2716" fill="#64748b" font-size="10" font-weight="700">DOCS:</text>
-  <text x="110" y="2716" fill="#94a3b8" font-size="10" class="mono">AGENTS.md · .agents/DESIGN.md · .agents/INSTRUCTIONS.md · doc/</text>
-
-  <text x="60" y="2736" fill="#64748b" font-size="10" font-weight="700">SCRIPTS:</text>
-  <text x="130" y="2736" fill="#94a3b8" font-size="10" class="mono">.py/ (Python utility scripts)</text>
-
-  <text x="60" y="2756" fill="#64748b" font-size="10" font-weight="700">ASSETS:</text>
-  <text x="120" y="2756" fill="#94a3b8" font-size="10" class="mono">assets/icons/ (SVG device icons: server, switch, router, firewall, ups, storage, pc, etc.)</text>
-
+  <text
+     x="60"
+     y="2490"
+     fill="#38bdf8"
+     font-size="22"
+     font-weight="800"
+     id="text324">FILE STRUCTURE</text>
+  <rect
+     x="40"
+     y="2510"
+     width="1140"
+     height="260"
+     rx="12"
+     fill="#0f172a"
+     stroke="#25304b"
+     stroke-width="1"
+     id="rect324" />
+  <text
+     x="60"
+     y="2536"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text325">CORE:</text>
+  <text
+     x="100"
+     y="2536"
+     fill="#38bdf8"
+     font-size="10"
+     class="mono"
+     id="text326">store.js · main.js · utils.js · icons.js · demoData.js</text>
+  <text
+     x="60"
+     y="2556"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text327">AUTH:</text>
+  <text
+     x="100"
+     y="2556"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text328">js/auth/roles.js</text>
+  <text
+     x="60"
+     y="2576"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text329">UI:</text>
+  <text
+     x="100"
+     y="2576"
+     fill="#10b981"
+     font-size="10"
+     class="mono"
+     id="text330">catalog.js · rack.js · faceplates.js · tables.js · outliner.js · inspector.js · fileManager.js · modals.js</text>
+  <text
+     x="60"
+     y="2596"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text331">MODALS:</text>
+  <text
+     x="130"
+     y="2596"
+     fill="#8b5cf6"
+     font-size="10"
+     class="mono"
+     id="text332">RackModal.js · DeviceModal.js · CableModal.js · RoomModal.js · ExportModal.js · PlacementModal.js · Globals.js</text>
+  <text
+     x="60"
+     y="2616"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text333">TOPOLOGY:</text>
+  <text
+     x="140"
+     y="2616"
+     fill="#ef4444"
+     font-size="10"
+     class="mono"
+     id="text334">TopologyLayout.js · TopologyRenderer.js · TopologyEvents.js · TopologyOrchestrator.js · TopologyState.js</text>
+  <text
+     x="60"
+     y="2636"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text335">VENDOR:</text>
+  <text
+     x="130"
+     y="2636"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text336">xlsx.full.min.js · mobile-drag-drop.min.js · mobile-drag-drop-scroll.min.js</text>
+  <text
+     x="60"
+     y="2656"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text337">CSS:</text>
+  <text
+     x="100"
+     y="2656"
+     fill="#f59e0b"
+     font-size="10"
+     class="mono"
+     id="text338">variables.css · layout.css · panels.css · rack.css · faceplates.css · modals.css · misc.css</text>
+  <text
+     x="60"
+     y="2676"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text339">HTML:</text>
+  <text
+     x="100"
+     y="2676"
+     fill="#38bdf8"
+     font-size="10"
+     class="mono"
+     id="text340">index.html (all sections + modals + script tags)</text>
+  <text
+     x="60"
+     y="2696"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text341">PWA:</text>
+  <text
+     x="100"
+     y="2696"
+     fill="#10b981"
+     font-size="10"
+     class="mono"
+     id="text342">service-worker.js · json/manifest.json</text>
+  <text
+     x="60"
+     y="2716"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text343">DOCS:</text>
+  <text
+     x="110"
+     y="2716"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text344">AGENTS.md · .agents/DESIGN.md · .agents/INSTRUCTIONS.md · doc/</text>
+  <text
+     x="60"
+     y="2736"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text345">SCRIPTS:</text>
+  <text
+     x="130"
+     y="2736"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text346">.py/ (Python utility scripts)</text>
+  <text
+     x="60"
+     y="2756"
+     fill="#64748b"
+     font-size="10"
+     font-weight="700"
+     id="text347">ASSETS:</text>
+  <text
+     x="120"
+     y="2756"
+     fill="#94a3b8"
+     font-size="10"
+     class="mono"
+     id="text348">assets/icons/ (SVG device icons: server, switch, router, firewall, ups, storage, pc, etc.)</text>
 </svg>
