@@ -1,3 +1,19 @@
+## [2026-07-13] Saneamiento de Deuda Técnica y Manual de Usuario Definitivo
+
+### Saneamiento de Estructura y Código Muerto
+- **Eliminación de Directorios Residuales:** Eliminada la carpeta vacía `js/core/` y la carpeta `js/service/` (junto con su archivo duplicado inactivo `service-worker.js`).
+- **Limpieza de Documentación:** Actualizado el archivo [README.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/README.md) y las reglas en [AGENTS.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/AGENTS.md) para remover referencias obsoletas a `js/models/`, `js/api/` y `js/core/`, sincronizando los manuales técnicos con el estado real del repositorio.
+
+### Documentación de Usuario y Ayudas Visuales
+- **Reescritura del Manual de Usuario:** Redactado un manual de usuario completo y amigable para principiantes en [USER_MANUAL.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/USER_MANUAL.md).
+- **Esquemas de Ayuda Visual (SVGs):** Creados 3 diagramas didácticos embebidos en el manual:
+  - [manual_ui_overview.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/manual_ui_overview.svg) (corregido según el CSS Grid de la interfaz real del proyecto).
+  - [manual_rack_anatomy.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/manual_rack_anatomy.svg) (explicación de racks y unidades U).
+  - [manual_action_flow.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/manual_action_flow.svg) (flujo interactivo básico).
+- **Tutoriales Paso a Paso:** Añadidas guías para 3 escenarios de diseño reales (Híbrido, Solo Racks, y Solo Piso).
+
+---
+
 ## [2026-07-12] Auditoría de Código y Resolución de Errores de Diseño y Seguridad
 
 ### Corrección de Errores de Seguridad y Integridad offline

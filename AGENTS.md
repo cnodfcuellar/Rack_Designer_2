@@ -24,7 +24,6 @@ All JS loaded via `<script>` tags in `index.html` (lines ~540-579). **Not ES mod
 - `js/ui/` — View layer (DOM rendering)
 - `js/ui/topology/` — Canvas 2D topology engine (5 files, MVC-ish)
 - `js/ui/modals/` — Individual modal components
-- `js/models/` — Domain classes (Rack, Device, Cable) — **currently unused** (dead code)
 - `js/auth/roles.js` — RBAC with SHA-256 (exposed as `window.RackAuth`)
 - `css/` — Modular CSS (variables, layout, components)
 - `.agents/` — AI agent profiles and design rules (DESIGN.md, INSTRUCTIONS.md)
@@ -62,8 +61,3 @@ Root `service-worker.js` is the one registered (not `js/service/service-worker.j
 
 ## Testing
 No working tests. `tests/Rack.test.js` is fully commented out. No test framework configured.
-
-## Known Dead Code
-- `js/models/Rack.js`, `Device.js`, `Cable.js` — classes never instantiated
-- `js/api/apiClient.js` — module never imported
-- `js/core/export.js` — module never imported

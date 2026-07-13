@@ -22,13 +22,11 @@ El proyecto emula un comportamiento estilo *React/Redux* usando un **Proxy ES6 n
 ### 3. Estructura de Directorios (Segmentación Estricta)
 Para mantener el código mantenible, no mezcles lógica:
 
-* `/js/models/`: **Lógica de Negocio Pura.** Clases base que definen qué es un Rack, un Equipo o un Cable (`Rack.js`, `Device.js`, `Cable.js`).
-* `/js/api/` y `/js/core/`: Conexión externa (mocks) y utilidades pesadas como exportación JSON.
-* `/js/store.js`: **Persistencia y Reactividad.** Define cómo mutan los datos. No sabe nada de HTML o CSS, sólo coordina los Modelos y dispara eventos.
+* `/js/store.js`: **Persistencia y Reactividad (Proxy).** El cerebro del estado. Define cómo mutan los datos, realiza auto-guardado en localStorage y emite eventos globales.
 * `/js/utils.js`: Funciones auxiliares genéricas (generación de UUIDs, validaciones).
-* `/js/ui/`: **La Vista.** Aquí van los componentes que pintan el HTML (ej. `rack.js`, `topology.js`, `modals.js`, `outliner.js`, `inspector.js`). Estos archivos leen del store y generan el DOM.
-* `/css/` y `/assets/`: Estilos CSS segmentados y recursos estáticos (imágenes).
-* `/doc/` y `/tests/`: Documentación y pruebas unitarias base.
+* `/js/ui/`: **La Vista (DOM y Canvas).** Módulos que renderizan la interfaz (ej. `rack.js`, `tables.js`, `outliner.js`, y el motor de dibujo `topology/`). Leen el estado y manejan las interacciones.
+* `/css/` y `/assets/`: Estilos CSS modulares y recursos estáticos (imágenes).
+* `/doc/` y `/tests/`: Documentación del sistema y pruebas unitarias.
 
 ### 4. ¿Dónde encontrar la documentación técnica profunda?
 Antes de tocar el código de renderizado o intentar entender cómo funciona el Canvas de la Topología o el Drag & Drop, abre los siguientes archivos:
