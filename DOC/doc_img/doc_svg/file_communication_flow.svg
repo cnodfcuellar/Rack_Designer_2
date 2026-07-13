@@ -69,8 +69,8 @@
   <g transform="translate(265, 230)">
     <rect width="200" height="70" rx="8" fill="#151c2e" stroke="#6366f1" stroke-width="1.5"/>
     <text x="14" y="26" class="box-title">rack.js &amp; faceplates.js</text>
-    <text x="14" y="44" class="box-desc">Gabinetes &amp; Chasis CSS</text>
-    <text x="14" y="56" class="box-desc mono">renderRacks()</text>
+    <text x="14" y="44" class="box-desc">Gabinetes, Chasis CSS &amp; Cables SVG</text>
+    <text x="14" y="56" class="box-desc mono">renderRacks() · drawPhysicalCables()</text>
   </g>
 
   <!-- outliner.js -->
