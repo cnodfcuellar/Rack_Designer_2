@@ -730,3 +730,10 @@ El proyecto RACK Designer Next es una app web vanilla que:
 8. **Exporta** a PNG, CSV, Excel y JSON
 
 **La regla mas importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.
+
+---
+## 9. Renderizado de Cableado Físico
+A diferencia de la topología (Canvas), el cableado físico 2D se resuelve inyectando dinámicamente un lienzo <svg> (#physical-cables-svg) sobre #view-physical-content.
+*   Los componentes de aceplates.js inyectan anclajes data-device-id y data-port al DOM.
+*   drawPhysicalCables() (en 
+ack.js) procesa las conexiones y traza trayectorias ortogonales bordeando las tarjetas de rack de manera reactiva.

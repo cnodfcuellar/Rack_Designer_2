@@ -129,3 +129,14 @@ Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos 
 ¡Has completado tu capacitación básica! Ahora sabes cómo navegar por la aplicación, qué significan los conceptos, cómo arrastrar componentes y cómo estructurar cuartos enteros según tus necesidades del mundo real. 
 
 Si te equivocas, recuerda usar la opción de **Deshacer (Undo)** o simplemente seleccionar el equipo mal colocado y presionar el botón **Eliminar (Trash/Basurero)** en el Inspector (Panel Derecho).
+
+---
+
+## 🔌 Parte 4: Visualización de Conexiones Físicas
+
+¡Ahora también puedes visualizar cómo están conectados los cables en la vida real!
+1. Crea una conexión entre dos equipos en la pestaña de Inventario ("+ Conexión").
+2. Ve a la **Vista Física** (botón superior central).
+3. Haz clic en el interruptor deslizable **"Cables"** de la barra de herramientas.
+4. Verás que se dibujan automáticamente los cables desde los puertos, organizados ortogonalmente y agrupándose en los bordes del rack.
+5. Usa el botón rotar del rack para ver la parte trasera (Rear View) desde donde nacen las conexiones.

@@ -77,3 +77,9 @@ Arquitectura modular de estilos.
 * **`scripts/`**: Pequeños programas Node.js de construcción. Por ejemplo, `build_standalone_manual.cjs` (combina archivos Markdown usando `marked` en un solo manual HTML).
 * **`tests/`**: Suite de pruebas y TDD (Test Driven Development) para proteger componentes críticos. Nota: Actualmente sin tests funcionales (comentados).
 * **`.py/`**: Directorio aislado para scripts analíticos auxiliares de Python.
+
+---
+## Actualización: Enrutamiento de Cables Físicos (2D)
+Implementado el trazado estético de cables punto a punto en Vista Física.
+*   Se descartó el 3D en favor de SVG superpuesto con enrutamiento ortogonal (líneas escondidas en los rieles laterales).
+*   Se desarrolló un interruptor visual (.ui-switch) en la barra principal para activar la capa vectorial.

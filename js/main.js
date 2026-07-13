@@ -300,12 +300,14 @@ function initGlobalEvents() {
       const btnStyle = document.getElementById('btn-topo-style');
       const spacingSlider = document.getElementById('topo-spacing');
       const btnAutoOrd = document.getElementById('btn-topo-autoorder');
+      const btnCables = document.getElementById('btn-toggle-cables');
       if (currentView === 'physical') {
         phys.classList.remove('hidden');
         topo.style.display = 'none';
         if (btnStyle) btnStyle.classList.add('force-hide');
         if (spacingSlider) spacingSlider.classList.add('force-hide');
         if (btnAutoOrd) btnAutoOrd.classList.add('force-hide');
+        if (btnCables) btnCables.classList.remove('force-hide');
         stopTopo();
       } else {
         phys.classList.add('hidden');
@@ -313,6 +315,7 @@ function initGlobalEvents() {
         if (btnStyle) btnStyle.classList.remove('force-hide');
         if (spacingSlider) spacingSlider.classList.remove('force-hide');
         if (btnAutoOrd) btnAutoOrd.classList.remove('force-hide');
+        if (btnCables) btnCables.classList.add('force-hide');
         startTopo();
       }
     });
@@ -608,6 +611,17 @@ function initGlobalEvents() {
   if(addDevTableBtn) addDevTableBtn.addEventListener('click', openAddDeviceModal);
   const addPlacementTableBtn = document.getElementById('table-btn-add-placement');
   if(addPlacementTableBtn) addPlacementTableBtn.addEventListener('click', () => openQuickPlacementModal(null));
+  
+  const checkboxCables = document.getElementById('checkbox-toggle-cables');
+  if (checkboxCables) {
+    checkboxCables.addEventListener('change', () => {
+      const svg = document.getElementById('physical-cables-svg');
+      if (svg) {
+        svg.style.display = checkboxCables.checked ? 'block' : 'none';
+      }
+    });
+  }
+  
   const addConnTableBtn = document.getElementById('table-btn-add-conn');
   if(addConnTableBtn) addConnTableBtn.addEventListener('click', () => openCableModal());
   document.getElementById('btn-undo').addEventListener('click', () => store.undo());

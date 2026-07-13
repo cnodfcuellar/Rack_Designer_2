@@ -121,7 +121,8 @@ function renderPhysical() {
     </div>
   `;
 
-  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start; width: 100%;">
+  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start; width: 100%; position:relative;">
+    <svg id="physical-cables-svg" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; overflow:visible; display:none;"></svg>
     <div style="display:flex; flex-wrap:wrap; gap:24px; width:100%;">${racksHTML}${addRackHTML}</div>
   </div>`;
 
@@ -130,6 +131,98 @@ function renderPhysical() {
 
   bindRackEvents(container, flippedRacks);
   updateZoomLabel();
+  setTimeout(drawPhysicalCables, 50);
+}
+
+function drawPhysicalCables() {
+  const svg = document.getElementById('physical-cables-svg');
+  const container = document.getElementById('view-physical-content');
+  if (!svg || !container) return;
+  svg.innerHTML = '';
+  
+  const conns = store._raw.connections || [];
+  if (!conns.length) return;
+  
+  const checkboxCables = document.getElementById('checkbox-toggle-cables');
+  if (checkboxCables) {
+    svg.style.display = checkboxCables.checked ? 'block' : 'none';
+  }
+  
+  const containerRect = container.getBoundingClientRect();
+  const scale = containerRect.width ? container.offsetWidth / containerRect.width : 1;
+
+  const getPos = (el) => {
+    const rect = el.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2 - containerRect.left) * scale;
+    const y = (rect.top + rect.height / 2 - containerRect.top) * scale;
+    
+    let edgeX = x + 40; // Default edge for non-rack elements
+    const rackCard = el.closest('.rack-card');
+    if (rackCard) {
+      const rackRect = rackCard.getBoundingClientRect();
+      edgeX = (rackRect.right - containerRect.left) * scale - 2; // Hug the right edge
+    }
+    return { x, y, edgeX };
+  };
+
+  conns.forEach(c => {
+    let srcEl = document.querySelector(`.rear-port-jack[data-device-id="${c.sourceDeviceId}"][data-port="${escapeHTML(c.sourcePort)}"]`);
+    if (!srcEl) srcEl = document.querySelector(`[data-device-id="${c.sourceDeviceId}"]`);
+    
+    let dstEl = document.querySelector(`.rear-port-jack[data-device-id="${c.targetDeviceId}"][data-port="${escapeHTML(c.targetPort)}"]`);
+    if (!dstEl) dstEl = document.querySelector(`[data-device-id="${c.targetDeviceId}"]`);
+    
+    if (srcEl && dstEl) {
+      const p1 = getPos(srcEl);
+      const p2 = getPos(dstEl);
+      
+      const midX = Math.max(p1.edgeX, p2.edgeX) + 10; // Common trunk line
+      const r = 8; // Border radius for corners
+      
+      const dirY = p2.y > p1.y ? 1 : -1;
+      const dirX1 = midX > p1.x ? 1 : -1;
+      const dirX2 = p2.x > midX ? 1 : -1;
+      
+      let pathStr = '';
+      if (Math.abs(midX - p1.x) < r || Math.abs(p2.y - p1.y) < r*2) {
+        // Fallback for very close elements
+        pathStr = `M ${p1.x} ${p1.y} L ${midX} ${p1.y} L ${midX} ${p2.y} L ${p2.x} ${p2.y}`;
+      } else {
+        pathStr = `M ${p1.x} ${p1.y} `;
+        pathStr += `L ${midX - r*dirX1} ${p1.y} `;
+        pathStr += `Q ${midX} ${p1.y}, ${midX} ${p1.y + r*dirY} `;
+        pathStr += `L ${midX} ${p2.y - r*dirY} `;
+        pathStr += `Q ${midX} ${p2.y}, ${midX + r*dirX2} ${p2.y} `;
+        pathStr += `L ${p2.x} ${p2.y}`;
+      }
+      
+      const cableColor = c.color || '#3b82f6';
+      
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', pathStr);
+      path.setAttribute('stroke', cableColor);
+      path.setAttribute('stroke-width', '2.5');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke-linejoin', 'round');
+      path.setAttribute('stroke-linecap', 'round');
+      
+      const circle1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle1.setAttribute('cx', p1.x);
+      circle1.setAttribute('cy', p1.y);
+      circle1.setAttribute('r', '2');
+      circle1.setAttribute('fill', '#fff');
+
+      const circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle2.setAttribute('cx', p2.x);
+      circle2.setAttribute('cy', p2.y);
+      circle2.setAttribute('r', '2');
+      circle2.setAttribute('fill', '#fff');
+
+      svg.appendChild(path);
+      svg.appendChild(circle1);
+      svg.appendChild(circle2);
+    }
+  });
 }
 
 function bindRackEvents(container, flippedRacks) {
@@ -145,6 +238,7 @@ function bindRackEvents(container, flippedRacks) {
       if (face) face.style.pointerEvents = isFlipped ? 'none' : 'auto';
       if (rear) rear.style.pointerEvents = isFlipped ? 'auto' : 'none';
       btn.innerHTML = isFlipped ? '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>';
+      setTimeout(drawPhysicalCables, 10);
     });
   });
   container.querySelectorAll('[data-rack-menu-toggle]').forEach(btn => {
@@ -571,4 +665,13 @@ function renderFloorSection(roomId) {
   }
 
   return section;
+}
+
+if (!window._physicalCablesBound) {
+  window.addEventListener('resize', () => {
+    if (document.getElementById('view-physical') && document.getElementById('view-physical').classList.contains('active')) {
+      drawPhysicalCables();
+    }
+  });
+  window._physicalCablesBound = true;
 }

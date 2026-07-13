@@ -148,6 +148,14 @@
       <span class="zoom-label" id="zoom-level">100%</span>
       <button class="h-btn" id="btn-zoom-in" aria-label="Acercar zoom">+</button>
       <button class="h-btn" id="btn-zoom-reset" aria-label="Restablecer zoom a escala original">⊙ 1:1</button>
+      
+      <!-- Botón para ocultar/mostrar cables en Vista Física -->
+      <label class="ui-switch" id="btn-toggle-cables" title="Ocultar o mostrar conexiones">
+        <input type="checkbox" id="checkbox-toggle-cables">
+        <span class="ui-slider"></span>
+        <span class="ui-switch-label"><i class="svg-icon icon-plug" style="width:14px; height:14px; margin-right:4px; vertical-align:middle;"></i>Cables</span>
+      </label>
+
       <button class="h-btn force-hide" id="btn-topo-style"><i class="svg-icon icon-sliders" style="width:14px; height:14px; margin-right:4px;"></i>Estilo</button>
       <input type="range" id="topo-spacing" min="40" max="150" value="60" class="topo-slider force-hide" title="Espaciado de Nodos">
       <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Auto-Orden</button>

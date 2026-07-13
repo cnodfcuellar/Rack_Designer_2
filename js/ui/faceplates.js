@@ -112,7 +112,7 @@ function buildFaceplate(device, heightPx) {
   const imgSrc = device.skin ? `assets/img/${device.skin}` : `assets/svg/${category}/${type}.svg`;
   
   return `
-    <div class="faceplate-wrapper" style="height:${h}px; width:100%; position:relative; overflow:hidden; border-radius: 4px;">
+    <div class="faceplate-wrapper" data-device-id="${device.id}" style="height:${h}px; width:100%; position:relative; overflow:hidden; border-radius: 4px;">
       <img src="${imgSrc}" 
            style="width:100%; height:100%; object-fit:contain; position:absolute; inset:0; z-index:2; display:block;"
            onload="this.nextElementSibling.style.display='none';" 
@@ -197,7 +197,7 @@ function buildRearView(rack, devices) {
           const peerName = peer ? peer.name.slice(0, 14) : '?';
           const cableColor = conn.color || '#3b82f6';
           return `<div class="rear-port" title="${escapeHTML(port)} → ${escapeHTML(peerName)}">
-            <div class="rear-port-jack active" style="--cable-color:${escapeHTML(cableColor)}"></div>
+            <div class="rear-port-jack active" data-device-id="${dev.id}" data-port="${escapeHTML(port)}" style="--cable-color:${escapeHTML(cableColor)}"></div>
             <div class="rear-port-label">${escapeHTML(port)}</div>
           </div>`;
         }).join('');
