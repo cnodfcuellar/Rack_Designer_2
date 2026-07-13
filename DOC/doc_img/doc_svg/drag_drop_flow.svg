@@ -139,7 +139,7 @@
   <text x="560" y="654" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" font-weight="700" letter-spacing="2">ON SUCCESSFUL DROP → STORE UPDATE</text>
   <text x="280" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#e2e8f0">store.data.devices.push(newDevice)</text>
   <text x="560" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#94a3b8">→ ES6 Proxy fires</text>
-  <text x="800" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#4ade80">→ rack.js re-renders slot</text>
+  <text x="800" y="678" text-anchor="middle" font-family="'Segoe UI', monospace" font-size="11" fill="#4ade80">→ rack.js re-renders slot &amp; cables</text>
 
   <!-- Footer -->
   <line x1="40" y1="768" x2="1060" y2="768" stroke="#fff" stroke-width="0.3" stroke-opacity="0.1"/>
