@@ -50,11 +50,11 @@ window.renderInspector = function(entityType, entityId) {
     let html = `
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+          <div style="background:var(--accent-glow); color:var(--accent); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
             <i class="${getIconForDeviceType(dev.type)}"></i>
           </div>
           <div style="flex:1; overflow:hidden;">
-            <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;" title="${escapeHTML(dev.name)}">${escapeHTML(dev.name)}</div>
+            <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;" title="${escapeHTML(dev.name)}">${escapeHTML(dev.name)}</div>
             <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">${escapeHTML(dev.type)}</div>
           </div>
         </div>
@@ -63,12 +63,12 @@ window.renderInspector = function(entityType, entityId) {
           
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Ubicación:</span>
-            <span style="color:var(--text); font-size:12px; font-weight:600;" title="${locationStr}">${locationStr.length > 18 ? locationStr.substring(0, 15) + '...' : locationStr}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;" title="${locationStr}">${locationStr.length > 18 ? locationStr.substring(0, 15) + '...' : locationStr}</span>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Tipo:</span>
-            <span style="color:var(--text); font-size:12px; font-weight:600;">${escapeHTML(String(dev.type).toUpperCase())}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${escapeHTML(String(dev.type).toUpperCase())}</span>
           </div>
     `;
 
@@ -76,7 +76,7 @@ window.renderInspector = function(entityType, entityId) {
       html += `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">IP:</span>
-            <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.ip)}</span>
+            <span style="color:var(--accent); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.ip)}</span>
           </div>
       `;
     }
@@ -85,7 +85,7 @@ window.renderInspector = function(entityType, entityId) {
       html += `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">MAC:</span>
-            <span style="color:var(--purple); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.mac)}</span>
+            <span style="color:var(--accent); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.mac)}</span>
           </div>
       `;
     }
@@ -93,12 +93,12 @@ window.renderInspector = function(entityType, entityId) {
     html += `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Usuario:</span>
-            <span style="color:var(--text); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.user || 'N/A')}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.user || 'N/A')}</span>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Contraseña:</span>
-            <span style="color:var(--text); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A')}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A')}</span>
           </div>
     `;
 
@@ -129,11 +129,11 @@ window.renderInspector = function(entityType, entityId) {
     let html = `
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+          <div style="background:var(--accent-glow); color:var(--accent); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
             <i class="svg-icon icon-server" style="width:16px; height:16px;"></i>
           </div>
           <div style="flex:1; overflow:hidden;">
-            <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</div>
+            <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</div>
             <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">GABINETE</div>
           </div>
         </div>
@@ -141,11 +141,11 @@ window.renderInspector = function(entityType, entityId) {
         <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Ubicación:</span>
-            <span style="color:var(--text); font-size:12px; font-weight:600;">${room ? escapeHTML(room.name) : 'Desconocida'}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${room ? escapeHTML(room.name) : 'Desconocida'}</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Capacidad:</span>
-            <span style="color:var(--text); font-size:12px; font-weight:600;">${rack.height} U</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${rack.height} U</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Color:</span>
@@ -172,11 +172,11 @@ window.renderInspector = function(entityType, entityId) {
     let html = `
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <div style="background:var(--blue); color:white; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+          <div style="background:var(--accent-glow); color:var(--accent); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
             <i class="svg-icon icon-building" style="width:16px; height:16px;"></i>
           </div>
           <div style="flex:1; overflow:hidden;">
-            <div style="font-weight:bold; color:var(--text); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(room.name)}</div>
+            <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(room.name)}</div>
             <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">SALA / DATACENTER</div>
           </div>
         </div>
@@ -184,11 +184,11 @@ window.renderInspector = function(entityType, entityId) {
         <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Total Gabinetes:</span>
-            <span style="color:var(--text); font-size:12px; font-weight:600;">${racksCount}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${racksCount}</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Total Equipos:</span>
-            <span style="color:var(--text); font-size:12px; font-weight:600;">${devsCount}</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${devsCount}</span>
           </div>
         </div>
       </div>

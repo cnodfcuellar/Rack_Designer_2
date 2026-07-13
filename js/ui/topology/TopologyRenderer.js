@@ -288,17 +288,17 @@ function drawTopo() {
       ctx.roundRect(hudX, hudY, hudW, hudH, 8);
       ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
       ctx.fill();
-      ctx.strokeStyle = TYPE_COLORS[dev.type] || '#38bdf8';
+      ctx.strokeStyle = (dev && dev.type && TYPE_COLORS[dev.type]) || '#38bdf8';
       ctx.lineWidth = 2;
       ctx.stroke();
 
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 13px "Space Grotesk", sans-serif';
-      ctx.fillText(dev.name, hudX + 12, hudY + 24);
+      ctx.fillText(dev.name || 'Desconocido', hudX + 12, hudY + 24);
       
       ctx.fillStyle = '#94a3b8';
       ctx.font = '11px "JetBrains Mono", monospace';
-      ctx.fillText(`Tipo:  ${dev.type.toUpperCase()}`, hudX + 12, hudY + 44);
+      ctx.fillText(`Tipo:  ${String(dev.type || 'unknown').toUpperCase()}`, hudX + 12, hudY + 44);
       ctx.fillText(`IP:    ${dev.ip || 'N/A'}`, hudX + 12, hudY + 59);
       ctx.fillText(`User:  ${dev.user || 'N/A'}`, hudX + 12, hudY + 74);
       ctx.fillText(`Pass:  ${dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A'}`, hudX + 12, hudY + 89);

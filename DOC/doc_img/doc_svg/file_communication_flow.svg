@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1100" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .title { font-weight: 800; fill: #38bdf8; }
+      .subtitle { fill: #8b9ab8; font-weight: 400; }
+      .meta { fill: #64748b; font-size: 11px; }
+      .box-title { font-weight: 700; font-size: 13px; fill: #f0f4ff; }
+      .box-desc { font-size: 10px; fill: #94a3b8; }
+      .flow-label { font-size: 10px; fill: #38bdf8; font-weight: 600; }
+      .flow-label-green { font-size: 10px; fill: #10b981; font-weight: 600; }
+      .flow-label-amber { font-size: 10px; fill: #f59e0b; font-weight: 600; }
+      
+      /* Arrows style */
+      .arrow-action { stroke: #38bdf8; stroke-width: 1.5; stroke-dasharray: 4,2; fill: none; }
+      .arrow-render { stroke: #10b981; stroke-width: 2; fill: none; }
+      .arrow-auth { stroke: #f59e0b; stroke-width: 1.5; fill: none; }
+      .arrow-data { stroke: #6366f1; stroke-width: 1.5; fill: none; }
+    </style>
+    
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-indigo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1100" fill="#0b0f19" rx="16"/>
+  <rect width="1400" height="1100" fill="none" stroke="#25304b" stroke-width="2" rx="16"/>
+
+  <!-- ========================================== -->
+  <!-- TITLE BLOCK -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 40)">
+    <rect width="1320" height="120" rx="12" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+    <text x="660" y="52" text-anchor="middle" font-size="28" class="title">⚡ RACK DESIGNER NEXT — COMUNICACIÓN INTER-MÓDULO</text>
+    <text x="660" y="80" text-anchor="middle" font-size="15" class="subtitle">Diagrama de Flujo de Llamadas, Mutación de Estado y Renderizado Reactivo</text>
+    <text x="660" y="104" text-anchor="middle" font-size="11" class="meta mono">
+      Leyenda: [Línea Discontinua Azul] Acciones de Usuario/Eventos · [Línea Verde] Pipeline de Renderizado · [Línea Naranja] Flujo de Autenticación
+    </text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- CAPA DE PRESENTACIÓN / VISTA (UI) -->
+  <!-- ========================================== -->
+  <!-- Section Title -->
+  <text x="60" y="210" font-size="16" font-weight="700" fill="#38bdf8">1. COMPONENTES DE VISTA (INTERFAZ DE USUARIO)</text>
+
+  <!-- catalog.js -->
+  <g transform="translate(60, 230)">
+    <rect width="180" height="70" rx="8" fill="#151c2e" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="14" y="26" class="box-title">catalog.js</text>
+    <text x="14" y="44" class="box-desc">Listado de Plantillas</text>
+    <text x="14" y="56" class="box-desc mono">renderCatalog()</text>
+  </g>
+
+  <!-- rack.js & faceplates.js -->
+  <g transform="translate(265, 230)">
+    <rect width="200" height="70" rx="8" fill="#151c2e" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="14" y="26" class="box-title">rack.js &amp; faceplates.js</text>
+    <text x="14" y="44" class="box-desc">Gabinetes &amp; Chasis CSS</text>
+    <text x="14" y="56" class="box-desc mono">renderRacks()</text>
+  </g>
+
+  <!-- outliner.js -->
+  <g transform="translate(490, 230)">
+    <rect width="180" height="70" rx="8" fill="#151c2e" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="14" y="26" class="box-title">outliner.js</text>
+    <text x="14" y="44" class="box-desc">Árbol Jerárquico</text>
+    <text x="14" y="56" class="box-desc mono">renderOutliner()</text>
+  </g>
+
+  <!-- inspector.js -->
+  <g transform="translate(695, 230)">
+    <rect width="180" height="70" rx="8" fill="#151c2e" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="14" y="26" class="box-title">inspector.js</text>
+    <text x="14" y="44" class="box-desc">Detalles del Objeto</text>
+    <text x="14" y="56" class="box-desc mono">renderInspector()</text>
+  </g>
+
+  <!-- tables.js -->
+  <g transform="translate(900, 230)">
+    <rect width="180" height="70" rx="8" fill="#151c2e" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="14" y="26" class="box-title">tables.js</text>
+    <text x="14" y="44" class="box-desc">Inventario &amp; Conexiones</text>
+    <text x="14" y="56" class="box-desc mono">renderInventoryTable()</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- CAPA DE CONTROLADORES Y DIÁLOGOS (UI CONTROLLER) -->
+  <!-- ========================================== -->
+  <!-- modals.js & modals/* -->
+  <g transform="translate(60, 360)">
+    <rect width="405" height="110" rx="8" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5"/>
+    <text x="20" y="28" class="box-title">modals.js &amp; Sub-Modales (modals/*)</text>
+    <text x="20" y="46" class="box-desc">Diálogos de edición de hardware, conexiones, asistentes y descargas.</text>
+    <text x="20" y="62" class="box-desc mono">DeviceModal.js · RackModal.js · RoomModal.js</text>
+    <text x="20" y="78" class="box-desc mono">PlacementModal.js · ExportModal.js · CableModal.js</text>
+    <text x="20" y="94" class="box-desc mono">Globals.js</text>
+  </g>
+
+  <!-- topology/* (Canvas Engine) -->
+  <g transform="translate(1110, 230)">
+    <rect width="230" height="240" rx="12" fill="#2d122d" stroke="#ec4899" stroke-width="1.5"/>
+    <text x="16" y="28" class="box-title" fill="#f472b6">topology/ (Canvas Engine)</text>
+    <text x="16" y="46" class="box-desc">Lifecycle, dibujo y eventos de topología.</text>
+    
+    <!-- Sub-modules -->
+    <rect x="16" y="62" width="200" height="26" rx="4" fill="#0f172a" stroke="#4a124a" stroke-width="1"/>
+    <text x="24" y="79" font-size="10" fill="#f472b6">TopologyOrchestrator.js</text>
+
+    <rect x="16" y="94" width="200" height="26" rx="4" fill="#0f172a" stroke="#4a124a" stroke-width="1"/>
+    <text x="24" y="111" font-size="10" fill="#f472b6">TopologyRenderer.js (drawTopo)</text>
+
+    <rect x="16" y="126" width="200" height="26" rx="4" fill="#0f172a" stroke="#4a124a" stroke-width="1"/>
+    <text x="24" y="143" font-size="10" fill="#f472b6">TopologyEvents.js (Events)</text>
+
+    <rect x="16" y="158" width="200" height="26" rx="4" fill="#0f172a" stroke="#4a124a" stroke-width="1"/>
+    <text x="24" y="175" font-size="10" fill="#f472b6">TopologyLayout.js (Auto-Layout)</text>
+
+    <rect x="16" y="190" width="200" height="26" rx="4" fill="#0f172a" stroke="#4a124a" stroke-width="1"/>
+    <text x="24" y="207" font-size="10" fill="#f472b6">TopologyState.js (Canvas State)</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ORQUESTADOR CENTRAL -->
+  <!-- ========================================== -->
+  <!-- Section Title -->
+  <text x="60" y="525" font-size="16" font-weight="700" fill="#38bdf8">2. ORQUESTACIÓN Y DESPACHO DE EVENTOS</text>
+
+  <!-- main.js -->
+  <g transform="translate(60, 545)">
+    <rect width="680" height="150" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+    <text x="24" y="32" font-size="18" font-weight="800" fill="#38bdf8">main.js (Orquestador Central)</text>
+    <text x="24" y="52" class="box-desc">Conecta el ciclo de vida del DOM, inicializa la app y distribuye los renders.</text>
+    
+    <g transform="translate(24, 70)">
+      <rect width="290" height="60" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+      <text x="10" y="18" font-size="10" font-weight="700" fill="#38bdf8">Inicialización de App (onLoad)</text>
+      <text x="10" y="34" font-size="9" fill="#94a3b8">· Carga sesión con RackAuth.getCurrentUser()</text>
+      <text x="10" y="48" font-size="9" fill="#94a3b8">· Llama store.init() y monta manejadores de UI</text>
+
+      <rect x="310" y="0" width="310" height="60" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+      <text x="320" y="18" font-size="10" font-weight="700" fill="#10b981">Pipeline de Re-Render (renderAll)</text>
+      <text x="320" y="34" font-size="9" fill="#94a3b8">· Limpia vistas activas y paneles colapsables</text>
+      <text x="320" y="48" font-size="9" fill="#94a3b8">· Dispara renders de Outliner, Tablas, Racks y Canvas</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- CAPA DE SEGURIDAD Y DATOS (CORE) -->
+  <!-- ========================================== -->
+  <!-- Section Title -->
+  <text x="60" y="750" font-size="16" font-weight="700" fill="#10b981">3. CAPA DE SEGURIDAD Y DATOS (CEREBRO)</text>
+
+  <!-- roles.js -->
+  <g transform="translate(60, 770)">
+    <rect width="480" height="150" rx="12" fill="#1e1610" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="20" y="30" font-size="15" font-weight="700" fill="#f59e0b">roles.js (window.RackAuth)</text>
+    <text x="20" y="48" class="box-desc">Matriz de roles y seguridad criptográfica offline.</text>
+    <rect x="20" y="65" width="440" height="70" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="12" y="18" font-size="9" fill="#94a3b8" transform="translate(20,65)">· Valida PIN de Admin vía SHA-256 (con fallback JS puro)</text>
+    <text x="12" y="32" font-size="9" fill="#94a3b8" transform="translate(20,65)">· Genera token de sesión anti-tampering (UUID / fallback random)</text>
+    <text x="12" y="46" font-size="9" fill="#94a3b8" transform="translate(20,65)">· Responde consultas de permisos con can('action')</text>
+  </g>
+
+  <!-- store.js -->
+  <g transform="translate(560, 770)">
+    <rect width="480" height="150" rx="12" fill="#061e14" stroke="#10b981" stroke-width="2"/>
+    <text x="20" y="30" font-size="15" font-weight="700" fill="#10b981">store.js (window.store)</text>
+    <text x="20" y="48" class="box-desc">Único gestor del estado global. Propietario de la lógica de negocio.</text>
+    <rect x="20" y="65" width="440" height="70" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="12" y="18" font-size="9" fill="#34d399" transform="translate(20,65)">· Proxy ES6 intercepta todas las mutaciones del objeto state</text>
+    <text x="12" y="32" font-size="9" fill="#94a3b8" transform="translate(20,65)">· Guarda automáticamente en LocalStorage y emite evento 'change'</text>
+    <text x="12" y="46" font-size="9" fill="#94a3b8" transform="translate(20,65)">· Administra snapshots para Undo / Redo e integra demoData.js</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SISTEMA DE PERSISTENCIA Y EXPORTACIÓN -->
+  <!-- ========================================== -->
+  <!-- fileManager.js -->
+  <g transform="translate(60, 970)">
+    <rect width="250" height="80" rx="8" fill="#151c2e" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="14" y="26" class="box-title">fileManager.js</text>
+    <text x="14" y="44" class="box-desc">Manejador de archivos del proyecto</text>
+    <text x="14" y="58" class="box-desc mono">Guardado manual/auto a disco</text>
+  </g>
+
+  <!-- LocalStorage / SessionStorage -->
+  <g transform="translate(560, 970)">
+    <rect width="480" height="80" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="20" y="28" class="box-title" fill="#10b981">Navegador (LocalStorage &amp; SessionStorage)</text>
+    <text x="20" y="46" class="box-desc">Persistencia persistente de racks y sesión de usuario activa.</text>
+    <text x="20" y="62" class="box-desc mono">Claves: RACK_DESIGNER_NEXT_STATE · RACK_SESSION_USER</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- FLOW LINES & COMMUNICATION PATHS -->
+  <!-- ========================================== -->
+
+  <!-- 1. USER INTERACTION: UI to main.js -->
+  <!-- catalog.js to main.js -->
+  <path d="M 150,300 L 150,545" class="arrow-action" marker-end="url(#arrow-blue)"/>
+  <!-- outliner.js to main.js -->
+  <path d="M 580,300 L 580,545" class="arrow-action" marker-end="url(#arrow-blue)"/>
+  <!-- tables.js to main.js -->
+  <path d="M 990,265 L 1050,265 L 1050,510 L 680,510 L 680,545" class="arrow-action" marker-end="url(#arrow-blue)"/>
+  <!-- modals.js to main.js -->
+  <path d="M 260,470 L 260,545" class="arrow-action" marker-end="url(#arrow-blue)"/>
+  <!-- topology to main.js -->
+  <path d="M 1110,350 L 740,350 L 740,545" class="arrow-action" marker-end="url(#arrow-blue)"/>
+  <text x="746" y="340" class="flow-label">User Event (Clicks, Drags, Forms)</text>
+
+  <!-- 2. UI / main.js to store.js (Mutation Call) -->
+  <path d="M 400,695 L 400,735 L 800,735 L 800,770" class="arrow-action" marker-end="url(#arrow-blue)"/>
+  <text x="590" y="730" class="flow-label">State Mutator Call (e.g. addDeviceToRack)</text>
+
+  <!-- 3. UI to roles.js (Auth Guards) -->
+  <path d="M 200,695 L 200,770" class="arrow-auth" marker-end="url(#arrow-amber)"/>
+  <text x="206" y="745" class="flow-label-amber">Permission check: RackAuth.can()</text>
+
+  <!-- 4. store.js to LocalStorage (Serialization) -->
+  <path d="M 800,920 L 800,970" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <text x="806" y="945" class="flow-label-green">Auto-Save State (JSON stringify)</text>
+
+  <!-- 5. store.js back to main.js (Reactivity dispatch) -->
+  <path d="M 680,770 L 680,695" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <text x="686" y="745" class="flow-label-green">Emit 'change' event (Proxy trap triggered)</text>
+
+  <!-- 6. main.js to UI elements (Re-render Pipeline) -->
+  <!-- main.js to catalog.js -->
+  <path d="M 100,545 L 100,300" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <!-- main.js to rack.js -->
+  <path d="M 365,545 L 365,300" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <!-- main.js to outliner.js -->
+  <path d="M 520,545 L 520,300" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <!-- main.js to inspector.js -->
+  <path d="M 720,545 L 720,300" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <!-- main.js to tables.js -->
+  <path d="M 740,600 L 920,600 L 920,300" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <!-- main.js to topology -->
+  <path d="M 740,650 L 1120,650 L 1120,470" class="arrow-render" marker-end="url(#arrow-green)"/>
+  <text x="930" y="594" class="flow-label-green">Pipeline Re-render (renderAll)</text>
+
+  <!-- 7. FileManager Flow -->
+  <!-- fileManager.js to store.js -->
+  <path d="M 180,970 L 180,945 L 600,945 L 600,920" class="arrow-data" marker-end="url(#arrow-indigo)"/>
+  <text x="360" y="940" font-size="10" fill="#6366f1" font-weight="600">Import (.rack JSON) -> store.loadState()</text>
+
+  <!-- store.js to fileManager.js -->
+  <path d="M 620,920 L 620,955 L 290,955 L 290,970" class="arrow-data" marker-end="url(#arrow-indigo)"/>
+  <text x="360" y="965" font-size="10" fill="#6366f1" font-weight="600">Export -> Read store.state</text>
+
+</svg>

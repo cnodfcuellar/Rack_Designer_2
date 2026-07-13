@@ -1,3 +1,22 @@
+## [2026-07-12] Auditoría de Código y Resolución de Errores de Diseño y Seguridad
+
+### Corrección de Errores de Seguridad y Integridad offline
+- **Integridad de Sesión y Hashing SHA-256 en contextos inseguros:** En `js/auth/roles.js`, se implementó una función pura de JS `sha256_fallback` y un generador UUID aleatorio alternativo. Esto previene fallos fatales e interrupciones en el login al ejecutar la aplicación en entornos no seguros (como a través de una IP de red local `http://192.168.x.x` o mediante el protocolo local `file://`), garantizando el funcionamiento offline al 100%.
+
+### Alineación del Sistema de Diseño (Compliance con DESIGN.md)
+- **Diagrama de Arquitectura Actual:** Creado un nuevo diagrama SVG en [architecture_current.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/architecture_current.svg) que documenta las capas del sistema, flujos de datos reactivos del Store, y los nuevos mecanismos de integridad/seguridad local. Vinculado en [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md).
+- **Diagrama de Flujo de Comunicación:** Creado un nuevo diagrama de flujo en [file_communication_flow.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/file_communication_flow.svg) detallando la comunicación inter-módulo, llamadas a mutadores del Store, eventos de reactividad y disparo del render pipeline. Vinculado en [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md).
+- **Refactorización del Modal de Cambio de PIN:** Se eliminaron los estilos inline en el elemento `#modal-change-pin` dentro de `index.html` y se asignaron clases estándar `.modal`, `.form-row`, `.btn-confirm` y `.btn-cancel`. Esto asegura consistencia visual de botones de 24px de altura y proporciona compatibilidad automática y nativa con el **Tema Claro**.
+- **Variables CSS Indefinidas:** Reemplazadas las llamadas a `var(--text)` por `var(--text-primary)` en `layout.css`, `outliner.js` e `inspector.js`. Reemplazadas las referencias a `var(--blue)` por la variable estándar de acento cian `var(--accent)` en `layout.css` e `inspector.js`.
+- **Limpieza de variables obsoletas:** Eliminada la variable redundante `--purple` en `variables.css`. Se actualizaron los estilos de badges de usuario en `js/main.js` para usar `var(--accent)` y `var(--accent-glow)`.
+- **Limpieza de Diálogos:** Se simplificó la estructura y estilo del overlay en `customConfirm` de `js/utils.js` usando clases de CSS estandarizadas, asignando la clase de peligro nativa `.btn-confirm.danger` para la confirmación.
+
+### Robustez y Blindaje contra Excepciones en Tooltips
+- **Seguridad en Tooltips de Topología:** Modificado `TopologyRenderer.js` para asegurar de forma robusta la lectura y conversión a mayúsculas del tipo de dispositivo mediante `String(dev.type || 'unknown').toUpperCase()`, evitando que propiedades nulas causen excepciones que interrumpan el bucle de renderizado del canvas.
+- **Seguridad en Modales:** Aplicado el mismo blindaje de tipo seguro en `PlacementModal.js` y `ExportModal.js`.
+
+---
+
 ## [2026-07-11] Reemplazo Masivo de Emojis por SVG Icons — Design System Compliance
 
 ### Cambio Principal: Eliminación de Emojis del Codebase

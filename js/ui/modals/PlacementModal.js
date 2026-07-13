@@ -14,7 +14,7 @@ function openQuickPlacementModal(catalogId = null) {
     
     const select = document.getElementById('qp-dev-select');
     select.innerHTML = CATALOG.map((item, i) => 
-      `<option value="${escapeHTML(item.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(item.icon)} ${escapeHTML(item.name)} (${escapeHTML(item.type.toUpperCase())})</option>`
+      `<option value="${escapeHTML(item.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(item.icon)} ${escapeHTML(item.name)} (${escapeHTML(String(item.type || 'unknown').toUpperCase())})</option>`
     ).join('');
     
     qpCatalogItem = CATALOG[0];
@@ -36,7 +36,7 @@ function openQuickPlacementModal(catalogId = null) {
     ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
     : `Instalar ${qpCatalogItem.size}U de forma asistida sin arrastrar`;
   
-  document.getElementById('qp-dev-name-display').value = `${qpCatalogItem.name} (${qpCatalogItem.type.toUpperCase()}${isFloor ? '' : ' - ' + qpCatalogItem.size + 'U'})`;
+  document.getElementById('qp-dev-name-display').value = `${qpCatalogItem.name} (${String(qpCatalogItem.type || 'unknown').toUpperCase()}${isFloor ? '' : ' - ' + qpCatalogItem.size + 'U'})`;
 
   if (!isFloor) {
     document.getElementById('qp-side').value = qpCatalogItem.mountSide || 'front';

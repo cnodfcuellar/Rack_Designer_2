@@ -242,7 +242,7 @@ function exportFloorToPNG(roomId) {
 
     oc.fillStyle = '#8b9ab8';
     oc.font = '10px monospace';
-    oc.fillText(dev.type.toUpperCase(), x + 16, y + 36);
+    oc.fillText(String(dev.type || 'unknown').toUpperCase(), x + 16, y + 36);
     
     if (dev.ip) {
       oc.fillText(`IP: ${dev.ip}`, x + 16, y + 48);

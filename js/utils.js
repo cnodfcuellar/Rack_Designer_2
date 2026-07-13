@@ -72,15 +72,15 @@ function customConfirm(title, message) {
     
     overlay.innerHTML = `
       <div class="modal custom-dialog scale-in" style="max-width: 400px; padding: 20px;">
-        <div class="modal-title" style="font-size: 18px; display: flex; align-items: center; gap: 8px;">
-          <i class="svg-icon icon-warning" style="width:18px; height:18px; color: var(--amber, #f59e0b);"></i> ${escapeHTML(title)}
+        <div class="modal-title">
+          <i class="svg-icon icon-warning" style="width:18px; height:18px; color: var(--amber);"></i> ${escapeHTML(title)}
         </div>
-        <div class="modal-sub" style="margin-top: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-family: var(--font-ui), sans-serif;">
+        <div class="modal-sub" style="margin-top: 12px; color: var(--text-secondary); line-height: 1.5; font-family: var(--font-ui), sans-serif;">
           ${escapeHTML(message)}
         </div>
-        <div class="modal-footer" style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
-          <button class="btn-cancel" id="dialog-btn-cancel" style="padding: 8px 16px;">Cancelar</button>
-          <button class="btn-confirm" id="dialog-btn-confirm" style="padding: 8px 16px; background: var(--red, #ef4444); border: none; color: #fff; font-weight: 600; border-radius: 6px; cursor: pointer;">Confirmar</button>
+        <div class="modal-footer" style="margin-top: 24px;">
+          <button class="btn-cancel" id="dialog-btn-cancel">Cancelar</button>
+          <button class="btn-confirm danger" id="dialog-btn-confirm">Confirmar</button>
         </div>
       </div>
     `;

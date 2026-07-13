@@ -129,7 +129,7 @@ function renderOutliner() {
 
     // Add hover effect
     item.addEventListener('mouseenter', () => { 
-      item.style.color = 'var(--text)'; 
+      item.style.color = 'var(--text-primary)'; 
       if(item.style.background === 'transparent' || !item.style.background) item.style.background = 'rgba(255,255,255,0.02)';
     });
     item.addEventListener('mouseleave', () => { 

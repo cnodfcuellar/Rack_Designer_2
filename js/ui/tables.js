@@ -44,7 +44,7 @@ function renderInventoryTable(wrap, query) {
     ${devices.map(d => {
       const isFloor = d.category === 'floor';
       const rack = !isFloor ? store.rackById(d.rackId) : null;
-      const locationName = isFloor ? '<span style="color:var(--purple);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-');
+      const locationName = isFloor ? '<span style="color:var(--accent);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-');
       const slotDisplay = isFloor ? '-' : (d.slotStart || '-');
       const sideDisplay = isFloor ? '-' : ((d.mountSide === 'rear') ? 'Atrás' : 'Frontal');
       return `<tr data-dev-id="${escapeHTML(d.id)}">

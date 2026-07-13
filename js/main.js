@@ -13,9 +13,9 @@ function applyRoleUI(user) {
   // Badge en el header
   badge.style.display = 'inline-block';
   badge.innerHTML = isAdm ? '<i class="svg-icon icon-crown" style="width:12px;height:12px;margin-right:4px;"></i>Admin' : isView ? '<i class="svg-icon icon-eye" style="width:12px;height:12px;margin-right:4px;"></i>Espectador' : '<i class="svg-icon icon-edit" style="width:12px;height:12px;margin-right:4px;"></i>Editor';
-  badge.style.color = isAdm ? 'var(--cyan)' : isView ? 'var(--text-secondary)' : 'var(--purple)';
-  badge.style.borderColor = isAdm ? 'var(--cyan)' : isView ? 'var(--border)' : 'var(--purple)';
-  badge.style.background = isAdm ? 'rgba(34,211,238,0.1)' : isView ? 'rgba(100,116,139,0.1)' : 'rgba(139,92,246,0.15)';
+  badge.style.color = isAdm ? 'var(--cyan)' : isView ? 'var(--text-secondary)' : 'var(--accent)';
+  badge.style.borderColor = isAdm ? 'var(--cyan)' : isView ? 'var(--border)' : 'var(--accent)';
+  badge.style.background = isAdm ? 'rgba(34,211,238,0.1)' : isView ? 'rgba(100,116,139,0.1)' : 'var(--accent-glow)';
   badge.title = `Sesión: ${user.name}`;
 
   // Opciones exclusivas de admin en el menú

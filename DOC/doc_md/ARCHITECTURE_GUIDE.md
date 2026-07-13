@@ -710,6 +710,8 @@ Todos los diagramas estan en `doc/doc_img/doc_svg/`:
 | `layout_bottom_panel.svg` | Layout del panel inferior con tabla (1100x360) |
 | `layout_topology.svg` | Vista de topologia con salas, racks, conexiones (1400x700) |
 | `architecture_overview.svg` | Arquitectura completa del proyecto (2400x2800) |
+| `architecture_current.svg` | Diagrama de la arquitectura actual (1200x1650) con flujos reactivos, seguridad RBAC y fallbacks offline |
+| `file_communication_flow.svg` | Diagrama de comunicación y llamadas inter-módulo (1400x1250) |
 | `project_flow.svg` | Flujo de datos completo (2000x2600) |
 
 ---

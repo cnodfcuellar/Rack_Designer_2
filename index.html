@@ -629,27 +629,25 @@
      MODAL DE CAMBIO DE PIN
 ============================= -->
 <div id="modal-change-pin" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
-  <div style="background:var(--bg-secondary,#1e293b); border:1px solid var(--border,#334155); border-radius:16px; padding:32px 28px; max-width:380px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
-    <div style="font-size:2.5rem; margin-bottom:8px;"><i class="svg-icon icon-lock" style="width:40px; height:40px;"></i></div>
-    <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--text,#f8fafc);">Cambiar PIN de Administrador</h2>
-    <p style="color:var(--text-secondary,#94a3b8); font-size:13px; margin-bottom:20px;">El nuevo PIN debe tener mínimo 4 caracteres.</p>
-    <input type="password" id="pin-current-input" placeholder="PIN actual" autocomplete="off"
-      style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:8px; margin-bottom:8px;
-             border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
-             color:var(--text,#f8fafc); font-size:14px; outline:none;">
-    <input type="password" id="pin-new-input" placeholder="Nuevo PIN" autocomplete="new-password"
-      style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:8px; margin-bottom:8px;
-             border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
-             color:var(--text,#f8fafc); font-size:14px; outline:none;">
-    <input type="password" id="pin-confirm-input" placeholder="Confirmar nuevo PIN" autocomplete="new-password"
-      style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:8px; margin-bottom:10px;
-             border:1px solid var(--border,#334155); background:var(--bg,#0f172a);
-             color:var(--text,#f8fafc); font-size:14px; outline:none;">
-    <div id="pin-change-error" style="color:#f87171; font-size:12px; margin-bottom:10px; display:none;"></div>
-    <div id="pin-change-success" style="color:#4ade80; font-size:12px; margin-bottom:10px; display:none;"><i class="svg-icon icon-check" style="width:12px; height:12px; margin-right:4px;"></i>PIN actualizado correctamente.</div>
-    <div style="display:flex; gap:8px;">
-      <button id="btn-pin-cancel" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border,#334155); background:transparent; color:var(--text,#f8fafc); font-size:13px; font-weight:600; cursor:pointer;">Cancelar</button>
-      <button id="btn-pin-save" style="flex:1; padding:10px; border-radius:6px; border:none; background:var(--accent); color:var(--bg-main); font-size:13px; font-weight:700; cursor:pointer;">Guardar PIN</button>
+  <div class="modal" style="text-align:center; max-width:320px; padding:24px;">
+    <h2 class="modal-title" style="justify-content: center; margin-bottom: 8px;"><i class="svg-icon icon-lock" style="width:20px; height:20px; margin-right:8px;"></i>Cambiar PIN</h2>
+    <div class="modal-sub" style="margin-bottom: 16px; font-size: var(--text-xs);">
+      El nuevo PIN debe tener mínimo 4 caracteres.
+    </div>
+    <div class="form-row">
+      <input type="password" id="pin-current-input" placeholder="PIN actual" autocomplete="off">
+    </div>
+    <div class="form-row">
+      <input type="password" id="pin-new-input" placeholder="Nuevo PIN" autocomplete="new-password">
+    </div>
+    <div class="form-row">
+      <input type="password" id="pin-confirm-input" placeholder="Confirmar nuevo PIN" autocomplete="new-password">
+    </div>
+    <div id="pin-change-error" style="color:var(--danger); font-size:var(--text-xs); margin-bottom:10px; display:none;"></div>
+    <div id="pin-change-success" style="color:var(--green); font-size:var(--text-xs); margin-bottom:10px; display:none;"><i class="svg-icon icon-check" style="width:12px; height:12px; margin-right:4px;"></i>PIN actualizado correctamente.</div>
+    <div class="modal-footer" style="margin-top:16px; display:flex; gap:8px;">
+      <button id="btn-pin-cancel" class="btn-cancel" style="flex:1;">Cancelar</button>
+      <button id="btn-pin-save" class="btn-confirm" style="flex:1;">Guardar PIN</button>
     </div>
   </div>
 </div>

@@ -1,109 +1,131 @@
-# Manual de Usuario - RACK Designer Next
+# RACK Designer Next — Manual de Usuario Definitivo
 
-Bienvenido al manual oficial de **RACK Designer Next**, tu herramienta 100% offline para el diseño, documentación e inventario de Centros de Datos.
-
-Este manual está diseñado en un formato ligero y nativo de Markdown (`.md`), lo que significa que puedes leerlo y visualizar todos sus diagramas sin necesidad de conexión a internet usando tu editor de código o visor Markdown favorito.
+Bienvenido al manual paso a paso de **RACK Designer Next**, tu herramienta definitiva para gestionar salas, racks, equipos de telecomunicaciones y conexiones. Este manual está diseñado asumiendo que **no tienes experiencia previa** con la aplicación, por lo que te guiaremos desde lo más básico hasta que seas capaz de mapear un centro de datos completo.
 
 ---
 
-## 1. Conceptos Básicos
+## 📖 Parte 1: Conceptos Básicos (Para Principiantes)
 
-**RACK Designer Next** te permite crear representaciones físicas y lógicas de tu infraestructura de red. La información siempre permanece local en tu navegador y puedes respaldarla en archivos `.json` en tu computadora.
+Antes de hacer clic en cualquier botón, es vital entender qué estamos construyendo.
 
-### 1.1 Modos de Visualización
-- **Modo Claro / Oscuro:** Cambia la paleta de colores para reducir la fatiga visual. Accesible desde el Menú Principal (☰).
-- **Modo Rendimiento:** Al hacer clic en el punto luminoso (verde/rojo) en la cabecera, se detienen las animaciones CSS pesadas. Ideal para computadoras portátiles en modo batería o diagramas masivos.
+### ¿Qué es un Datacenter o Sala de Equipos?
+Es simplemente una habitación física donde se guardan las computadoras centrales (servidores), los aparatos que reparten internet (switches, routers) y los sistemas de energía (baterías, aires acondicionados). En nuestra aplicación, todo empieza por crear una **Sala**.
 
-### 1.2 Roles y Seguridad (RBAC)
-El sistema protege tus diseños localmente mediante un sistema de pines:
-- 👑 **Administrador:** Control total. Puede cambiar el PIN y activar el "Modo Dios" (ver contraseñas). El PIN por defecto es `rack2024`.
-- ✏️ **Editor:** Puede agregar, mover y eliminar equipos, pero no puede ver credenciales sensibles.
-- 👁 **Espectador:** Modo de solo lectura para auditorías.
+### ¿Qué es un "Rack" o "Gabinete"?
+Imagina un estante metálico, como un librero muy alto y estandarizado. Su propósito es apilar equipos uno encima del otro para ahorrar espacio. 
+En nuestra aplicación, los Racks van **adentro de las Salas**.
 
----
+### ¿Qué es una Unidad "U"?
+Como los estantes del "Rack" están vacíos, necesitamos medir la altura de los equipos para saber cuántos caben. Para ello usamos la medida **"U"**.
+- Un Rack de tamaño completo suele tener **42U** de espacio de arriba a abajo.
+- Un equipo pequeño ocupa **1U**. Un servidor más grande puede ocupar **2U** o **4U**.
 
-## 2. Descripción Detallada de Opciones
-
-### A. Menú Principal (Hamburguesa ☰)
-Ubicado en la esquina superior derecha, gestiona la persistencia de datos:
-- **Cargar Proyecto:** Importa un archivo `.json` de RACK Designer Next previamente guardado.
-- **Guardar Proyecto:** Exporta todo el diseño (Salas, Gabinetes, Equipos y Enlaces) a un archivo `.json` descargable.
-- **Cargar Demo:** Sobrescribe tu lienzo con una infraestructura de ejemplo preconstruida.
-- **Modo Dios:** (Requiere Admin) Revela los campos de contraseñas de todos los equipos.
-- **Cambiar PIN Admin:** Modifica la contraseña maestra.
-
-### B. Gestión de Salas y Gabinetes (Racks)
-Todo en RACK Designer Next vive dentro de una **Sala**:
-- **Nueva Sala:** Haz clic en "Agregar Sala" para crear una zona.
-- **Nuevo Gabinete:** Clic derecho dentro de una sala vacía o usar el botón flotante. Define el número de unidades (ej. 42U) y el color.
-- **Opciones del Gabinete (⋮):** Cada rack tiene un menú en su cabecera para: Instalar Equipos, Editar, Limpiar (vaciar el rack entero) o Eliminar el gabinete.
-
-### C. Catálogo de Equipos y Panel Inferior
-El panel inferior es tu centro de comandos:
-- **Catálogo Lateral:** Arrastra (Drag & Drop) servidores, switches, PDUs o routers desde el menú lateral izquierdo hacia una U vacía en tu rack.
-- **Filtros de Catálogo:** Usa los botones (Network, Server, Storage, Piso) para filtrar la lista de hardware disponible.
-- **Tablas de Inventario y Conexiones:** Visualiza todos tus equipos en formato Excel.
-
-### D. Topología y Redes (Vista Lógica)
-Alterna entre vista **Física** (los racks de frente) y vista de **Topología** usando los botones centrales superiores.
-- **Nodos:** Cada equipo se representa como una tarjeta interactiva (o círculo, según el modo elegido) con su nombre, IP y tipo.
-- **Conectar Puertos:** Haz *Doble Clic* en un equipo de origen, luego en el equipo de destino para abrir el menú de conexión de puertos físicos (Ej. ETH1 a ETH2).
-- **Controles de la Barra de Topología** (sólo visibles en esta vista):
-  - **🎛 Estilo:** Alterna la visualización entre modo **Tarjeta** (muestra nombre e IP dentro de una caja) y modo **Círculo** (icono circular compacto).
-  - **Slider de Espaciado:** Desliza la barra para aumentar o disminuir la distancia vertical entre equipos dentro de los racks. Útil cuando tienes muchos dispositivos en un mismo gabinete y se solapan.
-  - **⚡ Auto-Orden:** Restablece y recalcula automáticamente todas las posiciones de salas, racks y equipos usando el algoritmo óptimo. Ideal para reorganizar tras haber movido muchos elementos a mano.
-- **Mover Elementos:** Arrastra cualquier nodo, rack (cuadro verde) o sala (cuadro naranja) para reorganizar el diagrama manualmente. Los cambios persisten al recargar.
-
-### E. Panel Derecho (Outliner, Inspector y Estadísticas)
-El panel lateral derecho condensa la información global de la infraestructura:
-- **Outliner (Árbol Jerárquico):** Un explorador en forma de árbol que lista dinámicamente tus Salas, Gabinetes y Equipos. Al hacer un clic simple sobre cualquier elemento, sus propiedades se mostrarán en el Inspector. Con doble clic, se abrirá directamente su ventana de edición.
-- **Inspector de Propiedades:** Situado debajo del Outliner, muestra un resumen rápido y de solo lectura de las características del elemento seleccionado (como direcciones IP, MAC, conectores, consumo o capacidad) y provee un botón de acceso rápido para editarlo.
-- **Estadísticas de Capacidad:** En la parte inferior, se consolida la cantidad de gabinetes, número total de equipos, unidades U ocupadas frente a las totales y la estimación de consumo de energía. Puedes hacer clic en el título "Estadísticas" (o en la flecha ▼) para contraer esta sección y darle más espacio visual al Inspector.
-
----
-
-## 3. Diagrama de Estructura de Datos (Offline)
-
-El siguiente diagrama Mermaid (renderizable offline en tu IDE) muestra cómo se organizan lógicamente los elementos que vas a diseñar:
-
-```mermaid
-graph TD
-    A[Proyecto Local] --> B(Sala 1 - Principal)
-    A --> C(Sala 2 - Respaldo)
-    B --> D[Rack 42U]
-    B --> E[Rack 48U]
-    B --> F[Equipo de Piso - UPS]
-    D --> G(Servidor 2U)
-    D --> H(Switch 1U)
-    H -.->|Enlace Lógico ETH| G
-```
-
----
-
-## 4. Flujo de Trabajo (End-to-End)
-
-El flujo de trabajo principal ("End-to-End") del usuario final en **RACK Designer Next** está pensado para ser un proceso visual e intuitivo, desde que se abre la aplicación hasta que se documenta y exporta la infraestructura. 
-
-### 1. Preparación del Entorno (Autenticación y Espacio)
-- **Acceso:** El usuario abre el archivo `index.html` en su navegador (todo funciona 100% offline, sin instalaciones complejas).
-- **Rol y Seguridad:** Accede al menú principal e inicia sesión ingresando su PIN para obtener permisos de edición (o permisos de Administrador para control total y ver contraseñas).
-- **Crear Sala:** Crea una nueva "Sala" (Room) para agrupar lógicamente los gabinetes (ej. "Datacenter Principal" o "Site A").
-
-### 2. Diseño Físico (Instalación de Hardware)
-- **Crear Gabinetes:** Dentro de la sala, el usuario crea "Racks" virtuales definiendo su capacidad física en unidades de rack (Ej. 42U) y su color.
-- **Drag & Drop:** Utilizando el catálogo lateral (sidebar), el usuario arrastra equipos (Switches, Servidores, PDUs, Patch Panels) hacia las ranuras o "U" específicas del rack. El catálogo se puede filtrar fácilmente por tipo de hardware.
-- **Configuración de Equipos:** Al hacer doble clic en cualquier equipo insertado, se abre un modal de edición donde el usuario registra sus credenciales, direcciones IP, MAC address, consumo energético en Watts, cantidad de puertos y notas adicionales.
-
-### 3. Diseño Lógico (Topología y Cableado)
-- **Cambio de Vista:** Desde el menú superior, el usuario cambia de "Vista Física" a la vista de "Topología".
-- **Parcheo Interactivo:** En este lienzo interactivo 2D, el usuario hace doble clic en un nodo origen (ej. un Switch) y luego en el nodo destino (ej. un Servidor) para tender un cable de red.
-- **Asignación de Puertos:** Selecciona de forma exacta qué puerto físico conecta con cuál (ej. `ETH-24` conectando con `NIC-1`) y el color del cable para identificar la VLAN o el tipo de enlace.
-
-### 4. Auditoría, Exportación y Respaldo
-- **Panel de Control Inferior:** El usuario despliega el panel inferior para ver tablas masivas autogeneradas que consolidan todo el hardware ("Inventario") y todos los cables tendidos ("Conexiones").
-- **Reportes:** Con el botón **"⬇ Exportar"**, puedes descargar estas tablas de inventario y conexiones hacia un archivo de Excel (`.xlsx`) o `.csv` para compartir con gerencia o contabilidad.
-- **Autoguardado y Respaldos:** Aunque el sistema va autoguardando todo temporalmente, el usuario finaliza su día yendo al menú principal y haciendo clic en **"Guardar Proyecto"**. Esto genera un archivo `.json` que descarga en su computadora con la copia maestra de todo su diseño, el cual puede volver a cargar el día de mañana.
-
----
 > [!TIP]
-> **No necesitas modificar código** para añadir equipos visualmente distintos. Puedes reemplazar las imágenes en la carpeta `assets/svg/` de tu instalación local usando el mismo nombre de archivo (`.svg` o `.png`).
+> **Vistas de un Rack (Frente y Atrás)**
+> Los Racks tienen dos puertas. Por delante (Front) sueles ver los botones de encendido y discos duros. Por detrás (Rear) sueles ver los cables de poder y puertos de red. ¡La aplicación te permite girar el Rack para trabajar por ambas caras!
+
+![Anatomía de un Rack](../doc_img/doc_svg/manual_rack_anatomy.svg)
+
+---
+
+## 🗺️ Parte 2: Conociendo la Interfaz
+
+Al abrir RACK Designer Next, verás tu área de trabajo dividida en **5 paneles principales**. 
+
+![Mapa de la Interfaz](../doc_img/doc_svg/manual_ui_overview.svg)
+
+1. **Barra Superior (Header):** Aquí administras tu "Rol" (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a Excel, y el botón para Guardar el archivo en tu computadora.
+2. **Catálogo (Izquierda):** Es tu "tienda" de equipos. Hay categorías para Servidores, Switches, Energía (PDU), y Equipos de Piso. Desde aquí **arrastrarás** los equipos al centro.
+3. **Área de Trabajo (Centro):** El lienzo principal. Aquí es donde los Racks cobran vida. Puedes acercar (Zoom In) o alejar la vista usando la rueda del ratón.
+4. **Inspector y Árbol (Derecha):** Cuando seleccionas un Rack o un servidor, en este panel verás su nombre, dirección IP, número de serie y otros detalles. También puedes cambiarlos.
+5. **Inventario (Abajo):** Una gran tabla tipo Excel que lista todos los equipos que has colocado en tu sala, además de listar los cables y puertos conectados.
+
+---
+
+## ⚡ Parte 3: Flujo de Trabajo y Operaciones Comunes
+
+La aplicación fue diseñada para ser tan fácil como un juego de "arrastrar y soltar".
+
+![Flujo de Trabajo Básico](../doc_img/doc_svg/manual_action_flow.svg)
+
+### Cómo moverse y seleccionar
+- **Clic Izquierdo:** Selecciona un objeto (Rack, servidor, etc.). Al seleccionarlo, se iluminará y sus datos aparecerán en el panel de la derecha.
+- **Rueda del Ratón:** Haz scroll para hacer acercar (Zoom In) o alejar (Zoom Out).
+- **Arrastrar (Drag & Drop):** Haz clic sostenido en un equipo del catálogo izquierdo, muévelo hasta un hueco vacío en tu Rack, y suelta el botón.
+
+### Guardar y Cargar
+La aplicación guarda **automáticamente** los cambios en la memoria temporal de tu navegador cada vez que haces un movimiento. Sin embargo, para no perder tu trabajo, debes descargar el archivo:
+1. Ve a la **Barra Superior**.
+2. Haz clic en **Opciones del Proyecto** -> **Exportar (Save As)**.
+3. Se descargará un archivo con extensión `.rack`. ¡Ese es tu proyecto!
+4. Para abrirlo mañana, usa **Importar** y selecciona ese mismo archivo.
+
+---
+
+## 🎓 Parte 4: Tutoriales Prácticos Paso a Paso
+
+¡Hora de la práctica! Vamos a crear tres salas distintas desde cero.
+
+### Escenario 1: Datacenter Híbrido (Racks y Piso)
+Vamos a crear una sala normal, que contiene 2 Racks con servidores, y adicionalmente un equipo pesado (Aire Acondicionado) que va en el piso, fuera de los racks.
+
+**Paso 1: Crear la Sala y los Racks**
+1. En el panel Izquierdo, arriba del catálogo, verás un área de "Salas".
+2. Selecciona la sala existente. En el panel Derecho (Inspector), cámbiale el nombre a `Mi Datacenter Híbrido`.
+3. Haz clic en el botón verde **"+ Agregar Rack"**. Aparecerá un cajón negro en el lienzo central.
+4. En el panel Derecho, ponle nombre a ese rack: `RACK-01`.
+5. Repite el paso 3 y 4 para crear otro rack llamado `RACK-02`.
+
+**Paso 2: Llenar el RACK-01**
+1. Ve al panel Izquierdo (Catálogo) y haz clic en la categoría **Servers** para expandirla.
+2. Haz clic sostenido sobre un "Dell Server (2U)" y arrástralo hacia el `RACK-01` en el lienzo central. Suéltalo en un hueco vacío.
+3. Expande la categoría **Network**. Arrastra un "Switch 48P (1U)" y suéltalo justo arriba del servidor.
+
+**Paso 3: Añadir el equipo de piso**
+1. En el Catálogo, busca la categoría **Floor / Piso**.
+2. Arrastra una "Unidad InRow (Aire Acondicionado)". Notarás que el sistema *no te deja* meterlo dentro del Rack. 
+3. **¿Cómo lo coloco en el piso?** Muy simple: En la parte inferior del Rack, verás una zona punteada llamada **"Floor Equip (Exterior)"**. Suelta el equipo ahí.
+4. Haz clic en el aire acondicionado recién colocado y, en el panel Derecho, llámalo `Aire-Principal`. ¡Felicidades, completaste el escenario 1!
+
+---
+
+### Escenario 2: Sala de Telecomunicaciones (Solo Racks)
+Este cuarto más pequeño no tiene equipos en el piso, solo equipos de red y parcheo.
+
+**Paso 1: Crear una Sala nueva**
+1. Haz clic en el botón superior **"+ Sala"** o **"Add Room"**.
+2. En el panel Derecho, llámala `Cuarto de Telecomunicaciones`. Notarás que el lienzo central se vacía (porque entraste a tu nueva sala vacía).
+
+**Paso 2: Montar el Gabinete de Red**
+1. Haz clic en **"+ Agregar Rack"** y llámalo `RACK-TELCO`.
+2. Ve al Catálogo -> Categoría **Network**.
+3. Arrastra un "Patch Panel (1U)" a la parte más alta del rack.
+4. Arrastra un "Router Core (4U)" debajo del patch panel.
+5. Ve al panel Derecho y en las propiedades del Router escribe en la IP: `192.168.1.1`.
+
+> [!NOTE]
+> En este escenario no usamos equipos de piso. Tu vista principal (Topológica o Frontal) mostrará el cuarto ordenado y exclusivamente dedicado a equipos montados.
+
+---
+
+### Escenario 3: Sala de Fuerza / Energía (Solo Equipos de Piso)
+En el sótano del edificio, tenemos una sala de baterías gigantes y generadores que no caben en ningún rack.
+
+**Paso 1: Crear la Sala de Energía**
+1. Haz clic en **"+ Sala"** de nuevo.
+2. En el panel Derecho, nómbrala `Cuarto de Baterías`.
+
+**Paso 2: Llenar el cuarto sin usar Racks**
+Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos de manera independiente.
+1. **NO** hagas clic en "Agregar Rack".
+2. Ve directamente al Catálogo -> Categoría **Floor / Piso**.
+3. Arrastra un "Standalone UPS" hacia el lienzo vacío central.
+4. Como no hay un Rack, la aplicación creará automáticamente una zona invisible (un chasis contenedor de piso) para alojarlo.
+5. Arrastra un "Desk / Escritorio" al lienzo.
+6. En el panel Derecho, renombra los equipos a `Batería-Principal` y `Mesa Operador`.
+
+---
+
+¡Has completado tu capacitación básica! Ahora sabes cómo navegar por la aplicación, qué significan los conceptos, cómo arrastrar componentes y cómo estructurar cuartos enteros según tus necesidades del mundo real. 
+
+Si te equivocas, recuerda usar la opción de **Deshacer (Undo)** o simplemente seleccionar el equipo mal colocado y presionar el botón **Eliminar (Trash/Basurero)** en el Inspector (Panel Derecho).
