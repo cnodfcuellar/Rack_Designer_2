@@ -75,7 +75,7 @@
   <text x="107" y="276" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">PHYSICAL</text>
   <text x="107" y="300" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">rack.js</text>
   <text x="107" y="316" text-anchor="middle" fill="#94a3b8" font-size="9">Rack cards · Slots</text>
-  <text x="107" y="330" text-anchor="middle" fill="#64748b" font-size="9">Drag-drop · Flip</text>
+  <text x="107" y="330" text-anchor="middle" fill="#64748b" font-size="9">Drag-drop · SVG Cables</text>
   <text x="107" y="350" text-anchor="middle" fill="#94a3b8" font-size="9">faceplates.js</text>
 
   <!-- Catalog -->
