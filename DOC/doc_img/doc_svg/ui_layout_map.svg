@@ -185,7 +185,11 @@
   <text x="378" y="134" fill="#64748b" font-size="10">+</text>
   <text x="400" y="134" fill="#475569" font-size="8">1:1</text>
   <!-- Topology controls (hidden by default) -->
-  <text x="440" y="134" fill="#64748b" font-size="8" opacity="0.4">[ Estilo ] [ Slider ] [ Auto-Orden ]</text>
+  <text x="440" y="134" fill="#64748b" font-size="8" opacity="0.4">[ Estilo ] [ Auto-Orden ]</text>
+  <!-- Cable toggle switch -->
+  <rect x="540" y="122" width="24" height="12" rx="6" fill="#334155" stroke="#475569" stroke-width="0.5"/>
+  <circle cx="546" cy="128" r="4" fill="#64748b"/>
+  <text x="568" y="133" fill="#94a3b8" font-size="8">Cables</text>
   <!-- Spacer -->
   <!-- Export/Expand -->
   <rect x="790" y="120" width="40" height="20" rx="3" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
