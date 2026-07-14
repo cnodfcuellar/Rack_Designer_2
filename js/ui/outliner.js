@@ -28,8 +28,8 @@ function renderOutliner() {
     racks.forEach(rack => {
       html += `
         <li>
-          <details>
-            <summary class="outliner-item outliner-summary" data-type="rack" data-id="${rack.id}">
+          <details ${window.appState && ( (window.appState.selectedType === 'rack' && window.appState.selectedId === rack.id) || (window.appState.selectedType === 'device' && data.devices.find(d => d.id === window.appState.selectedId && d.rackId === rack.id)) ) ? 'open' : ''}>
+            <summary class="outliner-item outliner-summary" data-type="rack" data-id="${rack.id}" style="${window.appState && window.appState.selectedType === 'rack' && window.appState.selectedId === rack.id ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : ''}">
               <svg class="outliner-node-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
               ${escapeHTML(rack.name)}
             </summary>
@@ -42,7 +42,7 @@ function renderOutliner() {
           rackDevs.forEach(dev => {
             const isSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
             const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
-            html += `<li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
+            html += `<li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar" style="${bgStyle}">
               <span style="width:12px; display:inline-block;"></span>
               <svg class="outliner-node-icon" width="11" height="11" style="color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
               ${escapeHTML(dev.name)}
@@ -71,7 +71,7 @@ function renderOutliner() {
       floorDevs.forEach(dev => {
         const isSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
         const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
-        html += `<li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar">
+        html += `<li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" title="Click para inspector, Doble clic para editar" style="${bgStyle}">
               <span style="width:12px; display:inline-block;"></span>
               <svg class="outliner-node-icon" width="11" height="11" style="color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
               ${escapeHTML(dev.name)}

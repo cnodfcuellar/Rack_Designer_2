@@ -327,6 +327,27 @@ function bindRackEvents(container, flippedRacks) {
     fp.addEventListener('mouseenter', onDeviceMouseEnter);
     fp.addEventListener('mousemove', onDeviceMouseMove);
     fp.addEventListener('mouseleave', onDeviceMouseLeave);
+    fp.addEventListener('click', e => {
+      e.stopPropagation();
+      const devId = fp.dataset.deviceId;
+      window.appState = window.appState || {};
+      window.appState.selectedType = 'device';
+      window.appState.selectedId = devId;
+      if (typeof window.renderInspector === 'function') window.renderInspector('device', devId);
+      if (typeof window.renderOutliner === 'function') window.renderOutliner();
+    });
+  });
+
+  container.querySelectorAll('.rack-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.stopPropagation();
+      const rackId = card.dataset.rackId;
+      window.appState = window.appState || {};
+      window.appState.selectedType = 'rack';
+      window.appState.selectedId = rackId;
+      if (typeof window.renderInspector === 'function') window.renderInspector('rack', rackId);
+      if (typeof window.renderOutliner === 'function') window.renderOutliner();
+    });
   });
   container.querySelectorAll('.dev-btn.edit').forEach(btn => {
     btn.addEventListener('click', e => {
