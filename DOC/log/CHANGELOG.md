@@ -1,6 +1,7 @@
 ## [2026-07-14] Refinamiento de Interfaz de Usuario y Saneamiento
 
 ### Añadido y Modificado
+- **Deshacer/Rehacer en Topología:** Se implementó soporte completo para `Ctrl+Z` y `Ctrl+Y` en la vista de Topología. Ahora se captura un *snapshot* inteligente al iniciar el arrastre o redimensionado, permitiendo restaurar posiciones en el canvas correctamente.
 - **Catálogo Agrupado:** Se agruparon los elementos del catálogo: el organizador y la bandeja fija ahora están en el grupo "accesorios", y los UPS y PDU en "energia". Consola KVM y patchpanel también fueron agrupados correctamente.
 - **Mejoras del Outliner:** Se refactorizó visualmente el Outliner para que utilice detalles nativos `<details>` y `<summary>` permitiendo contraer los nodos, además se aplicaron mejoras visuales (padding, hover states y flexbox).
 - **CSS Grid (Layout):** Se corrigió la pista central del grid (`1fr` a `minmax(0, 1fr)`) que estaba empujando el panel inferior (`#bottom`) fuera de la pantalla.

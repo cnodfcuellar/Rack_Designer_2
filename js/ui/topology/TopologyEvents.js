@@ -68,6 +68,7 @@ function initTopology() {
     panStart = { x: e.clientX, y: e.clientY };
     panOrig  = { x: store._raw.topoPanX || 0, y: store._raw.topoPanY || 0 };
     mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
+    dragSnapshotTaken = false;
   });
 
   canvas.addEventListener('pointermove', e => {
@@ -78,6 +79,13 @@ function initTopology() {
     const my = (e.offsetY - py) / zoom;
 
     mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
+
+    if (resizingRack || resizingRoom || draggingNode || draggingRack || draggingRoom) {
+      if (!dragSnapshotTaken) {
+        store.snapshot();
+        dragSnapshotTaken = true;
+      }
+    }
 
     if (resizingRack) {
       const rackPos = rackPositions[resizingRack];
@@ -287,12 +295,14 @@ function initTopology() {
     draggingNode = null; draggingRack = null; draggingRoom = null; 
     resizingRack = null; resizingRoom = null;
     panStart = null;
+    dragSnapshotTaken = false;
   });
 
   canvas.addEventListener('pointercancel', e => {
     draggingNode = null; draggingRack = null; draggingRoom = null; 
     resizingRack = null; resizingRoom = null;
     panStart = null;
+    dragSnapshotTaken = false;
   });
 
   canvas.addEventListener('dblclick', e => {

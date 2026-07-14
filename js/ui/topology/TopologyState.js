@@ -12,6 +12,7 @@ let flowT = 0;
 let draggingNode = null, draggingRack = null, draggingRoom = null;
 let resizingRack = null, resizingRoom = null;
 let nodeOrig = null;
+let dragSnapshotTaken = false;
 
 let hoveredNode = null;
 let mousePos = { x: -1000, y: -1000, rawX: -1000, rawY: -1000 };

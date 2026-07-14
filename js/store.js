@@ -341,6 +341,7 @@ class Store {
     if (!this._raw.topology) this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
     Object.assign(this._raw.topology, data);
     this._save();
+    this._emit('change', { source: 'saveTopology' });
   }
 
   loadData(data) {
