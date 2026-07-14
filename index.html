@@ -114,28 +114,26 @@
 
   <!-- SIDEBAR -->
   <aside id="sidebar">
-    <div class="sb-title mobile-only" style="display:flex; justify-content:flex-end; padding-right:8px; border-bottom: 1px solid var(--border);">
-      <button id="btn-close-sidebar" style="background:none; border:none; color:var(--text-secondary); font-size:16px; margin-left:12px; cursor:pointer;" title="Cerrar panel" aria-label="Cerrar panel de catálogo"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
+    <div class="sidebar-icons" id="sidebar-category-icons">
+      <!-- Icons will be injected by js/ui/catalog.js -->
     </div>
-    <div class="sb-actions">
+  </aside>
+
+  <!-- FLYOUT CATALOG -->
+  <div id="catalog-flyout" class="catalog-flyout hidden">
+    <div class="flyout-header">
+      <span id="flyout-title">Servidores</span>
+      <button id="btn-close-flyout" title="Cerrar" style="background:transparent; border:none; color:var(--text-secondary); font-size:16px; cursor:pointer; padding:4px;"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
+    </div>
+    <div class="flyout-actions">
       <button class="btn-primary" id="btn-add-rack">+ Rack</button>
       <button class="btn-secondary" id="btn-add-device-modal">+ Equipo</button>
     </div>
-    <div class="sb-search">
-      <input type="text" id="catalog-search" placeholder="Buscar por nombre o tipo…">
-    </div>
-    <div class="sb-filter-tabs">
-      <button class="filter-tab active" data-filter="all">Todos</button>
-      <button class="filter-tab" data-filter="server">Servidores</button>
-      <button class="filter-tab" data-filter="network">Red</button>
-      <button class="filter-tab" data-filter="storage">Storage</button>
-      <button class="filter-tab" data-filter="wiring">Cableado</button>
-      <button class="filter-tab" data-filter="power">Energía</button>
-      <button class="filter-tab" data-filter="accessories">Accesorios</button>
-      <button class="filter-tab" data-filter="floor">Piso</button>
+    <div class="flyout-search">
+      <input type="text" id="catalog-search" placeholder="Buscar equipo...">
     </div>
     <div class="catalog" id="catalog"></div>
-  </aside>
+  </div>
 
   <!-- MAIN AREA -->
   <main id="main">

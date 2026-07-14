@@ -3740,7 +3740,7 @@
      fill="#10b981"
      font-size="10"
      font-weight="600"
-     id="text310">sidebar (280px)</text>
+     id="text310">sidebar (240px)</text>
   <rect
      x="290"
      y="2310"
@@ -3844,7 +3844,7 @@
      fill="#94a3b8"
      font-size="10"
      class="mono"
-     id="text320">--sidebar-w: 280px</text>
+     id="text320">--sidebar-w: 240px</text>
   <text
      x="1180"
      y="2410"

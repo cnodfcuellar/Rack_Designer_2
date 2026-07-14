@@ -358,3 +358,104 @@ summary.outliner-summary { display: flex; }
 }
 .outliner-device:hover { background: rgba(255,255,255,0.04); color: var(--text-primary); }
 .outliner-device .outliner-node-icon { width: 11px; height: 11px; }
+
+/* ============================================================
+   SIDEBAR ICONS & FLYOUT
+============================================================ */
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.sidebar-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  align-items: center;
+  overflow-y: auto;
+}
+.sidebar-icons::-webkit-scrollbar { display: none; }
+
+.sb-category-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.sb-category-btn:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--border);
+}
+
+.sb-category-btn.active {
+  background: var(--bg-card2);
+  border-color: var(--accent);
+}
+
+/* Catalog Flyout */
+.catalog-flyout {
+  position: absolute;
+  top: var(--header-h);
+  left: var(--sidebar-w);
+  width: 260px;
+  bottom: var(--bottom-h);
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
+}
+
+.catalog-flyout.hidden {
+  transform: translateX(-10px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flyout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.flyout-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.flyout-search {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.flyout-search input {
+  width: 100%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  outline: none;
+}
+.flyout-search input:focus { border-color: var(--accent); }
+

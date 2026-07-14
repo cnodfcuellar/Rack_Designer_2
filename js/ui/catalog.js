@@ -40,27 +40,90 @@ function updateCatalogItem(id, props) {
   renderCatalog();
 }
 
+
+let currentFlyoutCategory = null;
+
+function renderCategoryIcons() {
+  const container = document.getElementById('sidebar-category-icons');
+  if (!container) return;
+  
+  const types = Object.keys(TYPE_COLORS);
+  container.innerHTML = types.map(type => {
+    // Determine icon for the type by finding first template of this type
+    const template = CATALOG.find(c => c.type === type);
+    let iconName = type;
+    if (template && template.icon) {
+        iconName = template.icon.split('/').pop().split('.')[0];
+    }
+    // Handle some fallbacks if iconName doesn't exactly match SVG_ICONS
+    if (type === 'pc') iconName = 'pc';
+    if (type === 'door') iconName = 'door';
+    
+    const svgIcon = typeof SVG_ICONS !== 'undefined' && SVG_ICONS[iconName] ? SVG_ICONS[iconName] : '';
+    
+    return `
+      <div class="sb-category-btn ${currentFlyoutCategory === type ? 'active' : ''}" 
+           data-category="${escapeHTML(type)}" 
+           title="${escapeHTML(type).toUpperCase()}"
+           style="color: ${TYPE_COLORS[type]}">
+        <div style="width:16px; height:16px; display:flex; align-items:center; justify-content:center;">
+          ${svgIcon}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.sb-category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.category;
+      if (currentFlyoutCategory === cat) {
+        closeFlyout();
+      } else {
+        openFlyout(cat);
+      }
+    });
+  });
+}
+
+function openFlyout(category) {
+  currentFlyoutCategory = category;
+  const flyout = document.getElementById('catalog-flyout');
+  const title = document.getElementById('flyout-title');
+  if(title) title.textContent = category.toUpperCase();
+  if(flyout) flyout.classList.remove('hidden');
+  renderCategoryIcons();
+  renderCatalog();
+}
+
+function closeFlyout() {
+  currentFlyoutCategory = null;
+  const flyout = document.getElementById('catalog-flyout');
+  if(flyout) flyout.classList.add('hidden');
+  renderCategoryIcons();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('btn-close-flyout');
+  if(closeBtn) closeBtn.addEventListener('click', closeFlyout);
+  
+  const searchInput = document.getElementById('catalog-search');
+  if(searchInput) searchInput.addEventListener('input', renderCatalog);
+  renderCategoryIcons();
+});
+
 function renderCatalog() {
   const searchInput = document.getElementById('catalog-search');
-  if(!searchInput) return;
-  const query  = searchInput.value.toLowerCase();
-  const filterBtn = document.querySelector('.filter-tab.active');
-  const filter = filterBtn ? filterBtn.dataset.filter : 'all';
+  const query = searchInput ? searchInput.value.toLowerCase() : '';
+  const filter = currentFlyoutCategory || 'all';
   
   const list = CATALOG.filter(item => {
-    const matchType = filter === 'all' ||
-      (filter === 'server'      && item.type === 'server') ||
-      (filter === 'network'     && ['switch','router','firewall'].includes(item.type)) ||
-      (filter === 'storage'     && ['storage'].includes(item.type)) ||
-      (filter === 'wiring'      && ['patchpanel','organizer'].includes(item.type)) ||
-      (filter === 'power'       && ['ups','pdu'].includes(item.type)) ||
-      (filter === 'accessories' && ['tray','kvm'].includes(item.type)) ||
-      (filter === 'floor'       && ['pc','camera','ap','door','printer','phone'].includes(item.type));
+    const matchType = filter === 'all' || item.type === filter;
     const matchQuery = !query || item.name.toLowerCase().includes(query) || item.type.includes(query);
     return matchType && matchQuery;
   });
   
   const cat = document.getElementById('catalog');
+  if(!cat) return;
   cat.innerHTML = list.map(item => {
     const iconName = item.icon.split('/').pop().split('.')[0];
     return `
@@ -133,7 +196,6 @@ function renderCatalog() {
     });
   });
 }
-
 function renderRoomTabs() {
   const dropdownList = document.getElementById('room-dropdown-list');
   const label = document.getElementById('room-dropdown-label');
