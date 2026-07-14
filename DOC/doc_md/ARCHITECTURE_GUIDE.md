@@ -274,7 +274,7 @@ La app usa **CSS Grid** para dividir la pantalla en 5 areas fijas:
 ├──────────┬──────────────────────┬────────────────────┤
 │          │                      │                    │
 │ SIDEBAR  │       MAIN CANVAS    │    RIGHT PANEL     │
-│ (280px)  │        (1fr)         │     (260px)        │
+│ (240px)  │        (1fr)         │     (260px)        │
 │          │                      │                    │
 ├──────────┴──────────────────────┴────────────────────┤
 │                  BOTTOM PANEL (220px)                 │
@@ -287,7 +287,7 @@ La app usa **CSS Grid** para dividir la pantalla en 5 areas fijas:
 #app {
   display: grid;
   grid-template-rows: 56px 1fr 220px;
-  grid-template-columns: 280px 1fr 260px;
+  grid-template-columns: 240px 1fr 260px;
   grid-template-areas:
     "header  header        header"
     "sidebar main          right-panel"
@@ -302,7 +302,7 @@ La app usa **CSS Grid** para dividir la pantalla en 5 areas fijas:
 ```css
 :root {
   /* Dimensiones */
-  --sidebar-w: 280px;
+  --sidebar-w: 240px;
   --right-panel-w: 260px;
   --header-h: 56px;
   --bottom-h: 220px;
@@ -342,7 +342,7 @@ Contiene:
 
 **Ver:** `doc/doc_img/doc_svg/layout_header.svg`
 
-### Sidebar (280px)
+### Sidebar (240px)
 
 **Archivo:** `index.html` (seccion `#sidebar`), renderizado por `js/ui/catalog.js`
 
@@ -543,7 +543,7 @@ Crea `css/variables.css` con las variables CSS basics:
 
 ```css
 :root {
-  --sidebar-w: 280px;
+  --sidebar-w: 240px;
   --right-panel-w: 260px;
   --header-h: 56px;
   --bottom-h: 220px;

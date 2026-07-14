@@ -9,35 +9,32 @@
   </defs>
 
   <rect width="360" height="780" fill="#0b0f19" rx="8"/>
-  <text x="180" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Sidebar Layout — #sidebar (280px width)</text>
+  <text x="180" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Sidebar Layout — #sidebar (240px width)</text>
 
   <!-- ═══════════════════════════════════════ -->
   <!-- SIDEBAR -->
   <!-- ═══════════════════════════════════════ -->
-  <rect x="10" y="30" width="280" height="740" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+  <rect x="10" y="30" width="240" height="740" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
 
   <!-- A. sb-actions (action buttons) -->
-  <rect x="10" y="30" width="280" height="52" fill="#151c2e" stroke="#25304b" stroke-width="0" stroke-dasharray="0"/>
-  <line x1="10" y1="82" x2="290" y2="82" stroke="#25304b" stroke-width="1"/>
+  <rect x="10" y="30" width="240" height="52" fill="#151c2e" stroke="#25304b" stroke-width="0" stroke-dasharray="0"/>
+  <line x1="10" y1="82" x2="250" y2="82" stroke="#25304b" stroke-width="1"/>
 
   <!-- + Rack button -->
-  <rect x="24" y="42" width="126" height="24" rx="6" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="1"/>
-  <text x="87" y="58" text-anchor="middle" fill="#0ea5e9" font-size="11" font-weight="600">+ Rack</text>
+  <rect x="24" y="42" width="106" height="24" rx="6" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="77" y="58" text-anchor="middle" fill="#0ea5e9" font-size="11" font-weight="600">+ Rack</text>
 
   <!-- + Equipo button -->
-  <rect x="156" y="42" width="126" height="24" rx="6" fill="transparent" stroke="#25304b" stroke-width="1"/>
-  <text x="219" y="58" text-anchor="middle" fill="#8b9ab8" font-size="11">+ Equipo</text>
+  <rect x="136" y="42" width="106" height="24" rx="6" fill="transparent" stroke="#25304b" stroke-width="1"/>
+  <text x="189" y="58" text-anchor="middle" fill="#8b9ab8" font-size="11">+ Equipo</text>
 
   <!-- B. sb-search -->
-  <rect x="10" y="82" width="280" height="44" fill="#151c2e"/>
-  <line x1="10" y1="126" x2="290" y2="126" stroke="#25304b" stroke-width="1"/>
-
   <rect x="24" y="92" width="252" height="24" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="1"/>
   <text x="34" y="108" fill="#475569" font-size="10" class="mono">Buscar por nombre o tipo...</text>
 
   <!-- C. sb-filter-tabs -->
-  <rect x="10" y="126" width="280" height="40" fill="#151c2e"/>
-  <line x1="10" y1="166" x2="290" y2="166" stroke="#25304b" stroke-width="1"/>
+  <rect x="10" y="126" width="240" height="40" fill="#151c2e"/>
+  <line x1="10" y1="166" x2="250" y2="166" stroke="#25304b" stroke-width="1"/>
 
   <!-- Filter tab pills -->
   <rect x="24" y="136" width="42" height="20" rx="10" fill="#0ea5e933" stroke="#0ea5e9" stroke-width="0.5"/>
@@ -66,8 +63,8 @@
   <text x="158" y="168" text-anchor="middle" fill="#64748b" font-size="9">Piso</text>
 
   <!-- D. catalog -->
-  <rect x="10" y="166" width="280" height="604" fill="#151c2e"/>
-  <line x1="10" y1="166" x2="290" y2="166" stroke="#25304b" stroke-width="1"/>
+  <rect x="10" y="166" width="240" height="604" fill="#151c2e"/>
+  <line x1="10" y1="166" x2="250" y2="166" stroke="#25304b" stroke-width="1"/>
 
   <!-- Catalog item 1: Server -->
   <rect x="24" y="176" width="252" height="48" rx="6" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
@@ -159,8 +156,8 @@
   <!-- ═══════════════════════════════════════ -->
 
   <!-- Width dimension -->
-  <line x1="10" y1="680" x2="290" y2="680" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
-  <text x="150" y="692" text-anchor="middle" fill="#475569" font-size="9" class="mono">280px (var(--sidebar-w))</text>
+  <line x1="10" y1="680" x2="250" y2="680" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="150" y="692" text-anchor="middle" fill="#475569" font-size="9" class="mono">240px (var(--sidebar-w))</text>
 
   <!-- Section labels -->
   <line x1="296" y1="30" x2="310" y2="30" stroke="#475569" stroke-width="0.5"/>
@@ -183,13 +180,13 @@
   <text x="306" y="148" fill="#475569" font-size="7" class="mono" transform="rotate(90 306 148)">40px</text>
 
   <!-- CSS variables legend -->
-  <rect x="10" y="700" width="280" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
+  <rect x="10" y="700" width="240" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
   <text x="20" y="715" fill="#475569" font-size="8" font-weight="600">VARS:</text>
-  <text x="60" y="715" fill="#64748b" font-size="8" class="mono">--sidebar-w: 280px</text>
+  <text x="60" y="715" fill="#64748b" font-size="8" class="mono">--sidebar-w: 240px</text>
   <text x="190" y="715" fill="#64748b" font-size="8" class="mono">gap: 6px</text>
 
   <!-- Layout note -->
-  <rect x="10" y="726" width="280" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
+  <rect x="10" y="726" width="240" height="22" rx="4" fill="#1e293b" opacity="0.5"/>
   <text x="20" y="741" fill="#64748b" font-size="8" class="mono">display: flex; flex-direction: column; overflow: hidden</text>
 
 </svg>

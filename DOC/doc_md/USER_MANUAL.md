@@ -36,7 +36,7 @@ Al abrir RACK Designer Next, verás tu área de trabajo dividida en **5 paneles 
 
 1. **Barra Superior (Header):** Aquí administras tu "Rol" (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a Excel, y el botón para Guardar el archivo en tu computadora.
 2. **Catálogo (Izquierda):** Es tu "tienda" de equipos. Hay categorías para Servidores, Switches, Energía (PDU), y Equipos de Piso. Desde aquí **arrastrarás** los equipos al centro.
-3. **Área de Trabajo (Centro):** El lienzo principal. Aquí es donde los Racks cobran vida. Puedes acercar (Zoom In) o alejar la vista usando la rueda del ratón.
+3. **Área de Trabajo (Centro):** El lienzo principal. Aquí es donde los Racks cobran vida. En la parte superior de esta área (Cabecera), encontrarás los menús desplegables para seleccionar y crear Salas ("Data Center") y Racks, junto con las pestañas unificadas para cambiar entre **Vista Física** y **Topología**.
 4. **Inspector y Árbol (Derecha):** Cuando seleccionas un Rack o un servidor, en este panel verás su nombre, dirección IP, número de serie y otros detalles. También puedes cambiarlos.
 5. **Inventario (Abajo):** Una gran tabla tipo Excel que lista todos los equipos que has colocado en tu sala, además de listar los cables y puertos conectados.
 
@@ -70,9 +70,9 @@ La aplicación guarda **automáticamente** los cambios en la memoria temporal de
 Vamos a crear una sala normal, que contiene 2 Racks con servidores, y adicionalmente un equipo pesado (Aire Acondicionado) que va en el piso, fuera de los racks.
 
 **Paso 1: Crear la Sala y los Racks**
-1. En el panel Izquierdo, arriba del catálogo, verás un área de "Salas".
-2. Selecciona la sala existente. En el panel Derecho (Inspector), cámbiale el nombre a `Mi Datacenter Híbrido`.
-3. Haz clic en el botón verde **"+ Agregar Rack"**. Aparecerá un cajón negro en el lienzo central.
+1. En la **Barra Superior (Cabecera)**, verás un menú desplegable que dice "Data Center" y a su lado un botón **"+"**.
+2. Haz clic en el menú o selecciona la sala existente. En el panel Derecho (Inspector), cámbiale el nombre a `Mi Datacenter Híbrido`.
+3. En la misma barra superior, junto al menú desplegable de "Racks", haz clic en el botón **"+"** para agregar un Rack. Aparecerá un cajón negro en el lienzo central.
 4. En el panel Derecho, ponle nombre a ese rack: `RACK-01`.
 5. Repite el paso 3 y 4 para crear otro rack llamado `RACK-02`.
 
@@ -93,11 +93,11 @@ Vamos a crear una sala normal, que contiene 2 Racks con servidores, y adicionalm
 Este cuarto más pequeño no tiene equipos en el piso, solo equipos de red y parcheo.
 
 **Paso 1: Crear una Sala nueva**
-1. Haz clic en el botón superior **"+ Sala"** o **"Add Room"**.
+1. Ve a la **Barra Superior (Cabecera)** y haz clic en el botón **"+"** que está al lado del selector de Salas ("Data Center").
 2. En el panel Derecho, llámala `Cuarto de Telecomunicaciones`. Notarás que el lienzo central se vacía (porque entraste a tu nueva sala vacía).
 
 **Paso 2: Montar el Gabinete de Red**
-1. Haz clic en **"+ Agregar Rack"** y llámalo `RACK-TELCO`.
+1. En la Barra Superior, haz clic en el botón **"+"** junto al selector de Racks y llámalo `RACK-TELCO` en el panel derecho.
 2. Ve al Catálogo -> Categoría **Network**.
 3. Arrastra un "Patch Panel (1U)" a la parte más alta del rack.
 4. Arrastra un "Router Core (4U)" debajo del patch panel.
@@ -112,12 +112,12 @@ Este cuarto más pequeño no tiene equipos en el piso, solo equipos de red y par
 En el sótano del edificio, tenemos una sala de baterías gigantes y generadores que no caben en ningún rack.
 
 **Paso 1: Crear la Sala de Energía**
-1. Haz clic en **"+ Sala"** de nuevo.
+1. En la Barra Superior, haz clic en el botón **"+"** junto al selector de Salas.
 2. En el panel Derecho, nómbrala `Cuarto de Baterías`.
 
 **Paso 2: Llenar el cuarto sin usar Racks**
 Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos de manera independiente.
-1. **NO** hagas clic en "Agregar Rack".
+1. **NO** hagas clic en el botón "+" de Racks.
 2. Ve directamente al Catálogo -> Categoría **Floor / Piso**.
 3. Arrastra un "Standalone UPS" hacia el lienzo vacío central.
 4. Como no hay un Rack, la aplicación creará automáticamente una zona invisible (un chasis contenedor de piso) para alojarlo.
