@@ -24,6 +24,7 @@
 .right-panel-section.collapsed .toggle-icon { transform: rotate(-90deg); }
 
 #outliner-section { flex: 0 1 auto; max-height: 25%; transition: max-height 0.2s ease, flex 0.2s ease; }
+#stats-section { flex: 0 0 200px; transition: flex 0.2s ease; }
 .right-panel-section:nth-child(2) { border-top: 1px solid var(--border); }
 .right-panel-section:nth-child(3) { border-top: 1px solid var(--border); }
 .right-panel-section .panel-header { background: var(--bg-card2); padding: 8px 12px; font-weight: bold; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
