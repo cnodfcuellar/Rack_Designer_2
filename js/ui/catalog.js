@@ -86,6 +86,8 @@ function renderCategoryIcons() {
 }
 
 function openFlyout(category) {
+  document.documentElement.style.setProperty('--sidebar-w', '260px');
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
   currentFlyoutCategory = category;
   const flyout = document.getElementById('catalog-flyout');
   const title = document.getElementById('flyout-title');
@@ -96,6 +98,8 @@ function openFlyout(category) {
 }
 
 function closeFlyout() {
+  document.documentElement.style.setProperty('--sidebar-w', '50px');
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
   currentFlyoutCategory = null;
   const flyout = document.getElementById('catalog-flyout');
   if(flyout) flyout.classList.add('hidden');
