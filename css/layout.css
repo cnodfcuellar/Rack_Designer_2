@@ -49,10 +49,10 @@
 .dropdown-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 6px 0; }
 .h-divider { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
 /* Tabs y Dropdowns de Navegación */
-.view-tabs { display: flex; gap: 6px; align-items: center; }
-.view-tab { padding: 5px 14px; border-radius: var(--radius); border: 1px solid transparent; background: transparent; color: var(--text-secondary); font-family: var(--font-ui); font-size: var(--text-sm); cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.view-tabs { display: flex; align-items: center; background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.view-tab { padding: 5px 14px; border: none; background: transparent; color: var(--text-secondary); font-family: var(--font-ui); font-size: var(--text-sm); cursor: pointer; white-space: nowrap; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .view-tab:hover { color: var(--text-primary); }
-.view-tab.active { background: var(--bg-card2); border: 1px solid var(--border); color: var(--accent); }
+.view-tab.active { background: var(--bg-card2); color: var(--accent); }
 
 .nav-dropdown-wrapper { display: flex; align-items: center; gap: 6px; position: relative; }
 .nav-dropdown-toggle { display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; background: var(--bg-card2); border: 1px solid var(--border); color: var(--text-secondary); cursor: pointer; border-radius: var(--radius); transition: all 0.2s; font-family: var(--font-ui); font-size: var(--text-sm); white-space: nowrap; }
@@ -161,9 +161,6 @@
 ============================================================ */
 .main-toolbar { display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: transparent; border-bottom: none; z-index: 10; position: absolute; top: 0; left: 0; right: 0; flex-shrink: 0; pointer-events: none; }
 .main-toolbar > * { pointer-events: auto; }
-.view-tabs { display: flex; background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.view-tab { padding: 5px 14px; font-size: var(--text-sm); cursor: pointer; color: var(--text-muted); transition: all 0.2s; border: none; background: transparent; font-family: var(--font-ui); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-.view-tab.active { background: var(--accent-glow); color: var(--accent); }
 .zoom-label { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-muted); min-width: 42px; text-align: center; }
 .spacer { flex: 1; }
 

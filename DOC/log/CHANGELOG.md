@@ -4,6 +4,10 @@
 - **Interruptor UI:** Toggle deslizable `.ui-switch` en la barra superior para mostrar/ocultar cables con estado apagado por defecto.
 - **Atributos de Anclaje:** Inyección de `data-device-id` y `data-port` en plantillas de `faceplates.js` para ruteo del DOM.
 
+### Modificado
+- **Diseño UI:** Se ajustó la cabecera eliminando el separador entre Data Center y Racks, y se unificaron las pestañas "Vista Física" y "Topología" como un control segmentado para coincidir con el diseño propuesto.
+- **Diseño UI:** Se redujo el ancho de la barra lateral (sidebar) y de la zona del logo a 240px ajustando la variable `--sidebar-w` en `css/variables.css`.
+
 ### Solucionado
 - Error de sintaxis en el evento de rotación de ventana que rompía la aplicación.
 
