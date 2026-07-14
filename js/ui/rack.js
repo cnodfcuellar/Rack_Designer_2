@@ -165,7 +165,14 @@ function drawPhysicalCables() {
     return { x, y, edgeX };
   };
 
-  conns.forEach(c => {
+  let maxBottom = 0;
+  container.querySelectorAll('.rack-card, .floor-device-card').forEach(rc => {
+    const bottom = rc.getBoundingClientRect().bottom;
+    if (bottom > maxBottom) maxBottom = bottom;
+  });
+  const gutterY = (maxBottom - containerRect.top) * scale + 20;
+
+  conns.forEach((c, index) => {
     let srcEl = document.querySelector(`.rear-port-jack[data-device-id="${c.sourceDeviceId}"][data-port="${escapeHTML(c.sourcePort)}"]`);
     if (!srcEl) srcEl = document.querySelector(`[data-device-id="${c.sourceDeviceId}"]`);
     
@@ -176,23 +183,43 @@ function drawPhysicalCables() {
       const p1 = getPos(srcEl);
       const p2 = getPos(dstEl);
       
-      const midX = Math.max(p1.edgeX, p2.edgeX) + 10; // Common trunk line
       const r = 8; // Border radius for corners
-      
-      const dirY = p2.y > p1.y ? 1 : -1;
-      const dirX1 = midX > p1.x ? 1 : -1;
-      const dirX2 = p2.x > midX ? 1 : -1;
+      const isSameRack = Math.abs(p1.edgeX - p2.edgeX) < 10;
       
       let pathStr = '';
-      if (Math.abs(midX - p1.x) < r || Math.abs(p2.y - p1.y) < r*2) {
-        // Fallback for very close elements
-        pathStr = `M ${p1.x} ${p1.y} L ${midX} ${p1.y} L ${midX} ${p2.y} L ${p2.x} ${p2.y}`;
+      if (isSameRack) {
+        const midX = Math.max(p1.edgeX, p2.edgeX) + 10 + (index % 5) * 4;
+        const dirY = p2.y > p1.y ? 1 : -1;
+        const dirX1 = midX > p1.x ? 1 : -1;
+        const dirX2 = p2.x > midX ? 1 : -1;
+        
+        if (Math.abs(midX - p1.x) < r || Math.abs(p2.y - p1.y) < r*2) {
+          pathStr = `M ${p1.x} ${p1.y} L ${midX} ${p1.y} L ${midX} ${p2.y} L ${p2.x} ${p2.y}`;
+        } else {
+          pathStr = `M ${p1.x} ${p1.y} `;
+          pathStr += `L ${midX - r*dirX1} ${p1.y} `;
+          pathStr += `Q ${midX} ${p1.y}, ${midX} ${p1.y + r*dirY} `;
+          pathStr += `L ${midX} ${p2.y - r*dirY} `;
+          pathStr += `Q ${midX} ${p2.y}, ${midX + r*dirX2} ${p2.y} `;
+          pathStr += `L ${p2.x} ${p2.y}`;
+        }
       } else {
+        const m1X = p1.edgeX + 10 + (index % 6) * 4;
+        const m2X = p2.edgeX + 10 + (index % 6) * 4;
+        const gY = gutterY + (index % 10) * 4;
+        
         pathStr = `M ${p1.x} ${p1.y} `;
-        pathStr += `L ${midX - r*dirX1} ${p1.y} `;
-        pathStr += `Q ${midX} ${p1.y}, ${midX} ${p1.y + r*dirY} `;
-        pathStr += `L ${midX} ${p2.y - r*dirY} `;
-        pathStr += `Q ${midX} ${p2.y}, ${midX + r*dirX2} ${p2.y} `;
+        pathStr += `L ${m1X - r} ${p1.y} `;
+        pathStr += `Q ${m1X} ${p1.y}, ${m1X} ${p1.y + r} `;
+        pathStr += `L ${m1X} ${gY - r} `;
+        
+        const dirG = m2X > m1X ? 1 : -1;
+        pathStr += `Q ${m1X} ${gY}, ${m1X + r*dirG} ${gY} `;
+        pathStr += `L ${m2X - r*dirG} ${gY} `;
+        pathStr += `Q ${m2X} ${gY}, ${m2X} ${gY - r} `;
+        
+        pathStr += `L ${m2X} ${p2.y + r} `;
+        pathStr += `Q ${m2X} ${p2.y}, ${m2X - r} ${p2.y} `;
         pathStr += `L ${p2.x} ${p2.y}`;
       }
       

@@ -618,6 +618,9 @@ function initGlobalEvents() {
       const svg = document.getElementById('physical-cables-svg');
       if (svg) {
         svg.style.display = checkboxCables.checked ? 'block' : 'none';
+        if (checkboxCables.checked && typeof drawPhysicalCables === 'function') {
+          drawPhysicalCables();
+        }
       }
     });
   }

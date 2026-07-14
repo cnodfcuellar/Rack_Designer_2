@@ -2,6 +2,9 @@
 
 ### Añadido y Modificado
 - **Deshacer/Rehacer en Topología:** Se implementó soporte completo para `Ctrl+Z` y `Ctrl+Y` en la vista de Topología. Ahora se captura un *snapshot* inteligente al iniciar el arrastre o redimensionado, permitiendo restaurar posiciones en el canvas correctamente.
+- **Enrutamiento por Canaleta (Física):** Se mejoró el algoritmo de trazado de cables ortogonales en la vista física. Ahora, los cables que conectan dispositivos de distintos racks bajan por su propio rack hasta una "canaleta inferior" global, evitando atravesar otros gabinetes horizontalmente.
+- **Redibujado Forzado de Cables:** Se solucionó un problema donde los cables no se mostraban inicialmente al activar el interruptor; ahora se fuerza su renderizado al vuelo en `main.js`.
+- **Ancho Máximo de Periféricos:** Se estableció un ancho máximo estricto (`180px`) para los equipos de piso en la vista física para evitar que se expandan excesivamente en pantallas grandes.
 - **Catálogo Agrupado:** Se agruparon los elementos del catálogo: el organizador y la bandeja fija ahora están en el grupo "accesorios", y los UPS y PDU en "energia". Consola KVM y patchpanel también fueron agrupados correctamente.
 - **Mejoras del Outliner:** Se refactorizó visualmente el Outliner para que utilice detalles nativos `<details>` y `<summary>` permitiendo contraer los nodos, además se aplicaron mejoras visuales (padding, hover states y flexbox).
 - **CSS Grid (Layout):** Se corrigió la pista central del grid (`1fr` a `minmax(0, 1fr)`) que estaba empujando el panel inferior (`#bottom`) fuera de la pantalla.
