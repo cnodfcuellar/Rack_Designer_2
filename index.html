@@ -112,28 +112,28 @@
     </div>
   </header>
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR & FLYOUT -->
   <aside id="sidebar">
     <div class="sidebar-icons" id="sidebar-category-icons">
       <!-- Icons will be injected by js/ui/catalog.js -->
     </div>
+    
+    <!-- FLYOUT CATALOG -->
+    <div id="catalog-flyout" class="catalog-flyout hidden">
+      <div class="flyout-header">
+        <span id="flyout-title">Servidores</span>
+        <button id="btn-close-flyout" title="Cerrar" style="background:transparent; border:none; color:var(--text-secondary); font-size:16px; cursor:pointer; padding:4px;"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
+      </div>
+      <div class="flyout-actions">
+        <button class="btn-primary" id="btn-add-rack">+ Rack</button>
+        <button class="btn-secondary" id="btn-add-device-modal">+ Equipo</button>
+      </div>
+      <div class="flyout-search">
+        <input type="text" id="catalog-search" placeholder="Buscar equipo...">
+      </div>
+      <div class="catalog" id="catalog"></div>
+    </div>
   </aside>
-
-  <!-- FLYOUT CATALOG -->
-  <div id="catalog-flyout" class="catalog-flyout hidden">
-    <div class="flyout-header">
-      <span id="flyout-title">Servidores</span>
-      <button id="btn-close-flyout" title="Cerrar" style="background:transparent; border:none; color:var(--text-secondary); font-size:16px; cursor:pointer; padding:4px;"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
-    </div>
-    <div class="flyout-actions">
-      <button class="btn-primary" id="btn-add-rack">+ Rack</button>
-      <button class="btn-secondary" id="btn-add-device-modal">+ Equipo</button>
-    </div>
-    <div class="flyout-search">
-      <input type="text" id="catalog-search" placeholder="Buscar equipo...">
-    </div>
-    <div class="catalog" id="catalog"></div>
-  </div>
 
   <!-- MAIN AREA -->
   <main id="main">

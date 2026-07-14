@@ -4,7 +4,7 @@
 #app { 
   display: grid; 
   grid-template-rows: var(--header-h) 1fr auto; 
-  grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w); 
+  grid-template-columns: max-content 1fr var(--right-panel-w); 
   grid-template-areas: 
     "header header header"
     "sidebar main right-panel"
@@ -28,7 +28,7 @@
 #bottom.collapsed { height: 38px !important; }
 
 /* dotgrid background on main */
-#main::before { content:''; position:absolute; inset:0; background-image: radial-gradient(circle, #1e2d4a 1px, transparent 1px); background-size: 28px 28px; opacity: 0.4; pointer-events: none; z-index: 0; }
+#main::before { content:''; position: static; inset:0; background-image: radial-gradient(circle, #1e2d4a 1px, transparent 1px); background-size: 28px 28px; opacity: 0.4; pointer-events: none; z-index: 0; }
 
 /* ============================================================
    HEADER
@@ -364,15 +364,19 @@ summary.outliner-summary { display: flex; }
 ============================================================ */
 #sidebar {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0;
+  flex-direction: row;
+  grid-area: sidebar;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  z-index: 10;
 }
 
 .sidebar-icons {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: var(--sidebar-w);
+  padding: 10px 0;
   width: 100%;
   align-items: center;
   overflow-y: auto;
@@ -404,8 +408,8 @@ summary.outliner-summary { display: flex; }
 
 /* Catalog Flyout */
 .catalog-flyout {
-  position: absolute;
-  top: var(--header-h);
+  /* position: static relative to flex row */
+  display: flex;
   left: var(--sidebar-w);
   width: 260px;
   bottom: var(--bottom-h);
@@ -419,9 +423,7 @@ summary.outliner-summary { display: flex; }
 }
 
 .catalog-flyout.hidden {
-  transform: translateX(-10px);
-  opacity: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .flyout-header {
