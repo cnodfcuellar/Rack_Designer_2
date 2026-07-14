@@ -17,7 +17,7 @@
 #sidebar { grid-area: sidebar; background: var(--bg-card); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; z-index: 90; }
 #main    { grid-area: main; overflow: hidden; position: relative; background: var(--bg-main); z-index: 10; }
 #right-panel { grid-area: right-panel; background: var(--bg-card); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; z-index: 90; }
-.right-panel-section { flex: 1; display: flex; flex-direction: column; overflow: hidden; transition: flex 0.2s ease; }
+.right-panel-section { flex: 1; display: flex; flex-direction: column; overflow: hidden; transition: flex 0.2s ease; min-height: 0; }
 .right-panel-section.collapsed { flex: 0 0 auto !important; }
 .right-panel-section.collapsed > :not(.panel-header) { display: none !important; }
 .right-panel-section .toggle-icon { display:inline-block; transition: transform 0.2s ease; font-size: 10px; }
