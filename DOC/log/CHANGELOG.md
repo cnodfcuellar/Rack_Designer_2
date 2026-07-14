@@ -1,3 +1,14 @@
+## [2026-07-14] Refinamiento de Interfaz de Usuario y Saneamiento
+
+### Añadido y Modificado
+- **Catálogo Agrupado:** Se agruparon los elementos del catálogo: el organizador y la bandeja fija ahora están en el grupo "accesorios", y los UPS y PDU en "energia". Consola KVM y patchpanel también fueron agrupados correctamente.
+- **Mejoras del Outliner:** Se refactorizó visualmente el Outliner para que utilice detalles nativos `<details>` y `<summary>` permitiendo contraer los nodos, además se aplicaron mejoras visuales (padding, hover states y flexbox).
+- **CSS Grid (Layout):** Se corrigió la pista central del grid (`1fr` a `minmax(0, 1fr)`) que estaba empujando el panel inferior (`#bottom`) fuera de la pantalla.
+- **Dimensiones del Panel Derecho:** Se estandarizó el ancho del panel derecho (`#right-panel`) a `300px` (variable `--right-panel-w`). Se estableció una altura fija estricta de `180px` para la subsección de Estadísticas (`#stats-section`), permitiendo al Inspector de propiedades absorber el espacio sobrante fluidamente.
+- **Limpieza de Scripts:** Los scripts temporales de Python (`patch*.py`) utilizados para inicializar datos de prueba fueron movidos de la raíz del proyecto al subdirectorio correcto `.py/` conforme a la arquitectura definida en `AGENTS.md`.
+
+---
+
 ## [1.2.0] - 2026-07-13
 ### Añadido
 - **Enrutamiento Físico 2D:** Implementación de trazado ortogonal de cables mediante un `<svg>` dinámico superpuesto a la vista física en `rack.js`.
