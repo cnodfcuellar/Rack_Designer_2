@@ -318,6 +318,20 @@ input[type="text"], input[type="number"], input[type="password"], select, .botto
 .outliner-summary::marker { display: none; }
 summary.outliner-summary { display: flex; }
 
+/* Custom caret */
+.outliner-summary::before {
+  content: "▶";
+  font-size: 9px;
+  color: var(--text-muted);
+  display: inline-block;
+  transition: transform 0.2s ease;
+  width: 12px;
+  text-align: center;
+}
+details[open] > .outliner-summary::before {
+  transform: rotate(90deg);
+}
+
 /* Summary row layout */
 .outliner-summary {
   display: flex;
