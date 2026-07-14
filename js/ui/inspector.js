@@ -10,7 +10,7 @@ function getIconForDeviceType(type) {
     case 'router':
     case 'ap':
     case 'patchpanel':
-    case 'organizer':
+    case 'accesorios':
       return 'svg-icon icon-network';
     case 'pc':
       return 'svg-icon icon-desktop';

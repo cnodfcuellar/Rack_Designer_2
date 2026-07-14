@@ -6,7 +6,7 @@ function buildFaceplate(device, heightPx) {
     'server': 'server', 'switch': 'network', 'router': 'network',
     'firewall': 'network', 'storage': 'storage', 'ups': 'power',
     'patchpanel': 'wiring', 'pdu': 'power', 'kvm': 'accessories',
-    'tray': 'accessories', 'organizer': 'wiring', 'pc': 'floor',
+    'accesorios': 'accessories', 'pc': 'floor',
     'ap': 'network', 'camera': 'floor', 'printer': 'floor',
     'phone': 'floor', 'door': 'floor', 'san': 'storage', 'nas': 'storage'
   };

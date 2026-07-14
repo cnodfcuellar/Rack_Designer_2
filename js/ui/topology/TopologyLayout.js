@@ -40,12 +40,12 @@ function _computeLayout() {
   store._raw.rooms.forEach(room => {
     const racks = store._raw.racks.filter(r => r.roomId === room.id);
     const floorDevs = store.allFloorDevicesInRoom(room.id)
-                           .filter(d => !['organizer','tray'].includes(d.type));
+                           .filter(d => !['accesorios'].includes(d.type));
 
     // ── 1. Size each rack ──────────────────────────────────────────
     const rackLayouts = racks.map(rack => {
       const devs = store.allDevicesInRack(rack.id)
-                        .filter(d => !['organizer','tray'].includes(d.type));
+                        .filter(d => !['accesorios'].includes(d.type));
       const rw = Math.max(nW + 40, CARD_W + 40);  // rack at least as wide as a card
       const rh = RACK_HEADER_H + devs.length * spacing + (devs.length > 0 ? 16 : 0);
       return { rack, devs, rw: Math.max(rw, 200), rh: Math.max(rh, 140) };
@@ -160,7 +160,7 @@ window.recalcTopoSpacing = function(newSpacing) {
 
     racks.forEach(rack => {
       const devs = store.allDevicesInRack(rack.id)
-                        .filter(d => !['organizer','tray'].includes(d.type));
+                        .filter(d => !['accesorios'].includes(d.type));
       const rh = RACK_HEADER_H + devs.length * spacing + (devs.length > 0 ? 16 : 0);
       if (rackSizes[rack.id]) rackSizes[rack.id].h = Math.max(rh, 140);
 
@@ -175,7 +175,7 @@ window.recalcTopoSpacing = function(newSpacing) {
 
     if (roomSizes[room.id]) {
       const floorDevs = store.allFloorDevicesInRoom(room.id)
-                             .filter(d => !['organizer','tray'].includes(d.type));
+                             .filter(d => !['accesorios'].includes(d.type));
       const FLOOR_COLS = Math.max(1, Math.min(4, Math.ceil(Math.sqrt(floorDevs.length))));
       const floorRows  = Math.ceil(floorDevs.length / FLOOR_COLS);
       const floorGridH = floorDevs.length > 0 ? floorRows * (_nodeH() + 20) : 0;
