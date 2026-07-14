@@ -365,8 +365,9 @@ summary.outliner-summary { display: flex; }
 #sidebar {
   display: flex;
   flex-direction: column;
-  width: var(--sidebar-w);
+  width: 50px;
   grid-area: sidebar;
+  justify-self: start;
   background: var(--bg-card);
   border-right: 1px solid var(--border);
   z-index: 10;
@@ -409,17 +410,16 @@ summary.outliner-summary { display: flex; }
 
 /* Catalog Flyout */
 .catalog-flyout {
-  position: absolute;
-  top: var(--header-h);
-  left: var(--sidebar-w);
+  grid-area: sidebar;
+  justify-self: end;
   width: 210px;
-  bottom: var(--bottom-h);
+  height: 100%;
   background: var(--bg-card);
   border-right: 1px solid var(--border);
-  box-shadow: 4px 0 15px rgba(0,0,0,0.5);
   z-index: 50;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
 }
 
 .catalog-flyout.hidden {
