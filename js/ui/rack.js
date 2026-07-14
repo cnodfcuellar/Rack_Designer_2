@@ -612,13 +612,13 @@ function renderFloorSection(roomId) {
   const section = document.createElement('div');
   section.className = 'floor-section';
   section.dataset.roomId = roomId;
-  section.style.width = floorDevices.length === 0 ? '260px' : '100%';
+  section.style.width = floorDevices.length === 0 ? '340px' : '100%';
   section.innerHTML = `
-    <div class="floor-section-header">
-      <span>Equipos de Piso / Periféricos</span>
+    <div class="floor-section-header" style="flex-wrap: wrap; gap: 8px;">
+      <span style="flex: 1 1 auto; min-width: max-content;">Equipos de Piso / Periféricos</span>
       <div style="display:flex; align-items:center; gap:12px;">
-        <button class="btn-primary" id="floor-btn-add-device" style="padding: 2px 8px; font-size: 12px; height: 24px; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent)"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Agregar Equipo</button>
-        <span class="floor-device-count">${floorDevices.length} dispositivos</span>
+        <button class="btn-primary" id="floor-btn-add-device" style="padding: 2px 8px; font-size: 12px; height: 24px; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent); white-space: nowrap;"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Agregar Equipo</button>
+        <span class="floor-device-count" style="white-space: nowrap;">${floorDevices.length} dispositivos</span>
       </div>
     </div>
     <div class="floor-devices-grid" id="floor-grid-${roomId}" data-room-id="${roomId}">
