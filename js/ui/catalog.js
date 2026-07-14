@@ -66,7 +66,7 @@ function renderCategoryIcons() {
            data-category="${escapeHTML(type)}" 
            title="${escapeHTML(type).toUpperCase()}"
            style="color: ${TYPE_COLORS[type]}">
-        <div style="width:16px; height:16px; display:flex; align-items:center; justify-content:center;">
+        <div style="width:20px; height:20px; display:flex; align-items:center; justify-content:center;">
           ${svgIcon}
         </div>
       </div>
@@ -136,7 +136,7 @@ function renderCatalog() {
         <div style="color:${TYPE_COLORS[item.type]}; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS[iconName] ? SVG_ICONS[iconName] : ''}</div>
       </div>
       <div class="cat-info">
-        <div class="cat-name">${escapeHTML(item.name)}</div>
+        <div class="cat-name" title="${escapeHTML(item.name)}">${escapeHTML(item.name)}</div>
         <div class="cat-meta">${escapeHTML(item.type).toUpperCase()} │ ${escapeHTML(String(item.power))}W</div>
       </div>
       <div class="cat-size">${item.size ? item.size + 'U' : 'Piso'}</div>
