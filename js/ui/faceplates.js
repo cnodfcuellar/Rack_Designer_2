@@ -2,6 +2,7 @@ function buildFaceplate(device, heightPx) {
   const h = heightPx;
   let type = device.type;
   if (type === 'energia') { type = device.name.toLowerCase().includes('pdu') ? 'pdu' : 'ups'; }
+  if (type === 'gestion') { type = device.name.toLowerCase().includes('kvm') ? 'kvm' : 'patchpanel'; }
 
   const typeMap = {
     'server': 'server', 'switch': 'network', 'router': 'network',
