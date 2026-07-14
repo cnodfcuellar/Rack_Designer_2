@@ -29,7 +29,7 @@
 #bottom.collapsed { height: 38px !important; }
 
 /* dotgrid background on main */
-#main::before { content:''; position: static; inset:0; background-image: radial-gradient(circle, #1e2d4a 1px, transparent 1px); background-size: 28px 28px; opacity: 0.4; pointer-events: none; z-index: 0; }
+#main::before { content:''; position: static; inset:0; background-image: radial-gradient(circle, var(--grid-dot) 1px, transparent 1px); background-size: 28px 28px; opacity: 0.4; pointer-events: none; z-index: 0; }
 
 /* ============================================================
    HEADER

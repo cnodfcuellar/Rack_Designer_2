@@ -276,3 +276,22 @@
   color: var(--accent);
 }
 
+
+/* Light Mode Overrides for Hardware */
+[data-theme="light"] .fp-server, 
+[data-theme="light"] .fp-switch, 
+[data-theme="light"] .fp-ups, 
+[data-theme="light"] .fp-router, 
+[data-theme="light"] .fp-firewall,
+[data-theme="light"] .fp-pdu,
+[data-theme="light"] .fp-san,
+[data-theme="light"] .fp-patch {
+    background: var(--hardware-base) !important;
+}
+[data-theme="light"] .fp-server .ear,
+[data-theme="light"] .fp-server .ear-r,
+[data-theme="light"] .fp-server .vent,
+[data-theme="light"] .fp-router .vent-r,
+[data-theme="light"] .fp-router .rtr-brand {
+    background: var(--hardware-rail) !important;
+}

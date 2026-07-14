@@ -21,6 +21,9 @@
   --red:          #ef4444;
   --red-glow:     #ef444433;
   --cyan:         #06b6d4;
+  --hardware-base: #1a2235;
+  --hardware-rail: #171f30;
+  --grid-dot: #1e2d4a;
 }
 [data-theme="light"] {
   --bg-main:      #f0f4f8;
@@ -35,6 +38,9 @@
   --text-muted:   #64748b;
   --accent:       #0284c7;
   --accent-glow:  #e0f2fe;
+  --hardware-base: #e2e8f0;
+  --hardware-rail: #f1f5f9;
+  --grid-dot: #cbd5e1;
 }
 :root {
   --sidebar-w:    50px;
