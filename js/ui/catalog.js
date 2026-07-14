@@ -11,8 +11,8 @@ let CATALOG = [
   { id:'c10',name:'NAS 2U',             type:'storage',    size:2, power:150, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/storage/nas.svg', color:'#06b6d4' },
   { id:'c11',name:'Patch Panel 24P',    type:'patchpanel', size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/wiring/patchpanel.svg', color:'#38bdf8' },
   { id:'c12',name:'Organizador Horiz',  type:'accesorios', size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/wiring/organizer.svg', color:'#94a3b8' },
-  { id:'c13',name:'UPS APC 2U',         type:'ups',        size:2, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/power/ups.svg', color:'#8b5cf6' },
-  { id:'c14',name:'PDU Básica 1U',      type:'pdu',        size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/power/pdu.svg', color:'#eab308' },
+  { id:'c13',name:'UPS APC 2U',         type:'energia',        size:2, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/power/ups.svg', color:'#8b5cf6' },
+  { id:'c14',name:'PDU Básica 1U',      type:'energia',        size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/power/pdu.svg', color:'#eab308' },
   { id:'c15',name:'Bandeja Fija',       type:'accesorios', size:1, power:0,   ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/accessories/tray.svg', color:'#64748b' },
   { id:'c16',name:'Consola KVM 1U',     type:'kvm',        size:1, power:15,  ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/accessories/kvm.svg', color:'#ec4899' },
   { id:'c17',name:'PC Desktop',         type:'pc',         size:0, power:250, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'', icon:'assets/icons/floor/pc.svg', color:'#0ea5e9' },
@@ -25,7 +25,7 @@ let CATALOG = [
 const TYPE_COLORS = { 
   server:'#10b981', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', 
   storage:'#06b6d4', patchpanel:'#38bdf8', accesorios:'#94a3b8', 
-  ups:'#8b5cf6', pdu:'#eab308', kvm:'#ec4899', 
+  energia:'#eab308', kvm:'#ec4899', 
   pc:'#0ea5e9', camera:'#8b5cf6', ap:'#10b981', door:'#f59e0b', 
   printer:'#06b6d4', phone:'#ef4444' 
 };
