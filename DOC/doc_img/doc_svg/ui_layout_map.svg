@@ -87,90 +87,28 @@
   <text x="1196" y="82" fill="#475569" font-size="8" class="mono">56px</text>
 
   <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- SIDEBAR (240px) -->
+  <!-- SIDEBAR (60px) + FLYOUT -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <rect x="20" y="106" width="240" height="380" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="20" y="106" width="60" height="380" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  
+  <rect x="30" y="118" width="40" height="40" rx="4" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="50" y="142" text-anchor="middle" fill="#38bdf8" font-size="20">⬡</text>
 
-  <!-- Sidebar dimension label -->
-  <line x1="20" y1="492" x2="300" y2="492" stroke="#475569" stroke-width="0.5" stroke-dasharray="2,2"/>
-  <text x="160" y="502" text-anchor="middle" fill="#475569" font-size="8" class="mono">240px</text>
-
-  <!-- Action Buttons -->
-  <rect x="32" y="118" width="126" height="24" rx="4" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="95" y="134" text-anchor="middle" fill="#38bdf8" font-size="10">+ Rack</text>
-  <rect x="164" y="118" width="126" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="227" y="134" text-anchor="middle" fill="#94a3b8" font-size="10">+ Equipo</text>
-
-  <!-- Search -->
-  <rect x="32" y="150" width="258" height="24" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-  <text x="42" y="166" fill="#475569" font-size="9">Buscar por nombre o tipo...</text>
-
-  <!-- Filter Tabs -->
-  <rect x="32" y="182" width="48" height="20" rx="10" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="0.5"/>
-  <text x="56" y="196" text-anchor="middle" fill="#38bdf8" font-size="8">Todos</text>
-  <rect x="86" y="182" width="52" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
-  <text x="112" y="196" text-anchor="middle" fill="#64748b" font-size="8">Servidor</text>
-  <rect x="144" y="182" width="40" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
-  <text x="164" y="196" text-anchor="middle" fill="#64748b" font-size="8">Red</text>
-  <rect x="190" y="182" width="50" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
-  <text x="215" y="196" text-anchor="middle" fill="#64748b" font-size="8">Storage</text>
-  <rect x="246" y="182" width="44" height="20" rx="10" fill="transparent" stroke="#334155" stroke-width="0.5"/>
-  <text x="268" y="196" text-anchor="middle" fill="#64748b" font-size="8">Piso</text>
-
-  <!-- Catalog Items -->
-  <text x="32" y="220" fill="#64748b" font-size="8" font-weight="600" opacity="0.5">CATALOG</text>
-
-  <!-- Item 1 -->
-  <rect x="32" y="228" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
-  <rect x="40" y="236" width="24" height="24" rx="4" fill="#10b981" opacity="0.15"/>
-  <text x="52" y="252" text-anchor="middle" fill="#10b981" font-size="10">⬡</text>
-  <text x="72" y="246" fill="#e2e8f0" font-size="10">Server HP ProLiant</text>
-  <text x="72" y="260" fill="#64748b" font-size="8">SERVER · 460W</text>
-  <text x="266" y="252" text-anchor="middle" fill="#94a3b8" font-size="9">2U</text>
-
-  <!-- Item 2 -->
-  <rect x="32" y="274" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
-  <rect x="40" y="282" width="24" height="24" rx="4" fill="#10b981" opacity="0.15"/>
-  <text x="52" y="298" text-anchor="middle" fill="#10b981" font-size="10">⬡</text>
-  <text x="72" y="292" fill="#e2e8f0" font-size="10">Switch Cisco 48P</text>
-  <text x="72" y="306" fill="#64748b" font-size="8">SWITCH · 180W</text>
-  <text x="266" y="298" text-anchor="middle" fill="#94a3b8" font-size="9">1U</text>
-
-  <!-- Item 3 -->
-  <rect x="32" y="320" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
-  <rect x="40" y="328" width="24" height="24" rx="4" fill="#f59e0b" opacity="0.15"/>
-  <text x="52" y="344" text-anchor="middle" fill="#f59e0b" font-size="10">⬡</text>
-  <text x="72" y="338" fill="#e2e8f0" font-size="10">Router Core</text>
-  <text x="72" y="352" fill="#64748b" font-size="8">ROUTER · 90W</text>
-  <text x="266" y="344" text-anchor="middle" fill="#94a3b8" font-size="9">1U</text>
-
-  <!-- Item 4 -->
-  <rect x="32" y="366" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
-  <rect x="40" y="374" width="24" height="24" rx="4" fill="#ef4444" opacity="0.15"/>
-  <text x="52" y="390" text-anchor="middle" fill="#ef4444" font-size="10">⬡</text>
-  <text x="72" y="384" fill="#e2e8f0" font-size="10">Firewall Fortinet</text>
-  <text x="72" y="398" fill="#64748b" font-size="8">FIREWALL · 40W</text>
-  <text x="266" y="390" text-anchor="middle" fill="#94a3b8" font-size="9">1U</text>
-
-  <!-- Item 5 -->
-  <rect x="32" y="412" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
-  <rect x="40" y="420" width="24" height="24" rx="4" fill="#06b6d4" opacity="0.15"/>
-  <text x="52" y="436" text-anchor="middle" fill="#06b6d4" font-size="10">⬡</text>
-  <text x="72" y="430" fill="#e2e8f0" font-size="10">SAN Storage 4U</text>
-  <text x="72" y="444" fill="#64748b" font-size="8">STORAGE · 300W</text>
-  <text x="266" y="436" text-anchor="middle" fill="#94a3b8" font-size="9">4U</text>
-
-  <!-- Item 6 (floor) -->
-  <rect x="32" y="458" width="258" height="40" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
-  <rect x="40" y="466" width="24" height="24" rx="4" fill="#0ea5e9" opacity="0.15"/>
-  <text x="52" y="482" text-anchor="middle" fill="#0ea5e9" font-size="10">⬡</text>
-  <text x="72" y="476" fill="#e2e8f0" font-size="10">PC Desktop</text>
-  <text x="72" y="490" fill="#64748b" font-size="8">PC · 250W</text>
-  <text x="260" y="482" text-anchor="middle" fill="#f59e0b" font-size="8">Piso</text>
-
-  <!-- Drag indicator -->
-  <text x="280" y="478" text-anchor="end" fill="#475569" font-size="7" opacity="0.5">⋮⋮</text>
-
+  <text x="50" y="180" text-anchor="middle" fill="#64748b" font-size="20">■</text>
+  <text x="50" y="210" text-anchor="middle" fill="#64748b" font-size="20">●</text>
+  <text x="50" y="240" text-anchor="middle" fill="#64748b" font-size="20">▲</text>
+  
+  <!-- Flyout -->
+  <rect x="80" y="106" width="220" height="380" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="190" y="125" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600">CATALOG FLYOUT</text>
+  <rect x="90" y="140" width="200" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="100" y="155" fill="#475569" font-size="9">Buscar equipo...</text>
+  
+  <!-- Flyout Items -->
+  <rect x="90" y="174" width="200" height="30" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <rect x="90" y="210" width="200" height="30" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  <rect x="90" y="246" width="200" height="30" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+  
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- MAIN CANVAS AREA (1fr) -->
   <!-- ═══════════════════════════════════════════════════════ -->
