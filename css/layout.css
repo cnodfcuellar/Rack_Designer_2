@@ -4,7 +4,7 @@
 #app { 
   display: grid; 
   grid-template-rows: var(--header-h) 1fr auto; 
-  grid-template-columns: max-content 1fr var(--right-panel-w); 
+  grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w); 
   grid-template-areas: 
     "header header header"
     "sidebar main right-panel"
@@ -364,7 +364,8 @@ summary.outliner-summary { display: flex; }
 ============================================================ */
 #sidebar {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  width: var(--sidebar-w);
   grid-area: sidebar;
   background: var(--bg-card);
   border-right: 1px solid var(--border);
@@ -375,7 +376,7 @@ summary.outliner-summary { display: flex; }
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: var(--sidebar-w);
+  width: 100%;
   padding: 10px 0;
   width: 100%;
   align-items: center;
@@ -408,7 +409,9 @@ summary.outliner-summary { display: flex; }
 
 /* Catalog Flyout */
 .catalog-flyout {
-  /* position: static relative to flex row */
+  position: absolute;
+  top: var(--header-h);
+  left: var(--sidebar-w);
   display: flex;
   left: var(--sidebar-w);
   width: 260px;
@@ -423,7 +426,9 @@ summary.outliner-summary { display: flex; }
 }
 
 .catalog-flyout.hidden {
-  display: none;
+  transform: translateX(-10px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .flyout-header {
