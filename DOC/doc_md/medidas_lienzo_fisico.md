@@ -20,6 +20,7 @@ El lienzo central de la vista física aloja los gabinetes interactivos en 2D y l
 
 ### 🧱 Contenedor de Contenido (`#view-physical-content`)
 Las tarjetas de racks y la sección de piso se organizan mediante Flexbox:
+*   **Separación entre Racks:** **`24px`** (espaciado dinámico horizontal y vertical definido mediante Flexbox).
 *   **Layout:** Flexbox horizontal (`display: flex`, `flex-wrap: wrap`, `gap: 24px`).
 *   **Alineación:** Alineado al inicio vertical (`align-content: flex-start`).
 *   **Zoom Origin:** `transform-origin: 0 0;` (punto de anclaje para los cálculos de escala y zoom sin alterar las coordenadas de arrastre).

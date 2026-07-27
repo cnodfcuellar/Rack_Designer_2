@@ -76,6 +76,7 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 ### 📐 Desalineación / Descentrado de la Sección de Piso en la Vista Física
 *   **Problema:** En la vista física, cuando no hay racks o cuando una sala está prácticamente vacía, el contenedor que agrupa los equipos de piso ("Floor Devices Section") se visualiza descentrado respecto al centro del lienzo principal o con respecto a los racks.
 *   **Impacto en Producción:** Afecta la armonía visual del lienzo de diseño cuando se comienza una sala desde cero, desalineando los equipos de piso y rompiendo el flujo de diseño estético.
+*   **Propuesta de Mejora:** Establecer un ancho mínimo de **584px** para el área de equipos de piso en la vista física, garantizando así su alineación perfecta con el espacio que ocuparían al menos dos racks juntos.
 
 ### 📏 Establecer Ancho Fijo Proporcional para los Slots (10x de la Unidad U)
 *   **Propuesta de Mejora:** Configurar el ancho del área de slots del rack (`.rack-slots`) para que sea completamente fijo y proporcional a la realidad, estableciendo su medida como un múltiplo de 10 veces el tamaño de la unidad U ($10 \times 24\text{px} = 240\text{px}$).
@@ -132,3 +133,48 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     *   **Validación y Mapeo:** Validar tipos de datos de entrada (IPs, MACs, rango de slots del rack seleccionado) antes de mutar el estado, mostrando un resumen de errores en caso de detectar datos no válidos.
     *   **Resolución de Conflictos:** Ofrecer reglas claras en caso de que existan colisiones de nombres o IPs (ej. omitir, renombrar con sufijo o sobrescribir).
 *   **Objetivo/Beneficio en Producción:** Reducir drásticamente el esfuerzo manual necesario para inicializar centros de datos grandes, permitiendo a los operadores cargar cientos de equipos preconfigurados en un solo clic.
+
+### 🌳 Controles de Edición y Creación en el Outliner
+*   **Propuesta de Mejora:** En el panel de Outliner (jerarquía), cada objeto (sala, rack, equipo) debe contar con botones o iconos contextuales para **editar** y **eliminar**. Además, en la cabecera del panel del Outliner, se deben agregar iconos de acceso rápido para **crear sala**, **crear rack** y **agregar equipo**.
+*   **Objetivo/Beneficio en Producción:** Mejorar la usabilidad y agilizar el flujo de trabajo, permitiendo a los operadores gestionar la infraestructura y realizar acciones directamente desde la vista de árbol del centro de datos sin tener que navegar a otras secciones.
+
+### 🗂️ Inspector Colapsable en el Panel Derecho
+*   **Propuesta de Mejora:** Añadir la funcionalidad de contraer o colapsar la vista del Inspector en el panel derecho.
+*   **Objetivo/Beneficio en Producción:** Al contraer el Inspector, se libera espacio vertical para que la lista del Outliner se expanda. Esto mejora enormemente la navegación en topologías complejas que contienen múltiples salas, racks y equipos apilados.
+
+### 📱 Rediseño de Interfaz para Modo Móvil y Tablet
+*   **Propuesta de Mejora:** Rediseñar y adaptar la interfaz de usuario (Responsive Design) para dispositivos móviles y tablets, evaluando la mejor estrategia de distribución y ocultamiento de paneles (sidebar, inspector). Además, se propone crear un conjunto de funcionalidades específicas adaptadas al modo móvil:
+    *   **Navegación Táctil:** Optimizar gestos como *swipe* para abrir/cerrar menús laterales (catálogo, outliner) y *pinch-to-zoom* en el lienzo físico y topología.
+    *   **Modo de Inspección Rápida:** Una vista simplificada para escanear y visualizar propiedades y estados de los equipos rápidamente sin sobrecargar la pantalla.
+    *   **Barra de Navegación Inferior (Bottom Nav):** Implementar una barra de navegación inferior para alternar ágilmente entre Vistas (Física, Topología) y Paneles (Catálogo, Inventario).
+    *   **Gestos Contextuales (Long Press):** Reemplazar los eventos de clic derecho por gestos de pulsación larga para acceder a menús de edición rápida o eliminación.
+*   **Objetivo/Beneficio en Producción:** Permitir a los ingenieros de red o técnicos en sitio consultar el inventario, topología o especificaciones físicas directamente desde sus teléfonos o tabletas mientras trabajan físicamente frente a los gabinetes en el Data Center.
+
+### 🔌 Gestión Avanzada de Puertos y Validaciones de Conexión
+*   **Propuesta de Mejora:**
+    *   Implementar un **Submenú de Puertos** detallado para cada equipo donde se puedan visualizar y administrar las conexiones de red individuales.
+    *   Al crear una nueva conexión, los menús desplegables (selects) de puerto de origen y puerto de destino **solo deben mostrar los puertos que estén disponibles**, filtrando automáticamente los que ya se encuentren ocupados.
+    *   Añadir validaciones lógicas estrictas para evitar que, bajo ninguna circunstancia, se asigne o conecte un cable a un **puerto ocupado**.
+    *   Incorporar soporte para asignar e identificar propiedades de **VLAN** en cada puerto.
+    *   Refactorizar los **datos demo (`demoData.js`)** para que los ejemplos por defecto incluyan esta nueva estructura de puertos, VLANs y conexiones validadas.
+*   **Objetivo/Beneficio en Producción:** Aumentar el nivel de realismo y precisión en la documentación de red (DCIM). Esto evita errores de cableado lógico en el diseño, garantizando que el estado de los puertos refleje la capacidad física real del equipo.
+
+### 🕸️ Persistencia de Posiciones en la Vista de Topología
+*   **Propuesta de Mejora:** Implementar un mecanismo para **guardar las posiciones (coordenadas X, Y)** de los nodos (equipos, racks, salas) dentro de la Vista de Topología. Al mover un nodo manualmente, su nueva ubicación debería registrarse en el estado global (`store.js`) y persistir en el archivo `.rack` o `localStorage`.
+*   **Objetivo/Beneficio en Producción:** Permite a los arquitectos de red crear diagramas lógicos personalizados y ordenados a su gusto. Actualmente, si el diseño dependiera solo de un layout automático, cualquier recarga o cambio de sala podría desorganizar los mapas mentales del usuario. Guardar las posiciones asegura que el esfuerzo invertido en organizar el diagrama visualmente no se pierda.
+
+### 🖼️ Sistema Avanzado de Skins Visuales en Topología
+*   **Propuesta de Mejora:** Ampliar el sistema de visualización en la Vista de Topología para ofrecer tres modos (skins) de representación para los equipos:
+    1.  **Nodos:** Representación lógica circular y minimalista.
+    2.  **Tarjetas (Cards):** Representación rectangular enfocada en metadatos (diseño actual).
+    3.  **Imagen Personalizada:** Permitir a los usuarios cargar imágenes de iconos o fotos del equipo en formatos `.jpg`, `.png` o `.svg` y usarlas como el nodo visual en el canvas.
+*   **Objetivo/Beneficio en Producción:** Brindar la flexibilidad de generar tanto diagramas lógicos y abstractos de alta legibilidad, como diagramas de red ultra-realistas. El uso de imágenes (como iconos de Cisco, Fortinet, etc.) mejora enormemente el valor de las exportaciones para presentaciones ejecutivas.
+
+### 🎨 Personalización Visual y Temas en la Topología
+*   **Propuesta de Mejora:** Crear un motor de temas y personalización visual dedicado exclusivamente a la Vista de Topología, con soporte para transparencias (canal alfa) y dos modos de color:
+    1.  **Modo Heredado:** Utiliza automáticamente los colores base ya asignados a las salas y racks en sus propiedades de inventario.
+    2.  **Modo Personalizado:** Permite sobrescribir y ajustar la apariencia de cada elemento de forma individual:
+        *   **Fondo del Lienzo:** Color sólido, patrón de puntos (dots) patrón hexagonal (hexagon) o patrón de cuadrícula (grid).
+        *   **Salas:** Color de fondo (relleno), color de contorno, color de la cabecera, color del texto y niveles de transparencia general y de relleno.
+        *   **Racks:** Color de fondo (relleno), color de contorno, color de la cabecera, color del texto y niveles de transparencia general y de relleno.
+*   **Objetivo/Beneficio en Producción:** Permite adaptar los diagramas exportados a la identidad corporativa de diferentes clientes o departamentos. Además, el uso de transparencias evita que los racks y salas oculten las líneas de conexión que pasan por debajo, mejorando drásticamente la legibilidad en redes muy densas.
