@@ -1,3 +1,47 @@
+## [2026-08-08] Sincronización Completa de Documentación Técnica
+
+### Documentación
+- **ARCHITECTURE_GUIDE.md:** Reescritura completa (~740 → ~640 líneas). Actualizado con:
+  - Sidebar dinámico flyout (50px colapsado / 260px expandido) con sistema de categorías por iconos.
+  - Dos estilos de topología documentados (Card 150×50 y Circle r=22), toggle en el header.
+  - Sistema de cables SVG en vista física (`#physical-cables-svg`, `drawPhysicalCables()`).
+  - File System Access API con autoguardado (3s debounce) y fallback para Firefox/Safari.
+  - Tabla completa de los 33 diagramas SVG (antes solo 10), organizados por categoría.
+  - Sistema de autenticación RBAC completo con tabla de permisos y token de integridad.
+  - Optimización del Proxy: cache WeakMap, `_saveDebounced()` con `requestAnimationFrame`.
+  - Referencia al roadmap `mejoras.md` como Source of Truth del proyecto.
+  - Sección de renderizado de cableado físico (SVG inline sobre vista física).
+- **CODEBASE_ORIENTATION_MAP.md:** Actualización parcial:
+  - Tabla de diagramas SVG expandida de 8 a 33 archivos, organizados por categoría.
+  - Variable `--sidebar-w` documentada con estado colapsado (50px) y expandido (260px).
+- **USER_MANUAL.md:** Expansión significativa (~143 → ~200+ líneas). Nuevas secciones:
+  - Parte 2.5: Roles y permisos con tabla de acceso y PIN por defecto.
+  - Parte 5: Visualización de conexiones físicas (crear conexión + cables SVG + topología).
+  - Parte 6: Vista de topología completa (controles, estilos card/circle, slider, auto-ordenar, exportar PNG).
+  - Parte 7: Exportación de datos (PNG racks, PNG topología, CSV, Excel, JSON .rack).
+  - Parte 8: Temas y personalización (claro/oscuro, Modo Dios, pausar animaciones).
+  - Actualización del catálogo lateral para reflejar el sistema de flyout con iconos por categoría.
+
+---
+
+## [2026-08-02] Reescritura Completa del Mapa de Orientación del Código
+
+### Documentación
+- **CODEBASE_ORIENTATION_MAP.md:** Reescritura total del documento (de ~126 a ~500+ líneas). Ahora incluye:
+  - Tabla de contenidos con 17 secciones.
+  - Reglas de Oro con tablas de "NUNCA/SIEMPRE".
+  - Tabla completa de todos los archivos JS con responsabilidades y cuándo tocarlos.
+  - API completa del Store (todos los métodos con sus `source` de emisión).
+  - Explicación del Proxy ES6 con código comentado y nota sobre arrays.
+  - Tabla del ciclo de renderizado (`renderAll` source dispatch).
+  - Estructura CSS con tabla de variables clave y cadena de importación.
+  - Sección de Recetas: "¿Qué toco si quiero...?" con guías paso a paso para 8 tareas comunes.
+  - Sección de errores frecuentes de novatos con soluciones.
+  - Glosario técnico de 16 términos específicos del proyecto.
+  - Diagramas Mermaid actualizados del flujo principal.
+
+---
+
 ## [2026-07-14] Refinamiento de Interfaz de Usuario y Saneamiento
 
 ### Añadido y Modificado

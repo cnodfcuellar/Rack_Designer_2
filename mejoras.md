@@ -138,6 +138,10 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 *   **Propuesta de Mejora:** En el panel de Outliner (jerarquía), cada objeto (sala, rack, equipo) debe contar con botones o iconos contextuales para **editar** y **eliminar**. Además, en la cabecera del panel del Outliner, se deben agregar iconos de acceso rápido para **crear sala**, **crear rack** y **agregar equipo**.
 *   **Objetivo/Beneficio en Producción:** Mejorar la usabilidad y agilizar el flujo de trabajo, permitiendo a los operadores gestionar la infraestructura y realizar acciones directamente desde la vista de árbol del centro de datos sin tener que navegar a otras secciones.
 
+### 🔄 Opciones de Ordenamiento en el Outliner
+*   **Propuesta de Mejora:** Añadir controles con varias opciones o criterios de ordenamiento (ej. por nombre, por tipo, alfabéticamente, por posición U) para listar los equipos y elementos dentro del panel jerárquico del Outliner.
+*   **Objetivo/Beneficio en Producción:** Permitir a los usuarios y operadores localizar dispositivos rápidamente en infraestructuras con una alta densidad de equipos, adaptando la vista de árbol a las necesidades de búsqueda y organización en el Data Center.
+
 ### 🗂️ Inspector Colapsable en el Panel Derecho
 *   **Propuesta de Mejora:** Añadir la funcionalidad de contraer o colapsar la vista del Inspector en el panel derecho.
 *   **Objetivo/Beneficio en Producción:** Al contraer el Inspector, se libera espacio vertical para que la lista del Outliner se expanda. Esto mejora enormemente la navegación en topologías complejas que contienen múltiples salas, racks y equipos apilados.
@@ -178,3 +182,64 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
         *   **Salas:** Color de fondo (relleno), color de contorno, color de la cabecera, color del texto y niveles de transparencia general y de relleno.
         *   **Racks:** Color de fondo (relleno), color de contorno, color de la cabecera, color del texto y niveles de transparencia general y de relleno.
 *   **Objetivo/Beneficio en Producción:** Permite adaptar los diagramas exportados a la identidad corporativa de diferentes clientes o departamentos. Además, el uso de transparencias evita que los racks y salas oculten las líneas de conexión que pasan por debajo, mejorando drásticamente la legibilidad en redes muy densas.
+
+### 🔍 Buscador en el Catálogo en Añadir Equipos
+*   **Propuesta de Mejora:** Añadir un campo de búsqueda (buscador) en el menú de agregar equipo (catálogo), para que los usuarios puedan encontrar dispositivos rápidamente, complementando el sistema deslizable que ya existe.
+*   **Objetivo/Beneficio en Producción:** Agiliza significativamente el flujo de trabajo al permitir localizar y añadir equipos específicos de manera inmediata dentro de un catálogo extenso, sin tener que navegar o desplazarse manualmente por todas las opciones disponibles.
+
+### 🏷️ Separación de Etiquetas en Nodos de Topología (Modo Nodos)
+*   **Propuesta de Mejora:** En la Vista de Topología, cuando se utiliza el modo de estilo **"Nodos"** (representación circular), separar las etiquetas de texto en dos líneas posicionadas independientemente:
+    *   **IP arriba del nodo:** Mostrar la dirección IP del equipo como etiqueta superior, por encima del círculo del nodo.
+    *   **Nombre abajo del nodo:** Mostrar el nombre del dispositivo como etiqueta inferior, debajo del círculo del nodo.
+*   **Objetivo/Beneficio en Producción:** Mejora la legibilidad y la densidad de información visible en diagramas de topología complejos. Al separar IP y nombre en posiciones distintas, se evita el apilamiento o truncado de texto en una sola línea, y se facilita la identificación rápida de equipos tanto por nombre lógico como por dirección de red.
+
+### 🌲 Layout de Árbol Genealógico en la Vista de Topología
+*   **Propuesta de Mejora:** Añadir un nuevo modo de disposición (layout) en la Vista de Topología que organice los nodos en forma de **árbol genealógico** (jerárquico de arriba hacia abajo o de izquierda a derecha), donde los equipos principales (core switches, routers de borde) se posicionen como raíz y los equipos dependientes se ramifiquen hacia abajo en niveles sucesivos.
+    *   **Control de separación horizontal:** Un slider o input numérico que permita ajustar la distancia entre nodos hermanos (mismo nivel jerárquico).
+    *   **Control de separación vertical:** Un slider o input numérico que permita ajustar la distancia entre niveles padre-hijo del árbol.
+*   **Objetivo/Beneficio en Producción:** Ofrece una representación visual clara de la jerarquía lógica de la red (core → distribución → acceso), facilitando la comprensión de dependencias y la planificación de redundancia. Los controles de espaciado permiten adaptar el diagrama a diferentes densidades de equipos y tamaños de pantalla o exportación.
+
+---
+
+## 7. Priorización por Fases (Roadmap del Memory Bank)
+
+> Extraído del `memory-bank/progress.md` y `memory-bank/activeContext.md` — Agosto 2026.
+
+### Fase 1 — Core y Datos (Prioridad Alta)
+1. Handler de `QuotaExceededError` con notificación visual al usuario. *(→ Sección 2, 💾)*
+2. Gestión avanzada de puertos: validación, VLAN, submenú, filtrado de ocupados. *(→ Sección 6, 🔌)*
+3. Refactorizar `demoData.js` para nueva estructura de puertos. *(→ Sección 6, 🔌)*
+
+### Fase 2 — UX y Usabilidad
+4. Buscador en catálogo del modal de equipos. *(→ Sección 6, 🔍)*
+5. Controles de edición/eliminación inline en el Outliner. *(→ Sección 6, 🌳)*
+6. Estandarización de alturas de rack (select con valores fijos, default 8U). *(→ Sección 6, 📐)*
+7. Ancho fijo proporcional para slots (10× la unidad U = 240px). *(→ Sección 6, 📏)*
+8. Grilla de fondo tenue en vista física. *(→ Sección 6, 🏁)*
+9. Categoría "Todos" y agrupación "Network" en sidebar. *(→ Sección 6, 🔍 y 🔌)*
+10. Inspector colapsable, opciones de ordenamiento en Outliner. *(→ Sección 6, 🗂️ y 🔄)*
+
+### Fase 3 — Topología Avanzada
+11. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)*
+12. Skins visuales en topología (nodos, cards, imágenes personalizadas). *(→ Sección 6, 🖼️)*
+13. Motor de temas y personalización visual en topología (transparencias, patrones de fondo). *(→ Sección 6, 🎨)*
+
+### Fase 4 — Exportación y Colaboración
+14. Plantilla completa de exportación con todos los campos. *(→ Sección 6, 📋)*
+15. Importación masiva CSV/Excel con validación y resolución de conflictos. *(→ Sección 6, 📥)*
+16. Ocultar/mostrar columnas en tablas con persistencia. *(→ Sección 6, ⚙️)*
+
+### Fase 5 — Responsive y Avanzado
+17. Rediseño completo para móvil/tablet (media queries, gestos, bottom nav). *(→ Sección 6, 📱)*
+18. Tema Sepia y visibilidad del theme toggler. *(→ Sección 6, 🎨)*
+
+---
+
+## 8. Decisiones Activas y Contexto de Desarrollo
+
+> Extraído del `memory-bank/activeContext.md` — Agosto 2026.
+
+*   **Stack inmutable:** Mantener el entorno 100% Vanilla JS + `pnpm`. No se introducirán herramientas de build ni frameworks.
+*   **Separación estricta estado/DOM:** Todas las actualizaciones de UI deben dispararse desde el Proxy ES6 en `store.js`. Nunca mutar el DOM directamente para reflejar datos.
+*   **Documentación como fuente de verdad:** `CODEBASE_ORIENTATION_MAP.md` y `ARCHITECTURE_GUIDE.md` se mantienen actualizados para onboarding de desarrolladores.
+*   **Este archivo (`mejoras.md`) es la fuente de verdad** para propuestas de mejora; `roadmap_mejoras.md` analiza su complejidad y dependencias.

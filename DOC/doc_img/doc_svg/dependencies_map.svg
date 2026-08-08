@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1400" width="1800" height="1400">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="titleGrad2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+
+    <filter id="shadow2" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glowRed" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+
+    <!-- Arrow markers -->
+    <marker id="arr" viewBox="0 0 12 8" refX="12" refY="4" markerWidth="10" markerHeight="7" orient="auto-start-reverse">
+      <polygon points="0 0, 12 4, 0 8" fill="#60a5fa"/>
+    </marker>
+    <marker id="arrCrit" viewBox="0 0 12 8" refX="12" refY="4" markerWidth="10" markerHeight="7" orient="auto-start-reverse">
+      <polygon points="0 0, 12 4, 0 8" fill="#ef4444"/>
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 12 8" refX="12" refY="4" markerWidth="10" markerHeight="7" orient="auto-start-reverse">
+      <polygon points="0 0, 12 4, 0 8" fill="#22c55e"/>
+    </marker>
+    <marker id="arrPurple" viewBox="0 0 12 8" refX="12" refY="4" markerWidth="10" markerHeight="7" orient="auto-start-reverse">
+      <polygon points="0 0, 12 4, 0 8" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrOrange" viewBox="0 0 12 8" refX="12" refY="4" markerWidth="10" markerHeight="7" orient="auto-start-reverse">
+      <polygon points="0 0, 12 4, 0 8" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrGray" viewBox="0 0 12 8" refX="12" refY="4" markerWidth="10" markerHeight="7" orient="auto-start-reverse">
+      <polygon points="0 0, 12 4, 0 8" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1800" height="1400" fill="url(#bgGrad2)"/>
+  <rect width="1800" height="1400" fill="url(#grid2)"/>
+
+  <!-- Title -->
+  <rect x="40" y="25" width="1720" height="80" rx="14" fill="url(#titleGrad2)" filter="url(#shadow2)" opacity="0.95"/>
+  <text x="900" y="62" font-family="'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="2">MAPA DE DEPENDENCIAS ENTRE TAREAS</text>
+  <text x="900" y="88" font-family="'Segoe UI', sans-serif" font-size="13" fill="#c7d2fe" text-anchor="middle" letter-spacing="1">RACK DESIGNER NEXT • 28 MEJORAS • 6 FASES • CADENA CRÍTICA IDENTIFICADA</text>
+
+  <!-- ========== FASE 0: BLINDAJE ========== -->
+  <rect x="40" y="130" width="340" height="390" rx="12" fill="#1a0a0a" stroke="#dc2626" stroke-width="2" filter="url(#shadow2)"/>
+  <rect x="40" y="130" width="340" height="38" rx="12" fill="#7f1d1d"/>
+  <rect x="40" y="156" width="340" height="12" fill="#7f1d1d"/>
+  <text x="210" y="155" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#fca5a5" text-anchor="middle" letter-spacing="1">FASE 0 — BLINDAJE 🛡️</text>
+  <text x="210" y="193" font-family="'Segoe UI', sans-serif" font-size="10" fill="#991b1b" text-anchor="middle">Proteger datos de producción</text>
+
+  <!-- M-02 -->
+  <rect x="70" y="210" width="280" height="70" rx="10" fill="#1c0a0a" stroke="#ef4444" stroke-width="2" filter="url(#glowRed)"/>
+  <circle cx="95" cy="233" r="16" fill="#dc2626"/>
+  <text x="95" y="237" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">M02</text>
+  <text x="215" y="235" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fca5a5" text-anchor="middle">QuotaExceededError</text>
+  <text x="215" y="255" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" text-anchor="middle">_save() try/catch + alerta visual</text>
+  <rect x="295" y="265" width="50" height="14" rx="4" fill="#991b1b"/>
+  <text x="320" y="275" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#fca5a5" text-anchor="middle">🟡 C:2</text>
+
+  <!-- M-05 -->
+  <rect x="70" y="300" width="280" height="70" rx="10" fill="#1c0a0a" stroke="#ef4444" stroke-width="2" filter="url(#glowRed)"/>
+  <circle cx="95" cy="323" r="16" fill="#dc2626"/>
+  <text x="95" y="327" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">M05</text>
+  <text x="215" y="325" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fca5a5" text-anchor="middle">Anti-corrupción JSON</text>
+  <text x="215" y="345" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" text-anchor="middle">Doble slot backup en _load()</text>
+  <rect x="295" y="355" width="50" height="14" rx="4" fill="#991b1b"/>
+  <text x="320" y="365" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#fca5a5" text-anchor="middle">🟠 C:3</text>
+
+  <!-- M-01 -->
+  <rect x="70" y="390" width="280" height="70" rx="10" fill="#1c0a0a" stroke="#ef4444" stroke-width="2"/>
+  <circle cx="95" cy="413" r="16" fill="#dc2626"/>
+  <text x="95" y="417" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">M01</text>
+  <text x="215" y="415" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fca5a5" text-anchor="middle">Cifrado credenciales</text>
+  <text x="215" y="435" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" text-anchor="middle">Web Crypto AES-GCM</text>
+  <rect x="295" y="445" width="50" height="14" rx="4" fill="#991b1b"/>
+  <text x="320" y="455" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#fca5a5" text-anchor="middle">🔴 C:4</text>
+
+  <!-- Internal arrows Fase 0 -->
+  <line x1="210" y1="280" x2="210" y2="300" stroke="#ef4444" stroke-width="2" marker-end="url(#arrCrit)"/>
+  <line x1="210" y1="370" x2="210" y2="390" stroke="#ef4444" stroke-width="2" marker-end="url(#arrCrit)"/>
+
+  <!-- Duration badge -->
+  <rect x="100" y="480" width="220" height="24" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="0.5"/>
+  <text x="210" y="496" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fca5a5" text-anchor="middle">⏱️ Duración: ~1 semana</text>
+
+  <!-- ========== FASE 1: QUICK WINS ========== -->
+  <rect x="40" y="540" width="340" height="370" rx="12" fill="#0a1a0a" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow2)"/>
+  <rect x="40" y="540" width="340" height="38" rx="12" fill="#14532d"/>
+  <rect x="40" y="566" width="340" height="12" fill="#14532d"/>
+  <text x="210" y="565" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#86efac" text-anchor="middle" letter-spacing="1">FASE 1 — QUICK WINS ✨</text>
+  <text x="210" y="600" font-family="'Segoe UI', sans-serif" font-size="10" fill="#166534" text-anchor="middle">Mejoras CSS/UI de bajo riesgo</text>
+
+  <!-- Quick win items (independent) -->
+  <rect x="60" y="615" width="130" height="45" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1"/>
+  <text x="125" y="635" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#4ade80" text-anchor="middle">M-10</text>
+  <text x="125" y="650" font-family="'Segoe UI', sans-serif" font-size="8" fill="#22c55e" text-anchor="middle">Bordes racks</text>
+  <rect x="200" y="615" width="130" height="45" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1"/>
+  <text x="265" y="635" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#4ade80" text-anchor="middle">M-13</text>
+  <text x="265" y="650" font-family="'Segoe UI', sans-serif" font-size="8" fill="#22c55e" text-anchor="middle">Alineación piso</text>
+
+  <rect x="60" y="670" width="130" height="45" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1"/>
+  <text x="125" y="690" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#4ade80" text-anchor="middle">M-14</text>
+  <text x="125" y="705" font-family="'Segoe UI', sans-serif" font-size="8" fill="#22c55e" text-anchor="middle">Ancho slots</text>
+  <rect x="200" y="670" width="130" height="45" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1"/>
+  <text x="265" y="690" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#4ade80" text-anchor="middle">M-15</text>
+  <text x="265" y="705" font-family="'Segoe UI', sans-serif" font-size="8" fill="#22c55e" text-anchor="middle">Grilla fondo</text>
+
+  <rect x="60" y="725" width="130" height="45" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1"/>
+  <text x="125" y="745" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#4ade80" text-anchor="middle">M-09</text>
+  <text x="125" y="760" font-family="'Segoe UI', sans-serif" font-size="8" fill="#22c55e" text-anchor="middle">Modal salas</text>
+  <rect x="200" y="725" width="130" height="45" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1"/>
+  <text x="265" y="745" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#4ade80" text-anchor="middle">M-16</text>
+  <text x="265" y="760" font-family="'Segoe UI', sans-serif" font-size="8" fill="#22c55e" text-anchor="middle">Alturas rack</text>
+
+  <!-- Parallel icon -->
+  <text x="210" y="800" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" text-anchor="middle" font-style="italic">⇉ Todas paralelas (independientes)</text>
+
+  <!-- Duration -->
+  <rect x="100" y="820" width="220" height="24" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="0.5"/>
+  <text x="210" y="836" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#86efac" text-anchor="middle">⏱️ Duración: ~2-3 días</text>
+
+  <!-- Arrow Fase 0 → Fase 1 (parallel, not blocking) -->
+  <text x="210" y="528" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b" text-anchor="middle" font-style="italic">puede ejecutarse en paralelo</text>
+
+  <!-- ========== FASE 2: CORE DATOS ========== -->
+  <rect x="430" y="130" width="420" height="390" rx="12" fill="#0a0e2e" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow2)"/>
+  <rect x="430" y="130" width="420" height="38" rx="12" fill="#1e3a5f"/>
+  <rect x="430" y="156" width="420" height="12" fill="#1e3a5f"/>
+  <text x="640" y="155" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#93c5fd" text-anchor="middle" letter-spacing="1">FASE 2 — CORE DE DATOS 🔌</text>
+  <text x="640" y="193" font-family="'Segoe UI', sans-serif" font-size="10" fill="#1e40af" text-anchor="middle">Modelo de puertos y flujo de datos</text>
+
+  <!-- M-26 (big) -->
+  <rect x="455" y="210" width="370" height="85" rx="10" fill="#172554" stroke="#3b82f6" stroke-width="2"/>
+  <circle cx="480" cy="237" r="18" fill="#2563eb"/>
+  <text x="480" y="241" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">M26</text>
+  <text x="640" y="237" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#93c5fd" text-anchor="middle">Gestión Avanzada de Puertos</text>
+  <text x="640" y="258" font-family="'Segoe UI', sans-serif" font-size="9" fill="#60a5fa" text-anchor="middle">Submenú puertos • VLAN • Validación ocupados</text>
+  <text x="640" y="275" font-family="'Segoe UI', sans-serif" font-size="9" fill="#60a5fa" text-anchor="middle">Refactor demoData.js • Filtro CableModal</text>
+  <rect x="770" y="280" width="50" height="14" rx="4" fill="#1e3a5f"/>
+  <text x="795" y="290" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#93c5fd" text-anchor="middle">🔴 C:4</text>
+
+  <!-- M-19 -->
+  <rect x="455" y="310" width="170" height="60" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <circle cx="478" cy="333" r="14" fill="#2563eb"/>
+  <text x="478" y="337" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M19</text>
+  <text x="540" y="335" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#93c5fd">Props tabla</text>
+  <text x="540" y="352" font-family="'Segoe UI', sans-serif" font-size="8" fill="#60a5fa">notes, size, skin</text>
+
+  <!-- M-21 -->
+  <rect x="640" y="310" width="185" height="60" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <circle cx="663" cy="333" r="14" fill="#2563eb"/>
+  <text x="663" y="337" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M21</text>
+  <text x="740" y="335" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#93c5fd">Plantilla export</text>
+  <text x="740" y="352" font-family="'Segoe UI', sans-serif" font-size="8" fill="#60a5fa">CSV/Excel completa</text>
+
+  <!-- M-22 -->
+  <rect x="530" y="395" width="230" height="60" rx="8" fill="#172554" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <circle cx="555" cy="418" r="14" fill="#d97706"/>
+  <text x="555" y="422" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M22</text>
+  <text x="660" y="420" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fbbf24">Importación masiva</text>
+  <text x="660" y="437" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f59e0b">CSV/Excel + validación</text>
+
+  <!-- Internal arrows Fase 2 -->
+  <line x1="640" y1="295" x2="540" y2="310" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="640" y1="295" x2="730" y2="310" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="730" y1="370" x2="660" y2="395" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Duration -->
+  <rect x="530" y="475" width="220" height="24" rx="6" fill="#172554" stroke="#3b82f6" stroke-width="0.5"/>
+  <text x="640" y="491" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#93c5fd" text-anchor="middle">⏱️ Duración: ~1-2 semanas</text>
+
+  <!-- ========== FASE 3: NAVEGACIÓN ========== -->
+  <rect x="430" y="540" width="420" height="370" rx="12" fill="#0e0a1a" stroke="#818cf8" stroke-width="1.5" filter="url(#shadow2)"/>
+  <rect x="430" y="540" width="420" height="38" rx="12" fill="#312e81"/>
+  <rect x="430" y="566" width="420" height="12" fill="#312e81"/>
+  <text x="640" y="565" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#c4b5fd" text-anchor="middle" letter-spacing="1">FASE 3 — NAVEGACIÓN 🧭</text>
+  <text x="640" y="600" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4338ca" text-anchor="middle">Ergonomía y productividad</text>
+
+  <rect x="455" y="615" width="175" height="45" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="1"/>
+  <text x="542" y="635" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">M-11 Network</text>
+  <text x="542" y="650" font-family="'Segoe UI', sans-serif" font-size="8" fill="#818cf8" text-anchor="middle">Grupo unificado</text>
+
+  <rect x="645" y="615" width="175" height="45" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="1"/>
+  <text x="732" y="635" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">M-12 Todos</text>
+  <text x="732" y="650" font-family="'Segoe UI', sans-serif" font-size="8" fill="#818cf8" text-anchor="middle">Categoría global</text>
+
+  <rect x="455" y="670" width="175" height="45" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="1"/>
+  <text x="542" y="690" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">M-23 Outliner</text>
+  <text x="542" y="705" font-family="'Segoe UI', sans-serif" font-size="8" fill="#818cf8" text-anchor="middle">Botones editar/crear</text>
+
+  <rect x="645" y="670" width="175" height="45" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="1"/>
+  <text x="732" y="690" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">M-24 Inspector</text>
+  <text x="732" y="705" font-family="'Segoe UI', sans-serif" font-size="8" fill="#818cf8" text-anchor="middle">Colapsable</text>
+
+  <rect x="530" y="725" width="220" height="45" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="1"/>
+  <text x="640" y="745" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">M-20 Ocultar columnas</text>
+  <text x="640" y="760" font-family="'Segoe UI', sans-serif" font-size="8" fill="#818cf8" text-anchor="middle">Toggle columnas + localStorage</text>
+
+  <text x="640" y="800" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle" font-style="italic">⇉ Todas paralelas (independientes)</text>
+
+  <rect x="530" y="820" width="220" height="24" rx="6" fill="#1e1b4b" stroke="#818cf8" stroke-width="0.5"/>
+  <text x="640" y="836" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#c4b5fd" text-anchor="middle">⏱️ Duración: ~1 semana</text>
+
+  <!-- ========== FASE 4: TOPOLOGÍA ========== -->
+  <rect x="900" y="130" width="420" height="390" rx="12" fill="#0a1a10" stroke="#a78bfa" stroke-width="1.5" filter="url(#shadow2)"/>
+  <rect x="900" y="130" width="420" height="38" rx="12" fill="#581c87"/>
+  <rect x="900" y="156" width="420" height="12" fill="#581c87"/>
+  <text x="1110" y="155" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#d8b4fe" text-anchor="middle" letter-spacing="1">FASE 4 — TOPOLOGÍA 🕸️</text>
+  <text x="1110" y="193" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b21a8" text-anchor="middle">Motor de diagramación profesional</text>
+
+  <!-- M-27 -->
+  <rect x="930" y="215" width="360" height="70" rx="10" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+  <circle cx="958" cy="240" r="16" fill="#7c3aed"/>
+  <text x="958" y="244" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">M27</text>
+  <text x="1120" y="242" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#d8b4fe" text-anchor="middle">Persistencia de posiciones</text>
+  <text x="1120" y="262" font-family="'Segoe UI', sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">Store → { nodeId: {x,y} } • TopologyEvents drag</text>
+  <rect x="1235" y="270" width="50" height="14" rx="4" fill="#581c87"/>
+  <text x="1260" y="280" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#d8b4fe" text-anchor="middle">🟠 C:3</text>
+
+  <!-- M-28 -->
+  <rect x="930" y="305" width="360" height="70" rx="10" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+  <circle cx="958" cy="330" r="16" fill="#7c3aed"/>
+  <text x="958" y="334" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">M28</text>
+  <text x="1120" y="332" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#d8b4fe" text-anchor="middle">Sistema de Skins</text>
+  <text x="1120" y="352" font-family="'Segoe UI', sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">Nodo ○ / Card □ / Imagen 🖼️ custom</text>
+  <rect x="1235" y="360" width="50" height="14" rx="4" fill="#581c87"/>
+  <text x="1260" y="370" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#d8b4fe" text-anchor="middle">🔴 C:4</text>
+
+  <!-- M-29 -->
+  <rect x="930" y="395" width="360" height="70" rx="10" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+  <circle cx="958" cy="420" r="16" fill="#7c3aed"/>
+  <text x="958" y="424" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">M29</text>
+  <text x="1120" y="422" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#d8b4fe" text-anchor="middle">Motor de Temas</text>
+  <text x="1120" y="442" font-family="'Segoe UI', sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">Herencia / Custom • Transparencias • Fondos</text>
+  <rect x="1235" y="450" width="50" height="14" rx="4" fill="#581c87"/>
+  <text x="1260" y="460" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#d8b4fe" text-anchor="middle">🔴 C:4</text>
+
+  <!-- Internal arrows Fase 4 -->
+  <line x1="1110" y1="285" x2="1110" y2="305" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrPurple)"/>
+  <line x1="1110" y1="375" x2="1110" y2="395" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrPurple)"/>
+
+  <!-- Duration -->
+  <rect x="1000" y="480" width="220" height="24" rx="6" fill="#2e1065" stroke="#a78bfa" stroke-width="0.5"/>
+  <text x="1110" y="496" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#d8b4fe" text-anchor="middle">⏱️ Duración: ~2-3 semanas</text>
+
+  <!-- ========== FASE 5: RENDIMIENTO ========== -->
+  <rect x="900" y="540" width="420" height="370" rx="12" fill="#0a0e1a" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow2)"/>
+  <rect x="900" y="540" width="420" height="38" rx="12" fill="#78350f"/>
+  <rect x="900" y="566" width="420" height="12" fill="#78350f"/>
+  <text x="1110" y="565" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#fde68a" text-anchor="middle" letter-spacing="1">FASE 5 — RENDIMIENTO ⚙️</text>
+  <text x="1110" y="600" font-family="'Segoe UI', sans-serif" font-size="10" fill="#92400e" text-anchor="middle">Escalar y proteger contra regresiones</text>
+
+  <rect x="930" y="615" width="360" height="50" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="1"/>
+  <circle cx="955" cy="636" r="14" fill="#d97706"/>
+  <text x="955" y="640" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M03</text>
+  <text x="1120" y="636" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">Optimización deepClone (historial N=15)</text>
+  <text x="1120" y="652" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f59e0b" text-anchor="middle">structuredClone + limit history</text>
+
+  <rect x="930" y="675" width="360" height="50" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="1"/>
+  <circle cx="955" cy="696" r="14" fill="#d97706"/>
+  <text x="955" y="700" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M04</text>
+  <text x="1120" y="696" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">Redibujado selectivo (renderAll)</text>
+  <text x="1120" y="712" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f59e0b" text-anchor="middle">Solo nodos DOM afectados</text>
+
+  <rect x="930" y="735" width="360" height="50" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="1"/>
+  <circle cx="955" cy="756" r="14" fill="#d97706"/>
+  <text x="955" y="760" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M08</text>
+  <text x="1120" y="756" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">Suite de pruebas (Vitest)</text>
+  <text x="1120" y="772" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f59e0b" text-anchor="middle">store • ports • crypto</text>
+
+  <rect x="930" y="795" width="360" height="50" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="1"/>
+  <circle cx="955" cy="816" r="14" fill="#d97706"/>
+  <text x="955" y="820" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M06</text>
+  <text x="1120" y="816" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">Service Worker update strategy</text>
+  <text x="1120" y="832" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f59e0b" text-anchor="middle">skipWaiting + UI notify</text>
+
+  <rect x="1000" y="860" width="220" height="24" rx="6" fill="#451a03" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="1110" y="876" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fde68a" text-anchor="middle">⏱️ Duración: ~2-3 semanas</text>
+
+  <!-- ========== FASE 6: PREMIUM ========== -->
+  <rect x="1370" y="130" width="390" height="780" rx="12" fill="#0a0a12" stroke="#64748b" stroke-width="1.5" filter="url(#shadow2)"/>
+  <rect x="1370" y="130" width="390" height="38" rx="12" fill="#334155"/>
+  <rect x="1370" y="156" width="390" height="12" fill="#334155"/>
+  <text x="1565" y="155" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#cbd5e1" text-anchor="middle" letter-spacing="1">FASE 6 — PREMIUM 💎</text>
+  <text x="1565" y="193" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569" text-anchor="middle">Features diferenciadores</text>
+
+  <!-- M-18 -->
+  <rect x="1395" y="215" width="340" height="70" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+  <circle cx="1420" cy="240" r="14" fill="#475569"/>
+  <text x="1420" y="244" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M18</text>
+  <text x="1575" y="240" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Tema Sepia + selector visible</text>
+  <text x="1575" y="260" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Variables CSS + toggle header</text>
+  <rect x="1680" y="270" width="50" height="14" rx="4" fill="#334155"/>
+  <text x="1705" y="280" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#94a3b8" text-anchor="middle">🟠 C:3</text>
+
+  <!-- M-25 (big) -->
+  <rect x="1395" y="310" width="340" height="100" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1" stroke-dasharray="6,3"/>
+  <circle cx="1420" cy="345" r="14" fill="#475569"/>
+  <text x="1420" y="349" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M25</text>
+  <text x="1575" y="340" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Responsive móvil/tablet</text>
+  <text x="1575" y="360" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Media queries • Touch gestures</text>
+  <text x="1575" y="378" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Bottom nav • Swipe • Pinch-to-zoom</text>
+  <rect x="1680" y="395" width="50" height="14" rx="4" fill="#334155"/>
+  <text x="1705" y="405" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#94a3b8" text-anchor="middle">⚫ C:5</text>
+
+  <!-- M-07 (big) -->
+  <rect x="1395" y="430" width="340" height="90" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1" stroke-dasharray="6,3"/>
+  <circle cx="1420" cy="465" r="14" fill="#475569"/>
+  <text x="1420" y="469" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">M07</text>
+  <text x="1575" y="460" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Conflictos multiusuario</text>
+  <text x="1575" y="480" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">MergeModal • JSON deep merge</text>
+  <text x="1575" y="496" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">UI resolución de conflictos</text>
+  <rect x="1680" y="505" width="50" height="14" rx="4" fill="#334155"/>
+  <text x="1705" y="515" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="600" fill="#94a3b8" text-anchor="middle">⚫ C:5</text>
+
+  <rect x="1455" y="540" width="220" height="24" rx="6" fill="#334155" stroke="#64748b" stroke-width="0.5"/>
+  <text x="1565" y="556" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#cbd5e1" text-anchor="middle">⏱️ Duración: ~3-4 semanas</text>
+
+  <!-- ========== CROSS-PHASE DEPENDENCY ARROWS ========== -->
+
+  <!-- CRITICAL PATH: M02 → M26 -->
+  <path d="M 380 245 Q 420 245 430 245" fill="none" stroke="#ef4444" stroke-width="3" marker-end="url(#arrCrit)"/>
+  <rect x="387" y="230" width="40" height="14" rx="3" fill="#7f1d1d"/>
+  <text x="407" y="240" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fca5a5" text-anchor="middle">CRÍTICO</text>
+
+  <!-- M05 → M26 -->
+  <path d="M 380 335 Q 415 335 430 310" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrCrit)" stroke-dasharray="6,3"/>
+
+  <!-- M26 → M27 (Fase 2 → Fase 4) -->
+  <path d="M 850 250 Q 890 250 900 240" fill="none" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arrPurple)"/>
+  <rect x="858" y="235" width="36" height="14" rx="3" fill="#581c87"/>
+  <text x="876" y="245" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#d8b4fe" text-anchor="middle">DEPS</text>
+
+  <!-- M01 → M22 (Cifrado needed for import) -->
+  <path d="M 350 425 Q 400 425 530 425" fill="none" stroke="#f87171" stroke-width="1.5" marker-end="url(#arrCrit)" stroke-dasharray="4,3"/>
+
+  <!-- M21 → M22 -->
+  <!-- already drawn inside Fase 2 -->
+
+  <!-- ========== CADENA CRÍTICA ========== -->
+  <rect x="40" y="960" width="1720" height="120" rx="14" fill="#1c0a0a" stroke="#ef4444" stroke-width="2" filter="url(#shadow2)"/>
+  <rect x="40" y="960" width="1720" height="35" rx="14" fill="#7f1d1d"/>
+  <rect x="40" y="983" width="1720" height="12" fill="#7f1d1d"/>
+  <text x="900" y="983" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#fca5a5" text-anchor="middle" letter-spacing="2">🔥 CADENA CRÍTICA — RUTA MÁS LARGA DEL PROYECTO</text>
+
+  <!-- Chain nodes -->
+  <rect x="80" y="1005" width="110" height="55" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="135" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">M-02</text>
+  <text x="135" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f87171" text-anchor="middle">QuotaExceeded</text>
+
+  <line x1="190" y1="1032" x2="235" y2="1032" stroke="#ef4444" stroke-width="3" marker-end="url(#arrCrit)"/>
+
+  <rect x="240" y="1005" width="110" height="55" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="295" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">M-05</text>
+  <text x="295" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Anti-corrupción</text>
+
+  <line x1="350" y1="1032" x2="395" y2="1032" stroke="#ef4444" stroke-width="3" marker-end="url(#arrCrit)"/>
+
+  <rect x="400" y="1005" width="160" height="55" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="480" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">M-26</text>
+  <text x="480" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Puertos avanzados</text>
+
+  <line x1="560" y1="1032" x2="605" y2="1032" stroke="#ef4444" stroke-width="3" marker-end="url(#arrCrit)"/>
+
+  <rect x="610" y="1005" width="130" height="55" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="675" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">M-21</text>
+  <text x="675" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Plantilla export</text>
+
+  <line x1="740" y1="1032" x2="785" y2="1032" stroke="#ef4444" stroke-width="3" marker-end="url(#arrCrit)"/>
+
+  <rect x="790" y="1005" width="160" height="55" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="870" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fca5a5" text-anchor="middle">M-22</text>
+  <text x="870" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Import masivo</text>
+
+  <line x1="950" y1="1032" x2="995" y2="1032" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrPurple)"/>
+
+  <rect x="1000" y="1005" width="140" height="55" rx="8" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+  <text x="1070" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#d8b4fe" text-anchor="middle">M-27</text>
+  <text x="1070" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#a78bfa" text-anchor="middle">Posiciones topo</text>
+
+  <line x1="1140" y1="1032" x2="1185" y2="1032" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrPurple)"/>
+
+  <rect x="1190" y="1005" width="130" height="55" rx="8" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+  <text x="1255" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#d8b4fe" text-anchor="middle">M-28</text>
+  <text x="1255" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#a78bfa" text-anchor="middle">Skins topo</text>
+
+  <line x1="1320" y1="1032" x2="1365" y2="1032" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrPurple)"/>
+
+  <rect x="1370" y="1005" width="130" height="55" rx="8" fill="#2e1065" stroke="#a78bfa" stroke-width="2"/>
+  <text x="1435" y="1028" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#d8b4fe" text-anchor="middle">M-29</text>
+  <text x="1435" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" fill="#a78bfa" text-anchor="middle">Temas topo</text>
+
+  <!-- Total time -->
+  <rect x="1530" y="1012" width="200" height="40" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="1630" y="1032" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fca5a5" text-anchor="middle">⏱️ ~8-10 semanas</text>
+  <text x="1630" y="1047" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" text-anchor="middle">(ruta más larga)</text>
+
+  <!-- ========== LEGEND ========== -->
+  <rect x="40" y="1110" width="1720" height="260" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="900" y="1140" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="2">LEYENDA Y GUÍA DE LECTURA</text>
+
+  <!-- Color Legend -->
+  <rect x="80" y="1165" width="24" height="24" rx="6" fill="#7f1d1d" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="115" y="1181" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fca5a5">Fase 0 — Blindaje de producción (P1 Crítica, proteger datos)</text>
+
+  <rect x="80" y="1197" width="24" height="24" rx="6" fill="#14532d" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="115" y="1213" font-family="'Segoe UI', sans-serif" font-size="11" fill="#86efac">Fase 1 — Quick Wins (mínimo riesgo, máximo impacto visual)</text>
+
+  <rect x="80" y="1229" width="24" height="24" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="115" y="1245" font-family="'Segoe UI', sans-serif" font-size="11" fill="#93c5fd">Fase 2 — Core de datos (modelo de puertos y exportación/importación)</text>
+
+  <rect x="80" y="1261" width="24" height="24" rx="6" fill="#312e81" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="115" y="1277" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c4b5fd">Fase 3 — Navegación y productividad (ergonomía del operador)</text>
+
+  <rect x="80" y="1293" width="24" height="24" rx="6" fill="#581c87" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="115" y="1309" font-family="'Segoe UI', sans-serif" font-size="11" fill="#d8b4fe">Fase 4 — Motor de topología (diagramación profesional)</text>
+
+  <rect x="80" y="1325" width="24" height="24" rx="6" fill="#78350f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="115" y="1341" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fde68a">Fase 5 — Rendimiento y calidad (escalar para topologías grandes)</text>
+
+  <!-- Complexity Legend -->
+  <text x="900" y="1181" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#94a3b8">Complejidad:</text>
+  <text x="900" y="1205" font-family="'Segoe UI', sans-serif" font-size="11" fill="#4ade80">🟢 C:1 = Trivial (&lt;1h)        🟡 C:2 = Baja (&lt;4h)</text>
+  <text x="900" y="1227" font-family="'Segoe UI', sans-serif" font-size="11" fill="#f59e0b">🟠 C:3 = Media (1-2 días)    🔴 C:4 = Alta (3-5 días)</text>
+  <text x="900" y="1249" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">⚫ C:5 = Muy Alta (1-2 semanas)</text>
+
+  <!-- Arrows Legend -->
+  <text x="900" y="1280" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#94a3b8">Flechas de dependencia:</text>
+  <line x1="900" y1="1295" x2="960" y2="1295" stroke="#ef4444" stroke-width="3" marker-end="url(#arrCrit)"/>
+  <text x="975" y="1299" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fca5a5">Cadena crítica (bloquea el proyecto)</text>
+  <line x1="900" y1="1315" x2="960" y2="1315" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrPurple)"/>
+  <text x="975" y="1319" font-family="'Segoe UI', sans-serif" font-size="10" fill="#d8b4fe">Dependencia secuencial entre fases</text>
+  <line x1="900" y1="1335" x2="960" y2="1335" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="975" y="1339" font-family="'Segoe UI', sans-serif" font-size="10" fill="#93c5fd">Dependencia interna de fase</text>
+
+  <!-- Estimation box -->
+  <rect x="1400" y="1165" width="330" height="100" rx="10" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="1565" y="1190" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#a5b4fc" text-anchor="middle">📊 ESTIMACIÓN GLOBAL</text>
+  <text x="1565" y="1215" font-family="'Segoe UI', sans-serif" font-size="12" fill="#818cf8" text-anchor="middle">1 Dev: ~15 semanas (4 meses)</text>
+  <text x="1565" y="1240" font-family="'Segoe UI', sans-serif" font-size="12" fill="#818cf8" text-anchor="middle">2-3 Devs: ~6-8 semanas (2 meses)</text>
+
+  <!-- Footer -->
+  <text x="900" y="1390" font-family="'Segoe UI', sans-serif" font-size="11" fill="#475569" text-anchor="middle">RACK Designer Next — Mapa de Dependencias v1.0 — 28 mejoras • 6 fases • Cadena crítica: M02→M05→M26→M21→M22→M27→M28→M29</text>
+</svg>

@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2400" width="1800" height="2400">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="criticalGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="storeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="topoGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2e1a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="persistGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b1a1a"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+    <linearGradient id="infraGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a3b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="modalGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d1a3b"/>
+      <stop offset="100%" stop-color="#581c87"/>
+    </linearGradient>
+
+    <!-- Shadows -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Patterns -->
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5" opacity="0.4"/>
+    </pattern>
+
+    <!-- Arrow markers -->
+    <marker id="arrowBlue" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#60a5fa"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#c084fc"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fb923c"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f87171"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1800" height="2400" fill="url(#bgGrad)"/>
+  <rect width="1800" height="2400" fill="url(#gridPattern)"/>
+
+  <!-- ========== TITLE HEADER ========== -->
+  <rect x="40" y="30" width="1720" height="90" rx="16" fill="url(#headerGrad)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="900" y="72" font-family="'Segoe UI', sans-serif" font-size="32" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="2">RACK DESIGNER NEXT — ARQUITECTURA FINAL</text>
+  <text x="900" y="100" font-family="'Segoe UI', sans-serif" font-size="14" fill="#c7d2fe" text-anchor="middle" letter-spacing="1">VISIÓN COMPLETA DESPUÉS DE IMPLEMENTAR LAS 28 MEJORAS • VANILLA JS (ES6+) • PWA OFFLINE-FIRST</text>
+
+  <!-- ========== LAYER 1: PRESENTACIÓN ========== -->
+  <rect x="40" y="150" width="1720" height="560" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="150" width="1720" height="40" rx="14" fill="#1e293b"/>
+  <rect x="40" y="176" width="1720" height="14" fill="#1e293b"/>
+  <circle cx="70" cy="170" r="7" fill="#ef4444"/>
+  <circle cx="94" cy="170" r="7" fill="#f59e0b"/>
+  <circle cx="118" cy="170" r="7" fill="#22c55e"/>
+  <text x="900" y="175" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="3">CAPA DE PRESENTACIÓN — UI LAYER</text>
+
+  <!-- Header bar -->
+  <rect x="70" y="210" width="1680" height="65" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="90" y="237" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#64748b" letter-spacing="1">HEADER (56px)</text>
+  <!-- Theme Toggle -->
+  <rect x="100" y="248" width="160" height="22" rx="6" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="180" y="263" font-family="'Segoe UI', sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">🎨 Claro / Oscuro / Sepia</text>
+  <!-- Auth -->
+  <rect x="290" y="248" width="120" height="22" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="350" y="263" font-family="'Segoe UI', sans-serif" font-size="11" fill="#93c5fd" text-anchor="middle">🔑 RBAC Auth</text>
+  <!-- NEW badge on M-18 -->
+  <rect x="264" y="248" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="273" y="257" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M18</text>
+
+  <!-- Sidebar -->
+  <rect x="70" y="290" width="250" height="400" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="195" y="315" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="1">SIDEBAR (280px)</text>
+  <!-- Category: Todos -->
+  <rect x="85" y="330" width="220" height="36" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="195" y="352" font-family="'Segoe UI', sans-serif" font-size="12" fill="#93c5fd" text-anchor="middle">🔍 Todos (búsqueda global)</text>
+  <rect x="290" y="330" width="18" height="12" rx="3" fill="#22c55e"/>
+  <text x="299" y="339" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M12</text>
+  <!-- Category: Network -->
+  <rect x="85" y="374" width="220" height="50" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="195" y="394" font-family="'Segoe UI', sans-serif" font-size="12" fill="#93c5fd" text-anchor="middle">🔌 Network (unificado)</text>
+  <text x="195" y="414" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Routers • Switches • Firewalls</text>
+  <rect x="290" y="374" width="18" height="12" rx="3" fill="#22c55e"/>
+  <text x="299" y="383" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M11</text>
+  <!-- Category: Servers -->
+  <rect x="85" y="432" width="220" height="36" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="195" y="454" font-family="'Segoe UI', sans-serif" font-size="12" fill="#93c5fd" text-anchor="middle">📦 Servers / Power / Accs</text>
+  <!-- Drag hint -->
+  <rect x="85" y="486" width="220" height="28" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.5" stroke-dasharray="4,3"/>
+  <text x="195" y="504" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569" text-anchor="middle" font-style="italic">↕ Drag &amp; Drop to Canvas</text>
+
+  <!-- Main Canvas Area -->
+  <rect x="335" y="290" width="870" height="400" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="770" y="315" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="1">MAIN CANVAS (1fr)</text>
+
+  <!-- Physical View -->
+  <rect x="350" y="330" width="410" height="345" rx="8" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>
+  <rect x="350" y="330" width="410" height="30" rx="8" fill="#14532d"/>
+  <rect x="350" y="350" width="410" height="10" fill="#14532d"/>
+  <text x="555" y="350" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4ade80" text-anchor="middle">📐 VISTA FÍSICA</text>
+  <!-- Grid background hint -->
+  <rect x="360" y="368" width="390" height="80" rx="6" fill="#0a1a0a" stroke="#1a3a1a" stroke-width="0.5"/>
+  <line x1="380" y1="368" x2="380" y2="448" stroke="#1a3a1a" stroke-width="0.3"/>
+  <line x1="400" y1="368" x2="400" y2="448" stroke="#1a3a1a" stroke-width="0.3"/>
+  <line x1="420" y1="368" x2="420" y2="448" stroke="#1a3a1a" stroke-width="0.3"/>
+  <line x1="440" y1="368" x2="440" y2="448" stroke="#1a3a1a" stroke-width="0.3"/>
+  <line x1="360" y1="388" x2="750" y2="388" stroke="#1a3a1a" stroke-width="0.3"/>
+  <line x1="360" y1="408" x2="750" y2="408" stroke="#1a3a1a" stroke-width="0.3"/>
+  <line x1="360" y1="428" x2="750" y2="428" stroke="#1a3a1a" stroke-width="0.3"/>
+  <text x="555" y="392" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" text-anchor="middle" opacity="0.6">Grilla de fondo sutil (M-15)</text>
+
+  <!-- Rack boxes inside physical -->
+  <rect x="370" y="460" width="100" height="120" rx="4" fill="#1a1a2e" stroke="#60a5fa" stroke-width="2"/>
+  <text x="420" y="478" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#60a5fa" text-anchor="middle">RACK-01</text>
+  <text x="420" y="492" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b" text-anchor="middle">Slots: 240px fijo</text>
+  <rect x="380" y="500" width="80" height="10" rx="2" fill="#334155"/>
+  <rect x="380" y="514" width="80" height="10" rx="2" fill="#334155"/>
+  <rect x="380" y="528" width="80" height="10" rx="2" fill="#1e3a5f"/>
+  <rect x="380" y="542" width="80" height="10" rx="2" fill="#334155"/>
+  <rect x="380" y="556" width="80" height="10" rx="2" fill="#334155"/>
+  <!-- M-14 badge -->
+  <rect x="454" y="460" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="463" y="469" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M14</text>
+  <!-- M-10 badge -->
+  <rect x="454" y="476" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="463" y="485" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M10</text>
+
+  <rect x="490" y="460" width="100" height="120" rx="4" fill="#1a1a2e" stroke="#60a5fa" stroke-width="2"/>
+  <text x="540" y="478" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="600" fill="#60a5fa" text-anchor="middle">RACK-02</text>
+  <rect x="500" y="500" width="80" height="10" rx="2" fill="#334155"/>
+  <rect x="500" y="514" width="80" height="10" rx="2" fill="#1e3a5f"/>
+  <rect x="500" y="528" width="80" height="10" rx="2" fill="#334155"/>
+
+  <!-- Floor devices aligned -->
+  <rect x="620" y="460" width="120" height="50" rx="6" fill="#1a1a2e" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="680" y="480" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">Floor Devices</text>
+  <text x="680" y="495" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b" text-anchor="middle">min-width: 584px</text>
+  <rect x="724" y="460" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="733" y="469" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M13</text>
+
+  <!-- Topology View -->
+  <rect x="780" y="330" width="410" height="345" rx="8" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
+  <rect x="780" y="330" width="410" height="30" rx="8" fill="#312e81"/>
+  <rect x="780" y="350" width="410" height="10" fill="#312e81"/>
+  <text x="985" y="350" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#c4b5fd" text-anchor="middle">🕸️ VISTA TOPOLOGÍA</text>
+
+  <!-- Topology features list -->
+  <rect x="795" y="368" width="180" height="24" rx="5" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.5"/>
+  <text x="885" y="384" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Skins: Nodo / Card / Imagen</text>
+  <rect x="960" y="368" width="18" height="12" rx="3" fill="#a855f7"/>
+  <text x="969" y="377" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M28</text>
+
+  <rect x="795" y="398" width="180" height="24" rx="5" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.5"/>
+  <text x="885" y="414" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Temas: Heredado / Custom</text>
+  <rect x="960" y="398" width="18" height="12" rx="3" fill="#a855f7"/>
+  <text x="969" y="407" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M29</text>
+
+  <rect x="795" y="428" width="180" height="24" rx="5" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.5"/>
+  <text x="885" y="444" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Posiciones persistentes</text>
+  <rect x="960" y="428" width="18" height="12" rx="3" fill="#a855f7"/>
+  <text x="969" y="437" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M27</text>
+
+  <rect x="795" y="458" width="180" height="24" rx="5" fill="#1e1b4b" stroke="#6366f1" stroke-width="0.5"/>
+  <text x="885" y="474" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Transparencias (canal α)</text>
+
+  <!-- Topology mini canvas -->
+  <rect x="795" y="496" width="380" height="165" rx="6" fill="#0a0e1a" stroke="#312e81" stroke-width="0.5"/>
+  <!-- Dots pattern background -->
+  <circle cx="815" cy="510" r="1.5" fill="#312e81" opacity="0.4"/>
+  <circle cx="835" cy="510" r="1.5" fill="#312e81" opacity="0.4"/>
+  <circle cx="855" cy="510" r="1.5" fill="#312e81" opacity="0.4"/>
+  <circle cx="815" cy="530" r="1.5" fill="#312e81" opacity="0.4"/>
+  <circle cx="835" cy="530" r="1.5" fill="#312e81" opacity="0.4"/>
+  <circle cx="855" cy="530" r="1.5" fill="#312e81" opacity="0.4"/>
+  <!-- Topo nodes -->
+  <circle cx="860" cy="560" r="18" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2"/>
+  <text x="860" y="564" font-family="'Segoe UI', sans-serif" font-size="8" fill="#93c5fd" text-anchor="middle">SW-01</text>
+  <circle cx="960" cy="530" r="18" fill="#3b1a1a" stroke="#f87171" stroke-width="2"/>
+  <text x="960" y="534" font-family="'Segoe UI', sans-serif" font-size="8" fill="#fca5a5" text-anchor="middle">FW-01</text>
+  <rect x="1030" y="555" width="70" height="40" rx="6" fill="#1a2e1a" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="1065" y="572" font-family="'Segoe UI', sans-serif" font-size="8" fill="#86efac" text-anchor="middle">SRV-01</text>
+  <text x="1065" y="585" font-family="'Segoe UI', sans-serif" font-size="7" fill="#4ade80" text-anchor="middle">10.0.1.5</text>
+  <!-- Topo connection lines -->
+  <line x1="878" y1="555" x2="942" y2="535" stroke="#60a5fa" stroke-width="1.5" opacity="0.7"/>
+  <line x1="978" y1="540" x2="1030" y2="565" stroke="#f87171" stroke-width="1.5" opacity="0.7"/>
+  <!-- Background mode label -->
+  <text x="985" y="650" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569" text-anchor="middle">Fondos: color / dots / hexagon / grid</text>
+
+  <!-- Right Panel -->
+  <rect x="1220" y="290" width="230" height="400" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="1335" y="315" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="1">PANEL DERECHO (260px)</text>
+
+  <!-- Outliner -->
+  <rect x="1235" y="330" width="200" height="140" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <rect x="1235" y="330" width="200" height="25" rx="8" fill="#1e3a5f"/>
+  <rect x="1235" y="348" width="200" height="7" fill="#1e3a5f"/>
+  <text x="1290" y="347" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#93c5fd">🌳 Outliner</text>
+  <!-- Quick create icons -->
+  <rect x="1390" y="334" width="14" height="14" rx="3" fill="#22c55e" opacity="0.8"/>
+  <text x="1397" y="344" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fff" text-anchor="middle">+</text>
+  <rect x="1407" y="334" width="14" height="14" rx="3" fill="#3b82f6" opacity="0.8"/>
+  <text x="1414" y="344" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fff" text-anchor="middle">+</text>
+  <!-- Tree items with edit/delete -->
+  <text x="1255" y="375" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">▾ 🏢 Sala Principal</text>
+  <text x="1270" y="393" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">▾ 📦 Rack-01</text>
+  <text x="1285" y="411" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">💻 Switch Core</text>
+  <!-- Edit/delete icons -->
+  <text x="1400" y="375" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">✏️ 🗑️</text>
+  <text x="1400" y="393" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">✏️ 🗑️</text>
+  <text x="1400" y="411" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">✏️ 🗑️</text>
+  <rect x="1419" y="330" width="18" height="12" rx="3" fill="#22c55e"/>
+  <text x="1428" y="339" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M23</text>
+  
+  <!-- Inspector (collapsible) -->
+  <rect x="1235" y="480" width="200" height="90" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <rect x="1235" y="480" width="200" height="25" rx="8" fill="#1e3a5f"/>
+  <rect x="1235" y="498" width="200" height="7" fill="#1e3a5f"/>
+  <text x="1290" y="497" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#93c5fd">🔍 Inspector</text>
+  <text x="1415" y="497" font-family="'Segoe UI', sans-serif" font-size="12" fill="#64748b">▲</text>
+  <text x="1255" y="525" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">Colapsable ↕</text>
+  <rect x="1419" y="480" width="18" height="12" rx="3" fill="#22c55e"/>
+  <text x="1428" y="489" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M24</text>
+
+  <!-- Stats -->
+  <rect x="1235" y="580" width="200" height="50" rx="8" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="1335" y="610" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#93c5fd" text-anchor="middle">📊 Stats</text>
+
+  <!-- Bottom Panel (Tables) -->
+  <rect x="70" y="710" width="1180" height="140" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="660" y="733" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="1">PANEL INFERIOR (220px) — TABLAS DE DATOS</text>
+
+  <!-- Inventory Table -->
+  <rect x="85" y="745" width="560" height="90" rx="6" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="365" y="768" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#93c5fd" text-anchor="middle">📊 Tabla Inventario + Columnas: notes, size, skin (M-19)</text>
+  <!-- Column toggle icon -->
+  <rect x="596" y="752" width="36" height="18" rx="4" fill="#334155" stroke="#64748b" stroke-width="0.5"/>
+  <text x="614" y="764" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">⚙️</text>
+  <rect x="619" y="745" width="18" height="12" rx="3" fill="#22c55e"/>
+  <text x="628" y="754" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M20</text>
+  <!-- Table row samples -->
+  <rect x="95" y="776" width="540" height="14" rx="2" fill="#0f172a"/>
+  <text x="105" y="786" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b">Nombre | Tipo | IP | MAC | Sala | Rack | Slot | Notas | Size | Skin</text>
+  <rect x="95" y="794" width="540" height="14" rx="2" fill="#111827"/>
+  <text x="105" y="804" font-family="'Segoe UI', sans-serif" font-size="8" fill="#475569">SW-Core | Switch | 10.0.1.1 | AA:BB:CC | Sala-1 | R-01 | U12 | VLAN-10 | 1U | cisco</text>
+
+  <!-- Connections Table -->
+  <rect x="660" y="745" width="575" height="90" rx="6" fill="#172554" stroke="#3b82f6" stroke-width="1"/>
+  <text x="947" y="768" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#93c5fd" text-anchor="middle">🔗 Tabla Conexiones (solo puertos disponibles)</text>
+  <rect x="660" y="776" width="575" height="14" rx="2" fill="#0f172a"/>
+  <text x="670" y="786" font-family="'Segoe UI', sans-serif" font-size="8" fill="#64748b">Origen | Puerto Orig. | Destino | Puerto Dest. | Tipo | VLAN | Estado</text>
+
+  <!-- ========== LAYER 2: MODALES ========== -->
+  <rect x="40" y="880" width="1720" height="190" rx="14" fill="#1a0a2e" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="880" width="1720" height="40" rx="14" fill="#2e1065"/>
+  <rect x="40" y="906" width="1720" height="14" fill="#2e1065"/>
+  <text x="900" y="905" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#c4b5fd" text-anchor="middle" letter-spacing="3">CAPA DE MODALES — FORMULARIOS Y DIÁLOGOS</text>
+
+  <!-- Modal cards -->
+  <rect x="70" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="157" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#a5b4fc" text-anchor="middle">🚪 RoomModal</text>
+  <text x="157" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">Modal completo</text>
+  <text x="157" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">(reemplaza prompt)</text>
+  <rect x="228" y="935" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="237" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M09</text>
+
+  <rect x="260" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="347" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#a5b4fc" text-anchor="middle">📐 RackModal</text>
+  <text x="347" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">Select alturas estándar</text>
+  <text x="347" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">(4U-48U, default 8U)</text>
+  <rect x="418" y="935" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="427" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M16</text>
+
+  <rect x="450" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="537" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#a5b4fc" text-anchor="middle">💻 DeviceModal</text>
+  <text x="537" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">+ Submenú puertos</text>
+  <text x="537" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">+ VLAN por puerto</text>
+  <rect x="608" y="935" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="617" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M26</text>
+
+  <rect x="640" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="727" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#a5b4fc" text-anchor="middle">🔌 CableModal</text>
+  <text x="727" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">Filtra puertos</text>
+  <text x="727" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">ocupados</text>
+  <rect x="798" y="935" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="807" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M26</text>
+
+  <rect x="830" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="917" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#a5b4fc" text-anchor="middle">📋 ExportModal</text>
+  <text x="917" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">Plantilla completa</text>
+  <text x="917" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">todos los campos</text>
+  <rect x="988" y="935" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="997" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M21</text>
+
+  <!-- NEW Modals -->
+  <rect x="1020" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1107" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">📥 ImportModal</text>
+  <text x="1107" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">CSV/Excel masivo</text>
+  <text x="1107" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">validación + conflictos</text>
+  <rect x="1020" y="1038" width="46" height="14" rx="3" fill="#dc2626"/>
+  <text x="1043" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">NUEVO</text>
+  <rect x="1178" y="935" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="1187" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M22</text>
+
+  <rect x="1210" y="935" width="175" height="118" rx="8" fill="#312e81" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1297" y="960" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">⛔ MergeModal</text>
+  <text x="1297" y="978" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">Resolución de</text>
+  <text x="1297" y="993" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">conflictos multiusuario</text>
+  <rect x="1210" y="1038" width="46" height="14" rx="3" fill="#dc2626"/>
+  <text x="1233" y="1048" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">NUEVO</text>
+  <rect x="1368" y="935" width="18" height="12" rx="3" fill="#94a3b8"/>
+  <text x="1377" y="944" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M07</text>
+
+  <!-- ========== LAYER 3: STORE (LÓGICA) ========== -->
+  <rect x="40" y="1100" width="1140" height="330" rx="14" fill="url(#storeGrad)" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="1100" width="1140" height="40" rx="14" fill="#1e3a5f"/>
+  <rect x="40" y="1126" width="1140" height="14" fill="#1e3a5f"/>
+  <text x="610" y="1125" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#93c5fd" text-anchor="middle" letter-spacing="3">CAPA DE LÓGICA — STORE (ES6 PROXY)</text>
+
+  <!-- Store internals -->
+  <rect x="70" y="1155" width="530" height="255" rx="10" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="335" y="1180" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#60a5fa" text-anchor="middle">🧠 store.js — Motor Reactivo</text>
+
+  <!-- Save with try/catch -->
+  <rect x="85" y="1195" width="240" height="44" rx="6" fill="#172554" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="205" y="1213" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fca5a5" text-anchor="middle">_save() + try/catch</text>
+  <text x="205" y="1229" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" text-anchor="middle">⚠️ QuotaExceededError → Alerta</text>
+  <rect x="308" y="1195" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="317" y="1204" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M02</text>
+
+  <!-- Load with anti-corruption -->
+  <rect x="340" y="1195" width="240" height="44" rx="6" fill="#172554" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="460" y="1213" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fca5a5" text-anchor="middle">_load() + Backup Slot</text>
+  <text x="460" y="1229" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f87171" text-anchor="middle">🛡️ Anti-corrupción JSON</text>
+  <rect x="563" y="1195" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="572" y="1204" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M05</text>
+
+  <!-- Optimized snapshot -->
+  <rect x="85" y="1250" width="240" height="44" rx="6" fill="#172554" stroke="#f59e0b" stroke-width="1"/>
+  <text x="205" y="1268" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fbbf24" text-anchor="middle">snapshot() Optimizado</text>
+  <text x="205" y="1284" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">Historial limitado N=15</text>
+  <rect x="308" y="1250" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="317" y="1259" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M03</text>
+
+  <!-- renderAll optimized -->
+  <rect x="340" y="1250" width="240" height="44" rx="6" fill="#172554" stroke="#f59e0b" stroke-width="1"/>
+  <text x="460" y="1268" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#fbbf24" text-anchor="middle">renderAll() Selectivo</text>
+  <text x="460" y="1284" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">Solo nodos DOM afectados</text>
+  <rect x="563" y="1250" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="572" y="1259" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M04</text>
+
+  <!-- Port Model -->
+  <rect x="85" y="1310" width="495" height="85" rx="6" fill="#172554" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="332" y="1333" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#4ade80" text-anchor="middle">🔌 Modelo de Puertos Avanzado (M-26)</text>
+  <text x="332" y="1355" font-family="monospace" font-size="10" fill="#86efac" text-anchor="middle">{ id, name, type, speed, vlan, occupied, connId }</text>
+  <text x="332" y="1380" font-family="'Segoe UI', sans-serif" font-size="9" fill="#4ade80" text-anchor="middle">+ Posiciones topología: { nodeId: { x, y } } (M-27)</text>
+
+  <!-- CryptoService -->
+  <rect x="620" y="1155" width="540" height="255" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,3"/>
+  <rect x="620" y="1155" width="540" height="30" rx="10" fill="#450a0a"/>
+  <rect x="620" y="1175" width="540" height="10" fill="#450a0a"/>
+  <text x="890" y="1178" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#fca5a5" text-anchor="middle">🔒 CryptoService — NUEVO</text>
+  <rect x="1114" y="1155" width="18" height="12" rx="3" fill="#ef4444"/>
+  <text x="1123" y="1164" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M01</text>
+
+  <rect x="640" y="1200" width="500" height="70" rx="6" fill="#1c0a0a" stroke="#7f1d1d" stroke-width="0.5"/>
+  <text x="890" y="1222" font-family="'Segoe UI', sans-serif" font-size="12" fill="#fca5a5" text-anchor="middle">Web Crypto API (AES-GCM)</text>
+  <text x="890" y="1244" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f87171" text-anchor="middle">Cifra campos: ip, mac, user, pass</text>
+  <text x="890" y="1260" font-family="'Segoe UI', sans-serif" font-size="9" fill="#991b1b" text-anchor="middle">Clave derivada del PIN de Auth (PBKDF2)</text>
+
+  <rect x="640" y="1290" width="500" height="55" rx="6" fill="#1c0a0a" stroke="#7f1d1d" stroke-width="0.5"/>
+  <text x="890" y="1312" font-family="monospace" font-size="10" fill="#fca5a5" text-anchor="middle">encrypt(plaintext, key) → ciphertext</text>
+  <text x="890" y="1332" font-family="monospace" font-size="10" fill="#fca5a5" text-anchor="middle">decrypt(ciphertext, key) → plaintext</text>
+
+  <rect x="640" y="1365" width="215" height="35" rx="6" fill="#1c0a0a" stroke="#7f1d1d" stroke-width="0.5"/>
+  <text x="747" y="1387" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fca5a5" text-anchor="middle">DeviceModal.js</text>
+
+  <rect x="870" y="1365" width="135" height="35" rx="6" fill="#1c0a0a" stroke="#7f1d1d" stroke-width="0.5"/>
+  <text x="937" y="1387" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fca5a5" text-anchor="middle">inspector.js</text>
+
+  <rect x="1020" y="1365" width="120" height="35" rx="6" fill="#1c0a0a" stroke="#7f1d1d" stroke-width="0.5"/>
+  <text x="1080" y="1387" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fca5a5" text-anchor="middle">tables.js</text>
+
+  <!-- ========== LAYER 4: TOPOLOGÍA ENGINE ========== -->
+  <rect x="40" y="1460" width="1720" height="250" rx="14" fill="url(#topoGrad)" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="1460" width="1720" height="40" rx="14" fill="#166534"/>
+  <rect x="40" y="1486" width="1720" height="14" fill="#166534"/>
+  <text x="900" y="1485" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#86efac" text-anchor="middle" letter-spacing="3">CAPA DE TOPOLOGÍA — CANVAS 2D ENGINE</text>
+
+  <!-- Existing files -->
+  <rect x="70" y="1515" width="240" height="80" rx="8" fill="#0a1a0a" stroke="#16a34a" stroke-width="1"/>
+  <text x="190" y="1540" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4ade80" text-anchor="middle">TopologyState.js</text>
+  <text x="190" y="1560" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ skinMode</text>
+  <text x="190" y="1575" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ themeConfig</text>
+
+  <rect x="330" y="1515" width="240" height="80" rx="8" fill="#0a1a0a" stroke="#16a34a" stroke-width="1"/>
+  <text x="450" y="1540" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4ade80" text-anchor="middle">TopologyEvents.js</text>
+  <text x="450" y="1560" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ drag → persist position</text>
+  <text x="450" y="1575" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ onDrop → store.savePos()</text>
+
+  <rect x="590" y="1515" width="240" height="80" rx="8" fill="#0a1a0a" stroke="#16a34a" stroke-width="1"/>
+  <text x="710" y="1540" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4ade80" text-anchor="middle">TopologyLayout.js</text>
+  <text x="710" y="1560" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ load saved positions</text>
+  <text x="710" y="1575" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ fallback auto-layout</text>
+
+  <rect x="850" y="1515" width="240" height="80" rx="8" fill="#0a1a0a" stroke="#16a34a" stroke-width="1"/>
+  <text x="970" y="1540" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4ade80" text-anchor="middle">TopologyRenderer.js</text>
+  <text x="970" y="1560" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ renderNode/Card/Image</text>
+  <text x="970" y="1575" font-family="'Segoe UI', sans-serif" font-size="9" fill="#22c55e" text-anchor="middle">+ alpha transparency</text>
+
+  <!-- NEW Topology files -->
+  <rect x="1110" y="1515" width="290" height="80" rx="8" fill="#0a1a0a" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1255" y="1540" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fbbf24" text-anchor="middle">TopologySkins.js — NUEVO</text>
+  <text x="1255" y="1560" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">Nodo (círculo) / Card (rect) / Imagen custom</text>
+  <text x="1255" y="1575" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">FileReader + canvas drawImage</text>
+  <rect x="1383" y="1515" width="18" height="12" rx="3" fill="#a855f7"/>
+  <text x="1392" y="1524" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M28</text>
+
+  <rect x="1420" y="1515" width="310" height="80" rx="8" fill="#0a1a0a" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1575" y="1540" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#fbbf24" text-anchor="middle">TopologyThemes.js — NUEVO</text>
+  <text x="1575" y="1560" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">Motor herencia / personalización</text>
+  <text x="1575" y="1575" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fde68a" text-anchor="middle">Fondos: color / dots / hex / grid + α</text>
+  <rect x="1713" y="1515" width="18" height="12" rx="3" fill="#a855f7"/>
+  <text x="1722" y="1524" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M29</text>
+
+  <!-- Orchestrator -->
+  <rect x="70" y="1615" width="1660" height="40" rx="8" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+  <text x="900" y="1640" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4ade80" text-anchor="middle">TopologyOrchestrator.js — Coordina State → Layout → Renderer → Events (+ Skins, Themes)</text>
+
+  <!-- Connection arrows from renderer to skins/themes -->
+  <line x1="1090" y1="1555" x2="1110" y2="1555" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <line x1="1090" y1="1555" x2="1090" y2="1555" stroke="#fbbf24" stroke-width="1.5"/>
+
+  <!-- ========== LAYER 5: PERSISTENCIA ========== -->
+  <rect x="40" y="1740" width="1720" height="200" rx="14" fill="url(#persistGrad)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="1740" width="1720" height="40" rx="14" fill="#78350f"/>
+  <rect x="40" y="1766" width="1720" height="14" fill="#78350f"/>
+  <text x="900" y="1765" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#fde68a" text-anchor="middle" letter-spacing="3">CAPA DE PERSISTENCIA — ALMACENAMIENTO</text>
+
+  <!-- localStorage -->
+  <rect x="70" y="1800" width="480" height="120" rx="10" fill="#1c1a0a" stroke="#a16207" stroke-width="1"/>
+  <text x="310" y="1828" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#fbbf24" text-anchor="middle">💾 localStorage</text>
+  <text x="310" y="1850" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Slot principal + Slot backup (Anti-corrupción)</text>
+  <text x="310" y="1868" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Preferencias de columnas (M-20)</text>
+  <text x="310" y="1886" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Tema activo: Claro / Oscuro / Sepia (M-18)</text>
+  <text x="310" y="1904" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Posiciones topología (M-27), Config skins/temas</text>
+
+  <!-- sessionStorage -->
+  <rect x="580" y="1800" width="340" height="120" rx="10" fill="#1c1a0a" stroke="#a16207" stroke-width="1"/>
+  <text x="750" y="1828" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#fbbf24" text-anchor="middle">🔐 sessionStorage</text>
+  <text x="750" y="1855" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Auth session (volátil)</text>
+  <text x="750" y="1875" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Clave derivada AES (M-01)</text>
+  <text x="750" y="1895" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Se destruye al cerrar pestaña</text>
+
+  <!-- Files -->
+  <rect x="950" y="1800" width="390" height="120" rx="10" fill="#1c1a0a" stroke="#a16207" stroke-width="1"/>
+  <text x="1145" y="1828" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#fbbf24" text-anchor="middle">📁 Archivos (I/O)</text>
+  <text x="1145" y="1855" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• .rack (JSON — datos cifrados)</text>
+  <text x="1145" y="1875" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• .csv / .xlsx (import masivo M-22)</text>
+  <text x="1145" y="1895" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• .jpg / .png / .svg (skins M-28)</text>
+
+  <!-- IndexedDB future -->
+  <rect x="1370" y="1800" width="360" height="120" rx="10" fill="#1c1a0a" stroke="#64748b" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="1550" y="1828" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#94a3b8" text-anchor="middle">🗄️ IndexedDB (futuro)</text>
+  <text x="1550" y="1855" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">• Migración desde localStorage</text>
+  <text x="1550" y="1875" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">• Sin límite de 5MB</text>
+  <text x="1550" y="1895" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">• Almacén de imágenes custom</text>
+
+  <!-- ========== LAYER 6: INFRAESTRUCTURA ========== -->
+  <rect x="40" y="1970" width="1720" height="180" rx="14" fill="url(#infraGrad)" stroke="#818cf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="1970" width="1720" height="40" rx="14" fill="#3730a3"/>
+  <rect x="40" y="1996" width="1720" height="14" fill="#3730a3"/>
+  <text x="900" y="1995" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#c4b5fd" text-anchor="middle" letter-spacing="3">CAPA DE INFRAESTRUCTURA — SERVICIOS DE SOPORTE</text>
+
+  <!-- Service Worker -->
+  <rect x="70" y="2025" width="400" height="105" rx="10" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+  <text x="270" y="2050" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#a5b4fc" text-anchor="middle">⚙️ Service Worker</text>
+  <text x="270" y="2072" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle">+ skipWaiting() + clients.claim()</text>
+  <text x="270" y="2090" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle">+ UI "Nueva versión disponible"</text>
+  <text x="270" y="2108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle">+ Notificación de recarga forzada</text>
+  <rect x="453" y="2025" width="18" height="12" rx="3" fill="#22c55e"/>
+  <text x="462" y="2034" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">M06</text>
+
+  <!-- Tests -->
+  <rect x="500" y="2025" width="400" height="105" rx="10" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+  <text x="700" y="2050" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#a5b4fc" text-anchor="middle">🧪 Tests (Vitest)</text>
+  <text x="700" y="2072" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle">• store.test.js (save, load, proxy)</text>
+  <text x="700" y="2090" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle">• ports.test.js (validación, VLAN)</text>
+  <text x="700" y="2108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#818cf8" text-anchor="middle">• crypto.test.js (encrypt/decrypt)</text>
+  <rect x="883" y="2025" width="18" height="12" rx="3" fill="#f59e0b"/>
+  <text x="892" y="2034" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M08</text>
+
+  <!-- Mobile Layer -->
+  <rect x="930" y="2025" width="400" height="105" rx="10" fill="#1e1b4b" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1130" y="2050" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#fbbf24" text-anchor="middle">📱 Mobile Layer — NUEVO</text>
+  <text x="1130" y="2072" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Media queries (responsive)</text>
+  <text x="1130" y="2090" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Touch gestures (swipe, pinch, long-press)</text>
+  <text x="1130" y="2108" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fde68a" text-anchor="middle">• Bottom navigation bar</text>
+  <rect x="1313" y="2025" width="18" height="12" rx="3" fill="#94a3b8"/>
+  <text x="1322" y="2034" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="700" fill="#000" text-anchor="middle">M25</text>
+  <rect x="930" y="2115" width="46" height="14" rx="3" fill="#dc2626"/>
+  <text x="953" y="2125" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">NUEVO</text>
+
+  <!-- ========== DATA FLOW ARROWS ========== -->
+  <!-- UI → Store -->
+  <line x1="770" y1="860" x2="770" y2="1100" stroke="#60a5fa" stroke-width="2" marker-end="url(#arrowBlue)" opacity="0.6"/>
+  <text x="780" y="980" font-family="'Segoe UI', sans-serif" font-size="10" fill="#60a5fa" opacity="0.7">mutate</text>
+
+  <!-- Store → Topology -->
+  <line x1="610" y1="1430" x2="610" y2="1460" stroke="#4ade80" stroke-width="2" marker-end="url(#arrowGreen)" opacity="0.6"/>
+  <text x="620" y="1448" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4ade80" opacity="0.7">emit</text>
+
+  <!-- Store → Persistence -->
+  <line x1="400" y1="1430" x2="400" y2="1740" stroke="#fb923c" stroke-width="2" marker-end="url(#arrowOrange)" opacity="0.6"/>
+  <text x="410" y="1680" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fb923c" opacity="0.7">_save()</text>
+
+  <!-- Modals → Store -->
+  <line x1="540" y1="1070" x2="540" y2="1100" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" opacity="0.6"/>
+
+  <!-- ========== LEGEND ========== -->
+  <rect x="40" y="2180" width="1720" height="190" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="900" y="2210" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="2">LEYENDA</text>
+
+  <!-- Legend items -->
+  <rect x="80" y="2230" width="20" height="14" rx="3" fill="#ef4444"/>
+  <text x="110" y="2242" font-family="'Segoe UI', sans-serif" font-size="11" fill="#f87171">Prioridad P1 — Crítica (pérdida de datos / seguridad)</text>
+
+  <rect x="80" y="2255" width="20" height="14" rx="3" fill="#f59e0b"/>
+  <text x="110" y="2267" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fbbf24">Prioridad P2/P3 — Alta/Media (funcionalidad y UX)</text>
+
+  <rect x="80" y="2280" width="20" height="14" rx="3" fill="#22c55e"/>
+  <text x="110" y="2292" font-family="'Segoe UI', sans-serif" font-size="11" fill="#4ade80">Quick Wins — Baja complejidad, alto impacto</text>
+
+  <rect x="80" y="2305" width="20" height="14" rx="3" fill="#a855f7"/>
+  <text x="110" y="2317" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c4b5fd">Motor de Topología — Fase 4</text>
+
+  <rect x="80" y="2330" width="20" height="14" rx="3" fill="#94a3b8"/>
+  <text x="110" y="2342" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Prioridad P4 — Baja (futuro / premium)</text>
+
+  <rect x="600" y="2230" width="80" height="20" rx="4" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="700" y="2244" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fbbf24">Componente NUEVO (no existe actualmente)</text>
+
+  <rect x="600" y="2260" width="80" height="20" rx="4" fill="none" stroke="#16a34a" stroke-width="1"/>
+  <text x="700" y="2274" font-family="'Segoe UI', sans-serif" font-size="11" fill="#4ade80">Componente existente (se modifica)</text>
+
+  <rect x="600" y="2290" width="80" height="20" rx="4" fill="none" stroke="#64748b" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="700" y="2304" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Componente futuro (post-roadmap)</text>
+
+  <rect x="600" y="2320" width="18" height="14" rx="3" fill="#6366f1"/>
+  <text x="628" y="2332" font-family="'Segoe UI', sans-serif" font-size="11" fill="#a5b4fc">MXX = ID de mejora según mejoras.md</text>
+
+  <!-- Footer -->
+  <text x="900" y="2390" font-family="'Segoe UI', sans-serif" font-size="11" fill="#475569" text-anchor="middle">RACK Designer Next — Arquitectura Final v1.0 — 28 mejoras pendientes — Vanilla JS (ES6+) / HTML5 / CSS3 — PWA Offline-First</text>
+</svg>
