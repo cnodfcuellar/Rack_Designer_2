@@ -1,3 +1,121 @@
+## [2026-09-18] Corrección: Control Global de Animaciones en Equipos SVG (Status Dot)
+
+### Corrección de Bugs y Renderizado UI
+- **Inyección Inline de SVGs (`js/ui/faceplates.js`):**
+  - Se corrigió el problema por el cual el botón de encendido/apagado de animaciones (`.status-dot` → `body.no-animations`) no afectaba a los LEDs de los equipos en la vista física.
+  - Al estar los SVGs previamente aislados dentro de etiquetas `<img>`, el sandbox del navegador impedía que las reglas CSS del documento padre afectaran a los `@keyframes` internos del SVG.
+  - Se implementó un motor de inyección de SVG inline con caché en memoria (`SVG_INLINE_CACHE`) y precarga automática (`preloadFaceplateSvgs()`) que inserta el marcado vectorial `<svg>` directamente en el DOM.
+- **Reglas CSS de Congelamiento (`css/components/faceplates.css`):**
+  - Se añadieron reglas explícitas de alta especificidad para `body.no-animations .faceplate-wrapper *` y `body.no-animations svg.faceplate-img *`, forzando `animation: none !important; transition: none !important;` en todos los LEDs, displays LCD y puertos en tiempo real.
+- **Feedback de Usuario (`js/main.js`):**
+  - Se conectó la notificación tipo toast (`notify`) al hacer clic en `.status-dot` para informar visualmente al usuario ("Animaciones apagadas" / "Animaciones activadas").
+- **Actualización de Service Worker & Caché PWA (`service-worker.js` e `index.html`):**
+  - Incremento de versión de caché a `rack-designer-next-cache-v5`.
+  - Añadido `reg.update()` en la carga de la página para forzar al navegador a invalidar assets antiguos y descargar la nueva versión de inmediato.
+
+---
+
+## [2026-09-18] Migración Completa al Motor Visual SVG-First con Animaciones GPU
+
+### Arquitectura de Renderizado y UI
+- **`js/ui/faceplates.js`:**
+  - Migración desde el renderizado procedimental CSS de cientos de divs a un motor declarativo basado en gráficos vectoriales SVG independientes.
+  - Nueva función `getSvgFaceplatePath(device)` que resuelve de manera limpia el asset SVG correspondiente según el tipo (`server`, `switch`, `router`, `firewall`, `storage`, `ups`, `pdu`, `patchpanel`, `organizer`, `kvm`, `tray`, etc.) y tamaño en unidades (1U vs. 2U).
+  - Integración de `<div class="faceplate-wrapper">` con `<img class="faceplate-img">` y overlay tipográfico `.faceplate-overlay-info` que proyecta el nombre y la IP del dispositivo sobre la carátula de forma nítida.
+  - Mecanismo de fallback bidireccional entre `assets/svg/default/` y `default/`.
+  - Mantenimiento intacto de las interfaces de dispositivos de piso (`getFloorFaceplate`) y vista trasera (`buildRearView`).
+
+### Estilos y Optimización de Rendimiento
+- **`css/components/faceplates.css`:**
+  - Eliminación de más de 700 líneas de maquetación CSS procedural obsoleta (`.fp-server`, `.vent`, `.ear`, `.port-rj45`, `.sfp-port`, etc.).
+  - Definición de estilos optimizados para `.faceplate-wrapper`, `.faceplate-img` y `.faceplate-label`.
+  - Reducción masiva en la cantidad de nodos DOM creados por cada equipo en el rack, eliminando cuellos de botella de renderizado en racks densos de 42U/48U.
+
+### Animaciones Vectoriales GPU
+- **`assets/svg/default/*.svg` y `default/*.svg`:**
+  - Los 16 archivos SVG generados incorporan bloques `<style>` con animaciones `@keyframes` nativas (`led-blink`, `led-pulse`, `led-fast`).
+  - Animación asíncrona y fluida acelerada por GPU para LEDs de actividad en switches, puertos de fibra SFP, displays LCD, unidades de almacenamiento y barras de carga en UPS.
+
+### Service Worker & PWA Offline
+- **`service-worker.js`:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v4`.
+  - Inclusión de los 16 archivos SVG predeterminados en el array de precaché `ASSETS_TO_CACHE` para garantizar funcionamiento offline 100% autónomo.
+
+### Documentación
+- **`doc/doc_md/ARCHITECTURE_GUIDE.md`:** Actualizado el árbol de directorios con `assets/svg/default/` y `default/`, y documentado el motor visual SVG-First en la sección de Vista Física.
+- **`doc/doc_md/CODEBASE_ORIENTATION_MAP.md`:** Actualizada la estructura de directorios, la fila de `faceplates.js` en la tabla de módulos UI y añadida la receta técnica para agregar y personalizar equipos SVG.
+- **`doc/doc_md/USER_MANUAL.md`:** Incluida la descripción de fidelidad visual y comportamiento de LEDs en la sección de Vista Física.
+
+---
+
+## [2026-09-18] Exportación de Equipos Procedurales (CSS/JS) a Archivos SVG
+
+### Recursos Gráficos y Herramientas
+- **Carpeta `default/` y `assets/svg/default/`:** Se generaron y exportaron 16 archivos vectoriales SVG nativos estándares basados en el motor de diseño procedural de `faceplates.js` y `faceplates.css`:
+  - **Racks y Chasis:** `server_1u.svg`, `server_2u.svg`, `switch_24p.svg`, `router.svg`, `firewall.svg`, `ups.svg`, `pdu.svg`, `storage.svg`, `patchpanel.svg`, `organizer.svg`, `kvm.svg` y `tray.svg`.
+  - **Equipos de Piso:** `floor_pc.svg`, `floor_camera.svg`, `floor_ap.svg` y `floor_printer.svg`.
+  - Proporciones ajustadas al estándar de rack (240×24 px para 1U, 240×48 px para 2U) con orejas de sujeción, bahías de discos, displays LCD, LEDs, conectores RJ45 y jaulas ópticas SFP.
+- **Script `.py/export_default_svgs.py`:** Creado script Python reutilizable para generar o actualizar el catálogo vectorial completo de forma automatizada.
+
+---
+
+## [2026-09-18] Sincronización Completa del Mapa de Ruta (roadmap_mejoras.md)
+
+### Documentación y Arquitectura
+- **roadmap_mejoras.md:** Actualización y sincronización total con todas las propuestas recientes de `mejoras.md`:
+  - Incorporadas 9 nuevas tareas de trazabilidad: `M-30` (Buscador catálogo), `M-31` (Separación etiquetas topología), `M-32` (Layout árbol genealógico), `M-33` (Cableado frontal vs trasero), `M-34` (Drag-to-Connect en vista física), `M-35` (Sin restricciones de ubicación), `M-36` (CRUD en Inspector), `M-37` (html2canvas fidelidad 1:1) y `M-38` (Orden en Outliner).
+  - Total de mejoras pendientes actualizado de 28 a 37 (con M-17 completado).
+  - Recalculada la Matriz de Complejidad, Prioridad y Matriz de Decisión (identificando M-37 como Quick Win y M-34 como Proyecto Estratégico).
+  - Actualizadas las Fases de Implementación (Fases 2, 3, 4 y 6) con sus respectivos archivos afectados.
+  - Actualizados los diagramas Mermaid de Arquitectura Final y Grafo de Dependencias entre tareas.
+
+---
+
+## [2026-09-18] Informe Estratégico de Mejoras e Hoja de Ruta de Implementación
+
+### Documentación y Análisis
+- **informe_mejoras_e_implementacion.md:** Creación del informe integral de modernización técnica y de diseño para RACK Designer Next:
+  - Clasificación sistemática de todas las propuestas de `mejoras.md` agrupadas en 5 dominios (Core/Datos, UX/Física, Topología, Exportación/Colaboración y Responsive/Calidad).
+  - Diagrama de Arquitectura Transformacional (Antes vs. Después) mostrando la unificación de flujos e integración de `html2canvas`.
+  - Diagrama de Flujo de Secuencia para conexión física interactiva (*Drag-to-Connect*).
+  - Diagrama de Pipeline de exportación visual de alta fidelidad.
+  - Diagrama de Grafo de Implementación con dependencias lógicas y matriz de esfuerzo/impacto en 5 fases.
+
+---
+
+## [2026-09-18] Fidelidad Visual de Exportación de Imágenes (html2canvas) en mejoras.md
+
+### Documentación y Roadmap
+- **mejoras.md:** Se documentó formalmente en la Sección 6 la propuesta "Fidelidad Visual 1:1 en Exportación de Imágenes (PNG de Racks, Piso y Cables)" y se integró como ítem 19 en la Fase 4 (Exportación y Colaboración) del roadmap:
+  - Diagnóstico de discrepancia visual: sustitución del dibujador esquemático básico en Canvas 2D de `ExportModal.js`.
+  - Integración de `html2canvas.min.js` como script vendor estático en `index.html` (alineado con la arquitectura offline y sin compiladores).
+  - Captura fidedigna del DOM real con carátulas fotorrealistas (`assets/img/`), faceplates procedimentales y capa de cableado SVG (`#physical-cables-svg`).
+  - Soporte para exportación en alta resolución con factor de escala `scale: 2` / `scale: 3` (Retina / 4K).
+
+---
+
+## [2026-09-18] Gestión CRUD de Salas y Racks desde el Inspector en mejoras.md
+
+### Documentación y Roadmap
+- **mejoras.md:** Se documentó en la Sección 6 la propuesta "Creación, Edición y Eliminación de Salas y Racks desde el Inspector" y se incorporó como ítem 11 en la Fase 2 (UX y Usabilidad) del roadmap:
+  - Soporte CRUD integral de Salas (edición directa/modal, eliminación con confirmación segura `customConfirm` y botón `+ Crear Rack en esta Sala`).
+  - Soporte CRUD integral de Gabinetes (edición de dimensiones/color, eliminación segura y botón `+ Agregar Equipo a este Rack`).
+  - Acciones rápidas en estado vacío (Empty State) para aprovisionar `+ Nueva Sala` o `+ Nuevo Gabinete` sin depender de selectores superiores.
+
+---
+
+## [2026-09-18] Incorporación de Propuesta de Creación Gráfica de Conexiones en Vista Física
+
+### Documentación y Roadmap
+- **mejoras.md:** Se documentó formalmente en la Sección 6 la propuesta de "Creación Gráfica e Interactiva de Conexiones en la Vista Física (Drag-to-Connect)" y se integró como ítem 12 de la Fase 2 (UX y Usabilidad) en el roadmap:
+  - Herramienta y "Modo Cableado" en la barra de controles con iluminación/glow en puertos interactivos.
+  - Gesto natural "arrastrar para conectar" (Drag & Connect) con cable SVG elástico (rubber-band) y física suave.
+  - Snap magnético con validación en tiempo real (verde/cian para puertos disponibles, rojo para ocupados o incompatibles).
+  - Selector flotante rápido de puertos (Quick Port Flyout) junto al equipo para evitar formularios modales pesados.
+  - Persistencia directa en `store.js` y trazado automático en canaletas físicas.
+
+---
+
 ## [2026-08-08] Sincronización Completa de Documentación Técnica
 
 ### Documentación

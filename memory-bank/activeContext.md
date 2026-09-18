@@ -1,31 +1,36 @@
 # Active Context
 
 ## Current Work Focus
-El proyecto se encuentra en una fase de **estabilización, documentación y planificación de mejoras**. Se han completado rondas significativas de refinamiento de UI, corrección de bugs de seguridad y mejoras de arquitectura. El foco actual es documentar a fondo la base de código para facilitar el onboarding de nuevos desarrolladores y priorizar las mejoras pendientes listadas en `mejoras.md`.
+El proyecto ha completado exitosamente la transición al **Motor Visual SVG-First con Animaciones GPU**, sustituyendo el anterior renderizado procedimental CSS por 16 gráficos vectoriales SVG independientes con animaciones `@keyframes` nativas. Además, se sincronizó de manera exhaustiva toda la documentación técnica, manuales, mapa de orientación y roadmap de mejoras (`mejoras.md`, `roadmap_mejoras.md`, `informe_mejoras_e_implementacion.md`).
 
-## Recent Changes (Julio–Agosto 2026)
-- **[2026-08-02] Documentación:** Reescritura completa de `CODEBASE_ORIENTATION_MAP.md` (de ~126 a ~500+ líneas) con recetas para novatos, API del Store, errores frecuentes y glosario técnico.
-- **[2026-08-02] Documentación:** Creación de `doc/doc_md/roadmap_mejoras.md` con análisis de complejidad y dependencias de las 29 mejoras propuestas.
-- **[2026-07-14] UI:** Undo/Redo en Topología, enrutamiento de cables por canaleta, catálogo agrupado, refactorización visual del Outliner, correcciones de CSS Grid y panel derecho.
-- **[2026-07-13] Core:** Enrutamiento físico 2D de cables vía SVG dinámico, toggle UI para cables, atributos de anclaje en faceplates.
-- **[2026-07-13] Documentación:** Reescritura del manual de usuario con SVGs didácticos, guías paso a paso y tutoriales de escenarios reales.
-- **[2026-07-12] Seguridad:** SHA-256 fallback puro en JS para contextos inseguros (file:// y LAN), refactorización del modal de PIN, limpieza de variables CSS obsoletas.
-- **Memory Bank:** Se implementó el sistema `memory-bank/` para persistencia de contexto entre sesiones de agentes IA.
+## Recent Changes (Septiembre 2026)
+- **[2026-09-18] Renderizado SVG-First:**
+  - Creación y exportación de 16 archivos SVG animados (`server_1u.svg`, `server_2u.svg`, `switch_24p.svg`, etc.) en `assets/svg/default/` y `default/`.
+  - Refactorización de `js/ui/faceplates.js` implementando inyección dinámica SVG inline (`SVG_INLINE_CACHE`) para optimizar el rendimiento y permitir control total de estilos.
+  - Limpieza de `css/components/faceplates.css` eliminando más de 700 líneas de código procedural obsoleto.
+- **[2026-09-18] Control de Animaciones (Bugfix Status Dot):**
+  - Solución al problema donde el botón de estado `.status-dot` (`body.no-animations`) no congelaba las animaciones de los equipos. Al inyectar los SVGs inline, las reglas CSS globales (`body.no-animations svg.faceplate-img *`) ahora pausan los LEDs en tiempo real.
+  - Feedback visual con notificación toast al alternar el estado del sistema.
+- **[2026-09-18] PWA y Service Worker:**
+  - Actualización a `rack-designer-next-cache-v5` en `service-worker.js`.
+  - Integración de `reg.update()` en `index.html` para forzar invalidación de caché y auto-actualización inmediata.
+- **[2026-09-18] Roadmap e Informes:**
+  - Sincronización completa de `doc/doc_md/roadmap_mejoras.md` (37 propuestas, tareas M-30 a M-38, matriz de complejidad y grafos Mermaid).
+  - Creación de `informe_mejoras_e_implementacion.md` con análisis arquitectónico y diagramas de flujo.
+  - Actualización de `ARCHITECTURE_GUIDE.md`, `CODEBASE_ORIENTATION_MAP.md`, `USER_MANUAL.md` y `CHANGELOG.md`.
 
 ## Next Steps
-1. **Continuar con las mejoras de `mejoras.md`** — el archivo contiene 29+ propuestas priorizadas con análisis detallado.
-2. **Prioridades inmediatas (Fase 1 — Core):**
-   - Manejar `QuotaExceededError` en `store.js` para evitar pérdida silenciosa de datos.
-   - Implementar gestión avanzada de puertos (validación de puertos ocupados, VLAN, submenú).
-   - Refactorizar `demoData.js` para nueva estructura de puertos.
-3. **Prioridades de UX (Fase 2):**
-   - Buscador en catálogo de equipos.
-   - Controles de edición en el Outliner.
-   - Estandarización de alturas de racks (select con valores fijos).
-   - Ancho fijo proporcional para slots de rack.
+1. **Continuar con las propuestas de mejoras descritas en [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md):**
+   - **M-37:** Fidelidad visual 1:1 en exportación de imágenes con `html2canvas` (Quick Win).
+   - **M-34:** Drag-to-Connect en vista física (conexiones interactivas arrastrando puertos).
+   - **M-36:** CRUD integral de Salas y Racks directamente desde el Inspector.
+   - **M-30:** Buscador en catálogo de equipos del modal.
+2. **Prioridades de Robustez:**
+   - Manejo de `QuotaExceededError` en `store.js`.
+   - Validación de ocupación de puertos y soporte VLAN.
 
 ## Active Decisions & Considerations
-- Mantener el entorno 100% Vanilla JS + `pnpm`. No se introducirán herramientas de build.
-- Separación estricta de estado (Store) y renderizado DOM. Todas las actualizaciones de UI deben dispararse desde el Proxy ES6 en `store.js`.
-- La documentación técnica (`CODEBASE_ORIENTATION_MAP.md`, `ARCHITECTURE_GUIDE.md`) se mantiene como fuente de verdad para onboarding.
-- El archivo `mejoras.md` es la fuente de verdad para propuestas de mejora; `roadmap_mejoras.md` analiza su complejidad y dependencias.
+- **100% Vanilla JS + CSS3 + HTML5:** Cero frameworks, sin compiladores ni bundlers.
+- **Motor SVG-First:** Todos los equipos se renderizan como vectores SVG independientes y modulares, garantizando escala 1:1 y nitidez en cualquier resolución y zoom.
+- **Respaldo en Git:** Únicamente bajo comando explícito del usuario.
+- **Mantenimiento del Changelog:** Registro obligatorio en `doc/log/CHANGELOG.md` tras cada modificación.

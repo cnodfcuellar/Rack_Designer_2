@@ -196,8 +196,10 @@ Rack_Designer_2/
 │
 ├── assets/
 │   ├── icons/                    ← Iconos SVG monocromáticos por categoría de hardware
-│   ├── img/                      ← Imágenes estáticas (logos, fondos)
-│   └── svg/                      ← Diseños SVG detallados de faceplates
+│   ├── img/                      ← Imágenes estáticas (logos, fondos, skins de usuario)
+│   └── svg/
+│       └── default/              ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS GPU
+├── default/                      ← Directorio espejo de SVGs predeterminados
 │
 ├── doc/
 │   ├── doc_md/                   ← Documentación técnica en Markdown (ESTE ARCHIVO)
@@ -244,7 +246,7 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 |:---|:---|:---|:---|
 | [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) | ~15 KB | Define el array `CATALOG` (21 plantillas de equipos), renderiza la barra lateral con iconos de categorías, filtrado y búsqueda | Cuando agregas nuevos tipos de equipos al catálogo o modificas la sidebar |
 | [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) | ~32 KB | Renderizado de la vista física: chasis de racks, slots, drag-and-drop, cables SVG, zoom/pan físico | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
-| [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) | ~11 KB | Plantillas HTML de los equipos dentro del rack (cómo se "ven" los servidores, switches, etc.), anclajes `data-port` para cables | Cuando quieres cambiar la apariencia visual de un tipo de equipo en el rack |
+| [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) | ~5 KB | Motor visual SVG-First: mapea tipos de equipos a gráficos SVG animados en `assets/svg/default/`, genera overlays de texto y anclajes `data-port` | Cuando agregas soporte para un nuevo tipo de SVG o cambias la resolución de assets visuales |
 | [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) | ~13 KB | Panel inferior: tablas de inventario de equipos y conexiones, pestañas, búsqueda, exportación a Excel/CSV | Cuando modificas las columnas de las tablas o agregas nuevas pestañas de datos |
 | [outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js) | ~7 KB | Panel derecho: árbol jerárquico (Sala > Rack > Equipo), selección y navegación | Cuando cambias la estructura jerárquica o agregas acciones al árbol |
 | [inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js) | ~11 KB | Panel derecho: tarjeta de lectura rápida con propiedades del elemento seleccionado | Cuando agregas nuevos campos a los equipos que deben mostrarse |
@@ -626,6 +628,14 @@ Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rac
 
 1. **Store:** En tu nuevo método del store, emite con `this._emit('change', { source: 'tuNuevoSource' })`.
 2. **Main:** En [main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) → Agrega la condición en `renderAll()` (líneas ~159-210) para que tu fuente redibuje las vistas correctas.
+
+### 🎨 Agregar o personalizar la apariencia gráfica (SVG) de un equipo
+
+1. **Crear el archivo SVG:** Coloca el archivo en `assets/svg/default/` (y en `default/`). 
+   - Tamaño base: `viewBox="0 0 240 24"` para equipos 1U o `viewBox="0 0 240 48"` para 2U.
+   - Si deseas LEDs intermitentes o efectos, incluye bloques `<style>` con animaciones `@keyframes` nativas dentro del propio SVG.
+2. **Asociar el SVG en el motor visual:** En [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) → Actualiza la función `getSvgFaceplatePath(device)` para que devuelva la ruta de tu nuevo SVG según el `device.type` o `device.size`.
+3. **PWA offline:** En [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js) → Agrega la ruta del nuevo SVG en el array `ASSETS_TO_CACHE` para garantizar disponibilidad sin conexión.
 
 ---
 

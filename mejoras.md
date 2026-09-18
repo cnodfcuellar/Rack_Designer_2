@@ -134,6 +134,19 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     *   **Resolución de Conflictos:** Ofrecer reglas claras en caso de que existan colisiones de nombres o IPs (ej. omitir, renombrar con sufijo o sobrescribir).
 *   **Objetivo/Beneficio en Producción:** Reducir drásticamente el esfuerzo manual necesario para inicializar centros de datos grandes, permitiendo a los operadores cargar cientos de equipos preconfigurados en un solo clic.
 
+### 📸 Fidelidad Visual 1:1 en Exportación de Imágenes (PNG de Racks, Piso y Cables)
+*   **Problema / Discrepancia Actual:** Las imágenes descargadas al exportar un Rack (`exportRackToPNG`) o Equipos de Piso (`exportFloorToPNG`) en `ExportModal.js` no coinciden con la apariencia real del sistema. Actualmente se generan mediante un Canvas 2D secundario con primitivas sintéticas (rectángulos planos monocromáticos, texto plano y un círculo verde como pseudo-LED), omitiendo por completo:
+    *   Las carátulas fotorrealistas y skins SVG/PNG (`assets/img/`).
+    *   Los faceplates procedurales CSS con texturas metálicas, serigrafía y puertos iluminados.
+    *   La capa de cableado físico ortogonal y canaletas (`#physical-cables-svg`).
+    *   La tipografía y sombras de calidad del Design System.
+*   **Solución Técnica Recomendada:** Integrar la librería estática ligera **`html2canvas.min.js`** como script vendor (siguiendo el mismo patrón arquitectónico que `xlsx.full.min.js` y `mobile-drag-drop` en `index.html`):
+    *   **Captura Directa del DOM (Pixel-Perfect):** Rasterizar directamente el contenedor HTML renderizado del rack (`#rack-{id}`) y la sección de equipos de piso, preservando exactamente el 100% de los estilos CSS, faceplates e iconos.
+    *   **Inclusión del Cableado Físico:** Incluir la capa de cables SVG superpuesta dentro del lienzo exportado para que los planos reflejen las conexiones reales.
+    *   **Soporte de Alta Resolución (Escalado HiDPI / Retina):** Configurar el parámetro de exportación con factor de escala `scale: 2` o `scale: 3`, produciendo imágenes PNG de ultra alta definición listas para presentaciones ejecutivas o documentación técnica de ingeniería.
+    *   **Compatibilidad Offline Total:** Al ser un archivo estático vendor sin módulos ni compilación, mantiene la compatibilidad PWA 100% offline y en ejecuciones locales.
+*   **Objetivo/Beneficio en Producción:** Garantizar que los diagramas e informes exportados por los operadores tengan una fidelidad visual idéntica a la pantalla, brindando un aspecto profesional de grado corporativo a las entregas de proyectos de red.
+
 ### 🌳 Controles de Edición y Creación en el Outliner
 *   **Propuesta de Mejora:** En el panel de Outliner (jerarquía), cada objeto (sala, rack, equipo) debe contar con botones o iconos contextuales para **editar** y **eliminar**. Además, en la cabecera del panel del Outliner, se deben agregar iconos de acceso rápido para **crear sala**, **crear rack** y **agregar equipo**.
 *   **Objetivo/Beneficio en Producción:** Mejorar la usabilidad y agilizar el flujo de trabajo, permitiendo a los operadores gestionar la infraestructura y realizar acciones directamente desde la vista de árbol del centro de datos sin tener que navegar a otras secciones.
@@ -145,6 +158,21 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 ### 🗂️ Inspector Colapsable en el Panel Derecho
 *   **Propuesta de Mejora:** Añadir la funcionalidad de contraer o colapsar la vista del Inspector en el panel derecho.
 *   **Objetivo/Beneficio en Producción:** Al contraer el Inspector, se libera espacio vertical para que la lista del Outliner se expanda. Esto mejora enormemente la navegación en topologías complejas que contienen múltiples salas, racks y equipos apilados.
+
+### 🛠️ Creación, Edición y Eliminación de Salas y Racks desde el Inspector
+*   **Problema / Limitación Actual:** El panel del Inspector (`inspector.js`) opera de manera pasiva y limitada. Al seleccionar una Sala en el Outliner, solo muestra estadísticas básicas sin opciones para editar sus propiedades o eliminarla. Al seleccionar un Rack, incluye un botón para editar pero carece de la opción para eliminarlo. Además, el Inspector no ofrece herramientas contextuales ni acciones rápidas para crear nueva infraestructura (salas o gabinetes) directamente desde el panel lateral.
+*   **Propuesta de Mejora:** Transformar el Inspector en un centro de gestión activa con soporte de ciclo de vida completo (CRUD) para Salas y Racks:
+    *   **Gestión de Salas desde el Inspector:**
+        *   **Edición de Sala:** Botón "Editar Sala" (o inputs directos) para modificar nombre, color o notas sin depender de llamadas síncronas a `prompt` o menús dispersos.
+        *   **Eliminación de Sala:** Botón de acción destructiva ("Eliminar Sala") con confirmación de seguridad (`customConfirm`) y validación de elementos contenidos (racks y equipos).
+        *   **Creación Contextual de Racks:** Botón de acción rápida `+ Crear Rack en esta Sala` que abra el asistente preconfigurando la sala activa.
+    *   **Gestión de Racks desde el Inspector:**
+        *   **Edición de Gabinete:** Edición completa de nombre, altura (U), sala de pertenencia y color temático.
+        *   **Eliminación de Gabinete:** Botón destructivo ("Eliminar Gabinete") con confirmación segura y limpieza automática de posiciones en topología y cableado.
+        *   **Creación Contextual de Equipos:** Botón `+ Agregar Equipo a este Rack` que active el flujo de inserción con el rack y siguiente slot libre pre-seleccionados.
+    *   **Acciones Globales en Estado Vacío (Empty State):**
+        *   Cuando ningún elemento esté seleccionado, el panel del Inspector mostrará botones de acceso rápido para `+ Nueva Sala` y `+ Nuevo Gabinete`, facilitando el aprovisionamiento inmediato del datacenter.
+*   **Objetivo/Beneficio en Producción:** Eliminar la fricción de navegación entre menús superiores y modales aislados, centralizando la administración de la infraestructura física en el panel derecho con una experiencia ágil y consistente.
 
 ### 📱 Rediseño de Interfaz para Modo Móvil y Tablet
 *   **Propuesta de Mejora:** Rediseñar y adaptar la interfaz de usuario (Responsive Design) para dispositivos móviles y tablets, evaluando la mejor estrategia de distribución y ocultamiento de paneles (sidebar, inspector). Además, se propone crear un conjunto de funcionalidades específicas adaptadas al modo móvil:
@@ -199,6 +227,30 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     *   **Control de separación vertical:** Un slider o input numérico que permita ajustar la distancia entre niveles padre-hijo del árbol.
 *   **Objetivo/Beneficio en Producción:** Ofrece una representación visual clara de la jerarquía lógica de la red (core → distribución → acceso), facilitando la comprensión de dependencias y la planificación de redundancia. Los controles de espaciado permiten adaptar el diagrama a diferentes densidades de equipos y tamaños de pantalla o exportación.
 
+### 🔌 Sistema de Cableado Mejorado (Frontal vs Trasero)
+*   **Problema:** El sistema de cableado actual no distingue entre los equipos montados en la parte frontal y los equipos montados en la parte trasera del rack.
+*   **Propuesta de Mejora:** Mejorar el motor de enrutamiento y la gestión de puertos para que reconozca y gestione conexiones diferenciando claramente si los equipos están en el panel frontal o trasero.
+*   **Objetivo/Beneficio en Producción:** Mayor fidelidad a la realidad física del centro de datos y prevención de errores de diseño.
+
+### 🪢 Creación Gráfica e Interactiva de Conexiones en la Vista Física (Drag-to-Connect)
+*   **Problema / Limitación Actual:** Actualmente, crear una conexión de red entre dos equipos requiere abrir un formulario modal (`CableModal`), buscar manualmente el equipo y puerto de origen en selectores de texto, y repetir el proceso para el equipo y puerto de destino. Este flujo resulta abstracto, lento y desconectado de la experiencia de manipulación visual de los racks.
+*   **Propuesta de Mejora:** Implementar un sistema de conexión visual directo e interactivo sobre el lienzo de la Vista Física, emulando la experiencia táctil de conectar un latiguillo (patch cord) en un datacenter real:
+    *   **Modo Cableado / Herramienta de Conexión:** Un botón de acción rápida en la barra de herramientas superior o atajo de teclado (p. ej. tecla `C`) para entrar en "Modo Conexión". Al activarse, los puertos y conectores disponibles en los equipos emiten un resplandor sutil (glow cian) indicando que son interactivos.
+    *   **Gesto Natural "Arrastrar para Conectar" (Drag & Connect):**
+        *   Hacer clic sostenido (o clic inicial) sobre un puerto o conector del equipo origen inicia el tendido del cable.
+        *   Una curva de cable dinámica y elástica (trazado bezier / rubber-band SVG en `#physical-cables-svg`) sigue la trayectoria del cursor en tiempo real con física suave.
+    *   **Atracción Magnética (Snap) y Validación Visual:**
+        *   Al acercar el cursor a un puerto de un equipo destino válido, el extremo del cable se "imanta" (snap magnético) automáticamente al conector objetivo.
+        *   **Feedback cromático:** Si el puerto está libre y es compatible, el indicador y el cable se iluminan en verde/cian con un tooltip informativo flotante (ej. *"Conectar Eth-1 a Switch Core 101"*); si el puerto está ocupado o incompatible, se ilumina en rojo con una advertencia explicativa.
+    *   **Selector Rápido de Puerto Flotante (Quick Port Flyout):** Si el usuario arrastra o suelta sobre un equipo sin seleccionar un pin/conector miniatura específico, se despliega un menú flotante ultra-rápido (popover) junto al equipo con sus puertos disponibles (y su tipo: Cobre, Fibra, VLAN), permitiendo elegir el puerto en un solo clic sin abrir modales pesados.
+    *   **Finalización Inmediata y Ajuste Rápido:** Al soltar o confirmar el puerto destino, la conexión se registra de inmediato en `store.js` y se re-enruta ortogonalmente por las canaletas físicas. Aparece una pastilla flotante temporal para seleccionar tipo de cable (Cat6, Fibra, DAC) o color con un clic. Presionar `Esc` cancela el tendido en cualquier instante.
+*   **Objetivo/Beneficio en Producción:** Transformar una tarea tediosa de ingreso de datos en una interacción visual intuitiva y natural, acelerando drásticamente el diseño de cableado de red y eliminando errores por selección incorrecta de IDs en listas desplegables.
+
+### 🔄 Eliminación de Restricciones de Ubicación (Rack vs Piso/Frente)
+*   **Problema:** El sistema actual impone restricciones estrictas de tipología entre equipos diseñados para rack y equipos de piso o de frente, limitando la flexibilidad del diseño.
+*   **Propuesta de Mejora:** Cambios profundos en la arquitectura para eliminar estas restricciones. No debe haber ninguna restricción respecto a dónde se puede colocar un equipo (cualquier equipo debería poder montarse en rack, piso o frente). Esto requerirá reescribir fuertemente muchos menús, validaciones de arrastrar y soltar (drag & drop) y subsistemas de la aplicación.
+*   **Objetivo/Beneficio en Producción:** Flexibilidad absoluta para el arquitecto de infraestructura, permitiendo modelar escenarios no estandarizados o equipos híbridos que la lógica actual prohíbe.
+
 ---
 
 ## 7. Priorización por Fases (Roadmap del Memory Bank)
@@ -218,20 +270,23 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 8. Grilla de fondo tenue en vista física. *(→ Sección 6, 🏁)*
 9. Categoría "Todos" y agrupación "Network" en sidebar. *(→ Sección 6, 🔍 y 🔌)*
 10. Inspector colapsable, opciones de ordenamiento en Outliner. *(→ Sección 6, 🗂️ y 🔄)*
+11. Creación, edición y eliminación de salas y racks desde el Inspector. *(→ Sección 6, 🛠️)*
+12. Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect). *(→ Sección 6, 🪢)*
 
 ### Fase 3 — Topología Avanzada
-11. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)*
-12. Skins visuales en topología (nodos, cards, imágenes personalizadas). *(→ Sección 6, 🖼️)*
-13. Motor de temas y personalización visual en topología (transparencias, patrones de fondo). *(→ Sección 6, 🎨)*
+13. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)*
+14. Skins visuales en topología (nodos, cards, imágenes personalizadas). *(→ Sección 6, 🖼️)*
+15. Motor de temas y personalización visual en topología (transparencias, patrones de fondo). *(→ Sección 6, 🎨)*
 
 ### Fase 4 — Exportación y Colaboración
-14. Plantilla completa de exportación con todos los campos. *(→ Sección 6, 📋)*
-15. Importación masiva CSV/Excel con validación y resolución de conflictos. *(→ Sección 6, 📥)*
-16. Ocultar/mostrar columnas en tablas con persistencia. *(→ Sección 6, ⚙️)*
+16. Plantilla completa de exportación con todos los campos. *(→ Sección 6, 📋)*
+17. Importación masiva CSV/Excel con validación y resolución de conflictos. *(→ Sección 6, 📥)*
+18. Ocultar/mostrar columnas en tablas con persistencia. *(→ Sección 6, ⚙️)*
+19. Fidelidad visual 1:1 en exportación de imágenes PNG con html2canvas (racks, cables y piso). *(→ Sección 6, 📸)*
 
 ### Fase 5 — Responsive y Avanzado
-17. Rediseño completo para móvil/tablet (media queries, gestos, bottom nav). *(→ Sección 6, 📱)*
-18. Tema Sepia y visibilidad del theme toggler. *(→ Sección 6, 🎨)*
+20. Rediseño completo para móvil/tablet (media queries, gestos, bottom nav). *(→ Sección 6, 📱)*
+21. Tema Sepia y visibilidad del theme toggler. *(→ Sección 6, 🎨)*
 
 ---
 

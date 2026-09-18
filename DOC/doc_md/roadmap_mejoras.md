@@ -4,6 +4,7 @@
 >
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
+> **Última actualización:** 2026-09-18
 > **Estado del sistema:** En producción
 
 ---
@@ -56,9 +57,18 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-27 | Persistencia de posiciones en topología | 🕸️ Core |
 | M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
 | M-29 | Motor de temas y transparencias en topología | 🎨 Topología |
+| M-30 | Buscador en catálogo de añadir equipos | 🔍 UX |
+| M-31 | Separación de etiquetas en topología (IP arriba / nombre abajo) | 🏷️ Topología |
+| M-32 | Layout de árbol genealógico en topología | 🌲 Topología |
+| M-33 | Sistema de cableado frontal vs trasero | 🔌 Core |
+| M-34 | Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) | 🪢 UX |
+| M-35 | Eliminación de restricciones de ubicación (Rack vs Piso/Frente) | 🔄 Core |
+| M-36 | Creación, edición y eliminación de salas y racks desde el Inspector | 🛠️ UX |
+| M-37 | Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas) | 📸 Datos |
+| M-38 | Opciones de ordenamiento en el Outliner | 🔄 UX |
 
 > [!NOTE]
-> **M-17** ya fue completado. Total de tareas pendientes: **28**.
+> **M-17** ya fue completado. Total de tareas pendientes: **37**.
 
 ---
 
@@ -104,16 +114,25 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-27 | Persistencia posiciones topología | 🟠 3 | Extender el modelo de datos en `store.js`, sincronizar con drag events en `TopologyEvents.js`. |
 | M-28 | Skins visuales topología | 🔴 4 | 3 modos de renderizado en `TopologyRenderer.js`, carga de imágenes custom (FileReader + canvas), selector UI. |
 | M-29 | Motor temas topología | 🔴 4 | Motor de temas con herencia/personalización, controles de transparencia, patrones de fondo en canvas. |
+| M-30 | Buscador en catálogo de equipos | 🟡 2 | Campo de filtrado dinámico en tiempo real dentro del modal/catálogo de equipos. |
+| M-31 | Separación etiquetas topología | 🟡 2 | Ajuste de dibujo en `TopologyRenderer.js`: IP arriba del círculo y nombre abajo. |
+| M-32 | Layout de árbol genealógico | 🟠 3 | Algoritmo de jerarquía multinivel en `TopologyLayout.js` y controles de espaciado X/Y. |
+| M-33 | Cableado frontal vs trasero | 🟠 3 | Extensión de lógica de conexiones y puertos distinguiendo la cara de montaje del equipo. |
+| M-34 | Drag-to-Connect en vista física | 🔴 4 | Herramienta de cableado interactivo: eventos pointer, cable elástico SVG (rubber-band), snap magnético y popover de puertos. |
+| M-35 | Sin restricciones de ubicación | ⚫ 5 | Cambio arquitectónico profundo: reescribir validaciones drag & drop y unificar esquema rack/piso/frente. |
+| M-36 | CRUD Salas/Racks en Inspector | 🟠 3 | Soporte completo para crear, editar y eliminar salas y racks directamente desde `inspector.js`. |
+| M-37 | Exportación fiel (html2canvas) | 🟡 2 | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
+| M-38 | Opciones de orden en Outliner | 🟡 2 | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
 
 ### Resumen de Complejidad
 
 | Nivel | Cantidad | IDs |
 |---|---|---|
 | 🟢 Trivial (1) | 4 | M-10, M-13, M-14, M-15 |
-| 🟡 Baja (2) | 7 | M-02, M-06, M-09, M-11, M-12, M-16, M-19, M-24 |
-| 🟠 Media (3) | 7 | M-03, M-05, M-18, M-20, M-21, M-23, M-27 |
-| 🔴 Alta (4) | 8 | M-01, M-04, M-08, M-22, M-26, M-28, M-29 |
-| ⚫ Muy Alta (5) | 2 | M-07, M-25 |
+| 🟡 Baja (2) | 12 | M-02, M-06, M-09, M-11, M-12, M-16, M-19, M-24, M-30, M-31, M-37, M-38 |
+| 🟠 Media (3) | 10 | M-03, M-05, M-18, M-20, M-21, M-23, M-27, M-32, M-33, M-36 |
+| 🔴 Alta (4) | 8 | M-01, M-04, M-08, M-22, M-26, M-28, M-29, M-34 |
+| ⚫ Muy Alta (5) | 3 | M-07, M-25, M-35 |
 
 ---
 
@@ -152,12 +171,21 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-27 | Persistencia posiciones | ⚡ P3 | Evita que los diagramas se desordenen al recargar. |
 | M-20 | Ocultar columnas | ⚡ P3 | Ergonomía en pantallas pequeñas. |
 | M-21 | Plantilla exportación | ⚡ P3 | Base necesaria para M-22 (importación masiva). |
+| M-30 | Buscador catálogo de equipos | ⚡ P3 | Agiliza la localización inmediata de equipos en el modal de catálogo. |
+| M-31 | Separación etiquetas topología | ⚡ P3 | Evita el truncado y saturación de texto en nodos circulares densos. |
+| M-32 | Layout árbol genealógico | ⚡ P3 | Visualización clara de la jerarquía de red (Core, Distribución, Acceso). |
+| M-33 | Cableado frontal vs trasero | ⚡ P3 | Distingue puertos según la cara de montaje físico del equipo. |
+| M-38 | Opciones de orden Outliner | ⚡ P3 | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
+| M-34 | Drag-to-Connect en vista física | 🔥 P2 | Revoluciona la experiencia de cableado; elimina formularios modales lentos. |
+| M-36 | CRUD Salas/Racks en Inspector | 🔥 P2 | Agiliza la administración física directa sin saltar entre paneles. |
+| M-37 | Exportación fiel (html2canvas) | 🔥 P2 | Resuelve el reclamo de imágenes exportadas que no coinciden con la pantalla. |
 | M-18 | Tema Sepia | 💡 P4 | Mejora estética, no afecta funcionalidad. |
 | M-22 | Importación masiva | 💡 P4 | Gran valor, pero depende de M-21 y M-26. |
 | M-25 | Responsive móvil | 💡 P4 | Mercado futuro. Requiere esfuerzo masivo. |
 | M-07 | Conflictos multiusuario | 💡 P4 | Escenario poco frecuente en uso actual (single-user). |
 | M-28 | Skins topología | 💡 P4 | Feature premium, no bloquea ningún flujo actual. |
 | M-29 | Motor temas topología | 💡 P4 | Feature premium, pura personalización visual. |
+| M-35 | Sin restricciones de ubicación | 💡 P4 | Flexibilidad total, pero requiere reescribir esquemas y drag & drop. |
 
 ---
 
@@ -173,26 +201,30 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
   Crítica  │          │         │         │         │          │
            ├──────────┼─────────┼─────────┼─────────┼──────────┤
   P2 🔥    │  M-10    │  M-09   │  M-03   │  M-04   │          │
-  Alta     │          │  M-19   │         │  M-26   │          │
+  Alta     │          │  M-19   │  M-36   │  M-26   │          │
+           │          │  M-37   │         │  M-34   │          │
            ├──────────┼─────────┼─────────┼─────────┼──────────┤
   P3 ⚡    │  M-13    │  M-06   │  M-18   │  M-08   │          │
   Media    │  M-14    │  M-11   │  M-20   │         │          │
            │  M-15    │  M-12   │  M-21   │         │          │
            │          │  M-16   │  M-23   │         │          │
            │          │  M-24   │  M-27   │         │          │
+           │          │  M-30   │  M-32   │         │          │
+           │          │  M-31   │  M-33   │         │          │
+           │          │  M-38   │         │         │          │
            ├──────────┼─────────┼─────────┼─────────┼──────────┤
   P4 💡    │          │         │         │  M-22   │  M-07    │
   Baja     │          │         │         │  M-28   │  M-25    │
-           │          │         │         │  M-29   │          │
+           │          │         │         │  M-29   │  M-35    │
            └──────────┴─────────┴─────────┴─────────┴──────────┘
 ```
 
 > [!TIP]
-> **Zona de Quick Wins (arriba-izquierda):** M-02, M-10, M-09, M-19 — Máximo impacto con mínimo esfuerzo. Empezar aquí.
+> **Zona de Quick Wins (arriba-izquierda):** M-02, M-10, M-09, M-19, M-37 — Máximo impacto con mínimo esfuerzo. Empezar aquí.
 >
-> **Zona de Proyectos Estratégicos (arriba-derecha):** M-01, M-04, M-26 — Alto impacto pero requieren planificación y sprints dedicados.
+> **Zona de Proyectos Estratégicos (arriba-derecha):** M-01, M-04, M-26, M-34 — Alto impacto pero requieren planificación y sprints dedicados.
 >
-> **Zona de Backlog (abajo-derecha):** M-07, M-25 — No abordar hasta que todo lo anterior esté resuelto.
+> **Zona de Backlog (abajo-derecha):** M-07, M-25, M-35 — No abordar hasta que todo lo anterior esté resuelto.
 
 ---
 
@@ -231,30 +263,36 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 ---
 
 ### Fase 2 — Core de Datos y Puertos 🔌
-> **Objetivo:** Fortalecer el modelo de datos para reflejar la realidad de un datacenter.
-> **Duración estimada:** 1-2 semanas
+> **Objetivo:** Fortalecer el modelo de datos para reflejar la realidad de un datacenter y optimizar la conexión e intercambio de información.
+> **Duración estimada:** 2 semanas
 > **Dependencias:** Fase 0 completada
 
 | Orden | ID | Tarea | Archivos Afectados |
 |---|---|---|---|
 | 2.1 | M-26 | Modelo de puertos avanzado + validaciones | `store.js`, `CableModal.js`, `demoData.js` |
-| 2.2 | M-19 | Propiedades faltantes en tabla inventario | `tables.js` |
-| 2.3 | M-21 | Plantilla completa de exportación | `ExportModal.js` |
-| 2.4 | M-22 | Importación masiva CSV/Excel | `fileManager.js`, nuevo `ImportModal.js` |
+| 2.2 | M-33 | Cableado frontal vs trasero | `store.js`, `CableModal.js`, `rack.js` |
+| 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` |
+| 2.4 | M-19 | Propiedades faltantes en tabla inventario | `tables.js` |
+| 2.5 | M-21 | Plantilla completa de exportación | `ExportModal.js` |
+| 2.6 | M-37 | Exportación fiel 1:1 (html2canvas) | `index.html`, `ExportModal.js` |
+| 2.7 | M-22 | Importación masiva CSV/Excel | `fileManager.js`, nuevo `ImportModal.js` |
 
 ---
 
 ### Fase 3 — Mejoras de Navegación y Productividad 🧭
-> **Objetivo:** Optimizar la ergonomía del día a día del operador.
-> **Duración estimada:** 1 semana
+> **Objetivo:** Optimizar la ergonomía del día a día del operador centralizando la gestión.
+> **Duración estimada:** 1-2 semanas
 
 | Orden | ID | Tarea | Archivos Afectados |
 |---|---|---|---|
 | 3.1 | M-11 | Grupo "Network" en sidebar | `catalog.js` |
 | 3.2 | M-12 | Categoría "Todos" con lupa | `catalog.js` |
-| 3.3 | M-23 | Controles edición/creación en Outliner | `outliner.js` |
-| 3.4 | M-24 | Inspector colapsable | `inspector.js`, `layout.css` |
-| 3.5 | M-20 | Ocultar/mostrar columnas | `tables.js` |
+| 3.3 | M-30 | Buscador en catálogo de equipos | `DeviceModal.js`, `catalog.js` |
+| 3.4 | M-23 | Controles edición/creación en Outliner | `outliner.js` |
+| 3.5 | M-38 | Opciones de ordenamiento en Outliner | `outliner.js` |
+| 3.6 | M-24 | Inspector colapsable | `inspector.js`, `layout.css` |
+| 3.7 | M-36 | CRUD Salas/Racks desde Inspector | `inspector.js`, `store.js` |
+| 3.8 | M-20 | Ocultar/mostrar columnas | `tables.js` |
 
 ---
 
@@ -266,8 +304,10 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | Orden | ID | Tarea | Archivos Afectados |
 |---|---|---|---|
 | 4.1 | M-27 | Persistencia de posiciones | `store.js`, `TopologyEvents.js`, `TopologyLayout.js` |
-| 4.2 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` |
-| 4.3 | M-29 | Motor de temas y transparencias | `TopologyRenderer.js`, nuevo `TopologyThemes.js` |
+| 4.2 | M-31 | Separación de etiquetas (IP arriba / nombre abajo) | `TopologyRenderer.js` |
+| 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` |
+| 4.4 | M-32 | Layout de árbol genealógico | `TopologyLayout.js`, `TopologyRenderer.js` |
+| 4.5 | M-29 | Motor de temas y transparencias | `TopologyRenderer.js`, nuevo `TopologyThemes.js` |
 
 ---
 
@@ -285,20 +325,21 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 ---
 
 ### Fase 6 — Experiencia Premium 💎
-> **Objetivo:** Features diferenciadores de alto valor pero menor urgencia.
+> **Objetivo:** Features diferenciadores de alto valor pero menor urgencia o alta complejidad estructural.
 > **Duración estimada:** 3-4 semanas
 
 | Orden | ID | Tarea | Archivos Afectados |
 |---|---|---|---|
 | 6.1 | M-18 | Tema Sepia + selector visible | `variables.css`, `layout.css`, `main.js` |
 | 6.2 | M-25 | Responsive móvil/tablet | Todos los CSS, `main.js`, nuevo `mobile.js` |
-| 6.3 | M-07 | Resolución de conflictos multiusuario | `fileManager.js`, nuevo `MergeModal.js` |
+| 6.3 | M-35 | Sin restricciones de ubicación (Rack vs Piso/Frente) | `store.js`, `rack.js`, `PlacementModal.js` |
+| 6.4 | M-07 | Resolución de conflictos multiusuario | `fileManager.js`, nuevo `MergeModal.js` |
 
 ---
 
 ## 6. Diagrama de Arquitectura Final
 
-> Arquitectura del proyecto después de implementar **todas** las 28 mejoras pendientes.
+> Arquitectura del proyecto después de implementar **todas** las 37 mejoras pendientes.
 
 ```mermaid
 graph TB
@@ -306,69 +347,70 @@ graph TB
         direction TB
         
         subgraph "Header"
-            THEME_TOGGLE["🎨 Theme Toggle<br/>(Claro/Oscuro/Sepia)"]
+            THEME_TOGGLE["🎨 Theme Toggle<br/>(Claro/Oscuro/Sepia M-18)"]
             AUTH["🔑 Auth (RBAC)"]
         end
         
         subgraph "Sidebar (280px)"
-            CAT_ALL["🔍 Todos"]
-            CAT_NET["🔌 Network<br/>(Routers+Switches+FW)"]
+            CAT_ALL["🔍 Todos + Buscador<br/>(M-12, M-30)"]
+            CAT_NET["🔌 Network<br/>(Routers+Switches+FW M-11)"]
             CAT_OTHER["📦 Servers / Power / Accs"]
         end
         
         subgraph "Main Canvas"
-            PHYS_VIEW["📐 Vista Física<br/>• Grilla de fondo sutil<br/>• Bordes racks visibles<br/>• Slots fijo 240px<br/>• Piso alineado 584px"]
+            PHYS_VIEW["📐 Vista Física<br/>• Grilla de fondo sutil (M-15)<br/>• Bordes racks visibles (M-10)<br/>• Slots fijo 240px (M-14)<br/>• Piso alineado 584px (M-13)<br/>• Drag-to-Connect cables (M-34)"]
             
-            TOPO_VIEW["🕸️ Vista Topología<br/>• Skins: Nodo/Card/Imagen<br/>• Temas: Heredado/Custom<br/>• Transparencias (alfa)<br/>• Fondos: color/dots/hex/grid<br/>• Posiciones persistentes"]
+            TOPO_VIEW["🕸️ Vista Topología<br/>• Skins: Nodo/Card/Imagen (M-28)<br/>• Layout: Árbol Genealógico (M-32)<br/>• Etiquetas: IP arriba, Nombre abajo (M-31)<br/>• Temas: Heredado/Custom (M-29)<br/>• Transparencias alfa<br/>• Posiciones persistentes (M-27)"]
         end
         
         subgraph "Panel Derecho (260px)"
-            OUTLINER["🌳 Outliner<br/>+ Botones editar/eliminar<br/>+ Iconos crear sala/rack/equipo"]
-            INSPECTOR["🔍 Inspector<br/>+ Modo colapsable"]
+            OUTLINER["🌳 Outliner<br/>+ Botones editar/eliminar inline (M-23)<br/>+ Iconos crear sala/rack/equipo<br/>+ Opciones de orden (M-38)"]
+            INSPECTOR["🔍 Inspector<br/>+ Modo colapsable (M-24)<br/>+ CRUD Salas/Racks/Equipos (M-36)"]
             STATS["📊 Stats"]
         end
         
         subgraph "Panel Inferior"
-            TABLE_INV["📊 Tabla Inventario<br/>+ Columnas: notes, size, skin<br/>+ Ocultar/mostrar columnas"]
-            TABLE_CON["🔗 Tabla Conexiones<br/>+ Filtro puertos disponibles"]
+            TABLE_INV["📊 Tabla Inventario<br/>+ Columnas: notes, size, skin (M-19)<br/>+ Ocultar/mostrar columnas (M-20)"]
+            TABLE_CON["🔗 Tabla Conexiones<br/>+ Filtro puertos disponibles (M-26)"]
         end
     end
     
     subgraph "CAPA DE MODALES"
-        ROOM_MODAL["🚪 RoomModal<br/>(Modal completo, no prompt)"]
-        RACK_MODAL["📐 RackModal<br/>(Select alturas estándar)"]
-        DEV_MODAL["💻 DeviceModal<br/>(+ Submenú puertos + VLAN)"]
-        CABLE_MODAL["🔌 CableModal<br/>(Solo puertos disponibles)"]
-        EXPORT_MODAL["📋 ExportModal<br/>(Plantilla completa)"]
-        IMPORT_MODAL["📥 ImportModal [NUEVO]<br/>(CSV/Excel masivo)"]
-        MERGE_MODAL["⛔ MergeModal [NUEVO]<br/>(Resolución conflictos)"]
+        ROOM_MODAL["🚪 RoomModal<br/>(Modal completo M-09)"]
+        RACK_MODAL["📐 RackModal<br/>(Select alturas estándar M-16)"]
+        DEV_MODAL["💻 DeviceModal<br/>(+ Submenú puertos + VLAN M-26)"]
+        CABLE_MODAL["🔌 CableModal<br/>(Solo puertos disponibles M-26)"]
+        EXPORT_MODAL["📋 ExportModal<br/>(Plantilla completa M-21 + html2canvas M-37)"]
+        IMPORT_MODAL["📥 ImportModal [NUEVO]<br/>(CSV/Excel masivo M-22)"]
+        MERGE_MODAL["⛔ MergeModal [NUEVO]<br/>(Resolución conflictos M-07)"]
     end
     
     subgraph "CAPA DE LÓGICA (store.js)"
-        STORE["🧠 Store (ES6 Proxy)<br/>──────────────────<br/>• _save() con try/catch<br/>  (QuotaExceededError)<br/>• _load() con backup slot<br/>  (Anti-corrupción JSON)<br/>• snapshot() optimizado<br/>  (historial limitado N=15)<br/>• Modelo puertos:<br/>  {id, type, speed, vlan,<br/>   occupied, connId}<br/>• Posiciones topología:<br/>  {nodeId: {x, y}}"]
+        STORE["🧠 Store (ES6 Proxy)<br/>──────────────────<br/>• _save() con try/catch (M-02)<br/>• _load() con backup slot (M-05)<br/>• snapshot() optimizado (M-03)<br/>• Modelo puertos {id, type, vlan, occupied} (M-26)<br/>• Cableado frontal/trasero (M-33)<br/>• Flexibilidad ubicación (M-35)<br/>• Posiciones topología (M-27)"]
         
-        CRYPTO["🔒 CryptoService [NUEVO]<br/>Web Crypto API (AES-GCM)<br/>Cifra: ip, mac, user, pass"]
+        CRYPTO["🔒 CryptoService [NUEVO]<br/>Web Crypto API (AES-GCM M-01)<br/>Cifra: ip, mac, user, pass"]
     end
     
     subgraph "CAPA DE TOPOLOGÍA (Canvas 2D)"
         T_STATE["TopologyState<br/>+ skinMode, themeConfig"]
-        T_EVENTS["TopologyEvents<br/>+ drag → persist position"]
-        T_LAYOUT["TopologyLayout<br/>+ load saved positions"]
-        T_RENDER["TopologyRenderer<br/>+ renderNode/Card/Image"]
-        T_SKINS["TopologySkins [NUEVO]<br/>+ Nodo/Card/Imagen custom"]
-        T_THEMES["TopologyThemes [NUEVO]<br/>+ Motor herencia/custom<br/>+ Transparencias alfa"]
+        T_EVENTS["TopologyEvents<br/>+ drag → persist position (M-27)"]
+        T_LAYOUT["TopologyLayout<br/>+ Árbol Genealógico (M-32)<br/>+ load saved positions"]
+        T_RENDER["TopologyRenderer<br/>+ Etiquetas IP/nombre (M-31)<br/>+ renderNode/Card/Image"]
+        T_SKINS["TopologySkins [NUEVO]<br/>+ Nodo/Card/Imagen custom (M-28)"]
+        T_THEMES["TopologyThemes [NUEVO]<br/>+ Motor herencia/custom (M-29)<br/>+ Transparencias alfa"]
     end
     
     subgraph "CAPA DE PERSISTENCIA"
-        LS["💾 localStorage<br/>• Doble slot (backup)<br/>• Preferencias columnas<br/>• Tema activo"]
+        LS["💾 localStorage<br/>• Doble slot (backup M-05)<br/>• Preferencias columnas (M-20)<br/>• Tema activo"]
         SS["🔐 sessionStorage<br/>• Auth session"]
-        FILE["📁 Archivos<br/>• .rack (JSON cifrado)<br/>• .csv/.xlsx (import/export)"]
+        FILE["📁 Archivos<br/>• .rack (JSON cifrado)<br/>• .csv/.xlsx (import/export M-21/22)"]
     end
     
     subgraph "CAPA DE INFRAESTRUCTURA"
-        SW["⚙️ Service Worker<br/>+ skipWaiting + notify UI"]
-        TESTS["🧪 Tests (Vitest)<br/>• store.test.js<br/>• ports.test.js<br/>• crypto.test.js"]
-        MOBILE["📱 Mobile Layer [NUEVO]<br/>• Media queries<br/>• Touch gestures<br/>• Bottom nav bar"]
+        SW["⚙️ Service Worker<br/>+ skipWaiting + notify UI (M-06)"]
+        TESTS["🧪 Tests (Vitest M-08)<br/>• store.test.js<br/>• ports.test.js<br/>• crypto.test.js"]
+        MOBILE["📱 Mobile Layer [NUEVO M-25]<br/>• Media queries<br/>• Touch gestures<br/>• Bottom nav bar"]
+        H2C["📸 html2canvas [VENDOR M-37]<br/>Exportación PNG 1:1 Pixel-Perfect"]
     end
     
     %% Conexiones principales
@@ -391,6 +433,7 @@ graph TB
     CABLE_MODAL --> STORE
     IMPORT_MODAL --> STORE
     EXPORT_MODAL --> STORE
+    EXPORT_MODAL --> H2C
     MERGE_MODAL --> STORE
     
     STORE --> LS
@@ -422,30 +465,55 @@ graph LR
         M16["M-16 Alturas rack"]
     end
     
-    subgraph "Fase 2 - Core Datos"
-        M26["M-26<br/>Puertos avanzados"]
-        M19["M-19<br/>Props tabla"]
-        M21["M-21<br/>Plantilla export"]
-        M22["M-22<br/>Import masivo"]
+    subgraph "Fase 2 - Core Datos & Cables"
+        M26["M-26 Puertos avanzados"]
+        M33["M-33 Frontal/trasero"]
+        M34["M-34 Drag-to-Connect"]
+        M19["M-19 Props tabla"]
+        M21["M-21 Plantilla export"]
+        M37["M-37 html2canvas 1:1"]
+        M22["M-22 Import masivo"]
+    end
+
+    subgraph "Fase 3 - Navegación & CRUD"
+        M11["M-11 Grupo Network"]
+        M12["M-12 Cat Todos"]
+        M30["M-30 Buscador cat"]
+        M23["M-23 Controles Outliner"]
+        M38["M-38 Orden Outliner"]
+        M24["M-24 Insp colapsable"]
+        M36["M-36 CRUD Inspector"]
+        M20["M-20 Ocultar cols"]
     end
     
     subgraph "Fase 4 - Topología"
         M27["M-27 Posiciones"]
+        M31["M-31 Etiquetas separadas"]
         M28["M-28 Skins"]
+        M32["M-32 Árbol genealógico"]
         M29["M-29 Temas"]
     end
     
     %% Dependencias
     M02 --> M26
     M05 --> M26
+    M26 --> M33
+    M26 --> M34
     M26 --> M19
     M26 --> M21
     M21 --> M22
+    M21 --> M37
     M01 --> M22
     
     M27 --> M28
     M28 --> M29
+    M28 --> M32
+    M27 --> M31
     M26 --> M27
+
+    M12 --> M30
+    M23 --> M38
+    M24 --> M36
 ```
 
 > [!IMPORTANT]
@@ -462,13 +530,13 @@ graph LR
 |---|---|---|---|
 | **Fase 0** — Blindaje | 1 semana | Semana 1 | M-02, M-05, M-01 |
 | **Fase 1** — Quick Wins | 2-3 días | Semana 2 | M-10, M-13, M-14, M-15, M-09, M-16 |
-| **Fase 2** — Core Datos | 1-2 semanas | Semana 3-4 | M-26, M-19, M-21, M-22 |
-| **Fase 3** — Navegación | 1 semana | Semana 5 | M-11, M-12, M-23, M-24, M-20 |
-| **Fase 4** — Topología | 2-3 semanas | Semana 6-8 | M-27, M-28, M-29 |
-| **Fase 5** — Rendimiento | 2-3 semanas | Semana 9-11 | M-03, M-04, M-08, M-06 |
-| **Fase 6** — Premium | 3-4 semanas | Semana 12-15 | M-18, M-25, M-07 |
+| **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22 |
+| **Fase 3** — Navegación & CRUD | 1-2 semanas | Semana 5-6 | M-11, M-12, M-30, M-23, M-38, M-24, M-36, M-20 |
+| **Fase 4** — Topología | 2-3 semanas | Semana 7-9 | M-27, M-31, M-28, M-32, M-29 |
+| **Fase 5** — Rendimiento & Calidad | 2-3 semanas | Semana 10-12 | M-03, M-04, M-08, M-06 |
+| **Fase 6** — Premium | 3-4 semanas | Semana 13-16 | M-18, M-25, M-35, M-07 |
 
-> **Estimación total: ~15 semanas** (1 desarrollador) o **~6-8 semanas** (equipo de 2-3 desarrolladores trabajando en paralelo por fases independientes).
+> **Estimación total: ~16 semanas** (1 desarrollador) o **~6-8 semanas** (equipo de 2-3 desarrolladores trabajando en paralelo por fases independientes).
 
 ---
 

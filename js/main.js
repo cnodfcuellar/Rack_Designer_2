@@ -264,6 +264,9 @@ function initGlobalEvents() {
       const isOff = document.body.classList.toggle('no-animations');
       statusDot.setAttribute('data-tip', isOff ? 'Animaciones: Apagadas' : 'Sistema operativo');
       statusDot.style.background = isOff ? '#f59e0b' : '';
+      if (typeof notify === 'function') {
+        notify(isOff ? 'Animaciones apagadas' : 'Animaciones activadas', 'info', 2000);
+      }
     });
   }
 

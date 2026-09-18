@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rack-designer-next-cache-v3';
+const CACHE_NAME = 'rack-designer-next-cache-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -44,6 +44,22 @@ const ASSETS_TO_CACHE = [
   './assets/icons/icon.svg',
   './assets/icons/icon-192x192.png',
   './assets/icons/icon-512x512.png',
+  './assets/svg/default/server_1u.svg',
+  './assets/svg/default/server_2u.svg',
+  './assets/svg/default/switch_24p.svg',
+  './assets/svg/default/router.svg',
+  './assets/svg/default/firewall.svg',
+  './assets/svg/default/ups.svg',
+  './assets/svg/default/pdu.svg',
+  './assets/svg/default/storage.svg',
+  './assets/svg/default/patchpanel.svg',
+  './assets/svg/default/organizer.svg',
+  './assets/svg/default/kvm.svg',
+  './assets/svg/default/tray.svg',
+  './assets/svg/default/floor_pc.svg',
+  './assets/svg/default/floor_camera.svg',
+  './assets/svg/default/floor_ap.svg',
+  './assets/svg/default/floor_printer.svg',
   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap'
 ];
 

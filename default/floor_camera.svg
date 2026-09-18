@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60">
+  <rect x="0" y="0" width="120" height="60" rx="4" fill="#0c1420" stroke="#8b5cf6" stroke-width="1.5"/>
+  <rect x="0" y="0" width="4" height="60" fill="#8b5cf6"/>
+  <!-- Icono Cámara -->
+  <path d="M 12 24 L 26 24 L 32 18 L 32 36 L 26 30 L 12 30 Z" fill="none" stroke="#8b5cf6" stroke-width="1.8"/>
+  <text x="44" y="26" font-family="sans-serif" font-size="10" font-weight="bold" fill="#f8fafc">Cámara IP</text>
+  <text x="44" y="38" font-family="'Consolas', monospace" font-size="8" fill="#94a3b8">CCTV-DC01</text>
+</svg>

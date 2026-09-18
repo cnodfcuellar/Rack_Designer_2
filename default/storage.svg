@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="24" viewBox="0 0 240 24">
+  <defs>
+    <linearGradient id="stGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e2430"/>
+      <stop offset="100%" stop-color="#0e131b"/>
+    </linearGradient>
+    <style>
+      @keyframes dskActG { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #10b981); } }
+      @keyframes dskActB { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #38bdf8); } }
+      .d-g1 { animation: dskActG 0.8s infinite; }
+      .d-g2 { animation: dskActG 1.3s infinite 0.2s; }
+      .d-b1 { animation: dskActB 0.6s infinite 0.1s; }
+      .d-b2 { animation: dskActB 1.5s infinite 0.4s; }
+      .san-p { animation: dskActG 2.0s infinite; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="240" height="24" rx="2" fill="url(#stGrad)" stroke="#334155" stroke-width="1"/>
+  <!-- Orejas -->
+  <rect x="0" y="0" width="10" height="24" fill="#1e293b"/><circle cx="5" cy="12" r="2" fill="#000"/>
+  <rect x="230" y="0" width="10" height="24" fill="#1e293b"/><circle cx="235" cy="12" r="2" fill="#000"/>
+  <!-- 10 Bahías de Discos Hot-Swap -->
+  <g fill="#080c14" stroke="#1e293b" stroke-width="0.6">
+    <rect x="14" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g1" cx="17" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b1" cx="24" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="17" y1="14" x2="24" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="30" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g2" cx="33" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b2" cx="40" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="33" y1="14" x2="40" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="46" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g1" cx="49" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b1" cx="56" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="49" y1="14" x2="56" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="62" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g2" cx="65" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b2" cx="72" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="65" y1="14" x2="72" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="78" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g1" cx="81" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b1" cx="88" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="81" y1="14" x2="88" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="94" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g2" cx="97" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b2" cx="104" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="97" y1="14" x2="104" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="110" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g1" cx="113" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b1" cx="120" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="113" y1="14" x2="120" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="126" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g2" cx="129" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b2" cx="136" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="129" y1="14" x2="136" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="142" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g1" cx="145" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b1" cx="152" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="145" y1="14" x2="152" y2="14" stroke="#475569" stroke-width="1"/>
+    <rect x="158" y="4" width="13" height="16" rx="1"/>
+    <circle class="d-g2" cx="161" cy="7" r="1.1" fill="#10b981" stroke="none"/>
+    <circle class="d-b2" cx="168" cy="7" r="1.1" fill="#38bdf8" stroke="none"/>
+    <line x1="161" y1="14" x2="168" y2="14" stroke="#475569" stroke-width="1"/>
+  </g>
+  <!-- Controladora SAS / Fibra -->
+  <rect x="178" y="5" width="48" height="14" rx="2" fill="#090f1a" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="182" y="14" font-family="'Consolas', monospace" font-size="6" font-weight="bold" fill="#c084fc">SAN-10TB</text>
+  <circle class="san-p" cx="220" cy="12" r="1.6" fill="#10b981"/>
+</svg>

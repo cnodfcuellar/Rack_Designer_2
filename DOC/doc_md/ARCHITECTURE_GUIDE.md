@@ -289,8 +289,10 @@ Rack_Designer_2/
 │
 ├── assets/
 │   ├── icons/                    ← Iconos SVG monocromáticos por categoría
-│   ├── img/                      ← Imágenes estáticas (logos, fondos)
-│   └── svg/                      ← Diseños SVG detallados de faceplates
+│   ├── img/                      ← Imágenes estáticas (logos, fondos, skins personalizadas)
+│   └── svg/
+│       └── default/              ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS integradas
+├── default/                      ← Copia espejo de los SVGs por defecto para retrocompatibilidad
 │
 ├── doc/
 │   ├── doc_md/                   ← Documentación técnica en Markdown
@@ -460,7 +462,8 @@ Contiene dos vistas (se alternan con tabs en el header):
 
 - **Vista Física** (`#view-physical`):
   - Tarjetas de rack con slots numerados (1U = 24px)
-  - Faceplates de dispositivos con iconos, LEDs, puertos
+  - **Motor Visual SVG-First (`faceplates.js`):** Cada dispositivo carga un SVG vectorial de alta fidelidad desde `assets/svg/default/` con animaciones CSS `@keyframes` integradas en el propio SVG (LEDs intermitentes de red, actividad de discos, barras de carga y puertos).
+  - Overlay de información con nombre de equipo e IP nítida sobre la carátula.
   - Vista frontal/trasera (flip 3D por rack)
   - Drag & drop para colocar/mover equipos
   - Equipos de piso debajo de los racks

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="24" viewBox="0 0 240 24">
+  <defs>
+    <linearGradient id="rtrChassis" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <style>
+      @keyframes rtrOptA { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); } }
+      @keyframes rtrOptB { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #38bdf8); } }
+      .opt-1 { animation: rtrOptA 0.9s infinite; }
+      .opt-2 { animation: rtrOptB 1.4s infinite 0.3s; }
+      .opt-3 { animation: rtrOptA 0.6s infinite 0.1s; }
+      .opt-4 { animation: rtrOptB 1.8s infinite 0.5s; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="240" height="24" rx="2" fill="url(#rtrChassis)" stroke="#1e293b" stroke-width="1"/>
+  <!-- Orejas -->
+  <rect x="0" y="0" width="10" height="24" fill="#1e293b"/><circle cx="5" cy="12" r="2" fill="#000"/>
+  <rect x="230" y="0" width="10" height="24" fill="#1e293b"/><circle cx="235" cy="12" r="2" fill="#000"/>
+  <!-- Badge Router -->
+  <rect x="14" y="5" width="24" height="14" rx="2" fill="#0284c7"/>
+  <text x="26" y="15" font-family="sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">RT</text>
+  <!-- 8 Puertos Ópticos SFP+ -->
+  <g fill="#111827" stroke="#38bdf8" stroke-width="0.6">
+    <rect x="44" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-1" cx="50" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="60" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-2" cx="66" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="76" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-3" cx="82" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="92" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-4" cx="98" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="108" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-1" cx="114" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="124" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-2" cx="130" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="140" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-3" cx="146" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+    <rect x="156" y="5" width="12" height="14" rx="1"/>
+    <circle class="opt-4" cx="162" cy="21" r="1.1" fill="#10b981" stroke="none"/>
+  </g>
+  <!-- Rejilla de ventilación derecha -->
+  <g stroke="#334155" stroke-width="1">
+    <line x1="180" y1="5" x2="180" y2="19"/>
+    <line x1="184" y1="5" x2="184" y2="19"/>
+    <line x1="188" y1="5" x2="188" y2="19"/>
+    <line x1="192" y1="5" x2="192" y2="19"/>
+    <line x1="196" y1="5" x2="196" y2="19"/>
+    <line x1="200" y1="5" x2="200" y2="19"/>
+  </g>
+  <!-- Consola y Aux -->
+  <rect x="208" y="7" width="16" height="10" rx="1" fill="#0369a1" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="216" y="14" font-family="sans-serif" font-size="5" fill="#fff" text-anchor="middle">CON</text>
+</svg>
