@@ -2,8 +2,21 @@
    RACK COMPONENT
 ============================================================ */
 .rack-wrapper { flex-shrink: 0; display: flex; flex-direction: column; gap: 0; }
-.rack-card { background: var(--hardware-base); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; flex-shrink: 0; position: relative; }
-.rack-card.drag-over { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+.rack-card { 
+  background: var(--hardware-base); 
+  border: 1.5px solid var(--border-light, #334155); 
+  border-radius: var(--radius-lg); 
+  overflow: hidden; 
+  flex-shrink: 0; 
+  position: relative; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.rack-card:hover {
+  border-color: #475569;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+.rack-card.drag-over { border-color: var(--accent); box-shadow: 0 0 24px var(--accent-glow); }
 .rack-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--bg-card2); border-bottom: 1px solid var(--border); }
 .rack-title { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); }
 .rack-color-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -16,7 +29,7 @@
 .rack-rail-right { border-left: 1px solid var(--border); border-right: none; }
 .rail-unit { height: var(--rack-unit-h); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: var(--text-xs); color: #2e4060; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .rail-unit:nth-child(5n) { color: #3d5480; }
-.rack-slots { flex: 1; position: relative; min-width: 200px; }
+.rack-slots { width: 240px; min-width: 240px; max-width: 240px; position: relative; }
 .rack-slot { height: var(--rack-unit-h); border-bottom: 1px solid var(--border); position: relative; transition: background 0.15s; flex-shrink: 0; }
 .rack-slot.drop-highlight { background: var(--accent-glow) !important; }
 .rack-slot.drop-invalid  { background: var(--red-glow) !important; }

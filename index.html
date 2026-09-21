@@ -63,6 +63,8 @@
           <div class="dropdown-item" id="menu-theme"><i class="svg-icon icon-sun" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar a Modo Claro</div>
           <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
+          <div class="dropdown-divider"></div>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (52 pruebas)</a>
           <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
@@ -169,12 +171,29 @@
     <div class="right-panel-section" id="outliner-section">
       <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('outliner-section').classList.toggle('collapsed')">
         <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Outliner</span>
+        <div class="outliner-header-actions" onclick="event.stopPropagation()">
+          <button class="outliner-btn-icon" id="btn-outliner-add-room" title="Nueva Sala">+ Sala</button>
+          <button class="outliner-btn-icon" id="btn-outliner-add-rack" title="Nuevo Gabinete">+ Rack</button>
+          <button class="outliner-btn-icon" id="btn-outliner-add-dev" title="Agregar Equipo">+ Equipo</button>
+        </div>
         <span class="toggle-icon">▼</span>
+      </div>
+      <div class="outliner-toolbar">
+        <span>Ordenar:</span>
+        <select id="outliner-sort-select" class="outliner-sort-select" title="Criterio de ordenación">
+          <option value="slot">Posición U (Físico)</option>
+          <option value="name-asc">Nombre (A → Z)</option>
+          <option value="name-desc">Nombre (Z → A)</option>
+          <option value="type">Tipo de Equipo</option>
+        </select>
       </div>
       <div id="outliner-tree" style="flex: 1; overflow-y: auto; padding: 8px;"></div>
     </div>
     <div class="right-panel-section" id="inspector-section">
-      <div class="panel-header"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Propiedades</div>
+      <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('inspector-section').classList.toggle('collapsed')">
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Propiedades</span>
+        <span class="toggle-icon">▼</span>
+      </div>
       <div id="inspector-content" style="flex: 1; overflow-y: auto; padding: 12px; font-size: 13px; color: var(--text-secondary);">
         <div style="text-align:center; padding-top:20px; color:var(--text-muted); font-style:italic;">Ningún elemento seleccionado</div>
       </div>
@@ -266,7 +285,16 @@
     <div class="modal-sub">Configura las propiedades del gabinete físico</div>
     <div class="form-row"><label>Nombre del Gabinete</label><input type="text" id="rack-name" placeholder="Rack A1 — Producción"></div>
     <div class="form-grid">
-      <div class="form-row"><label>Altura (U)</label><input type="number" id="rack-height" value="24" min="4" max="48"></div>
+      <div class="form-row"><label>Altura (U)</label>
+        <select id="rack-height">
+          <option value="8">8U — Mural pequeño</option>
+          <option value="12">12U — Comunicaciones</option>
+          <option value="18">18U — Intermedio</option>
+          <option value="24">24U — Media altura</option>
+          <option value="42" selected>42U — Estándar Datacenter</option>
+          <option value="48">48U — Alta densidad</option>
+        </select>
+      </div>
       <div class="form-row"><label>Color</label>
         <div class="color-input-wrap">
           <input type="color" id="rack-color-picker" value="#0ea5e9">
@@ -433,12 +461,12 @@
 
 <div class="modal-overlay hidden" id="modal-room">
   <div class="modal">
-    <div class="modal-title"><i class="svg-icon icon-building" style="width:16px; height:16px; margin-right:8px;"></i>Nueva Sala</div>
-    <div class="modal-sub">Agregar una sala al centro de datos</div>
+    <div class="modal-title"><i class="svg-icon icon-building" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-room-title">Nueva Sala</span></div>
+    <div class="modal-sub" id="modal-room-sub">Configura las propiedades de la sala</div>
     <div class="form-row"><label>Nombre de la Sala</label><input type="text" id="room-name" placeholder="Sala A — Centro de Datos Principal"></div>
     <div class="modal-footer">
       <button class="btn-cancel" id="modal-room-cancel">Cancelar</button>
-      <button class="btn-confirm" id="modal-room-save">Crear Sala</button>
+      <button class="btn-confirm" id="modal-room-save">Guardar</button>
     </div>
   </div>
 </div>
@@ -562,6 +590,7 @@
   <script src="js/utils.js"></script>
   <script src="js/icons.js"></script>
   <script src="js/store.js"></script>
+  <script src="js/auth/roles.js"></script>
   <script src="js/ui/catalog.js"></script>
   <script src="js/ui/faceplates.js"></script>
   <script src="js/ui/modals/Globals.js"></script>
@@ -583,7 +612,6 @@
   <script src="js/ui/inspector.js"></script>
 
   <script src="js/ui/fileManager.js"></script>
-  <script src="js/auth/roles.js"></script>
   <script src="js/demoData.js"></script>
   <script src="js/main.js"></script>
 

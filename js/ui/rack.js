@@ -660,7 +660,6 @@ function renderFloorSection(roomId) {
   const section = document.createElement('div');
   section.className = 'floor-section';
   section.dataset.roomId = roomId;
-  section.style.width = floorDevices.length === 0 ? '340px' : '100%';
   section.innerHTML = `
     <div class="floor-section-header" style="flex-wrap: wrap; gap: 8px;">
       <span style="flex: 1 1 auto; min-width: max-content;">Equipos de Piso / Periféricos</span>

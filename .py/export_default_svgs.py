@@ -1,6 +1,6 @@
 """
 Script para exportar todos los equipos de la vista física a archivos SVG con animaciones CSS internas.
-Genera los archivos en 'default/' y en 'assets/svg/default/'.
+Genera los archivos en 'assets/default/' y en 'assets/svg/default/'.
 """
 
 import os
@@ -8,7 +8,7 @@ import os
 def create_svgs():
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     target_dirs = [
-        os.path.join(root_dir, 'default'),
+        os.path.join(root_dir, 'assets', 'default'),
         os.path.join(root_dir, 'assets', 'svg', 'default')
     ]
 

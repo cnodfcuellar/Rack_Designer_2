@@ -58,6 +58,8 @@ Al abrir la aplicación por primera vez, verás un modal de inicio de sesión co
 
 > [!IMPORTANT]
 > **El PIN de Admin por defecto es `rack2024`.** Puedes cambiarlo desde el menú del proyecto → "Cambiar PIN Admin". El PIN se almacena como hash SHA-256 en tu navegador.
+> 
+> **Persistencia de Sesión:** Si recargas la página (F5), tu sesión como Administrador o Editor se mantendrá activa automáticamente sin pedirte el PIN nuevamente. Sin embargo, por seguridad, al cerrar la pestaña o el navegador, la sesión se destruye (`SESSION_EXPIRATION = VOLATILE`), requiriendo identificarse de nuevo en la siguiente visita.
 
 ---
 

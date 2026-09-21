@@ -185,6 +185,7 @@ body.no-animations svg.faceplate-img * {
    ============================================================ */
 .floor-section {
   width: 100%;
+  min-width: 584px;
   margin-top: 32px;
   background: var(--bg-card);
   border: 1px dashed var(--border-light);

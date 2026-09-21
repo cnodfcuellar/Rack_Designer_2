@@ -222,6 +222,15 @@ _saveDebounced() {
 
 Esto agrupa ~60 escrituras/seg (durante zoom/pan con la rueda del ratón) en 1 escritura por frame, evitando saturar localStorage.
 
+### Integridad Relacional en Cascada y Auto-Saneamiento (`_sanitize()`)
+
+Para garantizar que el modelo de datos nunca acumule referencias rotas ni elementos huérfanos:
+
+1. **Cascada en `deleteRack(id)`:** Al eliminar un gabinete, se buscan todos los dispositivos contenidos en él y se filtran automáticamente de `this._raw.connections` todas las conexiones que partían o llegaban a ellos.
+2. **Limpieza en `deleteDevice(id)`:** Al eliminar un equipo individual, se purgan sus conexiones y se eliminan sus coordenadas en `topology.nodePositions`.
+3. **Motor `_sanitize()`:** Al iniciar la aplicación (`_load()`) o importar un proyecto (`loadData()`), el Store ejecuta un saneamiento exhaustivo que elimina cables zombis y nodos huérfanos de proyectos antiguos o manipulados.
+4. **Exposición Global:** `window.store = store;` expuesto para interoperabilidad y depuración.
+
 ---
 
 ## 5. Estructura de Archivos
@@ -288,11 +297,11 @@ Rack_Designer_2/
 │   └── mobile-drag-drop-scroll.min.js
 │
 ├── assets/
+│   ├── default/                  ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS integradas
 │   ├── icons/                    ← Iconos SVG monocromáticos por categoría
 │   ├── img/                      ← Imágenes estáticas (logos, fondos, skins personalizadas)
 │   └── svg/
-│       └── default/              ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS integradas
-├── default/                      ← Copia espejo de los SVGs por defecto para retrocompatibilidad
+│       └── default/              ← Repositorio vectorial organizado por familias
 │
 ├── doc/
 │   ├── doc_md/                   ← Documentación técnica en Markdown
@@ -308,7 +317,8 @@ Rack_Designer_2/
 ├── .py/                          ← Scripts Python utilitarios
 ├── memory-bank/                  ← Contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares (manifest.json)
-└── tests/                        ← Suite de pruebas (deshabilitada)
+└── tests/
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (26 tests en Node.js)
 ```
 
 **Ver diagrama:** `doc/doc_img/doc_svg/architecture_overview.svg` (File Structure)
@@ -646,7 +656,7 @@ A diferencia de la topología (Canvas 2D), el cableado físico se resuelve inyec
 - **PIN por defecto:** `rack2024` (hash SHA-256: `392bd907...`)
 - **Hasheo:** Web Crypto API (`crypto.subtle.digest`) con fallback JS puro (`sha256_fallback`)
 - **Sesión:** `sessionStorage` bajo la clave `RACK_SESSION_USER` (se pierde al cerrar pestaña)
-- **Integridad:** Los admin tienen un token UUID en memoria (`_sessionToken`) que se valida en cada acceso. Si alguien modifica `sessionStorage` manualmente, se fuerza logout.
+- **Integridad y Persistencia F5:** Los administradores tienen un token criptográfico persistido en `sessionStorage` bajo `RACK_SESSION_TOKEN` (`TOKEN_KEY`). Esto garantiza que la sesión sobreviva a recargas de página (F5) en la misma pestaña pero se destruya de inmediato al cerrar la pestaña o el navegador (`SESSION_EXPIRATION = VOLATILE`). Si alguien manipula `RACK_SESSION_USER` manualmente sin coincidir con el token, se fuerza logout de inmediato.
 - **Verificar permisos:** `RackAuth.can('editDevices')` retorna boolean
 
 ---

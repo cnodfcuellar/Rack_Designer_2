@@ -80,8 +80,8 @@
 }
 
 #outliner-section {
-  flex: 0 1 auto;
-  max-height: 25%;
+  flex: 1 1 180px;
+  min-height: 120px;
   transition: max-height 0.2s ease, flex 0.2s ease;
 }
 
@@ -905,6 +905,17 @@
   position: relative;
   z-index: 1;
   touch-action: none;
+  background-color: var(--bg-main);
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+[data-theme="light"] #view-physical {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
 }
 
 #view-physical.hidden,

@@ -1,3 +1,193 @@
+## [2026-09-19] Sprint 3 de Mejoras: Gestión Jerárquica Outliner & Inspector (M-36, M-23, M-38, M-24)
+
+### Panel Inspector y Flujos de Aprovisionamiento (Fase 1 / Fase 3)
+- **CRUD Integral y Empty State Proactivo en el Inspector (`M-36` en `js/ui/inspector.js` y `css/components/panels.css`):**
+  - Se transformó el estado vacío (`Empty State`) del Inspector en una zona de aprovisionamiento ágil con botones de acción directa: `+ Nueva Sala` y `+ Nuevo Gabinete`.
+  - Se añadieron vistas contextuales con controles de ciclo de vida completo:
+    - **Sala Seleccionada:** Muestra métricas de gabinetes y equipos, con botones para `+ Crear Gabinete en esta Sala`, `Editar Sala` y `Eliminar Sala`.
+    - **Gabinete Seleccionado:** Muestra ocupación física en U (utilizadas/libres), con botones para `+ Agregar Equipo a este Rack`, `Editar Gabinete` y `Eliminar Gabinete`.
+    - **Equipo Seleccionado:** Muestra especificaciones completas, consumo en Watts, peso, y botones directos para `Editar Equipo` y `Eliminar Equipo`.
+  - Se implementaron las funciones globales seguras `deleteRoomFromInspector()`, `deleteRackFromInspector()` y `deleteDeviceFromInspector()` con diálogo de confirmación `customConfirm`, validación RBAC (`RackAuth.can('editDevices')`) y deselección automática de nodos eliminados.
+
+### Jerarquía Visual y Ordenamiento en el Outliner (Fase 3)
+- **Acciones Rápidas y Edición Inline en el Árbol (`M-23` en `index.html`, `js/ui/outliner.js` y `css/components/panels.css`):**
+  - Se integraron botones compactos de creación directa en la cabecera del Outliner: `+ Sala` (abre modal de sala), `+ Rack` (abre modal de gabinete) y `+ Equipo` (abre colocación rápida).
+  - Cada nodo de la jerarquía (Salas, Gabinetes y Dispositivos) ahora presenta botones contextuales inline `✏️` (editar) y `🗑️` (eliminar) visibles al pasar el cursor (hover), con delegación de eventos protegida contra propagación y confirmación previa.
+- **Opciones Dinámicas de Ordenamiento (`M-38` en `index.html`, `js/ui/outliner.js` y `css/components/panels.css`):**
+  - Se incorporó una barra de herramientas con el selector `#outliner-sort-select` que permite reorganizar los equipos de cada rack en tiempo real según:
+    1. `slot`: Posición U (Mayor a menor - orden físico natural de arriba hacia abajo).
+    2. `name-asc`: Nombre alfabético (A → Z).
+    3. `name-desc`: Nombre alfabético inverso (Z → A).
+    4. `type`: Familia y categoría funcional del dispositivo.
+  - La función modular `sortOutlinerDevices(devices, mode)` garantiza la reactividad instantánea del árbol.
+- **Inspector Colapsable y Expansión Dinámica del Outliner (`M-24` en `index.html`, `css/components/panels.css` y `css/layout.css`):**
+  - La cabecera de `#inspector-section` ahora es interactiva mediante cursor pointer y clase `.collapsed`, alternando el colapso del cuerpo del inspector con un indicador chevron giratorio `▼` (`rotate(-90deg)`).
+  - Se refactorizó `#outliner-section` en `css/layout.css` retirando el restrictivo `max-height: 25%` por `flex: 1 1 180px; min-height: 120px; max-height: none;`, permitiendo que el árbol jerárquico aproveche fluidamente todo el panel derecho cuando el inspector esté colapsado.
+
+### PWA Offline y Service Worker (`service-worker.js`)
+- **Actualización de Versión de Caché:**
+  - Se incrementó el identificador de caché a `rack-designer-next-cache-v9` para invalidar y forzar la recarga de los módulos actualizados del Outliner e Inspector.
+
+### Calidad y Suite de Integridad (`tests/integrity_check.cjs` y `tests/index.html`)
+- **Incorporación del Grupo 8: Acciones CRUD en Inspector y Ordenamiento en Outliner:**
+  - Se diseñaron 13 nuevas aserciones para validar:
+    - Funciones globales de eliminación en inspector y saneamiento de selección.
+    - Presencia de botones de aprovisionamiento en el Empty State.
+    - Ordenamiento dinámico de equipos (`slot`, `name-asc`, `name-desc`, `type`).
+    - Botones de acceso rápido en cabecera del Outliner (`+ Sala`, `+ Rack`, `+ Equipo`).
+    - Generación de acciones inline `✏️` y `🗑️` en el DOM jerárquico.
+    - Capacidad de colapso visual del Inspector.
+  - La suite se amplía a **65 pruebas automáticas exitosas (65/65 pasando al 100%)** tanto en CLI (`pnpm test`) como en el Test Runner visual (`tests/index.html`).
+
+---
+
+## [2026-09-19] Sprint 2 de Mejoras: Modal Reactivo de Salas y Catálogo Dinámico por Familias (M-09, M-11, M-12)
+
+### Experiencia de Usuario y Gestión de Salas (Fase 1 / Cierre Fase 1)
+- **Erradicación de `prompt()` Nativo y Modal Estándar de Salas (`M-09` en `index.html`, `js/ui/modals/RoomModal.js` y `js/ui/catalog.js`):**
+  - Se eliminó el uso de diálogos nativos bloqueantes `prompt()` que causaban fallas en dispositivos táctiles, navegadores móviles y bloqueadores de popups al renombrar salas.
+  - Se unificó el flujo de creación y edición en `#modal-room` con título dinámico (`#modal-room-title`), subtítulo orientativo (`#modal-room-sub`) y botones contextuales ("Crear Sala" / "Guardar Cambios").
+  - Se crearon las funciones globales `openAddRoomModal()` y `openEditRoomModal(roomId)` con verificación de permisos RBAC (`RackAuth.can('editDevices')`).
+  - En el selector de salas del catálogo (`renderRoomTabs()`), se añadieron botones de edición táctil `✏️` (`.room-edit-btn`) para renombrar salas de forma intuitiva sin salir del flujo visual.
+
+### Catálogo de Equipos y Familias Comerciales (Fase 3)
+- **Consolidación en Familias Comerciales de Datacenter (`M-11` en `js/ui/catalog.js`):**
+  - Se sustituyó la lista plana de 14 categorías por una matriz estructurada `CATALOG_GROUPS` de 7 familias estándar de la industria:
+    1. Redes (`network`: switches, routers, firewalls, APs, patch panels).
+    2. Cómputo (`servers`: servidores rackables, blade, GPU).
+    3. Almacenamiento (`storage`: NAS, SAN, arrays de discos).
+    4. Energía (`power`: UPS, PDU).
+    5. Gestión de Cableado (`cable_management`: organizadores horizontales y verticales).
+    6. Seguridad / Clima / Sensores (`sensors`: CCTV, sensores ambientales, control de acceso).
+    7. Accesorios y Paneles Ciegos (`accessories`: blanking panels, bandejas).
+  - La agrupación reduce la altura del sidebar a < 350px, eliminando barras de desplazamiento innecesarias y facilitando la navegación rápida.
+- **Categoría "Todos los Equipos" y Búsqueda Global en Tiempo Real (`M-12` en `js/ui/catalog.js`, `js/icons.js` y `css/components/misc.css`):**
+  - Se implementó la categoría superior "Todos" (`id: 'all'`) en la cabecera del sidebar vertical de 50px con ícono vectorial SVG de cuadrícula (`grid`).
+  - Se añadió búsqueda en tiempo real `#catalog-search` sin restricciones de tipo ni categoría, permitiendo filtrar instantáneamente el inventario comercial completo (ej. "Cisco", "Dell", "Switch", etc.).
+  - Se integraron nuevos iconos vectoriales SVG limpios para `grid`, `search` y `network` tanto en `js/icons.js` como en las clases offline data-URI `.icon-grid` e `.icon-search` de `css/components/misc.css`.
+
+### PWA Offline y Service Worker (`service-worker.js`)
+- **Actualización de Versión de Caché:**
+  - Se incrementó el identificador de caché a `rack-designer-next-cache-v8` para invalidar y forzar la recarga de los scripts de catálogo, modales e iconos actualizados.
+
+### Calidad y Pruebas Automatizadas (`tests/integrity_check.cjs` y `tests/index.html`)
+- **Configuración de Comando `pnpm test` (`package.json`):**
+  - Se configuró `"test": "node tests/integrity_check.cjs"` para que la suite completa pueda ser ejecutada en terminal directamente mediante el comando oficial del repositorio `pnpm test`.
+- **Test Runner Visual Interactivo en el Navegador (`tests/index.html`):**
+  - Se desarrolló una interfaz gráfica web moderna dedicada a la ejecución y visualización de las pruebas en tiempo real, accesible en `/tests/index.html`.
+  - Muestra contadores en vivo (Total: 52, Pasadas: 52, Falladas: 0, Tasa de éxito: 100%), barra de progreso reactiva y desglose por grupos en tarjetas con badges verdes `PASS`.
+- **Acceso Directo desde la Consola del Datacenter (`index.html`):**
+  - Se incorporó en el menú del proyecto (`#project-dropdown`) el enlace directo *"Suite de Tests (52 pruebas)"* para abrir el runner con un solo clic.
+- **Ampliación de la Suite de Integridad (Grupo 7):**
+  - Se añadieron 10 nuevas pruebas unitarias y de integración para validar la eliminación de `prompt()`, las funciones globales de salas, la matriz de familias `CATALOG_GROUPS`, el consolidado de red, la categoría "Todos", y la presencia de iconos SVG.
+  - La suite se amplía a **52 pruebas automáticas exitosas (52/52 pasando al 100%)**.
+
+---
+
+## [2026-09-19] Sprint 1 de Mejoras: Blindaje de Almacenamiento y Quick Wins Físicos (M-02, M-05, M-10, M-13, M-14, M-15, M-16)
+
+### Blindaje de Datos y Persistencia (Fase 0)
+- **Manejo Defensivo de Cuota de Almacenamiento (`M-02` en `js/store.js`):**
+  - En `_save()`, se capturan defensivamente las excepciones de tipo `QuotaExceededError` (y códigos equivalentes de navegador como 22, 1014 o -2147024882). Se notifica al operador mediante toast persistente de advertencia para respaldar en archivo `.rack` y se despacha el evento global `rack-storage-quota-exceeded`.
+- **Doble Slot de Respaldo y Auto-Recuperación Anti-Corrupción (`M-05` en `js/store.js`):**
+  - En `_save()`, se persiste simultáneamente una copia idéntica en el slot redundante `RACK_DESIGNER_NEXT_STATE_BACKUP`.
+  - En `_load()`, si el parseo JSON del slot primario falla por corrupción o cierre intempestivo, el sistema rescata automáticamente el estado desde el slot de respaldo redundante, notificando al usuario en lugar de reiniciar al estado por defecto.
+
+### Ergonomía y Perfeccionamiento de la Vista Física (Fase 1)
+- **Borde de Contraste y Sombra Realista en Gabinetes (`M-10` en `css/components/rack.css`):**
+  - Se reforzó el borde de `.rack-card` a `1.5px solid var(--border-light, #334155)` con sombra física tridimensional `box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35)` y respuesta dinámica en hover, mejorando la distinción visual en salas con múltiples gabinetes.
+- **Ancho Proporcional Fijo de Slots (`M-14` en `css/components/rack.css`):**
+  - Se fijó `.rack-slots` en `width: 240px; min-width: 240px; max-width: 240px;`, asegurando la relación de aspecto 10:1 matemática exacta (10 × 24px de alto = 240px) requerida por el estándar de racks de 19" y concordante con los faceplates SVG (`viewBox="0 0 240 24"`).
+- **Grilla Técnica CAD Milimétrica (`M-15` en `css/layout.css`):**
+  - Se implementó un patrón de cuadrícula milimétrica de 24px × 24px en `#view-physical` con soporte para temas oscuro y claro, donde cada celda equivale exactamente a 1U de altura para orientar el diseño físico.
+- **Alineación Continua de Equipos de Piso (`M-13` en `css/components/faceplates.css` y `js/ui/rack.js`):**
+  - Se eliminó el estilo inline de `340px` condicional en `renderFloorSection()` y se aplicó en CSS `.floor-section { min-width: 584px; width: 100%; }`, garantizando que la sección inferior mantenga siempre un ancho armónico alineado con el ancho de dos racks más gap.
+- **Alturas de Rack Estandarizadas (`M-16` en `index.html` y `js/ui/modals/RackModal.js`):**
+  - Se sustituyó el input numérico libre por `<select id="rack-height">` con las alturas comerciales normalizadas: 8U (Mural), 12U (Comunicaciones), 18U (Intermedio), 24U (Media altura), 42U (Estándar Datacenter - seleccionado por defecto) y 48U (Alta densidad). En `RackModal.js` se añadió soporte de retrocompatibilidad para racks existentes con alturas personalizadas.
+
+### PWA Offline y Service Worker (`service-worker.js`)
+- **Actualización de Versión de Caché:**
+  - Se incrementó la caché a `rack-designer-next-cache-v7` para asegurar la entrega instantánea de los nuevos recursos estáticos y estilos modificados.
+
+### Calidad y Pruebas Automatizadas (`tests/integrity_check.cjs`)
+- **Ampliación de la Suite de Integridad (Grupo 6):**
+  - Se agregaron 11 nuevas aserciones automáticas en `tests/integrity_check.cjs` para validar el doble slot de guardado, la recuperación ante JSON corrupto, el manejo de `QuotaExceededError`, los estilos de bordes, el ancho de slots de 240px, la grilla de 24px, la alineación de equipos de piso y las alturas de rack.
+  - La suite se amplía a **42 pruebas automáticas ejecutadas en Node.js (42/42 pasando al 100%)**.
+
+---
+
+## [2026-09-19] Reorganización de Recursos Estáticos: Migración de `default/` a `assets/default/`
+
+### Recursos Estáticos y Organización de Archivos
+- **Migración de `default/` a `assets/default/`:**
+  - Se trasladó la carpeta `default/` (16 archivos vectoriales SVG) desde la raíz del proyecto hacia el interior del directorio `assets/` (`assets/default/`), dejando la raíz del proyecto completamente limpia y estandarizada.
+  - Se mantiene la compatibilidad con `assets/svg/default/` y `assets/default/` sin duplicados en la raíz.
+
+### Motor Visual y Renderizado (`js/ui/faceplates.js`)
+- **Actualización de Fallbacks de Carga:**
+  - Se actualizaron las rutas de fallback en `preloadFaceplateSvgs()` y en el manejador `onerror` de la etiqueta `<img>` en `buildFaceplate()`, redirigiendo cualquier fallo secundario hacia `assets/default/` en lugar de la ruta inexistente de la raíz.
+
+### Service Worker y PWA Offline (`service-worker.js`)
+- **Actualización de Caché (`rack-designer-next-cache-v6`):**
+  - Se agregaron las 16 rutas de `assets/default/*.svg` al array `ASSETS_TO_CACHE`, asegurando que la PWA tenga pre-cacheadas tanto las rutas de `assets/svg/default/` como las de `assets/default/` para disponibilidad 100% offline.
+
+### Scripts de Mantenimiento (`.py/export_default_svgs.py`)
+- **Actualización de Rutas en Script Python:**
+  - Se actualizó la función `create_svgs()` para que escriba en `assets/default` y `assets/svg/default`, previniendo la recreación involuntaria de carpetas en la raíz del proyecto.
+
+### Pruebas Automatizadas (`tests/integrity_check.cjs`)
+- **Grupo 5 de Integridad de Assets:**
+  - Se agregaron 5 nuevas aserciones automáticas para verificar: ausencia de `default/` en la raíz, existencia de los 16 SVGs en `assets/default/`, existencia de los 16 SVGs en `assets/svg/default/` y ausencia de referencias huérfanas en el código JS.
+  - La suite se amplía a **31 pruebas automáticas (31/31 pasando con éxito)**.
+
+---
+
+## [2026-09-19] Corrección Integral de Errores de Programación, Auto-Saneamiento y Suite de Pruebas
+
+### Seguridad y Control de Accesos (RBAC)
+- **Persistencia de Sesión F5 (`js/auth/roles.js`):**
+  - Se corrigió el error por el cual la sesión de Administrador se cerraba forzadamente al presionar F5 debido a que el token de integridad residía únicamente en memoria heap volátil.
+  - Se implementó persistencia protegida bajo `sessionStorage.getItem('RACK_SESSION_TOKEN')` (`TOKEN_KEY`), garantizando que la sesión de Administrador persista ante recargas de página en la misma pestaña pero se destruya de inmediato al cerrar la pestaña o el navegador (`SESSION_EXPIRATION = VOLATILE`).
+
+### Capa de Datos y Estado Central (`Store`)
+- **Limpieza en Cascada de Conexiones (`js/store.js`):**
+  - En `deleteRack(id)`, se implementó el filtrado automático de `this._raw.connections` para eliminar todos los cables cuyos dispositivos de origen o destino pertenecían al gabinete eliminado, eliminando por completo referencias rotas a dispositivos inexistentes.
+- **Limpieza de Nodos en Topología (`js/store.js`):**
+  - En `deleteDevice(id)`, se integró la llamada a `this._cleanTopologyPositions({ deviceIds: [id] })` para purgar coordenadas de nodos huérfanos en `topology.nodePositions`.
+- **Motor de Auto-Saneamiento y Curación (`_sanitize()` en `js/store.js`):**
+  - Se implementó el método `_sanitize()`, ejecutado en el arranque (`_load()`) y en la importación de proyectos (`loadData()`), el cual purga silenciosamente conexiones zombis y posiciones de topología huérfanas de proyectos antiguos o manipulados.
+- **Exposición Global:**
+  - Se expuso formalmente `window.store = store;` para interoperabilidad y compatibilidad de herramientas de depuración.
+
+### Componentes de Interfaz y Robustez
+- **Tolerancia a Fallos en Tablas (`js/ui/tables.js`):**
+  - Se incorporó resolución preventiva del contenedor `wrap = wrap || document.getElementById('bottom-table-wrap')` en `renderInventoryTable` y `renderConnectionsTable`, eliminando cualquier riesgo de `TypeError` si son invocadas sin argumentos.
+- **Inspector de Propiedades (`js/ui/inspector.js`):**
+  - Se protegió el botón de edición con comprobación de tipo `typeof openEditDeviceModal === 'function'` y sanitización con `escapeHTML(dev.id)`.
+- **Orden Determinista de Scripts (`index.html`):**
+  - Se reubicó `<script src="js/auth/roles.js"></script>` para que se cargue antes de los módulos visuales de UI (`catalog.js`, `faceplates.js`), alineándose con la especificación de `AGENTS.md`.
+
+### Limpieza de Código y Documentación Huérfana
+- **Sustitución de Test Obsoleto (`tests/integrity_check.cjs`):**
+  - Se eliminó el archivo comentado e inservible `tests/Rack.test.js` y se creó la suite de pruebas automatizadas `tests/integrity_check.cjs` con 26 aserciones que cubren RBAC, F5, cascada de conexiones, auto-saneamiento, undo/redo y robustez de tablas (100% pruebas aprobadas).
+- **Limpieza Editorial (`doc/doc_md/PROJECT_ANALYSIS.md`):**
+  - Se purgaron las líneas de comandos de terminal pegadas involuntariamente entre las secciones 9 y 10.
+
+---
+
+## [2026-09-18] Actualización de Documentación: Análisis Arquitectónico (PROJECT_ANALYSIS.md)
+
+### Documentación Técnica
+- **`doc/doc_md/PROJECT_ANALYSIS.md`:**
+  - Actualización integral del documento rector de arquitectura del proyecto.
+  - Sincronización del estado de PWA y Service Worker a la versión `rack-designer-next-cache-v5` con auto-actualización en arranque.
+  - Incorporación detallada del motor visual **SVG-First** (`js/ui/faceplates.js`), caché en memoria `SVG_INLINE_CACHE` e inyección inline de nodos vectoriales interactivos.
+  - Documentación del control centralizado de animaciones del sistema (`.status-dot` / `body.no-animations`) y su regla en `css/components/faceplates.css`.
+  - Documentación de la suite de 16 activos vectoriales SVG con CSS GPU embebido en `assets/svg/default/`.
+  - Inclusión de las referencias y relaciones con `roadmap_mejoras.md` (37 propuestas de mejora), `informe_mejoras_e_implementacion.md` y el sistema de memoria `memory-bank/`.
+
+---
+
 ## [2026-09-18] Corrección: Control Global de Animaciones en Equipos SVG (Status Dot)
 
 ### Corrección de Bugs y Renderizado UI

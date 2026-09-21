@@ -27,6 +27,8 @@ function renderBottomPanel() {
 }
 
 function renderInventoryTable(wrap, query) {
+  wrap = wrap || document.getElementById('bottom-table-wrap');
+  if (!wrap) return;
   const devices = store._raw.devices.filter(d => {
     if (!query) return true;
     return [d.name, d.ip, d.mac, d.serial, d.type, d.user, d.pass].join(' ').toLowerCase().includes(query);
@@ -133,6 +135,8 @@ function finishCellEdit(input, td, orig) {
 }
 
 function renderConnectionsTable(wrap, query) {
+  wrap = wrap || document.getElementById('bottom-table-wrap');
+  if (!wrap) return;
   const conns = store._raw.connections.filter(c => {
     if (!query) return true;
     const src = store.deviceById(c.sourceDeviceId);

@@ -5,7 +5,7 @@
  * Cada equipo se visualiza a través de gráficos SVG vectoriales de alta fidelidad.
  * Se inyectan en el DOM como SVG inline para permitir que el botón global de animaciones
  * (status-dot / body.no-animations) pause y reanude los LEDs intermitentes y efectos en tiempo real.
- * Los assets por defecto se ubican en assets/svg/default/ y default/.
+ * Los assets por defecto se ubican en assets/svg/default/ y assets/default/.
  */
 
 // Caché en memoria para almacenar el contenido de los SVGs y evitar peticiones de red repetidas
@@ -41,8 +41,8 @@ function preloadFaceplateSvgs() {
         if (text) SVG_INLINE_CACHE[url] = text;
       })
       .catch(() => {
-        // Fallback a ruta secundaria default/
-        const fallbackUrl = 'default/' + url.split('/').pop();
+        // Fallback a ruta secundaria assets/default/
+        const fallbackUrl = 'assets/default/' + url.split('/').pop();
         fetch(fallbackUrl)
           .then(res => res.ok ? res.text() : '')
           .then(text => {
@@ -194,7 +194,7 @@ function buildFaceplate(device, heightPx) {
            alt="${devType} - ${devName}"
            draggable="false"
            onload="inlineFaceplateImage(this, '${svgSrc}', '${devType}')"
-           onerror="if(!this.dataset.fallback){this.dataset.fallback=1; this.src='default/' + this.src.split('/').pop();}" />`;
+           onerror="if(!this.dataset.fallback){this.dataset.fallback=1; this.src='assets/default/' + this.src.split('/').pop();}" />`;
   }
 
   return `

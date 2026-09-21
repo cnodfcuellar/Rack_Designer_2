@@ -6,6 +6,7 @@
 (function () {
   const ROLES = { ADMIN: 'admin', EDITOR: 'editor', VIEWER: 'viewer' };
   const SESSION_KEY = 'RACK_SESSION_USER';
+  const TOKEN_KEY   = 'RACK_SESSION_TOKEN';
   const PIN_KEY     = 'RACK_ADMIN_PIN';
   const DEFAULT_PIN_HASH = '392bd907741c5258c4098e873c0780ca0532873f3f4b0cbacfb57026619130a0'; // "rack2024"
 
@@ -114,7 +115,8 @@
       
       // Validación de Integridad para Administradores
       if (user.role === ROLES.ADMIN) {
-        if (!_sessionToken || user.token !== _sessionToken) {
+        const storedToken = sessionStorage.getItem(TOKEN_KEY);
+        if (!storedToken || user.token !== storedToken) {
           console.warn('[Seguridad] Token de sesión alterado o ausente. Forzando logout.');
           logout();
           return null;
@@ -125,11 +127,14 @@
   }
 
   function _saveUser(role, name) {
-    _sessionToken = (typeof crypto !== 'undefined' && crypto.randomUUID)
+    const token = (typeof crypto !== 'undefined' && crypto.randomUUID)
       ? crypto.randomUUID()
       : (Math.random().toString(36).substring(2) + Date.now().toString(36));
-    const user = { role, name, loginAt: Date.now(), token: _sessionToken };
+    const user = { role, name, loginAt: Date.now(), token };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+    if (role === ROLES.ADMIN) {
+      sessionStorage.setItem(TOKEN_KEY, token);
+    }
     return user;
   }
 
@@ -150,6 +155,7 @@
 
   function logout() {
     sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
   }
 
   function isAdmin() {

@@ -24,16 +24,86 @@ class Store {
     };
   }
 
+  _sanitize() {
+    if (!this._raw.devices) this._raw.devices = [];
+    if (!this._raw.connections) this._raw.connections = [];
+    if (!this._raw.rooms) this._raw.rooms = [];
+    if (!this._raw.racks) this._raw.racks = [];
+    
+    const validDeviceIds = new Set(this._raw.devices.map(d => d.id));
+    
+    // Purgar conexiones huérfanas
+    this._raw.connections = this._raw.connections.filter(c => 
+      validDeviceIds.has(c.sourceDeviceId) && validDeviceIds.has(c.targetDeviceId)
+    );
+    
+    // Purgar posiciones de topología huérfanas
+    if (this._raw.topology && this._raw.topology.nodePositions) {
+      for (const id in this._raw.topology.nodePositions) {
+        if (!validDeviceIds.has(id)) {
+          delete this._raw.topology.nodePositions[id];
+        }
+      }
+    }
+  }
+
   _load() {
+    // 1. Intentar cargar desde el slot primario
     try {
       const saved = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
-      if (saved) return JSON.parse(saved);
-    } catch(e) {}
-    return this._defaultState();
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        this._raw = parsed;
+        this._sanitize();
+        return this._raw;
+      }
+    } catch(e) {
+      console.warn('[Store] Error parseando slot principal de estado. Intentando slot de respaldo...', e);
+    }
+
+    // 2. M-05: Fallback al slot de respaldo redundante
+    try {
+      const backup = localStorage.getItem('RACK_DESIGNER_NEXT_STATE_BACKUP');
+      if (backup) {
+        const parsedBackup = JSON.parse(backup);
+        this._raw = parsedBackup;
+        this._sanitize();
+        if (typeof notify === 'function') {
+          try { notify('Se recuperó el diseño desde el respaldo de seguridad automático.', 'warning', 6000); } catch (_) {}
+        }
+        return this._raw;
+      }
+    } catch(backupErr) {
+      console.error('[Store] Error parseando slot de respaldo:', backupErr);
+    }
+
+    const def = this._defaultState();
+    this._raw = def;
+    return def;
   }
 
   _save() {
-    try { localStorage.setItem('RACK_DESIGNER_NEXT_STATE', JSON.stringify(this._raw)); } catch(e) {}
+    try {
+      const serialized = JSON.stringify(this._raw);
+      localStorage.setItem('RACK_DESIGNER_NEXT_STATE', serialized);
+      // M-05: Doble slot de respaldo para prevenir pérdida por cierres abruptos
+      localStorage.setItem('RACK_DESIGNER_NEXT_STATE_BACKUP', serialized);
+    } catch(e) {
+      // M-02: Detección y manejo defensivo de QuotaExceededError
+      if (e && (e.name === 'QuotaExceededError' || e.code === 22 || e.code === 1014 || e.number === -2147024882)) {
+        console.error('[Store] Almacenamiento local lleno (QuotaExceededError).', e);
+        if (typeof notify === 'function') {
+          try { notify('⚠️ Almacenamiento del navegador lleno (5MB). Descarga tu diseño en .rack para no perder cambios.', 'error', 8000); } catch (_) {}
+        }
+        if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+          try {
+            window.dispatchEvent(new CustomEvent('rack-storage-quota-exceeded', { detail: { error: e } }));
+          } catch (_) {}
+        }
+      } else {
+        console.error('[Store] Error al guardar estado en localStorage:', e);
+      }
+    }
   }
 
   _saveDebounced() {
@@ -231,8 +301,14 @@ class Store {
   deleteRack(id) {
     this.snapshot();
     const deviceIds = this._raw.devices.filter(d => d.rackId === id).map(d => d.id);
-    this._raw.racks = this._raw.racks.filter(r => r.id !== id);
+    const deviceIdSet = new Set(deviceIds);
+
+    // Cascada: eliminar cables vinculados a los equipos de este rack
+    this._raw.connections = this._raw.connections.filter(c => 
+      !deviceIdSet.has(c.sourceDeviceId) && !deviceIdSet.has(c.targetDeviceId)
+    );
     this._raw.devices = this._raw.devices.filter(d => d.rackId !== id);
+    this._raw.racks = this._raw.racks.filter(r => r.id !== id);
 
     this._cleanTopologyPositions({ rackIds: [id], deviceIds });
     
@@ -295,6 +371,7 @@ class Store {
     this.snapshot();
     this._raw.devices = this._raw.devices.filter(d => d.id !== id);
     this._raw.connections = this._raw.connections.filter(c => c.sourceDeviceId !== id && c.targetDeviceId !== id);
+    this._cleanTopologyPositions({ deviceIds: [id] });
     this._save(); 
     this._emit('change', { source: 'deleteDevice' });
   }
@@ -354,6 +431,8 @@ class Store {
       this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
     }
 
+    this._sanitize();
+
     this._save();
     this._emit('change', { source: 'loadData' });
     this._updateHistoryButtons();
@@ -397,3 +476,6 @@ class Store {
 }
 
 const store = new Store();
+if (typeof window !== 'undefined') {
+  window.store = store;
+}

@@ -195,11 +195,11 @@ Rack_Designer_2/
 │   └── templates/                ← (Vacío actualmente — reservado para plantillas futuras)
 │
 ├── assets/
+│   ├── default/                  ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS GPU
 │   ├── icons/                    ← Iconos SVG monocromáticos por categoría de hardware
 │   ├── img/                      ← Imágenes estáticas (logos, fondos, skins de usuario)
 │   └── svg/
-│       └── default/              ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS GPU
-├── default/                      ← Directorio espejo de SVGs predeterminados
+│       └── default/              ← Repositorio vectorial por categorías
 │
 ├── doc/
 │   ├── doc_md/                   ← Documentación técnica en Markdown (ESTE ARCHIVO)
@@ -215,7 +215,8 @@ Rack_Designer_2/
 ├── .py/                          ← Scripts Python utilitarios (patch, fix, vectorize)
 ├── memory-bank/                  ← Archivos de contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares
-└── tests/                        ← Suite de pruebas (actualmente deshabilitada)
+└── tests/
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (26 tests en Node.js)
 ```
 
 ---
@@ -238,7 +239,7 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 
 | Archivo | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|
-| [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js) | RBAC completo: hasheo SHA-256, login por PIN, 3 roles (Admin/Editor/Viewer), permisos con `RackAuth.can('acción')`, sesión en sessionStorage | Cuando necesitas agregar un nuevo permiso o rol |
+| [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js) | RBAC completo: hasheo SHA-256, login por PIN, 3 roles (Admin/Editor/Viewer), permisos con `RackAuth.can('acción')`, sesión protegida en sessionStorage (`RACK_SESSION_USER` y `RACK_SESSION_TOKEN`) con persistencia ante recarga F5 | Cuando necesitas agregar un nuevo permiso o rol |
 
 ### Archivos de Interfaz (js/ui/)
 
@@ -310,12 +311,13 @@ El archivo más importante del proyecto es [store.js](file:///c:/Users/admin/.ge
 | `setCurrentRoom(id)` | Cambia la sala activa | `'changeRoom'` |
 | `addRack({ name, height, color })` | Crea un rack en la sala actual | `'addRack'` |
 | `updateRack(id, props)` | Actualiza propiedades de un rack | `'updateRack'` |
-| `deleteRack(id)` | Elimina rack y sus equipos | `'deleteRack'` |
+| `deleteRack(id)` | Elimina rack, sus equipos y purga en cascada todas sus conexiones asociadas | `'deleteRack'` |
 | `addDeviceToRack(template, rackId, slotStart, mountSide)` | Inserta equipo en un slot, con validación de colisiones | `'addDeviceToRack'` |
 | `addFloorDevice(template, roomId, floorX, floorY)` | Crea equipo de piso (sin rack) | `'addFloorDevice'` |
 | `moveDevice(deviceId, newRackId, newSlot, newMountSide)` | Mueve equipo a otro rack/slot | `'moveDevice'` |
 | `updateDevice(id, props)` | Actualiza propiedades de un equipo | `'updateDevice'` |
-| `deleteDevice(id)` | Elimina equipo y sus conexiones | `'deleteDevice'` |
+| `deleteDevice(id)` | Elimina equipo, sus conexiones y purga sus coordenadas de topología | `'deleteDevice'` |
+| `_sanitize()` | Purga silenciosamente conexiones zombis y posiciones de topología huérfanas en arranque e importación | — |
 | `addConnection(conn)` | Crea una conexión de cable | `'addConnection'` |
 | `updateConnection(id, props)` | Actualiza una conexión | `'updateConnection'` |
 | `deleteConnection(id)` | Elimina una conexión | `'deleteConnection'` |
@@ -631,7 +633,7 @@ Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rac
 
 ### 🎨 Agregar o personalizar la apariencia gráfica (SVG) de un equipo
 
-1. **Crear el archivo SVG:** Coloca el archivo en `assets/svg/default/` (y en `default/`). 
+1. **Crear el archivo SVG:** Coloca el archivo en `assets/svg/default/` (y en `assets/default/`). 
    - Tamaño base: `viewBox="0 0 240 24"` para equipos 1U o `viewBox="0 0 240 48"` para 2U.
    - Si deseas LEDs intermitentes o efectos, incluye bloques `<style>` con animaciones `@keyframes` nativas dentro del propio SVG.
 2. **Asociar el SVG en el motor visual:** En [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) → Actualiza la función `getSvgFaceplatePath(device)` para que devuelva la ruta de tu nuevo SVG según el `device.type` o `device.size`.

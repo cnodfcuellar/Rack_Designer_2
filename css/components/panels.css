@@ -29,3 +29,191 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 .empty-state { text-align: center; padding: 40px; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-sm); }
 .empty-state .icon { font-size: 32px; margin-bottom: 8px; opacity: 0.4; }
 
+/* ============================================================
+   OUTLINER TOOLBAR & QUICK ACTIONS (M-23, M-38)
+============================================================ */
+.outliner-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.outliner-btn-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+
+.outliner-btn-icon:hover {
+  background: var(--accent-glow);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.outliner-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.outliner-sort-select {
+  background: var(--bg-card2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  outline: none;
+}
+.outliner-sort-select:focus {
+  border-color: var(--accent);
+}
+
+/* Inline hover actions for Outliner nodes (M-23) */
+.outliner-summary,
+.outliner-device {
+  position: relative;
+}
+
+.outliner-node-actions {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  padding-right: 2px;
+}
+
+.outliner-summary:hover .outliner-node-actions,
+.outliner-device:hover .outliner-node-actions {
+  display: inline-flex;
+}
+
+.outliner-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.outliner-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.outliner-action-btn.btn-del:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--red);
+}
+
+/* ============================================================
+   INSPECTOR CRUD ACTIONS & EMPTY STATE (M-36)
+============================================================ */
+.inspector-empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 8px;
+  text-align: center;
+  gap: 10px;
+}
+
+.inspector-empty-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+.inspector-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.inspector-btn-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.btn-inspector {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-ui);
+  border: 1px solid transparent;
+  text-align: center;
+}
+
+.btn-inspector-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-inspector-primary:hover {
+  background: #0284c7;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.btn-inspector-secondary {
+  background: var(--bg-card2);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+.btn-inspector-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+.btn-inspector-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--red);
+}
+.btn-inspector-danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--red);
+  color: #fff;
+}
+

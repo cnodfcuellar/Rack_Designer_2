@@ -40,6 +40,15 @@ function updateCatalogItem(id, props) {
   renderCatalog();
 }
 
+const CATALOG_GROUPS = [
+  { id: 'all', name: 'Todos los Equipos', types: null, icon: 'grid', color: '#0ea5e9' },
+  { id: 'server', name: 'Servidores', types: ['server'], icon: 'server', color: '#10b981' },
+  { id: 'network', name: 'Redes (Networking)', types: ['switch', 'router', 'firewall', 'ap', 'gestion'], icon: 'network', color: '#38bdf8' },
+  { id: 'storage', name: 'Almacenamiento', types: ['storage'], icon: 'san', color: '#06b6d4' },
+  { id: 'energia', name: 'Energía', types: ['energia'], icon: 'ups', color: '#eab308' },
+  { id: 'accesorios', name: 'Accesorios', types: ['accesorios'], icon: 'tray', color: '#94a3b8' },
+  { id: 'floor', name: 'Periféricos de Piso', types: ['pc', 'camera', 'door', 'printer', 'phone'], icon: 'pc', color: '#8b5cf6' }
+];
 
 let currentFlyoutCategory = null;
 
@@ -47,25 +56,20 @@ function renderCategoryIcons() {
   const container = document.getElementById('sidebar-category-icons');
   if (!container) return;
   
-  const types = Object.keys(TYPE_COLORS);
-  container.innerHTML = types.map(type => {
-    // Determine icon for the type by finding first template of this type
-    const template = CATALOG.find(c => c.type === type);
-    let iconName = type;
-    if (template && template.icon) {
-        iconName = template.icon.split('/').pop().split('.')[0];
+  container.innerHTML = CATALOG_GROUPS.map(group => {
+    let svgIcon = '';
+    if (typeof SVG_ICONS !== 'undefined' && SVG_ICONS[group.icon]) {
+      svgIcon = SVG_ICONS[group.icon];
+    } else {
+      svgIcon = `<i class="svg-icon icon-${group.icon}"></i>`;
     }
-    // Handle some fallbacks if iconName doesn't exactly match SVG_ICONS
-    if (type === 'pc') iconName = 'pc';
-    if (type === 'door') iconName = 'door';
     
-    const svgIcon = typeof SVG_ICONS !== 'undefined' && SVG_ICONS[iconName] ? SVG_ICONS[iconName] : '';
-    
+    const isActive = currentFlyoutCategory === group.id;
     return `
-      <div class="sb-category-btn ${currentFlyoutCategory === type ? 'active' : ''}" 
-           data-category="${escapeHTML(type)}" 
-           title="${escapeHTML(type).toUpperCase()}"
-           style="color: ${TYPE_COLORS[type]}">
+      <div class="sb-category-btn ${isActive ? 'active' : ''}" 
+           data-category="${escapeHTML(group.id)}" 
+           title="${escapeHTML(group.name).toUpperCase()}"
+           style="color: ${group.color}">
         <div style="width:20px; height:20px; display:flex; align-items:center; justify-content:center;">
           ${svgIcon}
         </div>
@@ -91,8 +95,9 @@ function openFlyout(category) {
   currentFlyoutCategory = category;
   const flyout = document.getElementById('catalog-flyout');
   const title = document.getElementById('flyout-title');
-  if(title) title.textContent = category.toUpperCase();
-  if(flyout) flyout.classList.remove('hidden');
+  const group = CATALOG_GROUPS.find(g => g.id === category);
+  if (title) title.textContent = group ? group.name.toUpperCase() : category.toUpperCase();
+  if (flyout) flyout.classList.remove('hidden');
   renderCategoryIcons();
   renderCatalog();
 }
@@ -117,17 +122,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderCatalog() {
   const searchInput = document.getElementById('catalog-search');
-  const query = searchInput ? searchInput.value.toLowerCase() : '';
-  const filter = currentFlyoutCategory || 'all';
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+  const activeGroupId = currentFlyoutCategory || 'all';
+  const group = CATALOG_GROUPS.find(g => g.id === activeGroupId);
   
   const list = CATALOG.filter(item => {
-    const matchType = filter === 'all' || item.type === filter;
-    const matchQuery = !query || item.name.toLowerCase().includes(query) || item.type.includes(query);
+    const matchType = !group || !group.types || group.types.includes(item.type);
+    const matchQuery = !query || 
+      item.name.toLowerCase().includes(query) || 
+      item.type.toLowerCase().includes(query);
     return matchType && matchQuery;
   });
   
   const cat = document.getElementById('catalog');
   if(!cat) return;
+
+  if (list.length === 0) {
+    cat.innerHTML = `<div style="padding:24px 16px; text-align:center; color:var(--text-muted); font-size:12px;">No se encontraron equipos para "${escapeHTML(query)}"</div>`;
+    return;
+  }
+
   cat.innerHTML = list.map(item => {
     const iconName = item.icon.split('/').pop().split('.')[0];
     return `
@@ -208,39 +222,49 @@ function renderRoomTabs() {
   const currentRoom = store._raw.rooms.find(r => r.id === store._raw.currentRoomId) || store._raw.rooms[0];
   
   // Update label text
-  label.textContent = currentRoom.name;
+  label.textContent = currentRoom ? currentRoom.name : 'Salas';
 
   // Render dropdown list
   dropdownList.innerHTML = store._raw.rooms.map(r => `
-    <button class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}">
-      <span class="status-dot-nav ${r.id === store._raw.currentRoomId ? 'active' : ''}"></span> ${escapeHTML(r.name)}
-      ${store._raw.rooms.length > 1 ? `<span class="close-btn" data-del-room="${escapeHTML(r.id)}">✕</span>` : ''}
-    </button>
+    <div class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}" style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:6px; cursor:pointer;">
+      <span class="status-dot-nav ${r.id === store._raw.currentRoomId ? 'active' : ''}"></span>
+      <span class="room-tab-name" data-select-room="${escapeHTML(r.id)}" style="flex:1; text-align:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHTML(r.name)}</span>
+      <div style="display:flex; align-items:center; gap:4px;">
+        <button class="room-edit-btn" data-edit-room="${escapeHTML(r.id)}" title="Editar sala" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:2px 4px; font-size:12px; border-radius:3px;">✏️</button>
+        ${store._raw.rooms.length > 1 ? `<span class="close-btn" data-del-room="${escapeHTML(r.id)}" title="Eliminar sala">✕</span>` : ''}
+      </div>
+    </div>
   `).join('');
 
   // Attach events
-  dropdownList.querySelectorAll('.room-tab').forEach(btn => {
-    btn.addEventListener('click', async e => {
-      if (e.target.dataset.delRoom) { await deleteRoom(e.target.dataset.delRoom); return; }
-      store.setCurrentRoom(btn.dataset.roomId);
+  dropdownList.querySelectorAll('.room-tab').forEach(tab => {
+    tab.addEventListener('click', async e => {
+      if (e.target.dataset.delRoom) { 
+        await deleteRoom(e.target.dataset.delRoom); 
+        return; 
+      }
+      if (e.target.dataset.editRoom || e.target.closest('.room-edit-btn')) {
+        const editBtn = e.target.closest('.room-edit-btn');
+        const rId = editBtn ? editBtn.dataset.editRoom : e.target.dataset.editRoom;
+        if (typeof openEditRoomModal === 'function') openEditRoomModal(rId);
+        dropdownList.classList.add('hidden');
+        return;
+      }
+      store.setCurrentRoom(tab.dataset.roomId);
       dropdownList.classList.add('hidden');
     });
     
     const editRoom = (e) => {
       if (e.target.dataset.delRoom) return;
       e.preventDefault();
-      const roomId = btn.dataset.roomId;
-      const room = store._raw.rooms.find(r => r.id === roomId);
-      if (room) {
-        const newName = prompt('Editar nombre de la sala:', room.name);
-        if (newName !== null && newName.trim() !== '') {
-          store.updateRoom(roomId, { name: newName.trim() });
-          notify('Sala renombrada a ' + newName.trim(), 'success');
-        }
+      const roomId = tab.dataset.roomId;
+      if (typeof openEditRoomModal === 'function') {
+        openEditRoomModal(roomId);
+        dropdownList.classList.add('hidden');
       }
     };
-    btn.addEventListener('dblclick', editRoom);
-    btn.addEventListener('contextmenu', editRoom);
+    tab.addEventListener('dblclick', editRoom);
+    tab.addEventListener('contextmenu', editRoom);
   });
 }
 

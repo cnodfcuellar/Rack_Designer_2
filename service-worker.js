@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rack-designer-next-cache-v5';
+const CACHE_NAME = 'rack-designer-next-cache-v9';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -60,6 +60,22 @@ const ASSETS_TO_CACHE = [
   './assets/svg/default/floor_camera.svg',
   './assets/svg/default/floor_ap.svg',
   './assets/svg/default/floor_printer.svg',
+  './assets/default/server_1u.svg',
+  './assets/default/server_2u.svg',
+  './assets/default/switch_24p.svg',
+  './assets/default/router.svg',
+  './assets/default/firewall.svg',
+  './assets/default/ups.svg',
+  './assets/default/pdu.svg',
+  './assets/default/storage.svg',
+  './assets/default/patchpanel.svg',
+  './assets/default/organizer.svg',
+  './assets/default/kvm.svg',
+  './assets/default/tray.svg',
+  './assets/default/floor_pc.svg',
+  './assets/default/floor_camera.svg',
+  './assets/default/floor_ap.svg',
+  './assets/default/floor_printer.svg',
   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap'
 ];
 

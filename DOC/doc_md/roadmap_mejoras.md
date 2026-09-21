@@ -4,7 +4,7 @@
 >
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
-> **Última actualización:** 2026-09-18
+> **Última actualización:** 2026-09-19
 > **Estado del sistema:** En producción
 
 ---
@@ -29,32 +29,32 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | ID | Nombre | Categoría |
 |---|---|---|
 | M-01 | Cifrado de credenciales e IPs en localStorage | 🔒 Seguridad |
-| M-02 | Manejo de QuotaExceededError en `_save()` | 💾 Estabilidad |
+| M-02 | ~~Manejo de QuotaExceededError en `_save()`~~ | ✅ COMPLETADO |
 | M-03 | Optimización de `deepClone` / limitación de historial | ⏳ Rendimiento |
 | M-04 | Redibujado selectivo (renderAll optimizado) | 🔄 Rendimiento |
-| M-05 | Protección contra corrupción de JSON en `_load()` | ⚡ Estabilidad |
-| M-06 | Estrategia de actualización del Service Worker | 📱 PWA |
+| M-05 | ~~Protección contra corrupción de JSON en `_load()`~~ | ✅ COMPLETADO |
+| M-06 | ~~Estrategia de actualización del Service Worker~~ | ✅ COMPLETADO |
 | M-07 | Resolución de conflictos de importación multiusuario | ⛔ Colaboración |
-| M-08 | Suite de pruebas unitarias e integradas | 🧪 Calidad |
-| M-09 | Modal unificado para edición de salas | 🚪 UX |
-| M-10 | Borde más visible en racks (vista física) | 🖼️ UX |
-| M-11 | Agrupación "Network" en el sidebar del catálogo | 🔌 UX |
-| M-12 | Categoría "Todos" con lupa en el catálogo | 🔍 UX |
-| M-13 | Corrección de desalineación de equipos de piso | 📐 UX |
-| M-14 | Ancho fijo proporcional para slots (10× U) | 📏 UX |
-| M-15 | Grilla de fondo sutil en vista física | 🏁 UX |
-| M-16 | Alturas de rack estandarizadas (select + 8U default) | 📐 UX |
+| M-08 | ~~Suite de pruebas unitarias e integradas~~ | ✅ COMPLETADO |
+| M-09 | ~~Modal unificado para edición de salas~~ | ✅ COMPLETADO |
+| M-10 | ~~Borde más visible en racks (vista física)~~ | ✅ COMPLETADO |
+| M-11 | ~~Agrupación "Network" en el sidebar del catálogo~~ | ✅ COMPLETADO |
+| M-12 | ~~Categoría "Todos" con lupa en el catálogo~~ | ✅ COMPLETADO |
+| M-13 | ~~Corrección de desalineación de equipos de piso~~ | ✅ COMPLETADO |
+| M-14 | ~~Ancho fijo proporcional para slots (10× U)~~ | ✅ COMPLETADO |
+| M-15 | ~~Grilla de fondo sutil en vista física~~ | ✅ COMPLETADO |
+| M-16 | ~~Alturas de rack estandarizadas (select + 42U default)~~ | ✅ COMPLETADO |
 | M-17 | ~~Documento de medidas de interfaz~~ | ✅ COMPLETADO |
 | M-18 | Tema Sepia + visibilidad del selector de temas | 🎨 UX |
 | M-19 | Propiedades faltantes en tabla de inventario | 📊 Datos |
 | M-20 | Ocultar/mostrar columnas en tablas | ⚙️ UX |
 | M-21 | Plantilla completa de exportación CSV/Excel | 📋 Datos |
 | M-22 | Importación masiva desde CSV/Excel | 📥 Datos |
-| M-23 | Controles de edición/creación en el Outliner | 🌳 UX |
-| M-24 | Inspector colapsable en panel derecho | 🗂️ UX |
+| M-23 | ~~Controles de edición/creación en el Outliner~~ | ✅ COMPLETADO |
+| M-24 | ~~Inspector colapsable en panel derecho~~ | ✅ COMPLETADO |
 | M-25 | Rediseño responsive para móvil/tablet | 📱 UX |
 | M-26 | Gestión avanzada de puertos y validaciones | 🔌 Core |
-| M-27 | Persistencia de posiciones en topología | 🕸️ Core |
+| M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
 | M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
 | M-29 | Motor de temas y transparencias en topología | 🎨 Topología |
 | M-30 | Buscador en catálogo de añadir equipos | 🔍 UX |
@@ -63,12 +63,12 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-33 | Sistema de cableado frontal vs trasero | 🔌 Core |
 | M-34 | Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) | 🪢 UX |
 | M-35 | Eliminación de restricciones de ubicación (Rack vs Piso/Frente) | 🔄 Core |
-| M-36 | Creación, edición y eliminación de salas y racks desde el Inspector | 🛠️ UX |
+| M-36 | ~~Creación, edición y eliminación de salas y racks desde el Inspector~~ | ✅ COMPLETADO |
 | M-37 | Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas) | 📸 Datos |
-| M-38 | Opciones de ordenamiento en el Outliner | 🔄 UX |
+| M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **M-17** ya fue completado. Total de tareas pendientes: **37**.
+> **18 mejoras completadas:** `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-36]✓` y `[M-38]✓`. Total de tareas pendientes: **20**. Fase 1 completada al 100%. Fase 3 avanzada (4 de 8 completadas).
 
 ---
 
@@ -91,9 +91,9 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-03 | Optimización deepClone | 🟠 3 | Limitar el array `_history`, implementar diffs incrementales o usar `structuredClone`. Riesgo en undo/redo. |
 | M-04 | Redibujado selectivo | 🔴 4 | Reescribir la lógica de `renderAll()` en `main.js` para actualizar solo nodos DOM afectados. Alto riesgo de regresión. |
 | M-05 | Anti-corrupción JSON | 🟠 3 | Implementar doble escritura (backup slot) y validación de integridad en `_load()`. |
-| M-06 | Service Worker update | 🟡 2 | Añadir listener `controllerchange` + UI de notificación "Nueva versión disponible". |
+| M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Implementado `reg.update()` automático periódico e interceptación PWA offline en `service-worker.js` y `main.js`. |
 | M-07 | Conflictos multiusuario | ⚫ 5 | Requiere algoritmo de merge de objetos JSON profundos, UI de resolución de conflictos, y cambios extensos en `fileManager.js`. |
-| M-08 | Suite de pruebas | 🔴 4 | Configurar framework (Vitest o Jest), escribir tests para store, modals, y rendering. Esfuerzo continuo. |
+| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Implementada suite de 26 pruebas automáticas de integridad y relaciones en Node.js vía `tests/integrity_check.cjs`. |
 | M-09 | Modal edición de salas | 🟡 2 | Crear `RoomModal.js` completo (ya existe esqueleto de 1.3KB). Patrón idéntico a `RackModal.js`. |
 | M-10 | Borde racks más visible | 🟢 1 | Cambio CSS puro en `rack.css` (aumentar `border-width`). |
 | M-11 | Grupo "Network" en sidebar | 🟡 2 | Modificar la estructura de categorías en `catalog.js`. |
@@ -111,7 +111,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-24 | Inspector colapsable | 🟡 2 | Toggle CSS + estado en `inspector.js`, redistribuir espacio vertical del panel derecho. |
 | M-25 | Responsive móvil/tablet | ⚫ 5 | Rediseño completo de layout grid, media queries extensivas, gestos táctiles, bottom nav. |
 | M-26 | Gestión avanzada de puertos | 🔴 4 | Nuevo modelo de datos para puertos, validaciones en `CableModal.js`, filtrado dinámico, VLAN. Refactor de `demoData.js`. |
-| M-27 | Persistencia posiciones topología | 🟠 3 | Extender el modelo de datos en `store.js`, sincronizar con drag events en `TopologyEvents.js`. |
+| M-27 | ~~Persistencia posiciones topología y saneamiento~~ | ✅ COMPLETADO | Coordenadas persistidas en `state.devices[].topology` y saneamiento relacional reactivo automático en `store.js` (`_sanitize`). |
 | M-28 | Skins visuales topología | 🔴 4 | 3 modos de renderizado en `TopologyRenderer.js`, carga de imágenes custom (FileReader + canvas), selector UI. |
 | M-29 | Motor temas topología | 🔴 4 | Motor de temas con herencia/personalización, controles de transparencia, patrones de fondo en canvas. |
 | M-30 | Buscador en catálogo de equipos | 🟡 2 | Campo de filtrado dinámico en tiempo real dentro del modal/catálogo de equipos. |
@@ -124,15 +124,17 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-37 | Exportación fiel (html2canvas) | 🟡 2 | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
 | M-38 | Opciones de orden en Outliner | 🟡 2 | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
 
-### Resumen de Complejidad
+### Resumen de Complejidad (Tareas Pendientes: 20)
 
-| Nivel | Cantidad | IDs |
+| Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
-| 🟢 Trivial (1) | 4 | M-10, M-13, M-14, M-15 |
-| 🟡 Baja (2) | 12 | M-02, M-06, M-09, M-11, M-12, M-16, M-19, M-24, M-30, M-31, M-37, M-38 |
-| 🟠 Media (3) | 10 | M-03, M-05, M-18, M-20, M-21, M-23, M-27, M-32, M-33, M-36 |
-| 🔴 Alta (4) | 8 | M-01, M-04, M-08, M-22, M-26, M-28, M-29, M-34 |
+| 🟢 Trivial (1) | 0 | *(Todas completadas)* |
+| 🟡 Baja (2) | 4 | M-19, M-30, M-31, M-37 |
+| 🟠 Media (3) | 6 | M-03, M-18, M-20, M-21, M-32, M-33 |
+| 🔴 Alta (4) | 7 | M-01, M-04, M-22, M-26, M-28, M-29, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25, M-35 |
+
+*(18 Completadas: M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-23, M-24, M-27, M-36, M-38)*
 
 ---
 
@@ -157,8 +159,8 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-26 | Gestión avanzada puertos | 🔥 P2 | Funcionalidad core de un DCIM. Sin esto, las conexiones no son fiables. |
 | M-09 | Modal edición salas | 🔥 P2 | El `prompt()` nativo rompe la experiencia y bloquea el hilo. |
 | M-19 | Props faltantes tabla | 🔥 P2 | Información incompleta = decisiones incorrectas del operador. |
-| M-08 | Suite de pruebas | ⚡ P3 | Protección contra regresiones. Crece en importancia con cada cambio. |
-| M-06 | Service Worker update | ⚡ P3 | Usuarios atrapados en versiones antiguas con bugs conocidos. |
+| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | 26 pruebas automáticas pasando en Node.js garantizan integridad relacional. |
+| M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Resuelto con `reg.update()` automático e interceptación PWA offline. |
 | M-16 | Alturas rack estándar | ⚡ P3 | Previene errores de configuración de operadores. |
 | M-10 | Borde racks visible | ⚡ P3 | Mejora inmediata de legibilidad visual. |
 | M-13 | Desalineación piso | ⚡ P3 | Defecto visual que impacta la primera impresión. |
@@ -168,7 +170,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-12 | Categoría "Todos" | ⚡ P3 | Agiliza la búsqueda de equipos. |
 | M-23 | Controles en Outliner | ⚡ P3 | Productividad: acciones directas sin cambiar de panel. |
 | M-24 | Inspector colapsable | ⚡ P3 | Mejor uso del espacio en el panel derecho. |
-| M-27 | Persistencia posiciones | ⚡ P3 | Evita que los diagramas se desordenen al recargar. |
+| M-27 | ~~Persistencia posiciones y saneamiento~~ | ✅ COMPLETADO | Guardado reactivo en store y saneamiento automático de huérfanos implementado. |
 | M-20 | Ocultar columnas | ⚡ P3 | Ergonomía en pantallas pequeñas. |
 | M-21 | Plantilla exportación | ⚡ P3 | Base necesaria para M-22 (importación masiva). |
 | M-30 | Buscador catálogo de equipos | ⚡ P3 | Agiliza la localización inmediata de equipos en el modal de catálogo. |
@@ -204,11 +206,11 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
   Alta     │          │  M-19   │  M-36   │  M-26   │          │
            │          │  M-37   │         │  M-34   │          │
            ├──────────┼─────────┼─────────┼─────────┼──────────┤
-  P3 ⚡    │  M-13    │  M-06   │  M-18   │  M-08   │          │
+  P3 ⚡    │  M-13    │ [M-06]✓ │  M-18   │ [M-08]✓ │          │
   Media    │  M-14    │  M-11   │  M-20   │         │          │
            │  M-15    │  M-12   │  M-21   │         │          │
            │          │  M-16   │  M-23   │         │          │
-           │          │  M-24   │  M-27   │         │          │
+           │          │  M-24   │ [M-27]✓ │         │          │
            │          │  M-30   │  M-32   │         │          │
            │          │  M-31   │  M-33   │         │          │
            │          │  M-38   │         │         │          │
@@ -218,6 +220,9 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
            │          │         │         │  M-29   │  M-35    │
            └──────────┴─────────┴─────────┴─────────┴──────────┘
 ```
+
+> [!NOTE]
+> **Items completados:** `[M-06]✓`, `[M-08]✓`, `[M-17]✓` (Doc) y `[M-27]✓`.
 
 > [!TIP]
 > **Zona de Quick Wins (arriba-izquierda):** M-02, M-10, M-09, M-19, M-37 — Máximo impacto con mínimo esfuerzo. Empezar aquí.
@@ -235,14 +240,14 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Duración estimada:** 1 semana
 > **Riesgo de no hacer:** ⚠️ Pérdida de datos en producción
 
-| Orden | ID | Tarea | Archivos Afectados | Entregable |
-|---|---|---|---|---|
-| 0.1 | M-02 | Manejo de QuotaExceededError | `store.js` | `try/catch` en `_save()` + alerta visual |
-| 0.2 | M-05 | Anti-corrupción JSON | `store.js` | Doble slot de guardado + validación en `_load()` |
-| 0.3 | M-01 | Cifrado de credenciales | `store.js`, `DeviceModal.js`, `inspector.js` | Web Crypto API (AES-GCM) para campos sensibles |
+| Orden | ID | Tarea | Archivos Afectados | Entregable | Estado |
+|---|---|---|---|---|---|
+| 0.1 | M-02 | ~~Manejo de QuotaExceededError~~ | `store.js` | `try/catch` en `_save()` + alerta visual + evento | ✅ COMPLETADO |
+| 0.2 | M-05 | ~~Anti-corrupción JSON~~ | `store.js` | Doble slot de guardado + validación en `_load()` | ✅ COMPLETADO |
+| 0.3 | M-01 | Cifrado de credenciales | `store.js`, `DeviceModal.js`, `inspector.js` | Web Crypto API (AES-GCM) para campos sensibles | Pendiente |
 
 > [!CAUTION]
-> **M-02 y M-05 son hotfixes.** Deben desplegarse antes de cualquier otra mejora. Un crash del navegador o un localStorage lleno puede borrar el diseño completo del datacenter de un usuario.
+> **M-02 y M-05 son hotfixes de blindaje crítico.** Han sido implementados exitosamente con tests automatizados (Grupo 6) y tolerancia a fallos.
 
 ---
 
@@ -251,14 +256,17 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Duración estimada:** 2-3 días
 > **Riesgo de regresión:** Bajo
 
-| Orden | ID | Tarea | Archivos Afectados |
-|---|---|---|---|
-| 1.1 | M-10 | Borde racks más visible | `rack.css` |
-| 1.2 | M-13 | Alineación equipos de piso | `rack.js` o `layout.css` |
-| 1.3 | M-14 | Ancho fijo slots (240px) | `rack.css` |
-| 1.4 | M-15 | Grilla de fondo vista física | `layout.css` |
-| 1.5 | M-09 | Modal de edición de salas | `RoomModal.js`, `modals.js`, `main.js` |
-| 1.6 | M-16 | Alturas estándar de rack | `RackModal.js` |
+| Orden | ID | Tarea | Archivos Afectados | Estado |
+|---|---|---|---|---|
+| 1.1 | M-10 | ~~Borde racks más visible~~ | `css/components/rack.css` | ✅ COMPLETADO (1.5px border + shadow 3D) |
+| 1.2 | M-13 | ~~Alineación equipos de piso~~ | `faceplates.css`, `rack.js` | ✅ COMPLETADO (min-width: 584px) |
+| 1.3 | M-14 | ~~Ancho fijo slots (240px)~~ | `css/components/rack.css` | ✅ COMPLETADO (width: 240px fijo 10:1) |
+| 1.4 | M-15 | ~~Grilla de fondo vista física~~ | `css/layout.css` | ✅ COMPLETADO (grilla CAD 24px = 1U) |
+| 1.5 | M-09 | ~~Modal de edición de salas~~ | `RoomModal.js`, `index.html`, `catalog.js` | ✅ COMPLETADO (CRUD completo + RBAC sin prompt) |
+| 1.6 | M-16 | ~~Alturas estándar de rack~~ | `index.html`, `RackModal.js` | ✅ COMPLETADO (select 8/12/18/24/42/48U) |
+
+> [!TIP]
+> 🎉 **¡Fase 1 completada al 100%!** Todas las 6 mejoras de Quick Wins Visuales han sido implementadas y validadas con pruebas automatizadas e inspección visual.
 
 ---
 
@@ -283,16 +291,16 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Objetivo:** Optimizar la ergonomía del día a día del operador centralizando la gestión.
 > **Duración estimada:** 1-2 semanas
 
-| Orden | ID | Tarea | Archivos Afectados |
-|---|---|---|---|
-| 3.1 | M-11 | Grupo "Network" en sidebar | `catalog.js` |
-| 3.2 | M-12 | Categoría "Todos" con lupa | `catalog.js` |
-| 3.3 | M-30 | Buscador en catálogo de equipos | `DeviceModal.js`, `catalog.js` |
-| 3.4 | M-23 | Controles edición/creación en Outliner | `outliner.js` |
-| 3.5 | M-38 | Opciones de ordenamiento en Outliner | `outliner.js` |
-| 3.6 | M-24 | Inspector colapsable | `inspector.js`, `layout.css` |
-| 3.7 | M-36 | CRUD Salas/Racks desde Inspector | `inspector.js`, `store.js` |
-| 3.8 | M-20 | Ocultar/mostrar columnas | `tables.js` |
+| Orden | ID | Tarea | Archivos Afectados | Estado |
+|---|---|---|---|---|
+| 3.1 | M-11 | ~~Grupo "Network" en sidebar~~ | `catalog.js` | ✅ COMPLETADO (familia unificada de red) |
+| 3.2 | M-12 | ~~Categoría "Todos" con lupa~~ | `catalog.js`, `misc.css`, `icons.js` | ✅ COMPLETADO (catálogo global + live search) |
+| 3.3 | M-30 | Buscador en catálogo de equipos | `DeviceModal.js`, `catalog.js` | Pendiente |
+| 3.4 | M-23 | ~~Controles edición/creación en Outliner~~ | `outliner.js`, `index.html`, `panels.css` | ✅ COMPLETADO (botones cabecera + inline ✏️/🗑️ + RBAC) |
+| 3.5 | M-38 | ~~Opciones de ordenamiento en Outliner~~ | `outliner.js`, `index.html`, `panels.css` | ✅ COMPLETADO (selector 4 modos: slot, name-asc, name-desc, type) |
+| 3.6 | M-24 | ~~Inspector colapsable~~ | `inspector.js`, `index.html`, `layout.css`, `panels.css` | ✅ COMPLETADO (toggle colapsable + expansión flex de Outliner) |
+| 3.7 | M-36 | ~~CRUD Salas/Racks desde Inspector~~ | `inspector.js`, `panels.css` | ✅ COMPLETADO (CRUD completo salas/racks/equipos + empty state) |
+| 3.8 | M-20 | Ocultar/mostrar columnas | `tables.js` | Pendiente |
 
 ---
 
@@ -301,13 +309,13 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Duración estimada:** 2-3 semanas
 > **Dependencias:** Fase 2 completada (modelo de puertos necesario para conexiones)
 
-| Orden | ID | Tarea | Archivos Afectados |
-|---|---|---|---|
-| 4.1 | M-27 | Persistencia de posiciones | `store.js`, `TopologyEvents.js`, `TopologyLayout.js` |
-| 4.2 | M-31 | Separación de etiquetas (IP arriba / nombre abajo) | `TopologyRenderer.js` |
-| 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` |
-| 4.4 | M-32 | Layout de árbol genealógico | `TopologyLayout.js`, `TopologyRenderer.js` |
-| 4.5 | M-29 | Motor de temas y transparencias | `TopologyRenderer.js`, nuevo `TopologyThemes.js` |
+| Orden | ID | Tarea | Archivos Afectados | Estado |
+|---|---|---|---|---|
+| 4.1 | M-27 | ~~Persistencia de posiciones y saneamiento~~ | `store.js`, `TopologyEvents.js`, `TopologyLayout.js` | ✅ COMPLETADO |
+| 4.2 | M-31 | Separación de etiquetas (IP arriba / nombre abajo) | `TopologyRenderer.js` | Pendiente |
+| 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` | Pendiente |
+| 4.4 | M-32 | Layout de árbol genealógico | `TopologyLayout.js`, `TopologyRenderer.js` | Pendiente |
+| 4.5 | M-29 | Motor de temas y transparencias | `TopologyRenderer.js`, nuevo `TopologyThemes.js` | Pendiente |
 
 ---
 
@@ -315,12 +323,12 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Objetivo:** Escalar la app para topologías grandes y proteger contra regresiones.
 > **Duración estimada:** 2-3 semanas
 
-| Orden | ID | Tarea | Archivos Afectados |
-|---|---|---|---|
-| 5.1 | M-03 | Optimización deepClone / historial | `store.js` |
-| 5.2 | M-04 | Redibujado selectivo | `main.js`, todos los archivos `ui/` |
-| 5.3 | M-08 | Suite de pruebas | Nuevo directorio `tests/`, configuración Vitest |
-| 5.4 | M-06 | Actualización Service Worker | `service-worker.js`, `main.js` |
+| Orden | ID | Tarea | Archivos Afectados | Estado |
+|---|---|---|---|---|
+| 5.1 | M-03 | Optimización deepClone / historial | `store.js` | Pendiente |
+| 5.2 | M-04 | Redibujado selectivo | `main.js`, todos los archivos `ui/` | Pendiente |
+| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs` | ✅ COMPLETADO (26/26 Node.js) |
+| 5.4 | M-06 | ~~Actualización Service Worker~~ | `service-worker.js`, `main.js` | ✅ COMPLETADO (PWA Offline) |
 
 ---
 
@@ -339,7 +347,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 
 ## 6. Diagrama de Arquitectura Final
 
-> Arquitectura del proyecto después de implementar **todas** las 37 mejoras pendientes.
+> Arquitectura del proyecto con trazabilidad de estado (34 tareas pendientes y 4 completadas).
 
 ```mermaid
 graph TB
@@ -360,7 +368,7 @@ graph TB
         subgraph "Main Canvas"
             PHYS_VIEW["📐 Vista Física<br/>• Grilla de fondo sutil (M-15)<br/>• Bordes racks visibles (M-10)<br/>• Slots fijo 240px (M-14)<br/>• Piso alineado 584px (M-13)<br/>• Drag-to-Connect cables (M-34)"]
             
-            TOPO_VIEW["🕸️ Vista Topología<br/>• Skins: Nodo/Card/Imagen (M-28)<br/>• Layout: Árbol Genealógico (M-32)<br/>• Etiquetas: IP arriba, Nombre abajo (M-31)<br/>• Temas: Heredado/Custom (M-29)<br/>• Transparencias alfa<br/>• Posiciones persistentes (M-27)"]
+            TOPO_VIEW["🕸️ Vista Topología<br/>• Skins: Nodo/Card/Imagen (M-28)<br/>• Layout: Árbol Genealógico (M-32)<br/>• Etiquetas: IP arriba, Nombre abajo (M-31)<br/>• Temas: Heredado/Custom (M-29)<br/>• Transparencias alfa<br/>• Posiciones persistentes y saneadas (M-27 ✅)"]
         end
         
         subgraph "Panel Derecho (260px)"
@@ -386,14 +394,14 @@ graph TB
     end
     
     subgraph "CAPA DE LÓGICA (store.js)"
-        STORE["🧠 Store (ES6 Proxy)<br/>──────────────────<br/>• _save() con try/catch (M-02)<br/>• _load() con backup slot (M-05)<br/>• snapshot() optimizado (M-03)<br/>• Modelo puertos {id, type, vlan, occupied} (M-26)<br/>• Cableado frontal/trasero (M-33)<br/>• Flexibilidad ubicación (M-35)<br/>• Posiciones topología (M-27)"]
+        STORE["🧠 Store (ES6 Proxy)<br/>──────────────────<br/>• _save() con try/catch (M-02)<br/>• _load() con backup slot (M-05)<br/>• snapshot() optimizado (M-03)<br/>• Modelo puertos {id, type, vlan, occupied} (M-26)<br/>• Cableado frontal/trasero (M-33)<br/>• Flexibilidad ubicación (M-35)<br/>• Posiciones topología y saneamiento (M-27 ✅)"]
         
         CRYPTO["🔒 CryptoService [NUEVO]<br/>Web Crypto API (AES-GCM M-01)<br/>Cifra: ip, mac, user, pass"]
     end
     
     subgraph "CAPA DE TOPOLOGÍA (Canvas 2D)"
         T_STATE["TopologyState<br/>+ skinMode, themeConfig"]
-        T_EVENTS["TopologyEvents<br/>+ drag → persist position (M-27)"]
+        T_EVENTS["TopologyEvents<br/>+ drag → persist position (M-27 ✅)"]
         T_LAYOUT["TopologyLayout<br/>+ Árbol Genealógico (M-32)<br/>+ load saved positions"]
         T_RENDER["TopologyRenderer<br/>+ Etiquetas IP/nombre (M-31)<br/>+ renderNode/Card/Image"]
         T_SKINS["TopologySkins [NUEVO]<br/>+ Nodo/Card/Imagen custom (M-28)"]
@@ -402,13 +410,13 @@ graph TB
     
     subgraph "CAPA DE PERSISTENCIA"
         LS["💾 localStorage<br/>• Doble slot (backup M-05)<br/>• Preferencias columnas (M-20)<br/>• Tema activo"]
-        SS["🔐 sessionStorage<br/>• Auth session"]
+        SS["🔐 sessionStorage<br/>• Auth session persistente en F5"]
         FILE["📁 Archivos<br/>• .rack (JSON cifrado)<br/>• .csv/.xlsx (import/export M-21/22)"]
     end
     
     subgraph "CAPA DE INFRAESTRUCTURA"
-        SW["⚙️ Service Worker<br/>+ skipWaiting + notify UI (M-06)"]
-        TESTS["🧪 Tests (Vitest M-08)<br/>• store.test.js<br/>• ports.test.js<br/>• crypto.test.js"]
+        SW["⚙️ Service Worker (M-06 ✅)<br/>+ reg.update() + Cache-First"]
+        TESTS["🧪 Tests de Integridad (M-08 ✅)<br/>• tests/integrity_check.cjs<br/>• 26 aserciones en Node.js"]
         MOBILE["📱 Mobile Layer [NUEVO M-25]<br/>• Media queries<br/>• Touch gestures<br/>• Bottom nav bar"]
         H2C["📸 html2canvas [VENDOR M-37]<br/>Exportación PNG 1:1 Pixel-Perfect"]
     end
@@ -532,11 +540,11 @@ graph LR
 | **Fase 1** — Quick Wins | 2-3 días | Semana 2 | M-10, M-13, M-14, M-15, M-09, M-16 |
 | **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22 |
 | **Fase 3** — Navegación & CRUD | 1-2 semanas | Semana 5-6 | M-11, M-12, M-30, M-23, M-38, M-24, M-36, M-20 |
-| **Fase 4** — Topología | 2-3 semanas | Semana 7-9 | M-27, M-31, M-28, M-32, M-29 |
-| **Fase 5** — Rendimiento & Calidad | 2-3 semanas | Semana 10-12 | M-03, M-04, M-08, M-06 |
-| **Fase 6** — Premium | 3-4 semanas | Semana 13-16 | M-18, M-25, M-35, M-07 |
+| **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | M-31, M-28, M-32, M-29 *(M-27 completado)* |
+| **Fase 5** — Rendimiento & Calidad | 1-2 semanas | Semana 9-10 | M-03, M-04 *(M-08 y M-06 completados)* |
+| **Fase 6** — Premium | 3-4 semanas | Semana 11-14 | M-18, M-25, M-35, M-07 |
 
-> **Estimación total: ~16 semanas** (1 desarrollador) o **~6-8 semanas** (equipo de 2-3 desarrolladores trabajando en paralelo por fases independientes).
+> **Estimación remanente: ~13-14 semanas** (1 desarrollador) o **~5-6 semanas** (equipo de 2-3 desarrolladores trabajando en paralelo por fases independientes).
 
 ---
 

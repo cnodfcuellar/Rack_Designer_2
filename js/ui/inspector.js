@@ -25,20 +25,107 @@ function getIconForDeviceType(type) {
   }
 }
 
+async function deleteRoomFromInspector(roomId) {
+  if (typeof deleteRoom === 'function') {
+    await deleteRoom(roomId);
+  } else if (typeof store.deleteRoom === 'function') {
+    if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+      notify('Espectadores no pueden eliminar salas.', 'error', 3000);
+      return;
+    }
+    if (store._raw.rooms && store._raw.rooms.length <= 1) {
+      notify('No puedes eliminar la única sala', 'warn');
+      return;
+    }
+    const ok = await customConfirm('Eliminar Sala', '¿Eliminar esta sala y todos sus gabinetes asociados?');
+    if (ok) {
+      store.deleteRoom(roomId);
+      notify('Sala eliminada', 'warn');
+    }
+  }
+  if (window.appState && window.appState.selectedId === roomId) {
+    window.appState.selectedId = null;
+    window.appState.selectedType = null;
+    if (typeof window.renderInspector === 'function') {
+      window.renderInspector(null, null);
+    }
+  }
+}
+
+async function deleteRackFromInspector(rackId) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden eliminar gabinetes.', 'error', 3000);
+    return;
+  }
+  const rack = store.rackById(rackId);
+  const ok = await customConfirm('Eliminar Gabinete', `¿Estás seguro de eliminar "${rack ? rack.name : 'este gabinete'}" y todos los equipos instalados en él?`);
+  if (ok) {
+    store.deleteRack(rackId);
+    notify('Gabinete eliminado', 'warn');
+    if (window.appState && window.appState.selectedId === rackId) {
+      window.appState.selectedId = null;
+      window.appState.selectedType = null;
+      if (typeof window.renderInspector === 'function') {
+        window.renderInspector(null, null);
+      }
+    }
+  }
+}
+
+async function deleteDeviceFromInspector(devId) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden eliminar equipos.', 'error', 3000);
+    return;
+  }
+  const dev = store.deviceById(devId);
+  const ok = await customConfirm('Eliminar Equipo', `¿Estás seguro de eliminar "${dev ? dev.name : 'este equipo'}" y sus conexiones?`);
+  if (ok) {
+    store.deleteDevice(devId);
+    notify('Equipo eliminado', 'warn');
+    if (window.appState && window.appState.selectedId === devId) {
+      window.appState.selectedId = null;
+      window.appState.selectedType = null;
+      if (typeof window.renderInspector === 'function') {
+        window.renderInspector(null, null);
+      }
+    }
+  }
+}
+
+window.deleteRoomFromInspector = deleteRoomFromInspector;
+window.deleteRackFromInspector = deleteRackFromInspector;
+window.deleteDeviceFromInspector = deleteDeviceFromInspector;
+
 window.renderInspector = function(entityType, entityId) {
   const container = document.getElementById('inspector-content');
   if (!container) return;
 
   const data = store._raw;
   if (!entityId || !entityType) {
-    container.innerHTML = '<div style="text-align:center; padding-top:20px; color:var(--text-muted); font-style:italic;">Ningún elemento seleccionado</div>';
+    container.innerHTML = `
+      <div class="inspector-empty-box">
+        <div class="inspector-empty-icon">
+          <i class="svg-icon icon-server" style="width:20px; height:20px;"></i>
+        </div>
+        <div style="font-weight:600; color:var(--text-primary); font-size:13px;">Consola de Infraestructura</div>
+        <div style="color:var(--text-muted); font-size:11px; line-height:1.4;">Selecciona una sala, gabinete o equipo en el Outliner o en la vista física para inspeccionar y gestionar sus propiedades.</div>
+        <div class="inspector-btn-group" style="margin-top:10px;">
+          <button class="btn-inspector btn-inspector-primary" onclick="if(typeof openAddRoomModal === 'function') openAddRoomModal();">
+            <i class="svg-icon icon-building" style="width:13px; height:13px;"></i> + Nueva Sala
+          </button>
+          <button class="btn-inspector btn-inspector-secondary" onclick="if(typeof openAddRackModal === 'function') openAddRackModal();">
+            <i class="svg-icon icon-server" style="width:13px; height:13px;"></i> + Nuevo Gabinete
+          </button>
+        </div>
+      </div>
+    `;
     return;
   }
 
   if (entityType === 'device') {
     const dev = data.devices.find(d => d.id === entityId);
     if (!dev) {
-      container.innerHTML = '<div style="color:var(--danger);">Error: Equipo no encontrado</div>';
+      container.innerHTML = '<div style="color:var(--danger); padding:8px;">Error: Equipo no encontrado</div>';
       return;
     }
 
@@ -114,9 +201,16 @@ window.renderInspector = function(entityType, entityId) {
     html += `
         </div>
         
-        <button class="btn-secondary" style="width:100%; justify-content:center; padding:8px; margin-top:4px;" onclick="window.openEditDeviceModal('${dev.id}')">
-          <i class="svg-icon icon-edit" style="width:12px; height:12px; margin-right:4px;"></i> Editar Equipo
-        </button>
+        <div class="inspector-btn-group">
+          <div class="inspector-btn-row">
+            <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditDeviceModal === 'function') openEditDeviceModal('${escapeHTML(dev.id)}')">
+              <i class="svg-icon icon-edit" style="width:12px; height:12px;"></i> Editar Equipo
+            </button>
+            <button class="btn-inspector btn-inspector-danger" style="flex:1;" onclick="deleteDeviceFromInspector('${escapeHTML(dev.id)}')">
+              <i class="svg-icon icon-trash" style="width:12px; height:12px;"></i> Eliminar
+            </button>
+          </div>
+        </div>
       </div>
     `;
 
@@ -125,6 +219,9 @@ window.renderInspector = function(entityType, entityId) {
     const rack = data.racks.find(r => r.id === entityId);
     if (!rack) return;
     const room = data.rooms.find(r => r.id === rack.roomId);
+    const rackDevs = data.devices.filter(d => d.rackId === rack.id);
+    const uOccupied = rackDevs.reduce((sum, d) => sum + (d.size || d.height || 1), 0);
+    const uPct = rack.height ? Math.round((uOccupied / rack.height) * 100) : 0;
     
     let html = `
       <div style="display:flex; flex-direction:column; gap:12px;">
@@ -134,7 +231,7 @@ window.renderInspector = function(entityType, entityId) {
           </div>
           <div style="flex:1; overflow:hidden;">
             <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</div>
-            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">GABINETE</div>
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">GABINETE (${rack.height}U)</div>
           </div>
         </div>
         
@@ -148,14 +245,28 @@ window.renderInspector = function(entityType, entityId) {
             <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${rack.height} U</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Ocupación:</span>
+            <span style="color:var(--accent); font-size:12px; font-weight:600;">${uOccupied}U / ${rack.height}U (${uPct}%)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Color:</span>
             <span style="display:inline-block; width:16px; height:16px; border-radius:4px; background:${rack.color || '#0ea5e9'};"></span>
           </div>
         </div>
         
-        <button class="btn-secondary" style="width:100%; justify-content:center; padding:8px; margin-top:4px;" onclick="if(typeof openEditRackModal === 'function') openEditRackModal('${rack.id}')">
-          <i class="svg-icon icon-edit" style="width:12px; height:12px; margin-right:4px;"></i> Editar Gabinete
-        </button>
+        <div class="inspector-btn-group">
+          <button class="btn-inspector btn-inspector-primary" onclick="if(typeof openQuickPlacementModal === 'function') openQuickPlacementModal(null);">
+            <i class="svg-icon icon-desktop" style="width:13px; height:13px;"></i> + Agregar Equipo a este Rack
+          </button>
+          <div class="inspector-btn-row">
+            <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditRackModal === 'function') openEditRackModal('${rack.id}');">
+              <i class="svg-icon icon-edit" style="width:12px; height:12px;"></i> Editar
+            </button>
+            <button class="btn-inspector btn-inspector-danger" style="flex:1;" onclick="deleteRackFromInspector('${rack.id}');">
+              <i class="svg-icon icon-trash" style="width:12px; height:12px;"></i> Eliminar
+            </button>
+          </div>
+        </div>
       </div>
     `;
     container.innerHTML = html;
@@ -164,8 +275,6 @@ window.renderInspector = function(entityType, entityId) {
     if (!room) return;
     
     const racksCount = data.racks.filter(r => r.roomId === room.id).length;
-    
-    // Contar equipos de piso (tienen roomId) y equipos en rack (tienen rackId de un rack de esta sala)
     const roomRackIds = new Set(data.racks.filter(r => r.roomId === room.id).map(r => r.id));
     const devsCount = data.devices.filter(d => d.roomId === room.id || roomRackIds.has(d.rackId)).length;
     
@@ -189,6 +298,20 @@ window.renderInspector = function(entityType, entityId) {
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Total Equipos:</span>
             <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${devsCount}</span>
+          </div>
+        </div>
+
+        <div class="inspector-btn-group">
+          <button class="btn-inspector btn-inspector-primary" onclick="if(typeof store.setCurrentRoom === 'function') store.setCurrentRoom('${room.id}'); if(typeof openAddRackModal === 'function') openAddRackModal();">
+            <i class="svg-icon icon-server" style="width:13px; height:13px;"></i> + Crear Gabinete en esta Sala
+          </button>
+          <div class="inspector-btn-row">
+            <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditRoomModal === 'function') openEditRoomModal('${room.id}');">
+              <i class="svg-icon icon-edit" style="width:12px; height:12px;"></i> Editar Sala
+            </button>
+            <button class="btn-inspector btn-inspector-danger" style="flex:1;" onclick="deleteRoomFromInspector('${room.id}');">
+              <i class="svg-icon icon-trash" style="width:12px; height:12px;"></i> Eliminar
+            </button>
           </div>
         </div>
       </div>

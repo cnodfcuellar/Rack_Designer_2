@@ -7,7 +7,7 @@ function openAddRackModal() {
   editingRackId = null;
   document.getElementById('modal-rack-title').textContent = 'Nuevo Gabinete';
   document.getElementById('rack-name').value = '';
-  document.getElementById('rack-height').value = '24';
+  document.getElementById('rack-height').value = '42';
   document.getElementById('rack-color').value = '#0ea5e9';
   document.getElementById('rack-color-picker').value = '#0ea5e9';
   document.getElementById('modal-rack').classList.remove('hidden');
@@ -23,7 +23,18 @@ function openEditRackModal(id) {
   if (!rack) return;
   document.getElementById('modal-rack-title').textContent = 'Editar Gabinete';
   document.getElementById('rack-name').value   = rack.name;
-  document.getElementById('rack-height').value = rack.height;
+  
+  const heightSelect = document.getElementById('rack-height');
+  const heightStr = String(rack.height);
+  const exists = Array.from(heightSelect.options).some(opt => opt.value === heightStr);
+  if (!exists) {
+    const customOpt = document.createElement('option');
+    customOpt.value = heightStr;
+    customOpt.textContent = `${heightStr}U (Personalizado)`;
+    heightSelect.appendChild(customOpt);
+  }
+  heightSelect.value = heightStr;
+
   document.getElementById('rack-color').value  = rack.color;
   document.getElementById('rack-color-picker').value = rack.color;
   document.getElementById('modal-rack').classList.remove('hidden');
