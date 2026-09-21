@@ -6,7 +6,14 @@ class Store {
     this._listeners = {};
     this._proxyCache = new WeakMap();
     this._raw = this._load();
-    this.state = this._makeProxy(this._raw);
+  }
+
+  get state() {
+    return this._makeProxy(this._raw);
+  }
+
+  set state(val) {
+    this._raw = val;
   }
 
   _defaultState() {
@@ -16,6 +23,7 @@ class Store {
       racks: [],
       devices: [],
       connections: [],
+      customCatalog: [],
       currentRoomId: roomId,
       selectedDeviceId: null,
       topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
@@ -29,6 +37,7 @@ class Store {
     if (!this._raw.connections) this._raw.connections = [];
     if (!this._raw.rooms) this._raw.rooms = [];
     if (!this._raw.racks) this._raw.racks = [];
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
     
     const validDeviceIds = new Set(this._raw.devices.map(d => d.id));
     
@@ -55,6 +64,7 @@ class Store {
         const parsed = JSON.parse(saved);
         this._raw = parsed;
         this._sanitize();
+        this.state = this._makeProxy(this._raw);
         return this._raw;
       }
     } catch(e) {
@@ -68,6 +78,7 @@ class Store {
         const parsedBackup = JSON.parse(backup);
         this._raw = parsedBackup;
         this._sanitize();
+        this.state = this._makeProxy(this._raw);
         if (typeof notify === 'function') {
           try { notify('Se recuperó el diseño desde el respaldo de seguridad automático.', 'warning', 6000); } catch (_) {}
         }
@@ -79,6 +90,7 @@ class Store {
 
     const def = this._defaultState();
     this._raw = def;
+    this.state = this._makeProxy(this._raw);
     return def;
   }
 
@@ -218,6 +230,24 @@ class Store {
   }
   deviceById(id)     { return this._raw.devices.find(d => d.id === id); }
   rackById(id)       { return this._raw.racks.find(r => r.id === id); }
+
+  addCustomCatalogItem(item) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    const newItem = Object.assign({}, item, { isCustom: true });
+    this._raw.customCatalog.push(newItem);
+    this._save();
+    this._emit('change', { source: 'addCustomCatalogItem' });
+    return newItem;
+  }
+
+  deleteCustomCatalogItem(id) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    this._raw.customCatalog = this._raw.customCatalog.filter(c => c.id !== id);
+    this._save();
+    this._emit('change', { source: 'deleteCustomCatalogItem' });
+  }
 
   addRoom(name) {
     this.snapshot();
@@ -412,6 +442,23 @@ class Store {
     if (roomIds.length)  { for (const id of roomIds)  { delete t.roomPositions[id]; delete t.roomSizes[id]; } }
     if (rackIds.length)  { for (const id of rackIds)  { delete t.rackPositions[id]; delete t.rackSizes[id]; } }
     if (deviceIds.length) { for (const id of deviceIds) { delete t.nodePositions[id]; } }
+  }
+
+  addCustomCatalogItem(item) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    this._raw.customCatalog.push(item);
+    this._save();
+    this._emit('change', { source: 'addCustomCatalogItem', item });
+    return item;
+  }
+
+  deleteCustomCatalogItem(id) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    this._raw.customCatalog = this._raw.customCatalog.filter(c => c.id !== id);
+    this._save();
+    this._emit('change', { source: 'deleteCustomCatalogItem', id });
   }
 
   saveTopologyState(data) {

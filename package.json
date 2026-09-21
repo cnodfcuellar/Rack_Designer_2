@@ -19,5 +19,8 @@
   "type": "module",
   "dependencies": {
     "marked": "^18.0.5"
+  },
+  "devDependencies": {
+    "html2canvas": "^1.4.1"
   }
 }

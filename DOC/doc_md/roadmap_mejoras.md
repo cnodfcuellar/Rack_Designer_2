@@ -4,7 +4,7 @@
 >
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
-> **Última actualización:** 2026-09-19
+> **Última actualización:** 2026-09-21
 > **Estado del sistema:** En producción
 
 ---
@@ -46,7 +46,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-16 | ~~Alturas de rack estandarizadas (select + 42U default)~~ | ✅ COMPLETADO |
 | M-17 | ~~Documento de medidas de interfaz~~ | ✅ COMPLETADO |
 | M-18 | Tema Sepia + visibilidad del selector de temas | 🎨 UX |
-| M-19 | Propiedades faltantes en tabla de inventario | 📊 Datos |
+| M-19 | ~~Propiedades faltantes en tabla de inventario~~ | ✅ COMPLETADO |
 | M-20 | Ocultar/mostrar columnas en tablas | ⚙️ UX |
 | M-21 | Plantilla completa de exportación CSV/Excel | 📋 Datos |
 | M-22 | Importación masiva desde CSV/Excel | 📥 Datos |
@@ -57,18 +57,18 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
 | M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
 | M-29 | Motor de temas y transparencias en topología | 🎨 Topología |
-| M-30 | Buscador en catálogo de añadir equipos | 🔍 UX |
+| M-30 | ~~Buscador en catálogo de añadir equipos~~ | ✅ COMPLETADO |
 | M-31 | Separación de etiquetas en topología (IP arriba / nombre abajo) | 🏷️ Topología |
 | M-32 | Layout de árbol genealógico en topología | 🌲 Topología |
 | M-33 | Sistema de cableado frontal vs trasero | 🔌 Core |
 | M-34 | Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) | 🪢 UX |
 | M-35 | Eliminación de restricciones de ubicación (Rack vs Piso/Frente) | 🔄 Core |
 | M-36 | ~~Creación, edición y eliminación de salas y racks desde el Inspector~~ | ✅ COMPLETADO |
-| M-37 | Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas) | 📸 Datos |
+| M-37 | ~~Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas)~~ | ✅ COMPLETADO |
 | M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **18 mejoras completadas:** `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-36]✓` y `[M-38]✓`. Total de tareas pendientes: **20**. Fase 1 completada al 100%. Fase 3 avanzada (4 de 8 completadas).
+> **21 mejoras completadas:** `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-30]✓`, `[M-36]✓`, `[M-37]✓` y `[M-38]✓`. Total de tareas pendientes: **17**. Fase 1 completada al 100%. Fase 3 avanzada (5 de 8 completadas). Fase 2 avanzada (2 de 7 completadas).
 
 ---
 
@@ -158,7 +158,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-04 | Redibujado selectivo | 🔥 P2 | Lag visible al interactuar con el inspector o mover dispositivos. |
 | M-26 | Gestión avanzada puertos | 🔥 P2 | Funcionalidad core de un DCIM. Sin esto, las conexiones no son fiables. |
 | M-09 | Modal edición salas | 🔥 P2 | El `prompt()` nativo rompe la experiencia y bloquea el hilo. |
-| M-19 | Props faltantes tabla | 🔥 P2 | Información incompleta = decisiones incorrectas del operador. |
+| M-19 | ~~Props faltantes tabla~~ | ✅ COMPLETADO | Columnas tamaño, skin y notas agregadas con edición inline y exportación CSV. |
 | M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | 26 pruebas automáticas pasando en Node.js garantizan integridad relacional. |
 | M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Resuelto con `reg.update()` automático e interceptación PWA offline. |
 | M-16 | Alturas rack estándar | ⚡ P3 | Previene errores de configuración de operadores. |
@@ -173,14 +173,14 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-27 | ~~Persistencia posiciones y saneamiento~~ | ✅ COMPLETADO | Guardado reactivo en store y saneamiento automático de huérfanos implementado. |
 | M-20 | Ocultar columnas | ⚡ P3 | Ergonomía en pantallas pequeñas. |
 | M-21 | Plantilla exportación | ⚡ P3 | Base necesaria para M-22 (importación masiva). |
-| M-30 | Buscador catálogo de equipos | ⚡ P3 | Agiliza la localización inmediata de equipos en el modal de catálogo. |
+| M-30 | ~~Buscador catálogo de equipos~~ | ✅ COMPLETADO | Búsqueda reactiva en tiempo real en modal de catálogo y colocación rápida (#qp-dev-search). |
 | M-31 | Separación etiquetas topología | ⚡ P3 | Evita el truncado y saturación de texto en nodos circulares densos. |
 | M-32 | Layout árbol genealógico | ⚡ P3 | Visualización clara de la jerarquía de red (Core, Distribución, Acceso). |
 | M-33 | Cableado frontal vs trasero | ⚡ P3 | Distingue puertos según la cara de montaje físico del equipo. |
 | M-38 | Opciones de orden Outliner | ⚡ P3 | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
 | M-34 | Drag-to-Connect en vista física | 🔥 P2 | Revoluciona la experiencia de cableado; elimina formularios modales lentos. |
 | M-36 | CRUD Salas/Racks en Inspector | 🔥 P2 | Agiliza la administración física directa sin saltar entre paneles. |
-| M-37 | Exportación fiel (html2canvas) | 🔥 P2 | Resuelve el reclamo de imágenes exportadas que no coinciden con la pantalla. |
+| M-37 | ~~Exportación fiel (html2canvas)~~ | ✅ COMPLETADO | Captura 1:1 directa del DOM a escala Retina con fallback procedimental a Canvas 2D. |
 | M-18 | Tema Sepia | 💡 P4 | Mejora estética, no afecta funcionalidad. |
 | M-22 | Importación masiva | 💡 P4 | Gran valor, pero depende de M-21 y M-26. |
 | M-25 | Responsive móvil | 💡 P4 | Mercado futuro. Requiere esfuerzo masivo. |
@@ -275,15 +275,15 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Duración estimada:** 2 semanas
 > **Dependencias:** Fase 0 completada
 
-| Orden | ID | Tarea | Archivos Afectados |
-|---|---|---|---|
-| 2.1 | M-26 | Modelo de puertos avanzado + validaciones | `store.js`, `CableModal.js`, `demoData.js` |
-| 2.2 | M-33 | Cableado frontal vs trasero | `store.js`, `CableModal.js`, `rack.js` |
-| 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` |
-| 2.4 | M-19 | Propiedades faltantes en tabla inventario | `tables.js` |
-| 2.5 | M-21 | Plantilla completa de exportación | `ExportModal.js` |
-| 2.6 | M-37 | Exportación fiel 1:1 (html2canvas) | `index.html`, `ExportModal.js` |
-| 2.7 | M-22 | Importación masiva CSV/Excel | `fileManager.js`, nuevo `ImportModal.js` |
+| Orden | ID | Tarea | Archivos Afectados | Estado |
+|---|---|---|---|---|
+| 2.1 | M-26 | Modelo de puertos avanzado + validaciones | `store.js`, `CableModal.js`, `demoData.js` | Pendiente |
+| 2.2 | M-33 | Cableado frontal vs trasero | `store.js`, `CableModal.js`, `rack.js` | Pendiente |
+| 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` | Pendiente |
+| 2.4 | M-19 | ~~Propiedades faltantes en tabla inventario~~ | `tables.js`, `ExportModal.js` | ✅ COMPLETADO (columnas tamaño/skin/notas + inline edit + exportación) |
+| 2.5 | M-21 | Plantilla completa de exportación | `ExportModal.js` | Pendiente |
+| 2.6 | M-37 | ~~Exportación fiel 1:1 (html2canvas)~~ | `index.html`, `ExportModal.js`, `rack.css` | ✅ COMPLETADO (captura Retina 1:1 DOM + fallback procedimental) |
+| 2.7 | M-22 | Importación masiva CSV/Excel | `fileManager.js`, nuevo `ImportModal.js` | Pendiente |
 
 ---
 
@@ -295,7 +295,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 |---|---|---|---|---|
 | 3.1 | M-11 | ~~Grupo "Network" en sidebar~~ | `catalog.js` | ✅ COMPLETADO (familia unificada de red) |
 | 3.2 | M-12 | ~~Categoría "Todos" con lupa~~ | `catalog.js`, `misc.css`, `icons.js` | ✅ COMPLETADO (catálogo global + live search) |
-| 3.3 | M-30 | Buscador en catálogo de equipos | `DeviceModal.js`, `catalog.js` | Pendiente |
+| 3.3 | M-30 | ~~Buscador en catálogo de equipos~~ | `index.html`, `PlacementModal.js` | ✅ COMPLETADO (input reactivo #qp-dev-search + filterQPCatalog) |
 | 3.4 | M-23 | ~~Controles edición/creación en Outliner~~ | `outliner.js`, `index.html`, `panels.css` | ✅ COMPLETADO (botones cabecera + inline ✏️/🗑️ + RBAC) |
 | 3.5 | M-38 | ~~Opciones de ordenamiento en Outliner~~ | `outliner.js`, `index.html`, `panels.css` | ✅ COMPLETADO (selector 4 modos: slot, name-asc, name-desc, type) |
 | 3.6 | M-24 | ~~Inspector colapsable~~ | `inspector.js`, `index.html`, `layout.css`, `panels.css` | ✅ COMPLETADO (toggle colapsable + expansión flex de Outliner) |

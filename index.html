@@ -64,7 +64,7 @@
           <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
           <div class="dropdown-divider"></div>
-          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (52 pruebas)</a>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (83 pruebas)</a>
           <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
@@ -323,12 +323,16 @@
             <option value="switch">Switch</option>
             <option value="router">Router</option>
             <option value="firewall">Firewall</option>
-            <option value="storage">Storage</option>
-            
-            <option value="accesorios">Accesorios (Bandejas, Org)</option>
-            <option value="energia">Energía (UPS, PDU)</option>
-            
-            <option value="gestion">Gestión (Patch Panel, KVM)</option>
+            <option value="storage">Almacenamiento (SAN/NAS)</option>
+            <option value="nvr">NVR (Grabador de Video)</option>
+            <option value="dvr">DVR Híbrido</option>
+            <option value="decoder">Decodificador CCTV</option>
+            <option value="ups">UPS (Sistema de Energía)</option>
+            <option value="pdu">PDU (Distribución Eléctrica)</option>
+            <option value="patchpanel">Patch Panel / ODF</option>
+            <option value="organizer">Organizador Horizontal</option>
+            <option value="tray">Bandeja de Rack</option>
+            <option value="kvm">Consola KVM</option>
           </optgroup>
           <optgroup label="── Equipos de Piso ──" id="opt-floor" style="display: none;">
             <option value="pc">PC / Workstation</option>
@@ -541,6 +545,9 @@
     
     <div class="form-row" id="qp-dev-select-row" style="display:none;">
       <label>Seleccionar Equipo del Catálogo</label>
+      <div style="position:relative; margin-bottom:6px;">
+        <input type="text" id="qp-dev-search" placeholder="🔍 Filtrar equipos por nombre, marca o tipo..." autocomplete="off" style="width:100%; padding:6px 10px; font-size:var(--text-xs); background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text);">
+      </div>
       <select id="qp-dev-select" style="width:100%;"></select>
     </div>
     
@@ -587,6 +594,7 @@
   </script>
 
   <script src="js/xlsx.full.min.js"></script>
+  <script src="js/html2canvas.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/icons.js"></script>
   <script src="js/store.js"></script>

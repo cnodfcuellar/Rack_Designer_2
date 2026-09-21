@@ -19,6 +19,7 @@ function sortOutlinerDevices(devs, mode) {
   // 'slot' por defecto: orden físico descendente (mayor U arriba)
   return list.sort((a, b) => ((b.slotStart || b.position || 0) - (a.slotStart || a.position || 0)));
 }
+window.sortOutlinerDevices = sortOutlinerDevices;
 
 function initOutlinerHeader() {
   const btnAddRoom = document.getElementById('btn-outliner-add-room');

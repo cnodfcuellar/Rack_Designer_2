@@ -31,7 +31,7 @@ function renderInventoryTable(wrap, query) {
   if (!wrap) return;
   const devices = store._raw.devices.filter(d => {
     if (!query) return true;
-    return [d.name, d.ip, d.mac, d.serial, d.type, d.user, d.pass].join(' ').toLowerCase().includes(query);
+    return [d.name, d.ip, d.mac, d.serial, d.type, d.user, d.pass, d.brand, d.model, d.notes, d.skin, d.size].join(' ').toLowerCase().includes(query);
   });
   if (!devices.length) {
     wrap.innerHTML = `<div class="empty-state"><div class="icon" style="color:var(--text-muted); width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['nas'] ? SVG_ICONS['nas'] : ''}</div><p>No hay equipos instalados.</p></div>`;
@@ -39,8 +39,8 @@ function renderInventoryTable(wrap, query) {
   }
   wrap.innerHTML = `<table class="data-table">
     <thead><tr>
-      <th>Rack</th><th>U</th><th>Lado</th><th>Nombre</th><th>Marca</th><th>Modelo</th><th>Tipo</th><th>IP</th>
-      <th>MAC</th><th>Serie</th><th>Usuario</th><th>Contraseña</th><th>Consumo (W)</th><th>Tomas</th><th>Acciones</th>
+      <th>Rack</th><th>U</th><th>Lado</th><th>Nombre</th><th>Marca</th><th>Modelo</th><th>Tipo</th><th>Tamaño</th><th>IP</th>
+      <th>MAC</th><th>Serie</th><th>Usuario</th><th>Contraseña</th><th>Consumo (W)</th><th>Tomas</th><th>Skin</th><th>Notas</th><th>Acciones</th>
     </tr></thead>
     <tbody>
     ${devices.map(d => {
@@ -49,6 +49,7 @@ function renderInventoryTable(wrap, query) {
       const locationName = isFloor ? '<span style="color:var(--accent);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-');
       const slotDisplay = isFloor ? '-' : (d.slotStart || '-');
       const sideDisplay = isFloor ? '-' : ((d.mountSide === 'rear') ? 'Atrás' : 'Frontal');
+      const sizeDisplay = isFloor ? '-' : (d.size ? `${d.size}U` : '1U');
       return `<tr data-dev-id="${escapeHTML(d.id)}">
         <td>${locationName}</td>
         <td>${slotDisplay}</td>
@@ -57,6 +58,7 @@ function renderInventoryTable(wrap, query) {
         <td class="editable" data-field="brand" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.brand) || '-'}</td>
         <td class="editable" data-field="model" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.model) || '-'}</td>
         <td><span class="type-badge ${escapeHTML(d.type)}">${escapeHTML(d.type)}</span></td>
+        <td class="${isFloor ? '' : 'editable'}" data-field="size" data-dev="${escapeHTML(d.id)}">${sizeDisplay}</td>
         <td class="editable" data-field="ip"  data-dev="${escapeHTML(d.id)}">${escapeHTML(d.ip)  || '-'}</td>
         <td class="editable" data-field="mac" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.mac) || '-'}</td>
         <td class="editable" data-field="serial" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.serial) || '-'}</td>
@@ -64,6 +66,8 @@ function renderInventoryTable(wrap, query) {
         <td class="editable" data-field="pass" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.pass ? (window.SHOW_PASSWORDS ? d.pass : '••••••••') : '-')}</td>
         <td class="editable" data-field="power" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.power)) || 0}</td>
         <td class="editable" data-field="plugs" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.plugs ?? 1))}</td>
+        <td class="editable" data-field="skin" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.skin || 'default')}</td>
+        <td class="editable" data-field="notes" data-dev="${escapeHTML(d.id)}" style="max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHTML(d.notes || '')}">${escapeHTML(d.notes || '-')}</td>
         <td style="white-space:nowrap;">
           <button class="tbl-action" data-edit-dev="${escapeHTML(d.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
           <button class="tbl-action" data-del-dev="${escapeHTML(d.id)}" style="padding:4px 8px" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
@@ -108,7 +112,7 @@ function finishCellEdit(input, td, orig) {
   const field = input.dataset.field;
   const devId = input.dataset.dev;
   const val   = input.value.trim();
-  const allowedFields = ['name', 'brand', 'model', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs'];
+  const allowedFields = ['name', 'brand', 'model', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs', 'size', 'skin', 'notes'];
   if (!allowedFields.includes(field)) return;
   if (field === 'ip') {
     if (val && !/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(val)) {
@@ -126,9 +130,20 @@ function finishCellEdit(input, td, orig) {
       return;
     }
   }
-  store.updateDevice(devId, { [field]: (field === 'power' || field === 'plugs') ? parseInt(val) || 0 : val });
+  let parsedVal = val;
+  if (field === 'power' || field === 'plugs') {
+    parsedVal = parseInt(val) || 0;
+  } else if (field === 'size') {
+    parsedVal = Math.max(1, parseInt(val) || 1);
+  }
+  store.updateDevice(devId, { [field]: parsedVal });
   if (field === 'pass') {
     td.textContent = val ? (window.SHOW_PASSWORDS ? val : '••••••••') : '-';
+  } else if (field === 'size') {
+    td.textContent = parsedVal + 'U';
+  } else if (field === 'notes') {
+    td.textContent = val || '-';
+    td.title = val || '';
   } else {
     td.textContent = val || '-';
   }

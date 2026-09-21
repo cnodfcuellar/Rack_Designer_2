@@ -1,3 +1,5 @@
 .backup/
 .kilo/
 .agents/
+node_modules/
+pnpm-lock.yaml

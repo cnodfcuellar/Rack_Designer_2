@@ -224,18 +224,13 @@ function initDeviceModal() {
     if (ports) props.ports = ports;
 
     if (editingCatalogId) {
-      const item = CATALOG.find(c => c.id === editingCatalogId);
-      if (item) {
-        Object.assign(item, props);
-        item.power = parseInt(props.power) || 0;
-        item.plugs = parseInt(props.plugs) || 0;
-        item.plugsOut = parseInt(props.plugsOut) || 0;
-        item.size = FLOOR_TYPES.has(props.type) ? 0 : (parseInt(props.size) || 1);
-        item.icon = FLOOR_TYPES.has(props.type)
-          ? { pc:'assets/icons/floor/pc.svg', camera:'assets/icons/floor/camera.svg', ap:'assets/icons/network/ap.svg', door:'assets/icons/floor/door.svg', printer:'assets/icons/floor/printer.svg', phone:'assets/icons/floor/phone.svg' }[props.type]
-          : { server:'assets/icons/server/server.svg', switch:'assets/icons/network/switch.svg', router:'assets/icons/network/router.svg', firewall:'assets/icons/network/firewall.svg', ups:'assets/icons/power/ups.svg', storage:'assets/icons/storage/san.svg' }[props.type];
-        item.color = TYPE_COLORS[item.type] || '#8b9ab8';
-        renderCatalog();
+      if (typeof updateCatalogItem === 'function') {
+        props.power = parseInt(props.power) || 0;
+        props.plugs = parseInt(props.plugs) || 0;
+        props.plugsOut = parseInt(props.plugsOut) || 0;
+        props.size = FLOOR_TYPES.has(props.type) ? 0 : (parseInt(props.size) || 1);
+        props.color = (typeof TYPE_COLORS !== 'undefined' && TYPE_COLORS[props.type]) || '#38bdf8';
+        updateCatalogItem(editingCatalogId, props);
         notify('Plantilla de catálogo actualizada', 'success');
       }
     } else if (editingDeviceId) {
@@ -249,11 +244,38 @@ function initDeviceModal() {
         const rack = store.currentRacks[0];
         if (!rack) { notify('Primero crea un gabinete en esta sala', 'error'); return; }
         
+        const typeIconMap = {
+          server: 'assets/icons/server/server.svg',
+          switch: 'assets/icons/network/switch.svg',
+          router: 'assets/icons/network/router.svg',
+          firewall: 'assets/icons/network/firewall.svg',
+          storage: 'assets/icons/storage/san.svg',
+          nvr: 'assets/icons/security/nvr.svg',
+          dvr: 'assets/icons/security/dvr.svg',
+          decoder: 'assets/icons/security/decoder.svg',
+          ups: 'assets/icons/power/ups.svg',
+          pdu: 'assets/icons/power/pdu.svg',
+          energia: 'assets/icons/power/ups.svg',
+          patchpanel: 'assets/icons/wiring/patchpanel.svg',
+          odf: 'assets/icons/wiring/patchpanel.svg',
+          organizer: 'assets/icons/wiring/organizer.svg',
+          tray: 'assets/icons/accessories/tray.svg',
+          blind: 'assets/icons/accessories/tray.svg',
+          kvm: 'assets/icons/accessories/kvm.svg',
+          pc: 'assets/icons/floor/pc.svg',
+          camera: 'assets/icons/floor/camera.svg',
+          ap: 'assets/icons/network/ap.svg',
+          door: 'assets/icons/floor/door.svg',
+          printer: 'assets/icons/floor/printer.svg',
+          phone: 'assets/icons/floor/phone.svg'
+        };
+
         const newItem = {
           id: uid(),
           ...props,
-          icon: { server:'assets/icons/server/server.svg', switch:'assets/icons/network/switch.svg', router:'assets/icons/network/router.svg', firewall:'assets/icons/network/firewall.svg', ups:'assets/icons/power/ups.svg', storage:'assets/icons/storage/san.svg' }[props.type] || 'assets/icons/server/server.svg',
-          color: TYPE_COLORS[props.type] || '#8b9ab8'
+          isCustom: true,
+          icon: typeIconMap[props.type] || 'assets/icons/server/server.svg',
+          color: (typeof TYPE_COLORS !== 'undefined' && TYPE_COLORS[props.type]) || '#38bdf8'
         };
         if (typeof addCatalogItem === 'function') addCatalogItem(newItem);
         

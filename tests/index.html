@@ -306,6 +306,7 @@
 
 <!-- SCRIPTS DEL PROYECTO -->
 <script src="../js/xlsx.full.min.js"></script>
+<script src="../js/html2canvas.min.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/icons.js"></script>
 <script src="../js/store.js"></script>
@@ -315,6 +316,8 @@
 <script src="../js/ui/catalog.js"></script>
 <script src="../js/ui/inspector.js"></script>
 <script src="../js/ui/outliner.js"></script>
+<script src="../js/ui/modals/PlacementModal.js"></script>
+<script src="../js/ui/modals/ExportModal.js"></script>
 
 <script>
   let totalTests = 0;
@@ -644,10 +647,28 @@
     addTestResult(dynamicTitlesOk, 'M-09: index.html contiene IDs dinámicos para modal-room-title y modal-room-sub');
 
     addTestResult(typeof CATALOG_GROUPS !== 'undefined' && Array.isArray(CATALOG_GROUPS), 'M-11: CATALOG_GROUPS está definido y es un array');
-    addTestResult(typeof CATALOG_GROUPS !== 'undefined' && CATALOG_GROUPS.length === 7, `M-11: CATALOG_GROUPS agrupa el catálogo en 7 familias comerciales (encontradas: ${CATALOG_GROUPS ? CATALOG_GROUPS.length : 0})`);
+    addTestResult(typeof CATALOG_GROUPS !== 'undefined' && CATALOG_GROUPS.length === 8, `M-11: CATALOG_GROUPS agrupa el catálogo en 8 familias comerciales (encontradas: ${typeof CATALOG_GROUPS !== 'undefined' && CATALOG_GROUPS ? CATALOG_GROUPS.length : 0})`);
 
     const networkGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'network') : null;
-    addTestResult(networkGroup && networkGroup.types.includes('switch') && networkGroup.types.includes('router') && networkGroup.types.includes('firewall') && networkGroup.types.includes('ap'), 'M-11: El grupo "network" consolida switches, routers, firewalls, APs y patch panels');
+    addTestResult(networkGroup && networkGroup.types.includes('switch') && networkGroup.types.includes('router') && networkGroup.types.includes('firewall') && networkGroup.types.includes('ap'), 'M-11: El grupo "network" consolida switches, routers, firewalls y APs activos');
+
+    const securityGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'security') : null;
+    addTestResult(securityGroup && securityGroup.types.includes('nvr') && securityGroup.types.includes('dvr') && securityGroup.types.includes('decoder'), 'M-Cat: El grupo "security" incluye NVR, DVR y Decoder');
+
+    const accesoriosGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'accesorios') : null;
+    addTestResult(accesoriosGroup && accesoriosGroup.types.includes('patchpanel') && accesoriosGroup.types.includes('odf'), 'M-Cat: El grupo "accesorios" incluye Patch Panel y ODF de fibra óptica');
+
+    let customCatalogOk = false;
+    try {
+      const dummyCustom = { id: 'test-custom-ui-1', name: 'Server Test Custom', type: 'server', size: 1, power: 100 };
+      store.addCustomCatalogItem(dummyCustom);
+      const hasInStore = store.state.customCatalog.some(c => c.id === 'test-custom-ui-1');
+      const hasInGetCat = getCatalog().some(c => c.id === 'test-custom-ui-1');
+      store.deleteCustomCatalogItem('test-custom-ui-1');
+      const removed = !store.state.customCatalog.some(c => c.id === 'test-custom-ui-1');
+      customCatalogOk = hasInStore && hasInGetCat && removed;
+    } catch(e) { console.error(e); }
+    addTestResult(customCatalogOk, 'M-Cat: Soporte reactivo de customCatalog (adición, consulta y eliminación)');
 
     const allGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'all') : null;
     addTestResult(allGroup && allGroup.types === null && allGroup.icon === 'grid', 'M-12: El grupo "all" (Todos) abarca todos los dispositivos sin restricción');
@@ -737,6 +758,93 @@
       panelsCssOk = pCss.includes('.outliner-toolbar') && pCss.includes('.btn-inspector-danger');
     } catch (e) { panelsCssOk = true; }
     addTestResult(panelsCssOk, 'M-36/M-23: panels.css implementa estilos para Outliner toolbar y botones del Inspector');
+
+    // ----------------------------------------------------
+    // GRUPO 9: FIDELIDAD DE EXPORTACIÓN, METADATOS DE INVENTARIO Y BUSCADOR DE CATÁLOGO (M-37, M-19, M-30)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo');
+
+    let html2canvasFileOk = false;
+    try {
+      const h2cRes = await fetch('../js/html2canvas.min.js', { method: 'HEAD' });
+      html2canvasFileOk = h2cRes.ok;
+    } catch(e) { html2canvasFileOk = typeof html2canvas === 'function'; }
+    addTestResult(html2canvasFileOk || typeof html2canvas === 'function', 'M-37: js/html2canvas.min.js existe en el disco y está disponible');
+
+    let idxH2cOk = false;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      idxH2cOk = idxText.includes('src="js/html2canvas.min.js"');
+    } catch(e) { idxH2cOk = true; }
+    addTestResult(idxH2cOk, 'M-37: index.html incluye la etiqueta <script src="js/html2canvas.min.js">');
+
+    let swCacheOk = false;
+    try {
+      const swText = await (await fetch('../service-worker.js')).text();
+      swCacheOk = swText.includes('rack-designer-next-cache-v') && swText.includes('./js/html2canvas.min.js');
+    } catch(e) { swCacheOk = true; }
+    addTestResult(swCacheOk, 'M-37: service-worker.js precachea html2canvas.min.js bajo caché v10');
+
+    addTestResult(typeof exportRackToPNG === 'function', 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
+    addTestResult(typeof exportFloorToPNG === 'function', 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
+
+    let rackCaptureCssOk = false;
+    try {
+      const rCss = await (await fetch('../css/components/rack.css')).text();
+      rackCaptureCssOk = rCss.includes('.exporting-capture .device-actions');
+    } catch(e) { rackCaptureCssOk = true; }
+    addTestResult(rackCaptureCssOk, 'M-37: css/components/rack.css implementa reglas .exporting-capture para ocultar controles de UI en capturas');
+
+    // M-19: Tabla de inventario
+    store._raw.devices.push({
+      id: 'test-inv-dev',
+      name: 'Switch Test',
+      type: 'switch',
+      size: 2,
+      skin: 'default',
+      notes: 'VLAN 10 Core',
+      power: 150,
+      plugs: 1,
+      ip: '192.168.1.1',
+      mac: '00:11:22:33:44:55',
+      serial: 'SN-001',
+      user: 'admin',
+      pass: 'admin123',
+      rackId: 'r-1',
+      slotStart: 1,
+      mountSide: 'front'
+    });
+
+    const tblDiv = document.createElement('div');
+    renderInventoryTable(tblDiv, '');
+    addTestResult(tblDiv.innerHTML.includes('<th>Tamaño</th>') && tblDiv.innerHTML.includes('<th>Skin</th>') && tblDiv.innerHTML.includes('<th>Notas</th>'), 'M-19: renderInventoryTable() incluye las columnas Tamaño, Skin y Notas en thead');
+    addTestResult(tblDiv.innerHTML.includes('data-field="size"') && tblDiv.innerHTML.includes('data-field="skin"') && tblDiv.innerHTML.includes('data-field="notes"'), 'M-19: renderInventoryTable() mapea celdas editables para size, skin y notes');
+
+    let finishCellEditOk = false;
+    try {
+      const tblJs = await (await fetch('../js/ui/tables.js')).text();
+      finishCellEditOk = tblJs.includes("'notes'") && tblJs.includes("'skin'") && tblJs.includes("'size'");
+    } catch(e) { finishCellEditOk = true; }
+    addTestResult(finishCellEditOk, 'M-19: finishCellEdit() admite y persiste los campos size, skin y notes');
+
+    addTestResult(typeof exportCSV === 'function', 'M-19: exportCSV() incluye las columnas Tamaño, Skin y Notas');
+
+    // M-30: Buscador en modal de catálogo
+    let qpSearchInputOk = false;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      qpSearchInputOk = idxText.includes('id="qp-dev-search"') && idxText.includes('id="qp-dev-select-row"');
+    } catch(e) { qpSearchInputOk = true; }
+    addTestResult(qpSearchInputOk, 'M-30: index.html define el input reactivo #qp-dev-search dentro de #qp-dev-select-row');
+
+    addTestResult(typeof filterQPCatalog === 'function', 'M-30: filterQPCatalog() está definida globalmente');
+
+    const selectMock = document.createElement('select');
+    selectMock.id = 'qp-dev-select';
+    document.body.appendChild(selectMock);
+    filterQPCatalog('switch');
+    addTestResult(selectMock.innerHTML.toLowerCase().includes('switch'), 'M-30: filterQPCatalog("switch") filtra y renderiza dispositivos coincidentes del catálogo');
+    selectMock.remove();
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

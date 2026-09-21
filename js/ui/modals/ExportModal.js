@@ -42,11 +42,28 @@ function openPNGModal() {
 }
 
 function exportCSV() {
-  const header = 'Rack,Unidad U,Lado,Nombre,Marca,Modelo,Tipo,IP,MAC,Serie,Usuario,Consumo(W),Tomas\n';
+  const header = 'Rack,Unidad U,Lado,Nombre,Marca,Modelo,Tipo,Tamaño,IP,MAC,Serie,Usuario,Consumo(W),Tomas,Skin,Notas\n';
   const rows = store._raw.devices.map(d => {
     const rack = store.rackById(d.rackId);
     const side = d.category === 'floor' ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal');
-    return [rack?.name||'', d.slotStart||'-', side, d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, d.power, d.plugs||1].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',');
+    return [
+      rack?.name || '',
+      d.slotStart || '-',
+      side,
+      d.name || '',
+      d.brand || '',
+      d.model || '',
+      d.type || '',
+      d.size || 1,
+      d.ip || '',
+      d.mac || '',
+      d.serial || '',
+      d.user || '',
+      d.power || 0,
+      d.plugs || 1,
+      d.skin || 'default',
+      d.notes || ''
+    ].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',');
   }).join('\n');
   downloadBlob(header + rows, 'Inventario_Centro_Datos.csv', 'text/csv');
   notify('CSV exportado', 'success');
@@ -79,10 +96,42 @@ function importJSON(e) {
   e.target.value = '';
 }
 
-function exportRackToPNG(rackId) {
-  const rack    = store.rackById(rackId);
-  const devices = store.allDevicesInRack(rackId);
-  
+async function exportRackToPNG(rackId) {
+  const rack = store.rackById(rackId);
+  if (!rack) return;
+
+  // Intento de exportación en Alta Fidelidad 1:1 vía html2canvas (M-37)
+  const rackWrapper = typeof document !== 'undefined' ? document.querySelector(`.rack-wrapper[data-rack-id="${rackId}"]`) : null;
+  if (typeof html2canvas === 'function' && rackWrapper) {
+    try {
+      rackWrapper.classList.add('exporting-capture');
+      const canvas = await html2canvas(rackWrapper, {
+        scale: 2,
+        backgroundColor: '#090d17',
+        useCORS: true,
+        logging: false
+      });
+      rackWrapper.classList.remove('exporting-capture');
+      
+      const url = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `${rack.name.replace(/\s+/g, '_')}.png`;
+      link.href = url;
+      link.click();
+      notify(`PNG exportado (Alta Fidelidad 1:1): ${rack.name}`, 'success');
+      return;
+    } catch (err) {
+      console.warn('[html2canvas] Fallback a renderizado 2D procedimental:', err);
+      if (rackWrapper) rackWrapper.classList.remove('exporting-capture');
+    }
+  }
+
+  // Fallback procedural en Canvas 2D
+  _fallbackExportRackToPNG(rack);
+}
+
+function _fallbackExportRackToPNG(rack) {
+  const devices = store.allDevicesInRack(rack.id);
   const frontDevices = devices.filter(d => d.mountSide !== 'rear');
   const rearDevices  = devices.filter(d => d.mountSide === 'rear');
   const hasRear = rearDevices.length > 0;
@@ -177,11 +226,42 @@ function exportRackToPNG(rackId) {
   notify(`PNG exportado: ${rack.name}`, 'success');
 }
 
-function exportFloorToPNG(roomId) {
+async function exportFloorToPNG(roomId) {
   const floorDevices = store.allFloorDevicesInRoom(roomId);
   const room = store._raw.rooms.find(r => r.id === roomId);
   if (!floorDevices.length) return;
 
+  // Intento de exportación en Alta Fidelidad 1:1 vía html2canvas (M-37)
+  const floorEl = typeof document !== 'undefined' ? document.querySelector('.floor-section') : null;
+  if (typeof html2canvas === 'function' && floorEl) {
+    try {
+      floorEl.classList.add('exporting-capture');
+      const canvas = await html2canvas(floorEl, {
+        scale: 2,
+        backgroundColor: '#090d17',
+        useCORS: true,
+        logging: false
+      });
+      floorEl.classList.remove('exporting-capture');
+
+      const url = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `Equipos_Piso_${room ? room.name.replace(/\s+/g, '_') : 'Sala'}.png`;
+      link.href = url;
+      link.click();
+      notify(`PNG exportado (Alta Fidelidad 1:1): Equipos de Piso`, 'success');
+      return;
+    } catch (err) {
+      console.warn('[html2canvas] Fallback a renderizado 2D procedimental para piso:', err);
+      if (floorEl) floorEl.classList.remove('exporting-capture');
+    }
+  }
+
+  // Fallback procedural en Canvas 2D
+  _fallbackExportFloorToPNG(roomId, floorDevices, room);
+}
+
+function _fallbackExportFloorToPNG(roomId, floorDevices, room) {
   const cols = 2;
   const rowHeight = 70;
   const colWidth = 240;
@@ -297,3 +377,8 @@ function initExportModal() {
     });
   }
 }
+
+window.exportRackToPNG = exportRackToPNG;
+window.exportFloorToPNG = exportFloorToPNG;
+window.exportCSV = exportCSV;
+

@@ -233,4 +233,13 @@
   background: #ef444420;
 }
 
+/* Captura limpia en exportación PNG (M-37) */
+.exporting-capture .device-actions,
+.exporting-capture .btn-flip-rack,
+.exporting-capture [data-rack-menu-toggle],
+.exporting-capture .dropdown-menu {
+  display: none !important;
+}
+
+
 

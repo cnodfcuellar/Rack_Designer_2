@@ -71,6 +71,8 @@ loadScript('../js/ui/modals/RoomModal.js');
 loadScript('../js/ui/catalog.js');
 loadScript('../js/ui/inspector.js');
 loadScript('../js/ui/outliner.js');
+loadScript('../js/ui/modals/PlacementModal.js');
+loadScript('../js/ui/modals/ExportModal.js');
 
 // --- 2. Framework Minimalista de Aserciones ---
 let passed = 0;
@@ -318,10 +320,26 @@ async function runTests() {
 
   // 7.4 M-11: Definición y estructura de CATALOG_GROUPS
   assert(typeof CATALOG_GROUPS !== 'undefined' && Array.isArray(CATALOG_GROUPS), 'M-11: CATALOG_GROUPS está definido y es un array');
-  assert(CATALOG_GROUPS.length === 7, `M-11: CATALOG_GROUPS agrupa el catálogo en 7 familias comerciales (encontradas: ${CATALOG_GROUPS.length})`);
+  assert(CATALOG_GROUPS.length === 8, `M-11: CATALOG_GROUPS agrupa el catálogo en 8 familias comerciales (encontradas: ${CATALOG_GROUPS.length})`);
   
   const networkGroup = CATALOG_GROUPS.find(g => g.id === 'network');
-  assert(networkGroup && networkGroup.types.includes('switch') && networkGroup.types.includes('router') && networkGroup.types.includes('firewall') && networkGroup.types.includes('ap'), 'M-11: El grupo "network" consolida switches, routers, firewalls, APs y patch panels');
+  assert(networkGroup && networkGroup.types.includes('switch') && networkGroup.types.includes('router') && networkGroup.types.includes('firewall') && networkGroup.types.includes('ap'), 'M-11: El grupo "network" consolida switches, routers, firewalls y APs activos');
+
+  // 7.4.1 Categoría Security (CCTV)
+  const securityGroup = CATALOG_GROUPS.find(g => g.id === 'security');
+  assert(securityGroup && securityGroup.types.includes('nvr') && securityGroup.types.includes('dvr') && securityGroup.types.includes('decoder'), 'M-Cat: El grupo "security" incluye NVR, DVR y Decoder');
+
+  // 7.4.2 Categoría Accesorios con Patch Panel y ODF
+  const accesoriosGroup = CATALOG_GROUPS.find(g => g.id === 'accesorios');
+  assert(accesoriosGroup && accesoriosGroup.types.includes('patchpanel') && accesoriosGroup.types.includes('odf'), 'M-Cat: El grupo "accesorios" incluye Patch Panel y ODF de fibra óptica');
+
+  // 7.4.3 Soporte de Equipos Personalizados en Store y Catálogo
+  const dummyCustom = { id: 'test-custom-1', name: 'Servidor Custom AI', type: 'server', size: 2, power: 800 };
+  store.addCustomCatalogItem(dummyCustom);
+  assert(store.state.customCatalog.some(c => c.id === 'test-custom-1'), 'M-Cat: store.addCustomCatalogItem() agrega equipos al catálogo personalizado del proyecto');
+  assert(getCatalog().some(c => c.id === 'test-custom-1'), 'M-Cat: getCatalog() unifica catálogo estándar y equipos personalizados');
+  store.deleteCustomCatalogItem('test-custom-1');
+  assert(!store.state.customCatalog.some(c => c.id === 'test-custom-1'), 'M-Cat: store.deleteCustomCatalogItem() elimina correctamente el equipo custom');
 
   // 7.5 M-12: Pestaña "Todos" con icono grid
   const allGroup = CATALOG_GROUPS.find(g => g.id === 'all');
@@ -392,6 +410,67 @@ async function runTests() {
   assert(panelsCssText.includes('.outliner-toolbar') && panelsCssText.includes('.btn-inspector-danger'), 'M-36/M-23: panels.css implementa estilos para Outliner toolbar y botones del Inspector');
 
   document.getElementById = origGetElementById;
+
+  // ----------------------------------------------------
+  // GRUPO 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo (M-37, M-19, M-30)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo');
+
+  // 9.1 M-37: Script vendor html2canvas
+  const h2cPath = path.join(rootPath, 'js', 'html2canvas.min.js');
+  assert(fs.existsSync(h2cPath) && fs.statSync(h2cPath).size > 100000, 'M-37: js/html2canvas.min.js existe en el disco y supera los 100KB');
+
+  assert(updatedIndexHtml.includes('src="js/html2canvas.min.js"'), 'M-37: index.html incluye la etiqueta <script src="js/html2canvas.min.js">');
+
+  const swText = fs.readFileSync(path.join(rootPath, 'service-worker.js'), 'utf8');
+  assert(swText.includes('rack-designer-next-cache-v') && swText.includes('./js/html2canvas.min.js'), 'M-37: service-worker.js precachea html2canvas.min.js bajo caché');
+
+  const exportModalText = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'modals', 'ExportModal.js'), 'utf8');
+  assert(exportModalText.includes('html2canvas') && exportModalText.includes('_fallbackExportRackToPNG'), 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
+  assert(exportModalText.includes('_fallbackExportFloorToPNG'), 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
+
+  const rackCssText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'rack.css'), 'utf8');
+  assert(rackCssText.includes('.exporting-capture .device-actions'), 'M-37: css/components/rack.css implementa reglas .exporting-capture para ocultar controles de UI en capturas');
+
+  // 9.2 M-19: Propiedades en tabla de inventario
+  store._raw.devices.push({
+    id: 'test-inv-dev',
+    name: 'Switch Test',
+    type: 'switch',
+    size: 2,
+    skin: 'default',
+    notes: 'VLAN 10 Core',
+    power: 150,
+    plugs: 1,
+    ip: '192.168.1.1',
+    mac: '00:11:22:33:44:55',
+    serial: 'SN-001',
+    user: 'admin',
+    pass: 'admin123',
+    rackId: 'r-1',
+    slotStart: 1,
+    mountSide: 'front'
+  });
+
+  const tableMockContainer = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(tableMockContainer, '');
+  assert(tableMockContainer.innerHTML.includes('<th>Tamaño</th>') && tableMockContainer.innerHTML.includes('<th>Skin</th>') && tableMockContainer.innerHTML.includes('<th>Notas</th>'), 'M-19: renderInventoryTable() incluye las columnas Tamaño, Skin y Notas en thead');
+  assert(tableMockContainer.innerHTML.includes('data-field="size"') && tableMockContainer.innerHTML.includes('data-field="skin"') && tableMockContainer.innerHTML.includes('data-field="notes"'), 'M-19: renderInventoryTable() mapea celdas editables para size, skin y notes');
+
+  const tablesJsText = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'tables.js'), 'utf8');
+  assert(tablesJsText.includes("'notes'") && tablesJsText.includes("'skin'") && tablesJsText.includes("'size'") && tablesJsText.includes("allowedFields = ['name'"), 'M-19: finishCellEdit() admite y persiste los campos size, skin y notes');
+  assert(exportModalText.includes('d.size') && exportModalText.includes('d.skin') && exportModalText.includes('d.notes') && exportModalText.includes('Inventario_Centro_Datos.csv'), 'M-19: exportCSV() incluye las columnas Tamaño, Skin y Notas');
+
+  // 9.3 M-30: Buscador en modal de catálogo
+  assert(updatedIndexHtml.includes('id="qp-dev-search"') && updatedIndexHtml.includes('id="qp-dev-select-row"'), 'M-30: index.html define el input reactivo #qp-dev-search dentro de #qp-dev-select-row');
+  assert(typeof filterQPCatalog === 'function', 'M-30: filterQPCatalog() está definida globalmente');
+
+  const selectMock = { innerHTML: '', value: '', dispatchEvent: () => {} };
+  const origQpGetElementById = document.getElementById;
+  document.getElementById = (id) => id === 'qp-dev-select' ? selectMock : origQpGetElementById(id);
+  filterQPCatalog('switch');
+  assert(selectMock.innerHTML.toLowerCase().includes('switch'), 'M-30: filterQPCatalog("switch") filtra y renderiza dispositivos coincidentes del catálogo');
+  document.getElementById = origQpGetElementById;
 
   // ----------------------------------------------------
   // RESUMEN FINAL

@@ -1,3 +1,81 @@
+## [2026-09-21] Separación entre Racks Triplicada (gap: 24px → 72px)
+
+### Vista Física — Espaciado entre Gabinetes (`js/ui/rack.js`, `doc/doc_md/medidas_lienzo_fisico.md`)
+- **Aumento del gap entre racks de `24px` (1U) a `72px` (3U)** para mejorar la legibilidad y dar espacio visual entre gabinetes en el lienzo físico.
+- Cambio aplicado en los dos contenedores Flexbox de `renderPhysical()` (líneas 19 y 124–126 de `rack.js`): tanto el estado "sin racks" como el estado con racks usan el nuevo valor.
+- Documentación actualizada en `medidas_lienzo_fisico.md`: sección de proporciones y diagrama ASCII de dos racks ahora reflejan `gap: 72px`.
+
+---
+
+## [2026-09-21] Catálogo Arquitectónico Profesional, Seguridad/CCTV y Equipos Personalizados por Proyecto
+
+### Catálogo de Dispositivos y Estandarización Arquitectónica (`js/ui/catalog.js`, `js/icons.js`, `js/ui/faceplates.js`)
+- **Estandarización Genérica de 30 Plantillas de Centro de Datos:**
+  - Se erradicaron nombres arbitrarios con marcas comerciales (Dell, Cisco, HP, Fortinet, APC) en favor del **Enfoque Genérico / Arquitectónico**: nombres limpios y descriptivos de ingeniería (e.g., *Servidor Rack 1U/2U/4U*, *Switch de Acceso 24P/48P*, *Switch Core 2U*, *Router de Borde*, *Storage NAS 2U*, *Cabina SAN 4U*, *UPS Online 1500VA/3000VA*, *PDU Horizontal 8 Tomas*, etc.).
+  - Específicas potencias técnicas reales estimadas (W) y dotación de puertos por defecto (RJ45 y fibra óptica).
+- **Nueva Categoría "Seguridad y CCTV" (`security` - color `#f43f5e`):**
+  - Incorporados equipos dedicados: **Grabador NVR 1U (16/32 Ch PoE)**, **Grabador NVR 2U (64/128 Ch RAID)**, **Grabador Híbrido DVR 1U (16 Ch BNC+IP)** y **Decodificador de Video / Video Wall 1U**.
+  - Nuevos iconos vectoriales SVG en `js/icons.js` (`nvr`, `dvr`, `decoder`) y mapeo gráfico de faceplates en `js/ui/faceplates.js`.
+- **Reorganización en 8 Familias Comerciales (`CATALOG_GROUPS`):**
+  - **Redes y Comunicaciones (`network`):** Reservado estrictamente para equipamiento activo (switches, routers, firewalls, APs).
+  - **Accesorios y Cableado (`accesorios`):** Reubicación de **Patch Panel Cat6A (24P/48P)** e incorporación formal de la **Bandeja ODF de Fibra Óptica 24P (1U)**, organizadores horizontales pasacables y bandejas de soporte.
+
+### Sistema de Equipos Personalizados por Proyecto (`js/store.js`, `js/ui/modals/DeviceModal.js`, `js/main.js`)
+- **Persistencia en el Estado del Proyecto (`store.state.customCatalog`):**
+  - Los usuarios pueden crear equipos personalizados desde `+ Equipo` o editarlos desde el catálogo.
+  - Métodos reactivos en Store: `addCustomCatalogItem(item)` y `deleteCustomCatalogItem(id)` con soporte completo de undo/redo, auto-saneamiento `_sanitize()`, guardado dual y sincronización.
+  - Al exportar el diseño a `.rack` / `.json`, las plantillas personalizadas viajan dentro del proyecto.
+  - Al ejecutar **"Limpiar proyecto" / "Nuevo Proyecto"**, el catálogo se reinicia limpiamente mostrando únicamente las plantillas estándar por defecto (`DEFAULT_CATALOG`).
+- **Badge Visual de Proyecto:**
+  - Los equipos personalizados se destacan en el catálogo y flyout con una etiqueta distintiva `PROYECTO`.
+
+### PWA Offline y Calidad Automatizada (`service-worker.js`, `tests/integrity_check.cjs`, `tests/index.html`)
+- **Service Worker v11:**
+  - Caché actualizada a `rack-designer-next-cache-v11` con invalidación de recursos antiguos.
+- **Suite de Integridad:**
+  - Incorporadas pruebas para las 8 familias comerciales, grupo `security`, presencia de ODF/Patch Panel en accesorios, ciclo de vida de `customCatalog` y reactividad de `store.state`.
+  - **100% de éxito en las pruebas** tanto en terminal (`pnpm test`) como en navegador web (`tests/index.html`).
+
+---
+
+## [2026-09-21] Sprint 4 de Mejoras: Fidelidad Visual de Exportación, Metadatos de Inventario y Búsqueda en Catálogo (M-37, M-19, M-30)
+
+### Exportación Gráfica de Alta Fidelidad (Fase 3 / Fase 4)
+- **Exportación Fiel 1:1 a PNG con html2canvas y Fallback Procedural (`M-37` en `js/ui/modals/ExportModal.js`, `index.html` y `css/components/rack.css`):**
+  - Se integró la librería de captura DOM `html2canvas.min.js` (198 KB) en `js/` precacheada en Service Worker (`v10`).
+  - `exportRackToPNG()` y `exportFloorToPNG()` ahora renderizan directamente la vista física del DOM con sombras, texturas, tipografía y faceplates SVG reales a escala Retina (`scale: 2`) sobre fondo de datacenter `#090d17`.
+  - Se implementó la clase CSS `.exporting-capture` que oculta controles de interfaz (botones flotantes de edición/eliminación) durante la captura gráfica para obtener imágenes limpias de presentación técnica.
+  - Se mantuvo arquitectura defensiva de fallback procedimental con Canvas 2D en caso de que `html2canvas` no esté disponible.
+
+### Tabla de Inventario y Edición en Celda (Fase 3)
+- **Metadatos Faltantes de Dispositivos y Persistencia Inline (`M-19` en `js/ui/tables.js` y `js/ui/modals/ExportModal.js`):**
+  - Se añadieron las columnas `Tamaño` (U), `Skin` (faceplate visual) y `Notas` en la cabecera e hileras de la tabla de inventario (`renderInventoryTable()`).
+  - Soporte para edición inline interactiva (`dblclick`) con `finishCellEdit()` que persiste automáticamente cambios de tamaño (validación numérica > 0), skin y notas descriptivas en el estado del store (`store.updateDevice()`).
+  - Se amplió el filtro de búsqueda interactiva `#inv-search` para permitir búsquedas instantáneas por contenido de notas y tipo de skin.
+  - La exportación CSV en `ExportModal.js` (`exportCSV()`) se sincronizó con las columnas `Tamaño`, `Skin` y `Notas`.
+
+### Búsqueda Asistida en Catálogo y Colocación Rápida (Fase 3)
+- **Buscador en Tiempo Real en Modal de Quick Placement (`M-30` en `index.html` y `js/ui/modals/PlacementModal.js`):**
+  - Se agregó el campo de búsqueda `<input type="text" id="qp-dev-search">` en el modal de colocación asistida (`#modal-quick-placement`).
+  - Implementada la función global reactiva `filterQPCatalog(query)` con filtrado insensible a mayúsculas/minúsculas sobre el nombre comercial y tipo de equipo.
+  - Selección inteligente del primer resultado coincidente y recálculo automático de slots disponibles para agilizar el aprovisionamiento.
+
+### PWA Offline y Service Worker (`service-worker.js`)
+- **Actualización de Versión de Caché a v10:**
+  - Se incrementó el identificador de caché a `rack-designer-next-cache-v10` e incorporó `js/html2canvas.min.js` en la lista de recursos precacheados offline.
+
+### Calidad y Suite de Integridad (`tests/integrity_check.cjs` y `tests/index.html`)
+- **Incorporación del Grupo 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo:**
+  - 13 nuevas aserciones que validan:
+    - Presencia y peso de `html2canvas.min.js`, inclusión de script tag y caché v10.
+    - Implementación de `exportRackToPNG` y `exportFloorToPNG` con fallback.
+    - Reglas CSS `.exporting-capture`.
+    - Columnas y edición inline de `Tamaño`, `Skin` y `Notas` en inventario y CSV.
+    - Input de búsqueda `#qp-dev-search` y función `filterQPCatalog()`.
+  - La suite se amplía a **78 pruebas automáticas exitosas (78/78 pasando al 100%)** tanto en entorno Node CLI (`pnpm test`) como en el Test Runner web en vivo.
+
+---
+
 ## [2026-09-19] Sprint 3 de Mejoras: Gestión Jerárquica Outliner & Inspector (M-36, M-23, M-38, M-24)
 
 ### Panel Inspector y Flujos de Aprovisionamiento (Fase 1 / Fase 3)

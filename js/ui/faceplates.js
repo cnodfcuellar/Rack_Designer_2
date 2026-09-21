@@ -133,6 +133,14 @@ function getSvgFaceplatePath(device) {
     return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/server_1u.svg';
   }
 
+  // Seguridad y Video (NVR, DVR, Decoder)
+  if (type === 'nvr' || type === 'dvr') {
+    return size >= 2 ? 'assets/svg/default/storage.svg' : 'assets/svg/default/server_1u.svg';
+  }
+  if (type === 'decoder') {
+    return 'assets/svg/default/router.svg';
+  }
+
   // Switches y conectividad de red
   if (type === 'switch') return 'assets/svg/default/switch_24p.svg';
   if (type === 'router') return 'assets/svg/default/router.svg';
@@ -151,13 +159,13 @@ function getSvgFaceplatePath(device) {
   }
 
   // Cableado y Gestión
-  if (type === 'patchpanel') return 'assets/svg/default/patchpanel.svg';
+  if (type === 'patchpanel' || type === 'odf') return 'assets/svg/default/patchpanel.svg';
   if (type === 'gestion') {
     return name.includes('kvm') ? 'assets/svg/default/kvm.svg' : 'assets/svg/default/patchpanel.svg';
   }
   if (type === 'organizer' || type === 'organizador') return 'assets/svg/default/organizer.svg';
   if (type === 'kvm') return 'assets/svg/default/kvm.svg';
-  if (type === 'tray' || type === 'bandeja') return 'assets/svg/default/tray.svg';
+  if (type === 'tray' || type === 'bandeja' || type === 'accessories') return 'assets/svg/default/tray.svg';
 
   // Equipos de piso o externos
   if (type === 'pc') return 'assets/svg/default/floor_pc.svg';

@@ -20,8 +20,8 @@ El lienzo central de la vista física aloja los gabinetes interactivos en 2D y l
 
 ### 🧱 Contenedor de Contenido (`#view-physical-content`)
 Las tarjetas de racks y la sección de piso se organizan mediante Flexbox:
-*   **Separación entre Racks:** **`24px`** (espaciado dinámico horizontal y vertical definido mediante Flexbox).
-*   **Layout:** Flexbox horizontal (`display: flex`, `flex-wrap: wrap`, `gap: 24px`).
+*   **Separación entre Racks:** **`72px`** (espaciado dinámico horizontal y vertical definido mediante Flexbox — equivale a 3U).
+*   **Layout:** Flexbox horizontal (`display: flex`, `flex-wrap: wrap`, `gap: 72px`).
 *   **Alineación:** Alineado al inicio vertical (`align-content: flex-start`).
 *   **Zoom Origin:** `transform-origin: 0 0;` (punto de anclaje para los cálculos de escala y zoom sin alterar las coordenadas de arrastre).
 
@@ -139,4 +139,25 @@ graph TD
  █ 3 │  [Icono]    Nombre de Dispositivo                    │ │ 48px
  █ px│  36x36px    IP / Detalles                            │ │ 
  └───┴──────────────────────────────────────────────────────┘ ▼ 
+
+
+  DOS RACKS LADO A LADO — Separación entre gabinetes: gap: 72px (3U)
+ ◄──────── 280px ───────────────────►◄─────── 72px ───────►◄──────── 280px ───────────────────►
+ ┌──────────────────────────────────┐                       ┌──────────────────────────────────┐ ▲
+ │  Riel │  CABECERA (38px)  │Riel  │◄────── gap (72px) ───►│  Riel │  CABECERA (38px)  │Riel  │ │ 38px
+ ├───────┼───────────────────┼──────┤        = 3 U          ├───────┼───────────────────┼──────┤ ▼
+ │       │   Slot U1 (24px)  │      │                       │       │   Slot U1 (24px)  │      │ ▲
+ ├───────┼───────────────────┼──────┤                       ├───────┼───────────────────┼──────┤ │
+ │       │   Slot U2 (24px)  │      │                       │       │   Slot U2 (24px)  │      │ │ Cuerpo
+ ├───────┼───────────────────┼──────┤                       ├───────┼───────────────────┼──────┤ │ (U * 24px)
+ │       │   Slot U3 (24px)  │      │                       │       │   Slot U3 (24px)  │      │ │
+ └───────┴───────────────────┴──────┘                       └───────┴───────────────────┴──────┘ ▼
+ ◄──────────────── 280px ──────────►◄──────── 72px ─────────►◄──────────────── 280px ──────────►
+      RACK 1 (.rack-wrapper)             Flexbox gap              RACK 2 (.rack-wrapper)
+                                         = 3 U (72px)
+
+  Nota: el gap de 72px se define en rack.js (líneas 124 y 126) mediante:
+    style="display:flex; flex-wrap:wrap; gap:72px; ..."
+  Este gap es consistente tanto horizontal (entre racks en la misma fila)
+  como vertical (entre filas de racks al hacer wrap).
 ```

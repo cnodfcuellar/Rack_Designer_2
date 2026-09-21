@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rack-designer-next-cache-v9';
+const CACHE_NAME = 'rack-designer-next-cache-v11';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -16,6 +16,7 @@ const ASSETS_TO_CACHE = [
   './js/store.js',
   './js/demoData.js',
   './js/xlsx.full.min.js',
+  './js/html2canvas.min.js',
   './js/mobile-drag-drop.min.js',
   './js/mobile-drag-drop-scroll.min.js',
   './js/auth/roles.js',

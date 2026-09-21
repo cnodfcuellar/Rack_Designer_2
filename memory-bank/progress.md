@@ -12,20 +12,19 @@
 - **Control Maestro de Animaciones:** Interruptor en `.status-dot` que alterna `.no-animations`, pausando simultáneamente los LEDs de los equipos en la vista física, las partículas de red en topología y los efectos CSS globales.
 - **Drag & Drop:** Inserción de catálogo a rack, movimiento entre gabinetes, reordenamiento, soporte para equipos de piso.
 - **Undo/Redo:** Historial reactivo con hasta 30 snapshots (`deepClone`). Soporte completo para Ctrl+Z/Y en física y topología.
-- **Exportación:** PNG (racks y topología), Excel/CSV (inventario y conexiones vía SheetJS), JSON/`.rack` (backup completo con File System Access API).
+- **Exportación de Alta Fidelidad:** PNG fiel 1:1 renderizando el DOM con `html2canvas.min.js` a escala Retina (`scale: 2`), fondo de datacenter `#090d17`, ocultamiento de botones de UI flotantes (`.exporting-capture`) y fallback procedimental a Canvas 2D (`M-37`). Exportación Excel/CSV con metadatos completos (`Tamaño`, `Skin`, `Notas`) vía SheetJS (`M-19`), JSON/`.rack` (backup completo con File System Access API).
 - **Persistencia Robusta:** localStorage automático con doble slot de respaldo redundante (`RACK_DESIGNER_NEXT_STATE_BACKUP`), recuperación automática ante fallos de parseo JSON y captura defensiva de cuota de almacenamiento (`QuotaExceededError`).
 - **Auth/RBAC:** 3 roles (Admin/Editor/Viewer), PIN con SHA-256 (con fallback puro JS para file:// y LAN), sesión persistente a recargas F5 mediante `sessionStorage`.
-- **PWA:** Service Worker con precaché offline (`rack-designer-next-cache-v9`) y actualización automática mediante `reg.update()`.
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con 65 pruebas automáticas en 8 grupos (100% éxito).
+- **PWA:** Service Worker con precaché offline (`rack-designer-next-cache-v10`), inclusión de `html2canvas.min.js` y actualización automática mediante `reg.update()`.
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con 78 pruebas automáticas en 9 grupos (100% éxito).
 - **Documentación Completa:** README, ARCHITECTURE_GUIDE, CODEBASE_ORIENTATION_MAP, USER_MANUAL, ROADMAP_MEJORAS, INFORME_MEJORAS, CHANGELOG detallado.
 
 ## Current Issues & Technical Debt
 - **Puertos sin validación:** El modal de cables permite seleccionar puertos ya ocupados. Falta tracking de VLAN y estado de ocupación de puertos (`M-26`).
 - **Cifrado de datos sensibles:** Credenciales de equipos almacenadas en texto plano en localStorage (`M-01`).
-- **Fidelidad en exportación de imágenes:** La exportación actual no captura el 100% de los estilos CSS complejos o sombras (`M-37` con `html2canvas`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 20 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (18 completadas):
+Total de 17 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (21 completadas):
 
 ### Fase 0 & 2 — Seguridad y Puertos
 - Cifrado WebCrypto AES-GCM (`M-01`).
@@ -33,12 +32,9 @@ Total de 20 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 - Separación de cableado frontal vs. trasero (`M-33`).
 
 ### Fase 2 & 5 — Exportación, Tablas e Interacción
-- Fidelidad visual 1:1 en exportación de imágenes con `html2canvas` (`M-37`).
-- Exportar propiedades completas en tabla de inventario (`M-19`).
 - Ocultar/mostrar columnas en tablas (`M-20`).
 - Plantilla completa de exportación CSV/Excel (`M-21`).
 - Importación masiva desde CSV/Excel (`M-22`).
-- Buscador en catálogo de equipos del modal (`M-30`).
 
 ### Fase 4 — Vista Física Interactiva y Topología
 - Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
@@ -55,3 +51,4 @@ Total de 20 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 - **Sep 2026 (Sprint 1):** Blindaje de almacenamiento (`M-02`, `M-05`) y normalización visual física (`M-10`, `M-13`, `M-14`, `M-15`, `M-16`).
 - **Sep 2026 (Sprint 2):** Erradicación de `prompt()` nativo (`M-09`), consolidación en 7 familias comerciales (`M-11`) y buscador global en tiempo real (`M-12`).
 - **Sep 2026 (Sprint 3):** Gestión jerárquica Outliner & Inspector: CRUD integral en Inspector (`M-36`), acciones rápidas e inline en Outliner (`M-23`), ordenamiento dinámico de 4 modos (`M-38`), Inspector colapsable (`M-24`) y suite de 65 tests de integridad al 100%.
+- **Sep 2026 (Sprint 4):** Fidelidad de exportación PNG 1:1 con `html2canvas` (`M-37`), metadatos de inventario y edición en celda (`M-19`), buscador reactivo en modal de catálogo (`M-30`) y suite ampliada a 78 tests al 100%.

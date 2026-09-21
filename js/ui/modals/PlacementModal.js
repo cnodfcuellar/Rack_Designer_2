@@ -7,21 +7,22 @@ function openQuickPlacementModal(catalogId = null) {
   const displayRow = document.getElementById('qp-dev-display-row');
   const selectRow = document.getElementById('qp-dev-select-row');
   
+  const searchEl = document.getElementById('qp-dev-search');
   if (catalogId === null) {
-    // Flujo de Tabla (Agregar Equipo): mostramos el selector
+    // Flujo de Tabla (Agregar Equipo): mostramos el selector y activamos buscador
     displayRow.style.display = 'none';
     selectRow.style.display = '';
     
-    const select = document.getElementById('qp-dev-select');
-    select.innerHTML = CATALOG.map((item, i) => 
-      `<option value="${escapeHTML(item.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(item.icon)} ${escapeHTML(item.name)} (${escapeHTML(String(item.type || 'unknown').toUpperCase())})</option>`
-    ).join('');
-    
-    qpCatalogItem = CATALOG[0];
+    if (searchEl) {
+      searchEl.value = '';
+      setTimeout(() => searchEl.focus(), 60);
+    }
+    filterQPCatalog('');
   } else {
     // Flujo de Catálogo: mostramos etiqueta fija
     displayRow.style.display = '';
     selectRow.style.display = 'none';
+    if (searchEl) searchEl.value = '';
     
     const item = CATALOG.find(c => c.id === catalogId);
     if (!item) return;
@@ -110,9 +111,41 @@ function repopulateQPSlots() {
     `<option value="${u}">Posición U${u} (Libre)</option>`
   ).join('');
 }
+function filterQPCatalog(query = '') {
+  if (typeof syncCatalog === 'function') syncCatalog();
+  const select = document.getElementById('qp-dev-select');
+  if (!select) return;
+  const q = (query || '').trim().toLowerCase();
+  const filtered = CATALOG.filter(item => {
+    if (!q) return true;
+    const str = `${item.name} ${item.type} ${item.brand || ''} ${item.model || ''}`.toLowerCase();
+    return str.includes(q);
+  });
+  
+  if (!filtered.length) {
+    select.innerHTML = '<option value="">Sin coincidencias en el catálogo</option>';
+    qpCatalogItem = null;
+    return;
+  }
+  
+  select.innerHTML = filtered.map((item, i) => 
+    `<option value="${escapeHTML(item.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(item.icon || '📦')} ${escapeHTML(item.name)} (${escapeHTML(String(item.type || 'unknown').toUpperCase())}${item.size ? ' - ' + item.size + 'U' : ''})</option>`
+  ).join('');
+  
+  select.value = filtered[0].id;
+  select.dispatchEvent(new Event('change'));
+}
+
 let qpCatalogItem = null;
 
 function initPlacementModal() {
+  const searchInput = document.getElementById('qp-dev-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      filterQPCatalog(this.value);
+    });
+  }
+
   document.getElementById('qp-dev-select').addEventListener('change', function() {
     const catalogId = this.value;
     const item = CATALOG.find(c => c.id === catalogId);
@@ -193,3 +226,5 @@ function initPlacementModal() {
     }
   });
 }
+
+window.filterQPCatalog = filterQPCatalog;

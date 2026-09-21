@@ -207,6 +207,10 @@ function renderAll(event = {}) {
   if (source.includes('Zoom') || source.includes('Pan')) {
     updateZoomLabel();
   }
+
+  if (source.includes('Catalog')) {
+    renderCatalog();
+  }
 }
 
 // Bind to store mutations
@@ -430,6 +434,7 @@ function initGlobalEvents() {
           racks: [],
           devices: [],
           connections: [],
+          customCatalog: [],
           currentRoomId: roomId,
           selectedDeviceId: null,
           topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },

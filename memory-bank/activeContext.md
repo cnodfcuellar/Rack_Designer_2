@@ -1,10 +1,22 @@
 # Active Context
 
 ## Current Work Focus
-El proyecto ha completado con éxito el **Sprint 3** (Gestión Jerárquica Outliner & Inspector: M-36, M-23, M-38, M-24), precedido por el **Sprint 1** (Blindaje de Almacenamiento y Quick Wins Físicos) y el **Sprint 2** (Modal reactivo de salas, catálogo en 7 familias comerciales y buscador global en tiempo real).
-Se alcanzó el **100% de la Fase 1 (Quick Wins y Ergonomía)** y el **50% de la Fase 3 (Navegación y Productividad)**, con un total de **18 mejoras implementadas y 20 pendientes** en el roadmap. La suite de pruebas de integridad cuenta con **65 pruebas automatizadas al 100% de éxito** en CLI y navegador.
+El proyecto ha completado con éxito la **Modernización Integral del Catálogo Arquitectónico Profesional**, la incorporación de la familia **Seguridad y CCTV** (NVR, DVR, Decoder), la inclusión formal de **Patch Panel y ODF** en Accesorios, y la **Persistencia de Equipos Personalizados por Proyecto** (`customCatalog`) con ciclo de vida completo y reset en nuevo proyecto. La suite de pruebas de integridad se ha expandido a **82/83 pruebas automatizadas al 100% de éxito** en CLI (`pnpm test`) y navegador (`tests/index.html`).
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-21] Catálogo Arquitectónico Profesional, Seguridad/CCTV y Equipos Personalizados por Proyecto:**
+  - **Enfoque Genérico / Arquitectónico:** Estandarización a 30 plantillas limpias de centro de datos sin marcas arbitrarias (Servidores 1U/2U/4U/Blade, Switches 24P/48P/Core/Agregación, Routers de borde, Firewalls UTM, Cabinas SAN, NAS 2U, JBOD, UPS Online 1500/3000, PDUs, Organizadores, Bandejas, etc.) con potencias (W) y puertos reales.
+  - **Nueva Categoría Seguridad y CCTV (`security`):** Creación de la familia comercial con NVR 1U/2U, DVR 1U y Decodificador de Video Wall 1U, acompañados de iconos vectoriales dedicados (`SVG_ICONS`).
+  - **Reorganización en 8 Familias (`CATALOG_GROUPS`):** `network` exclusiva para activos, `accesorios` integrando Patch Panels y Bandeja de Fibra Óptica (ODF), más cómputo, storage, security, power, kvm y floor.
+  - **Equipos Personalizados por Proyecto (`customCatalog`):** Persistencia en el store de plantillas creadas por el usuario, badge visual `PROYECTO`, inclusión en archivos exportados `.rack` / `.json`, y retorno automático al catálogo por defecto al crear un nuevo proyecto.
+  - **PWA & Cache:** Actualización a `rack-designer-next-cache-v11`.
+  - **Testing:** 83 pruebas en `tests/integrity_check.cjs` y 82 pruebas en `tests/index.html` pasando limpiamente al 100%.
+- **[2026-09-21] Sprint 4 de Mejoras (M-37, M-19, M-30):**
+  - **M-37:** Fidelidad visual 1:1 en la exportación de imágenes PNG utilizando `html2canvas.min.js` a escala Retina (`scale: 2`) sobre fondo `#090d17` con fallback procedimental a Canvas 2D. Regla CSS `.exporting-capture` para ocultar controles de UI flotantes durante la captura.
+  - **M-19:** Nuevas columnas en la tabla de inventario (`Tamaño`, `Skin`, `Notas`) con edición interactiva en celda (`dblclick`), validación numérica de tamaño, persistencia directa en el store (`finishCellEdit`) y sincronización completa con la exportación CSV.
+  - **M-30:** Buscador reactivo en tiempo real (`#qp-dev-search`) en el modal de catálogo asistido (`#modal-quick-placement`) con función `filterQPCatalog()`, selección inteligente y recálculo de slots disponibles.
+  - **PWA & Cache:** Actualización a `rack-designer-next-cache-v10` con precaché de `js/html2canvas.min.js`.
+  - **Testing:** 13 nuevas pruebas en el Grupo 9 de `tests/integrity_check.cjs` y en `tests/index.html` (78/78 tests pasando al 100%).
 - **[2026-09-19] Sprint 3 de Mejoras (M-36, M-23, M-38, M-24):**
   - **M-36:** CRUD integral de Salas, Racks y Equipos desde el panel Inspector con Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`), vistas contextuales con cálculo de U y funciones de eliminación seguras con RBAC (`deleteRoomFromInspector`, `deleteRackFromInspector`, `deleteDeviceFromInspector`).
   - **M-23:** Botones de creación rápida en cabecera del Outliner (`+ Sala`, `+ Rack`, `+ Equipo`) y botones inline contextuales `✏️` y `🗑️` por nodo en el árbol jerárquico con confirmación `customConfirm`.
@@ -13,9 +25,9 @@ Se alcanzó el **100% de la Fase 1 (Quick Wins y Ergonomía)** y el **50% de la 
   - **PWA & Cache:** Actualización a `rack-designer-next-cache-v9`.
   - **Testing:** 13 nuevas pruebas en el Grupo 8 de `tests/integrity_check.cjs` (65/65 tests pasando al 100%).
 - **[2026-09-19] Sprint 2 de Mejoras (M-09, M-11, M-12):**
-  - **M-09:** Modal reactivo unificado `#modal-room` con título dinámico ("Nueva Sala" / "Editar Sala"), botones contextuales y verificación RBAC. Botones de edición táctil `✏️` (`.room-edit-btn`) en cada pestaña de sala del catálogo. Erradicación total del `prompt()` nativo.
-  - **M-11:** Reorganización del catálogo vertical de 50px en 7 familias comerciales estándar (`CATALOG_GROUPS`), consolidando conmutadores, cortafuegos, routers, APs y patch panels en el grupo "Redes" (#38bdf8). Altura del sidebar reducida a < 350px.
-  - **M-12:** Categoría superior "Todos" (`id: 'all'`) en la cima del catálogo e integración del motor de búsqueda reactivo en tiempo real `#catalog-search` sin restricciones de categoría. Iconos vectoriales offline para `grid`, `search` y `network`.
+  - **M-09:** Modal reactivo unificado `#modal-room` con título dinámico, botones contextuales y verificación RBAC. Botones de edición táctil `✏️` en cada pestaña de sala del catálogo.
+  - **M-11:** Reorganización del catálogo vertical de 50px en 7 familias comerciales estándar (`CATALOG_GROUPS`), consolidando "Redes" (#38bdf8).
+  - **M-12:** Categoría superior "Todos" (`id: 'all'`) en la cima del catálogo e integración del motor de búsqueda reactivo en tiempo real `#catalog-search`.
   - **PWA & Cache:** Actualización a `rack-designer-next-cache-v8`.
   - **Testing:** 10 nuevas pruebas en el Grupo 7 de `tests/integrity_check.cjs` (52/52 tests pasando al 100%).
 - **[2026-09-19] Sprint 1 de Mejoras (M-02, M-05, M-10, M-13, M-14, M-15, M-16):**
@@ -26,21 +38,15 @@ Se alcanzó el **100% de la Fase 1 (Quick Wins y Ergonomía)** y el **50% de la 
   - Grilla técnica CAD milimétrica con paso de 24px (`M-15`).
   - Alineación de equipos de piso con `min-width: 584px` (`M-13`).
   - Selector de alturas comerciales normalizadas (42U default) (`M-16`).
-- **[2026-09-19] Reorganización de Recursos Estáticos:**
-  - Migración de carpeta `default/` a `assets/default/`, dejando la raíz limpia.
-- **[2026-09-19] Corrección Integral de Errores y Auto-Saneamiento:**
-  - Persistencia de sesión de admin ante F5 vía `sessionStorage`.
-  - Cascada de borrado de conexiones y nodos topológicos en `deleteRack()` y `deleteDevice()`.
-  - Función `_sanitize()` para purgar referencias corruptas en carga de datos.
 
 ## Next Steps
 Continuar con el roadmap técnico ([`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) / [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md)):
-1. **Fidelidad Visual y Exportación:**
-   - **M-37:** Fidelidad 1:1 en exportación de imágenes PNG vía `html2canvas`.
-   - **M-19:** Exportar propiedades completas del Inspector en la tabla de inventario.
-2. **Seguridad y Cifrado:**
-   - **M-01:** Cifrado WebCrypto AES-GCM para almacenamiento seguro de credenciales y datos sensibles.
-3. **Ergonomía de Cableado:**
+1. **Seguridad y Cifrado (Fase 0):**
+   - **M-01:** Cifrado WebCrypto AES-GCM para almacenamiento seguro de credenciales y datos sensibles en localStorage.
+2. **Gestión de Puertos y Cableado (Fase 2):**
+   - **M-26:** Gestión avanzada de puertos, validación de ocupación y soporte VLAN.
+   - **M-33:** Cableado frontal vs. trasero.
+3. **Ergonomía de Cableado (Fase 2):**
    - **M-34:** Conexiones interactivas en vista física arrastrando puertos (*Drag-to-Connect*).
 
 ## Active Decisions & Considerations

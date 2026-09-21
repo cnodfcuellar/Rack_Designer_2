@@ -16,7 +16,7 @@ function renderPhysical() {
   });
 
   if (!racks.length) {
-    container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start;">
+    container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; flex-wrap:wrap; gap:72px; align-content:flex-start;">
       <div style="display:flex; justify-content:center; width:100%;">
         <div class="empty-state" style="display:flex; flex-direction:column; align-items:center;">
           <div class="icon"><i class="svg-icon icon-server" style="width:48px; height:48px;"></i></div>
@@ -121,9 +121,9 @@ function renderPhysical() {
     </div>
   `;
 
-  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:24px; align-content:flex-start; width: 100%; position:relative;">
+  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:72px; align-content:flex-start; width: 100%; position:relative;">
     <svg id="physical-cables-svg" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; overflow:visible; display:none;"></svg>
-    <div style="display:flex; flex-wrap:wrap; gap:24px; width:100%;">${racksHTML}${addRackHTML}</div>
+    <div style="display:flex; flex-wrap:wrap; gap:72px; width:100%">${racksHTML}${addRackHTML}</div>
   </div>`;
 
   const floorSection = renderFloorSection(store._raw.currentRoomId);
