@@ -251,6 +251,11 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 *   **Propuesta de Mejora:** Cambios profundos en la arquitectura para eliminar estas restricciones. No debe haber ninguna restricción respecto a dónde se puede colocar un equipo (cualquier equipo debería poder montarse en rack, piso o frente). Esto requerirá reescribir fuertemente muchos menús, validaciones de arrastrar y soltar (drag & drop) y subsistemas de la aplicación.
 *   **Objetivo/Beneficio en Producción:** Flexibilidad absoluta para el arquitecto de infraestructura, permitiendo modelar escenarios no estandarizados o equipos híbridos que la lógica actual prohíbe.
 
+### 📸 Regresión en la Exportación de Racks y Salas a PNG
+*   **Problema:** Tras los últimos cambios estructurales y de estilos en la vista física, la función para exportar a imagen (PNG) se ha roto. Ya no es posible exportar un rack específico "1 a 1" (probablemente por fallos al capturar el contenedor o las caras del rack) ni tampoco funciona la exportación completa de la sala.
+*   **Requisito:** Al exportar la sala completa en vista física, **el archivo PNG generado debe incluir los cables visibles** si el switch de mostrar cables está activado en la interfaz en ese momento.
+*   **Prioridad:** **Crítica/Urgente**, ya que era un punto que estaba funcional y su pérdida impacta la capacidad de generar reportes.
+
 ---
 
 ## 7. Priorización por Fases (Roadmap del Memory Bank)
@@ -258,6 +263,7 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 > Extraído del `memory-bank/progress.md` y `memory-bank/activeContext.md` — Agosto 2026.
 
 ### Fase 1 — Core y Datos (Prioridad Alta)
+0. **[REGRESIÓN URGENTE]** Reparar exportación a PNG (1 a 1 por rack y sala completa en vista física) que ha dejado de funcionar tras los últimos cambios estructurales. *(→ Sección 6, 📸)*
 1. Handler de `QuotaExceededError` con notificación visual al usuario. *(→ Sección 2, 💾)*
 2. Gestión avanzada de puertos: validación, VLAN, submenú, filtrado de ocupados. *(→ Sección 6, 🔌)*
 3. Refactorizar `demoData.js` para nueva estructura de puertos. *(→ Sección 6, 🔌)*
@@ -283,6 +289,8 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 17. Importación masiva CSV/Excel con validación y resolución de conflictos. *(→ Sección 6, 📥)*
 18. Ocultar/mostrar columnas en tablas con persistencia. *(→ Sección 6, ⚙️)*
 19. Fidelidad visual 1:1 en exportación de imágenes PNG con html2canvas (racks, cables y piso). *(→ Sección 6, 📸)*
+20. **[NUEVO]** Exportación de la sala y gabinetes a formato **SVG** puro (escalable sin pérdida de calidad). Debe ser exacto (1 a 1) y respetar el tema actual de la aplicación (Claro/Oscuro).
+21. **[NUEVO]** Exportación de la sala a formato **PDF Vectorial**, ideal para imprimir planos e informes del Datacenter. Debe ser exacto (1 a 1) y respetar el tema actual de la aplicación.
 
 ### Fase 5 — Responsive y Avanzado
 20. Rediseño completo para móvil/tablet (media queries, gestos, bottom nav). *(→ Sección 6, 📱)*

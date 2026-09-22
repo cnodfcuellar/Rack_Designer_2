@@ -14,11 +14,13 @@ const SVG_INLINE_CACHE = {};
 const DEFAULT_SVG_ASSETS = [
   'assets/svg/default/server_1u.svg',
   'assets/svg/default/server_2u.svg',
+  'assets/svg/default/server_4u.svg',
   'assets/svg/default/switch_24p.svg',
   'assets/svg/default/router.svg',
   'assets/svg/default/firewall.svg',
   'assets/svg/default/storage.svg',
   'assets/svg/default/ups.svg',
+  'assets/svg/default/ups_2u.svg',
   'assets/svg/default/pdu.svg',
   'assets/svg/default/patchpanel.svg',
   'assets/svg/default/organizer.svg',
@@ -128,8 +130,9 @@ function getSvgFaceplatePath(device) {
   const name = ((device && device.name) || '').toLowerCase();
   const size = (device && device.size) ? parseInt(device.size, 10) : 1;
 
-  // Servidores (1U vs 2U o superior)
+  // Servidores (1U, 2U o 4U Blade/Chasis)
   if (type === 'server') {
+    if (size >= 4) return 'assets/svg/default/server_4u.svg';
     return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/server_1u.svg';
   }
 
@@ -148,14 +151,18 @@ function getSvgFaceplatePath(device) {
 
   // Almacenamiento (Storage, SAN, NAS)
   if (type === 'storage' || type === 'nas' || type === 'san') {
-    return 'assets/svg/default/storage.svg';
+    if (size >= 4) return 'assets/svg/default/server_4u.svg';
+    return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/storage.svg';
   }
 
   // Energía (UPS y PDU)
-  if (type === 'ups') return 'assets/svg/default/ups.svg';
+  if (type === 'ups') {
+    return size >= 2 ? 'assets/svg/default/ups_2u.svg' : 'assets/svg/default/ups.svg';
+  }
   if (type === 'pdu') return 'assets/svg/default/pdu.svg';
   if (type === 'energia' || type === 'power') {
-    return name.includes('pdu') ? 'assets/svg/default/pdu.svg' : 'assets/svg/default/ups.svg';
+    if (name.includes('pdu')) return 'assets/svg/default/pdu.svg';
+    return size >= 2 ? 'assets/svg/default/ups_2u.svg' : 'assets/svg/default/ups.svg';
   }
 
   // Cableado y Gestión
@@ -174,18 +181,24 @@ function getSvgFaceplatePath(device) {
   if (type === 'printer') return 'assets/svg/default/floor_printer.svg';
 
   // Fallback genérico según altura
+  if (size >= 4) return 'assets/svg/default/server_4u.svg';
   return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/server_1u.svg';
 }
 
 /**
- * Construye la carátula frontal (faceplate) para un equipo de rack.
+ * Construye la carátula frontal o trasera (faceplate) para un equipo de rack.
  * Inyecta SVG inline (o fallback reactivo con auto-inlining) para que las animaciones
  * de los LEDs respondan de inmediato a body.no-animations.
  * @param {Object} device - Objeto de dispositivo
  * @param {number} heightPx - Altura calculada en píxeles (size * UNIT_H)
+ * @param {string} side - 'front' o 'rear'
  * @returns {string} Marcado HTML con imagen SVG y etiquetas legibles
  */
-function buildFaceplate(device, heightPx) {
+function buildFaceplate(device, heightPx, side = 'front') {
+  if (side === 'rear') {
+    return buildRearFaceplate(device, heightPx);
+  }
+
   const h = heightPx;
   const svgSrc = getSvgFaceplatePath(device);
   const devName = escapeHTML(device.name || 'Dispositivo');
@@ -206,12 +219,59 @@ function buildFaceplate(device, heightPx) {
   }
 
   return `
-    <div class="faceplate-wrapper" data-device-id="${device.id}" style="height:${h}px;">
+    <div class="faceplate-wrapper" data-device-id="${device.id}" data-dev-type="${devType.toLowerCase()}" style="height:${h}px;">
       ${visualElement}
       <div class="faceplate-overlay-info">
         <span class="faceplate-label dev-title" title="${devName}">${devName}</span>
         ${devIp ? `<span class="faceplate-label dev-meta" title="${devIp}">${devIp}</span>` : ''}
       </div>
+    </div>`;
+}
+
+/**
+ * Construye la carátula técnica trasera para un equipo de rack.
+ * @param {Object} device 
+ * @param {number} heightPx 
+ * @returns {string} Marcado HTML
+ */
+function buildRearFaceplate(device, heightPx) {
+  const h = heightPx;
+  const devName = escapeHTML(device.name || 'Dispositivo');
+  const plugs = parseInt(device.plugs) || (device.type === 'server' ? 2 : 1);
+  const ethernetPorts = (device.ports && device.ports.ethernet) || 2;
+  
+  let psuHTML = '';
+  for (let i = 0; i < Math.min(plugs, 4); i++) {
+    psuHTML += `
+      <div style="display:flex; align-items:center; gap:4px; background:rgba(0,0,0,0.5); padding:2px 5px; border-radius:3px; border:1px solid rgba(255,255,255,0.12);" title="Fuente de Alimentación PSU ${i+1}">
+        <div style="width:6px; height:6px; border-radius:50%; background:#10b981; box-shadow:0 0 5px #10b981;"></div>
+        <span style="font-size:9px; font-family:var(--font-mono); color:#94a3b8; font-weight:600;">PSU-${i+1}</span>
+      </div>`;
+  }
+  
+  let netHTML = '';
+  if (ethernetPorts > 0) {
+    netHTML += `<div style="display:flex; gap:2px; align-items:center;" title="${ethernetPorts} puertos LAN traseros">`;
+    for (let i = 0; i < Math.min(ethernetPorts, 8); i++) {
+      netHTML += `<div class="rear-port-jack" data-device-id="${device.id}" data-port="Eth${i+1}" style="width:9px; height:7px; background:#0f172a; border:1px solid #38bdf8; border-radius:1px;"></div>`;
+    }
+    netHTML += `</div>`;
+  }
+
+  const isDual = device.mountSide === 'both';
+  const badgeLabel = isDual ? 'TRASERA · DUAL' : 'TRASERA';
+
+  return `
+    <div class="faceplate-wrapper rear-faceplate" data-device-id="${device.id}" style="height:${h}px; background:linear-gradient(90deg, #09111e 0%, #132238 50%, #09111e 100%); border:1px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:0 12px; box-sizing:border-box; position:relative; overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:8px; z-index:2;">
+        <span style="font-size:9px; font-weight:700; background:rgba(56,189,248,0.18); color:#38bdf8; border:1px solid rgba(56,189,248,0.35); border-radius:3px; padding:1px 5px; font-family:var(--font-mono); letter-spacing:0.5px;">${badgeLabel}</span>
+        <span style="font-size:11px; font-weight:600; color:#cbd5e1; font-family:var(--font-mono); max-width:110px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${devName}">${devName}</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; z-index:2;">
+        ${netHTML}
+        ${psuHTML}
+      </div>
+      <div style="position:absolute; inset:0; opacity:0.04; background-image:radial-gradient(#ffffff 1px, transparent 1px); background-size:6px 6px; pointer-events:none;"></div>
     </div>`;
 }
 

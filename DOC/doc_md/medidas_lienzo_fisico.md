@@ -86,7 +86,38 @@ Cuando los dispositivos no están montados en racks (ej. Cámaras, impresoras, A
 
 ---
 
-## 6. Diagramas de Layout del Workspace Físico
+## 6. Geometría y Matemáticas del Enrutamiento Segregado de Cables (3 Zonas)
+
+La capa SVG (`#physical-cables-svg`) renderiza conexiones ortogonales limpias con esquinas redondeadas de precisión milimétrica ($r = 6\text{px}$) utilizando 3 zonas físicas estrictamente segregadas:
+
+### 🛫 Zona 1: Canastillo Superior / Bandeja Aérea (Inter-Rack)
+Aplica a conexiones entre equipos alojados en dos gabinetes distintos (`p1.isRack && p2.isRack`).
+*   **Elevación Aérea:**
+    $$\text{overheadY} = \min(\text{RackTop}) - 14\text{px} - (\text{index} \pmod 7) \times 5\text{px}$$
+    El cable asciende por el pasillo lateral y viaja por encima del gabinete más alto, evitando cualquier cruce con equipos de rack.
+*   **Salida y Entrada Lateral Inteligente:**
+    *   Si el destino está a la derecha: emerge por el riel derecho (`p1.rightEdgeX + 8 + (index % 4) * 4`).
+    *   Si el destino está a la izquierda: emerge por el riel izquierdo (`p1.leftEdgeX - 8 - (index % 4) * 4`).
+
+### 🛣️ Zona 2: Canaleta Media Segregada (Equipos de Piso ↔ Racks)
+Aplica a enlaces entre periféricos de piso (CCTV, APs, impresoras) y switches/patch panels en racks (`pFloor` y `pRack`).
+*   **Troncal Horizontal Intermedia:**
+    $$\text{middleGutterY} = \max(\text{RackBottom}) + 18\text{px} + (\text{index} \pmod 6) \times 4\text{px}$$
+    Discurre en el espacio libre entre el borde inferior de los racks y el borde superior de la sección de piso, impidiendo que los cables sobrevuelen las tarjetas de periféricos.
+*   **Ascenso por Pasillo Inter-Rack:**
+    $$\text{rackGutterX} = \text{pRack.edgeX} \pm (8\text{px} + (\text{index} \pmod 4) \times 4\text{px})$$
+    El cable sube limpiamente por la separación lateral de **`72px`** del rack de destino e ingresa ortogonalmente al puerto del dispositivo.
+
+### 🗄️ Zona 3: Organizador Lateral (Mismo Rack / Intra-Rack)
+Aplica a conexiones internas dentro del mismo gabinete (`p1.rackId === p2.rackId`).
+*   **Mismo Dispositivo (Loopback/Puertos Adyacentes):** Curva suave de Bézier cúbica (`C`) con arco de compensación.
+*   **Entre Diferentes Slots:**
+    $$\text{gutterX} = \text{p1.rightEdgeX} + 8\text{px} + (\text{index} \pmod 5) \times 4\text{px}$$
+    Sale horizontalmente hacia el organizador lateral vertical, viaja en línea recta y entra en el slot de destino.
+
+---
+
+## 7. Diagramas de Layout del Workspace Físico
 
 ### 🗺️ Jerarquía de Contenedores de Vista Física (Mermaid)
 
@@ -94,7 +125,7 @@ Cuando los dispositivos no están montados en racks (ej. Cámaras, impresoras, A
 graph TD
     subgraph Workspace ["Lienzo Físico (#view-physical) - Scroll: Auto"]
         direction TB
-        subgraph Content ["Content Wrap (#view-physical-content) - Gap: 24px"]
+        subgraph Content ["Content Wrap (#view-physical-content) - Gap: 72px"]
             direction LR
             Rack1[".rack-wrapper (Rack 1)<br/>Ancho: 280px"]
             Rack2[".rack-wrapper (Rack 2)<br/>Ancho: 280px"]
@@ -161,3 +192,4 @@ graph TD
   Este gap es consistente tanto horizontal (entre racks en la misma fila)
   como vertical (entre filas de racks al hacer wrap).
 ```
+

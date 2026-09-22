@@ -53,13 +53,25 @@ El contenedor principal del sistema (`#app`) utiliza un diseño bidimensional im
     *   Z-Index: `50` (flota sobre el lienzo central `#main` extendiéndose hacia la derecha de la barra lateral).
 
 ### 📐 LIENZO CENTRAL (`#main`)
-*   **Grid de Fondo (Dotgrid):** Renderizado con un gradiente radial con puntos (`var(--grid-dot)`) de `1px` espaciados en una cuadrícula de **`28px` × `28px`** con opacidad de `0.4`.
+*   **Grid de Fondo (CAD Grid):** Renderizado en `#view-physical` con un patrón ortogonal de líneas milimétricas sutiles (`linear-gradient`) de `1px` espaciados en una cuadrícula CAD de **`24px` × `24px`** (equivalente a 1U de rack), optimizada para modo oscuro y claro.
+*   **Disposición de Racks (`#view-physical-content` / `#racks-area`):**
+    *   Modelo de caja: `display: flex`, `flex-wrap: wrap`.
+    *   **Separación Inter-Rack:** **`gap: 72px`** (3U), proporcionando pasillos laterales holgados para la canalización vertical limpia de cables sin sobrevolar gabinetes ni periféricos.
+    *   Alineación de piso: Contenedor perimétrico de equipos de suelo con `min-width: 584px`.
 
 ### 📋 PANEL DERECHO (`#right-panel`)
-El panel derecho se subdivide en tres secciones organizadas verticalmente con `flex-direction: column`:
-1.  **Outliner (`#outliner-section`):** `flex: 0 1 auto` con una altura máxima restringida a **`25%`** para evitar el desplazamiento excesivo.
-2.  **Inspector (`#inspector-section`):** `flex: 1` para absorber dinámicamente todo el espacio vertical sobrante.
-3.  **Estadísticas (`#stats-section`):** Altura fija con `flex: 0 0 170px` en la parte inferior del panel.
+El panel derecho (`300px`, `--right-panel-w`) se subdivide en tres secciones organizadas verticalmente con `flex-direction: column`:
+1.  **Outliner (`#outliner-section`):**
+    *   Dimensiones: `flex: 1 1 180px` con `min-height: 120px`.
+    *   Comportamiento: Cuando el Inspector está colapsado, el Outliner absorbe automáticamente todo el espacio vertical disponible en el panel.
+    *   Herramientas integradas: Barra superior (`.outliner-toolbar`) con selector de ordenamiento (`#outliner-sort-select`, orden por defecto, U descendente, alfabético, tipo) y botones de colapso rápido. Acciones inline flotantes en cada nodo (`.outliner-node-actions`).
+2.  **Inspector (`#inspector-section`):**
+    *   Dimensiones: `flex: 1` para absorber el espacio intermedio.
+    *   Colapso Interactivo: La cabecera incluye un chevron interactivo (`.toggle-icon`) que rota `90°` (`transform: rotate(-90deg)`). Al colapsar con la clase `.collapsed`, su flex se reduce a `flex: 0 0 auto !important` y su contenido se oculta (`display: none !important`), cediendo su altura al Outliner.
+    *   Botones de Acción (CRUD): Grupo inferior (`.inspector-btn-group`) con botones de guardar (`.btn-inspector-primary`), cancelar (`.btn-inspector-secondary`) y eliminar (`.btn-inspector-danger`).
+3.  **Estadísticas (`#stats-section`):**
+    *   Dimensiones: Altura fija con `flex: 0 0 170px` (`min-height: 170px`) anclada en la parte inferior del panel.
+    *   Contenido: Tarjetas métricas de ocupación en U, consumo eléctrico (W/kW), disipación térmica (BTU/h) y peso total (kg).
 
 ### 📊 PANEL INFERIOR (`#bottom`)
 *   **Altura Expandido:** `220px` (`--bottom-h`).
@@ -132,12 +144,12 @@ grid
 │ (Iconos)│               MAIN WORKSPACE                      │  PANEL   │ │
 │         │              (Lienzo principal)                   │          │ │
 │         │                                                   │ Outliner │ │
-│         │                                                   │  (25%)   │ │
-│         │                                                   ├──────────┤ │ minmax(0, 1fr)
-│  Ancho  │                   Dotgrid                         │          │ │ (Restante)
-│  50px   │                 28px x 28px                       │Inspector │ │
-│         │                                                   │  (Flex   │ │
-│         │                                                   │  fill)   │ │
+│         │         Racks con Gap de 72px (3U)                │(180px min│ │
+│         │                                                   │ dinámico)│ │
+│  Ancho  │                   CAD Grid                        ├──────────┤ │ minmax(0, 1fr)
+│  50px   │                 24px x 24px                       │Inspector │ │ (Restante)
+│         │                                                   │ (Flex 1  │ │
+│         │                                                   │colapsable│ │
 │         │                                                   ├──────────┤ │
 │         │                                                   │  Stats   │ │
 │         │                                                   │ (170px)  │ │

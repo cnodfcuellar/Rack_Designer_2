@@ -234,6 +234,15 @@ function initDeviceModal() {
         notify('Plantilla de catálogo actualizada', 'success');
       }
     } else if (editingDeviceId) {
+      const currentDev = store.deviceById(editingDeviceId);
+      if (currentDev && currentDev.rackId && typeof canPlace === 'function') {
+        const targetSide = props.mountSide || currentDev.mountSide || 'front';
+        const targetSize = props.size || currentDev.size || 1;
+        if (!canPlace(currentDev.rackId, currentDev.slotStart, targetSize, targetSide, editingDeviceId)) {
+          notify('Conflicto de espacio en el rack para el tamaño o lado seleccionado', 'error');
+          return;
+        }
+      }
       store.updateDevice(editingDeviceId, props);
       notify('Equipo actualizado', 'success');
     } else {

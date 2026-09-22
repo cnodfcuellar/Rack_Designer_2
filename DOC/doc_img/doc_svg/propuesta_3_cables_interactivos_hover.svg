@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .active-glow { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.85)); }
+      .card-glow { filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5)); }
+      .beam-pulse { stroke-dasharray: 6,4; animation: beam-flow 1.5s linear infinite; }
+    </style>
+
+    <pattern id="grid-dots-3" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="0.7" fill="#22324e" opacity="0.6"/>
+    </pattern>
+
+    <linearGradient id="bg-grad-3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#080c14"/>
+    </linearGradient>
+
+    <linearGradient id="header-grad-3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo Principal -->
+  <rect width="960" height="560" fill="url(#bg-grad-3)" rx="10"/>
+  <rect width="960" height="560" fill="url(#grid-dots-3)" rx="10"/>
+  <rect width="960" height="560" fill="none" stroke="#1e293b" stroke-width="1.5" rx="10"/>
+
+  <!-- Encabezado de la Propuesta -->
+  <rect x="24" y="16" width="912" height="50" rx="8" fill="url(#header-grad-3)" stroke="#334155" stroke-width="1"/>
+  <rect x="34" y="24" width="8" height="34" rx="4" fill="#a855f7"/>
+  <text x="52" y="38" fill="#f8fafc" font-size="15" font-weight="700">PROPUESTA 3: MODO CABLES INTERACTIVOS / SMART FOCUS EN SELECCIÓN</text>
+  <text x="52" y="55" fill="#94a3b8" font-size="11">Visualización inteligente bajo demanda: resalta con brillo los enlaces del equipo activo y atenúa el resto</text>
+
+  <rect x="800" y="26" width="124" height="28" rx="6" fill="#581c87" stroke="#a855f7" stroke-width="1"/>
+  <text x="862" y="44" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">MODO ENFOQUE</text>
+
+  <!-- Barra de Herramientas Interactiva -->
+  <rect x="40" y="76" width="880" height="32" rx="6" fill="#1e293b" opacity="0.95" stroke="#334155" stroke-width="1"/>
+  <rect x="52" y="82" width="22" height="20" rx="4" fill="#0284c7"/>
+  <circle cx="63" cy="92" r="4" fill="#ffffff"/>
+  <text x="82" y="96" fill="#f8fafc" font-size="10" font-weight="600">Filtro de Cables:</text>
+  
+  <!-- Switch modo activo -->
+  <rect x="175" y="82" width="160" height="20" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <circle cx="186" cy="92" r="3.5" fill="#38bdf8"/>
+  <text x="196" y="96" fill="#38bdf8" font-size="9" font-weight="700">Solo Equipo Seleccionado</text>
+
+  <rect x="345" y="82" width="130" height="20" rx="4" fill="#1e293b" stroke="#475569" stroke-width="0.8"/>
+  <text x="410" y="95" fill="#64748b" font-size="9" text-anchor="middle">Mostrar Todos (Tenue)</text>
+
+  <text x="640" y="96" fill="#94a3b8" font-size="9.5" class="mono">Equipo enfocado: Core Switch (4 Enlaces)</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- RACKS Y EQUIPOS -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- RACK 101 -->
+  <g id="p3-rack-101">
+    <rect x="50" y="125" width="210" height="340" rx="6" fill="#141c2e" stroke="#0284c7" stroke-width="1.5"/>
+    <rect x="50" y="125" width="210" height="26" rx="6" fill="#0f2744"/>
+    <circle cx="64" cy="138" r="4" fill="#38bdf8"/>
+    <text x="74" y="142" fill="#f8fafc" font-size="11" font-weight="700">Rack 101 (Data Center)</text>
+
+    <!-- EQUIPO SELECCIONADO: CORE SWITCH (U41) -->
+    <g class="active-glow">
+      <rect x="62" y="160" width="186" height="28" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="236" cy="174" r="4" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+      <text x="72" y="178" fill="#ffffff" font-size="10" font-weight="700">Core Switch 24P [ACTIVO]</text>
+    </g>
+
+    <!-- Otros equipos atenuados en Rack 101 -->
+    <rect x="62" y="196" width="186" height="22" rx="3" fill="#0f172a" stroke="#25304b" stroke-width="0.8"/>
+    <text x="72" y="211" fill="#64748b" font-size="9">Servidor Web 01 (1U)</text>
+
+    <rect x="62" y="224" width="186" height="22" rx="3" fill="#0f172a" stroke="#25304b" stroke-width="0.8"/>
+    <text x="72" y="239" fill="#64748b" font-size="9">Servidor BD 02 (1U)</text>
+
+    <rect x="62" y="252" width="186" height="34" rx="3" fill="#0f172a" stroke="#25304b" stroke-width="0.8"/>
+    <text x="72" y="272" fill="#64748b" font-size="9">Cabina SAN Storage (2U)</text>
+
+    <text x="155" y="360" fill="#334155" font-size="10" text-anchor="middle" class="mono">[ 30U Libres ]</text>
+    <rect x="62" y="430" width="186" height="24" rx="3" fill="#1e1810" stroke="#45270c" stroke-width="0.8"/>
+    <text x="72" y="446" fill="#785327" font-size="8.5">UPS 3000VA</text>
+  </g>
+
+  <!-- RACK 102 -->
+  <g id="p3-rack-102">
+    <rect x="370" y="125" width="210" height="220" rx="6" fill="#122026" stroke="#059669" stroke-width="1.5"/>
+    <rect x="370" y="125" width="210" height="26" rx="6" fill="#064e3b"/>
+    <circle cx="384" cy="138" r="4" fill="#10b981"/>
+    <text x="394" y="142" fill="#f8fafc" font-size="11" font-weight="700">Rack 102 (Distribución)</text>
+
+    <!-- Switch Rack 102 (Conectado con Core Switch) -->
+    <rect x="382" y="160" width="186" height="26" rx="4" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+    <circle cx="394" cy="173" r="4" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="406" y="177" fill="#ecfdf5" font-size="9.5" font-weight="700">Switch Rack 102 (Destino 1)</text>
+
+    <!-- Otros equipos atenuados -->
+    <rect x="382" y="192" width="186" height="18" rx="3" fill="#0f172a" stroke="#25304b" stroke-width="0.8"/>
+    <text x="392" y="205" fill="#64748b" font-size="8.5">Patch Panel Cat6A 24P</text>
+    <rect x="382" y="216" width="186" height="30" rx="3" fill="#0f172a" stroke="#25304b" stroke-width="0.8"/>
+    <text x="392" y="235" fill="#64748b" font-size="8.5">Servidor App 2U</text>
+  </g>
+
+  <!-- Equipo de Piso Destino -->
+  <g id="p3-floor">
+    <rect x="370" y="375" width="210" height="90" rx="6" fill="#171821" stroke="#334155" stroke-width="1"/>
+    <text x="384" y="395" fill="#94a3b8" font-size="10" font-weight="700">EQUIPOS DE PISO</text>
+    <rect x="382" y="405" width="186" height="24" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+    <circle cx="394" cy="417" r="3.5" fill="#10b981" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="406" y="421" fill="#d1fae5" font-size="9" font-weight="600">Cámara 01 - Datacenter (Destino 2)</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CABLES ACTIVOS (100% BRILLO, RESPLANDOR Y NITIDEZ) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- Cable 1: Core Switch -> Switch 102 (Fibra 10G) -->
+  <g class="active-glow">
+    <path d="M 236 174
+             L 300 174
+             Q 310 174 310 166
+             L 310 145
+             Q 310 137 320 137
+             L 360 137
+             Q 370 137 370 145
+             L 370 165
+             Q 370 173 380 173
+             L 394 173"
+          stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Cable 2: Core Switch -> Cámara Piso (Cobre PoE) -->
+  <g class="active-glow">
+    <path d="M 236 174
+             L 280 174
+             Q 290 174 290 184
+             L 290 407
+             Q 290 417 300 417
+             L 394 417"
+          stroke="#10b981" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CABLES INACTIVOS / ATENUADOS (BACKGROUND 12% OPACIDAD) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <path d="M 236 211 L 305 211 L 305 235 L 382 235" stroke="#38bdf8" stroke-width="1" opacity="0.15" fill="none"/>
+  <path d="M 236 239 L 330 239 L 330 205 L 382 205" stroke="#f59e0b" stroke-width="1" opacity="0.15" fill="none"/>
+  <path d="M 236 272 L 350 272 L 350 216 L 382 216" stroke="#a855f7" stroke-width="1" opacity="0.15" fill="none"/>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- TARJETA INFORMATIVA / INSPECTOR FLOTANTE -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <g class="card-glow">
+    <rect x="630" y="130" width="290" height="210" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- Header Inspector -->
+    <rect x="630" y="130" width="290" height="32" rx="8" fill="#082f49"/>
+    <circle cx="648" cy="146" r="4" fill="#38bdf8"/>
+    <text x="660" y="150" fill="#f8fafc" font-size="11" font-weight="700">Inspector de Conexiones Activas</text>
+    
+    <text x="646" y="180" fill="#e2e8f0" font-size="11" font-weight="600">Dispositivo: Core Switch 24P</text>
+    <text x="646" y="196" fill="#94a3b8" font-size="9.5">Ubicación: Rack 101 · Slot U41</text>
+    
+    <line x1="646" y1="208" x2="904" y2="208" stroke="#1e293b"/>
+
+    <!-- Lista de enlaces del dispositivo -->
+    <circle cx="652" cy="224" r="3" fill="#38bdf8"/>
+    <text x="662" y="228" fill="#38bdf8" font-size="9.5" font-weight="600">Te1/0/10 → Switch 102 (Fibra 10G)</text>
+
+    <circle cx="652" cy="246" r="3" fill="#10b981"/>
+    <text x="662" y="250" fill="#34d399" font-size="9.5" font-weight="600">Gi1/0/1 → Cámara 01 (PoE 15W)</text>
+
+    <circle cx="652" cy="268" r="3" fill="#f59e0b"/>
+    <text x="662" y="272" fill="#fbbf24" font-size="9.5" font-weight="600">Te1/0/1 → Firewall Edge (DAC 10G)</text>
+
+    <rect x="646" y="292" width="258" height="34" rx="4" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+    <text x="654" y="306" fill="#cbd5e1" font-size="9">Al hacer clic en otro equipo, sus enlaces</text>
+    <text x="654" y="318" fill="#cbd5e1" font-size="9">se iluminan al instante de forma interactiva.</text>
+  </g>
+
+  <!-- Resumen de Beneficios -->
+  <rect x="40" y="480" width="880" height="60" rx="6" fill="#0f172a" stroke="#a855f7" stroke-width="1"/>
+  <text x="56" y="500" fill="#c084fc" font-size="11" font-weight="700">✓ Por qué resuelve la confusión visual:</text>
+  <text x="56" y="518" fill="#cbd5e1" font-size="9.5">• Elimina el efecto "spaghetti" cuando existen 50 o 100 cables en el centro de datos.</text>
+  <text x="56" y="532" fill="#cbd5e1" font-size="9.5">• La vista física se mantiene 100% limpia y legible, mostrando las rutas únicamente cuando el usuario las necesita.</text>
+</svg>

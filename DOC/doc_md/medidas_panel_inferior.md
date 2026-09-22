@@ -63,9 +63,28 @@ Las tablas de datos utilizan el modelo de colapso de bordes y tipografías monoe
 *   **Anchura Base:** `100%` (`border-collapse: collapse`).
 *   **Encabezados (`th`):**
     *   Relleno: `padding: 6px 12px`.
-    *   Fuente: Tamaño `--text-xs` (`10px`), grosor `60px` y tipografía monoespaciada (`var(--font-mono)` = `JetBrains Mono`).
+    *   Fuente: Tamaño `--text-xs` (`10px`), grosor `600` y tipografía monoespaciada (`var(--font-mono)` = `JetBrains Mono`).
     *   **Cabecera Sticky:** Cuenta con `position: sticky; top: 0;` para mantenerse fija al hacer scroll vertical en la lista de equipos.
     *   Ajuste: `white-space: nowrap` para evitar saltos de línea molestos.
+*   **Columnas del Inventario Global (18 Columnas):**
+    1.  **Rack:** Identificador del gabinete o etiqueta `<span color="accent">PISO</span>` para periféricos.
+    2.  **U:** Posición de unidad inicial o `-`.
+    3.  **Lado:** Insignia de montaje (`Frontal` / `Atrás` / `-`).
+    4.  **Nombre:** Nombre del equipo (editable).
+    5.  **Marca:** Fabricante (editable).
+    6.  **Modelo:** Modelo técnico de hardware (editable).
+    7.  **Tipo:** Insignia estilizada cromática (`.type-badge`).
+    8.  **Tamaño:** Altura en unidades de rack (`1U`, `2U`, etc.) (editable en racks).
+    9.  **IP:** Dirección IPv4 validada (editable).
+    10. **MAC:** Dirección física de capa 2 validada (editable).
+    11. **Serie:** Número de serie asignado (editable).
+    12. **Usuario:** Credencial de administración (editable).
+    13. **Contraseña:** Mascarilla confidencial de puntos `••••••` (editable al doble clic).
+    14. **Consumo (W):** Potencia en vatios (editable).
+    15. **Tomas:** Número de tomas eléctricas ocupadas/suministradas (editable).
+    16. **Skin:** Variante de carátula SVG aplicada (editable).
+    17. **Notas:** Observaciones técnicas con ancho acotado a **`140px`**, elipsis automática (`text-overflow: ellipsis`) y tooltip emergente nativo (editable).
+    18. **Acciones:** Botones compactos con iconos SVG para edición en modal o eliminación inmediata.
 *   **Celdas (`td`):**
     *   Relleno: `padding: 5px 12px`.
     *   Fuente: Tamaño `--text-sm` (`11px`), tipografía monoespaciada y color secundario (`var(--text-secondary)`).
@@ -76,52 +95,68 @@ Las tablas de datos utilizan el modelo de colapso de bordes y tipografías monoe
 
 ## 5. Edición Rápida de Celdas (`input.cell-edit`)
 
-Al hacer doble clic sobre celdas con la clase `.editable`, se inyecta un campo de edición en línea:
+Al hacer doble clic sobre cualquiera de las 13 columnas editables (`.editable`), se inyecta un campo de edición en línea:
 
+*   **Campos Soportados:** `name`, `brand`, `model`, `ip`, `mac`, `serial`, `user`, `pass`, `power`, `plugs`, `size`, `skin`, `notes`.
 *   **Campo de Entrada (`.cell-edit`):**
     *   Dimensiones: `width: 100%`, relleno de `2px 6px` y bordes de `3px`.
     *   Contorno: Destacado con borde `1px solid var(--accent)` y color de texto principal.
+    *   Controles de Teclado: `Enter` confirma y guarda; `Escape` revierte el cambio inmediatamente al valor original.
+*   **Validaciones en Tiempo Real:**
+    *   **IP:** Expresión regular que verifica formato cuádruple de 0 a 255.
+    *   **MAC:** Formato hexadecimal de 6 octetos separados por dos puntos o guiones (`XX:XX:XX:XX:XX:XX`).
 *   **Animación de Error (`.error`):**
     *   Contorno: Cambia a rojo (`var(--red)`).
     *   Efecto: Sacudida horizontal (`shake 0.3s`) y sombra de resplandor roja (`var(--red-glow)`).
 
 ---
 
-## 6. Micro-Elementos y Badges
+## 6. Menú Desplegable de Exportación (`#export-dropdown`)
+
+Ubicado en la cabecera del panel inferior (`#btn-export-menu`), ofrece 5 formatos técnicos:
+1.  **JSON del Proyecto:** Volcado completo del estado reactivo del Store para respaldos y clonación.
+2.  **CSV de Inventario:** Archivo delimitado por comas legible por cualquier suite ofimática.
+3.  **Excel (XLSX):** Libro de cálculo nativo con columnas autoajustadas y encabezados estilizados.
+4.  **Captura PNG (Retina 1:1):** Renderizado de alta definición mediante la biblioteca `html2canvas` sin pixelación.
+5.  **Plano SVG Físico:** Gráfico vectorial escalable independiente del lienzo de gabinetes.
+
+---
+
+## 7. Micro-Elementos y Badges
 
 *   **Insignias de Tipo (`.type-badge`):**
     *   Relleno: `1px 6px` con bordes redondeados de `3px`.
     *   Fuente: Tamaño `--text-xs` (`10px`), negrita (`700`) y tipografía monoespaciada.
-    *   Colores: Fondos atenuados de baja opacidad al `15%` (`rgba(..., 0.15)`) con texto brillante (ej. Servidores en azul celeste, Switches en verde, Routers en ámbar).
+    *   Colores: Fondos atenuados de baja opacidad al `15%` (`rgba(..., 0.15)`) con texto brillante (ej. Servidores en azul celeste, Switches en verde, Routers en ámbar, Cámaras/NVR en carmesí).
 *   **Botones de Fila (`.tbl-action`):**
-    *   Dimensiones: Relleno de `2px 7px` con bordes de `3px`.
-    *   Hover: Cambia su borde y texto a rojo (`var(--red)`) para el botón de eliminar.
-*   **Indicador de Cable (`.cable-dot`):** Círculo perfecto de **`10px` × `10px`** (`border-radius: 50%`) pintado dinámicamente con el color hexadecimal del cable.
+    *   Dimensiones: Relleno de `4px 8px` con bordes de `1px` y esquinas redondeadas de `3px`.
+    *   Iconos SVG: Tamaño de **`12px` × `12px`** (`icon-edit` en cyan de acento, `icon-trash` con hover en rojo peligro).
+*   **Indicador de Cable (`.cable-dot`):** Círculo de **`10px` × `10px`** (`border-radius: 50%`) pintado con el color hexadecimal del enlace.
 
 ---
 
-## 7. Adaptabilidad y Breakpoints
+## 8. Adaptabilidad y Breakpoints
 
 *   **Tablet y Móvil (`max-width: 768px`):**
-    *   **Ancho Mínimo de Tabla:** Se fuerza a `table.data-table { min-width: 600px; }`. Esto evita la deformación de las columnas, permitiendo al operador realizar un desplazamiento horizontal limpio (`.table-container { overflow-x: auto; }`).
-    *   **Desborde de Cabecera:** `.bottom-header` cambia su comportamiento para admitir scroll horizontal (`overflow-x: auto`, `flex-wrap: nowrap`) de forma que sus botones no bajen de fila de forma desordenada en pantallas pequeñas.
+    *   **Ancho Mínimo de Tabla:** Se fuerza a `table.data-table { min-width: 800px; }`. Esto evita la compresión ilegible de las 18 columnas, permitiendo al operador realizar un desplazamiento horizontal fluido (`.table-wrap { overflow-x: auto; }`).
+    *   **Desborde de Cabecera:** `.bottom-header` admite scroll horizontal continuo (`overflow-x: auto`, `flex-wrap: nowrap`) para mantener accesibles los botones y el buscador.
 
 ---
 
-## 8. Diagramas de Layout del Panel Inferior
+## 9. Diagramas de Layout del Panel Inferior
 
 ### 🗺️ Composición Estructural (Escritorio)
 
 ```mermaid
 graph TD
-    subgraph BottomPanel ["#bottom (Alto: 220px)"]
+    subgraph BottomPanel ["#bottom (Alto: 220px | Colapsa a 38px)"]
         direction TB
-        Header[".bottom-header (Alto: 38px)"]
-        TableWrap[".table-wrap (Flex: 1 | Scroll: Auto)"]
+        Header[".bottom-header (Alto: 38px) — Pestañas, Buscador, Exportar"]
+        TableWrap[".table-wrap (Flex: 1 | Scroll: Auto Bidireccional)"]
         
-        subgraph TableStructure ["Tabla de Datos (.data-table)"]
+        subgraph TableStructure ["Tabla de Inventario (.data-table — 18 Columnas)"]
             TH["Sticky Headers (th) — Alto: 24px | JetBrains Mono"]
-            TD["Table Cells (td) — Alto: 24px | JetBrains Mono"]
+            TD["Editable Cells (td.editable) — Doble Clic / Input"]
         end
         
         Header --> TableWrap
@@ -139,14 +174,14 @@ graph TD
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐ ▲
-│ [Inventario] [Conexiones]                      [+ Equipo]  Buscar.. [Exportar v] [▲] [▼] 38px   │ │  
+│ [Inventario] [Conexiones]              [+ Equipo]  Buscar.. (160px)  [Exportar ▾] [▲] [▼] 38px   │ │  
 ├──────────────────────────────────────────────────────────────────────────────────────────────────┤ ▼
-│ RACK ─── U ─── LADO ─── NOMBRE ─── MARCA ─── TIPO ────── IP ───────── ACCIONES                 │ ▲
-│ (Sticky, th, JetBrains Mono, 10px, gray text)                                                   │ │  Cuerpo
+│ RACK ─ U ─ LADO ─ NOMBRE ─ MARCA ─ MODELO ─ TIPO ─ TAMAÑO ─ IP ─ MAC ─ SERIE ─ USUARIO ─ CLAVE..│ ▲
+│ (Sticky, th, JetBrains Mono, 10px, gray text — 18 columnas con scroll horizontal libre)          │ │  Cuerpo
 ├──────────────────────────────────────────────────────────────────────────────────────────────────┤ │  de Tabla
-│ A1       12    Frontal  SrvCore01   Dell      [Server]  10.10.10.2   [Editar] [Eliminar]         │ │  (Alto: 182px)
-│ A1       10    Frontal  Switch01    Cisco     [Switch]  10.10.10.3   [Editar] [Eliminar]         │ │  (Scroll vertical)
-│ -        -     -        CamEntrada  Axis      [Camera]  10.10.60.1   [Editar] [Eliminar]         │ │  
+│ A1     12  Front  Srv-01   Dell    R640     [Server] 1U     10.1.1.2  00:1A:.. 4X89  admin  •••• │ │  (Alto: 182px)
+│ A1     10  Front  Sw-Acc   Cisco   9300     [Switch] 1U     10.1.1.3  00:1B:.. 5Y12  admin  •••• │ │  (Scroll)
+│ PISO   -   -      Cam-01   Hik     DS-2CD   [Camera] -      10.1.6.10 00:1C:.. 9Z33  admin  •••• │ │  
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘ ▼
 ◄───────────────────────────────────────────── 100% ──────────────────────────────────────────────►
 ```

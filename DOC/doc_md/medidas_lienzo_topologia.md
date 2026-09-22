@@ -6,14 +6,15 @@ Este documento detalla las especificaciones de dibujo en Canvas 2D, coordenadas 
 
 ## 1. Lienzo de Dibujo (HTML5 Canvas 2D)
 
-La topología se dibuja dinámicamente mediante un canvas que absorbe todo el espacio central:
+La topología de red se renderiza en un motor Canvas 2D desacoplado en 5 módulos (`TopologyModel.js`, `TopologyRenderer.js`, `TopologyInteraction.js`, `TopologyLayout.js`, `TopologyUI.js`), optimizado para alto rendimiento a 60 FPS sin sobrecargar el DOM:
 
 *   **Contenedor (`#view-topology`):** Posicionado de forma absoluta (`position: absolute; inset: 0; z-index: 1;`) para rellenar el área `main`.
 *   **Canvas (`#topology-canvas`):** Renderizado al 100% de ancho y alto con cursor interactivo de agarre (`grab` / `grabbing`).
 *   **Grilla de Fondo (Malla):**
-    *   Fondo global: Color azul oscuro de fondo.
+    *   Fondo global: Color azul oscuro de fondo (`var(--bg-main)`).
     *   Espaciado de la malla: Puntos de cuadrícula distribuidos cada **`40px` × `40px`**.
     *   Medida de los puntos: Círculos perfectos con un radio de **`1.5px`** y color blanco translúcido (`#ffffff22`).
+*   **Sincronización Cromática:** Nodos y conexiones heredan de forma estricta los colores de las 8 familias del catálogo comercial (`#10b981` servidores, `#38bdf8` switches/patchpanels, `#f59e0b` routers, `#ef4444` firewalls, `#06b6d4` storage, `#f43f5e` seguridad/CCTV, `#eab308` UPS/energía, `#a855f7` periféricos de piso).
 
 ---
 

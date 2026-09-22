@@ -48,13 +48,22 @@ $$\text{Altura Total (px)} = (\text{Cantidad de U} \times 24\text{px}) + 38\text
 
 ---
 
-## 4. Clases CSS Relacionadas
+## 4. Clases CSS Relacionadas y Acabados de Hardware
 
-*   `.rack-card`: Contenedor principal del chasis del gabinete.
-*   `.rack-header`: Barra superior del rack (38px).
+*   `.rack-wrapper`: Contenedor exterior con perspectiva 3D (`perspective: 1200px`).
+*   `.rack-flipper`: Elemento interactivo que rota 180° sobre el eje Y (`transform: rotateY(180deg)` con `0.65s cubic-bezier(0.4, 0, 0.2, 1)`) para alternar entre frontal y trasera.
+*   `.rack-card`: Chasis metálico del gabinete con acabado premium:
+    *   Borde: `border: 1.5px solid var(--border-light, #334155)`.
+    *   Sombra: `box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35)` (en hover se incrementa a `0 6px 24px rgba(0, 0, 0, 0.45)`).
+    *   Estado Drag-over: `border-color: var(--accent)` con resplandor cyan `box-shadow: 0 0 24px var(--accent-glow)`.
+*   `.rack-header`: Barra superior del rack (38px de altura).
 *   `.rack-body`: Estructura interna del rack que aloja los rieles y los slots.
 *   `.rail-unit`: Indicadores numerados a los lados del rack (24px por cada U).
-*   `.rack-slot`: Cada una de las ranuras donde se pueden arrastrar y soltar equipos (24px de altura).
+*   `.rack-slots`: Área de ranuras de ancho estricto fijo a **`240px`**.
+*   `.rack-slot`: Ranura interactiva para arrastrar y soltar equipos (24px de altura).
+
+### 📐 Separación Técnica Inter-Rack
+En el lienzo físico (`#view-physical-content` / `#racks-area`), los gabinetes se organizan mediante Flexbox con una separación holgada de **`gap: 72px`** (3U), proporcionando conductos laterales limpios para el enrutamiento vertical de cables sin sobrevolar equipos adyacentes.
 
 ---
 
@@ -65,7 +74,7 @@ El siguiente diagrama detalla la composición vertical y horizontal de un Rack d
 ```mermaid
 graph TD
     %% Contenedor del Rack
-    subgraph RackCard ["Chasis del Rack (.rack-card) — Altura Total: 134px | Ancho Aprox: 240px"]
+    subgraph RackCard ["Chasis del Rack (.rack-card) — Altura Total: 134px | Ancho Total Estimado: 280px"]
         direction TB
 
         %% Cabecera
@@ -76,7 +85,7 @@ graph TD
             direction LR
             
             %% Riel Izquierdo
-            subgraph RailL ["Riel Izq. (24px c/u)"]
+            subgraph RailL ["Riel Izq. (Ancho: 20px)"]
                 direction TB
                 RL4["U4 (24px)"]
                 RL3["U3 (24px)"]
@@ -107,7 +116,7 @@ graph TD
     end
 
     %% Estilos de los nodos
-    style RackCard fill:#0f172a,stroke:#1e293b,stroke-width:2px,color:#f8fafc
+    style RackCard fill:#0f172a,stroke:#334155,stroke-width:1.5px,color:#f8fafc
     style Header fill:#1e293b,stroke:#334155,stroke-width:1px,color:#f8fafc
     style Body fill:#090d16,stroke:#1e293b,stroke-width:1px,color:#94a3b8
     style Slots fill:#111827,stroke:#374151,stroke-width:1px,color:#f8fafc
@@ -132,5 +141,7 @@ graph TD
 └──────┴────────────────────────────────┴──────┘ 
 ◄ 20px ►◄────────── 240px ──────────────►◄ 20px ►
 ◄────────────────── 280px ────────────────────►
+
+Separación lateral con respecto al siguiente rack: gap: 72px (3U)
 ```
 

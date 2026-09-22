@@ -217,7 +217,8 @@ function initPlacementModal() {
       
       const ok = store.addDeviceToRack(qpCatalogItem, rackId, slotU, mountSide);
       if (ok) {
-        notify(`${qpCatalogItem.name} instalado en rack en U${slotU} (${mountSide === 'front' ? 'Frontal' : 'Trasera'})`, 'success');
+        const sideLabel = mountSide === 'both' ? 'Ambas Caras' : (mountSide === 'front' ? 'Frontal' : 'Trasera');
+        notify(`${qpCatalogItem.name} instalado en rack en U${slotU} (${sideLabel})`, 'success');
         document.getElementById('modal-quick-placement').classList.add('hidden');
         qpCatalogItem = null;
       } else {

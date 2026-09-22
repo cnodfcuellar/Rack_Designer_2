@@ -34,15 +34,16 @@ Al abrir RACK Designer Next, verás tu área de trabajo dividida en **5 paneles 
 
 ![Mapa de la Interfaz](../doc_img/doc_svg/manual_ui_overview.svg)
 
-1. **Barra Superior (Header):** Aquí administras tu "Rol" (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a Excel, y el botón para Guardar el archivo en tu computadora. También encontrarás los **tabs de vista** (Física / Topología), los controles de zoom, y los botones de Deshacer/Rehacer.
-2. **Catálogo (Izquierda):** Es tu "tienda" de equipos. Hay categorías representadas por iconos (Servidores, Switches, Routers, Firewalls, APs, Almacenamiento, Gestión, Energía, Accesorios, PCs, Cámaras, etc.). Al hacer **clic en un icono**, se despliega un panel lateral (flyout) con los equipos de esa categoría. Desde aquí **arrastrarás** los equipos al centro.
+1. **Barra Superior (Header):** Aquí administras tu "Rol" (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a PNG (a escala Retina 1:1 sobre fondo de datacenter `#090d17`), CSV o Excel, y el botón para Guardar el archivo en tu computadora. También encontrarás los **tabs de vista** (Física / Topología), los controles de zoom, el interruptor para ocultar/mostrar cables, y los botones de Deshacer/Rehacer.
+2. **Catálogo (Izquierda):** Es tu "tienda" de equipos con **30 plantillas arquitectónicas profesionales** organizadas en 8 familias comerciales: Redes (`network`), Cómputo (`computing`), Almacenamiento (`storage`), **Seguridad y CCTV (`security`)**, Energía (`power`), KVM (`kvm`), Accesorios y Cableado (`accesorios`) y Equipos de Piso (`floor`). Además incluye una pestaña superior **"Todos"** con buscador reactivo. Al hacer **clic en un icono**, se despliega el flyout donde puedes buscar, arrastrar equipos o crear **Equipos Personalizados por Proyecto** (`+ Equipo`) que se identifican con un distintivo `PROYECTO`.
 3. **Área de Trabajo (Centro):** El lienzo principal. Aquí es donde los Racks cobran vida. En la parte superior de esta área (Cabecera), encontrarás los menús desplegables para seleccionar y crear Salas ("Data Center") y Racks, junto con las pestañas unificadas para cambiar entre **Vista Física** y **Topología**.
-   - En la **Vista Física**, cada equipo se representa con carátulas vectoriales SVG de alta definición (servidores ProLiant/PowerEdge, switches de 24 puertos con actividad LED animada, routers, storage con discos parpadeantes, UPS y PDUs), garantizando una escala visual 1:1 nítida en cualquier nivel de zoom.
-4. **Inspector y Árbol (Derecha):** Cuando seleccionas un Rack o un servidor, en este panel verás su nombre, dirección IP, número de serie y otros detalles. También puedes cambiarlos. Se divide en tres secciones:
-   - **Outliner:** Un árbol jerárquico que muestra Salas → Racks → Equipos
-   - **Inspector:** Los detalles del elemento seleccionado
-   - **Estadísticas:** Contadores globales (salas, racks, equipos, conexiones)
-5. **Inventario (Abajo):** Una gran tabla tipo Excel que lista todos los equipos que has colocado en tu sala, además de listar los cables y puertos conectados. Puedes editar datos directamente en las celdas y exportar a CSV o Excel.
+   - En la **Vista Física**, cada equipo se representa con carátulas vectoriales SVG de alta definición (servidores en rack 1U/2U/4U, switches de 24/48 puertos con actividad LED animada, routers, almacenamiento NAS/SAN con discos parpadeantes, grabadores NVR/DVR, UPS y PDUs), garantizando una escala visual 1:1 nítida en cualquier nivel de zoom. Los gabinetes cuentan con una separación técnica espaciosa de **`72px`** (3U).
+   - **Enrutamiento Segregado de Cables:** Los cables se enrutan automáticamente en 3 zonas libres: **Canastillo Aéreo Superior** (entre gabinetes distintos, por encima del techo), **Canaleta Media** (para equipos de piso y periféricos hacia los racks) y **Organizador Lateral de Gabinete** (para enlaces internos del mismo rack), garantizando cero cruces sobre equipos o servidores.
+4. **Inspector y Árbol (Derecha):** Cuando seleccionas un Rack o un servidor, en este panel verás sus propiedades completas. Se divide en tres secciones:
+   - **Outliner:** Un árbol jerárquico (Salas → Racks → Equipos) con barra de herramientas (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (por posición U, alfabético A-Z / Z-A y por tipo) y botones de acción rápida inline (`✏️` para editar y `🗑️` para eliminar con confirmación).
+   - **Inspector:** Panel de propiedades del elemento seleccionado, ahora **colapsable** para dar más espacio al árbol. Incluye **gestión activa (CRUD)** con botones rápidos para crear salas y gabinetes en estado vacío, y botones contextuales para editar o eliminar salas, racks y equipos de forma directa.
+   - **Estadísticas:** Contadores globales (salas, racks, equipos en rack, equipos de piso, conexiones y balance de energía en Watts).
+5. **Inventario (Abajo):** Una gran tabla tipo Excel con 17 columnas de metadatos (incluyendo Tamaño, Skin y Notas). Permite **edición rápida en celda mediante doble clic** (`dblclick`) para modificar tamaño en U, apariencia o anotaciones sin abrir modales.
 
 ---
 
@@ -75,7 +76,9 @@ La aplicación fue diseñada para ser tan fácil como un juego de "arrastrar y s
 - **Doble Clic en el Outliner:** Abre el modal de edición del elemento.
 - **Rueda del Ratón:** Haz scroll para hacer acercar (Zoom In) o alejar (Zoom Out).
 - **Arrastrar (Drag & Drop):** Haz clic sostenido en un equipo del catálogo izquierdo, muévelo hasta un hueco vacío en tu Rack, y suelta el botón.
+- **Colocación Rápida Asistida:** En el menú inferior o contextual, usa "Colocación Rápida". Incluye un buscador reactivo para filtrar equipos y autocalcula los slots libres disponibles.
 - **Arrastrar el fondo (Vista Física o Topología):** Mueve la vista completa (Pan).
+- **Alternar Cables:** Activa o desactiva la visualización de cables en la vista física con el interruptor en la barra superior.
 
 ### Guardar y Cargar
 La aplicación guarda **automáticamente** los cambios en la memoria temporal de tu navegador cada vez que haces un movimiento. Además, si tienes un archivo `.rack` abierto, se **autoguarda en disco** cada 3 segundos después del último cambio.
@@ -103,21 +106,21 @@ La aplicación guarda **automáticamente** los cambios en la memoria temporal de
 Vamos a crear una sala normal, que contiene 2 Racks con servidores, y adicionalmente un equipo pesado (Aire Acondicionado) que va en el piso, fuera de los racks.
 
 **Paso 1: Crear la Sala y los Racks**
-1. En la **Barra Superior (Cabecera)**, verás un menú desplegable que dice "Data Center" y a su lado un botón **"+"**.
+1. En la **Barra Superior (Cabecera)**, verás un menú desplegable que dice "Data Center" y a su lado un botón **"+"** (o en el Inspector con `+ Nueva Sala`).
 2. Haz clic en el menú o selecciona la sala existente. En el panel Derecho (Inspector), cámbiale el nombre a `Mi Datacenter Híbrido`.
-3. En la misma barra superior, junto al menú desplegable de "Racks", haz clic en el botón **"+"** para agregar un Rack. Aparecerá un cajón negro en el lienzo central.
+3. En la misma barra superior, junto al menú desplegable de "Racks", haz clic en el botón **"+"** para agregar un Rack (o usa `+ Nuevo Gabinete` en el Inspector). Aparecerá un cajón negro en el lienzo central con altura estándar (42U por defecto).
 4. En el panel Derecho, ponle nombre a ese rack: `RACK-01`.
-5. Repite el paso 3 y 4 para crear otro rack llamado `RACK-02`.
+5. Repite el paso 3 y 4 para crear otro rack llamado `RACK-02`. Ambos gabinetes se ordenarán con una separación espaciosa de 72px.
 
 **Paso 2: Llenar el RACK-01**
-1. Ve al panel Izquierdo (Catálogo) y haz clic en el icono de **Servers** para desplegar el flyout.
-2. Haz clic sostenido sobre un "Dell Server (2U)" y arrástralo hacia el `RACK-01` en el lienzo central. Suéltalo en un hueco vacío.
-3. Haz clic en el icono de **Network** en la barra de categorías. Arrastra un "Switch 48P (1U)" y suéltalo justo arriba del servidor.
+1. Ve al panel Izquierdo (Catálogo) y haz clic en el icono de **Cómputo / Servidores** para desplegar el flyout.
+2. Haz clic sostenido sobre un "Servidor Rack 2U" y arrástralo hacia el `RACK-01` en el lienzo central. Suéltalo en un hueco vacío.
+3. Haz clic en el icono de **Redes** en la barra de categorías. Arrastra un "Switch Acceso 24P (1U)" y suéltalo justo arriba del servidor.
 
 **Paso 3: Añadir el equipo de piso**
 1. En el Catálogo, busca la categoría **Floor / Piso** (iconos de PC, cámara, etc.).
 2. Arrastra una "Unidad InRow (Aire Acondicionado)". Notarás que el sistema *no te deja* meterlo dentro del Rack. 
-3. **¿Cómo lo coloco en el piso?** Muy simple: En la parte inferior del Rack, verás una zona punteada llamada **"Floor Equip (Exterior)"**. Suelta el equipo ahí.
+3. **¿Cómo lo coloco en el piso?** Muy simple: En la parte inferior del Rack, verás una zona punteada llamada **"Floor Equip (Exterior)"** alineada con un ancho mínimo de 584px. Suelta el equipo ahí.
 4. Haz clic en el aire acondicionado recién colocado y, en el panel Derecho, llámalo `Aire-Principal`. ¡Felicidades, completaste el escenario 1!
 
 ---

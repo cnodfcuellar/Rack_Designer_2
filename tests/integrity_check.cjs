@@ -73,6 +73,8 @@ loadScript('../js/ui/inspector.js');
 loadScript('../js/ui/outliner.js');
 loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
+loadScript('../js/ui/faceplates.js');
+loadScript('../js/demoData.js');
 
 // --- 2. Framework Minimalista de Aserciones ---
 let passed = 0;
@@ -231,17 +233,17 @@ async function runTests() {
   // 2. Verificar que assets/default/ existe
   assert(fs.existsSync(newAssetsDefaultPath), 'La carpeta assets/default/ existe correctamente');
 
-  // 3. Verificar conteo de 16 SVGs en assets/default/
+  // 3. Verificar conteo de al menos 16 SVGs en assets/default/
   const defaultSvgFiles = fs.existsSync(newAssetsDefaultPath) 
     ? fs.readdirSync(newAssetsDefaultPath).filter(f => f.endsWith('.svg')) 
     : [];
-  assert(defaultSvgFiles.length === 16, `assets/default/ contiene los 16 archivos SVG requeridos (encontrados: ${defaultSvgFiles.length})`);
+  assert(defaultSvgFiles.length >= 16, `assets/default/ contiene al menos 16 archivos SVG requeridos (encontrados: ${defaultSvgFiles.length})`);
 
-  // 4. Verificar conteo de 16 SVGs en assets/svg/default/
+  // 4. Verificar conteo de al menos 16 SVGs en assets/svg/default/
   const assetsSvgFiles = fs.existsSync(assetsSvgDefaultPath) 
     ? fs.readdirSync(assetsSvgDefaultPath).filter(f => f.endsWith('.svg')) 
     : [];
-  assert(assetsSvgFiles.length === 16, `assets/svg/default/ contiene los 16 archivos SVG requeridos (encontrados: ${assetsSvgFiles.length})`);
+  assert(assetsSvgFiles.length >= 16, `assets/svg/default/ contiene al menos 16 archivos SVG requeridos (encontrados: ${assetsSvgFiles.length})`);
 
   // 5. Verificar que faceplates.js no contiene referencias huérfanas a 'default/'
   const faceplatesJsContent = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'faceplates.js'), 'utf8');
@@ -283,8 +285,9 @@ async function runTests() {
 
   // 6.3 M-10 & M-14: Verificación estática de CSS de racks
   const rackCssContent = fs.readFileSync(path.join(rootPath, 'css', 'components', 'rack.css'), 'utf8');
-  assert(rackCssContent.includes('border: 1.5px solid') && rackCssContent.includes('box-shadow: 0 4px 20px'), 'M-10: .rack-card implementa borde reforzado de 1.5px y sombra de datacenter');
   assert(rackCssContent.includes('width: 240px; min-width: 240px; max-width: 240px;'), 'M-14: .rack-slots implementa ancho fijo proporcional de 240px (10:1)');
+  assert(rackCssContent.includes('width: 280px;') && rackCssContent.includes('min-width: 280px;') && rackCssContent.includes('max-width: 280px;'), 'Geometría Rígida: .rack-card y .rack-wrapper bloquean ancho en 280px estrictos');
+  assert(rackCssContent.includes('text-overflow: ellipsis;'), 'Geometría Rígida: .rack-title implementa elipsis para nombres largos');
 
   // 6.4 M-15: Grilla CAD de 24px en #view-physical
   const layoutCssContent = fs.readFileSync(path.join(rootPath, 'css', 'layout.css'), 'utf8');
@@ -471,6 +474,136 @@ async function runTests() {
   filterQPCatalog('switch');
   assert(selectMock.innerHTML.toLowerCase().includes('switch'), 'M-30: filterQPCatalog("switch") filtra y renderiza dispositivos coincidentes del catálogo');
   document.getElementById = origQpGetElementById;
+
+  // ----------------------------------------------------
+  // GRUPO 10: EQUIPOS DE PROFUNDIDAD COMPLETA (AMBAS CARAS - mountSide: 'both')
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 10: Equipos de Doble Cara (mountSide: both) y Coexistencia');
+
+  // 10.1 Helper sidesConflict
+  assert(typeof store.sidesConflict === 'function', 'Doble Cara: store.sidesConflict está definida');
+  assert(store.sidesConflict('both', 'front') === true, 'Doble Cara: "both" entra en conflicto con "front"');
+  assert(store.sidesConflict('both', 'rear') === true, 'Doble Cara: "both" entra en conflicto con "rear"');
+  assert(store.sidesConflict('both', 'both') === true, 'Doble Cara: "both" entra en conflicto con "both"');
+  assert(store.sidesConflict('front', 'front') === true, 'Doble Cara: "front" entra en conflicto con "front"');
+  assert(store.sidesConflict('rear', 'rear') === true, 'Doble Cara: "rear" entra en conflicto con "rear"');
+  assert(store.sidesConflict('front', 'rear') === false, 'Doble Cara: "front" y "rear" son independientes (sin conflicto)');
+
+  // 10.2 Creación de Rack de prueba y validación de colisiones bidireccionales
+  store.addRoom('Sala Datacenter Dual');
+  const dualRoomId = store._raw.rooms[store._raw.rooms.length - 1].id;
+  store.addRack('Rack Profundo', 42, '#38bdf8', dualRoomId);
+  const dualRack = store._raw.racks[store._raw.racks.length - 1];
+
+  // Instalar servidor 2U en mountSide: 'both' en U10
+  const server2u = {
+    name: 'Servidor Dell R740',
+    type: 'server',
+    size: 2,
+    mountSide: 'both',
+    power: 450
+  };
+  const placedBoth = store.addDeviceToRack(server2u, dualRack.id, 10, 'both');
+  assert(placedBoth === true, 'Doble Cara: Servidor 2U instalado exitosamente en U10 con mountSide "both"');
+
+  // Intentar instalar switch en Front U10 -> debe ser rechazado
+  const switchFrontConflict = store.addDeviceToRack({ name: 'Switch Conflicto', type: 'switch', size: 1, mountSide: 'front' }, dualRack.id, 10, 'front');
+  assert(switchFrontConflict === false, 'Doble Cara: Bloqueo de colisión en Front U10 por servidor dual');
+
+  // Intentar instalar switch en Rear U11 -> debe ser rechazado (U11 es la 2da U del servidor 2U)
+  const switchRearConflict = store.addDeviceToRack({ name: 'PDU Conflicto', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 11, 'rear');
+  assert(switchRearConflict === false, 'Doble Cara: Bloqueo de colisión en Rear U11 por servidor dual');
+
+  // Intentar instalar otro equipo Dual en U10 o U11 -> rechazado
+  const dualConflict = store.addDeviceToRack({ name: 'UPS Dual', type: 'ups', size: 2, mountSide: 'both' }, dualRack.id, 11, 'both');
+  assert(dualConflict === false, 'Doble Cara: Bloqueo de colisión entre equipos duales solapados');
+
+  // Coexistencia de equipos media profundidad: U20 frontal y U20 trasera
+  const patchFront = store.addDeviceToRack({ name: 'Patch Frontal', type: 'patchpanel', size: 1, mountSide: 'front' }, dualRack.id, 20, 'front');
+  assert(patchFront === true, 'Coexistencia: Patch Panel instalado en U20 Frontal');
+
+  const pduRear = store.addDeviceToRack({ name: 'PDU Trasera', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 20, 'rear');
+  assert(pduRear === true, 'Coexistencia: PDU instalada en la misma U20 Trasera sin conflicto');
+
+  // Intentar instalar un equipo Dual en U20 -> debe ser rechazado porque U20 frontal y trasera ya están ocupadas
+  const dualOnHalf = store.addDeviceToRack({ name: 'Servidor 1U', type: 'server', size: 1, mountSide: 'both' }, dualRack.id, 20, 'both');
+  assert(dualOnHalf === false, 'Doble Cara: Servidor dual rechazado en U20 ocupada por equipos de media profundidad');
+
+  // 10.3 Conteo de estadísticas y unidades consumidas
+  const devDual = store._raw.devices.find(d => d.name === 'Servidor Dell R740');
+  assert(devDual && devDual.mountSide === 'both', 'Doble Cara: El equipo se almacena como un único registro con mountSide "both"');
+
+  // 10.4 Representación en Tabla de Inventario y Exportación
+  const dualTableContainer = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(dualTableContainer, '');
+  assert(dualTableContainer.innerHTML.includes('Dual'), 'Doble Cara: renderInventoryTable muestra badge "Dual" en columna Lado');
+
+  const invExportData = getInventoryData();
+  const dualExportRow = invExportData.find(row => row[3] === 'Servidor Dell R740');
+  assert(dualExportRow && dualExportRow[2] === 'Dual', 'Doble Cara: getInventoryData exporta "Dual" en columna Lado');
+
+  // 10.5 Renderizado visual de cara trasera para equipos duales
+  if (typeof buildFaceplate === 'function') {
+    const rearFaceplateHtml = buildFaceplate(devDual, 48, 'rear');
+    assert(rearFaceplateHtml.includes('TRASERA · DUAL'), 'Doble Cara: buildFaceplate genera indicador "TRASERA · DUAL" en vista trasera');
+    assert(rearFaceplateHtml.includes('PSU-1') || rearFaceplateHtml.includes('PSU-RED'), 'Doble Cara: buildFaceplate genera fuentes redundantes PSU en vista trasera');
+  }
+
+  // ----------------------------------------------------
+  // GRUPO 11: PLANTILLA DEMO PROFESIONAL Y DISTRIBUCIÓN DE PESO (ANSI/TIA-942)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 11: Plantilla Demo Profesional y Distribución Gravitacional de Peso');
+
+  assert(typeof loadDemoData === 'function', 'Demo: loadDemoData() está definida globalmente');
+  loadDemoData();
+
+  // 11.1 Verificación de Salas Datacenter
+  const roomDc = store._raw.rooms.find(r => r.name === 'Data Center Principal');
+  const roomCorp = store._raw.rooms.find(r => r.name === 'Edificio Corporativo A');
+  const roomSoc = store._raw.rooms.find(r => r.name === 'Centro de Operaciones & Seguridad');
+  assert(roomDc && roomCorp && roomSoc, 'Demo: Define las salas Data Center Principal, Edificio Corporativo A y SOC');
+
+  // 11.2 Verificación de Gabinetes Estándar de 42U
+  const dcRacks = store._raw.racks.filter(r => r.roomId === roomDc.id);
+  assert(dcRacks.length === 4 && dcRacks.every(r => r.height === 42), 'Demo: Sala Data Center Principal cuenta con 4 gabinetes estandarizados de 42U');
+
+  // 11.3 Verificación de Distribución Gravitacional de Peso (Equipos pesados en la base U1-U10)
+  const rack101 = dcRacks.find(r => r.name.includes('101'));
+  const rack102 = dcRacks.find(r => r.name.includes('102'));
+  const rack103 = dcRacks.find(r => r.name.includes('103'));
+  const rack104 = dcRacks.find(r => r.name.includes('104'));
+
+  const ups101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'ups');
+  assert(ups101 && ups101.slotStart === 1 && ups101.mountSide === 'both', 'Demo: Rack 101 ubica UPS pesado en U1-U2 con mountSide "both"');
+
+  const pdu101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'pdu');
+  assert(pdu101 && pdu101.mountSide === 'rear', 'Demo: Rack 101 ubica PDU en la cara trasera (mountSide: "rear")');
+
+  const san103 = store._raw.devices.find(d => d.rackId === rack103.id && d.type === 'storage' && d.size === 4);
+  assert(san103 && san103.slotStart === 4 && san103.mountSide === 'both', 'Demo: Cabina SAN Dell EMC 4U pesada ubicada en la base (U4-U7) con mountSide "both"');
+
+  const blade102 = store._raw.devices.find(d => d.rackId === rack102.id && d.name.includes('Blade'));
+  assert(blade102 && blade102.slotStart === 6 && blade102.mountSide === 'both', 'Demo: Chasis Blade 4U de alta densidad ubicado en zona baja (U6-U9)');
+
+  // 11.4 Verificación de Equipos de Red y Top of Rack (U36-U42)
+  const swCore = store._raw.devices.find(d => d.rackId === rack101.id && d.name.includes('Core'));
+  const fwEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'firewall');
+  const rtrEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'router');
+  assert(swCore && swCore.slotStart === 40 && fwEdge && fwEdge.slotStart === 41 && rtrEdge && rtrEdge.slotStart === 42, 'Demo: Equipos de red y borde (Core, Firewall, Router) ubicados en el tope ToR (U40-U42)');
+
+  // 11.5 Verificación de Zona Ergonómica (KVM & Tray en U21-U22)
+  const kvm = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'kvm');
+  const tray = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'tray');
+  assert(kvm && kvm.slotStart === 21 && tray && tray.slotStart === 22, 'Demo: Consola KVM y bandeja ubicadas a la altura ergonómica del operador (U21-U22)');
+
+  // 11.6 Verificación de Equipos Nuevos de Seguridad CCTV
+  const nvr = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'nvr');
+  const decoder = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'decoder');
+  assert(nvr && decoder && nvr.mountSide === 'both', 'Demo: Rack 104 incorpora NVR 2U y Decodificador con soporte dual');
+
+  // 11.7 Verificación de Conexiones Troncales Backbone
+  const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
+  assert(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

@@ -22,7 +22,7 @@ Este documento es una guía estructural dirigida a todos los agentes de IA y des
 
 * **`index.html`**: El punto de entrada principal de la aplicación. Contiene el esqueleto DOM (dashboard, barra superior, catálogo lateral, lienzo central, inspector derecho, tablas de datos inferiores y ventanas modales). Carga 32 scripts clásicos en orden determinista estricto.
 * **`package.json` / `pnpm-lock.yaml`**: Configuración del ecosistema de dependencias. **Regla estricta:** uso exclusivo de `pnpm`. La única dependencia de desarrollo es `marked` (empleada para compilar manuales HTML desde Markdown).
-* **`service-worker.js`**: Controlador de Service Worker para PWA, habilitando funcionamiento 100% offline (estrategia Cache-First con fallback a red) e instalabilidad de escritorio/móvil. Versión activa de caché: `rack-designer-next-cache-v5` con ciclo de vida automatizado (`reg.update()` en arranque).
+* **`service-worker.js`**: Controlador de Service Worker para PWA, habilitando funcionamiento 100% offline (estrategia Cache-First con fallback a red) e instalabilidad de escritorio/móvil. Versión activa de caché: `rack-designer-next-cache-v12` con ciclo de vida automatizado (`reg.update()` en arranque).
 * **`AGENTS.md`**: Reglas críticas para agentes de IA: directivas de arquitectura, flujo de datos unidireccional, restricciones de commits y la **regla inmutable de responder siempre en español**.
 * **`mejoras.md`**: Lista priorizada de mejoras pendientes y propuestas evolutivas del sistema.
 * **`README.md`**: Resumen general del repositorio para usuarios externos.
@@ -50,9 +50,9 @@ Arquitectura modular cargada secuencialmente en el ámbito global:
 
 ### 4.1. Core y Estado Reactivo
 * **`js/store.js`**: Motor central de estado reactivo basado en `Proxy`. Administra:
-  * Jerarquía de datos: Salas (`rooms`), Racks (`racks`), Dispositivos (`devices`), Conexiones (`connections`) y Preferencias (`settings`).
+  * Jerarquía de datos: Salas (`rooms`), Racks (`racks`), Dispositivos (`devices`), Conexiones (`connections`), Catálogo personalizado (`customCatalog`) y Preferencias (`settings`).
   * Historial Undo/Redo con snapshots inmutables mediante `deepClone()`.
-  * Persistencia automática en `localStorage` con clave `RACK_DESIGNER_NEXT_STATE` y debounce para transformaciones de navegación (pan/zoom).
+  * Persistencia automática dual en `localStorage` con clave principal `RACK_DESIGNER_NEXT_STATE` y respaldo redundante `RACK_DESIGNER_NEXT_STATE_BACKUP`. Manejo defensivo de `QuotaExceededError`.
   * Despacho granular de eventos `'change'` con metadatos del origen (`source`).
 * **`js/main.js`**: Orquestador principal de la aplicación.
   * Inicializa subsistemas, monta eventos globales de teclado/ratón y activa los listeners del store.
@@ -66,26 +66,36 @@ Arquitectura modular cargada secuencialmente en el ámbito global:
 * **`js/auth/roles.js`**: Sistema de control de accesos basado en roles (`window.RackAuth`).
   * Tres roles: **Admin** (acceso total y cambio de PIN), **Editor** (edición sin cambio de credenciales) y **Viewer** (solo lectura).
   * Autenticación criptográfica segura mediante Web Crypto API (hashing SHA-256) sin almacenar credenciales en texto plano.
-  * Estado de sesión volátil persistido en `sessionStorage`.
+  * Estado de sesión volátil persistido en `sessionStorage` con token de integridad y soporte de persistencia ante recarga F5.
 
 ### 4.3. Controladores de Interfaz de Usuario (`js/ui/`)
 * **`js/ui/faceplates.js`**: **Motor Visual SVG-First**.
   * Carga y renderiza los frontales y dorsales vectoriales de los 16 tipos de equipos soportados.
   * Utiliza `SVG_INLINE_CACHE` en memoria para inyectar nodos `<svg>` reales directamente en el DOM, permitiendo interactividad CSS/JS sobre puertos y componentes internos.
   * Admite fallback inteligente de rutas (`assets/svg/default/` y `assets/default/`).
-  * Elimina la dependencia de más de 700 líneas de CSS procedural rígido.
-* **`js/ui/rack.js`**: Motor de renderizado físico de gabinetes. Dibuja postes laterales, numeración de unidades U (1 a 42/48), ranuras de inserción, gestión de orientación (Frontal/Posterior) y zonas de soltado Drag & Drop.
-* **`js/ui/cables.js`**: Motor de enrutamiento 2D de cableado físico estructurado. Trazado vectorial ortogonal con canales laterales sobre los rieles del gabinete y coloreado según tipo de medio (fibra, cobre Cat6/Cat6A, DAC).
-* **`js/ui/catalog.js`**: Administrador de la barra lateral izquierda. Organiza el hardware disponible por categorías semánticas (Servidores, Red, Almacenamiento, Energía, Accesorios) y gestiona los eventos de arrastre HTML5 Drag & Drop.
-* **`js/ui/outliner.js`**: Árbol jerárquico de navegación (`<details>/<summary>`) en el panel superior derecho, permitiendo seleccionar y enfocar instantáneamente salas, racks o equipos individuales.
-* **`js/ui/inspector.js`**: Panel lateral derecho de inspección de propiedades. Muestra detalles técnicos, puertos disponibles, consumo eléctrico (Watts), peso y notas del elemento seleccionado.
-* **`js/ui/tables.js`**: Panel inferior con pestañas de tablas dinámicas de inventario en tiempo real (Equipos instalados, Cables y conexiones, Estadísticas de ocupación y balance energético).
-* **`js/ui/fileManager.js`**: Integración con la File System Access API (`showOpenFilePicker`, `showSaveFilePicker`) para importar y exportar topologías en formato `.json` directamente al almacenamiento local.
-* **`js/ui/modals.js` y `js/ui/modals/`**: Sistema modular de diálogos modales para creación y edición de salas (`RoomModal.js`), gabinetes (`RackModal.js`), equipos (`DeviceModal.js`), puertos/cables (`CableModal.js`), autenticación (`AuthModal.js`), exportación/importación y configuración global.
+* **`js/ui/rack.js`**: Motor de renderizado físico de gabinetes y cableado estructurado.
+  * Dibuja chasis de racks con postes laterales, numeración U, ranuras fijas de 240px (10:1), separación entre racks de **72px** (3U), grilla CAD de 24px y sección de piso alineada (`min-width: 584px`).
+  * **Enrutamiento Físico Segregado (`drawPhysicalCables`):** Genera el cableado ortogonal en `<svg id="physical-cables-svg">` segregado en 3 zonas libres: **Canastillo Aéreo Superior** (inter-rack), **Canaleta Media libre** (equipos de piso ↔ racks) y **Organizador Lateral** (intra-rack), garantizando cero colisiones sobre gabinetes o tarjetas de periféricos.
+* **`js/ui/catalog.js`**: Administrador de la barra lateral izquierda y flyout.
+  * Organiza 30 plantillas arquitectónicas sin marcas comerciales en 8 familias (`CATALOG_GROUPS`): red, cómputo, storage, seguridad CCTV, energía, KVM, accesorios (con Patch Panel y ODF de fibra) y piso.
+  * Pestaña global "Todos" con buscador en tiempo real.
+  * Gestión reactiva de plantillas personalizadas (`store.state.customCatalog`) con badge `PROYECTO`.
+* **`js/ui/outliner.js`**: Árbol jerárquico de navegación (`<details>/<summary>`) en el panel derecho. Incluye barra de herramientas (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (`slot`, `name-asc`, `name-desc`, `type`) y botones de acción rápida inline (`✏️` y `🗑️`).
+* **`js/ui/inspector.js`**: Panel lateral derecho de inspección de propiedades. Colapsable interactivo, con soporte CRUD activo para Salas, Racks y Equipos, y Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`).
+* **`js/ui/tables.js`**: Panel inferior con tablas de inventario (17 columnas, incluyendo Tamaño, Skin y Notas con edición inline interactiva `dblclick`) y conexiones físicas, con búsqueda reactiva.
+* **`js/ui/fileManager.js`**: Integración con File System Access API (`showOpenFilePicker`, `showSaveFilePicker`) para importar y exportar topologías en formato `.rack` / `.json` con autoguardado en disco.
+* **`js/ui/modals.js` y `js/ui/modals/`**: Sistema modular de diálogos modales:
+  * `RoomModal.js`: CRUD unificado de salas sin diálogos bloqueantes (`prompt`).
+  * `RackModal.js`: Configuración de gabinetes con alturas normalizadas (42U por defecto).
+  * `DeviceModal.js`: Formulario integral de equipos con acordeones de configuración.
+  * `CableModal.js`: Interconexión de equipos por puerto y tipo de medio.
+  * `PlacementModal.js`: Colocación asistida rápida con buscador dinámico (`#qp-dev-search` con `filterQPCatalog`).
+  * `ExportModal.js`: Exportación 1:1 a PNG mediante `html2canvas.min.js` a escala Retina sobre `#090d17`, CSV estructurado y Excel (`xlsx.full.min.js`).
+  * `Globals.js`: Variables globales compartidas.
 * **`js/ui/topology/`**: Motor gráfico de red en Canvas 2D estructurado bajo patrón MVC:
   * `TopologyState.js`: Estado interno de nodos, aristas, niveles de zoom y coordenadas.
   * `TopologyLayout.js`: Algoritmos de ordenamiento automático y cálculo de fuerzas.
-  * `TopologyRenderer.js`: Motor de dibujo de alto rendimiento en contexto 2D con soporte HiDPI.
+  * `TopologyRenderer.js`: Motor de dibujo de alto rendimiento en contexto 2D con soporte HiDPI (estilos card y circle).
   * `TopologyEvents.js`: Captura de interacciones de arrastre, conexión de puertos y selección.
   * `TopologyOrchestrator.js`: Enlace maestro entre el Canvas 2D y el `store.js` global.
 

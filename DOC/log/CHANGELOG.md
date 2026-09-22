@@ -1,4 +1,192 @@
-## [2026-09-21] Separación entre Racks Triplicada (gap: 24px → 72px)
+## [2026-09-21] Corrección de Renderizado y Tema en Gabinetes (Vista Física)
+
+### Renderizado Físico (`js/ui/rack.js`, `css/components/rack.css`, `service-worker.js`)
+- **Adaptación al Tema Claro/Oscuro:**
+  - Se eliminaron los colores oscuros estáticos/quemados (`#060a12`, `#090d16`, etc.) del interior de los gabinetes en `rack.css`.
+  - Ahora se utilizan variables CSS (`var(--bg-main)`, `var(--bg-card1)`, `var(--text-muted)`) para que los racks adopten los colores del tema general correctamente (claro u oscuro).
+- **Nombre y Apariencia de Vista Trasera:**
+  - En `rack.js`, se corrigió el texto de cabecera de la vista trasera para que ya no diga genéricamente "Vista Trasera", sino que incluya el nombre del gabinete (`A2 (Trasera)`).
+  - Se removieron los estilos "inline" quemados para la vista trasera y se trasladaron a la clase CSS `.rear-view` para mantener consistencia con el diseño.
+- **Service Worker v22:**
+  - Incremento de caché a `rack-designer-next-cache-v22` para forzar la actualización de los estilos y scripts.
+
+---
+
+## [2026-09-21] Restauración de Estados por Defecto (Cables y Estadísticas)
+
+### Interfaz Inicial (`index.html`, `service-worker.js`)
+- **Cables Ocultos por Defecto:**
+  - Se eliminó el atributo `checked` del input `#checkbox-toggle-cables` en `index.html` para que los cables inicien ocultos por defecto, corrigiendo una regresión de los últimos cambios.
+- **Panel de Estadísticas Contraído por Defecto:**
+  - Se añadió la clase `collapsed` al contenedor `#stats-section` en `index.html` para que el panel de estadísticas inicie contraído por defecto.
+- **Service Worker v21:**
+  - Incremento de caché a `rack-designer-next-cache-v21` para refresco inmediato en navegador.
+
+---
+
+## [2026-09-21] Ajuste Puntual de Zoom Aritmético de 10% en 10%
+
+
+### Controles de Interfaz y Zoom Global (`js/main.js`, `service-worker.js`)
+- **Pasos Lineales de 10% en Botones de Zoom:**
+  - En [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js#L228-L237), se reemplazó el multiplicador geométrico de 20% (`* 1.2` y `/ 1.2`) por incrementos/decrementos aritméticos redondeados de `0.1` (10% exacto: 100% -> 110%, 120% / 100% -> 90%, 80%).
+- **Service Worker v20:**
+  - Incremento de caché a `rack-designer-next-cache-v20` para refresco inmediato en navegador.
+
+---
+
+## [2026-09-21] Ajuste Puntual de Separación entre Gabinetes a 48px
+
+### Renderizado Físico y Visibilidad de Cableado (`js/ui/rack.js`, `service-worker.js`)
+- **Ajuste Directo de Separación:**
+  - Se configuró la separación entre gabinetes en `gap: 48px;` en `#view-physical-content` y `#racks-area` de [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js#L127-L132) conforme a la instrucción directa del usuario.
+- **Service Worker v19:**
+  - Incremento de caché a `rack-designer-next-cache-v19` para refresco inmediato en navegador.
+
+---
+
+## [2026-09-21] Corrección de Cables en Periféricos de Piso, Switch de Conexiones y Capacidad de 3 Racks en Fila
+
+### Renderizado Físico y Visibilidad de Cableado (`js/ui/rack.js`, `index.html`, `service-worker.js`)
+- **Corrección Crítica de Reasignación en Periféricos de Piso:**
+  - En `getPos()`, las variables `x` e `y` se declaraban con `const`, lo que causaba un error fatal de JavaScript (`TypeError: Assignment to constant variable`) al recalcular la posición sobre el icono de un periférico de piso, interrumpiendo la ejecución completa del trazado de cables.
+  - Se corrigieron a declaraciones mutables `let x, let y`, restaurando el dibujo continuo y sin excepciones.
+- **Activación por Defecto del Switch de Cables:**
+  - En `index.html`, el interruptor interactivo `#checkbox-toggle-cables` ahora incluye el atributo `checked` por defecto, garantizando que al recargar la aplicación las conexiones físicas se visualicen de inmediato.
+  - En `js/ui/rack.js`, `#physical-cables-svg` se inicializa con `display: block;` y validación defensiva `!checkboxCables || checkboxCables.checked`.
+- **Restauración de Separación Estándar para 3 Racks en Primera Fila:**
+  - Se restauró la separación entre gabinetes a `gap: 24px;` en `#view-physical-content` y `#racks-area` (en lugar de `gap: 72px;`).
+  - Con un ancho de 280px por rack, 3 gabinetes contiguos ocupan exactamente $888\text{px}$ ($280\text{px} \times 3 + 24\text{px} \times 2$), encajando holgadamente en la primera fila de la vista física sin desbordar ni saltar a una fila inferior.
+- **Service Worker v18:**
+  - Incremento de caché a `rack-designer-next-cache-v18` para refresco inmediato en navegador.
+
+---
+
+## [2026-09-21] Enrutamiento Perimetral Segregado de Cables a Periféricos de Piso y Puertos Superiores Anti-Colisión
+
+### Cableado Estructurado Físico y Topología de Periféricos (`js/ui/rack.js`, `service-worker.js`)
+- **Erradicación de Colisiones sobre Tarjetas de Piso:**
+  - Se eliminó el descenso vertical en línea recta que atravesaba por el centro las tarjetas de periféricos de la primera fila (Cámaras de seguridad) para llegar a dispositivos de filas inferiores (APs, Consolas de diagnóstico).
+  - Enrutamiento segregado multizona para tarjetas de Fila 2+: el cable desciende verticalmente por el pasillo libre (gap de 12px entre columnas) hasta el gap inter-filas inmediatamente superior al dispositivo, donde gira a 90° horizontalmente hacia el puerto, preservando intactas las tarjetas superiores.
+- **Punto de Conexión Superior sobre el Icono:**
+  - Los cables ya no terminan en el centro geométrico de la tarjeta sobre el nombre y dirección IP.
+  - El puerto de conexión físico se ancla en el borde superior de la tarjeta, alineado con el eje del icono (`floorPortX = iconCenterX, floorPortY = topY`), dejando la información de texto 100% despejada y legible.
+  - Círculos conectores terminales estilizados con radio de 2.5px, fondo blanco y borde cromático acorde al tipo de cable.
+- **Service Worker v17:**
+  - Incremento de caché a `rack-designer-next-cache-v17`.
+
+---
+
+## [2026-09-21] Geometría Rígida e Indeformable del Gabinete (EIA-310), Blindaje de Cabecera y Faceplates 2U/4U
+
+### Arquitectura de Gabinete y Robustez Geométrica (`css/components/rack.css`, `js/ui/rack.js`, `css/components/faceplates.css`, `js/ui/faceplates.js`, `css/components/misc.css`, `service-worker.js`, `tests/integrity_check.cjs`)
+- **Blindaje Geométrico Absoluto (Triple Candado de 280px):**
+  - Se eliminó la deformación horizontal del gabinete por nombres largos de salas/racks. `.rack-wrapper` y `.rack-card` están bloqueados estrictamente con `width: 280px; min-width: 280px; max-width: 280px; box-sizing: border-box; overflow: hidden;`.
+  - El título `.rack-title` ahora utiliza `flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`, impidiendo que un nombre extenso ensanche el gabinete, truncando con puntos suspensivos y preservando el nombre completo en el tooltip nativo `title="..."`.
+- **Simetría Milimétrica de Columnas ($20\text{px} + 240\text{px} + 20\text{px} = 280\text{px}$):**
+  - Rieles laterales (`.rack-rail-left` y `.rack-rail-right`) bloqueados rígidamente en `width: 20px; min-width: 20px; max-width: 20px; flex-shrink: 0; flex-grow: 0;`.
+  - Bahía central de slots (`.rack-slots`) sincronizada en `width: 240px; min-width: 240px; max-width: 240px; flex-shrink: 0; flex-grow: 0;`, erradicando el desfase provocado por el estilo en línea obsoleto de `style="width:220px"` en `rack.js`.
+  - Eliminado por completo el "abismo negro" y desalineación vertical entre los números de las unidades U del riel derecho e izquierdo.
+- **Orientación Vertical Industrial EIA-310 (U1 en la Base, U42 en el Techo):**
+  - Implementación de `display: flex; flex-direction: column-reverse;` en `.rack-slots`, `.rack-rail-left` y `.rack-rail-right`.
+  - La unidad base U1 se asienta físicamente en el suelo del gabinete y la unidad superior (U42/U24) se eleva al techo, respetando el estándar físico de centros de datos y DCIM profesional.
+  - Los equipos de alta carga gravitacional (UPS y cabinas SAN) se ubican físicamente en la base estructural del rack, y los switches Top-of-Rack (ToR) en la cima bajo el canastillo aéreo.
+- **Sellado Vertical y Erradicación del Tooltip Fantasma:**
+  - `#device-tooltip` configurado con `visibility: hidden; opacity: 0;` en estado inactivo, eliminando cualquier capa translúcida o texto fantasma impreso sobre los slots del rack. Se limpia proactivamente al inicio de cada renderizado y al arrastrar componentes.
+  - Todas las unidades U (`.rail-unit` y `.rack-slot`) reforzadas con `box-sizing: border-box; height: 24px; max-height: 24px; overflow: hidden;`, garantizando que la cuadrícula jamás se descalibre.
+- **Nuevas Carátulas SVG Vectoriales de Alta Densidad (2U y 4U):**
+  - Creado `ups_2u.svg` (240×48 px) con display digital, LEDs de batería, bandeja hot-swap de 4 baterías y tomas frontales, eliminando la deformación vertical de estiramiento al 200%.
+  - Creado `server_4u.svg` (240×96 px) para chasis modulares Blade 4U y servidores de misión crítica con 8 bahías verticales, ventiladores de alta potencia y panel de gestión de chasis, cubriendo los 96px reales sin dejar franjas negras vacías.
+  - En `faceplates.css`, regla de alineación a la derecha para dispositivos UPS (`.faceplate-wrapper[data-dev-type="ups"] .faceplate-overlay-info`), evitando colisiones de texto con la pantalla LCD azul.
+- **Service Worker v15 y Suite de Integridad:**
+  - Service Worker actualizado a `rack-designer-next-cache-v15` con precaché offline de los nuevos activos `server_4u.svg` y `ups_2u.svg`.
+  - Suite de integridad ampliada a **114/114 pruebas pasando al 100%**.
+
+---
+
+## [2026-09-21] Plantilla Demo Profesional de Centro de Datos y Distribución Gravitacional de Peso (ANSI/TIA-942)
+
+### Infraestructura y Datos de Demostración (`js/demoData.js`, `js/utils.js`, `service-worker.js`, `tests/integrity_check.cjs`)
+- **Ingeniería Real de Gabinete y Distribución de Carga Gravitacional:**
+  - **Base (U1 - U4):** Ubicación obligatoria de equipos pesados en la base del gabinete para mantener un centro de gravedad bajo y seguro: sistemas de alimentación ininterrumpida UPS Online (3000VA / 2000VA, `mountSide: 'both'`) y unidades de distribución de energía PDUs traseras (`mountSide: 'rear'`).
+  - **Zona Baja (U4 - U15):** Cabinas masivas de almacenamiento SAN All-Flash 4U (Dell EMC PowerStore), módulos de expansión JBOD 2U, servidores NAS de backup y chasis modulares Blade 4U de alta densidad.
+  - **Zona Media (U10 - U20):** Servidores de cómputo y virtualización 2U (Dell PowerEdge R740xd ESXi Cluster), servidores de base de datos SQL HA y grabadores de videovigilancia NVR CCTV enterprise de 64 canales.
+  - **Zona Ergonómica (U21 - U22):** Consola KVM retráctil 1U (`mountSide: 'both'`) con pantalla LCD/teclado y bandeja metálica fija porta-herramientas ubicadas exactamente a la altura de trabajo del operador humano.
+  - **Zona Top of Rack - ToR (U36 - U42):** Equipos ligeros de conectividad perimetral y borde: Switches Core 10G/40G Nexus, Switches ToR de cómputo, Firewalls Next-Gen FortiGate, Routers BGP de borde, Bandejas ODF de Fibra Óptica y Patch Panels Cat6A intercalados con organizadores pasacables 1U para un cableado aéreo impecable.
+- **Topología de Salas y Redundancia:**
+  - Sala 1: *Data Center Principal* con 4 gabinetes estandarizados de 42U (Borde/Redes, Cómputo/Virtualización, Storage SAN/NAS y Seguridad CCTV).
+  - Sala 2: *Edificio Corporativo A* con gabinete IDF de 24U para telecomunicaciones y distribución PoE.
+  - Sala 3: *Centro de Operaciones & Seguridad (SOC)* con gabinete de 24U y servidores SIEM.
+- **Cableado Estructurado y Troncales Backbone:**
+  - Enlaces troncales de fibra óptica (SM / OM4) y DAC de alta velocidad (10G/40G) entre el Switch Core y los switches ToR de cada gabinete y sala remota.
+  - Enlaces de cobre Cat6A y PoE hacia servidores y periféricos de piso (cámaras de seguridad, terminales, impresoras, APs WiFi 6 y telefonía).
+- **Service Worker v14 y Suite de Pruebas:**
+  - Service Worker actualizado a `rack-designer-next-cache-v14`.
+  - Suite de integridad expandida con el Grupo 11 (11 nuevas aserciones automáticas, totalizando **113/113 pruebas pasando al 100%**).
+
+---
+
+## [2026-09-21] Soporte Integral para Equipos de Ambas Caras (`mountSide: 'both'`) y Detección de Colisiones Bilaterales
+
+### Arquitectura de Gabinete y Profundidad de Equipos (`js/store.js`, `js/ui/rack.js`, `js/ui/catalog.js`, `js/ui/faceplates.js`, `js/ui/tables.js`, `service-worker.js`)
+- **Equipamiento de Doble Cara / Profundidad Completa (`mountSide: 'both'`):**
+  - Soporte nativo para servidores enterprise de chasis profundo (1U, 2U, 4U, chasis blade), almacenamiento SAN/NAS/JBOD, grabadores CCTV (NVR/DVR/Decodificadores), UPS online de doble conversión y consolas KVM que atraviesan físicamente todo el fondo del gabinete.
+  - El equipo ocupa y bloquea simultáneamente las unidades U en ambas caras (frontal y trasera) evitando colisiones o superposición indebida de hardware.
+  - Cuenta estrictamente como un único dispositivo y consumo en el inventario y estadísticas de capacidad (un servidor 2U consume 2U del rack, no 4U duplicadas).
+- **Detección y Prevención de Colisiones Bilaterales (`store.sidesConflict`):**
+  - Algoritmo matemático unificado `sidesConflict(side1, side2)`: detecta colisión si cualquiera de los lados es `'both'` o si ambos coinciden en `'front'` o `'rear'`.
+  - Permite la coexistencia legítima de equipos de media profundidad (p. ej. un Patch Panel en U20 frontal y una PDU en U20 trasera sin interferencia).
+  - Bloquea drops, movimientos y ediciones si una unidad U está ocupada en el frente o en la espalda por un equipo profundo.
+- **Renderizado Visual Físico Bipolar con Flip 3D:**
+  - En la vista frontal (`.rack-face`): renderiza el faceplate operativo frontal (bahías de discos, LEDs de actividad, botón power).
+  - En la vista trasera (`.rack-rear`): renderiza el panel técnico trasero con bahías de fuentes redundantes `PSU-1` / `PSU-2`, conectores de red RJ45/SFP y badge distintivo `TRASERA · DUAL`. El slot se marca como `.occupied` impidiendo la inserción de otro equipo en esa posición.
+- **Modales y Tablas de Inventario:**
+  - Modales de Creación/Edición y Colocación Rápida (`DeviceModal.js`, `PlacementModal.js`, `index.html`) con opción `Ambas Caras (Completo)`.
+  - Tabla de inventario global y exportador CSV/Excel identifica equipos profundos con el distintivo `Dual` en color cian datacenter.
+- **Service Worker v13 & Suite de Integridad:**
+  - Versión de caché actualizada a `rack-designer-next-cache-v13`.
+  - Suite de integridad automatizada expandida con 19 aserciones nuevas en el GRUPO 10 (total: 102/102 pruebas pasando al 100%).
+
+---
+
+## [2026-09-21] Sincronización Integral de Documentación Técnica (`doc/doc_md/*`)
+
+### Documentación y Arquitectura del Sistema (`doc/doc_md/`)
+- **Actualización y Homologación Exhaustiva de los 14 Documentos Markdown:**
+  - `ARCHITECTURE_GUIDE.md`: Sincronización del stack tecnológico (`html2canvas`), 30 plantillas arquitectónicas en 8 familias, persistencia `customCatalog` en Store, CAD grid 24px, gap de 72px, enrutamiento segregado en 3 zonas, Inspector CRUD, Outliner sorting/inline actions, tabla de inventario con 18 columnas y suite de 83 pruebas de integridad.
+  - `CODEBASE_ORIENTATION_MAP.md`: Actualización del mapa de archivos del proyecto, árbol de dependencias, scripts en index.html, métodos del Store y tabla de responsabilidades de módulos UI.
+  - `PROJECT_ANALYSIS.md`: Actualización a Service Worker v12, eliminación de archivos inexistentes (`cables.js`), documentación de la lógica de renderizado físico en `rack.js` y tabla de componentes modulares.
+  - `USER_MANUAL.md`: Guía de usuario con nombres genéricos de datacenter, familia de Seguridad y CCTV, espaciado de 72px, enrutamiento libre de cables, edición inline en tabla y exportación Retina 1:1.
+  - `informe_mejoras_e_implementacion.md`: Actualización de métricas de cobertura y suite de 83 pruebas automatizadas pasando al 100%.
+  - `roadmap_mejoras.md`: Homologación de estado de mejoras (21 completadas, 17 pendientes), validación de la suite de 83 tests y verificación de la ruta crítica (`M-26`).
+  - `medidas_interfaz.md`: Actualización de la cuadrícula CAD de 24px × 24px, gap de 72px entre racks, flex dinámico del Outliner (`flex: 1 1 180px`), colapso del Inspector (`flex: 0 0 auto !important`) y esquemas visuales ASCII y Mermaid.
+  - `medidas_lienzo_fisico.md`: Corrección del gap en diagrama Mermaid a 72px y redacción de la sección técnica con las fórmulas matemáticas exactas del enrutamiento de cables segregado en 3 zonas (`overheadY`, `middleGutterY`, `rackGutterX`, $r = 6\text{px}$).
+  - `medidas_sidebar.md`: Documentación de las 8 familias comerciales en `CATALOG_GROUPS`, grupo global `all`, badge `PROYECTO` de plantillas personalizadas y acciones de menú contextual `⋮`.
+  - `medidas_panel_derecho.md`: Especificación técnica del Outliner con toolbar de ordenamiento (`#outliner-sort-select`), botones de acción rápida, Inspector colapsable con chevron (`-90deg`) y botones CRUD (`.btn-inspector-primary`, `.btn-inspector-danger`).
+  - `medidas_panel_inferior.md`: Detalle exhaustivo de las 18 columnas del inventario global (17 de metadatos + acciones), edición en línea de 13 campos con validación en tiempo real (IP y MAC), truncamiento de notas técnicas a 140px con tooltip y menú de exportación con captura Retina 1:1.
+  - `medidas_racks.md`: Homologación del ancho total estimado a 280px ($20\text{px} + 240\text{px} + 20\text{px}$), acabado de hardware con borde de 1.5px y sombra 3D, perspectiva de rotación de 1200px y separación técnica de 72px (3U).
+  - `medidas_header.md`: Detalle del menú de proyecto con enlace a la Suite de Tests (83 pruebas) y funciones de exportar/importar catálogo, iconos SVG en pestañas e interactividad de sesión RBAC.
+  - `medidas_lienzo_topologia.md`: Desacoplamiento del motor Canvas 2D en 5 módulos (`TopologyModel`, `TopologyRenderer`, `TopologyInteraction`, `TopologyLayout`, `TopologyUI`) y sincronización cromática con las 8 familias comerciales.
+
+---
+
+## [2026-09-21] Solución Definitiva: Enrutamiento Segregado de Cables en Vista Física (Cero Cruces sobre Racks o Periféricos)
+
+### Vista Física — Motor de Cableado Estructurado (`js/ui/rack.js`, `service-worker.js`)
+- **Arquitectura de Enrutamiento Segregado en 3 Zonas Libres:**
+  - **Canastillo Aéreo Superior (Inter-Rack):** Los enlaces troncales entre diferentes gabinetes viajan por la zona aérea superior (`overheadY = minRackTop - 14px`) con selección de salida inteligente por el lateral más cercano al rack de destino. Elimina al 100% cualquier colisión sobre gabinetes intermedios o servidores.
+  - **Canaleta Media Segregada (Equipos de Piso ↔ Racks):** Los periféricos de piso (cámaras, impresoras, APs, telefonía) se enrutan hacia la canaleta libre intermedia entre los racks y la sección de piso, ascendiendo verticalmente por el espacio lateral de 72px del gabinete de destino. Se erradicó por completo el paso de cables sobre las tarjetas de periféricos (como ocurría sobre *Impresora Administración*).
+  - **Organizador Lateral de Gabinete (Intra-Rack):** Las conexiones internas entre servidores y switches del mismo rack se mantienen estrictamente confinadas en el organizador vertical derecho propio (`gutterX = p1.rightEdgeX + 8px`), sin salir del perímetro del gabinete.
+- **Unificación de Coordenadas:** El elemento `<svg id="physical-cables-svg">` se reubicó en el contenedor raíz `#view-physical-content` para compartir el mismo espacio métrico y escala tanto para los gabinetes como para la sección de periféricos de piso.
+- **Service Worker v12:** Caché actualizada a `rack-designer-next-cache-v12` para invalidación inmediata de recursos obsoletos en el cliente PWA.
+- **Diagramas de Arquitectura Creados:**
+  - `doc/doc_img/doc_svg/enrutamiento_equipos_piso_y_racks.svg`: Diagrama integral de doble canaleta (Aérea vs Piso).
+  - `doc/doc_img/doc_svg/propuesta_1_canastillo_aereo.svg`: Canastillo superior aéreo.
+  - `doc/doc_img/doc_svg/propuesta_2_fila_continua_nowrap.svg`: Disposición en pasillo continuo.
+  - `doc/doc_img/doc_svg/propuesta_3_cables_interactivos_hover.svg`: Modo interactivo Smart Focus.
+
+---
+
 
 ### Vista Física — Espaciado entre Gabinetes (`js/ui/rack.js`, `doc/doc_md/medidas_lienzo_fisico.md`)
 - **Aumento del gap entre racks de `24px` (1U) a `72px` (3U)** para mejorar la legibilidad y dar espacio visual entre gabinetes en el lienzo físico.

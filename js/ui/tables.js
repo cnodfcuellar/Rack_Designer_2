@@ -48,12 +48,13 @@ function renderInventoryTable(wrap, query) {
       const rack = !isFloor ? store.rackById(d.rackId) : null;
       const locationName = isFloor ? '<span style="color:var(--accent);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-');
       const slotDisplay = isFloor ? '-' : (d.slotStart || '-');
-      const sideDisplay = isFloor ? '-' : ((d.mountSide === 'rear') ? 'Atrás' : 'Frontal');
+      const sideDisplay = isFloor ? '-' : (d.mountSide === 'both' ? 'Dual' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal'));
+      const sideStyle = (!isFloor && d.mountSide === 'both') ? 'border-color: rgba(56,189,248,0.5); background: rgba(56,189,248,0.15); color: #38bdf8;' : '';
       const sizeDisplay = isFloor ? '-' : (d.size ? `${d.size}U` : '1U');
       return `<tr data-dev-id="${escapeHTML(d.id)}">
         <td>${locationName}</td>
         <td>${slotDisplay}</td>
-        <td><span style="font-size:11px;opacity:0.8;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:10px;">${sideDisplay}</span></td>
+        <td><span style="font-size:11px;opacity:0.8;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:10px; ${sideStyle}">${sideDisplay}</span></td>
         <td class="editable" data-field="name" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.name)}</td>
         <td class="editable" data-field="brand" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.brand) || '-'}</td>
         <td class="editable" data-field="model" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.model) || '-'}</td>
@@ -211,7 +212,7 @@ function getInventoryData() {
     data.push([
       isFloor ? 'PISO' : (rack?.name || ''), 
       isFloor ? '-' : (d.slotStart || ''), 
-      isFloor ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal'),
+      isFloor ? '-' : (d.mountSide === 'both' ? 'Dual' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal')),
       d.name, d.brand||'', d.model||'', d.type, d.ip, d.mac, d.serial, d.user, passDisplay, d.power
     ]);
   });

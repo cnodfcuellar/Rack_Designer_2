@@ -227,12 +227,12 @@ store.on('change', (e) => {
 function initGlobalEvents() {
   document.getElementById('btn-zoom-in').addEventListener('click', () => {
     const pfx = currentView === 'physical' ? 'phys' : 'topo';
-    store.setZoom(currentView, Math.min(3, (store._raw[pfx+'Zoom']||1) * 1.2));
+    store.setZoom(currentView, Math.min(3, Math.round(((store._raw[pfx+'Zoom'] || 1) + 0.1) * 10) / 10));
     updateZoomLabel();
   });
   document.getElementById('btn-zoom-out').addEventListener('click', () => {
     const pfx = currentView === 'physical' ? 'phys' : 'topo';
-    store.setZoom(currentView, Math.max(0.2, (store._raw[pfx+'Zoom']||1) / 1.2));
+    store.setZoom(currentView, Math.max(0.2, Math.round(((store._raw[pfx+'Zoom'] || 1) - 0.1) * 10) / 10));
     updateZoomLabel();
   });
   document.getElementById('btn-zoom-reset').addEventListener('click', () => {

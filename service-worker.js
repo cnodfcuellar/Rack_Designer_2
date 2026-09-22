@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rack-designer-next-cache-v11';
+const CACHE_NAME = 'rack-designer-next-cache-v22';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -47,10 +47,12 @@ const ASSETS_TO_CACHE = [
   './assets/icons/icon-512x512.png',
   './assets/svg/default/server_1u.svg',
   './assets/svg/default/server_2u.svg',
+  './assets/svg/default/server_4u.svg',
   './assets/svg/default/switch_24p.svg',
   './assets/svg/default/router.svg',
   './assets/svg/default/firewall.svg',
   './assets/svg/default/ups.svg',
+  './assets/svg/default/ups_2u.svg',
   './assets/svg/default/pdu.svg',
   './assets/svg/default/storage.svg',
   './assets/svg/default/patchpanel.svg',
@@ -63,10 +65,12 @@ const ASSETS_TO_CACHE = [
   './assets/svg/default/floor_printer.svg',
   './assets/default/server_1u.svg',
   './assets/default/server_2u.svg',
+  './assets/default/server_4u.svg',
   './assets/default/switch_24p.svg',
   './assets/default/router.svg',
   './assets/default/firewall.svg',
   './assets/default/ups.svg',
+  './assets/default/ups_2u.svg',
   './assets/default/pdu.svg',
   './assets/default/storage.svg',
   './assets/default/patchpanel.svg',

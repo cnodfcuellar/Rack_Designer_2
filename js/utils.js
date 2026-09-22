@@ -24,9 +24,12 @@ function notify(msg, type = 'info', duration = 3000) {
   const icons = { info: '<i class="svg-icon icon-bolt" style="width:14px;height:14px;"></i>', success: '<i class="svg-icon icon-check" style="width:14px;height:14px;"></i>', error: '<i class="svg-icon icon-x" style="width:14px;height:14px;"></i>', warn: '<i class="svg-icon icon-warning" style="width:14px;height:14px;"></i>' };
   el.innerHTML = `${icons[type]||'<i class="svg-icon icon-bolt" style="width:14px;height:14px;"></i>'} ${escapeHTML(msg)}`;
   const area = document.getElementById('notif-area');
+  if (!area) return;
   area.appendChild(el);
-  while (area.children.length > 5) {
-    area.removeChild(area.firstChild);
+  if (area.children) {
+    while (area.children.length > 5) {
+      area.removeChild(area.firstChild);
+    }
   }
   setTimeout(() => {
     el.style.opacity = '0';

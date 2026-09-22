@@ -23,10 +23,20 @@ El sidebar es una barra compacta vertical alineada a la izquierda que contiene l
 
 ### 🧱 Componentes de la Barra Lateral
 
-*   **Contenedor de Iconos (`.sidebar-icons`):**
+*   **Contenedor de Iconos (`.sidebar-icons` / `#sidebar-category-icons`):**
     *   Estructura: Flex vertical (`flex-direction: column`) con espaciado de `gap: 6px`.
     *   Espaciado: Relleno vertical de `padding: 10px 0`.
     *   Scroll: Desbordamiento vertical oculto (`overflow-y: auto`), ocultando la barra de scroll nativa del navegador.
+*   **Grupos de Categoría (`CATALOG_GROUPS`):**
+    *   8 accesos rápidos agrupados por familias funcionales con códigos cromáticos definidos:
+        1.  `all` — Todos los Equipos (`#0ea5e9`, icono grid)
+        2.  `compute` — Servidores y Cómputo (`#10b981`, icono server)
+        3.  `network` — Redes y Comunicaciones (`#38bdf8`, icono network)
+        4.  `storage` — Almacenamiento SAN/NAS (`#06b6d4`, icono san)
+        5.  `security` — Seguridad y CCTV: NVR, DVR, Decodificadores (`#f43f5e`, icono camera)
+        6.  `power` — Energía y Respaldo: UPS, PDUs (`#eab308`, icono ups)
+        7.  `accesorios` — Accesorios y Cableado: Patch Panels, ODF, Bandejas (`#94a3b8`, icono tray)
+        8.  `floor` — Periféricos de Piso: PCs, APs, Impresoras, Puertas, Teléfonos (`#a855f7`, icono pc)
 *   **Botón de Categoría (`.sb-category-btn`):**
     *   Dimensiones: Fijo **`32px` × `32px`** (`flex-shrink: 0`).
     *   Bordes: Radio de curvatura de `6px` (`var(--radius)`).
@@ -60,15 +70,15 @@ El catálogo flotante funciona como una persiana deslizante que se expande hacia
 *   **Acciones Rápidas (`.flyout-actions`):**
     *   Layout: Grid de dos columnas (`1fr 1fr`) con espacio de `gap: 6px` y relleno de `10px 14px`.
     *   Botones (`+ Rack` y `+ Equipo`): Altura estricta normalizada a **`24px`**.
-*   **Buscador Interno (`.flyout-search`):**
+*   **Buscador Interno (`.flyout-search` / `#catalog-search`):**
     *   Espaciado: Relleno de `8px 14px` con borde inferior.
-    *   Campo de Entrada (`input`): Altura normalizada a **`24px`** y fuente monoespaciada para concordar con la cabecera.
+    *   Campo de Entrada (`input`): Altura normalizada a **`24px`** y filtrado reactivo instantáneo por nombre, tipo y notas técnicas.
 
 ---
 
 ## 3. Tarjetas de Equipos (`.catalog-item`)
 
-Las plantillas de dispositivos y racks listadas en la sección `.catalog` se presentan como tarjetas arrastrables (drag & drop):
+Las 30 plantillas arquitectónicas estándar y los equipos personalizados del proyecto guardados en el Store (`customCatalog`) se listan como tarjetas arrastrables (drag & drop):
 
 *   **Contenedor Principal (`.catalog-item`):**
     *   Estructura: Flex horizontal (`align-items: center`) con separación de `gap: 6px`.
@@ -78,10 +88,13 @@ Las plantillas de dispositivos y racks listadas en la sección `.catalog` se pre
     *   **Estados:**
         *   **Hover:** Borde destacado (`border-color: var(--accent)`), fondo iluminado (`var(--accent-glow)`) y animación de desplazamiento sutil de **`2px` hacia la derecha** (`transform: translateX(2px)`).
         *   **Dragging (`.dragging`):** Opacidad reducida a `0.4` e icono de cursor en `grabbing`.
-*   **Icono de Tarjeta (`.cat-icon`):** Dimensiones fijas de **`32px` × `32px`** con bordes redondeados (`6px`) y centrado flexible de iconos vectoriales.
+*   **Icono de Tarjeta (`.cat-icon`):** Dimensiones fijas de **`32px` × `32px`** con bordes redondeados (`6px`) y centrado de icono SVG temático con fondo translúcido coincidente con el color de familia.
 *   **Información de Tarjeta (`.cat-info`):** Contenedor flexible (`flex: 1`, `min-width: 0`) para evitar desbordes de texto.
-    *   **Nombre (`.cat-name`):** Tamaño de fuente `--text-sm` (`11px`), fuente semibold (`60px`) y límite estricto de dos líneas de texto (`-webkit-line-clamp: 2`).
-    *   **Metadatos (`.cat-meta`):** Tamaño `--text-xs` (`10px`), fuente monoespaciada, color atenuado (`--text-muted`) y corte de desborde elíptico (`ellipsis`).
+    *   **Nombre (`.cat-name`):** Tamaño de fuente `--text-sm` (`11px`), fuente semibold y límite de dos líneas.
+    *   **Insignia de Proyecto (`PROYECTO`):** Badge de `9px` con fondo `rgba(56,189,248,0.2)` y borde cyan que identifica equipos personalizados agregados al catálogo por el usuario.
+    *   **Metadatos (`.cat-meta`):** Tamaño `--text-xs` (`10px`), fuente monoespaciada, tipo en mayúsculas y consumo en Wats (`TIPO │ XXW`).
+*   **Indicador de Tamaño (`.cat-size`):** Píldora compacta que indica la altura en U (`1U`, `2U`, `4U`) o el valor `Piso` para periféricos de planta.
+*   **Menú Contextual de Tarjeta (`.cat-actions`):** Botón `⋮` de `16px` para abrir opciones rápidas (editar plantilla personalizada o eliminar del catálogo).
 
 ---
 

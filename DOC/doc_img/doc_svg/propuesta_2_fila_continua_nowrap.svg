@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .glow-cable-cyan { filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.6)); }
+      .glow-pan { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3)); }
+    </style>
+
+    <pattern id="grid-dots-2" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="0.7" fill="#22324e" opacity="0.6"/>
+    </pattern>
+
+    <linearGradient id="bg-grad-2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#080c14"/>
+    </linearGradient>
+
+    <linearGradient id="header-grad-2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo Principal -->
+  <rect width="960" height="560" fill="url(#bg-grad-2)" rx="10"/>
+  <rect width="960" height="560" fill="url(#grid-dots-2)" rx="10"/>
+  <rect width="960" height="560" fill="none" stroke="#1e293b" stroke-width="1.5" rx="10"/>
+
+  <!-- Encabezado de la Propuesta -->
+  <rect x="24" y="16" width="912" height="50" rx="8" fill="url(#header-grad-2)" stroke="#334155" stroke-width="1"/>
+  <rect x="34" y="24" width="8" height="34" rx="4" fill="#10b981"/>
+  <text x="52" y="38" fill="#f8fafc" font-size="15" font-weight="700">PROPUESTA 2: FILA CONTINUA SIN SALTOS (FLEX-WRAP: NOWRAP) + CANALETAS DE 72px</text>
+  <text x="52" y="55" fill="#94a3b8" font-size="11">Alineación horizontal en pasillo único (estilo NetBox) evitando que los gabinetes se apilen unos debajo de otros</text>
+
+  <rect x="800" y="26" width="124" height="28" rx="6" fill="#065f46" stroke="#10b981" stroke-width="1"/>
+  <text x="862" y="44" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">PASILLO REAL</text>
+
+  <!-- Barra de Navegación Pan & Zoom -->
+  <rect x="40" y="76" width="880" height="30" rx="6" fill="#1e293b" opacity="0.9" stroke="#334155" stroke-width="1"/>
+  <circle cx="56" cy="91" r="5" fill="#10b981"/>
+  <text x="70" y="95" fill="#e2e8f0" font-size="10" font-weight="600">MODO PASILLO:</text>
+  <text x="160" y="95" fill="#94a3b8" font-size="10">Los 4 gabinetes están alineados en una sola fila continua. Arrastra con el ratón (Pan ↔) para desplazarte.</text>
+  <rect x="790" y="80" width="120" height="22" rx="4" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+  <text x="850" y="94" fill="#38bdf8" font-size="9" text-anchor="middle" class="mono">Pan: [ ↔ Activo ]</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- 4 RACKS EN FILA CONTINUA (NOWRAP) CON SEPARACIÓN DE 72PX -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- RACK 101 (42U) -->
+  <g id="p2-rack-101">
+    <rect x="40" y="125" width="160" height="310" rx="5" fill="#141c2e" stroke="#0284c7" stroke-width="1.5"/>
+    <rect x="40" y="125" width="160" height="24" rx="5" fill="#0f2744"/>
+    <circle cx="52" cy="137" r="3.5" fill="#38bdf8"/>
+    <text x="62" y="141" fill="#f8fafc" font-size="10" font-weight="700">Rack 101 (42U)</text>
+
+    <!-- Core Switch -->
+    <rect x="50" y="156" width="140" height="18" rx="2" fill="#082f49" stroke="#38bdf8" stroke-width="1.2"/>
+    <circle cx="180" cy="165" r="3" fill="#38bdf8" stroke="#ffffff" stroke-width="1"/>
+    <text x="56" y="169" fill="#e0f2fe" font-size="8" font-weight="700">Core Switch (U41)</text>
+
+    <!-- Servidores -->
+    <rect x="50" y="180" width="140" height="20" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="56" y="193" fill="#94a3b8" font-size="8">Servidor 1 (U39)</text>
+    <rect x="50" y="204" width="140" height="20" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="56" y="217" fill="#94a3b8" font-size="8">Servidor 2 (U37)</text>
+
+    <text x="120" y="280" fill="#334155" font-size="9" text-anchor="middle" class="mono">[ 34U Libres ]</text>
+    <rect x="50" y="410" width="140" height="18" rx="2" fill="#271a0c" stroke="#f59e0b" stroke-width="0.8"/>
+    <text x="56" y="422" fill="#fde68a" font-size="7.5" font-weight="600">UPS 3000VA</text>
+  </g>
+
+  <!-- CANALETA 1 (72px) -->
+  <rect x="200" y="125" width="72" height="310" fill="#0e1726" opacity="0.4" stroke="#1e293b" stroke-dasharray="2,2"/>
+  <text x="236" y="280" fill="#38bdf8" opacity="0.5" font-size="8" text-anchor="middle" class="mono">CANALETA</text>
+  <text x="236" y="292" fill="#38bdf8" opacity="0.5" font-size="8" text-anchor="middle" class="mono">72px</text>
+
+  <!-- RACK 102 (12U) -->
+  <g id="p2-rack-102">
+    <rect x="272" y="125" width="160" height="150" rx="5" fill="#122026" stroke="#059669" stroke-width="1.5"/>
+    <rect x="272" y="125" width="160" height="24" rx="5" fill="#064e3b"/>
+    <circle cx="284" cy="137" r="3.5" fill="#10b981"/>
+    <text x="294" y="141" fill="#f8fafc" font-size="10" font-weight="700">Rack 102 (12U)</text>
+
+    <!-- Switch 102 -->
+    <rect x="282" y="156" width="140" height="18" rx="2" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+    <circle cx="292" cy="165" r="3" fill="#38bdf8" stroke="#ffffff" stroke-width="1"/>
+    <text x="300" y="169" fill="#d1fae5" font-size="8" font-weight="700">Switch 102 (U12)</text>
+
+    <rect x="282" y="180" width="140" height="16" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="288" y="191" fill="#94a3b8" font-size="8">Patch Panel 24P</text>
+    <rect x="282" y="200" width="140" height="20" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="288" y="213" fill="#94a3b8" font-size="8">Servidor DB 2U</text>
+    <rect x="282" y="250" width="140" height="18" rx="2" fill="#271a0c" stroke="#f59e0b" stroke-width="0.8"/>
+    <text x="288" y="262" fill="#fde68a" font-size="7.5">UPS 1500VA</text>
+  </g>
+
+  <!-- CANALETA 2 (72px) -->
+  <rect x="432" y="125" width="72" height="310" fill="#0e1726" opacity="0.4" stroke="#1e293b" stroke-dasharray="2,2"/>
+  <text x="468" y="280" fill="#38bdf8" opacity="0.5" font-size="8" text-anchor="middle" class="mono">CANALETA</text>
+  <text x="468" y="292" fill="#38bdf8" opacity="0.5" font-size="8" text-anchor="middle" class="mono">72px</text>
+
+  <!-- RACK 103 (12U) -->
+  <g id="p2-rack-103">
+    <rect x="504" y="125" width="160" height="150" rx="5" fill="#1b172a" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect x="504" y="125" width="160" height="24" rx="5" fill="#4c1d95"/>
+    <circle cx="516" cy="137" r="3.5" fill="#a855f7"/>
+    <text x="526" y="141" fill="#f8fafc" font-size="10" font-weight="700">Rack 103 (12U)</text>
+
+    <!-- Switch 103 -->
+    <rect x="514" y="156" width="140" height="18" rx="2" fill="#3b0764" stroke="#a855f7" stroke-width="1.2"/>
+    <circle cx="524" cy="165" r="3" fill="#a855f7" stroke="#ffffff" stroke-width="1"/>
+    <text x="532" y="169" fill="#f3e8ff" font-size="8" font-weight="700">Switch 103 (U12)</text>
+
+    <rect x="514" y="180" width="140" height="16" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="520" y="191" fill="#94a3b8" font-size="8">Bandeja ODF 24P</text>
+    <rect x="514" y="200" width="140" height="20" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="520" y="213" fill="#94a3b8" font-size="8">NVR Seguridad 2U</text>
+  </g>
+
+  <!-- CANALETA 3 (72px) -->
+  <rect x="664" y="125" width="72" height="310" fill="#0e1726" opacity="0.4" stroke="#1e293b" stroke-dasharray="2,2"/>
+  <text x="700" y="280" fill="#38bdf8" opacity="0.5" font-size="8" text-anchor="middle" class="mono">CANALETA</text>
+  <text x="700" y="292" fill="#38bdf8" opacity="0.5" font-size="8" text-anchor="middle" class="mono">72px</text>
+
+  <!-- RACK 104 (12U - ¡AQUÍ ESTÁ EN LÍNEA, NO DEBAJO DE RACK 101!) -->
+  <g id="p2-rack-104">
+    <rect x="736" y="125" width="160" height="150" rx="5" fill="#1b1a20" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="736" y="125" width="160" height="24" rx="5" fill="#78350f"/>
+    <circle cx="748" cy="137" r="3.5" fill="#fbbf24"/>
+    <text x="758" y="141" fill="#f8fafc" font-size="10" font-weight="700">Rack 104 (12U)</text>
+
+    <!-- Switch 104 -->
+    <rect x="746" y="156" width="140" height="18" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="1.2"/>
+    <circle cx="756" cy="165" r="3" fill="#f59e0b" stroke="#ffffff" stroke-width="1"/>
+    <text x="764" y="169" fill="#fef3c7" font-size="8" font-weight="700">Switch 104 (U12)</text>
+
+    <rect x="746" y="180" width="140" height="20" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="752" y="193" fill="#94a3b8" font-size="8">Servidor Backup 2U</text>
+    <rect x="746" y="206" width="140" height="20" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="752" y="219" fill="#94a3b8" font-size="8">Storage NAS 2U</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- TRAZADO DE CABLES POR CANALETAS DEDICADAS (SIN COLISIÓN) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- Canaleta Troncal Inferior (Gutter Horizontal) a y=445 -->
+  <rect x="40" y="445" width="856" height="16" rx="3" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="468" y="456" fill="#94a3b8" font-size="8" text-anchor="middle" class="mono">CANALETA HORIZONTAL TRONCAL (INFERIOR)</text>
+
+  <!-- Cable Switch 102 a Core Switch (Azul) -->
+  <!-- Baja por canaleta entre 101 y 102 (x=236) -> Core Switch (x=180, y=165) -->
+  <g class="glow-cable-cyan">
+    <path d="M 292 165
+             L 246 165
+             Q 236 165 236 175
+             L 236 175
+             Q 236 165 226 165
+             L 180 165"
+          stroke="#38bdf8" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <circle cx="292" cy="165" r="3" fill="#38bdf8" stroke="#ffffff" stroke-width="1"/>
+  <circle cx="180" cy="165" r="3" fill="#38bdf8" stroke="#ffffff" stroke-width="1"/>
+
+  <!-- Cable Switch 103 a Core Switch (Púrpura por canaleta troncal) -->
+  <path d="M 524 165
+           L 476 165
+           Q 468 165 468 175
+           L 468 445
+           Q 468 452 460 452
+           L 244 452
+           Q 236 452 236 444
+           L 236 175
+           Q 236 165 226 165
+           L 180 165"
+        stroke="#c084fc" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="524" cy="165" r="3" fill="#c084fc" stroke="#ffffff" stroke-width="1"/>
+
+  <!-- Cable Switch 104 a Core Switch (Ámbar por canaleta troncal) -->
+  <path d="M 756 165
+           L 708 165
+           Q 700 165 700 175
+           L 700 445
+           Q 700 454 692 454
+           L 242 454
+           Q 234 454 234 444
+           L 234 175
+           Q 234 165 226 165
+           L 180 165"
+        stroke="#fbbf24" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="756" cy="165" r="3" fill="#fbbf24" stroke="#ffffff" stroke-width="1"/>
+
+  <!-- Resumen de Beneficios -->
+  <rect x="40" y="475" width="856" height="65" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+  <text x="56" y="494" fill="#34d399" font-size="11" font-weight="700">✓ Por qué resuelve la falla de raíz:</text>
+  <text x="56" y="512" fill="#cbd5e1" font-size="9.5">• Al NO permitir que Rack 104 salte a una segunda fila, jamás habrá un gabinete colocado debajo de otro.</text>
+  <text x="56" y="528" fill="#cbd5e1" font-size="9.5">• Las canaletas de 72px entre racks se convierten en canales limpios directos hacia la troncal, sin obstáculos en medio.</text>
+</svg>

@@ -71,6 +71,7 @@ python -m http.server 8000
 | **SHA-256** | Hasheo de PIN | Seguridad básica de admin (Web Crypto API + fallback) |
 | **File System Access API** | Abrir/guardar archivos | Sin necesidad de upload, con autoguardado |
 | **SheetJS** | Exportar a Excel | Dependencia vendor (`xlsx.full.min.js`) |
+| **html2canvas** | Captura DOM Retina 1:1 a PNG | Dependencia vendor (`html2canvas.min.js`) con fallback Canvas 2D |
 | **mobile-drag-drop** | Polyfill touch drag | Soporte táctil para drag & drop |
 
 ### Qué NO usamos (y por qué)
@@ -452,13 +453,15 @@ Contiene:
 **Archivo:** `index.html` (sección `#sidebar`), renderizado por `js/ui/catalog.js`
 
 Contiene:
-- **Barra de iconos de categorías** (`#sidebar-category-icons`): Iconos por tipo de equipo (server, switch, router, firewall, storage, etc.)
+- **Barra de iconos de categorías** (`#sidebar-category-icons`): Iconos por familia de hardware (redes, cómputo, almacenamiento, seguridad/CCTV, energía, KVM, accesorios/cableado, periféricos de piso, más pestaña global "Todos" con buscador)
 - **Flyout** (`#catalog-flyout`): Se despliega al hacer clic en una categoría
   - Título de la categoría activa
   - Buscador del catálogo (`#catalog-search`)
+  - Botones de acción rápida: `+ Rack` y `+ Equipo`
   - Botón cerrar flyout
   - Lista de dispositivos del catálogo filtrados por categoría
-- **21 plantillas predefinidas** en el array `CATALOG` (servidores, switches, routers, firewalls, APs, SANs, NAS, patch panels, organizadores, UPS, PDUs, bandejas, KVMs, PCs, cámaras, controladores de puerta, impresoras, teléfonos VoIP)
+- **30 plantillas arquitectónicas estandarizadas** en el array `CATALOG` organizadas en 8 familias comerciales (`CATALOG_GROUPS`): servidores 1U/2U/4U/blade, switches 24P/48P/Core, routers de borde, firewalls UTM, APs, storage NAS/SAN/JBOD, seguridad CCTV (NVR 1U/2U, DVR 1U, decodificador 1U), UPS online 1500/3000VA, PDUs, patch panels Cat6A, bandeja ODF fibra óptica 24P, organizadores, bandejas, KVMs y equipos de piso.
+- **Equipos personalizados por proyecto (`store.state.customCatalog`):** Creación de plantillas custom con badge distintivo `PROYECTO`, persistencia en el archivo `.rack` y reset limpio en nuevo proyecto.
 - Cada item es arrastrable al rack (drag & drop)
 - Menú contextual por item (⋮): Ubicación rápida, Editar plantilla, Eliminar plantilla
 
@@ -471,13 +474,15 @@ Contiene:
 Contiene dos vistas (se alternan con tabs en el header):
 
 - **Vista Física** (`#view-physical`):
-  - Tarjetas de rack con slots numerados (1U = 24px)
+  - Tarjetas de rack con slots numerados (1U = 24px) y ancho fijo proporcional de 240px (10:1)
+  - Espaciado técnico entre gabinetes ampliado a **`gap: 72px`** (3U) para legibilidad y pasillos
+  - Grilla técnica milimétrica de fondo (CAD) con paso de 24px
   - **Motor Visual SVG-First (`faceplates.js`):** Cada dispositivo carga un SVG vectorial de alta fidelidad desde `assets/svg/default/` con animaciones CSS `@keyframes` integradas en el propio SVG (LEDs intermitentes de red, actividad de discos, barras de carga y puertos).
   - Overlay de información con nombre de equipo e IP nítida sobre la carátula.
   - Vista frontal/trasera (flip 3D por rack)
   - Drag & drop para colocar/mover equipos
-  - Equipos de piso debajo de los racks
-  - **Cables SVG** (`#physical-cables-svg`): Rutas ortogonales entre puertos
+  - Equipos de piso alineados en sección inferior con `min-width: 584px`
+  - **Cables Físicos Segregados** (`#physical-cables-svg`): Enrutamiento ortogonal en 3 zonas libres (Canastillo Aéreo Superior, Canaleta Media libre y Organizador Lateral de gabinete), erradicando colisiones sobre racks o periféricos
   - Zoom/Pan con controles del header
 
 - **Vista Topología** (`#topology-canvas`):
@@ -494,15 +499,15 @@ Contiene dos vistas (se alternan con tabs en el header):
 
 ### Right Panel (300px)
 
-**Archivo:** `index.html` (sección `#right-panel`)
+**Archivo:** `index.html` (sección `#right-panel`), orquestado por `js/ui/outliner.js` e `js/ui/inspector.js`
 
 Tres secciones:
-1. **Outliner** (`#outliner-tree`): Árbol jerárquico colapsable (Sala → Rack → Equipo)
+1. **Outliner** (`#outliner-tree`): Árbol jerárquico (Sala → Rack → Equipo) con toolbar superior (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (`#outliner-sort-select`: slot, name-asc, name-desc, type) y botones de acción rápida inline (`✏️` y `🗑️`).
    - Click: Selecciona y muestra en Inspector
    - Doble clic: Abre modal de edición
    - Hover: Resaltado visual
-2. **Inspector** (`#inspector-content`): Tarjeta de propiedades del elemento seleccionado (ubicación, tipo, IP, MAC, usuario, contraseña, notas)
-3. **Estadísticas** (`#stat-*`): Métricas globales (salas, racks, equipos en rack, equipos de piso, conexiones)
+2. **Inspector** (`#inspector-section`): Tarjeta de propiedades del elemento seleccionado con soporte **colapsable** interactivo para expandir el Outliner. Incluye **CRUD activo** con Empty State (`+ Nueva Sala`, `+ Nuevo Gabinete`), y botones contextuales de eliminación segura (`deleteRoomFromInspector`, `deleteRackFromInspector`, `deleteDeviceFromInspector`).
+3. **Estadísticas** (`#stat-*`): Métricas globales (salas, racks, equipos en rack, equipos de piso, conexiones, potencia en Watts).
 
 **Ver:** `doc/doc_img/doc_svg/layout_right_panel.svg`
 
@@ -512,11 +517,11 @@ Tres secciones:
 
 Contiene:
 - Tabs: Inventario / Conexiones
-- Tabla con todas las propiedades de los dispositivos (nombre, tipo, rack, U, IP, MAC, serial, usuario, contraseña, potencia, notas)
-- Edición inline de celdas (click para editar)
-- Botones: Agregar equipo, Colocación rápida, Nueva conexión
-- Exportar a CSV/Excel
-- Botón expandir/contraer
+- Tabla de Inventario de 17 columnas con metadatos completos: Rack, U, Lado, Nombre, Marca, Modelo, Tipo, **Tamaño**, IP, MAC, Serie, Usuario, Contraseña, Consumo (W), Tomas, **Skin**, **Notas**, Acciones.
+- Edición inline interactiva por doble clic (`finishCellEdit()`) que persiste cambios numéricos de tamaño, skin y notas directamente al store.
+- Botones: Agregar equipo, Colocación rápida (con buscador reactivo `#qp-dev-search`), Nueva conexión.
+- Menú de exportación con soporte a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado y Excel (`xlsx.full.min.js`).
+- Botón expandir/contraer.
 
 **Ver:** `doc/doc_img/doc_svg/layout_bottom_panel.svg`
 
@@ -616,13 +621,29 @@ Las posiciones de nodos, racks y salas en la topología se guardan en `store._ra
 
 ---
 
-## 9. Renderizado de Cableado Físico
+## 9. Renderizado de Cableado Físico (SVG)
 
-A diferencia de la topología (Canvas 2D), el cableado físico se resuelve inyectando dinámicamente un lienzo `<svg>` (`#physical-cables-svg`) sobre `#view-physical-content`.
+A diferencia de la topología (Canvas 2D), el cableado físico se resuelve inyectando dinámicamente un lienzo vectorial `<svg id="physical-cables-svg">` posicionado de forma absoluta dentro de `#view-physical-content`.
 
-- Los componentes de `faceplates.js` inyectan anclajes `data-device-id` y `data-port` al DOM
-- `drawPhysicalCables()` (en `rack.js`) procesa las conexiones y traza trayectorias ortogonales bordeando las tarjetas de rack de manera reactiva
-- Se activa/desactiva con el toggle `#btn-toggle-cables` en el header (solo visible en vista física)
+### Arquitectura de Enrutamiento Segregado en 3 Zonas Libres:
+
+Para erradicar colisiones de cables sobre servidores o periféricos de piso, el motor `drawPhysicalCables()` en `js/ui/rack.js` segrega las trayectorias en 3 zonas exclusivas:
+
+1. **Canastillo Aéreo Superior (Conexiones Inter-Rack):**
+   - Los cables que viajan entre gabinetes distintos se elevan hacia la zona aérea por encima de la cabecera del rack más alto (`overheadY = minRackTop - 14px - (index % 7) * 5`).
+   - Salida y entrada inteligente por el lateral más cercano al rack de destino, evitando cruzar frontalmente los servidores intermedios.
+2. **Canaleta Media Segregada (Equipos de Piso ↔ Racks / Piso ↔ Piso):**
+   - Los periféricos de piso viajan por la canaleta horizontal intermedia situada entre los racks y la sección de piso (`middleGutterY = maxRackBottom + 18px + (index % 6) * 4`).
+   - Ascienden verticalmente por el pasillo lateral de 72px del gabinete de destino. Se eliminó al 100% el cruce sobre las tarjetas de piso.
+3. **Organizador Lateral de Gabinete (Conexiones Intra-Rack):**
+   - Los enlaces entre switches y servidores alojados en el mismo gabinete se confinan estrictamente al organizador vertical derecho (`gutterX = p1.rightEdgeX + 8px + (index % 5) * 4`), sin salir del perímetro del rack.
+4. **Propiedades Geométricas:**
+   - Curvaturas ortogonales con radio suave `r = 6px` y arcos cuadráticos Bézier (`Q`).
+   - Switch interactivo `#checkbox-toggle-cables` en la barra de herramientas para ocultar/mostrar cables al instante.
+
+**Ver Diagramas:**
+- `doc/doc_img/doc_svg/enrutamiento_equipos_piso_y_racks.svg` (Doble canaleta y zonas segregadas)
+- `doc/doc_img/doc_svg/propuesta_1_canastillo_aereo.svg` (Canastillo aéreo superior)
 
 ---
 
@@ -843,6 +864,15 @@ Todos los diagramas están en `doc/doc_img/doc_svg/` (33 archivos):
 | `mejoras_architecture_final.svg` | Arquitectura final propuesta |
 | `mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
 
+### Cableado Físico y Vistas
+
+| Archivo | Contenido |
+|---|---|
+| `enrutamiento_equipos_piso_y_racks.svg` | Arquitectura de doble canaleta (Aérea vs Piso) |
+| `propuesta_1_canastillo_aereo.svg` | Canastillo superior aéreo inter-rack |
+| `propuesta_2_fila_continua_nowrap.svg` | Disposición en fila continua de racks |
+| `propuesta_3_cables_interactivos_hover.svg` | Modo interactivo Smart Focus |
+
 ### Otros
 
 | Archivo | Contenido |
@@ -879,7 +909,8 @@ El proyecto RACK Designer Next es una app web vanilla que:
 6. **SVG inline** para cables en la vista física
 7. **Drag & drop** nativo para colocar equipos
 8. **3 roles** (Admin, Editor, Viewer) con SHA-256 + token de integridad
-9. **Exporta** a PNG (racks + topología), CSV, Excel y JSON (.rack)
-10. **PWA** con Service Worker para uso offline
+9. **Exporta** a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado, Excel y JSON (.rack)
+10. **PWA** con Service Worker (`v12`) para uso offline
+11. **Suite de Integridad Automatizada** con 83 pruebas pasando al 100% (`tests/integrity_check.cjs`)
 
 **La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.

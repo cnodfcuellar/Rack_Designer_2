@@ -346,15 +346,25 @@ class Store {
     this._emit('change', { source: 'deleteRack' });
   }
 
+  /** Comprueba si dos caras de montaje entran en conflicto físico */
+  sidesConflict(side1, side2) {
+    const s1 = side1 || 'front';
+    const s2 = side2 || 'front';
+    if (s1 === 'both' || s2 === 'both') return true;
+    return s1 === s2;
+  }
+
   /** Agrega un equipo al rack en la posición dada */
-  addDeviceToRack(deviceTemplate, rackId, slotStart, mountSide = 'front') {
+  addDeviceToRack(deviceTemplate, rackId, slotStart, mountSide) {
     const rack = this.rackById(rackId);
     if (!rack) return false;
     const size = parseInt(deviceTemplate.size);
     // Validación de límites
     if (slotStart < 1 || slotStart + size - 1 > rack.height) return false;
-    // Validación de colisiones
-    const existing = this.allDevicesInRack(rackId).filter(d => (d.mountSide || 'front') === mountSide);
+    // Lado objetivo: si la plantilla indica 'both', se preserva 'both' por defecto
+    const targetSide = mountSide || deviceTemplate.mountSide || 'front';
+    // Validación de colisiones con verificación bidireccional de caras
+    const existing = this.allDevicesInRack(rackId).filter(d => this.sidesConflict(d.mountSide, targetSide));
     for (const d of existing) {
       const dEnd = d.slotStart + d.size - 1;
       const nEnd = slotStart + size - 1;
@@ -363,11 +373,14 @@ class Store {
     this.snapshot();
     const newDev = {
       id: uid(), rackId, name: deviceTemplate.name, type: deviceTemplate.type,
-      slotStart, size, mountSide, ip: deviceTemplate.ip || '', mac: deviceTemplate.mac || '',
+      slotStart, size, mountSide: targetSide, ip: deviceTemplate.ip || '', mac: deviceTemplate.mac || '',
       serial: deviceTemplate.serial || '', power: deviceTemplate.power || 0,
       user: deviceTemplate.user || 'admin', pass: deviceTemplate.pass || '',
       notes: deviceTemplate.notes || ''
     };
+    if (deviceTemplate.skin) newDev.skin = deviceTemplate.skin;
+    if (deviceTemplate.plugs !== undefined) newDev.plugs = deviceTemplate.plugs;
+    if (deviceTemplate.plugsOut !== undefined) newDev.plugsOut = deviceTemplate.plugsOut;
     this._raw.devices.push(newDev);
     this._save(); 
     this._emit('change', { source: 'addDeviceToRack' });
@@ -380,9 +393,9 @@ class Store {
     const rack = this.rackById(newRackId);
     if (!rack) return false;
     const size = dev.size;
-    const side = newMountSide || dev.mountSide || 'front';
+    const side = newMountSide !== undefined ? newMountSide : (dev.mountSide || 'front');
     if (newSlot < 1 || newSlot + size - 1 > rack.height) return false;
-    const existing = this.allDevicesInRack(newRackId).filter(d => d.id !== deviceId && (d.mountSide || 'front') === side);
+    const existing = this.allDevicesInRack(newRackId).filter(d => d.id !== deviceId && this.sidesConflict(d.mountSide, side));
     for (const d of existing) {
       const dEnd = d.slotStart + d.size - 1;
       const nEnd = newSlot + size - 1;
@@ -525,4 +538,5 @@ class Store {
 const store = new Store();
 if (typeof window !== 'undefined') {
   window.store = store;
+  window.sidesConflict = store.sidesConflict.bind(store);
 }

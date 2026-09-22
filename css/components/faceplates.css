@@ -7,6 +7,8 @@
   position: absolute;
   left: 0;
   right: 0;
+  width: 100%;
+  max-width: 100%;
   z-index: 2;
   overflow: hidden;
   border-radius: 2px;
@@ -74,6 +76,15 @@ body.no-animations svg.faceplate-img * {
   pointer-events: none;
   z-index: 3;
   max-width: calc(100% - 56px);
+}
+
+/* En UPS con pantalla LCD central, el texto se alinea a la derecha para no empastar el display azul */
+.faceplate-wrapper[data-dev-type="ups"] .faceplate-overlay-info {
+  left: auto;
+  right: 14px;
+  align-items: flex-end;
+  text-align: right;
+  max-width: 140px;
 }
 
 .faceplate-label {

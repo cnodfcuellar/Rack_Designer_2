@@ -1,8 +1,21 @@
 /* ============================================================
    RACK COMPONENT
 ============================================================ */
-.rack-wrapper { flex-shrink: 0; display: flex; flex-direction: column; gap: 0; }
+.rack-wrapper { 
+  width: 280px; 
+  min-width: 280px; 
+  max-width: 280px; 
+  box-sizing: border-box; 
+  flex-shrink: 0; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0; 
+}
 .rack-card { 
+  width: 280px; 
+  min-width: 280px; 
+  max-width: 280px; 
+  box-sizing: border-box; 
   background: var(--hardware-base); 
   border: 1.5px solid var(--border-light, #334155); 
   border-radius: var(--radius-lg); 
@@ -13,27 +26,105 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .rack-card:hover {
-  border-color: #475569;
+  border-color: var(--border-light);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
 }
 .rack-card.drag-over { border-color: var(--accent); box-shadow: 0 0 24px var(--accent-glow); }
-.rack-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--bg-card2); border-bottom: 1px solid var(--border); }
-.rack-title { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); }
+.rack-card.rear-view { border-style: dashed; }
+.rack-card.rear-view .rack-header { background: var(--bg-card1); }
+.rack-header { 
+  width: 100%; 
+  box-sizing: border-box; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 8px 10px; 
+  background: var(--bg-card2); 
+  border-bottom: 1px solid var(--border); 
+  overflow: hidden; 
+}
+.rack-title { 
+  font-size: var(--text-sm); 
+  font-weight: 600; 
+  color: var(--text-primary); 
+  display: flex; 
+  align-items: center; 
+  gap: 6px; 
+  font-family: var(--font-mono); 
+  flex: 1; 
+  min-width: 0; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+}
+.rack-title span.title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .rack-color-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.rack-hdr-btns { display: flex; gap: 4px; }
-.rack-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: var(--text-sm); transition: all 0.15s; }
+.rack-hdr-btns { display: flex; gap: 4px; flex-shrink: 0; }
+.rack-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: var(--text-sm); transition: all 0.15s; flex-shrink: 0; }
 .rack-btn:hover { border-color: var(--accent); color: var(--accent); }
 .rack-btn.del:hover { border-color: var(--red); color: var(--red); }
-.rack-body { display: flex; background: var(--hardware-rail); }
-.rack-rail-left, .rack-rail-right { border-left: 1px solid var(--border); border-right: none; }
+.rack-body { 
+  display: flex; 
+  width: 280px; 
+  min-width: 280px; 
+  max-width: 280px; 
+  box-sizing: border-box; 
+  background: var(--hardware-rail); 
+  overflow: hidden; 
+}
+.rack-rail-left, .rack-rail-right { 
+  width: 20px; 
+  min-width: 20px; 
+  max-width: 20px; 
+  box-sizing: border-box; 
+  flex-shrink: 0; 
+  flex-grow: 0; 
+  background: var(--bg-card1);
+  display: flex;
+  flex-direction: column-reverse;
+}
+.rack-rail-left { border-right: 1px solid var(--border); border-left: none; }
 .rack-rail-right { border-left: 1px solid var(--border); border-right: none; }
-.rail-unit { height: var(--rack-unit-h); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: var(--text-xs); color: #2e4060; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.rail-unit:nth-child(5n) { color: #3d5480; }
-.rack-slots { width: 240px; min-width: 240px; max-width: 240px; position: relative; }
-.rack-slot { height: var(--rack-unit-h); border-bottom: 1px solid var(--border); position: relative; transition: background 0.15s; flex-shrink: 0; }
+.rail-unit { 
+  width: 20px; 
+  min-width: 20px; 
+  max-width: 20px; 
+  height: var(--rack-unit-h); 
+  max-height: var(--rack-unit-h); 
+  box-sizing: border-box; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-family: var(--font-mono); 
+  font-size: var(--text-xs); 
+  color: var(--text-muted); 
+  border-bottom: 1px solid var(--border); 
+  flex-shrink: 0; 
+  overflow: hidden;
+  user-select: none;
+}
+.rail-unit:nth-child(5n) { color: var(--text-secondary); font-weight: 600; }
+.rack-slots { width: 240px; min-width: 240px; max-width: 240px; box-sizing: border-box; flex-shrink: 0; flex-grow: 0; position: relative; background: var(--bg-main); display: flex; flex-direction: column-reverse; }
+.rack-slot { 
+  width: 240px; 
+  min-width: 240px; 
+  max-width: 240px; 
+  height: var(--rack-unit-h); 
+  max-height: var(--rack-unit-h); 
+  box-sizing: border-box; 
+  border-bottom: 1px solid var(--border); 
+  position: relative; 
+  transition: background 0.15s; 
+  flex-shrink: 0; 
+  overflow: hidden;
+}
 .rack-slot.drop-highlight { background: var(--accent-glow) !important; }
 .rack-slot.drop-invalid  { background: var(--red-glow) !important; }
-.rack-slot.occupied { pointer-events: none; }
+.rack-slot.occupied { pointer-events: none; max-height: none; }
 
 /* ============================================================
    RACK FLIP — VISTA TRASERA

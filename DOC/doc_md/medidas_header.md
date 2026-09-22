@@ -39,7 +39,7 @@ La cabecera se divide horizontalmente en dos contenedores principales:
     *   **Botón de Menú Móvil (`#mobile-menu-btn`):** `display: none` en escritorio. Dimensiones normalizadas de `24px` × `24px`.
     *   **Imagen del Logo (`.logo-icon`):** Medida fija de `24px` × `24px` (`object-fit: contain`) con filtro de resplandor (`drop-shadow` de `8px var(--accent)`).
     *   **Texto Subtítulo (`.logo-sub` o `#project-filename`):** Tamaño de fuente `--text-xs` (`10px`), fuente monoespaciada y margen superior de `-4px`.
-    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover.
+    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Demos), Modo Dios/PIN, Suite de Tests (83 pruebas automatizadas) y Exportar/Importar Catálogo personalizado.
 
 ### ⚙️ Área Principal (`.header-main-area`)
 *   **Ancho:** Flexible (`flex: 1`, `min-width: 0`).
@@ -47,19 +47,19 @@ La cabecera se divide horizontalmente en dos contenedores principales:
 *   **Componentes Internos (Altura Estricta de 24px):**
     *   **Selectores Desplegables (Salas/Racks):**
         *   Ancho mínimo de la etiqueta interna: Ajustable según el texto.
-        *   Relleno interno del botón: `0 10px` con iconos de `14px` (origen) y `12px` (flecha de despliegue).
-        *   Botón para Añadir (`.nav-btn-add`): Dimensiones fijas de `24px` × `24px`.
+        *   Relleno interno del botón: `0 10px` con iconos SVG de `14px` (edificio / rack) y `12px` (flecha de despliegue).
+        *   Botón para Añadir (`.nav-btn-add`): Dimensiones fijas de `24px` × `24px` para creación rápida con un solo clic.
     *   **Divisor Horizontal (`.h-divider`):** Ancho de `1px` y altura de **`32px`** (color `--border`).
     *   **Pestañas de Vista (`.view-tabs`):**
         *   Contenedor: Borde de `1px` y bordes redondeados (`var(--radius)` = `6px`).
-        *   Botón de Vista (`.view-tab`): Relleno de `5px 14px` en cada pestaña.
+        *   Botón de Vista (`.view-tab`): Relleno de `5px 14px` en cada pestaña con iconos SVG sincronizados (`icon-physical` y `icon-topology`).
     *   **Buscador Global (`.h-search`):**
         *   Ancho en Reposo: **`200px`** (padding de entrada: `4px 10px 4px 30px`).
-        *   Ancho en Foco: **`240px`** (transición fluida de `0.2s`).
+        *   Ancho en Foco: **`240px`** (transición fluida de `0.2s`) con filtrado reactivo simultáneo sobre racks, periféricos de piso y tabla de inventario.
     *   **Grupo de Historial (`.h-btn-group`):**
         *   Botones individuales (`#btn-undo`, `#btn-redo`): Normalizados a `24px` de alto, con bordes redondeados solo en esquinas exteriores (Izquierdo: `6px 0 0 6px`, Derecho: `0 6px 6px 0`).
     *   **Punto de Estado (`.status-dot`):** Círculo de `7px` × `7px` con animación de pulso y resplandor de color verde (`#10b981`).
-    *   **Insignia de Usuario (`#user-badge`):** Relleno de `2px 10px` con bordes completamente redondeados (`10px`).
+    *   **Insignia de Usuario (`#user-badge`):** Relleno de `2px 10px` con bordes completamente redondeados (`10px`), interacción por clic para autenticación RBAC y visualización del rol activo (Admin, Editor, Viewer).
 
 ---
 

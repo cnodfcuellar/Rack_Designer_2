@@ -93,7 +93,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-05 | Anti-corrupción JSON | 🟠 3 | Implementar doble escritura (backup slot) y validación de integridad en `_load()`. |
 | M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Implementado `reg.update()` automático periódico e interceptación PWA offline en `service-worker.js` y `main.js`. |
 | M-07 | Conflictos multiusuario | ⚫ 5 | Requiere algoritmo de merge de objetos JSON profundos, UI de resolución de conflictos, y cambios extensos en `fileManager.js`. |
-| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Implementada suite de 26 pruebas automáticas de integridad y relaciones en Node.js vía `tests/integrity_check.cjs`. |
+| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Implementada suite de 83 pruebas automáticas de integridad y relaciones en Node.js vía `tests/integrity_check.cjs` y runner web `tests/index.html`. |
 | M-09 | Modal edición de salas | 🟡 2 | Crear `RoomModal.js` completo (ya existe esqueleto de 1.3KB). Patrón idéntico a `RackModal.js`. |
 | M-10 | Borde racks más visible | 🟢 1 | Cambio CSS puro en `rack.css` (aumentar `border-width`). |
 | M-11 | Grupo "Network" en sidebar | 🟡 2 | Modificar la estructura de categorías en `catalog.js`. |
@@ -124,17 +124,17 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-37 | Exportación fiel (html2canvas) | 🟡 2 | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
 | M-38 | Opciones de orden en Outliner | 🟡 2 | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
 
-### Resumen de Complejidad (Tareas Pendientes: 20)
+### Resumen de Complejidad (Tareas Pendientes: 17)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
-| 🟡 Baja (2) | 4 | M-19, M-30, M-31, M-37 |
+| 🟡 Baja (2) | 1 | M-31 |
 | 🟠 Media (3) | 6 | M-03, M-18, M-20, M-21, M-32, M-33 |
 | 🔴 Alta (4) | 7 | M-01, M-04, M-22, M-26, M-28, M-29, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25, M-35 |
 
-*(18 Completadas: M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-23, M-24, M-27, M-36, M-38)*
+*(21 Completadas: M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-23, M-24, M-27, M-30, M-36, M-37, M-38)*
 
 ---
 

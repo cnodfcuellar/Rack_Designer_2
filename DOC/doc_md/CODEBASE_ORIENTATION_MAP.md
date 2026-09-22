@@ -178,6 +178,7 @@ Rack_Designer_2/
 │   │       └── TopologyOrchestrator.js ← Lifecycle: init/start/stop del canvas
 │   │
 │   ├── xlsx.full.min.js          ← SheetJS (exportar a Excel) — vendor
+│   ├── html2canvas.min.js        ← Captura DOM 1:1 Retina a PNG — vendor
 │   ├── mobile-drag-drop.min.js   ← Polyfill touch drag-and-drop — vendor
 │   └── mobile-drag-drop-scroll.min.js  ← Polyfill scroll durante drag — vendor
 │
@@ -216,7 +217,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Archivos de contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares
 └── tests/
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (26 tests en Node.js)
+    ├── index.html                ← Test runner visual interactivo en navegador web
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (83 tests en Node.js, 100% éxito)
 ```
 
 ---
@@ -245,12 +247,12 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 
 | Archivo | Tamaño | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|:---|
-| [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) | ~15 KB | Define el array `CATALOG` (21 plantillas de equipos), renderiza la barra lateral con iconos de categorías, filtrado y búsqueda | Cuando agregas nuevos tipos de equipos al catálogo o modificas la sidebar |
-| [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) | ~32 KB | Renderizado de la vista física: chasis de racks, slots, drag-and-drop, cables SVG, zoom/pan físico | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
+| [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) | ~18 KB | Define el array `CATALOG` (30 plantillas arquitectónicas en 8 familias `CATALOG_GROUPS`), gestión de `customCatalog`, categoría "Todos" con buscador reactivo | Cuando agregas nuevos tipos de equipos al catálogo o modificas la sidebar |
+| [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) | ~37 KB | Renderizado de la vista física: chasis de racks con gap de 72px, ranuras de 240px fijas (10:1), grilla CAD 24px, alineación de piso 584px, cables físicos segregados en 3 zonas (Canastillo Aéreo, Canaleta Media y Organizador Lateral) | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
 | [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) | ~5 KB | Motor visual SVG-First: mapea tipos de equipos a gráficos SVG animados en `assets/svg/default/`, genera overlays de texto y anclajes `data-port` | Cuando agregas soporte para un nuevo tipo de SVG o cambias la resolución de assets visuales |
-| [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) | ~13 KB | Panel inferior: tablas de inventario de equipos y conexiones, pestañas, búsqueda, exportación a Excel/CSV | Cuando modificas las columnas de las tablas o agregas nuevas pestañas de datos |
-| [outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js) | ~7 KB | Panel derecho: árbol jerárquico (Sala > Rack > Equipo), selección y navegación | Cuando cambias la estructura jerárquica o agregas acciones al árbol |
-| [inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js) | ~11 KB | Panel derecho: tarjeta de lectura rápida con propiedades del elemento seleccionado | Cuando agregas nuevos campos a los equipos que deben mostrarse |
+| [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) | ~14 KB | Panel inferior: tablas de inventario (17 columnas, incluye Tamaño, Skin, Notas con edición inline `dblclick`) y conexiones, pestañas, búsqueda, exportación a Excel/CSV | Cuando modificas las columnas de las tablas o agregas nuevas pestañas de datos |
+| [outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js) | ~9 KB | Panel derecho: árbol jerárquico (Sala > Rack > Equipo), toolbar superior (`+ Sala`, `+ Rack`, `+ Equipo`), selector de ordenamiento (4 modos) y botones inline `✏️`/`🗑️` | Cuando cambias la estructura jerárquica o agregas acciones al árbol |
+| [inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js) | ~13 KB | Panel derecho: tarjeta de inspección colapsable con soporte CRUD integral para Salas/Racks/Equipos y Empty State proactivo | Cuando agregas nuevos campos a los equipos que deben mostrarse |
 | [fileManager.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/fileManager.js) | ~6 KB | Abrir/Guardar proyectos con File System Access API, autoguardado con debounce de 3 segundos | Cuando modificas la lógica de persistencia en disco |
 | [modals.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals.js) | ~0.2 KB | Inicializador central de todos los modales (`initModals()`) | Cuando agregas un nuevo modal y necesitas inicializarlo |
 
@@ -262,8 +264,8 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 | [CableModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/CableModal.js) | Formulario para crear/editar conexiones de cables entre equipos, con selectores agrupados por sala/rack | Cuando cambias la lógica de conexión o agregas tipos de cable |
 | [RackModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/RackModal.js) | Formulario para agregar/editar gabinetes (nombre, altura, color) | Cuando agregas propiedades nuevas a los racks |
 | [RoomModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/RoomModal.js) | Formulario para agregar/renombrar salas | Cuando modificas las propiedades de las salas |
-| [PlacementModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/PlacementModal.js) | Colocación rápida: permite asignar un equipo a un rack y slot específico de manera rápida | Cuando cambias el flujo de colocación rápida |
-| [ExportModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/ExportModal.js) | Exportación: PNG de racks, Excel/CSV de inventario y conexiones, PNG de topología | Cuando agregas nuevos formatos de exportación |
+| [PlacementModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/PlacementModal.js) | Colocación rápida asistida: incluye buscador en tiempo real (`#qp-dev-search` con `filterQPCatalog`) para asignar equipos a slots disponibles | Cuando cambias el flujo de colocación rápida |
+| [ExportModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/ExportModal.js) | Exportación gráfica 1:1 a PNG mediante `html2canvas.min.js` a escala Retina sobre `#090d17` con fallback a Canvas 2D, exportación CSV/Excel y PNG de topología | Cuando agregas nuevos formatos de exportación |
 | [Globals.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/Globals.js) | Variables globales compartidas entre modales (`editingDeviceId`, `editingCatalogId`, `FLOOR_TYPES`) | Cuando necesitas compartir estado entre modales |
 
 ### Motor de Topología (js/ui/topology/)
@@ -289,10 +291,11 @@ El archivo más importante del proyecto es [store.js](file:///c:/Users/admin/.ge
 {
   rooms: [{ id: 'abc123', name: 'Sala Principal' }],
   racks: [{ id: 'def456', roomId: 'abc123', name: 'Rack A1', height: 42, color: '#10b981' }],
-  devices: [{ id: 'ghi789', rackId: 'def456', name: 'Server HP', type: 'server', 
-               slotStart: 1, size: 2, mountSide: 'front', ip: '', mac: '', ... }],
+  devices: [{ id: 'ghi789', rackId: 'def456', name: 'Servidor Rack 2U', type: 'server', 
+               slotStart: 1, size: 2, mountSide: 'front', ip: '', mac: '', skin: 'default', notes: '', ... }],
   connections: [{ id: 'jkl012', sourceDeviceId: 'ghi789', targetDeviceId: '...', 
-                   type: 'copper', color: '#10b981', ... }],
+                   cableType: 'Cat6', color: '#10b981', ... }],
+  customCatalog: [],
   currentRoomId: 'abc123',
   selectedDeviceId: null,
   topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
@@ -317,6 +320,8 @@ El archivo más importante del proyecto es [store.js](file:///c:/Users/admin/.ge
 | `moveDevice(deviceId, newRackId, newSlot, newMountSide)` | Mueve equipo a otro rack/slot | `'moveDevice'` |
 | `updateDevice(id, props)` | Actualiza propiedades de un equipo | `'updateDevice'` |
 | `deleteDevice(id)` | Elimina equipo, sus conexiones y purga sus coordenadas de topología | `'deleteDevice'` |
+| `addCustomCatalogItem(item)` | Agrega equipo al catálogo personalizado del proyecto | `'addCustomCatalogItem'` |
+| `deleteCustomCatalogItem(id)` | Elimina equipo personalizado del proyecto | `'deleteCustomCatalogItem'` |
 | `_sanitize()` | Purga silenciosamente conexiones zombis y posiciones de topología huérfanas en arranque e importación | — |
 | `addConnection(conn)` | Crea una conexión de cable | `'addConnection'` |
 | `updateConnection(id, props)` | Actualiza una conexión | `'updateConnection'` |

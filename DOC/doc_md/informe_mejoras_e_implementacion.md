@@ -94,7 +94,7 @@ Este informe consolida todas las mejoras, analiza su valor transformador mediant
 | :--- | :--- | :--- | :--- |
 | **Soporte Responsivo Móvil / Tablet** | Diseñado exclusivamente para escritorio (paneles fijos que se solapan en pantallas pequeñas). | Barra de navegación inferior (*Bottom Nav*), menús laterales deslizables (*swipe*), inspección táctil y *long-press*. | Técnicos de soporte pueden auditar e interactuar con racks directamente en el piso del centro de datos desde su tablet o móvil. |
 | **Tema Sepia y Selector Visible** | Solo existen temas Claro y Oscuro; el alternador de tema tiene visibilidad reducida. | Hacer accesible el botón en la cabecera y agregar un tema "Sepia" cálido de baja luminancia. | Reduce significativamente la fatiga visual en turnos nocturnos o cuartos de control. |
-| **Suite de Pruebas Unitarias** | `Rack.test.js` estaba comentado e inutilizable. | Implementada suite automatizada `tests/integrity_check.cjs` (26 pruebas en Node.js) que valida RBAC, persistencia F5, cascada de eliminación de racks, auto-saneamiento y tolerancia a fallos. | ✅ **COMPLETADO:** Blindaje contra regresiones y validación continua en CI/local. |
+| **Suite de Pruebas Unitarias e Integradas** | `Rack.test.js` estaba comentado e inutilizable. | Implementada suite automatizada `tests/integrity_check.cjs` y runner web `tests/index.html` (83 pruebas de integridad al 100%) que valida RBAC, persistencia F5, cascada de eliminación, auto-saneamiento, html2canvas, CRUD inspector y catálogo. | ✅ **COMPLETADO:** Blindaje contra regresiones y validación continua con 83 pruebas automáticas pasando al 100%. |
 
 ---
 

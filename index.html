@@ -198,7 +198,7 @@
         <div style="text-align:center; padding-top:20px; color:var(--text-muted); font-style:italic;">Ningún elemento seleccionado</div>
       </div>
     </div>
-    <div class="right-panel-section" id="stats-section">
+    <div class="right-panel-section collapsed" id="stats-section">
       <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('stats-section').classList.toggle('collapsed')">
         <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Estadísticas</span>
         <span class="toggle-icon">▼</span>
@@ -408,6 +408,7 @@
             <select id="dev-side">
               <option value="front" selected>Frontal</option>
               <option value="rear">Trasero</option>
+              <option value="both">Ambas Caras (Completo)</option>
             </select>
           </div>
         </div>
@@ -571,6 +572,7 @@
       <select id="qp-side" style="width:100%;">
         <option value="front" selected>Frontal</option>
         <option value="rear">Trasera</option>
+        <option value="both">Ambas Caras (Completo)</option>
       </select>
     </div>
     
