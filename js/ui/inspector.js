@@ -92,9 +92,25 @@ async function deleteDeviceFromInspector(devId) {
   }
 }
 
+async function disconnectPortFromInspector(connId) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('No tienes permisos para desconectar cables.', 'error', 3000);
+    return;
+  }
+  const ok = await customConfirm('Desconectar Puerto', '¿Deseas desconectar este cable del equipo?');
+  if (ok) {
+    store.deleteConnection(connId);
+    notify('Cable desconectado con éxito', 'warn');
+    if (window.appState && window.appState.selectedId) {
+      window.renderInspector('device', window.appState.selectedId);
+    }
+  }
+}
+
 window.deleteRoomFromInspector = deleteRoomFromInspector;
 window.deleteRackFromInspector = deleteRackFromInspector;
 window.deleteDeviceFromInspector = deleteDeviceFromInspector;
+window.disconnectPortFromInspector = disconnectPortFromInspector;
 
 window.renderInspector = function(entityType, entityId) {
   const container = document.getElementById('inspector-content');
@@ -200,7 +216,87 @@ window.renderInspector = function(entityType, entityId) {
 
     html += `
         </div>
+    `;
         
+    // Matriz de Puertos & VLANs
+    const ports = typeof store.getDevicePorts === 'function' ? store.getDevicePorts(dev.id) : [];
+    if (ports.length > 0) {
+      const occupiedCount = ports.filter(p => p.isOccupied).length;
+      
+      const ethPorts = ports.filter(p => p.type === 'ethernet');
+      const otherPorts = ports.filter(p => p.type !== 'ethernet');
+
+      let matrixRowsHtml = '';
+      if (ethPorts.length >= 8) {
+        const rowTop = ethPorts.filter((_, idx) => idx % 2 === 0);
+        const rowBtm = ethPorts.filter((_, idx) => idx % 2 === 1);
+        
+        matrixRowsHtml += `<div class="port-matrix-row">`;
+        rowTop.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div><div class="port-matrix-row">`;
+        rowBtm.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div>`;
+      } else {
+        matrixRowsHtml += `<div class="port-matrix-row">`;
+        ethPorts.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div>`;
+      }
+
+      if (otherPorts.length > 0) {
+        matrixRowsHtml += `<div style="font-size:9px; color:var(--text-muted); margin-top:2px; font-weight:600;">SFP / FIBRA:</div><div class="port-matrix-row">`;
+        otherPorts.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin type-fiber ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>S${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div>`;
+      }
+
+      html += `
+        <div class="inspector-ports-card">
+          <div class="ports-card-header">
+            <span class="ports-card-title">
+              <i class="svg-icon icon-network" style="width:13px; height:13px;"></i> Matriz de Puertos
+            </span>
+            <span class="ports-count-badge">${occupiedCount}/${ports.length} ocupados</span>
+          </div>
+          <div class="port-matrix-container">
+            ${matrixRowsHtml}
+          </div>
+          <div id="inspector-port-detail-box" style="display:none;"></div>
+        </div>
+      `;
+    }
+
+    html += `
         <div class="inspector-btn-group">
           <div class="inspector-btn-row">
             <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditDeviceModal === 'function') openEditDeviceModal('${escapeHTML(dev.id)}')">
@@ -215,6 +311,58 @@ window.renderInspector = function(entityType, entityId) {
     `;
 
     container.innerHTML = html;
+
+    const portPins = container.querySelectorAll('.port-pin');
+    const detailBox = container.querySelector('#inspector-port-detail-box');
+    if (detailBox && portPins.length) {
+      portPins.forEach(pin => {
+        pin.addEventListener('click', () => {
+          const pName = pin.dataset.portName;
+          const p = ports.find(port => port.name === pName);
+          if (!p) return;
+
+          portPins.forEach(el => el.style.outline = 'none');
+          pin.style.outline = '2px solid var(--accent)';
+
+          detailBox.style.display = 'block';
+          if (p.isOccupied) {
+            detailBox.innerHTML = `
+              <div class="port-detail-box">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:var(--text-primary); font-size:12px;">${escapeHTML(p.name)}</strong>
+                  <span class="vlan-pill" style="background:${p.vlanColor}22; border-color:${p.vlanColor}; color:${p.vlanColor};">VLAN ${p.vlanId} · ${escapeHTML(p.vlanName)}</span>
+                </div>
+                <div style="color:var(--text-secondary); font-size:11px; margin-top:2px;">
+                  Enlace hacia: <strong>${escapeHTML(p.peerDeviceName)}</strong> [${escapeHTML(p.peerPort)}]
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+                  <span style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:5px;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${escapeHTML(p.cableColor)};"></span> ${escapeHTML(p.cableType)}
+                  </span>
+                  <button type="button" class="btn-inspector btn-inspector-danger" style="padding:2px 8px; font-size:10px;" onclick="disconnectPortFromInspector('${escapeHTML(p.connectionId)}')">
+                    Desconectar
+                  </button>
+                </div>
+              </div>
+            `;
+          } else {
+            detailBox.innerHTML = `
+              <div class="port-detail-box">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:var(--text-primary); font-size:12px;">${escapeHTML(p.name)}</strong>
+                  <span style="font-size:10px; color:#10b981; font-weight:600;">Puerto Libre</span>
+                </div>
+                <div style="margin-top:6px;">
+                  <button type="button" class="btn-inspector btn-inspector-primary" style="width:100%; padding:4px 8px; font-size:11px;" onclick="if(typeof openCableModal === 'function') openCableModal('${escapeHTML(dev.id)}', '${escapeHTML(p.name)}')">
+                    <i class="svg-icon icon-plug" style="width:12px; height:12px;"></i> Conectar este puerto
+                  </button>
+                </div>
+              </div>
+            `;
+          }
+        });
+      });
+    }
   } else if (entityType === 'rack') {
     const rack = data.racks.find(r => r.id === entityId);
     if (!rack) return;

@@ -67,7 +67,9 @@ loadScript('../js/icons.js');
 loadScript('../js/store.js');
 loadScript('../js/auth/roles.js');
 loadScript('../js/ui/tables.js');
+loadScript('../js/ui/modals/Globals.js');
 loadScript('../js/ui/modals/RoomModal.js');
+loadScript('../js/ui/modals/CableModal.js');
 loadScript('../js/ui/catalog.js');
 loadScript('../js/ui/inspector.js');
 loadScript('../js/ui/outliner.js');
@@ -230,14 +232,11 @@ async function runTests() {
   // 1. Verificar que la carpeta default/ ya no existe en la raíz
   assert(!fs.existsSync(oldDefaultPath), 'La carpeta default/ fue removida exitosamente de la raíz del proyecto');
 
-  // 2. Verificar que assets/default/ existe
-  assert(fs.existsSync(newAssetsDefaultPath), 'La carpeta assets/default/ existe correctamente');
+  // 2. Verificar que la carpeta redundante assets/default/ fue eliminada (unificación canónica)
+  assert(!fs.existsSync(newAssetsDefaultPath), 'La carpeta redundante assets/default/ fue eliminada exitosamente');
 
-  // 3. Verificar conteo de al menos 16 SVGs en assets/default/
-  const defaultSvgFiles = fs.existsSync(newAssetsDefaultPath) 
-    ? fs.readdirSync(newAssetsDefaultPath).filter(f => f.endsWith('.svg')) 
-    : [];
-  assert(defaultSvgFiles.length >= 16, `assets/default/ contiene al menos 16 archivos SVG requeridos (encontrados: ${defaultSvgFiles.length})`);
+  // 3. Verificar que la carpeta canónica assets/svg/default/ existe
+  assert(fs.existsSync(assetsSvgDefaultPath), 'La carpeta canónica assets/svg/default/ existe correctamente');
 
   // 4. Verificar conteo de al menos 16 SVGs en assets/svg/default/
   const assetsSvgFiles = fs.existsSync(assetsSvgDefaultPath) 
@@ -245,8 +244,9 @@ async function runTests() {
     : [];
   assert(assetsSvgFiles.length >= 16, `assets/svg/default/ contiene al menos 16 archivos SVG requeridos (encontrados: ${assetsSvgFiles.length})`);
 
-  // 5. Verificar que faceplates.js no contiene referencias huérfanas a 'default/'
+  // 5. Verificar que faceplates.js implementa normalizeAssetUrl() para retrocompatibilidad
   const faceplatesJsContent = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'faceplates.js'), 'utf8');
+  assert(faceplatesJsContent.includes('normalizeAssetUrl'), "js/ui/faceplates.js implementa la función de normalización normalizeAssetUrl()");
   assert(!faceplatesJsContent.includes("'default/"), "js/ui/faceplates.js no contiene referencias huérfanas a 'default/'");
 
   // ----------------------------------------------------
@@ -431,9 +431,14 @@ async function runTests() {
   const exportModalText = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'modals', 'ExportModal.js'), 'utf8');
   assert(exportModalText.includes('html2canvas') && exportModalText.includes('_fallbackExportRackToPNG'), 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
   assert(exportModalText.includes('_fallbackExportFloorToPNG'), 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
+  assert(exportModalText.includes('exportRoomToPNG') && exportModalText.includes('_fallbackExportRoomToPNG'), 'M-37: ExportModal.js implementa exportRoomToPNG para exportar la sala completa con cableado');
+  assert(exportModalText.includes('btn-export-entire-room-dual') && exportModalText.includes('_Dual_Frente_Dorso.png'), 'ExportModal: implementa botón e infraestructura para exportación de Sala Completa en Vista Dual (Frente + Dorso)');
+  assert(exportModalText.includes("mode = 'current'") && exportModalText.includes("mode === 'dual'"), 'ExportModal: exportRoomToPNG admite modos current y dual modular');
+  assert(typeof store.allRacksInRoom === 'function', 'Store: store.allRacksInRoom(roomId) está definida y filtra correctamente los gabinetes');
 
   const rackCssText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'rack.css'), 'utf8');
   assert(rackCssText.includes('.exporting-capture .device-actions'), 'M-37: css/components/rack.css implementa reglas .exporting-capture para ocultar controles de UI en capturas');
+  assert(rackCssText.includes('.exporting-capture #canvas-btn-add-rack'), 'M-37: css/components/rack.css oculta el botón +Rack durante la captura');
 
   // 9.2 M-19: Propiedades en tabla de inventario
   store._raw.devices.push({
@@ -604,6 +609,153 @@ async function runTests() {
   // 11.7 Verificación de Conexiones Troncales Backbone
   const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
   assert(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+  // ----------------------------------------------------
+  // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 12: Gestión Avanzada de Puertos y Validación de VLANs');
+
+  // 12.1 Catálogo y CRUD de VLANs
+  const vlans = store.getVlans();
+  assert(Array.isArray(vlans) && vlans.length >= 7, `VLANs: getVlans() retorna catálogo con al menos 7 VLANs (encontradas: ${vlans.length})`);
+
+  const vlanDefault = store.getVlanById(1);
+  assert(vlanDefault && vlanDefault.name.includes('Default'), 'VLANs: VLAN 1 (Default / Troncal) está presente');
+
+  const addVlanRes = store.addVlan({ id: 100, name: 'VLAN Pruebas QA', color: '#ec4899' });
+  assert(addVlanRes && addVlanRes.success === true, 'VLANs: addVlan() crea exitosamente una nueva VLAN');
+  assert(store.getVlanById(100)?.name === 'VLAN Pruebas QA', 'VLANs: getVlanById(100) recupera la nueva VLAN');
+
+  const delVlan1Res = store.deleteVlan(1);
+  assert(delVlan1Res && delVlan1Res.success === false, 'VLANs: deleteVlan(1) es rechazado (protección de VLAN 1 Default)');
+
+  const delVlan100Res = store.deleteVlan(100);
+  assert(delVlan100Res && delVlan100Res.success === true && !store.getVlanById(100), 'VLANs: deleteVlan(100) elimina correctamente la VLAN');
+
+  // 12.2 Consulta de Puertos y Detección de Estado
+  const rackTest = store._raw.racks[0];
+  const swCoreDev = store._raw.devices.find(d => d.name.includes('Core'));
+  const swDistDev = store._raw.devices.find(d => d.name.includes('Distribución'));
+  assert(swCoreDev && swDistDev, 'Puertos: Switches Core y Distribución disponibles para pruebas de puertos');
+
+  const portsCore = store.getDevicePorts(swCoreDev.id);
+  assert(Array.isArray(portsCore) && portsCore.length > 0, `Puertos: getDevicePorts() retorna array estructurado de puertos (encontrados: ${portsCore.length})`);
+
+  const portTe1 = portsCore.find(p => p.name === 'Te1/0/1');
+  assert(portTe1 && portTe1.isOccupied === true, 'Puertos: Puerto conectado Te1/0/1 detectado como ocupado (isOccupied === true)');
+  assert(portTe1 && portTe1.peerDeviceName.includes('Switch ToR'), `Puertos: Puerto Te1/0/1 mapea correctamente a equipo par (${portTe1?.peerDeviceName})`);
+
+  const isTe1Occupied = store.isPortOccupied(swCoreDev.id, 'Te1/0/1');
+  assert(isTe1Occupied !== false && isTe1Occupied.id !== undefined, 'Puertos: isPortOccupied("Te1/0/1") retorna objeto de conexión');
+
+  const isFreeOccupied = store.isPortOccupied(swCoreDev.id, 'Eth-999');
+  assert(isFreeOccupied === false, 'Puertos: isPortOccupied("Eth-999") retorna false para puerto inexistente o libre');
+
+  // 12.3 Prevención de Doble Conexión / Colisión de Puertos
+  const collisionValidation = store.validateConnection({
+    sourceDeviceId: swCoreDev.id,
+    sourcePort: 'Te1/0/1',
+    targetDeviceId: swDistDev.id,
+    targetPort: 'Eth-1'
+  });
+  assert(collisionValidation.valid === false && collisionValidation.error.includes('ya está conectado'), 'Colisión: validateConnection bloquea intento de conexión en puerto ya conectado');
+
+  const addCollisionRes = store.addConnection({
+    sourceDeviceId: swCoreDev.id,
+    sourcePort: 'Te1/0/1',
+    targetDeviceId: swDistDev.id,
+    targetPort: 'Eth-1'
+  });
+  assert(addCollisionRes && addCollisionRes.success === false, 'Colisión: addConnection() rechaza creación de cable en puerto ocupado');
+
+  // 12.4 Conexión Válida en Puerto Libre con VLAN
+  const connFreeRes = store.addConnection({
+    sourceDeviceId: swCoreDev.id,
+    sourcePort: 'Eth-1',
+    targetDeviceId: swDistDev.id,
+    targetPort: 'Eth-1',
+    vlanId: 20
+  });
+  assert(connFreeRes && connFreeRes.success === true, 'Conexión: addConnection() conecta con éxito puertos libres');
+  assert(store.isPortOccupied(swCoreDev.id, 'Eth-1') !== false, 'Conexión: Puerto origen Eth-1 pasa a estado ocupado');
+  assert(store.isPortOccupied(swDistDev.id, 'Eth-1') !== false, 'Conexión: Puerto destino Eth-1 pasa a estado ocupado');
+
+  const portsCoreUpdated = store.getDevicePorts(swCoreDev.id);
+  const eth1PortObj = portsCoreUpdated.find(p => p.name === 'Eth-1');
+  assert(eth1PortObj && eth1PortObj.vlanId === 20, 'VLAN: Puerto hereda correctamente metadatos de VLAN 20');
+
+  // 12.5 Desconexión y Liberación de Puertos
+  store.deleteConnection(connFreeRes.connection.id);
+  assert(store.isPortOccupied(swCoreDev.id, 'Eth-1') === false, 'Desconexión: Puerto origen Eth-1 liberado exitosamente tras eliminar conexión');
+  assert(store.isPortOccupied(swDistDev.id, 'Eth-1') === false, 'Desconexión: Puerto destino Eth-1 liberado exitosamente tras eliminar conexión');
+
+  // 12.6 Auditoría de Colisiones en Plantilla Demo
+  loadDemoData();
+  let demoCollisions = 0;
+  const occupiedCheck = new Set();
+  store._raw.connections.forEach(c => {
+    const key1 = `${c.sourceDeviceId}::${String(c.sourcePort).toLowerCase()}`;
+    const key2 = `${c.targetDeviceId}::${String(c.targetPort).toLowerCase()}`;
+    if (occupiedCheck.has(key1)) demoCollisions++;
+    if (occupiedCheck.has(key2)) demoCollisions++;
+    occupiedCheck.add(key1);
+    occupiedCheck.add(key2);
+  });
+  assert(demoCollisions === 0, `Auditoría Demo: 0 colisiones de puertos en toda la base de datos (colisiones detectadas: ${demoCollisions})`);
+
+  const connsWithVlan = store._raw.connections.filter(c => c.vlanId !== undefined && c.vlanId > 0);
+  assert(connsWithVlan.length === store._raw.connections.length, `Auditoría Demo: 100% de las conexiones tienen VLAN asignada (${connsWithVlan.length}/${store._raw.connections.length})`);
+
+  assert(typeof window.disconnectPortFromInspector === 'function', 'Inspector: disconnectPortFromInspector() está expuesta en window');
+
+  // ----------------------------------------------------
+  // GRUPO 13: SELECTOR DE COLUMNAS EN TABLAS (PROPUESTA 3)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3)');
+
+  assert(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
+  assert(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+  assert(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
+  assert(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
+  assert(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
+  assert(typeof setColumnVisible === 'function', 'Columnas: setColumnVisible() está definida globalmente');
+  assert(typeof resetTableColumns === 'function', 'Columnas: resetTableColumns() está definida globalmente');
+  assert(typeof showAllTableColumns === 'function', 'Columnas: showAllTableColumns() está definida globalmente');
+
+  // Comprobar columna requerida protegida
+  assert(isColumnVisible('inventory', 'name') === true, 'Columnas: Columna "name" requerida siempre visible');
+
+  // Probar ocultamiento dinámico de columna en render
+  setColumnVisible('inventory', 'mac', false);
+  assert(isColumnVisible('inventory', 'mac') === false, 'Columnas: Columna "mac" desactivada correctamente');
+
+  const testTableContainer = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(testTableContainer, '');
+  assert(!testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> no aparece en el DOM al estar oculta');
+
+  // Reactivar columna y verificar restauración
+  setColumnVisible('inventory', 'mac', true);
+  assert(isColumnVisible('inventory', 'mac') === true, 'Columnas: Columna "mac" reactivada con éxito');
+  renderInventoryTable(testTableContainer, '');
+  assert(testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> restaurado en el DOM');
+
+  // Probar acciones rápidas Mostrar Todo y Reset
+  showAllTableColumns('inventory');
+  const allVis = INVENTORY_COLUMNS.every(c => isColumnVisible('inventory', c.id));
+  assert(allVis === true, 'Columnas: showAllTableColumns() activa el 100% de las columnas de inventario');
+
+  resetTableColumns('inventory');
+  assert(isColumnVisible('inventory', 'name') === true, 'Columnas: resetTableColumns() restaura configuración por defecto');
+
+  // Comprobar elementos en index.html
+  const updatedHtmlCols = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
+  assert(updatedHtmlCols.includes('id="columns-menu-wrap"') && updatedHtmlCols.includes('id="btn-columns-menu"'), 'Columnas: index.html define el botón del selector #btn-columns-menu');
+  assert(updatedHtmlCols.includes('id="columns-dropdown"') && updatedHtmlCols.includes('id="columns-dropdown-list"'), 'Columnas: index.html define el popover #columns-dropdown con su lista');
+  assert(updatedHtmlCols.includes('id="btn-cols-show-all"') && updatedHtmlCols.includes('id="btn-cols-reset"'), 'Columnas: index.html define los botones rápidos Mostrar Todo y Por Defecto');
+
+  // Comprobar estilos en panels.css
+  const panelsCssColsText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'panels.css'), 'utf8');
+  assert(panelsCssColsText.includes('.columns-dropdown-header') && panelsCssColsText.includes('.col-toggle-item') && panelsCssColsText.includes('.btn-col-action'), 'Columnas: panels.css implementa estilos para el popover y checkboxes');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

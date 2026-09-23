@@ -4,6 +4,38 @@
 El proyecto ha completado con éxito la **Modernización Integral del Catálogo Arquitectónico Profesional**, la incorporación de la familia **Seguridad y CCTV** (NVR, DVR, Decoder), la inclusión formal de **Patch Panel y ODF** en Accesorios, y la **Persistencia de Equipos Personalizados por Proyecto** (`customCatalog`) con ciclo de vida completo y reset en nuevo proyecto. La suite de pruebas de integridad se ha expandido a **82/83 pruebas automatizadas al 100% de éxito** en CLI (`pnpm test`) y navegador (`tests/index.html`).
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-22] Exportación de Sala Completa en Vista Dual (Frente + Dorso Modular por Gabinete):**
+  - **Disposición Modular por Gabinete (`mode === 'dual'`):** Cada rack en la sala completa se exporta dentro de un recuadro cerrado e independiente con borde y franja superior de su color asignado (`rack.color`), cabecera con `GABINETE: [NOMBRE]`, ocupación `[X]U · [Y]U USADAS · [Z]W`, badge `VISTA DUAL (F+T)` y columnas interiores `VISTA FRONTAL` y `VISTA TRASERA` lado a lado.
+  - **Lienzo Panorámico General de Datacenter:** Módulos ensamblados horizontalmente con espaciado técnico de 40px (80px Retina 2x), cabecera general con métricas globales consolidadas y badge `VISTA DUAL PANORÁMICA`.
+  - **Integración con Equipos de Piso:** Inclusión de periféricos al pie con borde `#f59e0b` e iconografía vectorial nítida trazada con `drawFloorIconCanvas`.
+  - **Doble Modalidad en Modal (`openPNGModal`):** Botón principal `#btn-export-entire-room-dual` (Vista Dual Frente + Dorso) y botón secundario `#btn-export-entire-room` (Vista Actual 1:1).
+  - **Fallback Procedural 2D:** Soporte completo en Canvas 2D (`_fallbackExportRoomToPNG`) para entornos donde `html2canvas` falle o no esté presente.
+  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v30` y 119/119 pruebas de integridad pasando al 100%.
+- **[2026-09-22] Iconografía Vectorial en Exportación de Equipos de Piso (1:1 y Fallback 2D):**
+  - **Trazado Vectorial en Fallback (`drawFloorIconCanvas`):** Implementación de trazado vectorial en Canvas 2D para todos los periféricos de piso (`camera`, `printer`, `phone`, `ap`, `pc`, `door`), integrando cajita con esquinas redondeadas y fondo tintado idéntica a la UI.
+  - **Resolución de Compatibilidad con `html2canvas`:** Reemplazo de `color-mix()` por `rgba()`, inyección de atributos explícitos `width="22" height="22"` en SVGs y ocultamiento de botones de acción durante la captura.
+  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v29` y 117/117 pruebas de integridad pasando al 100%.
+- **[2026-09-22] Exportación de Gabinetes en Ambos Lados (Frontal + Trasera 1:1):**
+  - **Captura y Composición Dual (`exportRackToPNG` con `side === 'both'`):**
+    - Se implementó la captura secuencial de la cara Frontal y la cara Trasera en alta resolución Retina (`scale: 2`), combinándolas horizontalmente en un único lienzo de imagen con espaciado técnico de 36px y fondo adaptativo del tema.
+    - Se agregaron botones independientes en cada tarjeta de gabinete del modal: `Frontal`, `Trasera` y `Ambos Lados` (resaltado).
+    - Descarga automática con el sufijo `${rack.name}_Ambos_Lados.png`.
+  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v28` y 117/117 pruebas de integridad pasando al 100%.
+- **[2026-09-22] Estabilización Definitiva de Exportación de Toda la Sala Completa a PNG (Alta Fidelidad 1:1):**
+  - **Aislamiento Seguro en Captura de Sala (`exportRoomToPNG`):**
+    - Se eliminó el uso de `ignoreElements` en `html2canvas` (causante de caídas silenciosas al fallback procedural 2D) y se reemplazó por la aplicación directa de `style.display = 'none'` sobre controles interactivos (`#canvas-btn-add-rack`, `#floor-btn-add-device`, `.device-actions`, `.btn-flip-rack`, etc.), restaurando sus estados en el bloque `finally`.
+    - **Protección de SVG de Cables Vacío:** Al exportar salas sin cables dibujados, se oculta completamente el elemento `<svg id="physical-cables-svg">` (`display: 'none'`), evitando fallas de serialización SVG de Chromium en protocolo local `file:///`.
+    - **Amplitud y Proporción Natural (`max-content`):** Se aplica `width: max-content`, `minWidth: max-content` y `boxSizing: border-box` en `#view-physical-content` durante la captura para garantizar que todos los gabinetes se alineen horizontalmente con holgura e impecable resolución, sin saltos de línea ni recortes.
+    - **Diagnóstico y Reporte Claro:** Captura y notificación explícita de errores en la interfaz si la captura 1:1 llegase a fallar antes de recurrir al renderizador alternativo.
+  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v27` y 117/117 pruebas de integridad pasando limpiamente al 100%.
+- **[2026-09-22] Reparación y Fidelidad 1:1 en Exportación PNG de Gabinetes Individuales:**
+  - **Resolución de Canvas Tainted (`SecurityError`):** Inyección de `EMBEDDED_SVG_CACHE` con los 18 SVGs nativos directamente en memoria dentro de `faceplates.js`. Esto elimina la dependencia de `fetch()` (bloqueado por CORS en protocolo `file:///`) y erradica las etiquetas `<img>` que contaminaban el canvas. Ahora `html2canvas` genera el PNG de hardware real 1:1 sin caer en el fallback.
+  - **Aplanado 3D Temporal para html2canvas:** Neutralización transitoria de `perspective: none`, `transform: none`, `transform-style: flat` y `transition: none` en `.rack-wrapper` y `.rack-flipper` con restauración exacta en bloque `finally`.
+  - **Aislamiento de Caras (Frontal vs. Trasera):** Eliminación del solapamiento parásito ocultando la cara inactiva (`display: none`) y colocando la activa en flujo relativo sin rotaciones 3D.
+  - **Orientación Real en Fallback:** Corrección en `_fallbackExportRackToPNG` para que U1 esté en la base y U12/U42 en el tope.
+  - **Adaptación al Tema Dinámico:** Uso de `getActiveThemeBg()` para leer el color de fondo `--bg-main` según el tema activo (`data-theme="light"` o modo oscuro), tanto en `html2canvas` como en los renderizadores procedimentales Canvas 2D.
+  - **Soporte Frontal / Trasera en Modal:** Detección de equipos en cara trasera en `openPNGModal()` para ofrecer exportación directa e independiente de ambas vistas.
+  - **Compensación de Zoom / Pan:** Reset temporal de `phys.style.zoom` y `transform` durante la captura para evitar recortes y desplazamientos.
 - **[2026-09-21] Catálogo Arquitectónico Profesional, Seguridad/CCTV y Equipos Personalizados por Proyecto:**
   - **Enfoque Genérico / Arquitectónico:** Estandarización a 30 plantillas limpias de centro de datos sin marcas arbitrarias (Servidores 1U/2U/4U/Blade, Switches 24P/48P/Core/Agregación, Routers de borde, Firewalls UTM, Cabinas SAN, NAS 2U, JBOD, UPS Online 1500/3000, PDUs, Organizadores, Bandejas, etc.) con potencias (W) y puertos reales.
   - **Nueva Categoría Seguridad y CCTV (`security`):** Creación de la familia comercial con NVR 1U/2U, DVR 1U y Decodificador de Video Wall 1U, acompañados de iconos vectoriales dedicados (`SVG_ICONS`).

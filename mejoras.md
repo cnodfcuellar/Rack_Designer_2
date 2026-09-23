@@ -265,8 +265,8 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 ### Fase 1 — Core y Datos (Prioridad Alta)
 0. **[REGRESIÓN URGENTE]** Reparar exportación a PNG (1 a 1 por rack y sala completa en vista física) que ha dejado de funcionar tras los últimos cambios estructurales. *(→ Sección 6, 📸)*
 1. Handler de `QuotaExceededError` con notificación visual al usuario. *(→ Sección 2, 💾)*
-2. Gestión avanzada de puertos: validación, VLAN, submenú, filtrado de ocupados. *(→ Sección 6, 🔌)*
-3. Refactorizar `demoData.js` para nueva estructura de puertos. *(→ Sección 6, 🔌)*
+2. Gestión avanzada de puertos: validación, VLAN, submenú, filtrado de ocupados. *(→ Sección 6, 🔌)* ✅ **[COMPLETADO 2026-09-23]**
+3. Refactorizar `demoData.js` para nueva estructura de puertos. *(→ Sección 6, 🔌)* ✅ **[COMPLETADO 2026-09-23]**
 
 ### Fase 2 — UX y Usabilidad
 4. Buscador en catálogo del modal de equipos. *(→ Sección 6, 🔍)*

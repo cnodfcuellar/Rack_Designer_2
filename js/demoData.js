@@ -503,37 +503,43 @@ function loadDemoData() {
   connections.push({
     id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/1',
     targetDeviceId: swTorCompId, targetPort: 'Te1/1/1',
-    cableType: 'Fibra SM', color: '#38bdf8'
+    cableType: 'Fibra SM', color: '#38bdf8',
+    vlanId: 1, vlanName: 'Default / Troncal'
   });
   // - Hacia Switch SAN Fibre Channel (Rack 103)
   connections.push({
     id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/2',
     targetDeviceId: swSanId, targetPort: 'Te1/1/1',
-    cableType: 'Fibra OM4', color: '#06b6d4'
+    cableType: 'Fibra OM4', color: '#06b6d4',
+    vlanId: 1, vlanName: 'Default / Troncal'
   });
   // - Hacia Switch PoE CCTV (Rack 104)
   connections.push({
     id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/3',
     targetDeviceId: swPoeCctvId, targetPort: 'Te1/1/1',
-    cableType: 'Fibra SM', color: '#f43f5e'
+    cableType: 'Fibra SM', color: '#f43f5e',
+    vlanId: 1, vlanName: 'Default / Troncal'
   });
   // - Hacia Switch Distribución local (Rack 101)
   connections.push({
     id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/4',
     targetDeviceId: swDistId, targetPort: 'Te1/1/1',
-    cableType: 'DAC', color: '#3b82f6'
+    cableType: 'DAC', color: '#3b82f6',
+    vlanId: 1, vlanName: 'Default / Troncal'
   });
   // - Inter-Sala: Hacia Switch Edificio Corporativo A (Rack 201)
   connections.push({
     id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/5',
     targetDeviceId: swCorpId, targetPort: 'Te1/1/1',
-    cableType: 'Fibra SM', color: '#0ea5e9'
+    cableType: 'Fibra SM', color: '#0ea5e9',
+    vlanId: 1, vlanName: 'Default / Troncal'
   });
   // - Inter-Sala: Hacia Switch SOC (Rack 301)
   connections.push({
     id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/6',
     targetDeviceId: swSocId, targetPort: 'Te1/1/1',
-    cableType: 'Fibra SM', color: '#8b5cf6'
+    cableType: 'Fibra SM', color: '#8b5cf6',
+    vlanId: 1, vlanName: 'Default / Troncal'
   });
 
   // 2. Borde e Internet (Rack 101)
@@ -541,72 +547,75 @@ function loadDemoData() {
   connections.push({
     id: uid(), sourceDeviceId: rtrEdgeId, sourcePort: 'Gi0/0/0',
     targetDeviceId: fwEdgeId, targetPort: 'WAN1',
-    cableType: 'DAC', color: '#ef4444'
+    cableType: 'DAC', color: '#ef4444',
+    vlanId: 99, vlanName: 'DMZ / Borde'
   });
   // Firewall -> Switch Core
   connections.push({
     id: uid(), sourceDeviceId: fwEdgeId, sourcePort: 'LAN1',
     targetDeviceId: swCoreId, targetPort: 'Te1/0/48',
-    cableType: 'DAC', color: '#ef4444'
+    cableType: 'DAC', color: '#ef4444',
+    vlanId: 99, vlanName: 'DMZ / Borde'
   });
   // Servidor Syslog -> Switch Distribución
   connections.push({
     id: uid(), sourceDeviceId: srvSyslogId, sourcePort: 'eth0',
     targetDeviceId: swDistId, targetPort: 'Gi1/0/10',
-    cableType: 'Cobre', color: '#10b981'
+    cableType: 'Cobre', color: '#10b981',
+    vlanId: 10, vlanName: 'Gestión / Mgmt'
   });
 
   // 3. Conexiones Servidores Cómputo (Rack 102)
   connections.push(
-    { id: uid(), sourceDeviceId: srvNode1Id, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: srvNode2Id, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: srvSqlId,   sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/3', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: srvWebId,   sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/4', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: bladeChassisId, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#10b981' }
+    { id: uid(), sourceDeviceId: srvNode1Id, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: srvNode2Id, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: srvSqlId,   sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/3', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: srvWebId,   sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/4', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: bladeChassisId, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' }
   );
 
   // 4. Conexiones Storage SAN / NAS (Rack 103)
   connections.push(
-    { id: uid(), sourceDeviceId: sanStorageId, sourcePort: 'fc0', targetDeviceId: swSanId, targetPort: 'fc1/1', cableType: 'Fibra OM4', color: '#06b6d4' },
-    { id: uid(), sourceDeviceId: jbodStorageId, sourcePort: 'sas0', targetDeviceId: sanStorageId, targetPort: 'exp0', cableType: 'Cobre', color: '#64748b' },
-    { id: uid(), sourceDeviceId: nasStorageId, sourcePort: 'eth0', targetDeviceId: swCoreId, targetPort: 'Te1/0/10', cableType: 'Fibra OM4', color: '#06b6d4' }
+    { id: uid(), sourceDeviceId: sanStorageId, sourcePort: 'fc0', targetDeviceId: swSanId, targetPort: 'fc1/1', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 50, vlanName: 'Storage / SAN' },
+    { id: uid(), sourceDeviceId: jbodStorageId, sourcePort: 'sas0', targetDeviceId: sanStorageId, targetPort: 'exp0', cableType: 'Cobre', color: '#64748b', vlanId: 50, vlanName: 'Storage / SAN' },
+    { id: uid(), sourceDeviceId: nasStorageId, sourcePort: 'eth0', targetDeviceId: swCoreId, targetPort: 'Te1/0/10', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 50, vlanName: 'Storage / SAN' }
   );
 
   // 5. Conexiones Seguridad CCTV (Rack 104)
   connections.push(
-    { id: uid(), sourceDeviceId: nvrEntId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/47', cableType: 'Cobre', color: '#f43f5e' },
-    { id: uid(), sourceDeviceId: nvrSecId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#f43f5e' },
-    { id: uid(), sourceDeviceId: decoderId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/46', cableType: 'Cobre', color: '#f43f5e' }
+    { id: uid(), sourceDeviceId: nvrEntId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/47', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: nvrSecId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: decoderId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/46', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' }
   );
 
   // 6. Conexiones Periféricos de Piso a Switches
   // En Sala 1 (Data Center)
   connections.push(
-    { id: uid(), sourceDeviceId: camDc1, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#f43f5e' },
-    { id: uid(), sourceDeviceId: camDc2, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#f43f5e' },
-    { id: uid(), sourceDeviceId: prtDc,  sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#f59e0b' },
-    { id: uid(), sourceDeviceId: apDc,   sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/21', cableType: 'Cobre', color: '#0ea5e9' },
-    { id: uid(), sourceDeviceId: pcDiagDc, sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/22', cableType: 'Cobre', color: '#10b981' }
+    { id: uid(), sourceDeviceId: camDc1, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: camDc2, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: prtDc,  sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#f59e0b', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: apDc,   sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/21', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcDiagDc, sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/22', cableType: 'Cobre', color: '#10b981', vlanId: 10, vlanName: 'Gestión / Mgmt' }
   );
 
   // En Sala 2 (Edificio Corporativo A)
   connections.push(
-    { id: uid(), sourceDeviceId: srvCorpId, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: pcCorp1, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: pcCorp2, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/11', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: prtCorp, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#f59e0b' },
-    { id: uid(), sourceDeviceId: telCorp1, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#8b5cf6' },
-    { id: uid(), sourceDeviceId: telCorp2, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/21', cableType: 'Cobre', color: '#8b5cf6' },
-    { id: uid(), sourceDeviceId: apCorp, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/30', cableType: 'Cobre', color: '#0ea5e9' }
+    { id: uid(), sourceDeviceId: srvCorpId, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcCorp1, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcCorp2, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/11', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: prtCorp, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#f59e0b', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: telCorp1, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#8b5cf6', vlanId: 30, vlanName: 'VoIP / Telefonía' },
+    { id: uid(), sourceDeviceId: telCorp2, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/21', cableType: 'Cobre', color: '#8b5cf6', vlanId: 30, vlanName: 'VoIP / Telefonía' },
+    { id: uid(), sourceDeviceId: apCorp, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/30', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'Datos Corporativos' }
   );
 
   // En Sala 3 (Centro de Operaciones SOC)
   connections.push(
-    { id: uid(), sourceDeviceId: srvSocId, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: pcSoc1, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: pcSoc2, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/6', cableType: 'Cobre', color: '#10b981' },
-    { id: uid(), sourceDeviceId: camSoc, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#f43f5e' },
-    { id: uid(), sourceDeviceId: apSoc, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#0ea5e9' }
+    { id: uid(), sourceDeviceId: srvSocId, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcSoc1, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcSoc2, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/6', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: camSoc, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: apSoc, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'Datos Corporativos' }
   );
 
   const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };

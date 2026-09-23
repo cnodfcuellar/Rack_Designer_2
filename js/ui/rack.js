@@ -26,6 +26,9 @@ function renderPhysical() {
           <p>No hay gabinetes en esta sala.</p>
           <div style="display:flex; gap:12px; margin-top:16px;">
             <button class="btn-primary" id="empty-btn-add-rack">+ Rack</button>
+            <button class="btn-secondary" id="empty-btn-load-demo" onclick="if(typeof window.loadDemoData === 'function') window.loadDemoData();">
+              <i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i> Cargar Plantilla Demo
+            </button>
           </div>
         </div>
       </div>
@@ -82,7 +85,7 @@ function renderPhysical() {
           <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
             <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
             <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
-            <div class="dropdown-menu hidden" id="rack-menu-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
+            <div class="dropdown-menu hidden" id="rack-menu-${side}-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
               <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
               <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
               <div class="dropdown-divider"></div>
@@ -439,19 +442,29 @@ function bindRackEvents(container, flippedRacks) {
   container.querySelectorAll('[data-rack-menu-toggle]').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      const menu = document.getElementById(`rack-menu-${btn.dataset.rackMenuToggle}`);
-      // Cerrar otros menús de rack
+      const parent = btn.closest('.rack-hdr-btns');
+      const menu = parent ? parent.querySelector('.dropdown-menu') : null;
+      if (!menu) return;
+      const isCurrentlyHidden = menu.classList.contains('hidden');
+      // Cerrar todos los menús de rack abiertos
       document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => {
-        if (m !== menu) m.classList.add('hidden');
+        m.classList.add('hidden');
       });
-      menu.classList.toggle('hidden');
+      document.querySelectorAll('.rack-wrapper.menu-open').forEach(w => {
+        w.classList.remove('menu-open');
+      });
+      if (isCurrentlyHidden) {
+        menu.classList.remove('hidden');
+        btn.closest('.rack-wrapper')?.classList.add('menu-open');
+      }
     });
   });
 
   container.querySelectorAll('[data-edit-rack]').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      document.getElementById(`rack-menu-${btn.dataset.editRack}`)?.classList.add('hidden');
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
       if (!RackAuth.can('editDevices')) {
         notify('Espectadores no pueden editar gabinetes.', 'error', 3000);
         return;
@@ -462,7 +475,8 @@ function bindRackEvents(container, flippedRacks) {
   container.querySelectorAll('[data-del-rack]').forEach(btn => {
     btn.addEventListener('click', async e => {
       e.stopPropagation();
-      document.getElementById(`rack-menu-${btn.dataset.delRack}`)?.classList.add('hidden');
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
       if (!RackAuth.can('editDevices')) {
         notify('Espectadores no pueden eliminar gabinetes.', 'error', 3000);
         return;
@@ -478,8 +492,17 @@ function bindRackEvents(container, flippedRacks) {
   container.querySelectorAll('[data-add-dev-rack]').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      document.getElementById(`rack-menu-${btn.dataset.addDevRack}`)?.classList.add('hidden');
+      const targetRackId = btn.dataset.addDevRack;
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
       openQuickPlacementModal(null);
+      if (targetRackId) {
+        const rackSelect = document.getElementById('qp-rack');
+        if (rackSelect) {
+          rackSelect.value = targetRackId;
+          if (typeof repopulateQPSlots === 'function') repopulateQPSlots();
+        }
+      }
     });
   });
 
@@ -487,7 +510,8 @@ function bindRackEvents(container, flippedRacks) {
     btn.addEventListener('click', async e => {
       e.stopPropagation();
       const rackId = btn.dataset.clearRack;
-      document.getElementById(`rack-menu-${rackId}`)?.classList.add('hidden');
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
       if (!RackAuth.can('editDevices')) {
         notify('Espectadores no pueden limpiar gabinetes.', 'error', 3000);
         return;

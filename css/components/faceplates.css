@@ -90,7 +90,7 @@ body.no-animations svg.faceplate-img * {
 .faceplate-label {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   line-height: 1.15;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.9);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -98,15 +98,28 @@ body.no-animations svg.faceplate-img * {
 
 .faceplate-label.dev-title {
   font-size: 9.5px;
-  font-weight: 600;
-  color: #f1f5f9;
-  letter-spacing: 0.3px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 2px 4px #000000,
+     0 3px 8px rgba(0, 0, 0, 0.95);
 }
 
 .faceplate-label.dev-meta {
   font-size: 8px;
-  color: #38bdf8;
-  opacity: 0.9;
+  font-weight: 600;
+  color: #67e8f9;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 1px 3px #000000;
 }
 
 /* ============================================================
@@ -292,7 +305,7 @@ body.no-animations svg.faceplate-img * {
 .floor-device-card:hover {
   border-color: var(--floor-color, var(--accent));
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--floor-color) 20%, transparent), 0 0 1px var(--floor-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 1px var(--floor-color);
 }
 
 .floor-device-icon {
@@ -305,8 +318,8 @@ body.no-animations svg.faceplate-img * {
   width: 36px;
   height: 36px;
   border-radius: var(--radius);
-  background: color-mix(in srgb, var(--floor-color) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--floor-color) 20%, transparent);
+  background: rgba(125, 125, 125, 0.1);
+  border: 1px solid rgba(125, 125, 125, 0.2);
   color: var(--floor-color);
   transition: transform 0.2s ease;
 }
@@ -323,11 +336,17 @@ body.no-animations svg.faceplate-img * {
 .floor-device-name {
   font-family: var(--font-ui);
   font-size: var(--text-base);
-  font-weight: 550;
-  color: var(--text-primary);
+  font-weight: 600;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 2px 4px #000000;
 }
 
 .floor-device-meta {

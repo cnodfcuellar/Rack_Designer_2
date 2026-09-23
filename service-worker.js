@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rack-designer-next-cache-v22';
+const CACHE_NAME = 'rack-designer-next-cache-v33';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -13,35 +13,35 @@ const ASSETS_TO_CACHE = [
   './css/components/misc.css',
   './js/utils.js',
   './js/icons.js',
-  './js/store.js',
   './js/demoData.js',
   './js/xlsx.full.min.js',
   './js/html2canvas.min.js',
   './js/mobile-drag-drop.min.js',
   './js/mobile-drag-drop-scroll.min.js',
   './js/auth/roles.js',
+  './js/store.js',
   './js/ui/catalog.js',
-  './js/ui/faceplates.js',
-  './js/ui/fileManager.js',
-  './js/ui/inspector.js',
-  './js/ui/modals.js',
-  './js/ui/outliner.js',
   './js/ui/rack.js',
+  './js/ui/faceplates.js',
   './js/ui/tables.js',
-  './js/ui/modals/CableModal.js',
+  './js/ui/outliner.js',
+  './js/ui/inspector.js',
+  './js/ui/fileManager.js',
   './js/ui/modals/DeviceModal.js',
-  './js/ui/modals/ExportModal.js',
-  './js/ui/modals/Globals.js',
-  './js/ui/modals/PlacementModal.js',
   './js/ui/modals/RackModal.js',
   './js/ui/modals/RoomModal.js',
-  './js/ui/topology/TopologyEvents.js',
-  './js/ui/topology/TopologyLayout.js',
-  './js/ui/topology/TopologyOrchestrator.js',
-  './js/ui/topology/TopologyRenderer.js',
+  './js/ui/modals/CableModal.js',
+  './js/ui/modals/ExportModal.js',
+  './js/ui/modals/PlacementModal.js',
+  './js/ui/modals/PortSelectionModal.js',
   './js/ui/topology/TopologyState.js',
+  './js/ui/topology/TopologyRenderer.js',
+  './js/ui/topology/TopologyLayout.js',
+  './js/ui/topology/TopologyEvents.js',
+  './js/ui/topology/TopologyManager.js',
+  './js/ui/modals.js',
   './js/main.js',
-  './json/manifest.json',
+  './manifest.json',
   './assets/icons/icon.svg',
   './assets/icons/icon-192x192.png',
   './assets/icons/icon-512x512.png',
@@ -63,24 +63,6 @@ const ASSETS_TO_CACHE = [
   './assets/svg/default/floor_camera.svg',
   './assets/svg/default/floor_ap.svg',
   './assets/svg/default/floor_printer.svg',
-  './assets/default/server_1u.svg',
-  './assets/default/server_2u.svg',
-  './assets/default/server_4u.svg',
-  './assets/default/switch_24p.svg',
-  './assets/default/router.svg',
-  './assets/default/firewall.svg',
-  './assets/default/ups.svg',
-  './assets/default/ups_2u.svg',
-  './assets/default/pdu.svg',
-  './assets/default/storage.svg',
-  './assets/default/patchpanel.svg',
-  './assets/default/organizer.svg',
-  './assets/default/kvm.svg',
-  './assets/default/tray.svg',
-  './assets/default/floor_pc.svg',
-  './assets/default/floor_camera.svg',
-  './assets/default/floor_ap.svg',
-  './assets/default/floor_printer.svg',
   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap'
 ];
 
@@ -111,20 +93,31 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  let req = event.request;
+  // Redirección transparente en Service Worker si se solicita la ruta antigua 'assets/default/'
+  if (req.url && req.url.includes('/assets/default/')) {
+    const canonicalUrl = req.url.replace('/assets/default/', '/assets/svg/default/');
+    req = new Request(canonicalUrl, {
+      method: req.method,
+      headers: req.headers,
+      mode: req.mode,
+      credentials: req.credentials,
+      redirect: req.redirect
+    });
+  }
+
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request).then((fetchResponse) => {
+    caches.match(req).then((response) => {
+      return response || fetch(req).then((fetchResponse) => {
         return caches.open(CACHE_NAME).then((cache) => {
-          // No cacheamos extensiones que no nos interesen o peticiones raras
-          if (event.request.url.startsWith('http')) {
-            cache.put(event.request, fetchResponse.clone());
+          if (req.url.startsWith('http')) {
+            cache.put(req, fetchResponse.clone());
           }
           return fetchResponse;
         });
       });
     }).catch(() => {
-      // Fallback a index.html si no hay red y no está en caché (SPA approach)
-      if (event.request.mode === 'navigate') {
+      if (req.mode === 'navigate') {
         return caches.match('./index.html');
       }
     })

@@ -11,6 +11,10 @@
   flex-direction: column; 
   gap: 0; 
 }
+.rack-wrapper.menu-open {
+  z-index: 500;
+  position: relative;
+}
 .rack-card { 
   width: 280px; 
   min-width: 280px; 
@@ -19,7 +23,7 @@
   background: var(--hardware-base); 
   border: 1.5px solid var(--border-light, #334155); 
   border-radius: var(--radius-lg); 
-  overflow: hidden; 
+  overflow: visible; 
   flex-shrink: 0; 
   position: relative; 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
@@ -41,7 +45,17 @@
   padding: 8px 10px; 
   background: var(--bg-card2); 
   border-bottom: 1px solid var(--border); 
-  overflow: hidden; 
+  overflow: visible; 
+  position: relative;
+  z-index: 20;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+.rack-header .dropdown-menu {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light, #2e3d5a);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
 }
 .rack-title { 
   font-size: var(--text-sm); 
@@ -228,12 +242,19 @@
 .rear-slot-body .rear-device-name {
   font-size: var(--text-xs);
   font-family: var(--font-mono);
-  color: #4a8abf;
+  font-weight: 700;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 80px;
   flex-shrink: 0;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 2px 4px #000000;
 }
 
 /* Rear ports (cables) */
@@ -328,7 +349,9 @@
 .exporting-capture .device-actions,
 .exporting-capture .btn-flip-rack,
 .exporting-capture [data-rack-menu-toggle],
-.exporting-capture .dropdown-menu {
+.exporting-capture .dropdown-menu,
+.exporting-capture #canvas-btn-add-rack,
+.exporting-capture #floor-btn-add-device {
   display: none !important;
 }
 

@@ -63,6 +63,8 @@
 
 .right-panel-section.collapsed {
   flex: 0 0 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
 }
 
 .right-panel-section.collapsed> :not(.panel-header) {
@@ -82,12 +84,24 @@
 #outliner-section {
   flex: 1 1 180px;
   min-height: 120px;
-  transition: max-height 0.2s ease, flex 0.2s ease;
+  transition: max-height 0.2s ease, flex 0.2s ease, min-height 0.2s ease;
+}
+
+#outliner-section.collapsed {
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
 }
 
 #stats-section {
   flex: 0 0 170px;
-  transition: flex 0.2s ease;
+  transition: flex 0.2s ease, min-height 0.2s ease;
+}
+
+#stats-section.collapsed {
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
 }
 
 .right-panel-section:nth-child(2) {
@@ -231,7 +245,7 @@
 }
 
 .dropdown-menu.hidden {
-  display: none;
+  display: none !important;
 }
 
 .dropdown-item {

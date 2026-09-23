@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .glow-port { filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.7)); }
+    </style>
+
+    <pattern id="grid-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.8" fill="#1e293b" opacity="0.6"/>
+    </pattern>
+
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+
+    <linearGradient id="header-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="switch-panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="960" height="560" fill="url(#bg-grad)" rx="12"/>
+  <rect width="960" height="560" fill="url(#grid-dots)" rx="12"/>
+  <rect width="960" height="560" fill="none" stroke="#1e293b" stroke-width="1.5" rx="12"/>
+
+  <!-- Cabecera -->
+  <rect x="24" y="20" width="912" height="54" rx="8" fill="url(#header-grad)" stroke="#334155" stroke-width="1"/>
+  <rect x="36" y="28" width="6" height="38" rx="3" fill="#10b981"/>
+  <text x="52" y="44" fill="#f8fafc" font-size="16" font-weight="700">PROPUESTA 2: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS</text>
+  <text x="52" y="61" fill="#94a3b8" font-size="11.5">Matriz de puertos interactiva, filtrado exclusivo de puertos libres y segmentación lógica por VLANs</text>
+  
+  <rect x="790" y="32" width="134" height="28" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="1"/>
+  <text x="857" y="50" fill="#10b981" font-size="11" font-weight="700" text-anchor="middle">🛡️ INTEGRIDAD DCIM</text>
+
+  <!-- Panel Frontal de Switch 24 Puertos Detallado -->
+  <g transform="translate(40, 95)">
+    <rect width="540" height="110" rx="6" fill="url(#switch-panel)" stroke="#334155" stroke-width="1.5"/>
+    <text x="16" y="25" fill="#f8fafc" font-size="12" font-weight="700">Cisco Catalyst 9300-24T · Switch Distribución</text>
+    <text x="16" y="38" fill="#64748b" font-size="9" class="mono">IP: 10.10.10.5 · 24 GbE + 4 SFP+ (10G)</text>
+
+    <!-- Leyenda de colores VLAN -->
+    <g transform="translate(280, 16)">
+      <rect x="0" y="0" width="8" height="8" rx="2" fill="#3b82f6"/>
+      <text x="12" y="8" fill="#94a3b8" font-size="8.5">VLAN 10 Gestión</text>
+
+      <rect x="90" y="0" width="8" height="8" rx="2" fill="#8b5cf6"/>
+      <text x="102" y="8" fill="#94a3b8" font-size="8.5">VLAN 20 Cómputo</text>
+
+      <rect x="185" y="0" width="8" height="8" rx="2" fill="#f59e0b"/>
+      <text x="197" y="8" fill="#94a3b8" font-size="8.5">Trunk 802.1Q</text>
+    </g>
+
+    <!-- Fila 1 de Puertos (Impares: 1, 3, 5... 23) -->
+    <g transform="translate(20, 52)">
+      <!-- Eth1 Ocupado VLAN10 -->
+      <rect x="0" y="0" width="22" height="18" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+      <circle cx="11" cy="5" r="2" fill="#10b981"/>
+      <text x="11" y="15" fill="#ffffff" font-size="6.5" font-weight="700" text-anchor="middle">1</text>
+
+      <!-- Eth3 Ocupado VLAN20 -->
+      <rect x="26" y="0" width="22" height="18" rx="3" fill="#2e1065" stroke="#8b5cf6" stroke-width="1.5"/>
+      <circle cx="37" cy="5" r="2" fill="#10b981"/>
+      <text x="37" y="15" fill="#ffffff" font-size="6.5" font-weight="700" text-anchor="middle">3</text>
+
+      <!-- Eth5 Libre VLAN10 -->
+      <rect x="52" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#3b82f6" stroke-dasharray="2 2"/>
+      <circle cx="63" cy="5" r="1.5" fill="#64748b"/>
+      <text x="63" y="15" fill="#94a3b8" font-size="6.5" text-anchor="middle">5</text>
+
+      <!-- Eth7 Ocupado Trunk -->
+      <rect x="78" y="0" width="22" height="18" rx="3" fill="#451a03" stroke="#f59e0b" stroke-width="1.5"/>
+      <circle cx="89" cy="5" r="2" fill="#10b981"/>
+      <text x="89" y="15" fill="#ffffff" font-size="6.5" font-weight="700" text-anchor="middle">7</text>
+
+      <!-- Eth9 Libre sin VLAN -->
+      <rect x="104" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/>
+      <circle cx="115" cy="5" r="1.5" fill="#64748b"/>
+      <text x="115" y="15" fill="#94a3b8" font-size="6.5" text-anchor="middle">9</text>
+
+      <!-- Eth11 Ocupado VLAN20 -->
+      <rect x="130" y="0" width="22" height="18" rx="3" fill="#2e1065" stroke="#8b5cf6" stroke-width="1.5"/>
+      <circle cx="141" cy="5" r="2" fill="#10b981"/>
+      <text x="141" y="15" fill="#ffffff" font-size="6.5" font-weight="700" text-anchor="middle">11</text>
+
+      <!-- Eth13..Eth23 (resto) -->
+      <rect x="156" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="167" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">13</text>
+      <rect x="182" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="193" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">15</text>
+      <rect x="208" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="219" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">17</text>
+      <rect x="234" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="245" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">19</text>
+      <rect x="260" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="271" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">21</text>
+      <rect x="286" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="297" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">23</text>
+
+      <!-- 4 Puertos SFP+ Fibra 10G -->
+      <g transform="translate(325, -2)">
+        <rect x="0" y="0" width="34" height="22" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="17" y="14" fill="#ffffff" font-size="7" font-weight="700" text-anchor="middle">SFP-1</text>
+        <rect x="40" y="0" width="34" height="22" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="1"/>
+        <text x="57" y="14" fill="#ffffff" font-size="7" text-anchor="middle">SFP-2</text>
+        <rect x="80" y="0" width="34" height="22" rx="3" fill="#0f172a" stroke="#475569"/>
+        <text x="97" y="14" fill="#64748b" font-size="7" text-anchor="middle">SFP-3</text>
+        <rect x="120" y="0" width="34" height="22" rx="3" fill="#0f172a" stroke="#475569"/>
+        <text x="137" y="14" fill="#64748b" font-size="7" text-anchor="middle">SFP-4</text>
+      </g>
+    </g>
+
+    <!-- Fila 2 de Puertos (Pares: 2, 4, 6... 24) -->
+    <g transform="translate(20, 78)">
+      <rect x="0" y="0" width="22" height="18" rx="3" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/><circle cx="11" cy="5" r="2" fill="#10b981"/><text x="11" y="15" fill="#ffffff" font-size="6.5" font-weight="700" text-anchor="middle">2</text>
+      <rect x="26" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#8b5cf6" stroke-dasharray="2 2"/><text x="37" y="15" fill="#94a3b8" font-size="6.5" text-anchor="middle">4</text>
+      <rect x="52" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="63" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">6</text>
+      <rect x="78" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="89" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">8</text>
+      <rect x="104" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="115" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">10</text>
+      <rect x="130" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="141" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">12</text>
+      <rect x="156" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="167" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">14</text>
+      <rect x="182" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="193" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">16</text>
+      <rect x="208" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="219" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">18</text>
+      <rect x="234" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="245" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">20</text>
+      <rect x="260" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="271" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">22</text>
+      <rect x="286" y="0" width="22" height="18" rx="3" fill="#0f172a" stroke="#475569"/><text x="297" y="15" fill="#64748b" font-size="6.5" text-anchor="middle">24</text>
+    </g>
+  </g>
+
+  <!-- Panel Modal de Conexión Inteligente (Lado Derecho) -->
+  <g transform="translate(610, 95)">
+    <rect width="310" height="230" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <rect x="0" y="0" width="310" height="34" rx="8" fill="#1e293b"/>
+    <text x="16" y="22" fill="#ffffff" font-size="12" font-weight="700">CableModal · Selector Inteligente</text>
+
+    <!-- Selector de Puerto Origen (Filtrado activo) -->
+    <text x="16" y="55" fill="#94a3b8" font-size="10" font-weight="600">PUERTO ORIGEN (Solo Libres)</text>
+    <rect x="16" y="62" width="278" height="28" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1.2"/>
+    <text x="26" y="80" fill="#f8fafc" font-size="10" class="mono">Eth-5 · VLAN 10 (Libre ✓)</text>
+    <path d="M 280 76 L 285 82 L 275 82 Z" fill="#10b981"/>
+
+    <!-- Desplegable simulación mostrando filtrado de ocupados -->
+    <g transform="translate(16, 94)">
+      <rect width="278" height="66" rx="4" fill="#090d16" stroke="#334155" filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))"/>
+      <rect x="0" y="0" width="278" height="22" fill="#0f172a"/>
+      <text x="10" y="15" fill="#10b981" font-size="9.5" class="mono">✓ Eth-5  [1 Gbps · VLAN 10 - Gestión]</text>
+      
+      <!-- Puerto ocupado tachado o deshabilitado -->
+      <text x="10" y="37" fill="#64748b" font-size="9.5" class="mono" text-decoration="line-through">⊘ Eth-1  [OCUPADO → SRV-WEB-01]</text>
+      <rect x="220" y="26" width="50" height="14" rx="3" fill="#ef4444" opacity="0.3"/>
+      <text x="245" y="36" fill="#fca5a5" font-size="7.5" text-anchor="middle">En Uso</text>
+
+      <text x="10" y="58" fill="#10b981" font-size="9.5" class="mono">✓ Eth-9  [1 Gbps · Acceso Sin VLAN]</text>
+    </g>
+
+    <!-- Checkbox de Validación y Prevención -->
+    <g transform="translate(16, 175)">
+      <rect width="14" height="14" rx="3" fill="#10b981"/>
+      <path d="M 3 7 L 6 10 L 11 4" stroke="#ffffff" stroke-width="2" fill="none"/>
+      <text x="22" y="11" fill="#e2e8f0" font-size="9.5" font-weight="600">Validación estricta anti-colisiones activa</text>
+      <text x="22" y="24" fill="#94a3b8" font-size="8.5">Bloquea conectar dos cables en el mismo puerto</text>
+    </g>
+
+    <!-- Botón Guardar -->
+    <rect x="16" y="200" width="278" height="22" rx="4" fill="#0284c7"/>
+    <text x="155" y="215" fill="#ffffff" font-size="10" font-weight="700" text-anchor="middle">Establecer Conexión Validada</text>
+  </g>
+
+  <!-- Panel Inferior: 3 Pilares de la Propuesta -->
+  <g transform="translate(40, 345)">
+    <!-- Tarjeta 1: Filtrado de Puertos -->
+    <rect x="0" y="0" width="275" height="175" rx="8" fill="#0f172a" stroke="#1e293b"/>
+    <rect x="16" y="14" width="28" height="28" rx="6" fill="#10b981" opacity="0.2"/>
+    <circle cx="30" cy="28" r="6" fill="#10b981"/>
+    <text x="54" y="32" fill="#ffffff" font-size="13" font-weight="700">1. Puertos 100% Libres</text>
+    <text x="16" y="65" fill="#94a3b8" font-size="10.5" line-height="1.4">
+      Los menús de conexión suprimen automáticamente los puertos ya cableados, erradicando errores donde un switch termina con 3 cables en el mismo conector físico.
+    </text>
+    <rect x="16" y="130" width="243" height="30" rx="4" fill="#111827"/>
+    <text x="26" y="150" fill="#10b981" font-size="9" class="mono">✓ Integridad física 1:1 garantizada</text>
+
+    <!-- Tarjeta 2: Segmentación VLAN -->
+    <rect x="295" y="0" width="275" height="175" rx="8" fill="#0f172a" stroke="#1e293b"/>
+    <rect x="311" y="14" width="28" height="28" rx="6" fill="#8b5cf6" opacity="0.2"/>
+    <circle cx="325" cy="28" r="6" fill="#8b5cf6"/>
+    <text x="349" y="32" fill="#ffffff" font-size="13" font-weight="700">2. Mapeo de VLANs</text>
+    <text x="311" y="65" fill="#94a3b8" font-size="10.5">
+      Cada puerto almacena su ID de VLAN y modo (Access / Trunk 802.1Q). Los cables en la vista física pueden colorearse automáticamente según la VLAN del enlace.
+    </text>
+    <rect x="311" y="130" width="243" height="30" rx="4" fill="#111827"/>
+    <text x="321" y="150" fill="#8b5cf6" font-size="9" class="mono"># Color-coding automático por VLAN</text>
+
+    <!-- Tarjeta 3: Auditoría en Inspector -->
+    <rect x="590" y="0" width="290" height="175" rx="8" fill="#0f172a" stroke="#1e293b"/>
+    <rect x="606" y="14" width="28" height="28" rx="6" fill="#38bdf8" opacity="0.2"/>
+    <circle cx="620" cy="28" r="6" fill="#38bdf8"/>
+    <text x="644" y="32" fill="#ffffff" font-size="13" font-weight="700">3. Auditoría en Inspector</text>
+    <text x="606" y="65" fill="#94a3b8" font-size="10.5">
+      Al seleccionar un switch o servidor, el panel derecho muestra una tabla resumen: puertos totales, usados, libres, ancho de banda saturado y lista de saltos remotos.
+    </text>
+    <rect x="606" y="130" width="258" height="30" rx="4" fill="#111827"/>
+    <text x="616" y="150" fill="#38bdf8" font-size="9" class="mono">📊 Métricas de densidad en tiempo real</text>
+  </g>
+</svg>

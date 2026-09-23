@@ -217,3 +217,264 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   color: #fff;
 }
 
+/* =========================================================================
+   MATRIZ VISUAL DE PUERTOS Y VLANS EN INSPECTOR
+   ========================================================================= */
+.inspector-ports-card {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ports-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ports-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ports-count-badge {
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(14, 165, 233, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.port-matrix-container {
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.port-matrix-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.port-pin {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.port-pin:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  color: #fff;
+  background: rgba(14, 165, 233, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  z-index: 5;
+}
+
+.port-pin.occupied {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #e2e8f0;
+}
+
+.port-pin.occupied:hover {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.port-pin-led {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 3px #10b981;
+}
+
+.port-pin.type-fiber {
+  border-style: dashed;
+}
+
+.port-detail-box {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vlan-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+/* ============================================================
+   TABLE COLUMNS SELECTOR DROPDOWN (PROPUESTA 3)
+============================================================ */
+#columns-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 290px;
+  max-width: 90vw;
+  max-height: 165px;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  padding: 0;
+  overflow: hidden;
+}
+
+#bottom.fullscreen #columns-dropdown {
+  max-height: 380px;
+}
+
+.columns-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  flex-shrink: 0;
+}
+
+#btn-cols-close:hover {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.columns-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  padding: 6px 8px;
+  flex: 1;
+  min-height: 50px;
+}
+
+.col-toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.col-toggle-item:hover {
+  background: var(--bg-card2);
+  color: var(--text-primary);
+}
+
+.col-toggle-item input[type="checkbox"] {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+}
+
+.col-toggle-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.col-category-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.columns-dropdown-footer {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+  flex-shrink: 0;
+}
+
+.btn-col-action {
+  flex: 1;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-ui);
+}
+
+.btn-col-action:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+
+

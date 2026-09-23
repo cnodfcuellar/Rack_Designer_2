@@ -1,0 +1,309 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="1280" height="780" style="background:#090d16; font-family:'Segoe UI', system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Gradiente de fondo del lienzo -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Gradiente de contenedor de rack -->
+    <linearGradient id="rackModuleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+
+    <!-- Patrón de rejilla milimétrica -->
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Fondo con textura de grilla técnica -->
+  <rect width="100%" height="100%" fill="url(#bgGrad)"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- ========================================== -->
+  <!-- CABECERA DE LA SALA                        -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 32)">
+    <!-- Indicador de estado -->
+    <circle cx="10" cy="14" r="5" fill="#10b981"/>
+    <text x="26" y="18" fill="#f8fafc" font-size="20" font-weight="700" letter-spacing="-0.3">Sala: Edificio A2 — Infografía Completa de Gabinetes Duales</text>
+    <text x="26" y="38" fill="#64748b" font-size="12" font-family="'Consolas', monospace">Exportación Panorámica 1:1 · Frente y Dorso por Módulo · 3 Gabinetes · 4 Equipos de Piso</text>
+  </g>
+
+  <!-- =================================================================== -->
+  <!-- MÓDULO RACK 201 (ENCERRADO EN UN CUADRADO CON CABECERA DEL RACK)    -->
+  <!-- =================================================================== -->
+  <g transform="translate(40, 95)">
+    <!-- Contenedor exterior unificado del Rack -->
+    <rect width="570" height="470" rx="10" fill="url(#rackModuleGrad)" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="none"/>
+    
+    <!-- Barra de cabecera del módulo -->
+    <path d="M 0 10 Q 0 0 10 0 L 560 0 Q 570 0 570 10 L 570 42 L 0 42 Z" fill="#ef444415"/>
+    <line x1="0" y1="42" x2="570" y2="42" stroke="#ef444444" stroke-width="1"/>
+    
+    <!-- Título del Gabinete -->
+    <rect x="16" y="12" width="10" height="18" rx="2" fill="#ef4444"/>
+    <text x="34" y="26" fill="#f8fafc" font-size="14" font-weight="700">GABINETE: RACK 201</text>
+    <text x="195" y="26" fill="#ef4444" font-size="11" font-family="'Consolas', monospace" font-weight="600">[ 24U · 13U USADAS ]</text>
+    <rect x="445" y="12" width="108" height="18" rx="4" fill="#ef444422" stroke="#ef444466"/>
+    <text x="453" y="25" fill="#ef4444" font-size="9" font-family="'Consolas', monospace" font-weight="700">VISTA DUAL (F+T)</text>
+
+    <!-- COLUMNA IZQUIERDA: VISTA FRONTAL -->
+    <g transform="translate(20, 56)">
+      <!-- Marco vista frontal -->
+      <rect width="250" height="395" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <rect width="250" height="26" rx="6" fill="#1e293b55"/>
+      <text x="125" y="17" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">VISTA FRONTAL</text>
+
+      <!-- Rieles U -->
+      <rect x="1" y="26" width="16" height="368" fill="#111827"/>
+      <rect x="233" y="26" width="16" height="368" fill="#111827"/>
+      
+      <!-- Equipos Frontales -->
+      <!-- Switch ToR U24 -->
+      <g transform="translate(18, 30)">
+        <rect width="214" height="24" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="16" fill="#10b981" font-size="10" font-weight="600">Switch Core 24P</text>
+        <circle cx="204" cy="12" r="3" fill="#10b981"/>
+      </g>
+      <!-- Servidor Nodo 5 U15-U16 -->
+      <g transform="translate(18, 120)">
+        <rect width="214" height="48" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="20" fill="#f8fafc" font-size="10" font-weight="600">Servidor Nodo 5 (2U)</text>
+        <text x="8" y="36" fill="#64748b" font-size="9" font-family="'Consolas', monospace">IP: 10.10.30.55</text>
+        <circle cx="204" cy="24" r="3.5" fill="#10b981"/>
+      </g>
+      <!-- Servidor Nodo 4 U12-U13 -->
+      <g transform="translate(18, 172)">
+        <rect width="214" height="48" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="20" fill="#f8fafc" font-size="10" font-weight="600">Servidor Nodo 4 (2U)</text>
+        <text x="8" y="36" fill="#64748b" font-size="9" font-family="'Consolas', monospace">IP: 10.10.30.54</text>
+        <circle cx="204" cy="24" r="3.5" fill="#10b981"/>
+      </g>
+      <!-- Servidor Nodo 3 U9-U10 -->
+      <g transform="translate(18, 224)">
+        <rect width="214" height="48" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="20" fill="#f8fafc" font-size="10" font-weight="600">Servidor Nodo 3 (2U)</text>
+        <text x="8" y="36" fill="#64748b" font-size="9" font-family="'Consolas', monospace">IP: 10.10.30.53</text>
+        <circle cx="204" cy="24" r="3.5" fill="#10b981"/>
+      </g>
+      <!-- UPS Online 3000 U1-U2 -->
+      <g transform="translate(18, 342)">
+        <rect width="214" height="48" rx="2" fill="#f59e0b22" stroke="#f59e0b" stroke-width="1"/>
+        <text x="8" y="20" fill="#f59e0b" font-size="10" font-weight="600">UPS Online 3000VA (2U)</text>
+        <text x="8" y="36" fill="#f59e0b99" font-size="9" font-family="'Consolas', monospace">CARGA: 42% · BATT: 100%</text>
+        <circle cx="204" cy="24" r="3.5" fill="#10b981"/>
+      </g>
+    </g>
+
+    <!-- COLUMNA DERECHA: VISTA TRASERA (AL LADO) -->
+    <g transform="translate(300, 56)">
+      <!-- Marco vista trasera -->
+      <rect width="250" height="395" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <rect width="250" height="26" rx="6" fill="#1e293b55"/>
+      <text x="125" y="17" fill="#f59e0b" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">VISTA TRASERA</text>
+
+      <!-- Rieles U -->
+      <rect x="1" y="26" width="16" height="368" fill="#111827"/>
+      <rect x="233" y="26" width="16" height="368" fill="#111827"/>
+
+      <!-- PDU Vertical Trasero -->
+      <rect x="18" y="30" width="18" height="360" rx="2" fill="#3b82f622" stroke="#3b82f6" stroke-width="0.8"/>
+      <circle cx="27" cy="45" r="2.5" fill="#ef4444"/>
+      <circle cx="27" cy="65" r="2.5" fill="#ef4444"/>
+      <circle cx="27" cy="85" r="2.5" fill="#ef4444"/>
+      
+      <!-- Fuentes redundantes PSU Servidores Traseros -->
+      <g transform="translate(42, 120)">
+        <rect width="190" height="48" rx="2" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+        <rect x="10" y="8" width="28" height="32" rx="2" fill="#111827" stroke="#ef4444" stroke-width="0.8"/>
+        <text x="14" y="26" fill="#ef4444" font-size="7" font-weight="700">PSU 1</text>
+        <rect x="44" y="8" width="28" height="32" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="48" y="26" fill="#10b981" font-size="7" font-weight="700">PSU 2</text>
+        <text x="80" y="24" fill="#94a3b8" font-size="9" font-family="'Consolas', monospace">NODO 5 DORSO</text>
+        <text x="80" y="36" fill="#64748b" font-size="8">VENTILADORES OK</text>
+      </g>
+      <g transform="translate(42, 172)">
+        <rect width="190" height="48" rx="2" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+        <rect x="10" y="8" width="28" height="32" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="14" y="26" fill="#10b981" font-size="7" font-weight="700">PSU 1</text>
+        <rect x="44" y="8" width="28" height="32" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="48" y="26" fill="#10b981" font-size="7" font-weight="700">PSU 2</text>
+        <text x="80" y="24" fill="#94a3b8" font-size="9" font-family="'Consolas', monospace">NODO 4 DORSO</text>
+      </g>
+      <!-- Trasera UPS tomas Schuko / C13 -->
+      <g transform="translate(42, 342)">
+        <rect width="190" height="48" rx="2" fill="#f59e0b11" stroke="#f59e0b66" stroke-width="1"/>
+        <rect x="8" y="10" width="16" height="28" rx="2" fill="#1e293b"/>
+        <rect x="28" y="10" width="16" height="28" rx="2" fill="#1e293b"/>
+        <rect x="48" y="10" width="16" height="28" rx="2" fill="#1e293b"/>
+        <text x="74" y="24" fill="#f59e0b" font-size="9" font-family="'Consolas', monospace">UPS SALIDAS AC</text>
+        <text x="74" y="36" fill="#64748b" font-size="8">8x C13 PROTEGIDAS</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- =================================================================== -->
+  <!-- MÓDULO RACK 202 (SEGUNDO GABINETE AL LADO)                          -->
+  <!-- =================================================================== -->
+  <g transform="translate(630, 95)">
+    <!-- Contenedor exterior unificado del Rack -->
+    <rect width="570" height="470" rx="10" fill="url(#rackModuleGrad)" stroke="#ec4899" stroke-width="1.8" stroke-dasharray="none"/>
+    
+    <!-- Barra de cabecera del módulo -->
+    <path d="M 0 10 Q 0 0 10 0 L 560 0 Q 570 0 570 10 L 570 42 L 0 42 Z" fill="#ec489915"/>
+    <line x1="0" y1="42" x2="570" y2="42" stroke="#ec489944" stroke-width="1"/>
+    
+    <!-- Título del Gabinete -->
+    <rect x="16" y="12" width="10" height="18" rx="2" fill="#ec4899"/>
+    <text x="34" y="26" fill="#f8fafc" font-size="14" font-weight="700">GABINETE: RACK 202</text>
+    <text x="195" y="26" fill="#ec4899" font-size="11" font-family="'Consolas', monospace" font-weight="600">[ 12U · 9U USADAS ]</text>
+    <rect x="445" y="12" width="108" height="18" rx="4" fill="#ec489922" stroke="#ec489966"/>
+    <text x="453" y="25" fill="#ec4899" font-size="9" font-family="'Consolas', monospace" font-weight="700">VISTA DUAL (F+T)</text>
+
+    <!-- COLUMNA IZQUIERDA: VISTA FRONTAL -->
+    <g transform="translate(20, 56)">
+      <rect width="250" height="395" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <rect width="250" height="26" rx="6" fill="#1e293b55"/>
+      <text x="125" y="17" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">VISTA FRONTAL</text>
+      <!-- Rieles -->
+      <rect x="1" y="26" width="16" height="368" fill="#111827"/>
+      <rect x="233" y="26" width="16" height="368" fill="#111827"/>
+
+      <!-- Switch U12 -->
+      <g transform="translate(18, 30)">
+        <rect width="214" height="28" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="18" fill="#10b981" font-size="10" font-weight="600">Switch Rack 202</text>
+        <circle cx="204" cy="14" r="3" fill="#10b981"/>
+      </g>
+      <!-- Servidor U9-U10 -->
+      <g transform="translate(18, 90)">
+        <rect width="214" height="58" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="22" fill="#f8fafc" font-size="10" font-weight="600">Servidor Nodo 3</text>
+        <text x="8" y="40" fill="#64748b" font-size="9" font-family="'Consolas', monospace">IP: 10.10.30.63</text>
+        <circle cx="204" cy="29" r="3.5" fill="#10b981"/>
+      </g>
+      <!-- Servidor U6-U7 -->
+      <g transform="translate(18, 180)">
+        <rect width="214" height="58" rx="2" fill="#10b98122" stroke="#10b981" stroke-width="1"/>
+        <text x="8" y="22" fill="#f8fafc" font-size="10" font-weight="600">Servidor Nodo 2</text>
+        <text x="8" y="40" fill="#64748b" font-size="9" font-family="'Consolas', monospace">IP: 10.10.30.62</text>
+        <circle cx="204" cy="29" r="3.5" fill="#10b981"/>
+      </g>
+      <!-- UPS U1-U2 -->
+      <g transform="translate(18, 330)">
+        <rect width="214" height="58" rx="2" fill="#f59e0b22" stroke="#f59e0b" stroke-width="1"/>
+        <text x="8" y="22" fill="#f59e0b" font-size="10" font-weight="600">UPS Rack 202</text>
+        <text x="8" y="40" fill="#f59e0b99" font-size="9" font-family="'Consolas', monospace">IP: 10.10.20.202</text>
+        <circle cx="204" cy="29" r="3.5" fill="#10b981"/>
+      </g>
+    </g>
+
+    <!-- COLUMNA DERECHA: VISTA TRASERA (AL LADO) -->
+    <g transform="translate(300, 56)">
+      <rect width="250" height="395" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <rect width="250" height="26" rx="6" fill="#1e293b55"/>
+      <text x="125" y="17" fill="#f59e0b" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">VISTA TRASERA</text>
+      <!-- Rieles -->
+      <rect x="1" y="26" width="16" height="368" fill="#111827"/>
+      <rect x="233" y="26" width="16" height="368" fill="#111827"/>
+
+      <!-- Panel de parcheo trasero U11 -->
+      <g transform="translate(18, 30)">
+        <rect width="214" height="28" rx="2" fill="#8b5cf622" stroke="#8b5cf6" stroke-width="1"/>
+        <text x="8" y="18" fill="#8b5cf6" font-size="9" font-weight="600">Patch Panel RJ45 Cat6A</text>
+      </g>
+      <!-- Dorsales servidor -->
+      <g transform="translate(18, 90)">
+        <rect width="214" height="58" rx="2" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+        <rect x="10" y="14" width="28" height="30" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="14" y="32" fill="#10b981" font-size="7" font-weight="700">PSU 1</text>
+        <rect x="44" y="14" width="28" height="30" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="48" y="32" fill="#10b981" font-size="7" font-weight="700">PSU 2</text>
+        <text x="80" y="32" fill="#94a3b8" font-size="9" font-family="'Consolas', monospace">NODO 3 TRASERA</text>
+      </g>
+      <g transform="translate(18, 180)">
+        <rect width="214" height="58" rx="2" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+        <rect x="10" y="14" width="28" height="30" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="14" y="32" fill="#10b981" font-size="7" font-weight="700">PSU 1</text>
+        <rect x="44" y="14" width="28" height="30" rx="2" fill="#111827" stroke="#10b981" stroke-width="0.8"/>
+        <text x="48" y="32" fill="#10b981" font-size="7" font-weight="700">PSU 2</text>
+        <text x="80" y="32" fill="#94a3b8" font-size="9" font-family="'Consolas', monospace">NODO 2 TRASERA</text>
+      </g>
+      <!-- Trasera UPS -->
+      <g transform="translate(18, 330)">
+        <rect width="214" height="58" rx="2" fill="#f59e0b11" stroke="#f59e0b66" stroke-width="1"/>
+        <text x="8" y="24" fill="#f59e0b" font-size="9" font-family="'Consolas', monospace">BATERÍA Y SALIDAS UPS</text>
+        <text x="8" y="42" fill="#64748b" font-size="8">CONECTOR EXT BATT</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- =================================================================== -->
+  <!-- SECCIÓN INFERIOR: EQUIPOS DE PISO / PERIFÉRICOS CON ICONOS          -->
+  <!-- =================================================================== -->
+  <g transform="translate(40, 595)">
+    <text x="0" y="16" fill="#f59e0b" font-size="14" font-weight="700">Equipos de Piso / Periféricos</text>
+    <text x="220" y="16" fill="#64748b" font-size="11" font-family="'Consolas', monospace">4 dispositivos conectados</text>
+
+    <!-- Cámara 02 -->
+    <g transform="translate(0, 32)">
+      <rect width="280" height="70" rx="6" fill="#141d2e" stroke="#1e293b" stroke-width="1"/>
+      <rect width="4" height="70" rx="2" fill="#8b5cf6"/>
+      <!-- Icono Cámara -->
+      <rect x="14" y="18" width="34" height="34" rx="6" fill="#8b5cf61a" stroke="#8b5cf644" stroke-width="1"/>
+      <g transform="translate(22, 26)" stroke="#8b5cf6" fill="none" stroke-width="1.8" stroke-linecap="round">
+        <rect x="0" y="3" width="18" height="12" rx="1.5"/>
+        <circle cx="9" cy="9" r="3.5"/>
+        <circle cx="14" cy="6" r="0.8" fill="#8b5cf6"/>
+      </g>
+      <text x="60" y="36" fill="#f8fafc" font-size="12" font-weight="700">Cámara 02</text>
+      <text x="60" y="52" fill="#8b5cf6" font-size="10" font-family="'Consolas', monospace">IP: 10.10.60.11 · CCTV</text>
+    </g>
+
+    <!-- Impresora Finanzas -->
+    <g transform="translate(300, 32)">
+      <rect width="280" height="70" rx="6" fill="#141d2e" stroke="#1e293b" stroke-width="1"/>
+      <rect width="4" height="70" rx="2" fill="#06b6d4"/>
+      <!-- Icono Impresora -->
+      <rect x="14" y="18" width="34" height="34" rx="6" fill="#06b6d41a" stroke="#06b6d444" stroke-width="1"/>
+      <g transform="translate(22, 26)" stroke="#06b6d4" fill="none" stroke-width="1.8" stroke-linecap="round">
+        <rect x="4" y="0" width="10" height="4"/>
+        <rect x="1" y="4" width="16" height="8" rx="1"/>
+        <path d="M4 12 v4 h10 v-4"/>
+      </g>
+      <text x="60" y="36" fill="#f8fafc" font-size="12" font-weight="700">Impresora Finanzas</text>
+      <text x="60" y="52" fill="#06b6d4" font-size="10" font-family="'Consolas', monospace">IP: 10.10.70.11 · RED</text>
+    </g>
+
+    <!-- Teléfono 01 -->
+    <g transform="translate(600, 32)">
+      <rect width="280" height="70" rx="6" fill="#141d2e" stroke="#1e293b" stroke-width="1"/>
+      <rect width="4" height="70" rx="2" fill="#ef4444"/>
+      <!-- Icono Teléfono -->
+      <rect x="14" y="18" width="34" height="34" rx="6" fill="#ef44441a" stroke="#ef444444" stroke-width="1"/>
+      <g transform="translate(22, 26)" stroke="#ef4444" fill="none" stroke-width="1.8" stroke-linecap="round">
+        <path d="M 2 2 L 6 2 L 7 5 L 5 7 C 7 10 10 13 13 15 L 15 13 L 18 14 L 18 18 C 10 18 2 10 2 2 Z"/>
+      </g>
+      <text x="60" y="36" fill="#f8fafc" font-size="12" font-weight="700">Teléfono 01</text>
+      <text x="60" y="52" fill="#ef4444" font-size="10" font-family="'Consolas', monospace">IP: 10.10.80.10 · VoIP</text>
+    </g>
+
+    <!-- AP A2 Corporativo -->
+    <g transform="translate(900, 32)">
+      <rect width="280" height="70" rx="6" fill="#141d2e" stroke="#1e293b" stroke-width="1"/>
+      <rect width="4" height="70" rx="2" fill="#10b981"/>
+      <!-- Icono AP -->
+      <rect x="14" y="18" width="34" height="34" rx="6" fill="#10b9811a" stroke="#10b98144" stroke-width="1"/>
+      <g transform="translate(22, 25)" stroke="#10b981" fill="none" stroke-width="1.8" stroke-linecap="round">
+        <line x1="9" y1="18" x2="9" y2="8"/>
+        <path d="M5 11 L9 7 L13 11"/>
+        <path d="M3 5 C6 2 12 2 15 5"/>
+      </g>
+      <text x="60" y="36" fill="#f8fafc" font-size="12" font-weight="700">AP A2 Corporativo</text>
+      <text x="60" y="52" fill="#10b981" font-size="10" font-family="'Consolas', monospace">IP: 10.10.10.20 · Wi-Fi 6</text>
+    </g>
+  </g>
+</svg>

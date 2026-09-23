@@ -210,7 +210,13 @@ function drawTopo() {
       
       ctx.font = 'bold 11px "Space Grotesk", sans-serif';
       ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 1;
       ctx.fillText(dev.name.slice(0, 16), pos.x, pos.y - r - 26);
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
       
       if (dev.ip) {
         ctx.font = 'bold 10px "JetBrains Mono", monospace';
@@ -258,7 +264,13 @@ function drawTopo() {
       ctx.textBaseline = 'middle';
       ctx.font = 'bold 12px "Space Grotesk", sans-serif';
       ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 1;
       ctx.fillText(dev.name.slice(0, 20), cx + 36, cy + 18);
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
       
       if (dev.ip) {
         ctx.font = '11px "JetBrains Mono", monospace';

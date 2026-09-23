@@ -340,6 +340,7 @@ function initGlobalEvents() {
       if (!dropdown.contains(e.target) && !btnMenu.contains(e.target)) dropdown.classList.add('hidden');
       if (!e.target.closest('.rack-hdr-btns')) {
         document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => m.classList.add('hidden'));
+        document.querySelectorAll('.rack-wrapper.menu-open').forEach(w => w.classList.remove('menu-open'));
       }
       
       // Close nav dropdowns

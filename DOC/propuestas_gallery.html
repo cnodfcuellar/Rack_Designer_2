@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería de Propuestas de Mejora — RACK Designer Next</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #0f172a;
+      --border: #1e293b;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .subtitle { font-size: 12px; color: var(--text-muted); }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #0b1120;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .tab-btn:hover {
+      border-color: #334155;
+      color: #fff;
+    }
+    .tab-btn.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .tab-status {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .status-completed {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid #059669;
+    }
+    .status-recommended {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid #0284c7;
+    }
+    .status-pending {
+      background: rgba(148, 163, 184, 0.15);
+      color: #94a3b8;
+    }
+
+    main {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .viewer-card {
+      width: 100%;
+      max-width: 1060px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+    }
+    .viewer-header {
+      padding: 14px 20px;
+      background: #111a2e;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .viewer-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .svg-container {
+      width: 100%;
+      padding: 16px;
+      background: #070a12;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .svg-container img {
+      width: 100%;
+      max-width: 980px;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .details-box {
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      background: #0c1424;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    .desc-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .desc-text {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .features-list li {
+      font-size: 12.5px;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .features-list li::before {
+      content: "✔";
+      color: var(--accent);
+      font-weight: bold;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-action {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-action:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-title">
+      <span class="logo-badge">SVG 1:1</span>
+      <div>
+        <h1>Galería de Propuestas de Mejora</h1>
+        <div class="subtitle">Diagramas vectoriales interactivos para RACK Designer Next</div>
+      </div>
+    </div>
+    <div class="controls">
+      <a href="../index.html" class="btn-action">← Volver a la Consola</a>
+    </div>
+  </header>
+
+  <nav class="nav-tabs" id="tabs-container"></nav>
+
+  <main>
+    <div class="viewer-card">
+      <div class="viewer-header">
+        <div class="viewer-title" id="view-title">Cargando propuesta...</div>
+        <div class="controls">
+          <a id="btn-open-raw" href="#" target="_blank" class="btn-action">Ver SVG Original</a>
+        </div>
+      </div>
+      <div class="svg-container">
+        <img id="main-svg" src="" alt="Diagrama SVG de la propuesta">
+      </div>
+      <div class="details-box">
+        <div>
+          <div class="desc-title">Objetivo &amp; Beneficio de Producción</div>
+          <p class="desc-text" id="desc-text"></p>
+        </div>
+        <div>
+          <div class="desc-title">Puntos Clave</div>
+          <ul class="features-list" id="features-list"></ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const proposals = [
+      {
+        id: 1,
+        title: "Propuesta 1: Cableado Interactivo en Vista Física (Drag-to-Connect)",
+        shortTitle: "1. Drag-to-Connect",
+        svg: "doc_img/doc_svg/propuesta_drag_to_connect.svg",
+        status: "recommended",
+        statusLabel: "Siguiente Recomendada",
+        desc: "Transforma el proceso de parcheado manual abstracto en una experiencia visual directa sobre los gabinetes. Arrastra desde cualquier puerto libre, visualiza la curvatura Bézier elástica en tiempo real con imantación automática (snap) y elige el puerto en un popover rápido sin abrir modales pesados.",
+        features: [
+          "Tendido directo arrastrando entre conectores",
+          "Atracción magnética (snap) al conector destino",
+          "Validación cromática instantánea (Verde/Rojo)",
+          "Menú popover rápido de puertos al soltar",
+          "Registro inmediato en store y auto-enrutamiento"
+        ]
+      },
+      {
+        id: 2,
+        title: "Propuesta 2: Gestión Avanzada de Puertos y Validación de VLANs",
+        shortTitle: "2. Puertos & VLANs",
+        svg: "doc_img/doc_svg/propuesta_gestion_puertos_vlans.svg",
+        status: "completed",
+        statusLabel: "Completada ✅",
+        desc: "Implementación integral de la matriz gráfica interactiva de puertos en el Inspector con discriminación visual de puertos ocupados vs libres, catálogo de VLANs normalizado, asignación cromática de cables por VLAN y prevención total de colisiones (doble parcheado en un mismo puerto).",
+        features: [
+          "Matriz interactiva de pines RJ45 y fibra SFP",
+          "Indicadores LED cromáticos por VLAN",
+          "Catálogo de VLANs nativo con persistencia",
+          "Prevención estricta de colisiones y doble parcheo",
+          "Filtro 'Mostrar solo libres' y desconexión en 1 clic"
+        ]
+      },
+      {
+        id: 3,
+        title: "Propuesta 3: Selector de Columnas Visibles en Tablas Inferiores",
+        shortTitle: "3. Selector Columnas",
+        svg: "doc_img/doc_svg/propuesta_selector_columnas_tablas.svg",
+        status: "pending",
+        statusLabel: "Planificada",
+        desc: "Permite al operador personalizar qué columnas desea visualizar en las tablas de Inventario y Conexiones del panel inferior mediante un menú emergente tipo '⚙ Columnas'. Organizado por categorías (Identificación, Rack, Red, Energía) con guardado automático en localStorage.",
+        features: [
+          "Menú flotante (popover) con checkboxes por columna",
+          "Categorías: Identificación, Rack, Red, Eléctrico",
+          "Botones de restablecer y mostrar todo",
+          "Persistencia automática en localStorage",
+          "Optimización de espacio para pantallas pequeñas"
+        ]
+      },
+      {
+        id: 4,
+        title: "Propuesta 4: Exportación Vectorial Pura a SVG y PDF Plano (1:1)",
+        shortTitle: "4. Exportación SVG/PDF",
+        svg: "doc_img/doc_svg/propuesta_exportacion_svg_pdf.svg",
+        status: "pending",
+        statusLabel: "Planificada",
+        desc: "Generación de planos técnicos escalables sin pixelado ni pérdida de resolución. Permite exportar la sala completa con cableado estructurado a formato SVG nativo y PDF para planos de ingeniería e impresión en plotters a gran escala.",
+        features: [
+          "Exportación vectorial 1:1 a escala exacta",
+          "Resolución infinita para impresión o planos de obra",
+          "Soporte de tema Claro y Oscuro de la app",
+          "Inclusión opcional de cables y canaletas aéreas",
+          "Compatible con AutoCAD, Illustrator e Inkscape"
+        ]
+      },
+      {
+        id: 5,
+        title: "Propuesta 5: Importación Masiva Excel/CSV con Asistente de Mapeo",
+        shortTitle: "5. Importador Excel",
+        svg: "doc_img/doc_svg/propuesta_importacion_masiva_excel.svg",
+        status: "pending",
+        statusLabel: "Planificada",
+        desc: "Asistente paso a paso (Wizard) que permite cargar hojas de cálculo de inventarios existentes (.xlsx / .csv), mapear inteligentemente las cabeceras y realizar una auditoría preventiva de conflictos de espacio en racks antes de inyectar los datos en el proyecto.",
+        features: [
+          "Carga por arrastrar y soltar de archivos .xlsx / .csv",
+          "Auto-detección y mapeo interactivo de cabeceras",
+          "Auditoría preventiva con advertencias en amarillo",
+          "Detección y bloqueo de colisiones de slots en rojo",
+          "Creación automática de salas y gabinetes faltantes"
+        ]
+      },
+      {
+        id: 6,
+        title: "Propuesta 6: Tema Sepia & Adaptabilidad Móvil/Tablet",
+        shortTitle: "6. Sepia & Móvil",
+        svg: "doc_img/doc_svg/propuesta_tema_sepia_responsive.svg",
+        status: "pending",
+        statusLabel: "Planificada",
+        desc: "Diseñado para los técnicos de campo en el pasillo del centro de datos: añade una paleta cálida sepia para evitar fatiga visual bajo iluminación artificial, e incorpora barra de navegación táctil inferior y cajones deslizables (drawers) para tablets y smartphones.",
+        features: [
+          "Tema Sepia cálido (#27201c / #fbf7ee) de bajo estrés visual",
+          "Barra táctil inferior (Bottom Navigation) en móviles",
+          "Paneles laterales deslizables tipo Drawer",
+          "Optimización de targets táctiles (mínimo 44px)",
+          "Sincronización de preferencias en localStorage"
+        ]
+      }
+    ];
+
+    let currentIdx = 0;
+
+    function renderTabs() {
+      const container = document.getElementById('tabs-container');
+      container.innerHTML = proposals.map((p, idx) => `
+        <button class="tab-btn ${idx === currentIdx ? 'active' : ''}" onclick="selectProposal(${idx})">
+          <span>${p.shortTitle}</span>
+          <span class="tab-status status-${p.status}">${p.statusLabel}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectProposal(idx) {
+      currentIdx = idx;
+      renderTabs();
+      const p = proposals[idx];
+      document.getElementById('view-title').textContent = p.title;
+      document.getElementById('main-svg').src = p.svg;
+      document.getElementById('btn-open-raw').href = p.svg;
+      document.getElementById('desc-text').textContent = p.desc;
+      document.getElementById('features-list').innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        selectProposal((currentIdx + 1) % proposals.length);
+      } else if (e.key === 'ArrowLeft') {
+        selectProposal((currentIdx - 1 + proposals.length) % proposals.length);
+      }
+    });
+
+    renderTabs();
+    selectProposal(0);
+  </script>
+</body>
+</html>

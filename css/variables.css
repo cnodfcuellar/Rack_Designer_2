@@ -24,6 +24,7 @@
   --hardware-base: #1a2235;
   --hardware-rail: #171f30;
   --grid-dot: #1e2d4a;
+  --danger: var(--red);
 }
 [data-theme="light"] {
   --bg-main:      #f0f4f8;

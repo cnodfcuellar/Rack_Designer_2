@@ -638,7 +638,7 @@ Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rac
 
 ### 🎨 Agregar o personalizar la apariencia gráfica (SVG) de un equipo
 
-1. **Crear el archivo SVG:** Coloca el archivo en `assets/svg/default/` (y en `assets/default/`). 
+1. **Crear el archivo SVG:** Coloca el archivo en `assets/svg/default/`. 
    - Tamaño base: `viewBox="0 0 240 24"` para equipos 1U o `viewBox="0 0 240 48"` para 2U.
    - Si deseas LEDs intermitentes o efectos, incluye bloques `<style>` con animaciones `@keyframes` nativas dentro del propio SVG.
 2. **Asociar el SVG en el motor visual:** En [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) → Actualiza la función `getSvgFaceplatePath(device)` para que devuelva la ruta de tu nuevo SVG según el `device.type` o `device.size`.

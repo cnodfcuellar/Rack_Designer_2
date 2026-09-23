@@ -72,7 +72,7 @@ Arquitectura modular cargada secuencialmente en el ámbito global:
 * **`js/ui/faceplates.js`**: **Motor Visual SVG-First**.
   * Carga y renderiza los frontales y dorsales vectoriales de los 16 tipos de equipos soportados.
   * Utiliza `SVG_INLINE_CACHE` en memoria para inyectar nodos `<svg>` reales directamente en el DOM, permitiendo interactividad CSS/JS sobre puertos y componentes internos.
-  * Admite fallback inteligente de rutas (`assets/svg/default/` y `assets/default/`).
+  * Admite normalización transparente de rutas (`normalizeAssetUrl`) para compatibilidad retroactiva total con proyectos previos.
 * **`js/ui/rack.js`**: Motor de renderizado físico de gabinetes y cableado estructurado.
   * Dibuja chasis de racks con postes laterales, numeración U, ranuras fijas de 240px (10:1), separación entre racks de **72px** (3U), grilla CAD de 24px y sección de piso alineada (`min-width: 584px`).
   * **Enrutamiento Físico Segregado (`drawPhysicalCables`):** Genera el cableado ortogonal en `<svg id="physical-cables-svg">` segregado en 3 zonas libres: **Canastillo Aéreo Superior** (inter-rack), **Canaleta Media libre** (equipos de piso ↔ racks) y **Organizador Lateral** (intra-rack), garantizando cero colisiones sobre gabinetes o tarjetas de periféricos.
@@ -127,7 +127,7 @@ Organización en cascada limpia sin dependencias externas:
 ## 6. Recursos Estáticos (`assets/`)
 
 * **`assets/icons/`**: Biblioteca de íconos vectoriales clasificados semánticamente (`/network`, `/server`, `/storage`, `/power`, `/misc`). Empleados tanto en la interfaz general como en los nodos del lienzo de topología mediante técnicas de máscara CSS (`mask-image`).
-* **`assets/svg/default/`** (y carpeta espejo en `assets/default/` para soporte de rutas relativas limpias):
+* **`assets/svg/default/`** (repositorio canónico único de faceplates vectoriales, con normalización por software para compatibilidad retroactiva):
   * **16 Modelos de Faceplates SVG Profesionales**:
     * Servidores: `server-1u.svg`, `server-2u.svg`, `server-4u.svg`
     * Red y Seguridad: `switch-1u.svg`, `switch-poe-1u.svg`, `router-1u.svg`, `firewall-1u.svg`

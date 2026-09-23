@@ -1,3 +1,281 @@
+## [2026-09-23] Corrección de Popover de Columnas: Cierre Reactivo y Visibilidad en Modo Corto
+
+### Panel Inferior y Tablas (`index.html`, `css/components/panels.css`, `css/layout.css`, `js/ui/tables.js`)
+- **Resolución de Bloqueo de Cierre del Menú Selector de Columnas:**
+  - Se eliminó el estilo en línea `display: flex;` en `#columns-dropdown` que sobreescribía con mayor especificidad a la clase `.dropdown-menu.hidden`.
+  - Se añadió `display: none !important;` en `css/layout.css` a `.dropdown-menu.hidden` garantizando que el menú se oculte de forma inmediata e infalible al alternar el botón o hacer clic afuera.
+  - Se incorporó un botón de cierre explícito `✕` (`#btn-cols-close`) en la cabecera del menú para permitir al operador descartar el popover con un solo toque.
+- **Visibilidad Completa de Botones en Modo Corto (220px) y Pantalla Completa:**
+  - Se reestructuró la maquetación de `#columns-dropdown` en `css/components/panels.css`:
+    - En modo normal/corto (`#bottom` a 220px), la altura máxima se ajusta a `165px` con scroll vertical interno exclusivo en la lista (`#columns-dropdown-list`), garantizando que la cabecera y los botones inferiores (**"Mostrar Todo"** y **"Por Defecto"**) permanezcan siempre 100% visibles y accesibles sin ser recortados.
+    - En modo pantalla completa (`#bottom.fullscreen`), la altura se expande automáticamente hasta `380px` para aprovechar el espacio ampliado.
+- **Cache Buster:**
+  - Actualización a `?v=37` en `index.html` y en las importaciones de `css/style.css`.
+
+---
+
+## [2026-09-23] Propuesta 3: Selector Dinámico de Columnas en Tablas de Datos
+
+### Panel Inferior y Tablas (`js/ui/tables.js`, `index.html`, `css/components/panels.css`)
+- **Menú Selector de Columnas Contextual (`#columns-menu-wrap`, `#columns-dropdown`):**
+  - Implementación del botón `⚙ Columnas` en la barra de herramientas del panel inferior con contador dinámico de columnas visibles (ej. `(18/18)`).
+  - Menú flotante popover reactivo que se adapta al contexto de la pestaña activa (*Inventario* con 18 columnas o *Conexiones* con 10 columnas).
+  - Casillas de verificación con etiquetas de categoría (Ubicación, Identificación, Hardware, Red, Acceso, Energía, General, Origen, Destino, Físico) y protección fija para columnas indispensables (`name` y `actions`).
+  - Botones de acción rápida: **"Mostrar Todo"** (activa el 100% de las columnas) y **"Por Defecto"** (restablece los valores recomendados).
+- **Persistencia en Almacenamiento Local (`localStorage`):**
+  - Persistencia bajo la clave `RACK_DESIGNER_TABLE_COLUMNS` para mantener las preferencias de visualización del operador de forma offline e ininterrumpida entre sesiones y recargas.
+- **Renderizado Adaptativo de Alto Desempeño:**
+  - Rediseño de `renderInventoryTable()` y `renderConnectionsTable()` para mapear dinámicamente tanto las cabeceras `<th>` como las celdas `<td>` en función de las columnas activas.
+  - Eliminación del scroll horizontal excesivo en resoluciones estándar (1366px) al ocultar campos secundarios como contraseña, serie, tomas o skin.
+
+### Automatización y Pruebas (`tests/integrity_check.cjs`)
+- **Incorporación de GRUPO 13 (162/162 Pruebas Exitosas):**
+  - Verificación del catálogo de columnas para inventario (18) y conexiones (10).
+  - Pruebas de persistencia y helpers `getTableColumnsConfig()`, `saveTableColumnsConfig()`, `isColumnVisible()`, `setColumnVisible()`, `resetTableColumns()` y `showAllTableColumns()`.
+  - Validación del filtrado DOM en tiempo real y existencia de componentes en `index.html` y `panels.css`.
+
+---
+
+## [2026-09-23] Corrección de Layout en Outliner y Alcance de Variables
+
+### Panel Derecho y Estilos (`css/layout.css`, `css/style.css`, `index.html`)
+- **Ajuste de Colapso del Outliner (`#outliner-section.collapsed`):**
+  - Se añadieron reglas `min-height: 0 !important;` y `height: auto !important;` a `.right-panel-section.collapsed`, `#outliner-section.collapsed` y `#stats-section.collapsed`.
+  - Se eliminó el espacio blanco residual de ~84px que quedaba al contraer el Outliner, asegurando que la cabecera mida exactamente ~36px y que el Inspector (`#inspector-section`) se expanda de forma limpia y continua ocupando todo el panel vertical.
+  - Actualización de los cache busters a `v=35` en `index.html` y `css/style.css`.
+
+### Modales y Robustez de Scripting (`js/ui/modals/CableModal.js`, `tests/integrity_check.cjs`)
+- **Resolución de Conflicto de Variables Globales:**
+  - Se eliminó la re-declaración `var editingConnectionId = null;` en `CableModal.js` para evitar colisión de identificadores con la variable de ámbito de módulo definida en `Globals.js`.
+  - Se integró la verificación de sintaxis para `CableModal.js` y `Globals.js` en el runner de pruebas `tests/integrity_check.cjs`, garantizando el ciclo reactivo ininterrumpido de `renderAll()`.
+
+---
+
+## [2026-09-23] Propuesta 2: Gestión Avanzada de Puertos y Validación de VLANs
+
+### Núcleo de Estado e Integridad Lógica (`js/store.js`)
+- **Catálogo y CRUD de VLANs:**
+  - Implementación del catálogo nativo de VLANs predefinidas estándar de la industria (VLAN 1 Default/Troncal, VLAN 10 Gestión, VLAN 20 Datos Corp, VLAN 30 VoIP, VLAN 40 CCTV, VLAN 50 Storage SAN, VLAN 99 DMZ/Borde).
+  - Métodos reactivos en `Store`: `getVlans()`, `getVlanById(id)`, `addVlan({ id, name, color })`, `updateVlan(id, props)` y `deleteVlan(id)` con protección contra eliminación de la VLAN 1 (Default).
+- **Motor de Consulta y Estado de Puertos:**
+  - `getDevicePorts(deviceId)`: Retorna un listado estructurado de todos los puertos (Ethernet, Fibra/SFP, etc.) con su estado en tiempo real (`name`, `type`, `isOccupied`, `peerDeviceName`, `peerPort`, `vlanId`, `vlanName`, `vlanColor`).
+  - `isPortOccupied(deviceId, portName, excludeConnectionId)`: Identificación precisa de ocupación de puertos.
+- **Prevención de Doble Conexión y Colisión:**
+  - `validateConnection({ sourceDeviceId, sourcePort, targetDeviceId, targetPort, excludeConnectionId })`: Bloqueo estricto de intentos de conectar cables en puertos que ya se encuentran ocupados.
+  - Actualización defensiva de `addConnection()` y `updateConnection()` para impedir colisiones y registrar atributos de VLAN por enlace.
+
+### Interfaz de Usuario y Modales (`js/ui/modals/CableModal.js`, `index.html`)
+- **Modal de Conexión de Cables (`#modal-cable`):**
+  - Selector reactivo de **VLAN Asignada** con auto-sugerencia cromática del cable según la paleta de la VLAN.
+  - Casilla de verificación reactiva **"Mostrar solo puertos libres"** que filtra puertos ocupados para agilizar el cableado sin errores.
+  - Alerta visual en tiempo real `#cable-collision-alert` en caso de intentar parchear un puerto ocupado.
+  - Soporte de apertura directa de modal con puerto preseleccionado desde la matriz del Inspector.
+
+### Panel Lateral de Inspección (`js/ui/inspector.js`, `css/components/panels.css`)
+- **Matriz Gráfica de Puertos & VLANs:**
+  - Renderizado interactivo de micro-pines RJ45/SFP con código de colores según ocupación y LED indicador con el color de la VLAN asociada.
+  - Distribución ergonómica estilo Switch (filas impares arriba y pares abajo) y sección de puertos de fibra SFP/Uplinks.
+  - Detalle interactivo con información completa del enlace, equipo de destino, tipo de cable y botón de desconexión rápida (`disconnectPortFromInspector`).
+
+### Panel Inferior y Plantilla Demo (`js/ui/tables.js`, `js/demoData.js`)
+- **Tabla de Conexiones:**
+  - Nueva columna y pastillas (*badges*) de **VLAN** con ordenamiento, búsqueda y exportación a Excel/CSV.
+- **Plantilla Demo ANSI/TIA-942:**
+  - Asignación de VLANs semánticas en el 100% de los enlaces de la demo con **0 colisiones de puertos** comprobadas.
+
+### Automatización y Pruebas (`tests/integrity_check.cjs`)
+- **Incorporación de GRUPO 12 (143/143 Pruebas Exitosas):**
+  - Verificación de catálogo de VLANs, CRUD, bloqueo de colisiones de puertos, liberación tras desconexión y auditoría de integridad en plantilla demo.
+
+---
+
+## [2026-09-23] Generación de Diagramas Vectoriales SVG para Propuestas de Mejora
+
+### Documentación y Diseño de Arquitectura (`doc/doc_img/doc_svg/`)
+- **Creación de Diagramas Técnicos Vectoriales (960×560 px):**
+  - **`propuesta_drag_to_connect.svg`:** Ilustra la conexión interactiva directa en la vista física, curva Bézier elástica en tiempo real, atracción magnética (*snap*), validación cromática de puertos y menú flotante de selección rápida.
+  - **`propuesta_gestion_puertos_vlans.svg`:** Modela el frontal detallado de switches de 24/48 puertos con códigos de color por VLAN (10 Gestión, 20 Cómputo, Trunk 802.1Q), filtrado estricto de puertos libres y auditoría en el Inspector.
+  - **`propuesta_selector_columnas_tablas.svg`:** Simula el panel de datos inferior con el menú desplegable popover `⚙ Columnas` para alternar casillas de verificación por categoría y persistencia en `localStorage`.
+  - **`propuesta_importacion_masiva_excel.svg`:** Detalla el flujo en 3 etapas: zona drag-and-drop de archivos `.xlsx`/`.csv`, mapeo automático de columnas y motor de verificación con reglas de resolución de colisiones.
+  - **`propuesta_exportacion_svg_pdf.svg`:** Comparativa visual de nitidez 1:1 entre mapa de bits rasterizado vs gráficos vectoriales infinitos, junto con el formato de plano técnico industrial con cajetín de ingeniería.
+  - **`propuesta_tema_sepia_responsive.svg`:** Muestra el selector de tres estados (Claro, Oscuro, Sepia cálido a ~3000K) y la adaptación ergonómica responsive con barra de navegación inferior táctil para tablets y teléfonos.
+
+---
+
+## [2026-09-22] Sombras de Alto Contraste para Nombres de Equipos (Física, Trasera, Piso y Topología)
+
+### Sistema de Diseño y Legibilidad (`css/components/faceplates.css`, `css/components/rack.css`, `js/ui/topology/TopologyRenderer.js`)
+- **Sombras de Contraste Técnico en Carátulas (`text-shadow`):**
+  - Se implementó una sombra oscura de doble capa (`text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.9);`) sobre `.faceplate-label.dev-title` en [css/components/faceplates.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/faceplates.css).
+  - Esto garantiza que los títulos de los dispositivos montados en rack resalten nítidamente sobre las texturas vectoriales de los faceplates (rejillas, tornillos, degradados de metal y LEDs).
+- **Vista Trasera y Dispositivos de Piso:**
+  - Se aplicó la misma regla de sombreado a `.rear-slot-body .rear-device-name` en [css/components/rack.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/rack.css) y a `.floor-device-name` en [css/components/faceplates.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/faceplates.css).
+- **Vista de Topología (Canvas 2D):**
+  - En [js/ui/topology/TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js), se integró sombreado por hardware en el lienzo Canvas (`ctx.shadowColor = 'rgba(0, 0, 0, 0.95)'`, `ctx.shadowBlur = 6`, `ctx.shadowOffsetY = 1`) para los nombres de los nodos tanto en modo Círculo como en modo Tarjeta.
+
+---
+
+## [2026-09-22] Blindaje de Suite de Pruebas en Navegador (`tests/index.html`) y Carga Condicional de Manifiesto PWA
+
+### Pruebas de Integridad en Navegador y Protocolo Offline `file:///` (`tests/index.html`, `index.html`)
+- **Resolución de Fallos en Suite Visual (`tests/index.html` — 81/81 Exitosas, 0 Fallidas):**
+  - **Sincronización de Instancia `store` (Shadowing):** Se corrigió la discrepancia de instancia generada en el navegador donde `runAllTests()` creaba una variable local `const store = new Store()`, enmascarando la instancia global. Módulos del DOM como `js/ui/tables.js` y `js/ui/catalog.js` leen la instancia del scope global (`window.store`). Al unificar la referencia a `window.store`, `renderInventoryTable()` recibe los dispositivos inyectados en la prueba en lugar de renderizar el estado vacío (`.empty-state`), logrando el 100% de aserciones en las columnas `Tamaño`, `Skin` y `Notas` (M-19).
+  - **Catálogo Reactivo (`M-Cat`):** Se aseguró que `getCatalog()` y `store.addCustomCatalogItem()` operen sobre la misma referencia reactiva en memoria, resolviendo la validación del catálogo personalizado.
+  - **Tolerancia a Restricciones CORS en `file:///`:** Para las verificaciones de recursos físicos (SVGs en `assets/svg/default/`), se integró fallback automático a la caché en memoria `EMBEDDED_SVG_CACHE` cuando el navegador bloquea `fetch()` por política de mismo origen en esquema de archivo local.
+  - **Contenedores DOM Requeridos:** Se incorporó `<div id="inspector-content">` y el script de `faceplates.js` en `tests/index.html` para garantizar la ejecución limpia de pruebas del Inspector y carátulas.
+- **Erradicación de Alerta CORS de `manifest.json` en `index.html`:**
+  - Se convirtió la etiqueta estática `<link rel="manifest">` en inyección dinámica condicional (`window.location.protocol.startsWith('http')`), evitando que el motor Chromium intente una petición de red con origen nulo (`origin 'null'`) al abrir la aplicación directamente mediante doble clic en el explorador de archivos.
+
+---
+
+## [2026-09-22] Unificación Canónica de Assets Vectoriales (`assets/svg/default/`) y Eliminación de Redundancia
+
+### Optimización y Estructura de Assets (`js/ui/faceplates.js`, `service-worker.js`, `tests/integrity_check.cjs`, `tests/index.html`)
+- **Eliminación de Carpeta Redundante `assets/default/`:**
+  - Se eliminó la carpeta duplicada `assets/default/`, consolidando los 18 archivos SVG de carátulas de equipos exclusivamente en la ruta canónica `assets/svg/default/`.
+  - Se previenen divergencias y desincronizaciones en el diseño y edición futura de faceplates vectoriales.
+- **Normalización por Software y Retrocompatibilidad (`normalizeAssetUrl`):**
+  - Se implementó la función `normalizeAssetUrl(url)` en `js/ui/faceplates.js`, redirigiendo de forma transparente cualquier ruta heredada (`assets/default/` o `default/`) hacia `assets/svg/default/`.
+  - Se registraron alias retrocompatibles automáticos en la caché en memoria `SVG_INLINE_CACHE`, asegurando que proyectos exportados antiguos o guardados en `localStorage` sigan cargando instantáneamente sin peticiones de red adicionales ni errores 404.
+- **Optimización del Service Worker (`rack-designer-next-cache-v32`):**
+  - Se removieron las 18 entradas duplicadas de `./assets/default/*` del array `ASSETS_TO_CACHE`.
+  - Se integró un interceptor en el evento `fetch` del Service Worker que traduce cualquier solicitud HTTP entrante a `/assets/default/` hacia `/assets/svg/default/`.
+  - Se actualizó la versión de caché a `v32`.
+- **Actualización de Suite de Pruebas y Documentación:**
+  - En `tests/integrity_check.cjs` y `tests/index.html`, el Grupo 5 ahora valida la inexistencia de la carpeta redundante, la presencia de la canónica y la existencia de la función `normalizeAssetUrl()`.
+  - Sincronizados `doc/doc_md/PROJECT_ANALYSIS.md` y `doc/doc_md/CODEBASE_ORIENTATION_MAP.md`.
+
+---
+
+## [2026-09-22] Corrección del Menú de Opciones (⋮) en Gabinetes (Frontal y Trasera)
+
+### Interfaz de Gabinetes (`css/components/rack.css`, `css/variables.css`, `js/ui/rack.js`, `js/main.js`, `service-worker.js`)
+- **Corrección de Visibilidad y Recorte (`overflow: visible`):**
+  - Se modificó `.rack-header` cambiando `overflow: hidden;` por `overflow: visible; position: relative; z-index: 20; border-top-left-radius: inherit; border-top-right-radius: inherit;`, evitando que el menú desplegable absoluto quede recortado por la cabecera del rack.
+  - Se actualizó `.rack-card` a `overflow: visible;` para evitar que en racks con pocas unidades (como 4U o 6U) el menú desplegable quede recortado verticalmente por la tarjeta del rack.
+  - Se añadió la clase `.rack-wrapper.menu-open { z-index: 500; position: relative; }` que eleva dinámicamente el rack activo por encima de los racks y elementos circundantes mientras su menú de opciones permanezca desplegado.
+- **Desacoplamiento de IDs y Soporte para Cara Frontal / Trasera (`js/ui/rack.js`):**
+  - Se resolvió la duplicación de IDs en el DOM (`id="rack-menu-${rack.id}"`) generada al renderizar ambas caras (`front` y `rear`) del gabinete 3D, diferenciando los identificadores por cara (`rack-menu-${side}-${rack.id}`).
+  - Se refactorizó el manejador de clic de `[data-rack-menu-toggle]` para ubicar el menú contextual relativo al botón (`btn.closest('.rack-hdr-btns').querySelector('.dropdown-menu')`), cerrando automáticamente otros menús abiertos y alternando `.menu-open` en el contenedor del rack.
+  - Se aseguró el correcto funcionamiento del menú tanto en la cara frontal como en la trasera tras voltear el gabinete en 3D.
+- **Acciones y Cierre Automático:**
+  - Los botones de acción dentro del menú (`[data-edit-rack]`, `[data-del-rack]`, `[data-clear-rack]`, `[data-add-dev-rack]`) ahora cierran inmediatamente el menú emergente y remueven la elevación `.menu-open`.
+  - En "Agregar Equipo" (`[data-add-dev-rack]`), se preselecciona automáticamente el rack correspondiente en el modal de colocación rápida (`#qp-rack.value = targetRackId` y llamada a `repopulateQPSlots()`).
+  - Se integró el cierre global de `.menu-open` en `js/main.js` al hacer clic en cualquier área externa.
+- **Variables CSS (`css/variables.css`):**
+  - Se definió `--danger: var(--red);` en `:root`, corrigiendo el color de los textos y botones con clase `.text-danger` en menús desplegables.
+- **Service Worker v31:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v31`.
+
+---
+
+## [2026-09-22] Exportación de Sala Completa en Vista Dual (Frente + Dorso Modular por Gabinete)
+
+### Exportación a Imagen (`js/ui/modals/ExportModal.js`, `service-worker.js`, `tests/integrity_check.cjs`)
+- **Exportación Modular Dual de Sala Completa (`mode === 'dual'`):**
+  - **Disposición Modular por Gabinete:** Se implementó una arquitectura de renderizado modular donde cada rack de la sala se encapsula en un recuadro cerrado e independiente con:
+    - Borde perimetral y franja de acento superior con el color asignado (`rack.color`).
+    - Cabecera del gabinete: Título en negrita `GABINETE: [NOMBRE]`, métricas de capacidad `[X]U · [Y]U USADAS · [Z]W` y badge distintivo `VISTA DUAL (F+T)`.
+    - Columnas interiores: Subcabeceras centradas `VISTA FRONTAL` y `VISTA TRASERA` mostrando ambas caras del rack lado a lado en un solo bloque coherente.
+  - **Lienzo Panorámico General de Datacenter:** Los módulos de todos los racks se ensamblan horizontalmente con separación técnica de 40px (80px en Retina 2x), precedidos por una cabecera panorámica de la sala con métricas consolidadas (`[N] GABINETES (VISTA DUAL) · [M] EQUIPOS DE PISO · [U]U OCUPADAS · [P] kW`) y badge `VISTA DUAL PANORÁMICA`.
+  - **Integración con Equipos de Piso:** Se integra al pie la sección de periféricos de sala con borde `#f59e0b` e iconografía vectorial nítida trazada con `drawFloorIconCanvas`.
+  - **Nombre de Exportación Estandarizado:** Descarga automática con la nomenclatura `Sala_[Nombre]_Dual_Frente_Dorso.png`.
+- **Doble Modalidad en Modal de Exportación (`openPNGModal`):**
+  - **Botón Dual Destacado:** `#btn-export-entire-room-dual` con gradiente verde esmeralda y badge descriptivo para la exportación de Frente + Dorso por gabinete.
+  - **Botón Vista Actual 1:1:** `#btn-export-entire-room` para exportar la perspectiva actual panorámica de la pantalla.
+- **Motor Fallback 2D Modular (`_fallbackExportRoomToPNG`):**
+  - Soporte completo y autónomo de la disposición modular dual en Canvas 2D cuando `html2canvas` no está disponible o lanza error.
+- **Service Worker v30:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v30`.
+
+---
+
+## [2026-09-22] Iconografía Vectorial en Exportación de Equipos de Piso (1:1 y Fallback 2D)
+
+### Exportación a Imagen (`js/ui/modals/ExportModal.js`, `js/ui/faceplates.js`, `css/components/faceplates.css`, `service-worker.js`)
+- **Iconografía en Renderizado Fallback 2D (`drawFloorIconCanvas`):**
+  - Se implementó el trazado vectorial en Canvas 2D de los iconos para todos los dispositivos de piso (`camera`, `printer`, `phone`, `ap`, `pc`, `door`), dibujados dentro de una caja con esquinas redondeadas y fondo suave del color funcional del periférico.
+  - Se actualizó tanto `_fallbackExportFloorToPNG` como `_fallbackExportRoomToPNG` para sustituir las barras planas genéricas por tarjetas completas con icono vectorial coloreado, tipografía legible y metadatos de red (IP / Tipo).
+- **Compatibilidad de `html2canvas` para Equipos de Piso (`exportFloorToPNG`):**
+  - **Reemplazo de `color-mix()`:** Se sustituyó la función CSS `color-mix()` en `.floor-device-card:hover` y `.floor-device-icon` por valores estándar `rgba()`, erradicando el error de parseo de color de `html2canvas`.
+  - **Dimensionamiento Explícito de SVGs:** En `getFloorFaceplate()` de `js/ui/faceplates.js`, se inyectan atributos explícitos `width="22" height="22"` en las etiquetas `<svg>`, garantizando que el motor de rasterización conozca sus dimensiones físicas exactas.
+  - **Aislamiento de UI Interactiva:** En `exportFloorToPNG`, se ocultan transitoriamente `#floor-btn-add-device` y `.device-actions` durante el escaneo para una exportación limpia.
+- **Service Worker v29:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v29`.
+
+---
+
+## [2026-09-22] Exportación de Gabinetes en Ambos Lados (Frontal + Trasera 1:1)
+
+### Exportación a Imagen (`js/ui/modals/ExportModal.js`, `service-worker.js`)
+- **Exportación de Ambos Lados en Gabinetes Individuales (`side === 'both'`):**
+  - **Composición de Alta Fidelidad 1:1:** Se implementó la captura secuencial y composición horizontal automática de la vista Frontal y Trasera de un gabinete en un único archivo PNG de resolución Retina (`scale: 2`).
+  - **Captura Limpia por Caras:** Se captura primero la cara frontal y luego la cara trasera con todas las carátulas y fuentes redundantes PSU, combinándolas sobre el fondo del tema activo (`getActiveThemeBg()`) con una elegante separación y espaciado de 36px.
+  - **Botón "Ambos Lados" en Modal:** Cada tarjeta de gabinete en el modal de exportación PNG ahora incluye tres botones claros y directos: `Frontal`, `Trasera` y `Ambos Lados` (resaltado con color de acento).
+  - **Compatibilidad con Fallback:** El motor procedural 2D (`_fallbackExportRackToPNG`) también soporta `side === 'both'`, generando `${rack.name}_Ambos_Lados.png`.
+- **Service Worker v28:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v28`.
+
+---
+
+## [2026-09-22] Estabilización Definitiva de Exportación de Sala Completa a PNG (Alta Fidelidad 1:1)
+
+### Exportación a Imagen (`js/ui/modals/ExportModal.js`, `service-worker.js`)
+- **Aislamiento Seguro en Captura de Sala Completa (`exportRoomToPNG`):**
+  - **Eliminación de `ignoreElements` Propensa a Crashes:** Se sustituyó la opción `ignoreElements` de `html2canvas` por la aplicación directa de `style.display = 'none'` sobre todos los controles interactivos (`#canvas-btn-add-rack`, `#floor-btn-add-device`, `.device-actions`, `.btn-flip-rack`, etc.), preservando sus estados previos y restaurándolos limpiamente en el bloque `finally`.
+  - **Protección de SVG de Cables Vacío:** Al exportar salas sin cableado activo, se oculta completamente el elemento `<svg id="physical-cables-svg">` (`display: 'none'`), impidiendo que el motor de `html2canvas` falle al serializar un SVG vacío o absoluto bajo el protocolo `file:///`.
+  - **Amplitud y Proporción Natural (`max-content`):** Se aplica `width: max-content`, `minWidth: max-content` y `boxSizing: border-box` en `#view-physical-content` durante la captura para garantizar que todos los gabinetes se alineen horizontalmente con holgura e impecable resolución, sin saltos de línea ni recortes de bordes.
+  - **Visibilidad Inmediata de Diagnóstico:** Se enriqueció el manejo de excepciones en `catch` para alertar en la UI y consola ante cualquier eventualidad durante la captura 1:1 antes de derivar al fallback procedural.
+- **Service Worker v27:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v27`.
+
+---
+
+## [2026-09-22] Implementación de Exportación de Toda la Sala Completa a PNG (Alta Fidelidad 1:1)
+
+### Exportación a Imagen (`js/ui/modals/ExportModal.js`, `css/components/rack.css`, `index.html`, `service-worker.js`)
+- **Exportación Completa de la Sala (`exportRoomToPNG`):**
+  - Se implementó la captura integral de `#view-physical-content` en alta fidelidad 1:1 (`scale: 2`), exportando todos los gabinetes presentes en la sala, los equipos de piso y el trazado vectorial SVG de cables.
+  - **Aplanado 3D Multigabinete y Detección de Vistas:** Cada gabinete `.rack-wrapper` en la sala es analizado individualmente para detectar si se encuentra volteado a su vista trasera o frontal; se neutralizan los estilos 3D (`perspective: none`, `transform-style: flat`, etc.) de todos los racks concurrentemente, ocultando las caras inactivas para evitar solapamientos y distorsiones.
+  - **Captura Fiel de Cableado SVG:** Se neutraliza temporalmente el zoom y pan del lienzo físico, forzando un reflow y reejecutando `drawPhysicalCables()` a escala natural 1:1 antes de capturar con `html2canvas`. Al finalizar, se restaura el nivel de zoom y posición de paneo del usuario y se redibujan los cables con total precisión.
+  - **Ocultamiento de Controles de Edición y UI:** Durante la captura, la clase `.exporting-capture` y el filtro `ignoreElements` ocultan automáticamente el botón de añadir rack (`#canvas-btn-add-rack`), el botón de añadir equipo de piso (`#floor-btn-add-device`), menús contextuales (`.dropdown-menu`), botones flotantes de edición/borrado (`.device-actions`) y botones de volteo (`.btn-flip-rack`).
+  - **Manejo de Secciones Vacías:** Si la sala no contiene equipos de piso, la sección vacía `.floor-section` se oculta transitoriamente para obtener una infografía limpia y profesional.
+  - **Fallback Procedural 2D (`_fallbackExportRoomToPNG`):** En caso de entornos sin soporte de `html2canvas`, se implementó un motor Canvas 2D que compone horizontalmente todos los racks con sus unidades y equipos de piso.
+- **Acceso en Modal de Exportación (`openPNGModal`):**
+  - Se agregó un botón de acceso destacado al inicio del modal con gradiente acentuado: `"Exportar Sala Completa ([Nombre de Sala])"`.
+  - Se actualizó el título y subtítulo en `index.html` a *"Exportar a Imagen PNG - Exporta la sala completa o selecciona un gabinete individual"*.
+- **Corrección de Método de Consulta en Store (`store.allRacksInRoom`):**
+  - Se implementó `allRacksInRoom(roomId)` en `js/store.js` y se añadieron comprobaciones defensivas en `ExportModal.js` para evitar excepciones `TypeError: store.allRacksInRoom is not a function`.
+- **Protección de Registro de Service Worker en `file:///`:**
+  - En `index.html`, se limitó el registro del Service Worker a orígenes con protocolo `http:` o `https:`, evitando advertencias de protocolo no soportado al ejecutar la aplicación abriendo el archivo local directamente en el navegador.
+- **Service Worker v25:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v25`.
+
+---
+
+## [2026-09-22] Reparación y Fidelidad 1:1 en Exportación PNG de Gabinetes Individuales
+
+### Exportación a Imagen (`js/ui/modals/ExportModal.js`, `js/ui/faceplates.js`, `service-worker.js`)
+- **Solución Raíz a Canvas Tainted (`SecurityError: Tainted canvases may not be exported`):**
+  - **Diagnóstico:** Al abrir la aplicación en el protocolo local `file:///`, la función nativa `fetch()` era bloqueada por las restricciones de CORS del navegador. Esto impedía que `SVG_INLINE_CACHE` se llenara y forzaba el uso de elementos `<img>` locales. Al dibujar imágenes locales `file:///` en un canvas, Chromium contamina el canvas (*Tainted Canvas*), bloqueando `canvas.toDataURL()` y obligando a caer en el fallback 2D procedural simplificado.
+  - **Inyección Embebida Offline (`EMBEDDED_SVG_CACHE`):** Se integraron los 18 archivos SVG de carátulas predeterminadas directamente en memoria dentro de `js/ui/faceplates.js`. Ahora, el motor genera elementos `<svg>` inline de inmediato, sin llamadas de red ni `fetch()`, funcionando 100% offline y en `file:///`. El canvas nunca se contamina y `html2canvas` exporta la carátula de hardware real 1:1.
+- **Aplanado 3D Temporal para html2canvas:**
+  - Se implementó un ciclo seguro de neutralización y restauración de CSS 3D (`perspective: none`, `transform: none`, `transform-style: flat`, `transition: none`) en `.rack-wrapper` y `.rack-flipper` durante el disparo de `html2canvas`.
+  - Se eliminó la superposición parásita entre la cara frontal (`.rack-face`) y trasera (`.rack-rear`): cuando se exporta la cara frontal, la trasera se oculta por completo (`display: none`), y cuando se exporta la cara trasera, la frontal se oculta y la trasera se posiciona en flujo relativo (`position: relative; transform: none`).
+- **Orientación Correcta de Unidades en Fallback:**
+  - Se corrigió el cálculo de slots en `_fallbackExportRackToPNG` para que U1 se sitúe en la base y U12/U42 en el tope, respetando la orientación real de los gabinetes del centro de datos.
+- **Soporte Dinámico de Tema (Claro / Oscuro):**
+  - Se sustituyó el color de fondo estático `#090d17` por la función `getActiveThemeBg()`, adoptando el valor de `--bg-main` de acuerdo al tema activo (`data-theme="light"` o modo oscuro por defecto).
+  - Se adaptaron los colores del renderizado de fallback procedural Canvas 2D (`_fallbackExportRackToPNG` y `_fallbackExportFloorToPNG`) para reflejar los colores del tema actual.
+- **Selección Frontal / Trasera en Modal de Exportación:**
+  - En `openPNGModal()`, si un gabinete cuenta con equipos montados en la cara trasera (`mountSide: 'rear'` o `'both'`), el modal despliega botones independientes para exportar la vista **Frontal** o **Trasera**.
+- **Neutralización de Zoom/Pan durante Captura:**
+  - Se neutralizan temporalmente las transformaciones de `zoom` y `transform` en `#view-physical-content` durante el renderizado para evitar desplazamientos y recortes de coordenadas por parte de `html2canvas`.
+- **Service Worker v24:**
+  - Incremento de versión de caché a `rack-designer-next-cache-v24`.
+
+---
+
 ## [2026-09-21] Corrección de Renderizado y Tema en Gabinetes (Vista Física)
 
 ### Renderizado Físico (`js/ui/rack.js`, `css/components/rack.css`, `service-worker.js`)

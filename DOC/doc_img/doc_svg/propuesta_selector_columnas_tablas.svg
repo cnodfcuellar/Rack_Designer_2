@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+
+    <pattern id="grid-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.8" fill="#1e293b" opacity="0.6"/>
+    </pattern>
+
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+
+    <linearGradient id="header-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="960" height="560" fill="url(#bg-grad)" rx="12"/>
+  <rect width="960" height="560" fill="url(#grid-dots)" rx="12"/>
+  <rect width="960" height="560" fill="none" stroke="#1e293b" stroke-width="1.5" rx="12"/>
+
+  <!-- Cabecera -->
+  <rect x="24" y="20" width="912" height="54" rx="8" fill="url(#header-grad)" stroke="#334155" stroke-width="1"/>
+  <rect x="36" y="28" width="6" height="38" rx="3" fill="#f59e0b"/>
+  <text x="52" y="44" fill="#f8fafc" font-size="16" font-weight="700">PROPUESTA 3: SELECTOR DINÁMICO DE COLUMNAS EN TABLAS DE DATOS</text>
+  <text x="52" y="61" fill="#94a3b8" font-size="11.5">Personalización de campos visibles en Inventario y Conexiones con persistencia en localStorage</text>
+  
+  <rect x="790" y="32" width="134" height="28" rx="6" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1"/>
+  <text x="857" y="50" fill="#f59e0b" font-size="11" font-weight="700" text-anchor="middle">⚙️ ERGONOMÍA DE DATOS</text>
+
+  <!-- Simulación del Panel Inferior (Tabla de Inventario) -->
+  <g transform="translate(30, 95)">
+    <rect width="900" height="240" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    
+    <!-- Barra de Herramientas de la Tabla -->
+    <rect x="0" y="0" width="900" height="42" rx="8" fill="#1e293b"/>
+    <!-- Pestañas -->
+    <rect x="12" y="8" width="90" height="26" rx="4" fill="#0284c7"/>
+    <text x="57" y="25" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Inventario</text>
+
+    <rect x="110" y="8" width="90" height="26" rx="4" fill="transparent"/>
+    <text x="155" y="25" fill="#94a3b8" font-size="11" text-anchor="middle">Conexiones</text>
+
+    <!-- Buscador -->
+    <rect x="220" y="8" width="220" height="26" rx="4" fill="#090d16" stroke="#334155"/>
+    <text x="235" y="25" fill="#64748b" font-size="10.5">🔍 Filtrar por nombre, IP, tipo...</text>
+
+    <!-- Botón Activo: "Columnas (8/16)" -->
+    <g transform="translate(680, 8)">
+      <rect width="115" height="26" rx="4" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1.5"/>
+      <circle cx="16" cy="13" r="4" fill="#38bdf8"/>
+      <text x="26" y="17" fill="#ffffff" font-size="11" font-weight="700">⚙ Columnas (8/16)</text>
+    </g>
+
+    <rect x="805" y="8" width="82" height="26" rx="4" fill="#0284c7"/>
+    <text x="846" y="25" fill="#ffffff" font-size="10.5" font-weight="600" text-anchor="middle">Exportar ▼</text>
+
+    <!-- Encabezados de Tabla (Filtrados) -->
+    <g transform="translate(12, 50)">
+      <rect width="876" height="28" fill="#111827"/>
+      <text x="20" y="18" fill="#94a3b8" font-size="10" font-weight="700">RACK</text>
+      <text x="80" y="18" fill="#94a3b8" font-size="10" font-weight="700">U</text>
+      <text x="120" y="18" fill="#94a3b8" font-size="10" font-weight="700">LADO</text>
+      <text x="180" y="18" fill="#94a3b8" font-size="10" font-weight="700">EQUIPO / NOMBRE</text>
+      <text x="350" y="18" fill="#94a3b8" font-size="10" font-weight="700">TIPO</text>
+      <text x="440" y="18" fill="#94a3b8" font-size="10" font-weight="700">ALTURA</text>
+      <text x="520" y="18" fill="#94a3b8" font-size="10" font-weight="700">DIRECCIÓN IP</text>
+      <text x="660" y="18" fill="#94a3b8" font-size="10" font-weight="700">POTENCIA</text>
+      <text x="760" y="18" fill="#94a3b8" font-size="10" font-weight="700">NOTAS</text>
+      <text x="840" y="18" fill="#94a3b8" font-size="10" font-weight="700">ACCIONES</text>
+    </g>
+
+    <!-- Filas de Datos -->
+    <g transform="translate(12, 82)">
+      <!-- Fila 1 -->
+      <rect width="876" height="34" fill="#090d16" stroke="#1e293b" stroke-width="0.5"/>
+      <text x="20" y="21" fill="#f8fafc" font-size="10" font-weight="600">Rack 101</text>
+      <text x="80" y="21" fill="#38bdf8" font-size="10" class="mono">U40</text>
+      <rect x="120" y="10" width="36" height="16" rx="8" fill="#1e293b"/>
+      <text x="138" y="21" fill="#94a3b8" font-size="8.5" text-anchor="middle">Front</text>
+      <text x="180" y="21" fill="#ffffff" font-size="10.5" font-weight="700">Switch Core Nexus 10G</text>
+      <text x="350" y="21" fill="#94a3b8" font-size="10">Switch</text>
+      <text x="440" y="21" fill="#f59e0b" font-size="10" class="mono">1U</text>
+      <text x="520" y="21" fill="#38bdf8" font-size="10" class="mono">10.10.10.2</text>
+      <text x="660" y="21" fill="#10b981" font-size="10" class="mono">350 W</text>
+      <text x="760" y="21" fill="#94a3b8" font-size="9.5">Enlace a Borde</text>
+      <text x="840" y="21" fill="#64748b" font-size="10">✏ 🗑</text>
+
+      <!-- Fila 2 -->
+      <g transform="translate(0, 36)">
+        <rect width="876" height="34" fill="#0c1322" stroke="#1e293b" stroke-width="0.5"/>
+        <text x="20" y="21" fill="#f8fafc" font-size="10" font-weight="600">Rack 101</text>
+        <text x="80" y="21" fill="#38bdf8" font-size="10" class="mono">U1</text>
+        <rect x="120" y="10" width="36" height="16" rx="8" fill="#0284c7" opacity="0.3"/>
+        <text x="138" y="21" fill="#38bdf8" font-size="8.5" text-anchor="middle">Dual</text>
+        <text x="180" y="21" fill="#ffffff" font-size="10.5" font-weight="700">UPS Online 3000VA A</text>
+        <text x="350" y="21" fill="#94a3b8" font-size="10">UPS</text>
+        <text x="440" y="21" fill="#f59e0b" font-size="10" class="mono">2U</text>
+        <text x="520" y="21" fill="#38bdf8" font-size="10" class="mono">10.10.20.1</text>
+        <text x="660" y="21" fill="#10b981" font-size="10" class="mono">2700 W</text>
+        <text x="760" y="21" fill="#94a3b8" font-size="9.5">Batería A + B</text>
+        <text x="840" y="21" fill="#64748b" font-size="10">✏ 🗑</text>
+      </g>
+
+      <!-- Fila 3 -->
+      <g transform="translate(0, 72)">
+        <rect width="876" height="34" fill="#090d16" stroke="#1e293b" stroke-width="0.5"/>
+        <text x="20" y="21" fill="#f8fafc" font-size="10" font-weight="600">Rack 102</text>
+        <text x="80" y="21" fill="#38bdf8" font-size="10" class="mono">U38</text>
+        <rect x="120" y="10" width="36" height="16" rx="8" fill="#0284c7" opacity="0.3"/>
+        <text x="138" y="21" fill="#38bdf8" font-size="8.5" text-anchor="middle">Dual</text>
+        <text x="180" y="21" fill="#ffffff" font-size="10.5" font-weight="700">Servidor Web Frontend</text>
+        <text x="350" y="21" fill="#94a3b8" font-size="10">Server</text>
+        <text x="440" y="21" fill="#f59e0b" font-size="10" class="mono">2U</text>
+        <text x="520" y="21" fill="#38bdf8" font-size="10" class="mono">10.10.30.10</text>
+        <text x="660" y="21" fill="#10b981" font-size="10" class="mono">450 W</text>
+        <text x="760" y="21" fill="#94a3b8" font-size="9.5">Nginx Cluster</text>
+        <text x="840" y="21" fill="#64748b" font-size="10">✏ 🗑</text>
+      </g>
+    </g>
+
+    <!-- Menú Desplegable Flotante de Columnas (Popover) -->
+    <g transform="translate(620, 36)">
+      <rect width="250" height="230" rx="8" fill="#090d16" stroke="#38bdf8" stroke-width="1.5" filter="drop-shadow(0 12px 24px rgba(0,0,0,0.8))"/>
+      <rect x="0" y="0" width="250" height="30" rx="8" fill="#1e293b"/>
+      <text x="14" y="20" fill="#ffffff" font-size="11" font-weight="700">COLUMNAS VISIBLES</text>
+
+      <!-- Checkboxes -->
+      <g transform="translate(14, 40)">
+        <rect x="0" y="0" width="12" height="12" rx="2" fill="#10b981"/><path d="M 2 6 L 5 9 L 10 3" stroke="#fff" stroke-width="1.5" fill="none"/><text x="20" y="10" fill="#f8fafc" font-size="10">Rack y Ubicación</text>
+        <rect x="0" y="18" width="12" height="12" rx="2" fill="#10b981"/><path d="M 2 6 L 5 9 L 10 3" stroke="#fff" stroke-width="1.5" fill="none"/><text x="20" y="28" fill="#f8fafc" font-size="10">Unidad U y Lado</text>
+        <rect x="0" y="36" width="12" height="12" rx="2" fill="#10b981"/><path d="M 2 6 L 5 9 L 10 3" stroke="#fff" stroke-width="1.5" fill="none"/><text x="20" y="46" fill="#f8fafc" font-size="10">Nombre de Equipo</text>
+        
+        <!-- Desmarcados (Ocultos) -->
+        <rect x="0" y="54" width="12" height="12" rx="2" fill="#1e293b" stroke="#475569"/><text x="20" y="64" fill="#64748b" font-size="10">Marca y Modelo (Oculto)</text>
+        <rect x="0" y="72" width="12" height="12" rx="2" fill="#1e293b" stroke="#475569"/><text x="20" y="82" fill="#64748b" font-size="10">Número de Serie (Oculto)</text>
+        <rect x="0" y="90" width="12" height="12" rx="2" fill="#1e293b" stroke="#475569"/><text x="20" y="100" fill="#64748b" font-size="10">Usuario y Clave (Oculto)</text>
+        
+        <rect x="0" y="108" width="12" height="12" rx="2" fill="#10b981"/><path d="M 2 6 L 5 9 L 10 3" stroke="#fff" stroke-width="1.5" fill="none"/><text x="20" y="118" fill="#f8fafc" font-size="10">Dirección IP y Tipo</text>
+        <rect x="0" y="126" width="12" height="12" rx="2" fill="#10b981"/><path d="M 2 6 L 5 9 L 10 3" stroke="#fff" stroke-width="1.5" fill="none"/><text x="20" y="136" fill="#f8fafc" font-size="10">Potencia (W) y Notas</text>
+      </g>
+
+      <!-- Pie del popover con botones rápidos -->
+      <line x1="0" y1="195" x2="250" y2="195" stroke="#1e293b"/>
+      <text x="14" y="215" fill="#38bdf8" font-size="9" font-weight="600">✓ Guardado en localStorage</text>
+      <rect x="180" y="202" width="60" height="20" rx="3" fill="#1e293b"/>
+      <text x="210" y="216" fill="#94a3b8" font-size="9" text-anchor="middle">Resetear</text>
+    </g>
+  </g>
+
+  <!-- Beneficios Clave Inferiores -->
+  <g transform="translate(30, 360)">
+    <rect x="0" y="0" width="430" height="165" rx="8" fill="#0f172a" stroke="#1e293b"/>
+    <text x="20" y="30" fill="#ffffff" font-size="13" font-weight="700">🚀 Eliminación de Scroll Horizontal Excesivo</text>
+    <text x="20" y="55" fill="#94a3b8" font-size="10.5">
+      Con 18 columnas activas, la tabla requiere desplazarse constantemente de izquierda a derecha. Al ocultar campos secundarios (como contraseña o número de serie), la tabla cabe entera en pantallas de laptops de 1366px.
+    </text>
+    <rect x="20" y="115" width="390" height="28" rx="4" fill="#111827"/>
+    <text x="30" y="133" fill="#10b981" font-size="9.5" class="mono">✓ Vista condensada para auditorías de red rápidas</text>
+
+    <rect x="460" y="0" width="440" height="165" rx="8" fill="#0f172a" stroke="#1e293b"/>
+    <text x="480" y="30" fill="#ffffff" font-size="13" font-weight="700">💾 Persistencia Personalizada por Operador</text>
+    <text x="480" y="55" fill="#94a3b8" font-size="10.5">
+      La selección de columnas se sincroniza automáticamente con el <tspan fill="#f59e0b" font-weight="600">localStorage</tspan>. Cada usuario mantiene su perfil preferido entre sesiones y recargas sin necesidad de reconfigurar la tabla.
+    </text>
+    <rect x="480" y="115" width="400" height="28" rx="4" fill="#111827"/>
+    <text x="490" y="133" fill="#38bdf8" font-size="9.5" class="mono">✓ 100% Offline y compatible con el modo PWA</text>
+  </g>
+</svg>
