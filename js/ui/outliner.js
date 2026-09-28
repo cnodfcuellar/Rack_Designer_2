@@ -238,6 +238,47 @@ function renderOutliner() {
       if (id && type && typeof window.renderInspector === 'function') {
         window.renderInspector(type, id);
       }
+
+      // Auto-scroll en la vista física
+      let targetRoomId = null;
+      if (type === 'room') targetRoomId = id;
+      else if (type === 'rack') {
+        const r = store.rackById(id);
+        if (r) targetRoomId = r.roomId;
+      } else if (type === 'device') {
+        const d = store.deviceById(id);
+        if (d) targetRoomId = d.roomId;
+      }
+
+      if (targetRoomId && targetRoomId !== store._raw.currentRoomId) {
+        if (typeof store.setCurrentRoom === 'function') {
+          store.setCurrentRoom(targetRoomId);
+        }
+      }
+
+      setTimeout(() => {
+        let el = null;
+        if (type === 'rack') {
+          el = document.querySelector(`[data-rack-id="${id}"]`);
+        } else if (type === 'device') {
+          el = document.querySelector(`[data-device-id="${id}"]`);
+        }
+        
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+          const originalOutline = el.style.outline;
+          const originalOutlineOffset = el.style.outlineOffset;
+          const originalTransition = el.style.transition;
+          el.style.transition = 'outline 0.2s ease-in-out';
+          el.style.outline = '4px solid var(--accent)';
+          el.style.outlineOffset = '2px';
+          setTimeout(() => {
+            el.style.outline = originalOutline;
+            el.style.outlineOffset = originalOutlineOffset;
+            setTimeout(() => { el.style.transition = originalTransition; }, 200);
+          }, 1500);
+        }
+      }, 100);
     });
 
     item.addEventListener('dblclick', e => {

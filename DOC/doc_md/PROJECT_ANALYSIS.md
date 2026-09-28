@@ -82,7 +82,7 @@ Arquitectura modular cargada secuencialmente en el ámbito global:
   * Gestión reactiva de plantillas personalizadas (`store.state.customCatalog`) con badge `PROYECTO`.
 * **`js/ui/outliner.js`**: Árbol jerárquico de navegación (`<details>/<summary>`) en el panel derecho. Incluye barra de herramientas (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (`slot`, `name-asc`, `name-desc`, `type`) y botones de acción rápida inline (`✏️` y `🗑️`).
 * **`js/ui/inspector.js`**: Panel lateral derecho de inspección de propiedades. Colapsable interactivo, con soporte CRUD activo para Salas, Racks y Equipos, y Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`).
-* **`js/ui/tables.js`**: Panel inferior con tablas de inventario (17 columnas, incluyendo Tamaño, Skin y Notas con edición inline interactiva `dblclick`) y conexiones físicas, con búsqueda reactiva.
+* **`js/ui/tables.js`**: Panel inferior con tablas de inventario (18 columnas, incluyendo Tamaño, Skin y Notas con edición inline interactiva `dblclick`) y conexiones físicas. Incorpora un menú popover dinámico (`⚙ Columnas`) para alternar la visibilidad de las casillas con persistencia en `localStorage`.
 * **`js/ui/fileManager.js`**: Integración con File System Access API (`showOpenFilePicker`, `showSaveFilePicker`) para importar y exportar topologías en formato `.rack` / `.json` con autoguardado en disco.
 * **`js/ui/modals.js` y `js/ui/modals/`**: Sistema modular de diálogos modales:
   * `RoomModal.js`: CRUD unificado de salas sin diálogos bloqueantes (`prompt`).
@@ -181,6 +181,17 @@ El proyecto ha completado exitosamente su transición arquitectónica hacia un s
 4. **Consolidación Documental y Hoja de Ruta**:
    * Publicación del plan maestro en `roadmap_mejoras.md` (37 propuestas estructuradas) y su correspondiente informe ejecutivo en `informe_mejoras_e_implementacion.md`.
    * Sincronización completa con el sistema de memoria persistente `memory-bank/`.
+
+5. **Soporte de Doble Cara (Dual-Side Mounting)**:
+   * Capacidad nativa para alojar equipos de chasis profundo (`mountSide: 'both'`) que ocupan unidades en ambas caras (frontal y trasera) del gabinete.
+   * Motor de validación bilateral (`store.sidesConflict`) para impedir colisiones o superposiciones indebidas de hardware en la profundidad del rack.
+
+6. **Gestión Avanzada de VLANs y Puertos**:
+   * Catálogo de VLANs predefinidas (Gestión, Datos, VoIP, CCTV, etc.) y asignación de redes lógico/cromáticas por enlace.
+   * Modales de conexión mejorados con opciones de filtrado ("Mostrar solo puertos libres") y bloqueo estricto de intentos de interconexión en puertos ocupados (`store.isPortOccupied`).
+   
+7. **Selector Dinámico de Columnas en Tablas**:
+   * Interfaz reactiva para personalizar las vistas del panel inferior, permitiendo a los operadores mostrar u ocultar columnas a discreción con guardado persistente en `localStorage`.
 
 
 ---

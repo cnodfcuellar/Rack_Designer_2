@@ -40,10 +40,12 @@ Al abrir RACK Designer Next, verás tu área de trabajo dividida en **5 paneles 
    - En la **Vista Física**, cada equipo se representa con carátulas vectoriales SVG de alta definición (servidores en rack 1U/2U/4U, switches de 24/48 puertos con actividad LED animada, routers, almacenamiento NAS/SAN con discos parpadeantes, grabadores NVR/DVR, UPS y PDUs), garantizando una escala visual 1:1 nítida en cualquier nivel de zoom. Los gabinetes cuentan con una separación técnica espaciosa de **`72px`** (3U).
    - **Enrutamiento Segregado de Cables:** Los cables se enrutan automáticamente en 3 zonas libres: **Canastillo Aéreo Superior** (entre gabinetes distintos, por encima del techo), **Canaleta Media** (para equipos de piso y periféricos hacia los racks) y **Organizador Lateral de Gabinete** (para enlaces internos del mismo rack), garantizando cero cruces sobre equipos o servidores.
 4. **Inspector y Árbol (Derecha):** Cuando seleccionas un Rack o un servidor, en este panel verás sus propiedades completas. Se divide en tres secciones:
-   - **Outliner:** Un árbol jerárquico (Salas → Racks → Equipos) con barra de herramientas (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (por posición U, alfabético A-Z / Z-A y por tipo) y botones de acción rápida inline (`✏️` para editar y `🗑️` para eliminar con confirmación).
+   - **Outliner:** Un árbol jerárquico (Salas → Racks → Equipos) con barra de herramientas (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (por posición U, alfabético A-Z / Z-A y por tipo) y botones de acción rápida inline (`✏️` para editar y `🗑️` para eliminar con confirmación). Al hacer **clic en cualquier elemento del árbol**, la vista física saltará de sala automáticamente y hará un scroll suave para resaltarlo en pantalla.
    - **Inspector:** Panel de propiedades del elemento seleccionado, ahora **colapsable** para dar más espacio al árbol. Incluye **gestión activa (CRUD)** con botones rápidos para crear salas y gabinetes en estado vacío, y botones contextuales para editar o eliminar salas, racks y equipos de forma directa.
    - **Estadísticas:** Contadores globales (salas, racks, equipos en rack, equipos de piso, conexiones y balance de energía en Watts).
-5. **Inventario (Abajo):** Una gran tabla tipo Excel con 17 columnas de metadatos (incluyendo Tamaño, Skin y Notas). Permite **edición rápida en celda mediante doble clic** (`dblclick`) para modificar tamaño en U, apariencia o anotaciones sin abrir modales.
+5. **Inventario (Abajo):** Una gran tabla tipo Excel con 18 columnas de metadatos (incluyendo Tamaño, Skin y Notas). 
+   - **Gestión de Columnas:** Usa el botón `⚙ Columnas` para abrir un menú desplegable y seleccionar exactamente qué columnas deseas ver (Ubicación, Red, Energía, etc.). Tus preferencias se guardan automáticamente.
+   - **Edición Rápida:** Permite **edición rápida en celda mediante doble clic** (`dblclick`) para modificar tamaño en U, apariencia o anotaciones sin abrir modales.
 
 ---
 
@@ -169,8 +171,10 @@ Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos 
 ### Crear una conexión
 1. Haz **doble clic** en un equipo (en la vista Topología o desde la tabla inferior).
 2. Se abrirá el modal de **"Nueva Conexión"**.
-3. Selecciona el equipo de origen, el equipo de destino, los puertos, tipo de cable y color.
-4. Haz clic en **"Conectar"**.
+3. Selecciona el equipo de origen, el equipo de destino y los puertos. 
+   - *Tip:* Marca la casilla **"Mostrar solo puertos libres"** para ocultar los puertos que ya están ocupados y evitar errores.
+4. Asigna una **VLAN** (ej. VLAN 10 Gestión, VLAN 20 Datos). El sistema sugerirá automáticamente un color de cable basado en la VLAN seleccionada.
+5. Haz clic en **"Conectar"**. El sistema verificará que no haya colisiones antes de enlazar los puertos.
 
 ### Ver cables en la vista física
 1. Ve a la **Vista Física** (botón superior central).

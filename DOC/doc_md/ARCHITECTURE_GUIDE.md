@@ -517,7 +517,8 @@ Tres secciones:
 
 Contiene:
 - Tabs: Inventario / Conexiones
-- Tabla de Inventario de 17 columnas con metadatos completos: Rack, U, Lado, Nombre, Marca, Modelo, Tipo, **Tamaño**, IP, MAC, Serie, Usuario, Contraseña, Consumo (W), Tomas, **Skin**, **Notas**, Acciones.
+- Tabla de Inventario de 18 columnas con metadatos completos: Rack, U, Lado, Nombre, Marca, Modelo, Tipo, **Tamaño**, IP, MAC, Serie, Usuario, Contraseña, Consumo (W), Tomas, **Skin**, **Notas**, Acciones.
+- **Selector Dinámico de Columnas:** Menú flotante (`#columns-dropdown`) accesible desde el botón `⚙ Columnas` que permite alternar la visibilidad de cualquier columna. El estado se persiste de forma local mediante `localStorage` (clave `RACK_DESIGNER_TABLE_COLUMNS`).
 - Edición inline interactiva por doble clic (`finishCellEdit()`) que persiste cambios numéricos de tamaño, skin y notas directamente al store.
 - Botones: Agregar equipo, Colocación rápida (con buscador reactivo `#qp-dev-search`), Nueva conexión.
 - Menú de exportación con soporte a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado y Excel (`xlsx.full.min.js`).
@@ -732,6 +733,21 @@ En navegadores que no soportan File System Access API (Firefox, Safari), se usa:
     - renderPhysical() → nuevo faceplate aparece
     - renderBottomPanel() → tabla se actualiza
 13. fileManager.autoSave() → si hay archivo abierto (3s debounce)
+
+### Validación y Creación de Conexiones (VLANs)
+
+```
+1. Usuario abre modal de "Nueva Conexión"
+2. Selecciona origen, destino y puertos
+3. El modal filtra puertos (opcionalmente) ocultando los que `store.isPortOccupied()` reporta en uso
+4. Usuario selecciona una VLAN del catálogo (`store.getVlans()`)
+5. store.addConnection() es llamado
+6. store.validateConnection() bloquea la acción si detecta colisión de puertos
+7. snapshot() guarda estado
+8. this._raw.connections.push(newConn)
+9. this._save() + this._emit('change', { source: 'Connection' })
+10. renderAll() redibuja vistas afectadas (Inspector, tablas, cables)
+```
 ```
 
 ### renderAll Source Dispatch

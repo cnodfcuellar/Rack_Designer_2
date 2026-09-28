@@ -1,3 +1,13 @@
+## [2026-09-27] Mejora de UX: Auto-Navegación y Enfoque desde el Outliner
+
+### Panel Derecho (`js/ui/outliner.js`)
+- **Auto-scroll y Resaltado Visual:**
+  - Al hacer clic en una sala, rack o equipo en el panel de navegación jerárquico (Outliner), la Vista Física ahora hace un _scroll_ suave (`scrollIntoView`) y se desplaza automáticamente para centrar el elemento seleccionado en la pantalla.
+  - El elemento enfocado (rack o equipo de piso) resalta temporalmente con un borde de acento azul durante 1.5 segundos para facilitar su rápida identificación visual en datacenters densos.
+  - **Auto-cambio de Sala:** Si el elemento clickeado se encuentra en una sala diferente a la actual, el sistema cambiará dinámicamente el canvas a la sala destino antes de realizar el scroll.
+
+---
+
 ## [2026-09-23] Corrección de Popover de Columnas: Cierre Reactivo y Visibilidad en Modo Corto
 
 ### Panel Inferior y Tablas (`index.html`, `css/components/panels.css`, `css/layout.css`, `js/ui/tables.js`)
