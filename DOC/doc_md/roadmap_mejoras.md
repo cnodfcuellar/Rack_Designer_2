@@ -28,7 +28,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 
 | ID | Nombre | Categoría |
 |---|---|---|
-| M-01 | Cifrado de credenciales e IPs en localStorage | 🔒 Seguridad |
+| M-01 | ~~Cifrado de credenciales e IPs en localStorage~~ | ✅ COMPLETADO |
 | M-02 | ~~Manejo de QuotaExceededError en `_save()`~~ | ✅ COMPLETADO |
 | M-03 | Optimización de `deepClone` / limitación de historial | ⏳ Rendimiento |
 | M-04 | Redibujado selectivo (renderAll optimizado) | 🔄 Rendimiento |
@@ -52,11 +52,12 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-22 | Importación masiva desde CSV/Excel | 📥 Datos |
 | M-23 | ~~Controles de edición/creación en el Outliner~~ | ✅ COMPLETADO |
 | M-24 | ~~Inspector colapsable en panel derecho~~ | ✅ COMPLETADO |
-| M-25 | Rediseño responsive para móvil/tablet | 📱 UX |
+| M-25A | Diseño adaptativo y responsive en modo Desktop y Laptops | 🖥️ UX / Layout |
+| M-25B | Modo móvil y tablet (Estudio de factibilidad y paridad funcional 100%) | 📱 UX |
 | M-26 | Gestión avanzada de puertos y validaciones | 🔌 Core |
 | M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
 | M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
-| M-29 | Motor de temas y transparencias en topología | 🎨 Topología |
+| M-29 | ~~Motor de temas y transparencias en topología~~ | ✅ COMPLETADO |
 | M-30 | ~~Buscador en catálogo de añadir equipos~~ | ✅ COMPLETADO |
 | M-31 | ~~Separación y posicionamiento de etiquetas en topología~~ | ✅ COMPLETADO |
 | M-32 | ~~Layout de árbol jerárquico en topología~~ | ✅ COMPLETADO |
@@ -68,7 +69,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **23 mejoras completadas:** `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓` y `[M-38]✓`. Total de tareas pendientes: **15**. Fase 1 completada al 100%. Fase 3 avanzada (5 de 8 completadas). Fase 4 avanzada (3 de 5 completadas). Fase 2 avanzada (2 de 7 completadas).
+> **25 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓` y `[M-38]✓`. Total de tareas pendientes: **14**. ¡Fase 0 y Fase 1 completadas al 100%! Fase 3 avanzada (5 de 8 completadas). Fase 4 avanzada (4 de 5 completadas). Fase 2 avanzada (2 de 7 completadas).
 
 ---
 
@@ -108,33 +109,34 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-21 | Plantilla exportación completa | 🟠 3 | Ampliar `ExportModal.js` para incluir todos los campos del modelo, serializar listas. |
 | M-22 | Importación masiva CSV/Excel | 🔴 4 | Parsear archivos con XLSX, validar datos, mapear a esquema interno, UI de errores y conflictos. |
 | M-23 | Controles en Outliner | 🟠 3 | Añadir botones inline por nodo + íconos de creación en header de `outliner.js`. |
-| M-24 | Inspector colapsable | 🟡 2 | Toggle CSS + estado en `inspector.js`, redistribuir espacio vertical del panel derecho. |
-| M-25 | Responsive móvil/tablet | ⚫ 5 | Rediseño completo de layout grid, media queries extensivas, gestos táctiles, bottom nav. |
+| M-24 | ~~Inspector colapsable~~ | ✅ COMPLETADO | Toggle CSS + estado en `inspector.js`, redistribuir espacio vertical del panel derecho. |
+| M-25A | Responsive Desktop / Laptops | 🟠 3 | Breakpoints CSS, variables fluidas clamp, auto-wrap y drawer/toggle para paneles laterales en pantallas compactas/laptops. |
+| M-25B | Modo móvil y tablet (100% funcional) | ⚫ 5 | Estudio de factibilidad exhaustivo en mejoras.md: Bottom Nav (56px), carrusel de racks, Tap-to-Place, Card View en tablas y Web Share API. |
 | M-26 | Gestión avanzada de puertos | 🔴 4 | Nuevo modelo de datos para puertos, validaciones en `CableModal.js`, filtrado dinámico, VLAN. Refactor de `demoData.js`. |
 | M-27 | ~~Persistencia posiciones topología y saneamiento~~ | ✅ COMPLETADO | Coordenadas persistidas en `state.devices[].topology` y saneamiento relacional reactivo automático en `store.js` (`_sanitize`). |
 | M-28 | Skins visuales topología | 🔴 4 | 3 modos de renderizado en `TopologyRenderer.js`, carga de imágenes custom (FileReader + canvas), selector UI. |
-| M-29 | Motor temas topología | 🔴 4 | Motor de temas con herencia/personalización, controles de transparencia, patrones de fondo en canvas. |
-| M-30 | Buscador en catálogo de equipos | 🟡 2 | Campo de filtrado dinámico en tiempo real dentro del modal/catálogo de equipos. |
-| M-31 | Separación etiquetas topología | 🟡 2 | Ajuste de dibujo en `TopologyRenderer.js`: IP arriba del círculo y nombre abajo. |
-| M-32 | Layout de árbol genealógico | 🟠 3 | Algoritmo de jerarquía multinivel en `TopologyLayout.js` y controles de espaciado X/Y. |
+| M-29 | ~~Motor temas y transparencias topología~~ | ✅ COMPLETADO | Motor de temas con herencia/personalización, controles de transparencia, patrones de fondo en canvas. |
+| M-30 | ~~Buscador en catálogo de equipos~~ | ✅ COMPLETADO | Campo de filtrado dinámico en tiempo real dentro del modal/catálogo de equipos. |
+| M-31 | ~~Separación etiquetas topología~~ | ✅ COMPLETADO | Ajuste de dibujo en `TopologyRenderer.js`: IP y nombre independientes con posiciones arriba, abajo, izq, der, juntos o separados. |
+| M-32 | ~~Layout de árbol jerárquico~~ | ✅ COMPLETADO | Algoritmo de jerarquía multinivel en `TopologyLayout.js` y controles de espaciado dual H/V a 60 FPS. |
 | M-33 | Cableado frontal vs trasero | 🟠 3 | Extensión de lógica de conexiones y puertos distinguiendo la cara de montaje del equipo. |
 | M-34 | Drag-to-Connect en vista física | 🔴 4 | Herramienta de cableado interactivo: eventos pointer, cable elástico SVG (rubber-band), snap magnético y popover de puertos. |
 | M-35 | Sin restricciones de ubicación | ⚫ 5 | Cambio arquitectónico profundo: reescribir validaciones drag & drop y unificar esquema rack/piso/frente. |
-| M-36 | CRUD Salas/Racks en Inspector | 🟠 3 | Soporte completo para crear, editar y eliminar salas y racks directamente desde `inspector.js`. |
-| M-37 | Exportación fiel (html2canvas) | 🟡 2 | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
-| M-38 | Opciones de orden en Outliner | 🟡 2 | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
+| M-36 | ~~CRUD Salas/Racks en Inspector~~ | ✅ COMPLETADO | Soporte completo para crear, editar y eliminar salas y racks directamente desde `inspector.js`. |
+| M-37 | ~~Exportación fiel (html2canvas)~~ | ✅ COMPLETADO | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
+| M-38 | ~~Opciones de orden en Outliner~~ | ✅ COMPLETADO | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
 
-### Resumen de Complejidad (Tareas Pendientes: 17)
+### Resumen de Complejidad (Tareas Pendientes: 15)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
-| 🟡 Baja (2) | 1 | M-31 |
-| 🟠 Media (3) | 6 | M-03, M-18, M-20, M-21, M-32, M-33 |
-| 🔴 Alta (4) | 7 | M-01, M-04, M-22, M-26, M-28, M-29, M-34 |
-| ⚫ Muy Alta (5) | 3 | M-07, M-25, M-35 |
+| 🟡 Baja (2) | 0 | *(Todas completadas)* |
+| 🟠 Media (3) | 6 | M-03, M-18, M-20, M-21, M-25A, M-33 |
+| 🔴 Alta (4) | 6 | M-01, M-04, M-22, M-26, M-28, M-34 |
+| ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(21 Completadas: M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-23, M-24, M-27, M-30, M-36, M-37, M-38)*
+*(24 Completadas: M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-23, M-24, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38)*
 
 ---
 
@@ -174,19 +176,20 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-20 | Ocultar columnas | ⚡ P3 | Ergonomía en pantallas pequeñas. |
 | M-21 | Plantilla exportación | ⚡ P3 | Base necesaria para M-22 (importación masiva). |
 | M-30 | ~~Buscador catálogo de equipos~~ | ✅ COMPLETADO | Búsqueda reactiva en tiempo real en modal de catálogo y colocación rápida (#qp-dev-search). |
-| M-31 | Separación etiquetas topología | ⚡ P3 | Evita el truncado y saturación de texto en nodos circulares densos. |
-| M-32 | Layout árbol genealógico | ⚡ P3 | Visualización clara de la jerarquía de red (Core, Distribución, Acceso). |
+| M-31 | ~~Separación etiquetas topología~~ | ✅ COMPLETADO | IP y nombre independientes con posiciones configurables (arriba/abajo/der/izq). |
+| M-32 | ~~Layout de árbol jerárquico~~ | ✅ COMPLETADO | Visualización clara de la jerarquía de red (Core, Distribución, Acceso) ortogonal y espaciado H/V. |
 | M-33 | Cableado frontal vs trasero | ⚡ P3 | Distingue puertos según la cara de montaje físico del equipo. |
-| M-38 | Opciones de orden Outliner | ⚡ P3 | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
+| M-38 | ~~Opciones de orden Outliner~~ | ✅ COMPLETADO | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
+| M-25A | Responsive Desktop / Laptops | 🔥 P2 | Adaptación fluida para laptops (1366x768) y pantallas de escritorio, colapso de paneles y grid fluido. |
 | M-34 | Drag-to-Connect en vista física | 🔥 P2 | Revoluciona la experiencia de cableado; elimina formularios modales lentos. |
-| M-36 | CRUD Salas/Racks en Inspector | 🔥 P2 | Agiliza la administración física directa sin saltar entre paneles. |
+| M-36 | ~~CRUD Salas/Racks en Inspector~~ | ✅ COMPLETADO | Agiliza la administración física directa sin saltar entre paneles. |
 | M-37 | ~~Exportación fiel (html2canvas)~~ | ✅ COMPLETADO | Captura 1:1 directa del DOM a escala Retina con fallback procedimental a Canvas 2D. |
 | M-18 | Tema Sepia | 💡 P4 | Mejora estética, no afecta funcionalidad. |
 | M-22 | Importación masiva | 💡 P4 | Gran valor, pero depende de M-21 y M-26. |
-| M-25 | Responsive móvil | 💡 P4 | Mercado futuro. Requiere esfuerzo masivo. |
+| M-25B | Modo móvil y tablet | 💡 P4 | Standby / Baja prioridad. Requiere rediseño de interfaz táctil. |
 | M-07 | Conflictos multiusuario | 💡 P4 | Escenario poco frecuente en uso actual (single-user). |
 | M-28 | Skins topología | 💡 P4 | Feature premium, no bloquea ningún flujo actual. |
-| M-29 | Motor temas topología | 💡 P4 | Feature premium, pura personalización visual. |
+| M-29 | ~~Motor temas topología~~ | ✅ COMPLETADO | Motor de temas, fondos procedimentales y transparencias alfa en canvas. |
 | M-35 | Sin restricciones de ubicación | 💡 P4 | Flexibilidad total, pero requiere reescribir esquemas y drag & drop. |
 
 ---
@@ -244,10 +247,10 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 |---|---|---|---|---|---|
 | 0.1 | M-02 | ~~Manejo de QuotaExceededError~~ | `store.js` | `try/catch` en `_save()` + alerta visual + evento | ✅ COMPLETADO |
 | 0.2 | M-05 | ~~Anti-corrupción JSON~~ | `store.js` | Doble slot de guardado + validación en `_load()` | ✅ COMPLETADO |
-| 0.3 | M-01 | Cifrado de credenciales | `store.js`, `DeviceModal.js`, `inspector.js` | Web Crypto API (AES-GCM) para campos sensibles | Pendiente |
+| 0.3 | M-01 | ~~Cifrado de credenciales~~ | `js/auth/crypto.js`, `store.js`, `DeviceModal.js`, `inspector.js`, `fileManager.js` | Cifrado simétrico AES-GCM (enc:v1:) + Modo Dios + Inspector táctil | ✅ COMPLETADO |
 
-> [!CAUTION]
-> **M-02 y M-05 son hotfixes de blindaje crítico.** Han sido implementados exitosamente con tests automatizados (Grupo 6) y tolerancia a fallos.
+> [!TIP]
+> 🎉 **¡Fase 0 completada al 100%!** `M-01`, `M-02` y `M-05` han sido implementados exitosamente con blindaje de producción y 182 pruebas de integridad pasando al 100%.
 
 ---
 
@@ -301,6 +304,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 3.6 | M-24 | ~~Inspector colapsable~~ | `inspector.js`, `index.html`, `layout.css`, `panels.css` | ✅ COMPLETADO (toggle colapsable + expansión flex de Outliner) |
 | 3.7 | M-36 | ~~CRUD Salas/Racks desde Inspector~~ | `inspector.js`, `panels.css` | ✅ COMPLETADO (CRUD completo salas/racks/equipos + empty state) |
 | 3.8 | M-20 | Ocultar/mostrar columnas | `tables.js` | Pendiente |
+| 3.9 | M-25A | Diseño adaptativo Desktop / Laptops | `layout.css`, `panels.css`, `main.js` | Pendiente (Breakpoints laptops/desktops, auto-colapso paneles y flex grid) |
 
 ---
 
@@ -315,7 +319,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 4.2 | M-31 | ~~Separación y posicionamiento de etiquetas~~ | `TopologyRenderer.js`, `TopologyState.js`, `main.js`, `index.html` | ✅ COMPLETADO (posiciones arriba/abajo/der/izq/juntos/separados) |
 | 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` | Pendiente |
 | 4.4 | M-32 | ~~Layout de árbol jerárquico y ortogonal~~ | `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyState.js` | ✅ COMPLETADO (DAG jerárquico + base de desconectados + ortogonal) |
-| 4.5 | M-29 | Motor de temas y transparencias | `TopologyRenderer.js`, nuevo `TopologyThemes.js` | Pendiente |
+| 4.5 | M-29 | ~~Motor de temas y transparencias~~ | `TopologyRenderer.js` | ✅ COMPLETADO (patrones dots/grid/hex, fondos light/dark, canal alfa y herencia cromática) |
 
 ---
 
@@ -336,12 +340,12 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 > **Objetivo:** Features diferenciadores de alto valor pero menor urgencia o alta complejidad estructural.
 > **Duración estimada:** 3-4 semanas
 
-| Orden | ID | Tarea | Archivos Afectados |
-|---|---|---|---|
-| 6.1 | M-18 | Tema Sepia + selector visible | `variables.css`, `layout.css`, `main.js` |
-| 6.2 | M-25 | Responsive móvil/tablet | Todos los CSS, `main.js`, nuevo `mobile.js` |
-| 6.3 | M-35 | Sin restricciones de ubicación (Rack vs Piso/Frente) | `store.js`, `rack.js`, `PlacementModal.js` |
-| 6.4 | M-07 | Resolución de conflictos multiusuario | `fileManager.js`, nuevo `MergeModal.js` |
+| Orden | ID | Tarea | Archivos Afectados | Estado |
+|---|---|---|---|---|
+| 6.1 | M-18 | Tema Sepia + selector visible | `variables.css`, `layout.css`, `main.js` | Pendiente |
+| 6.2 | M-25B | Modo móvil y tablet (Standby / Baja prioridad) | Todos los CSS, `main.js`, nuevo `mobile.js` | ⏸️ Standby |
+| 6.3 | M-35 | Sin restricciones de ubicación (Rack vs Piso/Frente) | `store.js`, `rack.js`, `PlacementModal.js` | Pendiente |
+| 6.4 | M-07 | Resolución de conflictos multiusuario | `fileManager.js`, nuevo `MergeModal.js` | Pendiente |
 
 ---
 

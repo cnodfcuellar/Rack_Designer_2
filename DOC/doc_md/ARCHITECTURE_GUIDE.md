@@ -648,15 +648,15 @@ Para erradicar colisiones de cables sobre servidores o periféricos de piso, el 
 
 ---
 
-## 10. Sistema de Autenticación
+## 10. Sistema de Autenticación y Criptografía
 
-**Archivo:** `js/auth/roles.js` (expuesto como `window.RackAuth`)
+**Archivos:** `js/auth/roles.js` (expuesto como `window.RackAuth`) y `js/auth/crypto.js` (expuesto como `window.RackCrypto`).
 
-### Roles y permisos
+### Roles y permisos (RBAC)
 
 | Rol | Descripción | Permisos |
 |---|---|---|
-| **Admin** | Acceso completo | Todo + Modo Dios + Cambiar PIN |
+| **Admin** | Acceso completo | Todo + Modo Dios + Revelar Contraseñas + Cambiar PIN |
 | **Editor** | Edición sin PIN | Todo excepto cambiar PIN y Modo Dios |
 | **Viewer** | Solo lectura | Solo ver datos, sin editar |
 
@@ -673,13 +673,22 @@ Para erradicar colisiones de cables sobre servidores o periféricos de piso, el 
 | `changeAdminPin` | ✅ | ❌ | ❌ |
 | `viewData` | ✅ | ✅ | ✅ |
 
-### Implementación
-
+### Implementación de Roles
 - **PIN por defecto:** `rack2024` (hash SHA-256: `392bd907...`)
 - **Hasheo:** Web Crypto API (`crypto.subtle.digest`) con fallback JS puro (`sha256_fallback`)
-- **Sesión:** `sessionStorage` bajo la clave `RACK_SESSION_USER` (se pierde al cerrar pestaña)
-- **Integridad y Persistencia F5:** Los administradores tienen un token criptográfico persistido en `sessionStorage` bajo `RACK_SESSION_TOKEN` (`TOKEN_KEY`). Esto garantiza que la sesión sobreviva a recargas de página (F5) en la misma pestaña pero se destruya de inmediato al cerrar la pestaña o el navegador (`SESSION_EXPIRATION = VOLATILE`). Si alguien manipula `RACK_SESSION_USER` manualmente sin coincidir con el token, se fuerza logout de inmediato.
-- **Verificar permisos:** `RackAuth.can('editDevices')` retorna boolean
+- **Sesión:** `sessionStorage` bajo la clave `RACK_SESSION_USER` (se destruye al cerrar la pestaña)
+- **Integridad y Persistencia F5:** Los administradores tienen un token criptográfico persistido en `sessionStorage` bajo `RACK_SESSION_TOKEN` (`TOKEN_KEY`). Si un usuario altera manualmente los valores sin coincidir con el token, se fuerza logout de inmediato.
+- **Verificar permisos:** `RackAuth.can('toggleGodMode')` retorna boolean.
+
+### Blindaje Criptográfico en Reposo (`RackCrypto`, M-01)
+- **Cifrado Simétrico:** Módulo `RackCrypto` implementa cifrado de 256 bits bajo el estándar `enc:v1:<iv>:<ciphertext>`. Genera un vector de inicialización (IV) de 12 bytes único por cada registro.
+- **Persistencia Segura:** `store._save()` cifra automáticamente los campos sensibles de los equipos (`pass`) antes de guardarlos en `localStorage` (tanto en el slot principal como en el slot redundante de respaldo).
+- **Descifrado Transparente:** `store._load()` y `store.loadData()` descifran las credenciales al instanciar el estado en memoria, permitiendo que la UI y las operaciones funcionen en texto plano sin penalizar la velocidad.
+- **Exportación Segura:** `fileManager.writeToFile` y `downloadFallback` cifran las credenciales al generar archivos `.rack` o `.json`.
+- **Modo Dios y Revelación Táctil:**
+  - Las contraseñas se renderizan por defecto con `••••••••` en tablas e Inspector.
+  - Los administradores pueden activar el **Modo Dios** (`SHOW_PASSWORDS = true`) para auditar todas las contraseñas a la vez.
+  - En el Inspector, el botón de ojo táctil (`toggleDevicePasswordInspector(devId)`) permite a los administradores alternar la visualización de la contraseña de un equipo individual. Espectadores y Editores son bloqueados por RBAC.
 
 ---
 

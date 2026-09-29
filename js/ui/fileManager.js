@@ -146,7 +146,10 @@ const fileManager = {
 
   /** Escribe el JSON en el handle actual */
   async writeToFile(handle) {
-    const data = { version: 1, project: store._raw, catalog: CATALOG };
+    const projectData = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
+      ? RackCrypto.prepareStateForStorage(store._raw)
+      : store._raw;
+    const data = { version: 1, project: projectData, catalog: CATALOG };
     const content = JSON.stringify(data, null, 2);
     
     const writable = await handle.createWritable();
@@ -156,7 +159,10 @@ const fileManager = {
 
   /** Fallback original */
   downloadFallback() {
-    const data = { version: 1, project: store._raw, catalog: CATALOG };
+    const projectData = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
+      ? RackCrypto.prepareStateForStorage(store._raw)
+      : store._raw;
+    const data = { version: 1, project: projectData, catalog: CATALOG };
     downloadJSON(data, this.fileName.endsWith('.rack') ? this.fileName : 'datacenter.rack');
     notify('Proyecto descargado (Fallback)', 'success');
   },

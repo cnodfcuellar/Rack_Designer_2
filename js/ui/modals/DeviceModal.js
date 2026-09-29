@@ -299,4 +299,17 @@ function initDeviceModal() {
   document.getElementById('modal-device-cancel').addEventListener('click', () => {
     document.getElementById('modal-device').classList.add('hidden');
   });
+
+  const passToggleBtn = document.getElementById('dev-pass-toggle');
+  if (passToggleBtn) {
+    passToggleBtn.addEventListener('click', () => {
+      const passInput = document.getElementById('dev-pass');
+      if (!passInput) return;
+      const isPass = passInput.type === 'password';
+      passInput.type = isPass ? 'text' : 'password';
+      passToggleBtn.innerHTML = isPass 
+        ? '<i class="svg-icon icon-eye-off" style="width:14px; height:14px;"></i>'
+        : '<i class="svg-icon icon-eye" style="width:14px; height:14px;"></i>';
+    });
+  }
 }

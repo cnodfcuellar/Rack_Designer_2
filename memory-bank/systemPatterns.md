@@ -24,4 +24,5 @@ The application emulates a modern React/Redux reactive architecture using native
 - **No ES Modules in Browser:** Scripts are loaded sequentially in the global scope via `<script>` tags in `index.html`.
 - **Modular CSS:** Cascading architecture where later files override earlier ones (`variables.css` -> `layout.css` -> `components.css`).
 - **RBAC (Role Based Access Control):** Managed globally via `window.RackAuth`.
-- **Dual Spacing Sliders (H / V):** Control independiente de granularidad horizontal y vertical sin alterar las relaciones estructurales de los contenedores contenedores de salas y racks.
+- **Criptografía y Persistencia Blindada (`RackCrypto`):** Cifrado simétrico transparente con formato `enc:v1:<iv>:<ciphertext>` en `_save()`, descifrado automático en `_load()` y protección RBAC para Modo Dios (`SHOW_PASSWORDS`) y revelación táctil individual en Inspector.
+- **Dual Spacing Sliders (H / V):** Control independiente de granularidad horizontal y vertical sin alterar las relaciones estructurales de los contenedores de salas y racks.

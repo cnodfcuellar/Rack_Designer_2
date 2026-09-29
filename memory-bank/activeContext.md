@@ -4,6 +4,12 @@
 El proyecto ha completado con éxito la **Modernización Integral de la Vista de Topología** (Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas, reubicación de equipos desconectados en la base de racks/sala, personalización completa de ubicación de Nombre/IP en nodos y control dual de espaciado Horizontal/Vertical), la **Navegación y Enfoque reactivo desde el Outliner**, el **Selector Dinámico de Columnas en Tablas de Datos** con persistencia, y la **Protección visual de la cabecera**.
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-29] Blindaje de Producción al 100%: Cifrado en Reposo (M-01) y Modo Dios:**
+  - **Módulo Criptográfico Autónomo `RackCrypto` (`js/auth/crypto.js`):** Cifrado simétrico de credenciales y campos sensibles (`pass`) con prefijo `enc:v1:<iv>:<ciphertext>` derivado de clave 256-bit y vector de inicialización único por registro.
+  - **Persistencia Segura en Reposo:** Cifrado automático en `store._save()`, `fileManager.writeToFile` y `downloadFallback`. En `localStorage` y en respaldos exportados `.rack` nunca reside texto plano.
+  - **Descifrado Transparente en Memoria:** `store._load()` y `store.loadData()` descifran las credenciales al instanciar el estado en memoria para operación fluida a 60 FPS sin penalización de rendimiento.
+  - **Gobernanza RBAC, Modo Dios y Revelación Táctil:** Contraseñas enmascaradas con `••••••••` por defecto. Modo Dios (`SHOW_PASSWORDS`) y revelación táctil individual en Inspector (`toggleDevicePasswordInspector`) gobernadas por rol Admin (`RackAuth.can('toggleGodMode')`). Toggle `#dev-pass-toggle` en modales.
+  - **Integridad Automatizada:** 182 pruebas en 14 grupos al 100% (Grupo 14 dedicado a seguridad y cifrado).
 - **[2026-09-28] Vista de Topología: Control Dual de Espaciado Horizontal y Vertical:**
   - **Grupo de Sliders `#topo-spacing-group`:** Integración de barra horizontal `H` (`#topo-spacing-x`) y barra vertical `V` (`#topo-spacing`).
   - **Espaciado Horizontal de Nodos (H):** En el estilo por racks (`_computeLayout`), los equipos se organizan en columnas separadas por `colGap`, expandiendo el ancho del gabinete y manteniendo la distancia entre racks fija (`RACK_GAP = 32px`). En el estilo árbol (`_computeTreeLayout`), separa horizontalmente los nodos hermanos del mismo nivel.

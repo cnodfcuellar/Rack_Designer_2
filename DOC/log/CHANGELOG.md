@@ -1,3 +1,48 @@
+## [2026-09-29] Blindaje de Producción: Cifrado en Reposo (M-01), Modo Dios y Fase 0 al 100%
+
+### Seguridad, Criptografía y Persistencia (`js/auth/crypto.js`, `js/store.js`, `js/ui/fileManager.js`)
+- **Módulo Criptográfico Autónomo `RackCrypto` (`js/auth/crypto.js`):**
+  - Implementación de cifrado simétrico robusto bajo el estándar `enc:v1:<iv>:<ciphertext>` con clave derivada (256-bit) y vector de inicialización único por registro.
+  - Compatibilidad universal en navegadores modernos y entornos de pruebas Node.js mediante envoltorio exportable (`window.RackCrypto`, `global.RackCrypto`, `module.exports`).
+  - Métodos API: `encrypt()`, `decrypt()`, `isEncrypted()`, `encryptDevice()`, `decryptDevice()`, `prepareStateForStorage()` y `restoreStateFromStorage()`.
+- **Cifrado Transparente en Reposo:**
+  - `store._save()`: Cifra automáticamente las contraseñas (`pass`) y datos sensibles de los dispositivos antes de serializar el estado en `localStorage` (tanto en el slot principal `RACK_DESIGNER_NEXT_STATE` como en el slot redundante `RACK_DESIGNER_NEXT_STATE_BACKUP`). En el almacenamiento del navegador nunca queda texto plano expuesto.
+  - `store._load()` y `store.loadData()`: Descifrado transparente al recuperar datos desde `localStorage` o importar archivos `.rack`, manteniendo las contraseñas en memoria listas para la operativa de red sin degradar el rendimiento.
+  - `fileManager.js`: Los respaldos descargados en formato `.rack` o `.json` se exportan con las contraseñas cifradas en reposo para evitar filtraciones al compartir archivos de topología.
+
+### Gobernanza RBAC, Modo Dios y UI de Revelación de Contraseñas (`js/ui/inspector.js`, `js/ui/modals/DeviceModal.js`, `index.html`)
+- **Ocultamiento por Defecto y Modo Dios (`SHOW_PASSWORDS`):**
+  - Todas las contraseñas se renderizan enmascaradas con `••••••••` en las tablas de inventario e Inspector.
+  - Los administradores pueden activar el **Modo Dios** (`SHOW_PASSWORDS = true`) para auditar todas las contraseñas simultáneamente con protección RBAC (`RackAuth.can('toggleGodMode')`).
+- **Revelación Granular Táctil en Inspector:**
+  - Botón interactivo de ojo (`toggleDevicePasswordInspector(devId)`) en la fila de contraseña del Inspector de dispositivos.
+  - Permite a los administradores revelar y ocultar la contraseña de un equipo específico de forma individual y segura con un solo clic. Los roles Espectador/Editor son rechazados automáticamente.
+- **Toggle de Ojo en Formulario de Equipos (`DeviceModal.js` / `index.html`):**
+  - Botón táctil `#dev-pass-toggle` dentro del campo `#dev-pass` para alternar entre `password` y `text` durante la creación o edición de dispositivos.
+
+### Automatización y Calidad (`tests/integrity_check.cjs`, `doc/doc_md/roadmap_mejoras.md`, `mejoras.md`, `memory-bank/progress.md`)
+- **Suite de Pruebas Automatizadas (Grupo 14):**
+  - Incorporadas 20 pruebas de integridad dedicadas a `M-01` en `tests/integrity_check.cjs`: verificación de API `RackCrypto`, generación de cadenas `enc:v1:`, cifrado en `_save()`, ausencia de texto plano en `localStorage`, descifrado transparente en `_load()`, enmascaramiento por defecto, activación de Modo Dios, protección RBAC de revelación granular y comprobación de elementos UI.
+  - **Resultado de la suite completa: 182 pruebas pasadas, 0 falladas (100% de éxito en los 14 grupos).**
+- **Hito de Proyecto:**
+  - **Fase 0 (Blindaje de Producción) COMPLETADA AL 100%** (`M-01`, `M-02`, `M-05`).
+
+---
+
+## [2026-09-29] Roadmap: Priorización de Diseño Adaptativo Desktop/Laptops (M-25A) y Modo Móvil en Standby (M-25B)
+
+### Documentación y Roadmap (`mejoras.md`, `doc/doc_md/roadmap_mejoras.md`, `memory-bank/progress.md`)
+- **Añadida Propuesta M-25A (Diseño Adaptativo y Responsive para Desktop y Laptops):**
+  - Orientada a resolver la rigidez del layout en monitores compactos y laptops (≤ 1366×768) donde los paneles laterales consumían 540px fijos.
+  - Especificación técnica: breakpoints desktop, variables CSS fluidas `clamp()`, colapso dinámico tipo drawer/toggle para `#sidebar` y `#right-panel`, panel inferior `#bottom` colapsable/redimensionable para viewports de baja altura, y grilla fluida en `#main`.
+- **Ajuste y Estudio Exhaustivo de M-25B (Modo Móvil y Tablet 100% Funcional):**
+  - Se formalizó en `mejoras.md` un estudio completo de arquitectura y factibilidad componente por componente (Header compacto, Bottom Nav ergonómico de 56px, Bottom Sheet para Catálogo e Inspector, carrusel con *Pinch-to-zoom* en racks, interacción guiada *Tap-to-Place* para evitar arrastres ciegos, *Card List View* para tablas y uso de la Web Share API para exportación offline).
+  - Garantiza paridad operativa total del 100% con la versión desktop sin requerir dependencias externas ni alterar el núcleo Vanilla JS.
+- **Sincronización del Motor de Temas y Transparencias (M-29):**
+  - Confirmado y registrado su estado como **✅ COMPLETADO** al estar plenamente operativo en `TopologyRenderer.js`.
+
+---
+
 ## [2026-09-28] Vista de Topología: Control Dual de Espaciado Horizontal y Vertical
 
 ### Motor de Topología y UI (`index.html`, `js/main.js`, `js/ui/topology/TopologyState.js`, `js/ui/topology/TopologyLayout.js`)

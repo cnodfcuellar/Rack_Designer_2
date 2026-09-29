@@ -75,7 +75,10 @@ class Store {
     try {
       const saved = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
       if (saved) {
-        const parsed = JSON.parse(saved);
+        let parsed = JSON.parse(saved);
+        if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
+          parsed = RackCrypto.restoreStateFromStorage(parsed);
+        }
         this._raw = parsed;
         this._sanitize();
         this.state = this._makeProxy(this._raw);
@@ -89,7 +92,10 @@ class Store {
     try {
       const backup = localStorage.getItem('RACK_DESIGNER_NEXT_STATE_BACKUP');
       if (backup) {
-        const parsedBackup = JSON.parse(backup);
+        let parsedBackup = JSON.parse(backup);
+        if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
+          parsedBackup = RackCrypto.restoreStateFromStorage(parsedBackup);
+        }
         this._raw = parsedBackup;
         this._sanitize();
         this.state = this._makeProxy(this._raw);
@@ -110,7 +116,11 @@ class Store {
 
   _save() {
     try {
-      const serialized = JSON.stringify(this._raw);
+      // M-01: Cifrado en reposo para credenciales y contraseñas sensibles
+      const stateToPersist = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
+        ? RackCrypto.prepareStateForStorage(this._raw)
+        : this._raw;
+      const serialized = JSON.stringify(stateToPersist);
       localStorage.setItem('RACK_DESIGNER_NEXT_STATE', serialized);
       // M-05: Doble slot de respaldo para prevenir pérdida por cierres abruptos
       localStorage.setItem('RACK_DESIGNER_NEXT_STATE_BACKUP', serialized);
@@ -387,7 +397,7 @@ class Store {
     }
     this.snapshot();
     const newDev = {
-      id: uid(), rackId, name: deviceTemplate.name, type: deviceTemplate.type,
+      id: deviceTemplate.id || uid(), rackId, name: deviceTemplate.name, type: deviceTemplate.type,
       slotStart, size, mountSide: targetSide, ip: deviceTemplate.ip || '', mac: deviceTemplate.mac || '',
       serial: deviceTemplate.serial || '', power: deviceTemplate.power || 0,
       user: deviceTemplate.user || 'admin', pass: deviceTemplate.pass || '',
@@ -780,8 +790,12 @@ class Store {
   loadData(data) {
     this._undoStack = [];
     this._redoStack = [];
+    let stateToLoad = data;
+    if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
+      stateToLoad = RackCrypto.restoreStateFromStorage(data);
+    }
     Object.keys(this._raw).forEach(k => delete this._raw[k]);
-    Object.assign(this._raw, data);
+    Object.assign(this._raw, stateToLoad);
     
     if (!this._raw.topology) {
       this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };

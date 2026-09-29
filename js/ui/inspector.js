@@ -193,6 +193,10 @@ window.renderInspector = function(entityType, entityId) {
       `;
     }
 
+    const isPassRevealed = !!(window.SHOW_PASSWORDS || (window._revealedDevicePasswords && window._revealedDevicePasswords.has(dev.id)));
+    const passDisplay = dev.pass ? (isPassRevealed ? escapeHTML(dev.pass) : '••••••••') : 'N/A';
+    const canReveal = typeof RackAuth !== 'undefined' && typeof RackAuth.can === 'function' && RackAuth.can('toggleGodMode');
+
     html += `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Usuario:</span>
@@ -201,7 +205,14 @@ window.renderInspector = function(entityType, entityId) {
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="color:var(--text-muted); font-size:12px;">Contraseña:</span>
-            <span style="color:var(--text-primary); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A')}</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="color:var(--text-primary); font-size:12px; font-family:var(--font-mono);">${passDisplay}</span>
+              ${dev.pass ? `
+                <button type="button" class="btn-inspector-pass-eye" style="background:none; border:none; cursor:pointer; color:var(--text-secondary); padding:2px; display:inline-flex; align-items:center; opacity:0.85;" title="${isPassRevealed ? 'Ocultar contraseña' : (canReveal ? 'Modo Dios: Revelar contraseña (Admin)' : 'Requiere permisos de Administrador')}" onclick="toggleDevicePasswordInspector('${escapeHTML(dev.id)}')">
+                  <i class="svg-icon ${isPassRevealed ? 'icon-eye-off' : 'icon-eye'}" style="width:13px; height:13px;"></i>
+                </button>
+              ` : ''}
+            </div>
           </div>
     `;
 
@@ -467,3 +478,25 @@ window.renderInspector = function(entityType, entityId) {
     container.innerHTML = html;
   }
 };
+
+window._revealedDevicePasswords = window._revealedDevicePasswords || new Set();
+
+function toggleDevicePasswordInspector(devId) {
+  if (typeof RackAuth !== 'undefined' && typeof RackAuth.can === 'function' && !RackAuth.can('toggleGodMode')) {
+    if (typeof notify === 'function') {
+      notify('Solo administradores pueden revelar contraseñas (Modo Dios).', 'error', 3000);
+    }
+    return;
+  }
+  if (!window._revealedDevicePasswords) window._revealedDevicePasswords = new Set();
+  if (window._revealedDevicePasswords.has(devId)) {
+    window._revealedDevicePasswords.delete(devId);
+  } else {
+    window._revealedDevicePasswords.add(devId);
+  }
+  if (typeof renderInspector === 'function') {
+    renderInspector(devId, 'device');
+  }
+}
+window.toggleDevicePasswordInspector = toggleDevicePasswordInspector;
+

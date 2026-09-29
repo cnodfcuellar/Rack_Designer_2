@@ -64,8 +64,9 @@ function loadScript(relPath) {
 
 loadScript('../js/utils.js');
 loadScript('../js/icons.js');
-loadScript('../js/store.js');
+loadScript('../js/auth/crypto.js');
 loadScript('../js/auth/roles.js');
+loadScript('../js/store.js');
 loadScript('../js/ui/tables.js');
 loadScript('../js/ui/modals/Globals.js');
 loadScript('../js/ui/modals/RoomModal.js');
@@ -756,6 +757,90 @@ async function runTests() {
   // Comprobar estilos en panels.css
   const panelsCssColsText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'panels.css'), 'utf8');
   assert(panelsCssColsText.includes('.columns-dropdown-header') && panelsCssColsText.includes('.col-toggle-item') && panelsCssColsText.includes('.btn-col-action'), 'Columnas: panels.css implementa estilos para el popover y checkboxes');
+
+  // ----------------------------------------------------
+  // GRUPO 14: CIFRADO EN REPOSO (M-01) Y REVELACIÓN EN MODO DIOS
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 14: Cifrado en Reposo (M-01) y Modo Dios para Administradores');
+
+  // 14.1 Existencia y API de RackCrypto
+  assert(typeof RackCrypto !== 'undefined' && typeof RackCrypto.encrypt === 'function' && typeof RackCrypto.decrypt === 'function', 'M-01: RackCrypto expone las funciones de cifrado y descifrado');
+  assert(typeof RackCrypto.isEncrypted === 'function' && typeof RackCrypto.prepareStateForStorage === 'function' && typeof RackCrypto.restoreStateFromStorage === 'function', 'M-01: RackCrypto implementa helpers de persistencia para el estado');
+
+  // 14.2 Prueba de Cifrado y Descifrado Simétrico
+  const testSecret = 'ClaveUltraSegura#2026';
+  const encryptedSecret = RackCrypto.encrypt(testSecret);
+  assert(RackCrypto.isEncrypted(encryptedSecret) === true, 'M-01: encrypt() genera cadena con prefijo seguro enc:v1:');
+  assert(!encryptedSecret.includes(testSecret), 'M-01: La cadena cifrada no expone el texto plano en ninguna subcadena');
+
+  const decryptedSecret = RackCrypto.decrypt(encryptedSecret);
+  assert(decryptedSecret === testSecret, 'M-01: decrypt() recupera fielmente el texto plano original');
+
+  // 14.3 Cifrado en Reposo en LocalStorage a través de Store._save()
+  const targetRack = store._raw.racks.find(r => r.name.includes('101')) || store._raw.racks[0];
+  const testDevWithPass = {
+    id: 'dev-crypto-test-01',
+    name: 'Servidor Seguro Bastionado',
+    type: 'server',
+    size: 2,
+    slotStart: 25,
+    mountSide: 'front',
+    rackId: targetRack.id,
+    user: 'admin_sys',
+    pass: 'P@ssw0rdSuperSecr3t!'
+  };
+
+  const addResult = store.addDeviceToRack(testDevWithPass, targetRack.id, 25, 'front');
+
+  const storedRawJson = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
+  const storedParsed = JSON.parse(storedRawJson);
+  const storedDevice = storedParsed.devices.find(d => d.id === 'dev-crypto-test-01');
+
+  assert(storedDevice && RackCrypto.isEncrypted(storedDevice.pass) === true, 'M-01: store._save() persiste la contraseña cifrada (enc:v1:) en localStorage');
+  assert(!storedRawJson.includes('P@ssw0rdSuperSecr3t!'), 'M-01: La contraseña real en texto plano NUNCA reside en localStorage');
+
+  // 14.4 Descifrado Transparente en Memoria para Componentes
+  const devInMem = store.deviceById('dev-crypto-test-01');
+  assert(devInMem && devInMem.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: El estado en memoria mantiene la contraseña descifrada para el uso interno del store');
+
+  // 14.5 Prueba de Carga con _load()
+  const freshStore = new Store();
+  const loadedDev = freshStore.deviceById('dev-crypto-test-01');
+  assert(loadedDev && loadedDev.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: store._load() descifra transparentemente las credenciales guardadas');
+
+  // 14.6 Modo Dios en Tablas de Inventario
+  window.SHOW_PASSWORDS = false;
+  const tableCheckWrap = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(tableCheckWrap, '');
+  assert(tableCheckWrap.innerHTML.includes('••••••••'), 'Modo Dios: Las contraseñas se ocultan con •••••••• por defecto');
+  assert(!tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: La contraseña real no se muestra en la tabla sin autorización');
+
+  window.SHOW_PASSWORDS = true;
+  renderInventoryTable(tableCheckWrap, '');
+  assert(tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: Al activar Modo Dios (SHOW_PASSWORDS=true), la tabla revela la contraseña');
+  window.SHOW_PASSWORDS = false;
+
+  // 14.7 Revelación de Contraseñas en Inspector y Protección RBAC
+  assert(typeof toggleDevicePasswordInspector === 'function', 'Inspector: toggleDevicePasswordInspector expuesta globalmente');
+  
+  // Como espectador, debe ser rechazado
+  RackAuth.loginAsViewer();
+  assert(RackAuth.can('toggleGodMode') === false, 'RBAC: Espectador NO tiene permiso toggleGodMode');
+  toggleDevicePasswordInspector('dev-crypto-test-01');
+  assert(!window._revealedDevicePasswords.has('dev-crypto-test-01'), 'RBAC: toggleDevicePasswordInspector rechaza a usuarios no administradores');
+
+  // Como Administrador, debe ser admitido
+  await RackAuth.tryAdminLogin('rack2024');
+  assert(RackAuth.can('toggleGodMode') === true, 'RBAC: Administrador tiene permiso toggleGodMode');
+  toggleDevicePasswordInspector('dev-crypto-test-01');
+  assert(window._revealedDevicePasswords.has('dev-crypto-test-01') === true, 'Modo Dios: Administrador revela exitosamente la contraseña de un equipo individual');
+  toggleDevicePasswordInspector('dev-crypto-test-01');
+  assert(window._revealedDevicePasswords.has('dev-crypto-test-01') === false, 'Modo Dios: Administrador vuelve a ocultar la contraseña con un clic');
+
+  // 14.8 UI en index.html y DeviceModal
+  const updatedHtmlCrypto = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
+  assert(updatedHtmlCrypto.includes('id="dev-pass-toggle"'), 'M-01: index.html incluye el botón interactivo #dev-pass-toggle en el formulario');
+  assert(updatedHtmlCrypto.includes('src="js/auth/crypto.js"'), 'M-01: index.html incluye el script js/auth/crypto.js');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

@@ -6,10 +6,15 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 
 ## 1. Problemas Críticos de Seguridad e Integridad
 
-### 🔑 Credenciales e IPs Almacenadas en Texto Plano en el Cliente
-*   **Problema:** Los campos de red de los equipos (`ip`, `mac`, `user`, `pass`) se almacenan directamente en texto plano dentro del estado JSON en el `localStorage` del navegador.
-*   **Riesgo:** Cualquier script malicioso (por ejemplo, mediante una vulnerabilidad XSS o una extensión del navegador maliciosa) puede acceder a `localStorage` y extraer la base de datos completa de credenciales e IPs de los servidores de producción de la empresa.
-*   **Inquietud:** El sistema de roles (RBAC) con login por PIN solo bloquea la interfaz de usuario visual (DOM), pero no cifra la base de datos subyacente. Los datos siguen expuestos en el disco local a través del almacenamiento del navegador.
+### 🔑 [COMPLETADO] Credenciales e IPs Almacenadas en Texto Plano en el Cliente (M-01)
+*   **Problema Original:** Los campos de red y credenciales de los equipos (`pass`) se almacenaban directamente en texto plano dentro del estado JSON en el `localStorage` del navegador y en archivos `.rack`.
+*   **Solución Implementada:**
+    - Creado el módulo criptográfico [js/auth/crypto.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/crypto.js) (`RackCrypto`) con cifrado simétrico robusto bajo prefijo `enc:v1:<iv>:<ciphertext>`.
+    - Persistencia blindada en reposo: `store._save()`, `fileManager.writeToFile` y `downloadFallback` cifran automáticamente las contraseñas antes de serializar a JSON.
+    - Carga transparente: `store._load()` y `store.loadData()` descifran las credenciales al instanciar el estado en memoria para que la aplicación opere normalmente.
+    - Modo Dios y Gobernanza RBAC: Las contraseñas se ocultan con `••••••••` en tablas e Inspector por defecto. Solo los usuarios con rol Administrador pueden revelar todas las contraseñas activando el **Modo Dios** (`SHOW_PASSWORDS`) o de manera táctil equipo por equipo en el Inspector mediante el botón de ojo (`toggleDevicePasswordInspector`).
+    - Toggle de visibilidad en formulario: Botón interactivo de ojo `#dev-pass-toggle` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js) para alternar tipo `password`/`text`.
+    - Validado al 100% en la suite automatizada [tests/integrity_check.cjs](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs) (Grupo 14).
 
 ---
 
@@ -168,13 +173,49 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
         *   Cuando ningún elemento esté seleccionado, el panel del Inspector mostrará botones de acceso rápido para `+ Nueva Sala` y `+ Nuevo Gabinete`, facilitando el aprovisionamiento inmediato del datacenter.
 *   **Objetivo/Beneficio en Producción:** Eliminar la fricción de navegación entre menús superiores y modales aislados, centralizando la administración de la infraestructura física en el panel derecho con una experiencia ágil y consistente.
 
-### 📱 Rediseño de Interfaz para Modo Móvil y Tablet
-*   **Propuesta de Mejora:** Rediseñar y adaptar la interfaz de usuario (Responsive Design) para dispositivos móviles y tablets, evaluando la mejor estrategia de distribución y ocultamiento de paneles (sidebar, inspector). Además, se propone crear un conjunto de funcionalidades específicas adaptadas al modo móvil:
-    *   **Navegación Táctil:** Optimizar gestos como *swipe* para abrir/cerrar menús laterales (catálogo, outliner) y *pinch-to-zoom* en el lienzo físico y topología.
-    *   **Modo de Inspección Rápida:** Una vista simplificada para escanear y visualizar propiedades y estados de los equipos rápidamente sin sobrecargar la pantalla.
-    *   **Barra de Navegación Inferior (Bottom Nav):** Implementar una barra de navegación inferior para alternar ágilmente entre Vistas (Física, Topología) y Paneles (Catálogo, Inventario).
-    *   **Gestos Contextuales (Long Press):** Reemplazar los eventos de clic derecho por gestos de pulsación larga para acceder a menús de edición rápida o eliminación.
-*   **Objetivo/Beneficio en Producción:** Permitir a los ingenieros de red o técnicos en sitio consultar el inventario, topología o especificaciones físicas directamente desde sus teléfonos o tabletas mientras trabajan físicamente frente a los gabinetes en el Data Center.
+### 🖥️ Diseño Adaptativo y Responsive para Modo Desktop y Laptops
+*   **Problema / Limitación Actual:** En monitores compactos o laptops (resoluciones comunes como 1366×768, 1280×800 o ventanas de navegador restauradas no maximizadas), el layout rígido consume **540px fijos solo en paneles laterales** (`#sidebar` 280px + `#right-panel` 260px), dejando poco espacio útil horizontal para el lienzo principal (`#main`). Además, en pantallas con baja resolución vertical (768px de alto), la combinación del header (56px) y el panel inferior `#bottom` (220px) reduce el área de trabajo vertical a menos de 490px, provocando scroll incómodo o saturación visual de controles.
+*   **Propuesta de Mejora (Desktop Responsive):**
+    *   **Breakpoints Adaptativos para Pantallas de Escritorio y Laptops:**
+        *   **Laptops / Pantallas Compactas (≤ 1366px):**
+            *   Permitir el colapso manual o automático del panel izquierdo (`#sidebar` catálogo) y panel derecho (`#right-panel` inspector/outliner) mediante botones flotantes tipo drawer o toggle rápido en los extremos de la pantalla.
+            *   Optimizar anchos a variables fluidas: `--sidebar-w: clamp(220px, 18vw, 280px)` y `--right-panel-w: clamp(220px, 18vw, 260px)` para ganar entre 80px y 120px de lienzo central sin perder visibilidad.
+        *   **Pantallas Medianas (1367px - 1600px):** Espaciados optimizados y distribución fluida de columnas de racks en el lienzo.
+        *   **Monitores Grandes y Ultra-wide (> 1600px):** Visualización expandida con soporte para visualización simultánea de racks y diagramas de topología amplios.
+    *   **Flexibilidad Vertical (Viewports de baja altura como 768px):**
+        *   Panel inferior `#bottom` redimensionable o colapsable con persistencia de altura, permitiendo al operador ocultarlo con un clic o atajo para maximizar la vista del rack completo (hasta 42U/48U sin scroll vertical excesivo).
+    *   **Cabecera y Barras de Herramientas Fluidas:**
+        *   Agrupación inteligente de botones de acción rápida con wrapping ordenado o menú compacto "Más (`...`)" cuando el ancho de pantalla sea estrecho, evitando que los selectores de salas o zoom se solapen o queden cortados.
+    *   **Lienzo Principal (`#main`) con Grilla Fluida:**
+        *   Ajuste dinámico en la distribución de gabinetes y equipos de piso (`flex-wrap: wrap`, auto-fill) garantizando que no se generen barras de scroll horizontal forzadas.
+*   **Objetivo/Beneficio en Producción:** Garantizar una experiencia de usuario fluida, ergonómica y profesional para cualquier ingeniero o administrador de sistemas que opere desde una laptop en campo o desde una estación de trabajo con monitores de diversas resoluciones.
+
+### 📱 Arquitectura y Estudio de Factibilidad: Modo Móvil y Tablet Integral (100% Funcional)
+*   **Estado:** En espera (Baja prioridad estratégica de desarrollo inmediato, pero con diseño y factibilidad técnica totalmente definidos y estructurados).
+*   **Criterio Arquitectónico Rector:** El modo móvil no puede ser una simple vista reducida o de "solo lectura". Debe mantener la paridad operativa del 100% con la versión desktop, permitiendo aprovisionar salas, racks, instalar equipos, trazar cableado, manipular topologías y exportar inventarios desde cualquier dispositivo táctil (smartphone o tablet) sin colisiones de gestos ni pérdida de precisión milimétrica.
+
+#### 1. Evaluación de Factibilidad y Rediseño por Componente
+
+| Componente | Desafío en Pantalla Táctil / Móvil (≤ 480px) | Solución de Diseño y Factibilidad Funcional | Viabilidad Técnica |
+|---|---|---|---|
+| **Header (`#header`)** | Alto fijo de 56px con 8 controles horizontales; desbordaría en 360-414px de ancho. | Header ultra-compacto (48px): muestra Logo condensado (`RACK`), selector desplegable de Sala centrado y chip de Rol/Auth (Admin/Editor/Viewer). El cambio de vistas y accesos secundarios se trasladan a la barra inferior. | 🟢 Alta (CSS Flexbox + Media Query) |
+| **Barra de Navegación Inferior (`Bottom Nav`)** | Falta de un eje ergonómico para el pulgar en navegación con una sola mano. | Implementación de una barra inferior fija de 56px (`env(safe-area-inset-bottom)`) con 5 pestañas táctiles: **📐 Racks** (Vista Física), **🕸️ Topología**, **📦 Catálogo** (Abre Drawer lateral/inferior), **📊 Inventario** (Ficha/Tabla), y **⚙️ Ajustes** (Exportación, Backup, Temas, PIN). | 🟢 Alta (Componente CSS estándar) |
+| **Sidebar Catálogo (`#sidebar`)** | 280px fijos bloquean el 80% de un teléfono vertical. | Se transforma en un **Bottom Sheet deslizable** con soporte de gestos (*drag-to-dismiss*). Mantiene el buscador reactivo `#catalog-search` y las 7 familias (`CATALOG_GROUPS`). Al seleccionar un equipo se activa el modo de colocación asistida (*Tap-to-Place*). | 🟢 Alta (Overlay CSS + Drawer) |
+| **Lienzo Físico y Racks (`#view-physical`)** | Un rack de 42U mide más de 1000px de alto y los slots de 24px son difíciles de apuntar con el dedo sin error. | **1.** Modo Carrusel/Swipe horizontal entre gabinetes de la sala.<br/>**2.** *Pinch-to-zoom* nativo con gestos de 2 dedos sobre el rack.<br/>**3.** *Tap-to-Place:* Tocar un equipo del catálogo y luego tocar el slot destino; o pulsar un slot vacío para abrir directamente el catálogo filtrado por slots disponibles.<br/>**4.** Giro 3D Front/Rear mediante botón flotante accesible con el pulgar. | 🟡 Media-Alta (Requiere cálculo táctil en `rack.js`) |
+| **Lienzo Topología (Canvas 2D)** | El ratón tradicional (`wheel`, `hover`, drag) no existe en pantallas táctiles; riesgo de conflicto con el scroll nativo. | **1.** Captura de eventos `touchstart`/`touchmove` con dos dedos para *Pinch-to-Zoom* y paneo libre sin fricción.<br/>**2.** Tap simple en nodo: resalta enlaces y despliega ficha inferior flotante del equipo.<br/>**3.** Sliders de espaciado dual H/V y selector de layouts alojados en un panel flotante colapsable con botones táctiles de 44×44px (pauta WCAG). | 🟢 Alta (Ya existe base en `TopologyEvents.js`) |
+| **Panel Derecho (Outliner & Inspector)** | 260px ocupan toda la pantalla. | El **Inspector** se convierte en un *Bottom Sheet Modal* contextual que se desliza desde abajo al tocar cualquier sala, gabinete o equipo, permitiendo editar propiedades (IP, VLAN, color, notas) o eliminar. El **Outliner** se consulta como vista de árbol a pantalla completa. | 🟢 Alta (Reutilización de estado de `inspector.js`) |
+| **Panel Inferior de Tablas (`#bottom`)** | Tablas de inventario (18 cols) y conexiones (10 cols) son ilegibles en 360px de ancho. | **Modo Tarjetas Táctiles (Card List View):** Cada equipo o conexión se representa como una tarjeta individual resumida con badges de estado, U, IP y Lado. Filtro superior rápido y buscador reactivo. Desplazamiento horizontal fluido opcional para quienes requieran formato de hoja de cálculo. | 🟢 Alta (Plantilla alternativa en `tables.js`) |
+| **Cableado y Conexiones (Drag-to-Connect)** | Arrastrar un cable desde un puerto de 10px con el dedo carece de precisión visual. | **Flujo Asistido "Tap-Tap" (2 toques):**<br/>1. Tocar equipo origen → Se abre selector visual ampliado de sus puertos disponibles.<br/>2. Tocar puerto origen → El lienzo resalta en verde los equipos con puertos libres compatibles.<br/>3. Tocar equipo y puerto destino → La conexión se crea con confirmación huan háptica (vibración de 15ms). | 🟡 Media (Lógica guiada sin arrastre ciego) |
+| **Modales del Sistema (`ui/modals/`)** | Modales centrados con scroll interno suelen salirse de pantalla en móviles con teclado abierto. | Adaptación a estilo **Bottom Sheet nativo**: ancho 100vw, esquinas redondeadas superiores, `max-height: 85vh`, con soporte para teclados virtuales (`inputmode="numeric"` para slots, puertos e IPs). | 🟢 Alta (CSS Modal overhaul) |
+| **Exportación y Almacenamiento Offline** | La descarga de archivos en móviles puede ser restrictiva o confusa para el usuario. | Integración con la **Web Share API (`navigator.share`)**: permite compartir el plano exportado (PNG Retina 1:1 o archivo `.rack`) directamente por WhatsApp, Correo, Drive o Guardar en Archivos con un solo toque. Servicio offline asegurado mediante el Service Worker existente (`PWA`). | 🟢 Alta (Web Share API nativa) |
+
+#### 2. Matriz de Gestos y Accesibilidad Táctil
+*   **Target Mínimo Táctil:** 44px × 44px en todos los botones e interactivos (cumplimiento WCAG 2.1 AA).
+*   **Haptic Feedback:** Respuesta de vibración (`navigator.vibrate(10)`) al acoplar un equipo en slot o conectar un cable.
+*   **Safe Areas:** Respeto estricto de muescas (Notch) y barras de navegación del sistema mediante `env(safe-area-inset-top)` y `env(safe-area-inset-bottom)`.
+
+#### 3. Conclusión de Factibilidad
+La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS modular** es 100% compatible y viable para este rediseño móvil sin requerir dependencias externas ni reescritura del núcleo. El modelo de datos, la persistencia en `localStorage` y el Service Worker son idénticos; la adaptación radica exclusivamente en la capa de interacción visual (CSS y gestores de puntero/touch).
 
 ### 🔌 Gestión Avanzada de Puertos y Validaciones de Conexión
 *   **Propuesta de Mejora:**
@@ -196,14 +237,11 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     3.  **Imagen Personalizada:** Permitir a los usuarios cargar imágenes de iconos o fotos del equipo en formatos `.jpg`, `.png` o `.svg` y usarlas como el nodo visual en el canvas.
 *   **Objetivo/Beneficio en Producción:** Brindar la flexibilidad de generar tanto diagramas lógicos y abstractos de alta legibilidad, como diagramas de red ultra-realistas. El uso de imágenes (como iconos de Cisco, Fortinet, etc.) mejora enormemente el valor de las exportaciones para presentaciones ejecutivas.
 
-### 🎨 Personalización Visual y Temas en la Topología
-*   **Propuesta de Mejora:** Crear un motor de temas y personalización visual dedicado exclusivamente a la Vista de Topología, con soporte para transparencias (canal alfa) y dos modos de color:
-    1.  **Modo Heredado:** Utiliza automáticamente los colores base ya asignados a las salas y racks en sus propiedades de inventario.
-    2.  **Modo Personalizado:** Permite sobrescribir y ajustar la apariencia de cada elemento de forma individual:
-        *   **Fondo del Lienzo:** Color sólido, patrón de puntos (dots) patrón hexagonal (hexagon) o patrón de cuadrícula (grid).
-        *   **Salas:** Color de fondo (relleno), color de contorno, color de la cabecera, color del texto y niveles de transparencia general y de relleno.
-        *   **Racks:** Color de fondo (relleno), color de contorno, color de la cabecera, color del texto y niveles de transparencia general y de relleno.
-*   **Objetivo/Beneficio en Producción:** Permite adaptar los diagramas exportados a la identidad corporativa de diferentes clientes o departamentos. Además, el uso de transparencias evita que los racks y salas oculten las líneas de conexión que pasan por debajo, mejorando drásticamente la legibilidad en redes muy densas.
+### 🎨 [COMPLETADO] Personalización Visual y Temas en la Topología
+*   **Estado:** Completado. Implementado en `TopologyRenderer.js` con:
+    *   **Fondo Dinámico y Patrones:** Soporte para fondos procedimentales en Canvas 2D (`window.TOPO_BG_PATTERN`: `dots`, `grid`, `hexagon`) y adaptación automática a temas Claro/Oscuro (`data-theme`).
+    *   **Modo Heredado vs Personalizado:** Herencia cromática automática desde salas y racks (`window.TOPO_INHERIT_COLORS`) o personalización.
+    *   **Transparencias (Canal Alfa):** Control dinámico de opacidad de relleno y contornos (`window.TOPO_ALPHA`) para salas y gabinetes, garantizando que el cableado y las conexiones que pasan por debajo mantengan visibilidad y legibilidad técnica.
 
 ### 🔍 Buscador en el Catálogo en Añadir Equipos
 *   **Propuesta de Mejora:** Añadir un campo de búsqueda (buscador) en el menú de agregar equipo (catálogo), para que los usuarios puedan encontrar dispositivos rápidamente, complementando el sistema deslizable que ya existe.

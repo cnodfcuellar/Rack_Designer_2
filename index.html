@@ -538,7 +538,15 @@
       <div class="module-content">
         <div class="form-grid">
           <div class="form-row" style="margin-bottom:0;"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
-          <div class="form-row" style="margin-bottom:0;"><label>Contraseña</label><input type="password" id="dev-pass" placeholder="••••••••"></div>
+          <div class="form-row" style="margin-bottom:0;">
+            <label>Contraseña</label>
+            <div style="position:relative; display:flex; align-items:center;">
+              <input type="password" id="dev-pass" placeholder="••••••••" style="padding-right:28px;">
+              <button type="button" id="dev-pass-toggle" title="Mostrar/ocultar contraseña" style="position:absolute; right:6px; background:none; border:none; color:var(--text-secondary); cursor:pointer; padding:0; display:flex; align-items:center;">
+                <i class="svg-icon icon-eye" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -720,8 +728,9 @@
   <script src="js/html2canvas.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/icons.js"></script>
-  <script src="js/store.js"></script>
+  <script src="js/auth/crypto.js"></script>
   <script src="js/auth/roles.js"></script>
+  <script src="js/store.js"></script>
   <script src="js/ui/catalog.js"></script>
   <script src="js/ui/faceplates.js"></script>
   <script src="js/ui/modals/Globals.js"></script>

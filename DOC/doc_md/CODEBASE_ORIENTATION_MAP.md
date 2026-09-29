@@ -149,7 +149,8 @@ Rack_Designer_2/
 │   ├── demoData.js               ← Datos de demostración (se carga bajo demanda)
 │   │
 │   ├── auth/
-│   │   └── roles.js              ← RBAC: Login, SHA-256, permisos (window.RackAuth)
+│   │   ├── roles.js              ← RBAC: Login, SHA-256, permisos (window.RackAuth)
+│   │   └── crypto.js             ← Criptografía: Cifrado en reposo enc:v1: (window.RackCrypto)
 │   │
 │   ├── ui/                       ← ★ CAPA DE VISTA (cada archivo = un componente visual)
 │   │   ├── catalog.js            ← Sidebar: catálogo de equipos (CATALOG array)
@@ -237,11 +238,12 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 | [icons.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/icons.js) | ~15 KB | Objeto `SVG_ICONS` con iconos SVG inline como strings | Cuando agregas un nuevo tipo de equipo que necesita su propio icono |
 | [demoData.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/demoData.js) | ~13 KB | Función `loadDemoData()` que carga un proyecto de demostración pre-diseñado | Cuando quieres actualizar los datos de la demo incluida |
 
-### Archivos de Autenticación (js/auth/)
+### Archivos de Autenticación y Seguridad (js/auth/)
 
 | Archivo | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|
 | [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js) | RBAC completo: hasheo SHA-256, login por PIN, 3 roles (Admin/Editor/Viewer), permisos con `RackAuth.can('acción')`, sesión protegida en sessionStorage (`RACK_SESSION_USER` y `RACK_SESSION_TOKEN`) con persistencia ante recarga F5 | Cuando necesitas agregar un nuevo permiso o rol |
+| [crypto.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/crypto.js) | Módulo criptográfico `RackCrypto`: cifrado simétrico robusto bajo formato `enc:v1:<iv>:<ciphertext>` para credenciales en reposo (`localStorage` y `.rack`), soporte universal navegador/Node.js | Cuando modificas el algoritmo de cifrado, salt o campos sensibles protegidos |
 
 ### Archivos de Interfaz (js/ui/)
 
