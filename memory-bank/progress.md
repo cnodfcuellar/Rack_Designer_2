@@ -7,7 +7,7 @@
 - **Catálogo de Equipos y Familias:** Reorganizado en 7 familias comerciales estándar (`CATALOG_GROUPS`), reduciendo la altura a < 350px. Grupo consolidado "Redes" (switches, routers, firewalls, APs, patch panels). Categoría superior "Todos" e input reactivo de búsqueda en tiempo real `#catalog-search`.
 - **Motor Visual SVG-First:** Renderizado vectorial de alta fidelidad mediante 16 archivos SVG independientes con animaciones CSS `@keyframes` integradas por hardware (GPU). Inyección inline con caché en memoria (`SVG_INLINE_CACHE`) para soporte de congelamiento con `.status-dot`.
 - **Enrutamiento Físico de Cables:** Trazado ortogonal reactivo vía SVG sobre `#view-physical-content` con anclajes `data-port` y canaletas laterales.
-- **Vista Topológica (Canvas 2D):** Motor MVC con 5 archivos, nodos arrastrables, animaciones de paquetes y partículas en enlaces Bézier, layout automático, auto-order, slider de espaciado, pan y zoom infinito, estilos card/circle.
+- **Vista Topológica (Canvas 2D):** Motor MVC con 5 archivos, nodos arrastrables, animaciones de paquetes y partículas en enlaces Bézier, layouts automático por racks y en árbol jerárquico (`DAG` padre-hijo ortogonal con desconectados en la base de rack/sala), control dual de espaciado interactivo a 60 FPS (slider H para espaciado horizontal de columnas internas de racks y slider V para separación vertical), personalización visual y posicional de etiquetas de nodos (nombre e IP independientes: arriba, abajo, izquierda, derecha, juntos, separados, ocultos), pan y zoom infinito, estilos card/circle.
 - **Inspector y Outliner Jerárquico:** CRUD integral de Salas, Racks y Equipos desde el Inspector con Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`), cálculo de U y borrado seguro con RBAC (`M-36`). Botones de cabecera (`+ Sala`, `+ Rack`, `+ Equipo`) y acciones inline (`✏️` y `🗑️`) en cada nodo del Outliner (`M-23`). Selector de ordenamiento en 4 modos (`slot`, `name-asc`, `name-desc`, `type`) (`M-38`). Inspector colapsable interactivo con expansión flex del Outliner (`M-24`).
 - **Control Maestro de Animaciones:** Interruptor en `.status-dot` que alterna `.no-animations`, pausando simultáneamente los LEDs de los equipos en la vista física, las partículas de red en topología y los efectos CSS globales.
 - **Drag & Drop:** Inserción de catálogo a rack, movimiento entre gabinetes, reordenamiento, soporte para equipos de piso.
@@ -24,7 +24,7 @@
 - **Cifrado de datos sensibles:** Credenciales de equipos almacenadas en texto plano en localStorage (`M-01`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 17 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (21 completadas):
+Total de 15 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (23 completadas):
 
 ### Fase 0 & 2 — Seguridad y Puertos
 - Cifrado WebCrypto AES-GCM (`M-01`).
@@ -38,8 +38,6 @@ Total de 17 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 
 ### Fase 4 — Vista Física Interactiva y Topología
 - Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
-- Separación de etiquetas en topología (IP arriba / nombre abajo) (`M-31`).
-- Layout de árbol genealógico en topología (`M-32`).
 - Skins visuales y motor de temas en topología (`M-28`, `M-29`).
 
 ---
@@ -52,3 +50,4 @@ Total de 17 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 - **Sep 2026 (Sprint 2):** Erradicación de `prompt()` nativo (`M-09`), consolidación en 7 familias comerciales (`M-11`) y buscador global en tiempo real (`M-12`).
 - **Sep 2026 (Sprint 3):** Gestión jerárquica Outliner & Inspector: CRUD integral en Inspector (`M-36`), acciones rápidas e inline en Outliner (`M-23`), ordenamiento dinámico de 4 modos (`M-38`), Inspector colapsable (`M-24`) y suite de 65 tests de integridad al 100%.
 - **Sep 2026 (Sprint 4):** Fidelidad de exportación PNG 1:1 con `html2canvas` (`M-37`), metadatos de inventario y edición en celda (`M-19`), buscador reactivo en modal de catálogo (`M-30`) y suite ampliada a 78 tests al 100%.
+- **Sep 2026 (Sprint 5):** Topología avanzada: Layout en árbol jerárquico ortogonal con desconectados al pie (`M-32`), separación de cabeceras de sala/rack, control dual de espaciado interactivo a 60 FPS (H y V) y posicionamiento granular de etiquetas de nodos IP/Nombre (`M-31`).

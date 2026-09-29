@@ -1,3 +1,91 @@
+## [2026-09-28] Vista de Topología: Control Dual de Espaciado Horizontal y Vertical
+
+### Motor de Topología y UI (`index.html`, `js/main.js`, `js/ui/topology/TopologyState.js`, `js/ui/topology/TopologyLayout.js`)
+- **Grupo de Controles de Espaciado Dual (`#topo-spacing-group`):**
+  - Se agregó una barra de espaciado horizontal dedicada (`#topo-spacing-x`, con indicador `H`) junto a la barra de espaciado vertical (`#topo-spacing`, con indicador `V`).
+  - **Espaciado Horizontal de Nodos (H):**
+    - **En Estilo por Racks (`_computeLayout`):** Los dispositivos dentro de cada rack se organizan en columnas con ancho adaptativo. El control `H` separa directamente las columnas de nodos entre sí (`colGap`). La distancia entre racks contiguos se mantiene constante (`RACK_GAP = 32px`), evitando que los gabinetes se dispersen.
+    - **En Estilo Árbol (`_computeTreeLayout`):** El control `H` separa horizontalmente los nodos hermanos del mismo nivel jerárquico dentro de racks y sala.
+  - **Espaciado Vertical (V):** Controla la distancia vertical entre niveles jerárquicos padre-hijo (`rowGap`) en el layout en árbol y entre slots/filas en el layout estándar por racks.
+- **Recálculo Reactivo a 60 FPS:**
+  - Se implementó `window.recalcTopoSpacingX()` y se optimizó `window.recalcTopoSpacing()`, compartiendo un ciclo reactivo que recalcula en caliente el layout activo (`tree` o `racks`), ajusta las dimensiones de salas y racks, y actualiza el canvas instantáneamente durante el arrastre del slider.
+- **Persistencia en el Estado:**
+  - El valor de `topoSpacingX` se guarda automáticamente en `store._raw.topology` a través de `TopologyState.js`, restaurándose de manera transparente entre sesiones.
+
+---
+
+## [2026-09-28] Vista de Topología: Corrección de Superposición entre Cabecera de Sala y Cabecera de Rack
+
+### Motor de Topología (`js/ui/topology/TopologyLayout.js`)
+- **Separación de Cabeceras en Layout en Árbol:**
+  - Se corrigió el cálculo de posición vertical del rack en `_computeTreeLayout()`. Anteriormente, el inicio del rack se restaba con `minY - RACK_HEADER_H`, provocando que la cabecera del gabinete coincidiera exactamente dentro de la franja superior de la sala (44px), mezclando títulos y bordes.
+  - Se estableció que el rack inicie estrictamente por debajo de la cabecera de la sala con un margen limpio (`rackTopY = ROOM_MARGIN + ROOM_PAD_TOP`), garantizando un espacio despejado de más de 20px entre la cabecera de la sala y la cabecera del rack.
+  - Los niveles jerárquicos de los equipos comienzan por debajo de la cabecera del rack (`startY = rackTopY + RACK_HEADER_H`), eliminando cualquier colisión entre títulos de sala, títulos de gabinete y pastillas de dispositivos.
+
+---
+
+## [2026-09-28] Vista de Topología: Personalización de Ubicación de Nombre e IP en Nodos Circulares
+
+### Motor de Topología y UI (`index.html`, `js/main.js`, `js/ui/topology/TopologyState.js`, `js/ui/topology/TopologyRenderer.js`)
+- **Control Flexible de Ubicación de Etiquetas:**
+  - Se incorporó en el menú desplegable de Estilo (`#topo-style-dropdown`) una sección dedicada para configurar la posición del **Nombre** y la **Dirección IP** en el modo de nodos circulares.
+  - **Presets Rápidos:**
+    - *Separados (IP Arriba / Nombre Abajo)* — valor por defecto ergonómico.
+    - *Separados (Nombre Arriba / IP Abajo)*.
+    - *Juntos Abajo* — apilados verticalmente de forma compacta (Nombre arriba, IP abajo).
+    - *Juntos Arriba* — apilados verticalmente (IP arriba, Nombre abajo).
+    - *Juntos a la Derecha* — alineados a la derecha del círculo.
+    - *Juntos a la Izquierda* — alineados a la izquierda del círculo.
+    - *Personalizado* — selectores individuales para configurar la posición independiente de cada etiqueta (`Arriba`, `Abajo`, `Derecha`, `Izquierda`, `Oculto`).
+- **Renderizado Dinámico sin Superposición:**
+  - El motor de Canvas en `TopologyRenderer.js` calcula dinámicamente las coordenadas según la orientación seleccionada, garantizando espaciado proporcional, sombras de contraste para el texto y pastillas semitransparentes para la IP.
+- **Persistencia en el Estado:**
+  - Las preferencias del usuario (`labelPreset`, `namePos`, `ipPos`) se guardan automáticamente en `TopologyState.js` dentro del estado global del proyecto.
+
+---
+
+## [2026-09-27] Vista de Topología: Layout en Árbol Jerárquico y Reubicación de Dispositivos No Conectados
+
+### Motor de Topología (`js/ui/topology/TopologyLayout.js`, `js/ui/topology/TopologyRenderer.js`, `js/main.js`)
+- **Ubicación Inferior de Dispositivos Desconectados:**
+  - Se implementó discriminación estricta de conectividad en `TopologyLayout.js` (`connectedDevIds`). Los dispositivos sin conexiones ya no heredan tiers base arbitrarios ni quedan flotando en niveles superiores del árbol.
+  - **En Racks:** Todo equipo que no tenga cables conectados se sitúa automáticamente en la parte baja del rack (`unconnStartTier = maxConnTierInRack + 1`), alineado en cuadrícula según el ancho disponible del gabinete. Racks sin conexiones se ubican en la base jerárquica.
+  - **En la Sala:** Los equipos de piso desconectados (`unconnFloorDevs`) se desplazan al fondo inferior de la sala, situándose por debajo de los equipos conectados.
+  - **Alineación de Gabinetes:** Las cabeceras de todos los racks de una sala se alinean de manera uniforme en la parte superior (`startY`), manteniendo una apariencia profesional y ordenada.
+- **Topología en Árbol Jerárquico Estilo Draw.io:**
+  - Algoritmo de niveles DAG con relajación de niveles padre-hijo según la dirección del flujo de red.
+  - Trazado ortogonal de conexiones con esquinas redondeadas (`orthogonalEdgeStyle`) y partículas de flujo sincronizadas con `performance.now()`.
+  - Estabilización del bucle de animación para evitar aceleraciones erráticas tras actualizaciones.
+
+---
+
+## [2026-09-27] Vista de Topología: Separación Ergonómica de Etiquetas en Modo Nodos
+
+### Motor de Topología (`js/ui/topology/TopologyRenderer.js`, `js/ui/topology/TopologyLayout.js`)
+- **Separación de Etiquetas IP y Nombre en Modo Círculo:**
+  - Se reubicó la pastilla de **dirección IP** exclusivamente en la parte superior del nodo circular (`pos.y - r - 12`), con fondo semitransparente oscuro (`rgba(15, 23, 42, 0.88)`), borde de color de categoría y texto cian `#38bdf8` en fuente monoespaciada para máxima legibilidad de red.
+  - Se situó el **nombre del dispositivo** en la parte inferior del nodo (`pos.y + r + 14`), eliminando el amontonamiento y la superposición que existía con la IP sobre el círculo.
+- **Ajuste de Espaciado y Cabecera de Gabinete en Canvas:**
+  - Se incrementó el diámetro de separación `CIRCLE_D` a 66px y la altura de cabecera de rack `RACK_HEADER_H` a 52px en `TopologyLayout.js`, previniendo colisiones entre la pastilla de IP del primer equipo y el título del gabinete.
+
+---
+
+## [2026-09-27] Corrección de Layout en Cabecera: Visibilidad Permanente de Vistas y Truncamiento de Nombres Largos
+
+### Cabecera Principal (`css/layout.css`, `js/ui/catalog.js`, `doc/doc_md/medidas_header.md`)
+- **Protección Permanente de Botones de Vista (`.view-tabs`, `.view-tab`):**
+  - Se agregó `flex-shrink: 0` a `.view-tabs` y `.view-tab` para evitar que flexbox comprima u oculte las pestañas de **Vista Física** y **Topología** cuando el contenido de la cabecera crece.
+- **Truncamiento Elíptico de Nombres Largos de Sala y Rack:**
+  - Se definió un ancho máximo adaptativo `max-width: clamp(120px, 14vw, 200px)` y `overflow: hidden` en los botones `.nav-dropdown-toggle`.
+  - Se implementó truncamiento con puntos suspensivos (`text-overflow: ellipsis`, `white-space: nowrap`) en `#room-dropdown-label` y `#rack-dropdown-label`.
+  - Se blindaron los iconos SVG y el chevron con `flex-shrink: 0` para mantener su proporción intacta.
+- **Tooltips Nativos para Nombres Completos:**
+  - En `js/ui/catalog.js` se actualizan dinámicamente los atributos `title` de `#room-dropdown-toggle` y `#rack-dropdown-toggle` con el nombre completo de la sala y del rack seleccionado, permitiendo su lectura inmediata al colocar el cursor (hover).
+- **Protección de Controles Complementarios:**
+  - Se aplicó `flex-shrink: 0` en botones de adición (`.nav-btn-add`), historial (`.h-btn-group`), indicador de estado (`.status-dot`) y credencial de usuario (`#user-badge`), y flexibilidad responsiva con `min-width: 120px` en el buscador global (`.h-search`).
+
+---
+
 ## [2026-09-27] Mejora de UX: Auto-Navegación y Enfoque desde el Outliner
 
 ### Panel Derecho (`js/ui/outliner.js`)
@@ -1609,34 +1697,26 @@
 * **CorrecciÃ³n del desplazamiento de pestaÃ±as de sala**: Se aÃ±adiÃ³ un margen inferior (`padding-bottom`) en `.room-tabs` para prevenir que la barra de desplazamiento horizontal nativa superponga y bloquee los clics en los botones cuando hay mÃºltiples salas.
 
 * **CorrecciÃ³n de cambio de sala**: Se solucionÃ³ un problema de distinciÃ³n de mayÃºsculas y minÃºsculas (case sensitivity) en `js/ui/catalog.js` donde el evento disparado al hacer clic en las pestaÃ±as (`room-tab-change`) era ignorado por el renderizador (`source.includes('Room')`), impidiendo que la vista fÃ­sica se actualizara correctamente. Se cambiÃ³ el nombre del evento a `changeRoom`.
-
-- Fix: Componentes flotantes (modales, tooltips, mens) ajustados a var(--bg-panel) para soportar el modo claro.
-
-
-
-- Fix: Componentes flotantes ajustados a var(--bg-panel) para soportar el modo claro.
-
+* **Fix: Componentes flotantes** (modales, tooltips, mens) ajustados a var(--bg-panel) para soportar el modo claro.
 
 ## [2026-06-21 21:00:00] ReorganizaciÃ³n de Archivos y Ajustes UI
 * **UbicaciÃ³n de Scripts Python:** Se agruparon todos los scripts .py dentro de una nueva carpeta .py para mantener la raÃ­z del proyecto limpia. Se actualizÃ³ INSTRUCTIONS.md reflejando esta regla.
 * **OrganizaciÃ³n de Logs:** Se moviÃ³ el archivo logs_cambios.txt de la raÃ­z al directorio doc/log/.
-* **CorrecciÃ³n de Iconos PWA:** Se corrigieron las rutas en index.html y json/manifest.json que apuntaban a icons/ en lugar de ssets/icons/, restaurando el favicon.
+* **CorrecciÃ³n de Iconos PWA:** Se corrigieron las rutas en index.html y json/manifest.json que apuntaban a icons/ en lugar de assets/icons/, restaurando el favicon.
 * **Panel de EstadÃ­sticas Colapsado:** Se modificÃ³ index.html para que el panel de estadÃ­sticas inicie oculto por defecto (clase hidden y chevron â–º), optimizando el espacio inicial.
 
 ## [2026-06-21 22:05:00] ExpansiÃ³n del CatÃ¡logo y MigraciÃ³n a SVG
 * **EstructuraciÃ³n del CatÃ¡logo:** Se aÃ±adieron nuevas opciones para equipos alineadas a la teorÃ­a de datacenters: patchpanel, organizer, pdu, 	ray, kvm.
 * **Filtros UI:** Se rediseÃ±aron las pestaÃ±as laterales del catÃ¡logo dividiÃ©ndolas en Servidores, Red, Storage, Cableado, EnergÃ­a y Accesorios.
-* **MigraciÃ³n a SVG MonocromÃ¡tico:** Se reemplazaron los emojis del catÃ¡logo y UI por archivos SVG ubicados en ssets/icons/.
+* **MigraciÃ³n a SVG MonocromÃ¡tico:** Se reemplazaron los emojis del catÃ¡logo y UI por archivos SVG ubicados en assets/icons/.
 * **Sistema de MÃ¡scaras CSS:** Se implementÃ³ renderizado con mask-image en HTML para tintar los SVGs.
 * **Soporte Canvas SVG:** Se implementÃ³ cachÃ© de imÃ¡genes en TopologyRenderer.js para dibujar SVGs en la vista topolÃ³gica.
 
 ## [2026-06-21 22:15:00] Bugfix: Iconos de SAN y NAS
-* **CatÃ¡logo:** Se corrigiÃ³ un error en el que el catÃ¡logo y la topologÃ­a no encontraban los iconos para equipos cuyo archivo SVG se llamaba diferente al 	ype principal (ej. san.svg y 
+* **CatÃ¡logo:** Se corrigiÃ³ un error en el que el catÃ¡logo y la topologÃ­a no encontraban los iconos para equipos cuyo archivo SVG se llamaba diferente al principal (ej. san.svg y 
 as.svg para la categorÃ­a storage). Ahora se extrae correctamente el nombre del archivo desde la ruta definida en el modelo de datos.
 
- # #   [ 2 0 2 6 - 0 7 - 1 3   1 5 : 3 5 : 0 0 ]   R e n d e r i z a d o   O r t o g o n a l   2 D   e n   V i s t a   F í s i c a 
- *   * * V i s t a   F í s i c a : * *   I m p l e m e n t a c i ó n   d e   l i e n z o   S V G   i n t e r a c t i v o   p a r a   d i b u j a r   c o n e x i o n e s   f í s i c a s   d e   m a n e r a   t r a n s p a r e n t e . 
- *   * * A l g o r i t m o   d e   c a b l e s : * *   D e s a r r o l l o   d e   a l g o r i t m o   d e   t r a z a d o   d e   r u t a s   2 D   d e   t i p o   o r t o g o n a l ,   p e g a d o   a   l o s   b o r d e s   v e r t i c a l e s   d e   l o s   g a b i n e t e s ,   c o n   e s q u i n a s   r e d o n d e a d a s . 
- *   * * A n c l a j e   D O M : * *   I n y e c c i ó n   d e   a t r i b u t o s   d a t a - p o r t   y   d a t a - d e v i c e - i d   e n   f a c e p l a t e s   f r o n t a l e s   y   t r a s e r o s   p a r a   r e f e r e n c i a r   p u n t o s   d e   i n i c i o / f i n   p r e c i s o s . 
-  
- 
+## [2026-07-13 15:35:00] Renderizado Ortogonal 2D en Vista Física
+* **Vista Física:** Implementación de lienzo SVG interactivo para dibujar conexiones físicas de manera transparente.
+* **Algoritmo de cables:** Desarrollo de algoritmo de trazado de rutas 2D de tipo ortogonal, pegado a los bordes verticales de los gabinetes, con esquinas redondeadas.
+* **Anclaje DOM:** Inyección de atributos data-port y data-device-id en faceplates frontales y traseros para referenciar puntos de inicio/fin precisos.

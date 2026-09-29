@@ -16,19 +16,83 @@ function getTopoIcon(type) {
   return img;
 }
 
+function hexToRgba(hex, alpha = 1) {
+  if (!hex) return `rgba(56, 189, 248, ${alpha})`;
+  if (hex.startsWith('rgba') || hex.startsWith('hsla')) return hex;
+  if (hex.startsWith('rgb')) {
+    return hex.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
+  }
+  let c = hex.replace('#', '');
+  if (c.length === 3) c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+  const r = parseInt(c.substring(0, 2), 16) || 0;
+  const g = parseInt(c.substring(2, 4), 16) || 0;
+  const b = parseInt(c.substring(4, 6), 16) || 0;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+let lastAnimTime = 0;
+
 function drawTopo() {
-  if(!canvas || !ctx) return;
+  if (topoAnim) {
+    cancelAnimationFrame(topoAnim);
+    topoAnim = null;
+  }
+  if (!canvas || !ctx) return;
   const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
   
-  // Fondo global
-  ctx.fillStyle = '#2255aa';
+  // Fondo global dinámico según tema
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const bgColor = isLight ? '#f8fafc' : '#0a0f1d';
+  ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, W, H);
   
-  // Puntos de malla
-  ctx.fillStyle = '#ffffff22';
-  for (let x = 0; x < W; x += 40) for (let y = 0; y < H; y += 40) {
-    ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
+  // Patrón de fondo configurable
+  const pattern = window.TOPO_BG_PATTERN || 'dots';
+  if (pattern === 'dots') {
+    ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.14)';
+    for (let x = 0; x < W; x += 36) {
+      for (let y = 0; y < H; y += 36) {
+        ctx.beginPath();
+        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  } else if (pattern === 'grid') {
+    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.07)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x < W; x += 40) {
+      ctx.moveTo(x, 0); ctx.lineTo(x, H);
+    }
+    for (let y = 0; y < H; y += 40) {
+      ctx.moveTo(0, y); ctx.lineTo(W, y);
+    }
+    ctx.stroke();
+  } else if (pattern === 'hexagon') {
+    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)';
+    ctx.lineWidth = 1;
+    const hr = 24;
+    const ha = (2 * Math.PI) / 6;
+    const hexW = hr * Math.sqrt(3);
+    const hexH = hr * 1.5;
+    ctx.beginPath();
+    for (let y = 0; y < H + hr; y += hexH) {
+      const isOdd = Math.floor(y / hexH) % 2 === 1;
+      const offsetX = isOdd ? hexW / 2 : 0;
+      for (let x = -hr; x < W + hr; x += hexW) {
+        const cx = x + offsetX;
+        const cy = y;
+        for (let i = 0; i < 6; i++) {
+          const hpx = cx + hr * Math.cos(ha * i);
+          const hpy = cy + hr * Math.sin(ha * i);
+          if (i === 0) ctx.moveTo(hpx, hpy);
+          else ctx.lineTo(hpx, hpy);
+        }
+        ctx.closePath();
+      }
+    }
+    ctx.stroke();
   }
 
   const zoom = store._raw.topoZoom || 1;
@@ -52,68 +116,98 @@ function drawTopo() {
     });
   }
 
-  // Draw Rooms
+  const userAlpha = window.TOPO_ALPHA !== undefined ? window.TOPO_ALPHA : 0.25;
+  const inherit = window.TOPO_INHERIT_COLORS !== false;
+
+  // Draw Rooms con color temático y transparencia
   store._raw.rooms.forEach(room => {
     const pos = roomPositions[room.id];
     const size = roomSizes[room.id];
     if (!pos || !size) return;
 
+    const baseColor = (inherit && room.color) ? room.color : '#f97316';
+    const roomFillAlpha = hoveredNode ? userAlpha * 0.5 : userAlpha;
+    const isActiveRoom = room.id === store._raw.currentRoomId;
+
     ctx.save();
     ctx.beginPath();
     ctx.roundRect(pos.x, pos.y, size.w, size.h, 24);
-    const isActiveRoom = room.id === store._raw.currentRoomId;
-    ctx.fillStyle = '#f97316' + (hoveredNode ? '66' : 'ff');
+    ctx.fillStyle = hexToRgba(baseColor, roomFillAlpha);
     ctx.fill();
-    ctx.strokeStyle = isActiveRoom ? '#ffffff' : '#c2410c';
-    ctx.lineWidth = isActiveRoom ? 4 : 3;
+
+    ctx.strokeStyle = isActiveRoom ? '#38bdf8' : hexToRgba(baseColor, 0.75);
+    ctx.lineWidth = isActiveRoom ? 3.5 : 2;
     ctx.stroke();
 
+    // Franja de cabecera de la sala
+    ctx.beginPath();
+    ctx.roundRect(pos.x, pos.y, size.w, 44, [24, 24, 0, 0]);
+    ctx.fillStyle = hexToRgba(baseColor, Math.min(0.8, roomFillAlpha + 0.25));
+    ctx.fill();
+
     ctx.fillStyle = '#ffffff';
-    ctx.font = `bold 24px 'Space Grotesk', sans-serif`;
-    ctx.fillText(room.name, pos.x + 24, pos.y + 40);
+    ctx.font = `bold 20px 'Space Grotesk', sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(room.name, pos.x + 22, pos.y + 22);
 
     // Resize Handle Room
     ctx.beginPath();
     ctx.moveTo(pos.x + size.w - 20, pos.y + size.h);
     ctx.lineTo(pos.x + size.w, pos.y + size.h - 20);
     ctx.lineTo(pos.x + size.w, pos.y + size.h);
-    ctx.fillStyle = '#c2410c';
+    ctx.fillStyle = hexToRgba(baseColor, 0.8);
     ctx.fill();
     ctx.restore();
   });
 
-  // Draw Racks
+  // Draw Racks con color temático y transparencia
   store._raw.racks.forEach(rack => {
     const pos = rackPositions[rack.id];
     const size = rackSizes[rack.id];
     if (!pos || !size) return;
 
+    const rackBaseColor = (inherit && rack.color) ? rack.color : '#0ea5e9';
+    const rackFillAlpha = hoveredNode ? (userAlpha + 0.08) * 0.5 : (userAlpha + 0.08);
+
     ctx.save();
     ctx.beginPath();
-    ctx.roundRect(pos.x, pos.y, size.w, size.h, 12);
-    ctx.fillStyle = '#65a30d' + (hoveredNode ? '66' : 'ff');
+    ctx.roundRect(pos.x, pos.y, size.w, size.h, 14);
+    ctx.fillStyle = hexToRgba(rackBaseColor, rackFillAlpha);
     ctx.fill();
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 2;
+
+    ctx.strokeStyle = hexToRgba(rackBaseColor, 0.85);
+    ctx.lineWidth = 1.8;
     ctx.stroke();
 
+    // Franja de cabecera del rack
+    ctx.beginPath();
+    ctx.roundRect(pos.x, pos.y, size.w, 32, [14, 14, 0, 0]);
+    ctx.fillStyle = hexToRgba(rackBaseColor, Math.min(0.85, rackFillAlpha + 0.3));
+    ctx.fill();
+
     ctx.fillStyle = '#ffffff';
-    ctx.font = `bold 16px 'Space Grotesk', sans-serif`;
-    ctx.fillText(rack.name, pos.x + 15, pos.y + 25);
+    ctx.font = `bold 13px 'Space Grotesk', sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(rack.name, pos.x + 14, pos.y + 16);
 
     // Resize Handle Rack
     ctx.beginPath();
     ctx.moveTo(pos.x + size.w - 16, pos.y + size.h);
     ctx.lineTo(pos.x + size.w, pos.y + size.h - 16);
     ctx.lineTo(pos.x + size.w, pos.y + size.h);
-    ctx.fillStyle = '#ffffffaa';
+    ctx.fillStyle = hexToRgba(rackBaseColor, 0.85);
     ctx.fill();
     ctx.restore();
   });
 
   // Draw Connections
+  const now = performance.now();
+  const dt = lastAnimTime ? Math.min(0.1, (now - lastAnimTime) / 1000) : 0.016;
+  lastAnimTime = now;
   if (!document.body.classList.contains('no-animations')) {
-    flowT = (flowT + 0.0075) % 1;
+    flowT = (flowT + dt * 0.45) % 1;
   }
   store._raw.connections.forEach(conn => {
     const srcPos = nodePositions[conn.sourceDeviceId];
@@ -124,16 +218,43 @@ function drawTopo() {
     
     const x1 = srcPos.x, y1 = srcPos.y;
     const x2 = dstPos.x, y2 = dstPos.y;
-    const cx1 = x1 + (x2 - x1) * 0.5;
-    const cy1 = y1;
-    const cx2 = x1 + (x2 - x1) * 0.5;
-    const cy2 = y2;
+
+    const isTree = window.TOPO_LAYOUT_MODE === 'tree';
+    const midX = x1 + (x2 - x1) * 0.5;
+    const midY = y1 + (y2 - y1) * 0.5;
 
     ctx.save();
     ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2);
+    if (isTree) {
+      // Trazado Ortogonal de Árbol de Red con esquinas redondeadas (Draw.io style)
+      ctx.moveTo(x1, y1);
+      const r = 8;
+      if (Math.abs(x2 - x1) > r * 2 && Math.abs(y2 - y1) > r * 2) {
+        const signX = x2 > x1 ? 1 : -1;
+        const signY = y2 > y1 ? 1 : -1;
+        ctx.lineTo(x1, midY - signY * r);
+        ctx.arcTo(x1, midY, x1 + signX * r, midY, r);
+        ctx.lineTo(x2 - signX * r, midY);
+        ctx.arcTo(x2, midY, x2, midY + signY * r, r);
+        ctx.lineTo(x2, y2);
+      } else {
+        ctx.lineTo(x1, midY);
+        ctx.lineTo(x2, midY);
+        ctx.lineTo(x2, y2);
+      }
+    } else {
+      ctx.moveTo(x1, y1);
+      ctx.bezierCurveTo(midX, y1, midX, y2, x2, y2);
+    }
     
+    // Diferenciación de cableado frontal vs trasero
+    const isRear = conn.facing === 'rear' || conn.targetFacing === 'rear' || conn.sourceFacing === 'rear';
+    if (isRear) {
+      ctx.setLineDash([5, 4]);
+    } else {
+      ctx.setLineDash([]);
+    }
+
     ctx.strokeStyle = conn.color || '#ffffff';
     ctx.lineWidth = isActive ? 3 : 1.5;
     ctx.globalAlpha = isActive ? 1 : 0.2;
@@ -143,10 +264,11 @@ function drawTopo() {
       const numParticles = 4;
       for(let i=0; i<numParticles; i++) {
         let t = ((flowT + i/numParticles) % 1);
-        const bx = bezierPoint(x1, cx1, cx2, x2, t);
-        const by = bezierPoint(y1, cy1, cy2, y2, t);
+        const pt = isTree
+          ? orthogonalPoint(x1, y1, x2, y2, t)
+          : { x: bezierPoint(x1, midX, midX, x2, t), y: bezierPoint(y1, y1, y2, y2, t) };
         ctx.beginPath();
-        ctx.arc(bx, by, 3.5, 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, 3.5, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
         ctx.shadowColor = conn.color;
         ctx.shadowBlur = 8;
@@ -208,28 +330,94 @@ function drawTopo() {
         ctx.fillText(dev.type.substring(0, 2).toUpperCase(), pos.x, pos.y);
       }
       
-      ctx.font = 'bold 11px "Space Grotesk", sans-serif';
-      ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-      ctx.shadowBlur = 6;
-      ctx.shadowOffsetY = 1;
-      ctx.fillText(dev.name.slice(0, 16), pos.x, pos.y - r - 26);
-      ctx.shadowColor = 'transparent';
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetY = 0;
-      
-      if (dev.ip) {
-        ctx.font = 'bold 10px "JetBrains Mono", monospace';
-        const ipWidth = ctx.measureText(dev.ip).width;
-        const ipY = pos.y - r - 10;
-        
-        ctx.fillStyle = '#e2e8f0';
-        ctx.beginPath();
-        ctx.roundRect(pos.x - ipWidth/2 - 6, ipY - 8, ipWidth + 12, 16, 4);
-        ctx.fill();
+      // Renderizado de Etiquetas (Nombre e IP según configuración definida por el usuario)
+      const namePos = window.TOPO_NAME_POS || 'bottom';
+      const ipPos   = window.TOPO_IP_POS   || 'top';
+      const devName = (dev.name || '').slice(0, 18);
+      const devIp   = dev.ip || '';
 
-        ctx.fillStyle = '#000000';
-        ctx.fillText(dev.ip, pos.x, ipY);
+      function drawNodeName(x, y, align = 'center') {
+        if (!devName || namePos === 'none') return;
+        ctx.save();
+        ctx.font = 'bold 11px "Space Grotesk", sans-serif';
+        ctx.textAlign = align;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 1;
+        ctx.fillText(devName, x, y);
+        ctx.restore();
+      }
+
+      function drawNodeIp(x, y, align = 'center') {
+        if (!devIp || ipPos === 'none') return;
+        ctx.save();
+        ctx.font = 'bold 9px "JetBrains Mono", monospace';
+        ctx.textBaseline = 'middle';
+        const ipWidth = ctx.measureText(devIp).width;
+        let boxX = x - ipWidth / 2 - 5;
+        let textX = x;
+        if (align === 'left') {
+          boxX = x;
+          textX = x + 5 + ipWidth / 2;
+        } else if (align === 'right') {
+          boxX = x - ipWidth - 10;
+          textX = x - 5 - ipWidth / 2;
+        }
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(boxX, y - 8, ipWidth + 10, 16, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(devIp, textX, y);
+        ctx.restore();
+      }
+
+      const hasBoth = devName && namePos !== 'none' && devIp && ipPos !== 'none';
+      const isTogether = hasBoth && namePos === ipPos;
+
+      if (isTogether) {
+        // JUNTOS en la misma posición (arriba, abajo, derecha, izquierda)
+        if (namePos === 'bottom') {
+          drawNodeName(pos.x, pos.y + r + 12, 'center');
+          drawNodeIp(pos.x, pos.y + r + 28, 'center');
+        } else if (namePos === 'top') {
+          drawNodeIp(pos.x, pos.y - r - 26, 'center');
+          drawNodeName(pos.x, pos.y - r - 10, 'center');
+        } else if (namePos === 'right') {
+          drawNodeName(pos.x + r + 10, pos.y - 7, 'left');
+          drawNodeIp(pos.x + r + 10, pos.y + 9, 'left');
+        } else if (namePos === 'left') {
+          drawNodeName(pos.x - r - 10, pos.y - 7, 'right');
+          drawNodeIp(pos.x - r - 10, pos.y + 9, 'right');
+        }
+      } else {
+        // SEPARADOS o independientes
+        if (namePos === 'top') {
+          drawNodeName(pos.x, pos.y - r - 12, 'center');
+        } else if (namePos === 'bottom') {
+          drawNodeName(pos.x, pos.y + r + 14, 'center');
+        } else if (namePos === 'right') {
+          drawNodeName(pos.x + r + 10, pos.y, 'left');
+        } else if (namePos === 'left') {
+          drawNodeName(pos.x - r - 10, pos.y, 'right');
+        }
+
+        if (ipPos === 'top') {
+          drawNodeIp(pos.x, pos.y - r - 12, 'center');
+        } else if (ipPos === 'bottom') {
+          drawNodeIp(pos.x, pos.y + r + 14, 'center');
+        } else if (ipPos === 'right') {
+          drawNodeIp(pos.x + r + 10, pos.y, 'left');
+        } else if (ipPos === 'left') {
+          drawNodeIp(pos.x - r - 10, pos.y, 'right');
+        }
       }
     } else {
       // CARD STYLE
@@ -325,4 +513,24 @@ function drawTopo() {
 function bezierPoint(p0, p1, p2, p3, t) {
   const mt = 1 - t;
   return mt*mt*mt*p0 + 3*mt*mt*t*p1 + 3*mt*t*t*p2 + t*t*t*p3;
+}
+
+function orthogonalPoint(x1, y1, x2, y2, t) {
+  const midY = y1 + (y2 - y1) * 0.5;
+  const d1 = Math.abs(midY - y1);
+  const d2 = Math.abs(x2 - x1);
+  const d3 = Math.abs(y2 - midY);
+  const total = d1 + d2 + d3;
+  if (total <= 0) return { x: x1, y: y1 };
+  const targetDist = t * total;
+  if (targetDist <= d1) {
+    const ratio = d1 > 0 ? targetDist / d1 : 0;
+    return { x: x1, y: y1 + (midY - y1) * ratio };
+  } else if (targetDist <= d1 + d2) {
+    const ratio = d2 > 0 ? (targetDist - d1) / d2 : 0;
+    return { x: x1 + (x2 - x1) * ratio, y: midY };
+  } else {
+    const ratio = d3 > 0 ? (targetDist - d1 - d2) / d3 : 0;
+    return { x: x2, y: midY + (y2 - midY) * ratio };
+  }
 }

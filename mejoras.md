@@ -57,40 +57,34 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 
 ## 6. Problemas de UX y Consistencia
 
-### 🚪 Inconsistencia y Limitaciones en la Edición de Salas
-*   **Problema:** Para renombrar una sala, la interfaz recurre a un diálogo nativo del navegador (`prompt`) en lugar de utilizar un modal de interfaz unificado y estético (como se hace con Racks o Dispositivos). Además, no existe un modal de edición completo de salas para configurar parámetros adicionales como dimensiones o notas.
-*   **Impacto en Producción:** Rompe la consistencia visual y de comportamiento del sistema de diseño (Atomic Design), y bloquea de manera síncrona la ventana del navegador durante la interacción.
+### 🚪 [COMPLETADO] Modal Unificado de Edición y Creación de Salas
+*   **Estado:** Completado. Se eliminaron los diálogos nativos `prompt` y se implementó el modal dedicado `RoomModal.js` (`#modal-room`), accesible desde el Outliner, Inspector y el menú desplegable del header, permitiendo editar nombres, dimensiones y notas.
 
 ### 🖼️ Borde de los Racks muy Pequeño en la Vista Física
 *   **Problema:** En la vista física, el contorno o borde que delimita los gabinetes (Racks) es demasiado delgado o pequeño.
 *   **Impacto en Producción:** Dificulta la identificación de los límites físicos del rack, reduciendo la claridad y contraste visual cuando se tienen instalados equipos con faceplates oscuros o en pantallas de alta resolución.
 
-### 🔌 Agrupación de Equipos de Red en el Sidebar
-*   **Propuesta de Mejora:** Unificar las categorías de Routers, Switches y Firewalls en la barra lateral (Sidebar del catálogo) dentro de un solo grupo lógico llamado **"Network"**.
-*   **Objetivo/Beneficio en Producción:** Simplificar el árbol de selección y búsqueda de equipos de conectividad en el catálogo lateral, reduciendo la sobrecarga de pestañas o grupos individuales y mejorando la ergonomía de la interfaz de usuario.
+### 🔌 [COMPLETADO] Agrupación de Equipos de Red en el Sidebar
+*   **Estado:** Completado. Se integró la categoría unificada `network` en `CATALOG_GROUPS` (`js/ui/catalog.js`) que agrupa Switches, Routers, Firewalls y Access Points bajo un solo icono ergonómico de red.
 
-### 🔍 Categoría "Todos" en el Sidebar del Catálogo
-*   **Propuesta de Mejora:** Crear una pestaña o grupo global llamado **"Todos"**, representado con el icono de una lupa, donde se listen absolutamente todos los equipos y plantillas disponibles del catálogo.
-*   **Objetivo/Beneficio en Producción:** Agilizar el flujo de trabajo permitiendo al usuario visualizar y arrastrar cualquier equipo desde una lista única consolidada, complementando la búsqueda global sin necesidad de alternar entre pestañas específicas.
+### 🔍 [COMPLETADO] Categoría "Todos" en el Sidebar del Catálogo
+*   **Estado:** Completado. Implementado como primer grupo `all` ("Todos los Equipos") en la barra de iconos del catálogo con vista completa de todos los componentes.
 
-### 📐 Desalineación / Descentrado de la Sección de Piso en la Vista Física
-*   **Problema:** En la vista física, cuando no hay racks o cuando una sala está prácticamente vacía, el contenedor que agrupa los equipos de piso ("Floor Devices Section") se visualiza descentrado respecto al centro del lienzo principal o con respecto a los racks.
-*   **Impacto en Producción:** Afecta la armonía visual del lienzo de diseño cuando se comienza una sala desde cero, desalineando los equipos de piso y rompiendo el flujo de diseño estético.
-*   **Propuesta de Mejora:** Establecer un ancho mínimo de **584px** para el área de equipos de piso en la vista física, garantizando así su alineación perfecta con el espacio que ocuparían al menos dos racks juntos.
+### 📐 [COMPLETADO] Desalineación / Descentrado de la Sección de Piso en la Vista Física
+*   **Estado:** Completado. La clase `.floor-section` en `css/components/faceplates.css` cuenta con `min-width: 584px;`, garantizando simetría y alineación con al menos dos racks contiguos incluso en salas vacías.
 
-### 📏 Establecer Ancho Fijo Proporcional para los Slots (10x de la Unidad U)
-*   **Propuesta de Mejora:** Configurar el ancho del área de slots del rack (`.rack-slots`) para que sea completamente fijo y proporcional a la realidad, estableciendo su medida como un múltiplo de 10 veces el tamaño de la unidad U ($10 \times 24\text{px} = 240\text{px}$).
-*   **Objetivo/Beneficio en Producción:** Asegurar un aspecto visual realista y uniforme del gabinete en todas las pantallas. Al evitar que el ancho sea flexible o indeterminado, se previene la deformación de las faceplates y de los skins de los servidores/equipos de red montados.
+### 📏 [COMPLETADO] Establecer Ancho Fijo Proporcional para los Slots (240px / 10x U)
+*   **Estado:** Completado. La clase `.rack-slots` en `css/components/rack.css` define `width: 240px; min-width: 240px; max-width: 240px;` de forma estricta, evitando distorsiones en faceplates y skins.
 
 ### 🏁 Grilla de Fondo muy Tenue en la Vista Física
 *   **Propuesta de Mejora:** Implementar un patrón de grilla o cuadrícula muy sutil y tenue de fondo en el área del lienzo de la Vista Física (similar al patrón de puntos o líneas utilizado en la topología).
 *   **Objetivo/Beneficio en Producción:** Aumentar la claridad del espacio tridimensional y bidimensional de la sala física, facilitando al operador la colocación y alineación uniforme de los gabinetes y equipos de piso.
 
-### 📐 Estandarización de Alturas de Racks y Configuración por Defecto a 8 U
+### 📐 [COMPLETADO] Estandarización de Alturas de Racks
+*   **Estado:** Completado. El modal `#modal-rack` cuenta con un selector (`<select id="rack-height">`) con opciones comerciales estándar (8U, 12U, 18U, 24U, 42U, 48U) y soporte dinámico para valores personalizados al editar gabinetes existentes.
 *   **Propuesta de Mejora:**
-    *   Reemplazar la entrada de texto libre por una lista desplegable (`select`) con alturas de rack fijas estándares de la industria (p. ej. 4U, 8U, 12U, 16U, 24U, 32U, 42U, 48U) en el modal de creación y edición de gabinetes.
-    *   Establecer la altura por defecto del nuevo rack creado en **8 U**.
-*   **Objetivo/Beneficio en Producción:** Prevenir que los operadores definan alturas erróneas o no comerciales de racks (p. ej. 5U, 13U o valores exagerados como 100U), y acelerar el aprovisionamiento de nuevos gabinetes con la altura más común por defecto.
+    *   Reemplazar la entrada de texto libre por una lista desplegable (`select`) con alturas de rack fijas estándares de la industria en el modal de creación y edición de gabinetes.
+*   **Objetivo/Beneficio en Producción:** Prevenir que los operadores definan alturas erróneas o no comerciales de racks, y acelerar el aprovisionamiento de nuevos gabinetes.
 
 ### 📖 [COMPLETADO] Crear Documento de Referencia para Medidas de la Interfaz
 *   **Estado:** Completado. Se ha creado el documento [medidas_interfaz.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas_interfaz.md).
@@ -215,11 +209,8 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 *   **Propuesta de Mejora:** Añadir un campo de búsqueda (buscador) en el menú de agregar equipo (catálogo), para que los usuarios puedan encontrar dispositivos rápidamente, complementando el sistema deslizable que ya existe.
 *   **Objetivo/Beneficio en Producción:** Agiliza significativamente el flujo de trabajo al permitir localizar y añadir equipos específicos de manera inmediata dentro de un catálogo extenso, sin tener que navegar o desplazarse manualmente por todas las opciones disponibles.
 
-### 🏷️ Separación de Etiquetas en Nodos de Topología (Modo Nodos)
-*   **Propuesta de Mejora:** En la Vista de Topología, cuando se utiliza el modo de estilo **"Nodos"** (representación circular), separar las etiquetas de texto en dos líneas posicionadas independientemente:
-    *   **IP arriba del nodo:** Mostrar la dirección IP del equipo como etiqueta superior, por encima del círculo del nodo.
-    *   **Nombre abajo del nodo:** Mostrar el nombre del dispositivo como etiqueta inferior, debajo del círculo del nodo.
-*   **Objetivo/Beneficio en Producción:** Mejora la legibilidad y la densidad de información visible en diagramas de topología complejos. Al separar IP y nombre en posiciones distintas, se evita el apilamiento o truncado de texto en una sola línea, y se facilita la identificación rápida de equipos tanto por nombre lógico como por dirección de red.
+### 🏷️ [COMPLETADO] Separación de Etiquetas en Nodos de Topología (Modo Nodos)
+*   **Estado:** Completado. En el modo circular (`window.TOPOLOGY_STYLE === 'circle'`), la dirección IP se renderiza como pastilla superior flotante con borde y texto cian, mientras que el nombre del dispositivo se renderiza en la parte inferior con sombra de contraste, eliminando solapamientos.
 
 ### 🌲 Layout de Árbol Genealógico en la Vista de Topología
 *   **Propuesta de Mejora:** Añadir un nuevo modo de disposición (layout) en la Vista de Topología que organice los nodos en forma de **árbol genealógico** (jerárquico de arriba hacia abajo o de izquierda a derecha), donde los equipos principales (core switches, routers de borde) se posicionen como raíz y los equipos dependientes se ramifiquen hacia abajo en niveles sucesivos.
@@ -280,9 +271,10 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 12. Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect). *(→ Sección 6, 🪢)*
 
 ### Fase 3 — Topología Avanzada
-13. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)*
-14. Skins visuales en topología (nodos, cards, imágenes personalizadas). *(→ Sección 6, 🖼️)*
-15. Motor de temas y personalización visual en topología (transparencias, patrones de fondo). *(→ Sección 6, 🎨)*
+13. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO]**
+14. Layout en Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas y reubicación de dispositivos no conectados en la parte baja de racks y sala. *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO 2026-09-27]**
+15. Motor de temas y personalización visual en topología (transparencias, patrones de fondo, etiquetas duales IP/Nombre). *(→ Sección 6, 🎨)* ✅ **[COMPLETADO 2026-09-27]**
+16. Skins visuales personalizadas en topología (cards, imágenes personalizadas, estilos extendidos). *(→ Sección 6, 🖼️)*
 
 ### Fase 4 — Exportación y Colaboración
 16. Plantilla completa de exportación con todos los campos. *(→ Sección 6, 📋)*

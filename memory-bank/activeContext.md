@@ -1,9 +1,30 @@
 # Active Context
 
 ## Current Work Focus
-El proyecto ha completado con éxito la **Modernización Integral del Catálogo Arquitectónico Profesional**, la incorporación de la familia **Seguridad y CCTV** (NVR, DVR, Decoder), la inclusión formal de **Patch Panel y ODF** en Accesorios, y la **Persistencia de Equipos Personalizados por Proyecto** (`customCatalog`) con ciclo de vida completo y reset en nuevo proyecto. La suite de pruebas de integridad se ha expandido a **82/83 pruebas automatizadas al 100% de éxito** en CLI (`pnpm test`) y navegador (`tests/index.html`).
+El proyecto ha completado con éxito la **Modernización Integral de la Vista de Topología** (Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas, reubicación de equipos desconectados en la base de racks/sala, personalización completa de ubicación de Nombre/IP en nodos y control dual de espaciado Horizontal/Vertical), la **Navegación y Enfoque reactivo desde el Outliner**, el **Selector Dinámico de Columnas en Tablas de Datos** con persistencia, y la **Protección visual de la cabecera**.
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-28] Vista de Topología: Control Dual de Espaciado Horizontal y Vertical:**
+  - **Grupo de Sliders `#topo-spacing-group`:** Integración de barra horizontal `H` (`#topo-spacing-x`) y barra vertical `V` (`#topo-spacing`).
+  - **Espaciado Horizontal de Nodos (H):** En el estilo por racks (`_computeLayout`), los equipos se organizan en columnas separadas por `colGap`, expandiendo el ancho del gabinete y manteniendo la distancia entre racks fija (`RACK_GAP = 32px`). En el estilo árbol (`_computeTreeLayout`), separa horizontalmente los nodos hermanos del mismo nivel.
+  - **Espaciado Vertical (V):** Regula la distancia entre niveles jerárquicos padre-hijo (`rowGap`) y entre slots verticales.
+  - **Recálculo Reactivo a 60 FPS:** Implementación de `recalcTopoSpacingX()` y `recalcTopoSpacing()` con persistencia en `TopologyState.js`.
+- **[2026-09-28] Vista de Topología: Separación de Cabeceras entre Sala y Racks en Árbol:**
+  - Corrección de colisión vertical: los racks ahora inician estrictamente por debajo de la cabecera de la sala (`rackTopY = ROOM_MARGIN + ROOM_PAD_TOP`), garantizando más de 20px de espacio libre. Los niveles jerárquicos inician por debajo de la cabecera del rack (`startY = rackTopY + RACK_HEADER_H`).
+- **[2026-09-28] Vista de Topología: Personalización de Ubicación de Nombre e IP en Nodos Circulares:**
+  - Menú popover de Estilo (`#topo-style-dropdown`) con selector de presets: *Separados (IP Arriba / Nombre Abajo)*, *Separados Invertidos*, *Juntos Abajo*, *Juntos Arriba*, *Juntos Derecha*, *Juntos Izquierda* y *Personalizado* con selectores independientes para Nombre e IP (`Arriba`, `Abajo`, `Derecha`, `Izquierda`, `Oculto`).
+  - Renderizado dinámico en Canvas 2D (`TopologyRenderer.js`) apilando o separando las etiquetas según la orientación sin colisiones y con sombras de alto contraste.
+- **[2026-09-27] Vista de Topología: Layout en Árbol Jerárquico y Reubicación de Dispositivos No Conectados:**
+  - Algoritmo de árbol DAG según dirección del flujo de datos (Padre $\rightarrow$ Hijo) con relajación de niveles.
+  - Conexiones ortogonales redondeadas (`orthogonalEdgeStyle`) y partículas sincronizadas con `performance.now()`.
+  - Reubicación estricta de equipos desconectados: en racks se ubican al fondo (`unconnStartTier = maxConnTierInRack + 1`), y en la sala se sitúan en la base inferior.
+- **[2026-09-27] UX: Auto-Navegación y Enfoque desde el Outliner:**
+  - Auto-scroll y centrado suave (`scrollIntoView`) con resaltado de borde azul temporal (1.5s) al hacer clic en salas, racks o equipos en el Outliner. Auto-cambio dinámico de sala si el objeto está en otra sala.
+- **[2026-09-27] Cabecera: Protección de Vistas y Truncamiento de Nombres Largos:**
+  - `flex-shrink: 0` en pestañas `.view-tabs`, botones de acción rápida, credencial y dot de estado.
+  - Truncamiento elíptico en selectores de sala y rack con tooltips dinámicos `title` para lectura completa en hover.
+- **[2026-09-23] Selector Dinámico de Columnas en Tablas de Datos:**
+  - Botón `⚙ Columnas` en el panel inferior con menú popover interactivo contextual (18 columnas en Inventario, 10 en Conexiones), categorías semánticas, persistencia en `localStorage`, modo corto de 220px y pantalla completa.
 - **[2026-09-22] Exportación de Sala Completa en Vista Dual (Frente + Dorso Modular por Gabinete):**
   - **Disposición Modular por Gabinete (`mode === 'dual'`):** Cada rack en la sala completa se exporta dentro de un recuadro cerrado e independiente con borde y franja superior de su color asignado (`rack.color`), cabecera con `GABINETE: [NOMBRE]`, ocupación `[X]U · [Y]U USADAS · [Z]W`, badge `VISTA DUAL (F+T)` y columnas interiores `VISTA FRONTAL` y `VISTA TRASERA` lado a lado.
   - **Lienzo Panorámico General de Datacenter:** Módulos ensamblados horizontalmente con espaciado técnico de 40px (80px Retina 2x), cabecera general con métricas globales consolidadas y badge `VISTA DUAL PANORÁMICA`.

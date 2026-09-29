@@ -8,6 +8,7 @@ function startTopo() {
 function stopTopo() {
   if (topoAnim) cancelAnimationFrame(topoAnim);
   topoAnim = null;
+  if (typeof lastAnimTime !== 'undefined') lastAnimTime = 0;
 }
 
 function updateZoomLabel() {

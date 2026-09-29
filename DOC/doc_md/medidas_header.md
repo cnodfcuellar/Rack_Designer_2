@@ -46,15 +46,17 @@ La cabecera se divide horizontalmente en dos contenedores principales:
 *   **Margen y Relleno:** `padding: 0 16px` con espacio de separación uniforme (`gap: 12px`).
 *   **Componentes Internos (Altura Estricta de 24px):**
     *   **Selectores Desplegables (Salas/Racks):**
-        *   Ancho mínimo de la etiqueta interna: Ajustable según el texto.
-        *   Relleno interno del botón: `0 10px` con iconos SVG de `14px` (edificio / rack) y `12px` (flecha de despliegue).
-        *   Botón para Añadir (`.nav-btn-add`): Dimensiones fijas de `24px` × `24px` para creación rápida con un solo clic.
-    *   **Divisor Horizontal (`.h-divider`):** Ancho de `1px` y altura de **`32px`** (color `--border`).
+        *   Ancho máximo del botón toggle (`.nav-dropdown-toggle`): `clamp(120px, 14vw, 200px)` con `overflow: hidden`.
+        *   Etiquetas de texto (`#room-dropdown-label`, `#rack-dropdown-label`): truncamiento elíptico automático (`text-overflow: ellipsis`, `white-space: nowrap`) para evitar desbordar o empujar otros controles con nombres largos.
+        *   Tooltip dinámico: Atributo `title` en el botón toggle con el nombre completo para inspección al pasar el cursor (hover).
+        *   Relleno interno del botón: `0 10px` con iconos SVG de `14px` (edificio / rack) y `12px` (flecha de despliegue) protegidos con `flex-shrink: 0`.
+        *   Botón para Añadir (`.nav-btn-add`): Dimensiones fijas de `24px` × `24px` con `flex-shrink: 0` para creación rápida con un solo clic.
+    *   **Divisor Horizontal (`.h-divider`):** Ancho de `1px` y altura de **`32px`** (color `--border`), protegido con `flex-shrink: 0`.
     *   **Pestañas de Vista (`.view-tabs`):**
-        *   Contenedor: Borde de `1px` y bordes redondeados (`var(--radius)` = `6px`).
-        *   Botón de Vista (`.view-tab`): Relleno de `5px 14px` en cada pestaña con iconos SVG sincronizados (`icon-physical` y `icon-topology`).
+        *   Contenedor: Borde de `1px`, bordes redondeados (`var(--radius)` = `6px`) y protección estricta `flex-shrink: 0` para garantizar que los botones de vista física y topológica nunca se compriman ni se oculten.
+        *   Botón de Vista (`.view-tab`): Relleno de `5px 14px` en cada pestaña con iconos SVG sincronizados (`icon-physical` y `icon-topology`) y `flex-shrink: 0`.
     *   **Buscador Global (`.h-search`):**
-        *   Ancho en Reposo: **`200px`** (padding de entrada: `4px 10px 4px 30px`).
+        *   Ancho en Reposo: **`200px`** (padding de entrada: `4px 10px 4px 30px`, `min-width: 120px`, `flex-shrink: 1`).
         *   Ancho en Foco: **`240px`** (transición fluida de `0.2s`) con filtrado reactivo simultáneo sobre racks, periféricos de piso y tabla de inventario.
     *   **Grupo de Historial (`.h-btn-group`):**
         *   Botones individuales (`#btn-undo`, `#btn-redo`): Normalizados a `24px` de alto, con bordes redondeados solo en esquinas exteriores (Izquierdo: `6px 0 0 6px`, Derecho: `0 6px 6px 0`).

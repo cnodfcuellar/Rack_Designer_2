@@ -241,15 +241,246 @@ function initGlobalEvents() {
     updateZoomLabel();
   });
   
-  document.getElementById('btn-topo-style').addEventListener('click', () => {
-    window.TOPOLOGY_STYLE = window.TOPOLOGY_STYLE === 'card' ? 'circle' : 'card';
-  });
+  // Popover de personalización de topología
+  const btnTopoStyle = document.getElementById('btn-topo-style');
+  const topoDropdown = document.getElementById('topo-style-dropdown');
+  const btnTopoStyleClose = document.getElementById('btn-topo-style-close');
+  const btnLayoutRacks = document.getElementById('topo-layout-racks');
+  const btnLayoutTree = document.getElementById('topo-layout-tree');
+  const btnOptCard = document.getElementById('topo-opt-card');
+  const btnOptCircle = document.getElementById('topo-opt-circle');
+  const topoPatternSelect = document.getElementById('topo-pattern-select');
+  const topoAlphaSlider = document.getElementById('topo-alpha-slider');
+  const topoAlphaVal = document.getElementById('topo-alpha-val');
+  const topoInheritColors = document.getElementById('topo-inherit-colors');
+  const topoLabelsSection = document.getElementById('topo-labels-section');
+  const topoLabelPreset = document.getElementById('topo-label-preset');
+  const topoNamePos = document.getElementById('topo-name-pos');
+  const topoIpPos = document.getElementById('topo-ip-pos');
+
+  function syncTopoStyleUI() {
+    const isTree = (window.TOPO_LAYOUT_MODE || 'racks') === 'tree';
+    if (btnLayoutRacks && btnLayoutTree) {
+      if (!isTree) {
+        btnLayoutRacks.style.borderColor = 'var(--accent)';
+        btnLayoutRacks.style.color = 'var(--accent)';
+        btnLayoutRacks.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnLayoutTree.style.borderColor = '';
+        btnLayoutTree.style.color = '';
+        btnLayoutTree.style.background = '';
+      } else {
+        btnLayoutTree.style.borderColor = 'var(--accent)';
+        btnLayoutTree.style.color = 'var(--accent)';
+        btnLayoutTree.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnLayoutRacks.style.borderColor = '';
+        btnLayoutRacks.style.color = '';
+        btnLayoutRacks.style.background = '';
+      }
+    }
+
+    const isCard = (window.TOPOLOGY_STYLE || 'card') === 'card';
+    if (btnOptCard && btnOptCircle) {
+      if (isCard) {
+        btnOptCard.style.borderColor = 'var(--accent)';
+        btnOptCard.style.color = 'var(--accent)';
+        btnOptCard.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnOptCircle.style.borderColor = '';
+        btnOptCircle.style.color = '';
+        btnOptCircle.style.background = '';
+      } else {
+        btnOptCircle.style.borderColor = 'var(--accent)';
+        btnOptCircle.style.color = 'var(--accent)';
+        btnOptCircle.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnOptCard.style.borderColor = '';
+        btnOptCard.style.color = '';
+        btnOptCard.style.background = '';
+      }
+    }
+    if (topoLabelsSection) {
+      topoLabelsSection.style.display = isCard ? 'none' : 'block';
+    }
+    if (topoLabelPreset) {
+      topoLabelPreset.value = window.TOPO_LABEL_PRESET || 'separated';
+    }
+    if (topoNamePos) {
+      topoNamePos.value = window.TOPO_NAME_POS || 'bottom';
+    }
+    if (topoIpPos) {
+      topoIpPos.value = window.TOPO_IP_POS || 'top';
+    }
+    if (topoPatternSelect && window.TOPO_BG_PATTERN) {
+      topoPatternSelect.value = window.TOPO_BG_PATTERN;
+    }
+    if (topoAlphaSlider && window.TOPO_ALPHA !== undefined) {
+      topoAlphaSlider.value = Math.round(window.TOPO_ALPHA * 100);
+      if (topoAlphaVal) topoAlphaVal.textContent = `${Math.round(window.TOPO_ALPHA * 100)}%`;
+    }
+    if (topoInheritColors && window.TOPO_INHERIT_COLORS !== undefined) {
+      topoInheritColors.checked = window.TOPO_INHERIT_COLORS;
+    }
+  }
+
+  if (topoLabelPreset) {
+    topoLabelPreset.addEventListener('change', (e) => {
+      const p = e.target.value;
+      window.TOPO_LABEL_PRESET = p;
+      if (p === 'separated') {
+        window.TOPO_NAME_POS = 'bottom';
+        window.TOPO_IP_POS = 'top';
+      } else if (p === 'separated_inv') {
+        window.TOPO_NAME_POS = 'top';
+        window.TOPO_IP_POS = 'bottom';
+      } else if (p === 'together_bottom') {
+        window.TOPO_NAME_POS = 'bottom';
+        window.TOPO_IP_POS = 'bottom';
+      } else if (p === 'together_top') {
+        window.TOPO_NAME_POS = 'top';
+        window.TOPO_IP_POS = 'top';
+      } else if (p === 'together_right') {
+        window.TOPO_NAME_POS = 'right';
+        window.TOPO_IP_POS = 'right';
+      } else if (p === 'together_left') {
+        window.TOPO_NAME_POS = 'left';
+        window.TOPO_IP_POS = 'left';
+      }
+      if (topoNamePos) topoNamePos.value = window.TOPO_NAME_POS;
+      if (topoIpPos) topoIpPos.value = window.TOPO_IP_POS;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  function handleCustomLabelPosChange() {
+    const nPos = topoNamePos ? topoNamePos.value : 'bottom';
+    const iPos = topoIpPos ? topoIpPos.value : 'top';
+    window.TOPO_NAME_POS = nPos;
+    window.TOPO_IP_POS = iPos;
+    
+    if (nPos === 'bottom' && iPos === 'top') window.TOPO_LABEL_PRESET = 'separated';
+    else if (nPos === 'top' && iPos === 'bottom') window.TOPO_LABEL_PRESET = 'separated_inv';
+    else if (nPos === 'bottom' && iPos === 'bottom') window.TOPO_LABEL_PRESET = 'together_bottom';
+    else if (nPos === 'top' && iPos === 'top') window.TOPO_LABEL_PRESET = 'together_top';
+    else if (nPos === 'right' && iPos === 'right') window.TOPO_LABEL_PRESET = 'together_right';
+    else if (nPos === 'left' && iPos === 'left') window.TOPO_LABEL_PRESET = 'together_left';
+    else window.TOPO_LABEL_PRESET = 'custom';
+
+    if (topoLabelPreset) topoLabelPreset.value = window.TOPO_LABEL_PRESET;
+    if (typeof saveTopo === 'function') saveTopo();
+    if (typeof drawTopo === 'function') drawTopo();
+  }
+
+  if (topoNamePos) topoNamePos.addEventListener('change', handleCustomLabelPosChange);
+  if (topoIpPos) topoIpPos.addEventListener('change', handleCustomLabelPosChange);
+
+  if (btnLayoutRacks) {
+    btnLayoutRacks.addEventListener('click', () => {
+      if (typeof applyTopoLayoutMode === 'function') {
+        applyTopoLayoutMode('racks');
+      }
+      syncTopoStyleUI();
+    });
+  }
+
+  if (btnLayoutTree) {
+    btnLayoutTree.addEventListener('click', () => {
+      if (typeof applyTopoLayoutMode === 'function') {
+        applyTopoLayoutMode('tree');
+      }
+      syncTopoStyleUI();
+    });
+  }
+
+  if (btnTopoStyle && topoDropdown) {
+    btnTopoStyle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !topoDropdown.classList.contains('hidden');
+      if (isOpen) {
+        topoDropdown.classList.add('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'false');
+      } else {
+        syncTopoStyleUI();
+        topoDropdown.classList.remove('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    if (btnTopoStyleClose) {
+      btnTopoStyleClose.addEventListener('click', () => {
+        topoDropdown.classList.add('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    topoDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!topoDropdown.contains(e.target) && e.target !== btnTopoStyle) {
+        topoDropdown.classList.add('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  if (btnOptCard) {
+    btnOptCard.addEventListener('click', () => {
+      window.TOPOLOGY_STYLE = 'card';
+      syncTopoStyleUI();
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (btnOptCircle) {
+    btnOptCircle.addEventListener('click', () => {
+      window.TOPOLOGY_STYLE = 'circle';
+      syncTopoStyleUI();
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (topoPatternSelect) {
+    topoPatternSelect.addEventListener('change', (e) => {
+      window.TOPO_BG_PATTERN = e.target.value;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (topoAlphaSlider) {
+    topoAlphaSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      window.TOPO_ALPHA = val / 100;
+      if (topoAlphaVal) topoAlphaVal.textContent = `${val}%`;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (topoInheritColors) {
+    topoInheritColors.addEventListener('change', (e) => {
+      window.TOPO_INHERIT_COLORS = e.target.checked;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
 
   const spacingSlider = document.getElementById('topo-spacing');
   if (spacingSlider) {
     spacingSlider.addEventListener('input', (e) => {
       if (typeof recalcTopoSpacing === 'function') {
         recalcTopoSpacing(parseInt(e.target.value, 10));
+      }
+    });
+  }
+
+  const spacingSliderX = document.getElementById('topo-spacing-x');
+  if (spacingSliderX) {
+    spacingSliderX.addEventListener('input', (e) => {
+      if (typeof recalcTopoSpacingX === 'function') {
+        recalcTopoSpacingX(parseInt(e.target.value, 10));
       }
     });
   }
@@ -305,13 +536,17 @@ function initGlobalEvents() {
       const phys = document.getElementById('view-physical');
       const topo = document.getElementById('topology-canvas');
       const btnStyle = document.getElementById('btn-topo-style');
+      const spacingGroup = document.getElementById('topo-spacing-group');
       const spacingSlider = document.getElementById('topo-spacing');
       const btnAutoOrd = document.getElementById('btn-topo-autoorder');
       const btnCables = document.getElementById('btn-toggle-cables');
       if (currentView === 'physical') {
         phys.classList.remove('hidden');
         topo.style.display = 'none';
+        const topoDropdown = document.getElementById('topo-style-dropdown');
+        if (topoDropdown) topoDropdown.classList.add('hidden');
         if (btnStyle) btnStyle.classList.add('force-hide');
+        if (spacingGroup) spacingGroup.classList.add('force-hide');
         if (spacingSlider) spacingSlider.classList.add('force-hide');
         if (btnAutoOrd) btnAutoOrd.classList.add('force-hide');
         if (btnCables) btnCables.classList.remove('force-hide');
@@ -320,6 +555,7 @@ function initGlobalEvents() {
         phys.classList.add('hidden');
         topo.style.display = 'block';
         if (btnStyle) btnStyle.classList.remove('force-hide');
+        if (spacingGroup) spacingGroup.classList.remove('force-hide');
         if (spacingSlider) spacingSlider.classList.remove('force-hide');
         if (btnAutoOrd) btnAutoOrd.classList.remove('force-hide');
         if (btnCables) btnCables.classList.add('force-hide');
@@ -687,7 +923,7 @@ function init() {
   // Asegurar que canvas de topología empiece oculto
   const topoCanvas = document.getElementById('topology-canvas');
   if(topoCanvas) topoCanvas.style.display = 'none';
-  ['btn-topo-style', 'topo-spacing', 'btn-topo-autoorder'].forEach(id => {
+  ['btn-topo-style', 'topo-spacing', 'topo-spacing-group', 'btn-topo-autoorder'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add('force-hide');
   });

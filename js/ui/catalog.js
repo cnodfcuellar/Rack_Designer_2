@@ -314,12 +314,15 @@ function renderRoomTabs() {
 
   const currentRoom = store._raw.rooms.find(r => r.id === store._raw.currentRoomId) || store._raw.rooms[0];
   
-  // Update label text
-  label.textContent = currentRoom ? currentRoom.name : 'Salas';
+  // Update label text and tooltip
+  const roomName = currentRoom ? currentRoom.name : 'Salas';
+  label.textContent = roomName;
+  const roomToggle = document.getElementById('room-dropdown-toggle');
+  if (roomToggle) roomToggle.title = currentRoom ? `Sala: ${roomName}` : 'Seleccionar Sala';
 
   // Render dropdown list
   dropdownList.innerHTML = store._raw.rooms.map(r => `
-    <div class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}" style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:6px; cursor:pointer;">
+    <div class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}" style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:6px; cursor:pointer;" title="${escapeHTML(r.name)}">
       <span class="status-dot-nav ${r.id === store._raw.currentRoomId ? 'active' : ''}"></span>
       <span class="room-tab-name" data-select-room="${escapeHTML(r.id)}" style="flex:1; text-align:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHTML(r.name)}</span>
       <div style="display:flex; align-items:center; gap:4px;">
@@ -365,22 +368,26 @@ function renderRackSelector() {
   try {
   const dropdownList = document.getElementById('rack-dropdown-list');
   const label = document.getElementById('rack-dropdown-label');
+  const rackToggle = document.getElementById('rack-dropdown-toggle');
   if(!dropdownList || !label) return;
 
   const racks = store._raw.racks.filter(r => r.roomId === store._raw.currentRoomId);
   
   if (racks.length === 0) {
     label.textContent = 'Sin Racks';
+    if (rackToggle) rackToggle.title = 'Sin Racks';
     dropdownList.innerHTML = '';
     return;
   }
 
   // Update label text
   label.textContent = `Racks (${racks.length})`;
+  if (rackToggle) rackToggle.title = `Racks (${racks.length})`;
 
   dropdownList.innerHTML = racks.map(r => `
-    <button class="room-tab" data-target-rack="${escapeHTML(r.id)}">
-      <span class="status-dot-nav"></span> ${escapeHTML(r.name)}
+    <button class="room-tab" data-target-rack="${escapeHTML(r.id)}" title="${escapeHTML(r.name)}" style="display:flex; align-items:center; width:100%; gap:6px; cursor:pointer;">
+      <span class="status-dot-nav"></span>
+      <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; text-align:left;">${escapeHTML(r.name)}</span>
     </button>
   `).join('');
 
@@ -397,6 +404,7 @@ function renderRackSelector() {
       dropdownList.classList.add('hidden');
       const rackName = store._raw.racks.find(r => r.id === targetId)?.name || 'Rack';
       label.textContent = rackName;
+      if (rackToggle) rackToggle.title = `Rack: ${rackName}`;
     });
   });
   } catch(e) { console.error('[renderRackSelector] Error:', e); }

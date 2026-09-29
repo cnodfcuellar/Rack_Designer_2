@@ -159,8 +159,90 @@
         <span class="ui-switch-label"><i class="svg-icon icon-plug" style="width:14px; height:14px; margin-right:4px; vertical-align:middle;"></i>Cables</span>
       </label>
 
-      <button class="h-btn force-hide" id="btn-topo-style"><i class="svg-icon icon-sliders" style="width:14px; height:14px; margin-right:4px;"></i>Estilo</button>
-      <input type="range" id="topo-spacing" min="40" max="150" value="60" class="topo-slider force-hide" title="Espaciado de Nodos">
+      <div class="topo-style-wrap" style="position:relative; display:inline-block;">
+        <button class="h-btn force-hide" id="btn-topo-style" aria-haspopup="true" aria-expanded="false"><i class="svg-icon icon-sliders" style="width:14px; height:14px; margin-right:4px;"></i>Estilo</button>
+        <div class="dropdown-menu hidden" id="topo-style-dropdown" style="left:0; top:calc(100% + 6px); width:240px; padding:12px; z-index:1000; box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:10px; font-family:var(--font-mono); display:flex; justify-content:space-between; align-items:center;">
+            <span>Personalización Topología</span>
+            <span id="btn-topo-style-close" style="cursor:pointer; font-size:13px; color:var(--text-muted); padding:2px;">✕</span>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Disposición de Nodos</label>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-secondary" id="topo-layout-racks" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Por Racks</button>
+              <button class="btn-secondary" id="topo-layout-tree" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Árbol Jerárquico</button>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Representación de Nodos</label>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-secondary" id="topo-opt-card" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Tarjetas</button>
+              <button class="btn-secondary" id="topo-opt-circle" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Nodos</button>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;" id="topo-labels-section">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Etiquetas de Nodos (Nombre / IP)</label>
+            <select id="topo-label-preset" style="width:100%; font-size:11px; padding:5px 8px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none; margin-bottom:6px;">
+              <option value="separated">Separados (IP Arriba / Nombre Abajo)</option>
+              <option value="separated_inv">Separados (Nombre Arriba / IP Abajo)</option>
+              <option value="together_bottom">Juntos Abajo</option>
+              <option value="together_top">Juntos Arriba</option>
+              <option value="together_right">Juntos a la Derecha</option>
+              <option value="together_left">Juntos a la Izquierda</option>
+              <option value="custom">Personalizado...</option>
+            </select>
+            <div id="topo-label-custom-wrap" style="display:flex; gap:6px;">
+              <div style="flex:1;">
+                <span style="font-size:10px; color:var(--text-muted); display:block; margin-bottom:2px;">Nombre:</span>
+                <select id="topo-name-pos" style="width:100%; font-size:10px; padding:4px 6px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
+                  <option value="bottom">Abajo</option>
+                  <option value="top">Arriba</option>
+                  <option value="right">Derecha</option>
+                  <option value="left">Izquierda</option>
+                  <option value="none">Oculto</option>
+                </select>
+              </div>
+              <div style="flex:1;">
+                <span style="font-size:10px; color:var(--text-muted); display:block; margin-bottom:2px;">IP:</span>
+                <select id="topo-ip-pos" style="width:100%; font-size:10px; padding:4px 6px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
+                  <option value="top">Arriba</option>
+                  <option value="bottom">Abajo</option>
+                  <option value="right">Derecha</option>
+                  <option value="left">Izquierda</option>
+                  <option value="none">Oculto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Patrón de Fondo</label>
+            <select id="topo-pattern-select" style="width:100%; font-size:11px; padding:5px 8px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
+              <option value="dots">Puntos (Dots)</option>
+              <option value="grid">Cuadrícula (Grid)</option>
+              <option value="hexagon">Hexágonos (Tech)</option>
+              <option value="solid">Liso / Sólido</option>
+            </select>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span>Transparencia Salas/Racks</span>
+              <span id="topo-alpha-val" style="font-family:var(--font-mono); color:var(--accent);">25%</span>
+            </label>
+            <input type="range" id="topo-alpha-slider" min="10" max="80" value="25" style="width:100%; accent-color:var(--accent); cursor:pointer;">
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="topo-inherit-colors" checked style="accent-color:var(--accent); width:14px; height:14px; cursor:pointer;">
+            <label for="topo-inherit-colors" style="font-size:11px; color:var(--text-secondary); cursor:pointer;">Colores del inventario</label>
+          </div>
+        </div>
+      </div>
+      <div class="topo-spacing-group force-hide" id="topo-spacing-group" style="display:flex; align-items:center; gap:8px; background:var(--bg-card2); padding:2px 8px; border-radius:var(--radius); border:1px solid var(--border);">
+        <label for="topo-spacing-x" style="font-size:10px; font-weight:700; color:var(--text-muted); font-family:var(--font-mono); cursor:pointer; user-select:none;" title="Espaciado Horizontal">H</label>
+        <input type="range" id="topo-spacing-x" min="15" max="150" value="28" class="topo-slider" title="Espaciado Horizontal (columnas y racks)" style="width:75px;">
+        <div style="width:1px; height:14px; background:var(--border);"></div>
+        <label for="topo-spacing" style="font-size:10px; font-weight:700; color:var(--text-muted); font-family:var(--font-mono); cursor:pointer; user-select:none;" title="Espaciado Vertical">V</label>
+        <input type="range" id="topo-spacing" min="30" max="150" value="60" class="topo-slider" title="Espaciado Vertical (filas y niveles)" style="width:75px;">
+      </div>
       <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Auto-Orden</button>
       
       <div class="spacer"></div>

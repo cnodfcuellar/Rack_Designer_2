@@ -58,8 +58,8 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
 | M-29 | Motor de temas y transparencias en topología | 🎨 Topología |
 | M-30 | ~~Buscador en catálogo de añadir equipos~~ | ✅ COMPLETADO |
-| M-31 | Separación de etiquetas en topología (IP arriba / nombre abajo) | 🏷️ Topología |
-| M-32 | Layout de árbol genealógico en topología | 🌲 Topología |
+| M-31 | ~~Separación y posicionamiento de etiquetas en topología~~ | ✅ COMPLETADO |
+| M-32 | ~~Layout de árbol jerárquico en topología~~ | ✅ COMPLETADO |
 | M-33 | Sistema de cableado frontal vs trasero | 🔌 Core |
 | M-34 | Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) | 🪢 UX |
 | M-35 | Eliminación de restricciones de ubicación (Rack vs Piso/Frente) | 🔄 Core |
@@ -68,7 +68,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **21 mejoras completadas:** `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-30]✓`, `[M-36]✓`, `[M-37]✓` y `[M-38]✓`. Total de tareas pendientes: **17**. Fase 1 completada al 100%. Fase 3 avanzada (5 de 8 completadas). Fase 2 avanzada (2 de 7 completadas).
+> **23 mejoras completadas:** `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓` y `[M-38]✓`. Total de tareas pendientes: **15**. Fase 1 completada al 100%. Fase 3 avanzada (5 de 8 completadas). Fase 4 avanzada (3 de 5 completadas). Fase 2 avanzada (2 de 7 completadas).
 
 ---
 
@@ -312,9 +312,9 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
 | 4.1 | M-27 | ~~Persistencia de posiciones y saneamiento~~ | `store.js`, `TopologyEvents.js`, `TopologyLayout.js` | ✅ COMPLETADO |
-| 4.2 | M-31 | Separación de etiquetas (IP arriba / nombre abajo) | `TopologyRenderer.js` | Pendiente |
+| 4.2 | M-31 | ~~Separación y posicionamiento de etiquetas~~ | `TopologyRenderer.js`, `TopologyState.js`, `main.js`, `index.html` | ✅ COMPLETADO (posiciones arriba/abajo/der/izq/juntos/separados) |
 | 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` | Pendiente |
-| 4.4 | M-32 | Layout de árbol genealógico | `TopologyLayout.js`, `TopologyRenderer.js` | Pendiente |
+| 4.4 | M-32 | ~~Layout de árbol jerárquico y ortogonal~~ | `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyState.js` | ✅ COMPLETADO (DAG jerárquico + base de desconectados + ortogonal) |
 | 4.5 | M-29 | Motor de temas y transparencias | `TopologyRenderer.js`, nuevo `TopologyThemes.js` | Pendiente |
 
 ---
