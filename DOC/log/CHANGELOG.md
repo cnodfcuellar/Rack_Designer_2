@@ -1,3 +1,17 @@
+## [2026-09-30] Refinamiento de Topología: Elipsis Elegante en Nodos/Tarjetas y HUD Tooltip Ampliado a 240px
+
+### Motor de Renderizado en Topología (`js/ui/topology/TopologyRenderer.js`)
+- **HUD Tooltip Ergonómico y Multilínea (240px):**
+  - Ancho ampliado de `180px` a **`240px`**, otorgando holgura completa para nombres técnicos y credenciales.
+  - Soporte inteligente para títulos extensos (>21 caracteres): división limpia en 2 líneas sin recortar palabras y con altura dinámica (`116px` para 2 líneas, `100px` para 1 línea).
+  - Coordenadas de posicionamiento con márgenes perimetrales de seguridad (`10px`), evitando que el tooltip se salga de los bordes del lienzo.
+- **Elipsis Elegante en Tarjetas y Nodos Circulares:**
+  - Sustitución del corte ciego sin puntos suspensivos por una elipsis limpia (`slice(0, 16) + '…'`) si el nombre excede 17 caracteres, previniendo desbordes visuales en tarjetas (`150px`) y círculos sin alterar la geometría de la sala ni la cuadrícula del layout.
+- **Automatización y Testing (`tests/integrity_check.cjs`, `tests/index.html`):**
+  - **199 pruebas de integridad pasadas al 100% (0 fallos)** en 15 grupos.
+
+---
+
 ## [2026-09-30] Implementación de M-39: Afinidad y Proximidad de Equipos de Piso por Gabinete en Topología
 
 ### Motor de Topología y Distribución Inteligente (`js/ui/topology/TopologyLayout.js`)

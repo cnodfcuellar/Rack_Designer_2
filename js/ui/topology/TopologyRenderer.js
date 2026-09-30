@@ -333,7 +333,8 @@ function drawTopo() {
       // Renderizado de Etiquetas (Nombre e IP según configuración definida por el usuario)
       const namePos = window.TOPO_NAME_POS || 'bottom';
       const ipPos   = window.TOPO_IP_POS   || 'top';
-      const devName = (dev.name || '').slice(0, 18);
+      const rawDevName = dev.name || '';
+      const devName = rawDevName.length > 17 ? rawDevName.slice(0, 16) + '…' : rawDevName;
       const devIp   = dev.ip || '';
 
       function drawNodeName(x, y, align = 'center') {
@@ -455,7 +456,9 @@ function drawTopo() {
       ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
       ctx.shadowBlur = 6;
       ctx.shadowOffsetY = 1;
-      ctx.fillText(dev.name.slice(0, 20), cx + 36, cy + 18);
+      const rawCardName = dev.name || '';
+      const displayCardName = rawCardName.length > 17 ? rawCardName.slice(0, 16) + '…' : rawCardName;
+      ctx.fillText(displayCardName, cx + 36, cy + 18);
       ctx.shadowColor = 'transparent';
       ctx.shadowBlur = 0;
       ctx.shadowOffsetY = 0;
@@ -476,13 +479,37 @@ function drawTopo() {
     const dev = store.deviceById(hoveredNode);
     if (dev) {
       ctx.save();
-      const hudW = 180;
-      const hudH = 100;
-      let hudX = mousePos.rawX + 20;
-      let hudY = mousePos.rawY + 20;
+      const devFullName = dev.name || 'Desconocido';
+      let titleLines = [devFullName];
+      if (devFullName.length > 21 && devFullName.includes(' ')) {
+        const words = devFullName.split(' ');
+        let l1 = '';
+        let l2 = '';
+        for (const w of words) {
+          if ((l1 + ' ' + w).trim().length <= 21) {
+            l1 = (l1 + ' ' + w).trim();
+          } else {
+            l2 = (l2 + ' ' + w).trim();
+          }
+        }
+        if (l1 && l2) {
+          titleLines = [l1, l2];
+        }
+      }
+
+      const hudW = 240;
+      const padX = 14;
+      const titleLineH = 17;
+      const isMulti = titleLines.length > 1;
+      const hudH = isMulti ? 116 : 100;
+
+      let hudX = mousePos.rawX + 16;
+      let hudY = mousePos.rawY + 16;
       
-      if (hudX + hudW > W) hudX = mousePos.rawX - hudW - 20;
-      if (hudY + hudH > H) hudY = mousePos.rawY - hudH - 20;
+      if (hudX + hudW > W - 10) hudX = mousePos.rawX - hudW - 16;
+      if (hudX < 10) hudX = 10;
+      if (hudY + hudH > H - 10) hudY = mousePos.rawY - hudH - 16;
+      if (hudY < 10) hudY = 10;
 
       ctx.beginPath();
       ctx.roundRect(hudX, hudY, hudW, hudH, 8);
@@ -494,14 +521,20 @@ function drawTopo() {
 
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 13px "Space Grotesk", sans-serif';
-      ctx.fillText(dev.name || 'Desconocido', hudX + 12, hudY + 24);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+
+      titleLines.forEach((tl, i) => {
+        ctx.fillText(tl, hudX + padX, hudY + 12 + (i * titleLineH));
+      });
       
+      const propsStartY = hudY + 12 + (titleLines.length * titleLineH) + 6;
       ctx.fillStyle = '#94a3b8';
       ctx.font = '11px "JetBrains Mono", monospace';
-      ctx.fillText(`Tipo:  ${String(dev.type || 'unknown').toUpperCase()}`, hudX + 12, hudY + 44);
-      ctx.fillText(`IP:    ${dev.ip || 'N/A'}`, hudX + 12, hudY + 59);
-      ctx.fillText(`User:  ${dev.user || 'N/A'}`, hudX + 12, hudY + 74);
-      ctx.fillText(`Pass:  ${dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A'}`, hudX + 12, hudY + 89);
+      ctx.fillText(`Tipo:  ${String(dev.type || 'unknown').toUpperCase()}`, hudX + padX, propsStartY);
+      ctx.fillText(`IP:    ${dev.ip || 'N/A'}`, hudX + padX, propsStartY + 15);
+      ctx.fillText(`User:  ${dev.user || 'N/A'}`, hudX + padX, propsStartY + 30);
+      ctx.fillText(`Pass:  ${dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A'}`, hudX + padX, propsStartY + 45);
       
       ctx.restore();
     }

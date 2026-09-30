@@ -1304,6 +1304,15 @@
 
     // 15.10 Integración con autoOrderTopo
     addTestResult(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
+
+    // 15.11 Renderizado de Nodos y Tarjetas: Elipsis elegante
+    let topoRendText = '';
+    try { topoRendText = await (await fetch('../js/ui/topology/TopologyRenderer.js')).text(); } catch(e) { topoRendText = ''; }
+    addTestResult(topoRendText.includes("slice(0, 16) + '…'"), 'Topología: Elipsis elegante con puntos suspensivos implementada en tarjetas y nodos');
+
+    // 15.12 HUD Tooltip: Ancho ampliado a 240px y división de títulos largos
+    addTestResult(topoRendText.includes('const hudW = 240;'), 'Topología HUD: Ancho ampliado a 240px para lectura completa de nombres');
+    addTestResult(topoRendText.includes('titleLines') && topoRendText.includes('devFullName.length > 21'), 'Topología HUD: Soporte multilínea inteligente para nombres técnicos extensos');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

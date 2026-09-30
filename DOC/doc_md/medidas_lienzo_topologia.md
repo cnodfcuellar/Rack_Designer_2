@@ -103,16 +103,16 @@ Las líneas de red entre equipos se trazan mediante Curvas Bézier Cúbicas inte
 
 ## 6. Panel de Información Flotante (HUD Tooltip)
 
-Al pasar el cursor sobre un nodo del lienzo, se dibuja un HUD informativo cerca del puntero del ratón:
+Al pasar el cursor sobre un nodo del lienzo, se dibuja un HUD informativo cerca del puntero del ratón con soporte multilínea inteligente:
 
-*   **Dimensiones de Caja:** Ancho de **`180px`** y altura de **`100px`** con bordes de `8px`.
-*   **Fondo:** Color oscuro opaco al `95%` (`rgba(15, 23, 42, 0.95)`).
+*   **Dimensiones de Caja:** Ancho ergonómico ampliado de **`240px`** y altura dinámica (**`100px`** para 1 línea, **`116px`** para 2 líneas) con esquinas redondeadas de `8px`.
+*   **Fondo y Borde:** Color oscuro profundo al `95%` (`rgba(15, 23, 42, 0.95)`), con borde cromático de `2px` según la categoría del equipo (`TYPE_COLORS`).
 *   **Detalle de Posicionamiento:**
-    *   Espaciado del cursor: Desplazamiento de **`+20px`** en X e Y respecto a la posición del mouse.
-    *   Control de Límites: Si la caja sobrepasa el ancho del canvas ($W$), se desplaza hacia la izquierda del puntero. Si sobrepasa la altura ($H$), se desplaza hacia arriba.
+    *   Espaciado del cursor: Desplazamiento seguro de **`+16px`** en X e Y respecto a la posición del mouse.
+    *   Control de Límites Anti-desborde: Colchón perimetral de seguridad (`10px`). Si la caja sobrepasa el ancho del canvas ($W - 10px$), se proyecta hacia la izquierda del puntero. Si sobrepasa la altura ($H - 10px$), se proyecta hacia arriba.
 *   **Tipografía de Contenidos:**
-    *   Nombre del equipo: `bold 13px "Space Grotesk"` (altura Y: `+24px`).
-    *   Atributos (Tipo, IP, Usuario, Clave): `11px "JetBrains Mono"` espaciados verticalmente cada **`15px`** (alturas Y de `44px`, `59px`, `74px`, y `89px`).
+    *   Nombre del equipo: `bold 13px "Space Grotesk"`. Si el nombre es largo (>21 caracteres con espacios), se divide limpiamente en 2 líneas sin recortar palabras.
+    *   Atributos (Tipo, IP, Usuario, Clave): `11px "JetBrains Mono"` espaciados verticalmente cada **`15px`**.
 
 ---
 
@@ -124,12 +124,13 @@ Al pasar el cursor sobre un nodo del lienzo, se dibuja un HUD informativo cerca 
   NODO ESTILO CÍRCULO                      NODO ESTILO TARJETA (Width: 150px)
        ▲                                  ◄────────────── 150px ─────────────►
        │ Aureola: r + 4 (26px)            ┌──────────────────────────────────┐ ▲
-       ▼                                  │ ┌────┐  Nombre de Dispositivo    │ │ 50px
+       ▼                                  │ ┌────┐  Nombre (elipsis si >17)  │ │ 50px
      ┌───┐ ▲                              │ │Icon│  (12px, bold, white text) │ │
    ┌─┤img├─┐│                             │ └────┘  IP (11px, Mono, gray)    │ │
    │ └───┘ ││ Radio: 22px                 └──────────────────────────────────┘ ▼
    └───────┘▼                             ◄─20px─►◄───────────130px──────────►
    ◄─44px──►
+  Etiqueta con elipsis si >17 chars
 ```
 
 ### 🗺️ Diagrama del Flujo de Coordenadas de Cables Bézier

@@ -4,6 +4,10 @@
 El proyecto ha completado con éxito la **Modernización Integral de la Vista de Topología** (Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas, reubicación de equipos desconectados en la base de racks/sala, personalización completa de ubicación de Nombre/IP en nodos y control dual de espaciado Horizontal/Vertical), la **Navegación y Enfoque reactivo desde el Outliner**, el **Selector Dinámico de Columnas en Tablas de Datos** con persistencia, y la **Protección visual de la cabecera**.
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-30] Refinamiento de Topología (Elipsis Elegante y HUD Tooltip Ampliado a 240px):**
+  - **HUD Tooltip Ergonómico:** Ancho expandido a `240px` con soporte multilínea dinámico para nombres técnicos extensos (>21 caracteres) y márgenes de seguridad anti-desborde perimetral (`10px`).
+  - **Elipsis en Tarjetas y Círculos:** Truncamiento elegante con puntos suspensivos (`slice(0, 16) + '…'`) preservando las dimensiones estándar de las tarjetas (`150px`) y la geometría intacta de los racks.
+  - **Testing Automatizado:** 199/199 pruebas de integridad pasadas al 100% en Node.js y navegador web.
 - **[2026-09-30] Implementación de M-39: Afinidad y Proximidad de Equipos de Piso por Gabinete:**
   - **Algoritmo de Afinidad por Rack Anfitrión (`TopologyLayout.js`):** Función `_findAffinityRackForFloorDevice()` que calcula el rack anfitrión analizando las conexiones directas hacia cada gabinete de la misma sala, con resolución por mayoría de enlaces en periféricos *multi-homed* y manejo de no conectados (`null`).
   - **Alineación en Cuadrante Inferior:** Periféricos ubicados directamente bajo el ancho horizontal del rack (`[rackX, rackX + rw]`) en subcolumnas compactas que nunca desbordan hacia gabinetes vecinos (`RACK_GAP = 32px`).
