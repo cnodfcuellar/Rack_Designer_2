@@ -7,7 +7,7 @@
 - **Catálogo de Equipos y Familias:** Reorganizado en 7 familias comerciales estándar (`CATALOG_GROUPS`), reduciendo la altura a < 350px. Grupo consolidado "Redes" (switches, routers, firewalls, APs, patch panels). Categoría superior "Todos" e input reactivo de búsqueda en tiempo real `#catalog-search`.
 - **Motor Visual SVG-First:** Renderizado vectorial de alta fidelidad mediante 16 archivos SVG independientes con animaciones CSS `@keyframes` integradas por hardware (GPU). Inyección inline con caché en memoria (`SVG_INLINE_CACHE`) para soporte de congelamiento con `.status-dot`.
 - **Enrutamiento Físico de Cables:** Trazado ortogonal reactivo vía SVG sobre `#view-physical-content` con anclajes `data-port` y canaletas laterales.
-- **Vista Topológica (Canvas 2D):** Motor MVC con 5 archivos, nodos arrastrables, animaciones de paquetes y partículas en enlaces Bézier, layouts automático por racks y en árbol jerárquico (`DAG` padre-hijo ortogonal con desconectados en la base de rack/sala), control dual de espaciado interactivo a 60 FPS (slider H para espaciado horizontal de columnas internas de racks y slider V para separación vertical), personalización visual y posicional de etiquetas de nodos (nombre e IP independientes: arriba, abajo, izquierda, derecha, juntos, separados, ocultos), motor de temas y transparencias (patrones procedimentales `dots`, `grid`, `hexagon`, adaptación dark/light, canal alfa `TOPO_ALPHA` y modo heredado vs custom `TOPO_INHERIT_COLORS`), pan y zoom infinito, estilos card/circle.
+- **Vista Topológica (Canvas 2D):** Motor MVC con 5 archivos, nodos arrastrables, animaciones de paquetes y partículas en enlaces Bézier, layouts automático por racks y en árbol jerárquico (`DAG` padre-hijo ortogonal con desconectados en la base de rack/sala), control dual de espaciado interactivo a 60 FPS (slider H para espaciado horizontal de columnas internas de racks y slider V para separación vertical), personalización visual y posicional de etiquetas de nodos (nombre e IP independientes: arriba, abajo, izquierda, derecha, juntos, separados, ocultos), motor de temas y transparencias (patrones procedimentales `dots`, `grid`, `hexagon`, adaptación dark/light, canal alfa `TOPO_ALPHA` y modo heredado vs custom `TOPO_INHERIT_COLORS`), afinidad y proximidad de equipos de piso por gabinete (`M-39`) alineados bajo su rack anfitrión preservando la grilla ortogonal y línea de base uniforme, pan y zoom infinito, estilos card/circle.
 - **Inspector y Outliner Jerárquico:** CRUD integral de Salas, Racks y Equipos desde el Inspector con Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`), cálculo de U y borrado seguro con RBAC (`M-36`). Botones de cabecera (`+ Sala`, `+ Rack`, `+ Equipo`) y acciones inline (`✏️` y `🗑️`) en cada nodo del Outliner (`M-23`). Selector de ordenamiento en 4 modos (`slot`, `name-asc`, `name-desc`, `type`) (`M-38`). Inspector colapsable interactivo con expansión flex del Outliner (`M-24`).
 - **Control Maestro de Animaciones:** Interruptor en `.status-dot` que alterna `.no-animations`, pausando simultáneamente los LEDs de los equipos en la vista física, las partículas de red en topología y los efectos CSS globales.
 - **Drag & Drop:** Inserción de catálogo a rack, movimiento entre gabinetes, reordenamiento, soporte para equipos de piso.
@@ -17,24 +17,22 @@
 - **Auth/RBAC:** 3 roles (Admin/Editor/Viewer), PIN con SHA-256 (con fallback puro JS para file:// y LAN), sesión persistente a recargas F5 mediante `sessionStorage`.
 - **PWA:** Service Worker con precaché offline (`rack-designer-next-cache-v10`), inclusión de `html2canvas.min.js` y actualización automática mediante `reg.update()`.
 - **Blindaje Criptográfico en Reposo y Modo Dios (M-01):** Cifrado simétrico de credenciales y campos sensibles (`pass`) con prefijo `enc:v1:<iv>:<ciphertext>` en `localStorage` y backups `.rack` mediante `RackCrypto`. Descifrado transparente en memoria, enmascaramiento por defecto con `••••••••`, toggle individual interactivo en Inspector (`toggleDevicePasswordInspector`) y Modo Dios global para administradores (`SHOW_PASSWORDS`), con botón interactivo de ojo `#dev-pass-toggle` en modales.
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con 182 pruebas automáticas en 14 grupos (100% éxito, 0 fallas).
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con 196 pruebas automáticas en 15 grupos (100% éxito, 0 fallas).
 - **Documentación Completa:** README, ARCHITECTURE_GUIDE, CODEBASE_ORIENTATION_MAP, USER_MANUAL, ROADMAP_MEJORAS, INFORME_MEJORAS, CHANGELOG detallado.
 
 ## Current Issues & Technical Debt
-- **Puertos sin validación:** El modal de cables permite seleccionar puertos ya ocupados. Falta tracking de VLAN y estado de ocupación de puertos (`M-26`).
+- **Cableado frontal vs trasero:** Actualmente las conexiones no diferencian si un puerto está en la cara frontal o trasera de un equipo dual/profundo (`M-33`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 14 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (25 completadas, **¡Fase 0 y Fase 1 al 100%!**):
+Total de 12 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (28 completadas de 40 totales, **¡Fase 0 y Fase 1 al 100%!**):
 
 ### Fase 2 — Core de Datos y Puertos
-- Validación de ocupación de puertos y soporte VLAN (`M-26`).
 - Separación de cableado frontal vs. trasero (`M-33`).
-
-### Fase 2, 3 & 5 — Ergonomía, Exportación y Datos
-- Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).
-- Ocultar/mostrar columnas en tablas (`M-20`).
 - Plantilla completa de exportación CSV/Excel (`M-21`).
 - Importación masiva desde CSV/Excel (`M-22`).
+
+### Fase 3 — Ergonomía y Layout
+- Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).
 
 ### Fase 4 — Vista Física Interactiva y Topología
 - Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
@@ -58,3 +56,4 @@ Total de 14 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 - **Sep 2026 (Sprint 4):** Fidelidad de exportación PNG 1:1 con `html2canvas` (`M-37`), metadatos de inventario y edición en celda (`M-19`), buscador reactivo en modal de catálogo (`M-30`) y suite ampliada a 78 tests al 100%.
 - **Sep 2026 (Sprint 5):** Topología avanzada: Layout en árbol jerárquico ortogonal con desconectados al pie (`M-32`), separación de cabeceras de sala/rack, control dual de espaciado interactivo a 60 FPS (H y V) y posicionamiento granular de etiquetas de nodos IP/Nombre (`M-31`).
 - **Sep 2026 (Sprint 6):** Blindaje de Producción al 100% (Fase 0): Módulo de cifrado simétrico en reposo (`RackCrypto`, `M-01`), enmascaramiento y revelación granular de contraseñas por rol Admin con **Modo Dios** (`SHOW_PASSWORDS`) y toggles táctiles en Inspector y modal de equipos. 182 pruebas automáticas en 14 grupos al 100%.
+- **Sep 2026 (Sprint 7):** Topología Inteligente y Afinidad de Gabinete (M-39): Algoritmo de proximidad por rack anfitrión en `TopologyLayout.js` (`_findAffinityRackForFloorDevice`), cuadrante inferior alineado, línea de base uniforme y 196 pruebas automáticas en 15 grupos al 100%. Fase 4 avanzada a 5 de 6 mejoras completadas (83%).

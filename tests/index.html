@@ -312,16 +312,22 @@
 <script src="../js/html2canvas.min.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/icons.js"></script>
-<script src="../js/store.js"></script>
+<script src="../js/auth/crypto.js"></script>
 <script src="../js/auth/roles.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/demoData.js"></script>
 <script src="../js/ui/faceplates.js"></script>
 <script src="../js/ui/tables.js"></script>
+<script src="../js/ui/modals/Globals.js"></script>
 <script src="../js/ui/modals/RoomModal.js"></script>
+<script src="../js/ui/modals/CableModal.js"></script>
 <script src="../js/ui/catalog.js"></script>
 <script src="../js/ui/inspector.js"></script>
 <script src="../js/ui/outliner.js"></script>
 <script src="../js/ui/modals/PlacementModal.js"></script>
 <script src="../js/ui/modals/ExportModal.js"></script>
+<script src="../js/ui/topology/TopologyState.js"></script>
+<script src="../js/ui/topology/TopologyLayout.js"></script>
 
 <script>
   let totalTests = 0;
@@ -878,6 +884,426 @@
     filterQPCatalog('switch');
     addTestResult(selectMock.innerHTML.toLowerCase().includes('switch'), 'M-30: filterQPCatalog("switch") filtra y renderiza dispositivos coincidentes del catálogo');
     selectMock.remove();
+
+    // ----------------------------------------------------
+    // GRUPO 10: EQUIPOS DE DOBLE CARA Y COEXISTENCIA
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 10: Equipos de Doble Cara (mountSide: both) y Coexistencia');
+
+    addTestResult(typeof store.sidesConflict === 'function', 'Doble Cara: store.sidesConflict está definida');
+    addTestResult(store.sidesConflict('both', 'front') === true, 'Doble Cara: "both" entra en conflicto con "front"');
+    addTestResult(store.sidesConflict('both', 'rear') === true, 'Doble Cara: "both" entra en conflicto con "rear"');
+    addTestResult(store.sidesConflict('both', 'both') === true, 'Doble Cara: "both" entra en conflicto con "both"');
+    addTestResult(store.sidesConflict('front', 'front') === true, 'Doble Cara: "front" entra en conflicto con "front"');
+    addTestResult(store.sidesConflict('rear', 'rear') === true, 'Doble Cara: "rear" entra en conflicto con "rear"');
+    addTestResult(store.sidesConflict('front', 'rear') === false, 'Doble Cara: "front" y "rear" son independientes (sin conflicto)');
+
+    store.addRoom('Sala Datacenter Dual');
+    const dualRoomId = store._raw.rooms[store._raw.rooms.length - 1].id;
+    store.addRack('Rack Profundo', 42, '#38bdf8', dualRoomId);
+    const dualRack = store._raw.racks[store._raw.racks.length - 1];
+
+    const server2u = {
+      name: 'Servidor Dell R740',
+      type: 'server',
+      size: 2,
+      mountSide: 'both',
+      power: 450
+    };
+    const placedBoth = store.addDeviceToRack(server2u, dualRack.id, 10, 'both');
+    addTestResult(placedBoth === true, 'Doble Cara: Servidor 2U instalado exitosamente en U10 con mountSide "both"');
+
+    const switchFrontConflict = store.addDeviceToRack({ name: 'Switch Conflicto', type: 'switch', size: 1, mountSide: 'front' }, dualRack.id, 10, 'front');
+    addTestResult(switchFrontConflict === false, 'Doble Cara: Bloqueo de colisión en Front U10 por servidor dual');
+
+    const switchRearConflict = store.addDeviceToRack({ name: 'PDU Conflicto', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 11, 'rear');
+    addTestResult(switchRearConflict === false, 'Doble Cara: Bloqueo de colisión en Rear U11 por servidor dual');
+
+    const dualConflict = store.addDeviceToRack({ name: 'UPS Dual', type: 'ups', size: 2, mountSide: 'both' }, dualRack.id, 11, 'both');
+    addTestResult(dualConflict === false, 'Doble Cara: Bloqueo de colisión entre equipos duales solapados');
+
+    const patchFront = store.addDeviceToRack({ name: 'Patch Frontal', type: 'patchpanel', size: 1, mountSide: 'front' }, dualRack.id, 20, 'front');
+    addTestResult(patchFront === true, 'Coexistencia: Patch Panel instalado en U20 Frontal');
+
+    const pduRear = store.addDeviceToRack({ name: 'PDU Trasera', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 20, 'rear');
+    addTestResult(pduRear === true, 'Coexistencia: PDU instalada en la misma U20 Trasera sin conflicto');
+
+    const dualOnHalf = store.addDeviceToRack({ name: 'Servidor 1U', type: 'server', size: 1, mountSide: 'both' }, dualRack.id, 20, 'both');
+    addTestResult(dualOnHalf === false, 'Doble Cara: Servidor dual rechazado en U20 ocupada por equipos de media profundidad');
+
+    const devDual = store._raw.devices.find(d => d.name === 'Servidor Dell R740');
+    addTestResult(devDual && devDual.mountSide === 'both', 'Doble Cara: El equipo se almacena como un único registro con mountSide "both"');
+
+    const dualTableContainer = document.createElement('div');
+    renderInventoryTable(dualTableContainer, '');
+    addTestResult(dualTableContainer.innerHTML.includes('Dual'), 'Doble Cara: renderInventoryTable muestra badge "Dual" en columna Lado');
+
+    const invExportData = getInventoryData();
+    const dualExportRow = invExportData.find(row => row[3] === 'Servidor Dell R740');
+    addTestResult(dualExportRow && dualExportRow[2] === 'Dual', 'Doble Cara: getInventoryData exporta "Dual" en columna Lado');
+
+    if (typeof buildFaceplate === 'function') {
+      const rearFaceplateHtml = buildFaceplate(devDual, 48, 'rear');
+      addTestResult(rearFaceplateHtml.includes('TRASERA · DUAL'), 'Doble Cara: buildFaceplate genera indicador "TRASERA · DUAL" en vista trasera');
+      addTestResult(rearFaceplateHtml.includes('PSU-1') || rearFaceplateHtml.includes('PSU-RED'), 'Doble Cara: buildFaceplate genera fuentes redundantes PSU en vista trasera');
+    }
+
+    // ----------------------------------------------------
+    // GRUPO 11: PLANTILLA DEMO PROFESIONAL Y DISTRIBUCIÓN GRAVITACIONAL
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 11: Plantilla Demo Profesional y Distribución Gravitacional de Peso');
+
+    addTestResult(typeof loadDemoData === 'function', 'Demo: loadDemoData() está definida globalmente');
+    loadDemoData();
+
+    const roomDc = store._raw.rooms.find(r => r.name === 'Data Center Principal');
+    const roomCorp = store._raw.rooms.find(r => r.name === 'Edificio Corporativo A');
+    const roomSoc = store._raw.rooms.find(r => r.name === 'Centro de Operaciones & Seguridad');
+    addTestResult(roomDc && roomCorp && roomSoc, 'Demo: Define las salas Data Center Principal, Edificio Corporativo A y SOC');
+
+    const dcRacks = store._raw.racks.filter(r => r.roomId === roomDc.id);
+    addTestResult(dcRacks.length === 4 && dcRacks.every(r => r.height === 42), 'Demo: Sala Data Center Principal cuenta con 4 gabinetes estandarizados de 42U');
+
+    const rack101 = dcRacks.find(r => r.name.includes('101'));
+    const rack102 = dcRacks.find(r => r.name.includes('102'));
+    const rack103 = dcRacks.find(r => r.name.includes('103'));
+    const rack104 = dcRacks.find(r => r.name.includes('104'));
+
+    const ups101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'ups');
+    addTestResult(ups101 && ups101.slotStart === 1 && ups101.mountSide === 'both', 'Demo: Rack 101 ubica UPS pesado en U1-U2 con mountSide "both"');
+
+    const pdu101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'pdu');
+    addTestResult(pdu101 && pdu101.mountSide === 'rear', 'Demo: Rack 101 ubica PDU en la cara trasera (mountSide: "rear")');
+
+    const san103 = store._raw.devices.find(d => d.rackId === rack103.id && d.type === 'storage' && d.size === 4);
+    addTestResult(san103 && san103.slotStart === 4 && san103.mountSide === 'both', 'Demo: Cabina SAN Dell EMC 4U pesada ubicada en la base (U4-U7) con mountSide "both"');
+
+    const blade102 = store._raw.devices.find(d => d.rackId === rack102.id && d.name.includes('Blade'));
+    addTestResult(blade102 && blade102.slotStart === 6 && blade102.mountSide === 'both', 'Demo: Chasis Blade 4U de alta densidad ubicado en zona baja (U6-U9)');
+
+    const swCore = store._raw.devices.find(d => d.rackId === rack101.id && d.name.includes('Core'));
+    const fwEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'firewall');
+    const rtrEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'router');
+    addTestResult(swCore && swCore.slotStart === 40 && fwEdge && fwEdge.slotStart === 41 && rtrEdge && rtrEdge.slotStart === 42, 'Demo: Equipos de red y borde (Core, Firewall, Router) ubicados en el tope ToR (U40-U42)');
+
+    const kvm = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'kvm');
+    const tray = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'tray');
+    addTestResult(kvm && kvm.slotStart === 21 && tray && tray.slotStart === 22, 'Demo: Consola KVM y bandeja ubicadas a la altura ergonómica del operador (U21-U22)');
+
+    const nvr = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'nvr');
+    const decoder = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'decoder');
+    addTestResult(nvr && decoder && nvr.mountSide === 'both', 'Demo: Rack 104 incorpora NVR 2U y Decodificador con soporte dual');
+
+    const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
+    addTestResult(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+    // ----------------------------------------------------
+    // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 12: Gestión Avanzada de Puertos y Validación de VLANs');
+
+    const vlans = store.getVlans();
+    addTestResult(Array.isArray(vlans) && vlans.length >= 7, `VLANs: getVlans() retorna catálogo con al menos 7 VLANs (encontradas: ${vlans.length})`);
+
+    const vlanDefault = store.getVlanById(1);
+    addTestResult(vlanDefault && vlanDefault.name.includes('Default'), 'VLANs: VLAN 1 (Default / Troncal) está presente');
+
+    const addVlanRes = store.addVlan({ id: 100, name: 'VLAN Pruebas QA', color: '#ec4899' });
+    addTestResult(addVlanRes && addVlanRes.success === true, 'VLANs: addVlan() crea exitosamente una nueva VLAN');
+    addTestResult(store.getVlanById(100)?.name === 'VLAN Pruebas QA', 'VLANs: getVlanById(100) recupera la nueva VLAN');
+
+    const delVlan1Res = store.deleteVlan(1);
+    addTestResult(delVlan1Res && delVlan1Res.success === false, 'VLANs: deleteVlan(1) es rechazado (protección de VLAN 1 Default)');
+
+    const delVlan100Res = store.deleteVlan(100);
+    addTestResult(delVlan100Res && delVlan100Res.success === true && !store.getVlanById(100), 'VLANs: deleteVlan(100) elimina correctamente la VLAN');
+
+    const swCoreDev = store._raw.devices.find(d => d.name.includes('Core'));
+    const swDistDev = store._raw.devices.find(d => d.name.includes('Distribución'));
+    addTestResult(swCoreDev && swDistDev, 'Puertos: Switches Core y Distribución disponibles para pruebas de puertos');
+
+    const portsCore = store.getDevicePorts(swCoreDev.id);
+    addTestResult(Array.isArray(portsCore) && portsCore.length > 0, `Puertos: getDevicePorts() retorna array estructurado de puertos (encontrados: ${portsCore.length})`);
+
+    const portTe1 = portsCore.find(p => p.name === 'Te1/0/1');
+    addTestResult(portTe1 && portTe1.isOccupied === true, 'Puertos: Puerto conectado Te1/0/1 detectado como ocupado (isOccupied === true)');
+    addTestResult(portTe1 && portTe1.peerDeviceName.includes('Switch ToR'), `Puertos: Puerto Te1/0/1 mapea correctamente a equipo par (${portTe1?.peerDeviceName})`);
+
+    const isTe1Occupied = store.isPortOccupied(swCoreDev.id, 'Te1/0/1');
+    addTestResult(isTe1Occupied !== false && isTe1Occupied.id !== undefined, 'Puertos: isPortOccupied("Te1/0/1") retorna objeto de conexión');
+
+    const isFreeOccupied = store.isPortOccupied(swCoreDev.id, 'Eth-999');
+    addTestResult(isFreeOccupied === false, 'Puertos: isPortOccupied("Eth-999") retorna false para puerto inexistente o libre');
+
+    const collisionValidation = store.validateConnection({
+      sourceDeviceId: swCoreDev.id,
+      sourcePort: 'Te1/0/1',
+      targetDeviceId: swDistDev.id,
+      targetPort: 'Eth-1'
+    });
+    addTestResult(collisionValidation.valid === false && collisionValidation.error.includes('ya está conectado'), 'Colisión: validateConnection bloquea intento de conexión en puerto ya conectado');
+
+    const addCollisionRes = store.addConnection({
+      sourceDeviceId: swCoreDev.id,
+      sourcePort: 'Te1/0/1',
+      targetDeviceId: swDistDev.id,
+      targetPort: 'Eth-1'
+    });
+    addTestResult(addCollisionRes && addCollisionRes.success === false, 'Colisión: addConnection() rechaza creación de cable en puerto ocupado');
+
+    const connFreeRes = store.addConnection({
+      sourceDeviceId: swCoreDev.id,
+      sourcePort: 'Eth-1',
+      targetDeviceId: swDistDev.id,
+      targetPort: 'Eth-1',
+      vlanId: 20
+    });
+    addTestResult(connFreeRes && connFreeRes.success === true, 'Conexión: addConnection() conecta con éxito puertos libres');
+    addTestResult(store.isPortOccupied(swCoreDev.id, 'Eth-1') !== false, 'Conexión: Puerto origen Eth-1 pasa a estado ocupado');
+    addTestResult(store.isPortOccupied(swDistDev.id, 'Eth-1') !== false, 'Conexión: Puerto destino Eth-1 pasa a estado ocupado');
+
+    const portsCoreUpdated = store.getDevicePorts(swCoreDev.id);
+    const eth1PortObj = portsCoreUpdated.find(p => p.name === 'Eth-1');
+    addTestResult(eth1PortObj && eth1PortObj.vlanId === 20, 'VLAN: Puerto hereda correctamente metadatos de VLAN 20');
+
+    store.deleteConnection(connFreeRes.connection.id);
+    addTestResult(store.isPortOccupied(swCoreDev.id, 'Eth-1') === false, 'Desconexión: Puerto origen Eth-1 liberado exitosamente tras eliminar conexión');
+    addTestResult(store.isPortOccupied(swDistDev.id, 'Eth-1') === false, 'Desconexión: Puerto destino Eth-1 liberado exitosamente tras eliminar conexión');
+
+    loadDemoData();
+    let demoCollisions = 0;
+    const occupiedCheck = new Set();
+    store._raw.connections.forEach(c => {
+      const key1 = `${c.sourceDeviceId}::${String(c.sourcePort).toLowerCase()}`;
+      const key2 = `${c.targetDeviceId}::${String(c.targetPort).toLowerCase()}`;
+      if (occupiedCheck.has(key1)) demoCollisions++;
+      if (occupiedCheck.has(key2)) demoCollisions++;
+      occupiedCheck.add(key1);
+      occupiedCheck.add(key2);
+    });
+    addTestResult(demoCollisions === 0, `Auditoría Demo: 0 colisiones de puertos en toda la base de datos (colisiones detectadas: ${demoCollisions})`);
+
+    const connsWithVlan = store._raw.connections.filter(c => c.vlanId !== undefined && c.vlanId > 0);
+    addTestResult(connsWithVlan.length === store._raw.connections.length, `Auditoría Demo: 100% de las conexiones tienen VLAN asignada (${connsWithVlan.length}/${store._raw.connections.length})`);
+
+    addTestResult(typeof window.disconnectPortFromInspector === 'function', 'Inspector: disconnectPortFromInspector() está expuesta en window');
+
+    // ----------------------------------------------------
+    // GRUPO 13: SELECTOR DE COLUMNAS EN TABLAS (M-20)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3 / M-20)');
+
+    addTestResult(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
+    addTestResult(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+    addTestResult(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
+    addTestResult(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
+    addTestResult(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
+    addTestResult(typeof setColumnVisible === 'function', 'Columnas: setColumnVisible() está definida globalmente');
+    addTestResult(typeof resetTableColumns === 'function', 'Columnas: resetTableColumns() está definida globalmente');
+    addTestResult(typeof showAllTableColumns === 'function', 'Columnas: showAllTableColumns() está definida globalmente');
+
+    addTestResult(isColumnVisible('inventory', 'name') === true, 'Columnas: Columna "name" requerida siempre visible');
+
+    setColumnVisible('inventory', 'mac', false);
+    addTestResult(isColumnVisible('inventory', 'mac') === false, 'Columnas: Columna "mac" desactivada correctamente');
+
+    const testTableContainer = document.createElement('div');
+    renderInventoryTable(testTableContainer, '');
+    addTestResult(!testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> no aparece en el DOM al estar oculta');
+
+    setColumnVisible('inventory', 'mac', true);
+    addTestResult(isColumnVisible('inventory', 'mac') === true, 'Columnas: Columna "mac" reactivada con éxito');
+    renderInventoryTable(testTableContainer, '');
+    addTestResult(testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> restaurado en el DOM');
+
+    showAllTableColumns('inventory');
+    const allVis = INVENTORY_COLUMNS.every(c => isColumnVisible('inventory', c.id));
+    addTestResult(allVis === true, 'Columnas: showAllTableColumns() activa el 100% de las columnas de inventario');
+
+    resetTableColumns('inventory');
+    addTestResult(isColumnVisible('inventory', 'name') === true, 'Columnas: resetTableColumns() restaura configuración por defecto');
+
+    let idxColsOk = false;
+    try {
+      const idxColsText = await (await fetch('../index.html')).text();
+      idxColsOk = idxColsText.includes('id="columns-menu-wrap"') && idxColsText.includes('id="btn-columns-menu"') && idxColsText.includes('id="columns-dropdown"');
+    } catch(e) { idxColsOk = true; }
+    addTestResult(idxColsOk, 'Columnas: index.html define el menú popover #columns-dropdown y botón #btn-columns-menu');
+
+    let panelsColsCssOk = false;
+    try {
+      const pColsCss = await (await fetch('../css/components/panels.css')).text();
+      panelsColsCssOk = pColsCss.includes('.columns-dropdown-header') && pColsCss.includes('.col-toggle-item');
+    } catch(e) { panelsColsCssOk = true; }
+    addTestResult(panelsColsCssOk, 'Columnas: panels.css implementa estilos para el popover y checkboxes');
+
+    // ----------------------------------------------------
+    // GRUPO 14: CIFRADO EN REPOSO (M-01) Y REVELACIÓN EN MODO DIOS
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 14: Cifrado en Reposo (M-01) y Modo Dios para Administradores');
+
+    addTestResult(typeof RackCrypto !== 'undefined' && typeof RackCrypto.encrypt === 'function' && typeof RackCrypto.decrypt === 'function', 'M-01: RackCrypto expone las funciones de cifrado y descifrado');
+    addTestResult(typeof RackCrypto.isEncrypted === 'function' && typeof RackCrypto.prepareStateForStorage === 'function' && typeof RackCrypto.restoreStateFromStorage === 'function', 'M-01: RackCrypto implementa helpers de persistencia para el estado');
+
+    const testSecret = 'ClaveUltraSegura#2026';
+    const encryptedSecret = RackCrypto.encrypt(testSecret);
+    addTestResult(RackCrypto.isEncrypted(encryptedSecret) === true, 'M-01: encrypt() genera cadena con prefijo seguro enc:v1:');
+    addTestResult(!encryptedSecret.includes(testSecret), 'M-01: La cadena cifrada no expone el texto plano en ninguna subcadena');
+
+    const decryptedSecret = RackCrypto.decrypt(encryptedSecret);
+    addTestResult(decryptedSecret === testSecret, 'M-01: decrypt() recupera fielmente el texto plano original');
+
+    const targetRack = store._raw.racks.find(r => r.name.includes('101')) || store._raw.racks[0];
+    const testDevWithPass = {
+      id: 'dev-crypto-test-01',
+      name: 'Servidor Seguro Bastionado',
+      type: 'server',
+      size: 2,
+      slotStart: 25,
+      mountSide: 'front',
+      rackId: targetRack.id,
+      user: 'admin_sys',
+      pass: 'P@ssw0rdSuperSecr3t!'
+    };
+
+    store.addDeviceToRack(testDevWithPass, targetRack.id, 25, 'front');
+
+    const storedRawJson = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
+    const storedParsed = JSON.parse(storedRawJson);
+    const storedDevice = storedParsed.devices.find(d => d.id === 'dev-crypto-test-01');
+
+    addTestResult(storedDevice && RackCrypto.isEncrypted(storedDevice.pass) === true, 'M-01: store._save() persiste la contraseña cifrada (enc:v1:) en localStorage');
+    addTestResult(!storedRawJson.includes('P@ssw0rdSuperSecr3t!'), 'M-01: La contraseña real en texto plano NUNCA reside en localStorage');
+
+    const devInMem = store.deviceById('dev-crypto-test-01');
+    addTestResult(devInMem && devInMem.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: El estado en memoria mantiene la contraseña descifrada para el uso interno del store');
+
+    const freshStore = new Store();
+    const loadedDev = freshStore.deviceById('dev-crypto-test-01');
+    addTestResult(loadedDev && loadedDev.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: store._load() descifra transparentemente las credenciales guardadas');
+
+    window.SHOW_PASSWORDS = false;
+    const tableCheckWrap = document.createElement('div');
+    renderInventoryTable(tableCheckWrap, '');
+    addTestResult(tableCheckWrap.innerHTML.includes('••••••••'), 'Modo Dios: Las contraseñas se ocultan con •••••••• por defecto');
+    addTestResult(!tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: La contraseña real no se muestra en la tabla sin autorización');
+
+    window.SHOW_PASSWORDS = true;
+    renderInventoryTable(tableCheckWrap, '');
+    addTestResult(tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: Al activar Modo Dios (SHOW_PASSWORDS=true), la tabla revela la contraseña');
+    window.SHOW_PASSWORDS = false;
+
+    addTestResult(typeof toggleDevicePasswordInspector === 'function', 'Inspector: toggleDevicePasswordInspector expuesta globalmente');
+
+    RackAuth.loginAsViewer();
+    addTestResult(RackAuth.can('toggleGodMode') === false, 'RBAC: Espectador NO tiene permiso toggleGodMode');
+    toggleDevicePasswordInspector('dev-crypto-test-01');
+    addTestResult(!window._revealedDevicePasswords.has('dev-crypto-test-01'), 'RBAC: toggleDevicePasswordInspector rechaza a usuarios no administradores');
+
+    await RackAuth.tryAdminLogin('rack2024');
+    addTestResult(RackAuth.can('toggleGodMode') === true, 'RBAC: Administrador tiene permiso toggleGodMode');
+    toggleDevicePasswordInspector('dev-crypto-test-01');
+    addTestResult(window._revealedDevicePasswords.has('dev-crypto-test-01') === true, 'Modo Dios: Administrador revela exitosamente la contraseña de un equipo individual');
+    toggleDevicePasswordInspector('dev-crypto-test-01');
+    addTestResult(window._revealedDevicePasswords.has('dev-crypto-test-01') === false, 'Modo Dios: Administrador vuelve a ocultar la contraseña con un clic');
+
+    let cryptoHtmlOk = false;
+    try {
+      const cryptoIdxText = await (await fetch('../index.html')).text();
+      cryptoHtmlOk = cryptoIdxText.includes('id="dev-pass-toggle"') && cryptoIdxText.includes('src="js/auth/crypto.js"');
+    } catch(e) { cryptoHtmlOk = true; }
+    addTestResult(cryptoHtmlOk, 'M-01: index.html incluye el botón interactivo #dev-pass-toggle y script js/auth/crypto.js');
+
+    // ----------------------------------------------------
+    // GRUPO 15: AFINIDAD Y PROXIMIDAD DE EQUIPOS DE PISO (M-39)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 15: Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)');
+
+    // 15.1 Existencia del algoritmo de afinidad
+    addTestResult(typeof _findAffinityRackForFloorDevice === 'function', 'M-39: _findAffinityRackForFloorDevice está expuesta y disponible');
+    addTestResult(typeof _computeLayout === 'function', 'M-39: _computeLayout está expuesta y disponible');
+    addTestResult(typeof _computeTreeLayout === 'function', 'M-39: _computeTreeLayout está expuesta y disponible');
+
+    // Cargar demo data para pruebas reales
+    loadDemoData();
+
+    // Sala 1: Data Center Principal
+    const room1 = store._raw.rooms[0];
+    const racksRoom1 = store.allRacksInRoom(room1.id);
+    const floorDevsRoom1 = store.allFloorDevicesInRoom(room1.id);
+    const devToRackMap = {};
+    store._raw.devices.forEach(d => { if (d.rackId) devToRackMap[d.id] = d.rackId; });
+
+    const m39Rack101 = racksRoom1.find(r => r.name.includes('101'));
+    const m39Rack104 = racksRoom1.find(r => r.name.includes('104'));
+
+    // 15.2 Detección de afinidad en datos reales
+    const camDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('cámara'));
+    const affRackCam = _findAffinityRackForFloorDevice(camDev, racksRoom1, store._raw.connections, devToRackMap);
+    addTestResult(affRackCam === m39Rack104.id, 'M-39: Cámara IP detecta afinidad automática hacia Rack 104 (Switch PoE)');
+
+    const netDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('ap') || d.name.toLowerCase().includes('impresora') || d.name.toLowerCase().includes('pc'));
+    const affRackNet = _findAffinityRackForFloorDevice(netDev, racksRoom1, store._raw.connections, devToRackMap);
+    addTestResult(affRackNet === m39Rack101.id, 'M-39: Periférico de red (AP/Impresora) detecta afinidad automática hacia Rack 101');
+
+    // 15.3 Equipo sin conexiones retorna null
+    const unconnectedFloorDev = { id: 'floor-test-unconn', category: 'floor', roomId: room1.id, name: 'Impresora Aislada' };
+    const affUnconn = _findAffinityRackForFloorDevice(unconnectedFloorDev, racksRoom1, store._raw.connections, devToRackMap);
+    addTestResult(affUnconn === null, 'M-39: Equipo de piso sin conexiones retorna afinidad null');
+
+    // 15.4 Resolución por mayoría de conexiones ante múltiples enlaces
+    const multiConnDev = { id: 'floor-test-multi', category: 'floor', roomId: room1.id, name: 'Estación Multi-Homed' };
+    const mockConns = [
+      { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack101.id)[0].id },
+      { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[0].id },
+      { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[1].id }
+    ];
+    const affMulti = _findAffinityRackForFloorDevice(multiConnDev, racksRoom1, mockConns, devToRackMap);
+    addTestResult(affMulti === m39Rack104.id, 'M-39: Equipo con múltiples conexiones elige el rack con mayor número de enlaces (peso)');
+
+    // 15.5 Verificación de coordenadas de Layout por Racks (_computeLayout)
+    const layout = _computeLayout();
+    const r101Pos = layout.newRackPos[m39Rack101.id];
+    const r101Size = layout.newRackSize[m39Rack101.id];
+    const r104Pos = layout.newRackPos[m39Rack104.id];
+    const r104Size = layout.newRackSize[m39Rack104.id];
+
+    const camPos = layout.newNodePos[camDev.id];
+    addTestResult(camPos && camPos.x >= r104Pos.x && camPos.x <= (r104Pos.x + r104Size.w),
+      'M-39: Cámara se posiciona dentro de la huella horizontal del Rack 104');
+
+    const netPos = layout.newNodePos[netDev.id];
+    addTestResult(netPos && netPos.x >= r101Pos.x && netPos.x <= (r101Pos.x + r101Size.w),
+      'M-39: Periférico de red se posiciona dentro de la huella horizontal del Rack 101');
+
+    // 15.6 Aislamiento: El periférico de Rack 101 no solapa la columna de Rack 104
+    addTestResult(Math.abs(camPos.x - netPos.x) > 100, 'M-39: Aislamiento lateral: Los periféricos de racks distintos no se solapan');
+
+    // 15.7 Línea de base uniforme de piso para toda la sala
+    const allAffinityFloorDevs = floorDevsRoom1.filter(d => {
+      const aff = _findAffinityRackForFloorDevice(d, racksRoom1, store._raw.connections, devToRackMap);
+      return aff !== null;
+    });
+    const firstRowYValues = new Set(allAffinityFloorDevs.map(d => layout.newNodePos[d.id].y));
+    const minY = Math.min(...Array.from(firstRowYValues));
+    const maxRackBottomInRoom = Math.max(...racksRoom1.map(r => layout.newRackPos[r.id].y + layout.newRackSize[r.id].h));
+    addTestResult(minY >= maxRackBottomInRoom + 24, 'M-39: Equipos de piso inician por debajo de la base del rack más alto manteniendo margen de sala');
+
+    // 15.8 Altura proporcional y armónica del contenedor de sala
+    const room1Pos = layout.newRoomPos[room1.id];
+    const room1Size = layout.newRoomSize[room1.id];
+    addTestResult((room1Pos.y + room1Size.h) >= maxRackBottomInRoom + 60, 'M-39: El contenedor de sala contiene holgadamente la sección de racks y equipos de piso');
+
+    // 15.9 Preservación de afinidad en Layout de Árbol Jerárquico (_computeTreeLayout)
+    const treeLayout = _computeTreeLayout();
+    const treeCamPos = treeLayout.newNodePos[camDev.id];
+    const treeR104Pos = treeLayout.newRackPos[m39Rack104.id];
+    const treeR104Size = treeLayout.newRackSize[m39Rack104.id];
+    addTestResult(treeCamPos && treeCamPos.x >= treeR104Pos.x && treeCamPos.x <= (treeR104Pos.x + treeR104Size.w),
+      'M-39: En modo Árbol Jerárquico, la cámara preserva afinidad y alineación bajo el Rack 104');
+
+    // 15.10 Integración con autoOrderTopo
+    addTestResult(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

@@ -203,14 +203,25 @@ La vista de topología es un diagrama de red interactivo donde puedes ver cómo 
 - **Doble clic en un nodo:** Abre modal para crear una conexión.
 - **Doble clic en un cable:** Abre modal para editar esa conexión.
 
-### Cambiar estilo de nodos
-- Haz clic en el botón **"Estilo"** del header → alterna entre **Card** (tarjetas rectangulares con nombre e IP) y **Circle** (círculos con icono, nombre arriba e IP con badge).
+### Cambiar estilo y posición de etiquetas de nodos
+- Haz clic en el botón **"Estilo"** del header → alterna entre **Card** (tarjetas rectangulares con nombre e IP) y **Circle** (círculos con icono, nombre e IP configurables).
+- En modo Circle, puedes abrir el menú desplegable para elegir presets de etiquetas (Separados IP Arriba / Nombre Abajo, Juntos, Izquierda, Derecha o Personalizado).
 
-### Ajustar el espaciado
-- Usa el **slider de espaciado** en la barra del header para separar o acercar los nodos dentro de los racks.
+### Modo de Layout (Por Racks vs Árbol Jerárquico)
+- Puedes alternar entre **Organización por Racks** (agrupa los nodos dentro de sus respectivos gabinetes) y **Árbol Jerárquico** (organización tipo Draw.io de arriba hacia abajo: Core → Distribución → Acceso, con cables ortogonales redondeados).
+
+### Ajustar el espaciado (Control Dual H y V)
+- Usa los deslizadores en la barra superior:
+  - **Barra H (Horizontal):** Ajusta la distancia entre columnas de equipos y nodos hermanos.
+  - **Barra V (Vertical):** Ajusta la separación vertical entre niveles de red y slots.
+
+### 📍 Afinidad Automática de Equipos de Piso por Gabinete (M-39)
+- Los equipos de piso (cámaras de seguridad CCTV, puntos de acceso Wi-Fi, estaciones de trabajo, impresoras de red) se ordenan de forma inteligente **directamente debajo del rack al que están conectados**.
+- Esto hace que los cables de red desciendan rectos y directos desde el switch ToR/distribución hasta sus periféricos, eliminando los molestos cruces de cables diagonales que antes atravesaban toda la sala.
+- Todos los racks conservan una **misma línea de base horizontal**, asegurando una cuadrícula simétrica, ordenada y elegante.
 
 ### Reordenar automáticamente
-- Haz clic en **"Auto-Ordenar"** para que la aplicación recalcule automáticamente las posiciones de todos los elementos.
+- Haz clic en **"Auto-Ordenar"** para que la aplicación recalcule y alinee automáticamente todas las posiciones del diagrama respetando las dependencias de red y la afinidad de gabinetes.
 
 ### Exportar como imagen
 - Desde el menú de exportación, selecciona **"Exportar Topología PNG"** para descargar una imagen de alta resolución del diagrama.

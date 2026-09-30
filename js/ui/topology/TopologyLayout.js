@@ -24,6 +24,46 @@ function _nodeH() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_
 // Shared layout computation (returns rooms/racks/nodes/positions)
 // Does NOT mutate global state — call _applyLayout() to commit.
 // ──────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────
+// M-39: Afinidad de Equipos de Piso por Gabinete
+// Encuentra el rack anfitrión de la misma sala al que el equipo de piso
+// tiene mayor número de conexiones directas.
+// ──────────────────────────────────────────────────────────────────
+function _findAffinityRackForFloorDevice(dev, roomRacks, connections, devToRackMap) {
+  if (!roomRacks || roomRacks.length === 0) return null;
+  const roomRackSet = new Set(roomRacks.map(r => r.id));
+  const rackCounts = {};
+
+  (connections || []).forEach(c => {
+    let peerId = null;
+    if (c.sourceDeviceId === dev.id) peerId = c.targetDeviceId;
+    else if (c.targetDeviceId === dev.id) peerId = c.sourceDeviceId;
+
+    if (peerId && devToRackMap[peerId]) {
+      const peerRackId = devToRackMap[peerId];
+      if (roomRackSet.has(peerRackId)) {
+        rackCounts[peerRackId] = (rackCounts[peerRackId] || 0) + 1;
+      }
+    }
+  });
+
+  let bestRackId = null;
+  let maxCount = 0;
+  roomRacks.forEach(r => {
+    const cnt = rackCounts[r.id] || 0;
+    if (cnt > maxCount) {
+      maxCount = cnt;
+      bestRackId = r.id;
+    }
+  });
+
+  return bestRackId;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Shared layout computation (returns rooms/racks/nodes/positions)
+// Does NOT mutate global state — call _applyLayout() to commit.
+// ──────────────────────────────────────────────────────────────────
 function _computeLayout() {
   const nW = _nodeW();
   const nH = _nodeH();
@@ -58,26 +98,71 @@ function _computeLayout() {
     const racksRowW = rackLayouts.reduce((sum, l) => sum + l.rw, 0)
                     + Math.max(0, (rackLayouts.length - 1)) * RACK_GAP;
 
-    // ── 3. Floor-device grid (columnas separadas por colGap) ───────────
-    const FLOOR_COLS  = Math.max(1, Math.min(4, Math.ceil(Math.sqrt(floorDevs.length))));
-    const floorGridW  = floorDevs.length > 0 ? FLOOR_COLS * (nW + colGap) - colGap : 0;
-    const floorRows   = floorDevs.length > 0 ? Math.ceil(floorDevs.length / FLOOR_COLS) : 0;
-    const floorGridH  = floorRows * (nH + 20);
+    // ── 3. Clasificación de equipos de piso por afinidad a gabinetes (M-39) ──
+    const devToRackMap = {};
+    store._raw.devices.forEach(d => {
+      if (d.rackId) devToRackMap[d.id] = d.rackId;
+    });
 
-    // ── 4. Room dimensions ────────────────────────────────────────
-    const innerW   = Math.max(racksRowW, floorGridW, 300);
+    const conns = store._raw.connections || [];
+    const floorDevsByRack = {};
+    racks.forEach(r => { floorDevsByRack[r.id] = []; });
+    const unassignedFloorDevs = [];
+
+    floorDevs.forEach(dev => {
+      const affRackId = _findAffinityRackForFloorDevice(dev, racks, conns, devToRackMap);
+      if (affRackId && floorDevsByRack[affRackId]) {
+        floorDevsByRack[affRackId].push(dev);
+      } else {
+        unassignedFloorDevs.push(dev);
+      }
+    });
+
+    // Configurar columnas y filas de periféricos de piso para cada rack
+    let maxAffinityRows = 0;
+    const rackFloorConfig = {};
+
+    rackLayouts.forEach(l => {
+      const rDevs = floorDevsByRack[l.rack.id] || [];
+      if (rDevs.length === 0) {
+        rackFloorConfig[l.rack.id] = { cols: 1, rows: 0, devs: [] };
+        return;
+      }
+      const maxColsInRack = Math.max(1, Math.floor((l.rw + colGap) / (nW + colGap)));
+      const floorCols = Math.min(rDevs.length, maxColsInRack);
+      const floorRows = Math.ceil(rDevs.length / floorCols);
+      if (floorRows > maxAffinityRows) maxAffinityRows = floorRows;
+      rackFloorConfig[l.rack.id] = { cols: floorCols, rows: floorRows, devs: rDevs };
+    });
+
+    const floorRowH = nH + 20;
+    const UNASSIGNED_MAX_COLS = Math.max(1, Math.min(4, Math.ceil(Math.sqrt(unassignedFloorDevs.length))));
+    const unassignedRows = unassignedFloorDevs.length > 0 
+      ? Math.ceil(unassignedFloorDevs.length / UNASSIGNED_MAX_COLS) 
+      : 0;
+    const unassignedGridW = unassignedFloorDevs.length > 0 
+      ? UNASSIGNED_MAX_COLS * (nW + colGap) - colGap 
+      : 0;
+
+    const totalFloorH = (maxAffinityRows > 0 ? maxAffinityRows * floorRowH : 0)
+                      + (unassignedRows > 0 ? unassignedRows * floorRowH : 0)
+                      + (maxAffinityRows > 0 && unassignedRows > 0 ? 20 : 0);
+
+    // ── 4. Dimensiones de la sala ──────────────────────────────────
+    const innerW   = Math.max(racksRowW, unassignedGridW, 300);
     const maxRackH = rackLayouts.reduce((m, l) => Math.max(m, l.rh), 0);
     const roomW    = innerW + 2 * ROOM_PAD_X;
     const roomH    = ROOM_PAD_TOP + maxRackH
-                   + (floorDevs.length > 0 ? 24 + floorGridH : 0)
+                   + (totalFloorH > 0 ? 28 + totalFloorH : 0)
                    + ROOM_PAD_BOT;
 
     newRoomPos[room.id]  = { x: curRoomX, y: ROOM_MARGIN };
     newRoomSize[room.id] = { w: Math.max(roomW, 280), h: Math.max(roomH, 220) };
 
-    // ── 5. Position racks y nodos separados horizontalmente ─────────
+    // ── 5. Posicionar racks y nodos internos ───────────────────────
     let curRackX = curRoomX + ROOM_PAD_X;
     const rackTopY = ROOM_MARGIN + ROOM_PAD_TOP;
+    const floorBaseY = rackTopY + maxRackH + 28;
 
     rackLayouts.forEach(({ rack, devs, rackCols, numRows, rw, rh }) => {
       newRackPos[rack.id]  = { x: curRackX, y: rackTopY };
@@ -98,20 +183,46 @@ function _computeLayout() {
         };
       });
 
+      // ── 6. Equipos de piso con afinidad a este rack (M-39) ─────────
+      const fConf = rackFloorConfig[rack.id];
+      if (fConf && fConf.devs.length > 0) {
+        const fCols = fConf.cols;
+        const fDevs = fConf.devs;
+        const fNumRows = fConf.rows;
+
+        fDevs.forEach((fDev, fi) => {
+          const fc = fi % fCols;
+          const fr = Math.floor(fi / fCols);
+          const fRowCount = (fr === fNumRows - 1 && fDevs.length % fCols !== 0)
+            ? (fDevs.length % fCols)
+            : fCols;
+          const fRowW = fRowCount * nW + (fRowCount - 1) * colGap;
+          const fRowStartX = curRackX + (rw - fRowW) / 2 + nW / 2;
+
+          newNodePos[fDev.id] = {
+            x: fRowStartX + fc * (nW + colGap),
+            y: floorBaseY + fr * floorRowH + nH / 2
+          };
+        });
+      }
+
       curRackX += rw + RACK_GAP;
     });
 
-    // ── 6. Position floor devices in grid below racks ─────────────
-    const floorStartY = ROOM_MARGIN + ROOM_PAD_TOP + maxRackH + 24;
-    floorDevs.forEach((dev, fi) => {
-      const col = fi % FLOOR_COLS;
-      const row = Math.floor(fi / FLOOR_COLS);
-      const floorStartX = curRoomX + (roomW - floorGridW) / 2;
-      newNodePos[dev.id] = {
-        x: floorStartX + col * (nW + colGap) + nW / 2,
-        y: floorStartY + row * (nH + 20) + nH / 2
-      };
-    });
+    // ── 7. Equipos de piso no asignados (centrados al pie de la sala) ──
+    if (unassignedFloorDevs.length > 0) {
+      const unassignedStartY = floorBaseY + (maxAffinityRows > 0 ? maxAffinityRows * floorRowH + 20 : 0);
+      const startX = curRoomX + (roomW - unassignedGridW) / 2;
+
+      unassignedFloorDevs.forEach((dev, ui) => {
+        const col = ui % UNASSIGNED_MAX_COLS;
+        const row = Math.floor(ui / UNASSIGNED_MAX_COLS);
+        newNodePos[dev.id] = {
+          x: startX + col * (nW + colGap) + nW / 2,
+          y: unassignedStartY + row * floorRowH + nH / 2
+        };
+      });
+    }
 
     curRoomX += newRoomSize[room.id].w + ROOM_GAP;
   });
@@ -297,24 +408,63 @@ function _computeTreeLayout() {
     const racksRowW = rackLayouts.reduce((sum, l) => sum + l.rw, 0)
                     + Math.max(0, (rackLayouts.length - 1)) * RACK_GAP;
 
-    // Equipos de piso (separar conectados de desconectados)
-    const connFloorDevs   = floorDevs.filter(d => tiers[d.id] !== null);
-    const unconnFloorDevs = floorDevs.filter(d => tiers[d.id] === null);
+    // ── Clasificación de equipos de piso por afinidad de rack (M-39) ──
+    const devToRackMap = {};
+    store._raw.devices.forEach(d => {
+      if (d.rackId) devToRackMap[d.id] = d.rackId;
+    });
 
-    const FLOOR_COLS = Math.max(1, Math.min(6, Math.max(connFloorDevs.length, unconnFloorDevs.length)));
-    const connFloorRows   = connFloorDevs.length > 0 ? Math.ceil(connFloorDevs.length / FLOOR_COLS) : 0;
-    const unconnFloorRows = unconnFloorDevs.length > 0 ? Math.ceil(unconnFloorDevs.length / FLOOR_COLS) : 0;
-    const floorRows       = connFloorRows + unconnFloorRows;
-    const floorGridW      = floorDevs.length > 0 ? FLOOR_COLS * (nW + colGap) : 0;
-    const floorGridH      = floorRows * (nH + 24) + (connFloorRows > 0 && unconnFloorRows > 0 ? 20 : 0);
+    const floorDevsByRack = {};
+    racks.forEach(r => { floorDevsByRack[r.id] = []; });
+    const unassignedFloorDevs = [];
 
-    const innerW = Math.max(racksRowW, floorGridW, 300);
+    floorDevs.forEach(dev => {
+      const affRackId = _findAffinityRackForFloorDevice(dev, racks, conns, devToRackMap);
+      if (affRackId && floorDevsByRack[affRackId]) {
+        floorDevsByRack[affRackId].push(dev);
+      } else {
+        unassignedFloorDevs.push(dev);
+      }
+    });
+
+    let maxAffinityFloorRows = 0;
+    const rackFloorConfig = {};
+    const floorRowH = nH + 24;
+
+    rackLayouts.forEach(l => {
+      const rDevs = floorDevsByRack[l.rack.id] || [];
+      if (rDevs.length === 0) {
+        rackFloorConfig[l.rack.id] = { cols: 1, rows: 0, devs: [] };
+        return;
+      }
+      const maxColsInRack = Math.max(1, Math.floor((l.rw + colGap) / (nW + colGap)));
+      const floorCols = Math.min(rDevs.length, maxColsInRack);
+      const floorRows = Math.ceil(rDevs.length / floorCols);
+      if (floorRows > maxAffinityFloorRows) maxAffinityFloorRows = floorRows;
+      rackFloorConfig[l.rack.id] = { cols: floorCols, rows: floorRows, devs: rDevs };
+    });
+
+    const UNASSIGNED_MAX_COLS = Math.max(1, Math.min(6, unassignedFloorDevs.length));
+    const unassignedFloorRows = unassignedFloorDevs.length > 0 
+      ? Math.ceil(unassignedFloorDevs.length / UNASSIGNED_MAX_COLS) 
+      : 0;
+    const unassignedGridW = unassignedFloorDevs.length > 0 
+      ? UNASSIGNED_MAX_COLS * (nW + colGap) - colGap 
+      : 0;
+
+    const totalFloorH = (maxAffinityFloorRows > 0 ? maxAffinityFloorRows * floorRowH : 0)
+                      + (unassignedFloorRows > 0 ? unassignedFloorRows * floorRowH : 0)
+                      + (maxAffinityFloorRows > 0 && unassignedFloorRows > 0 ? 20 : 0);
+
+    const innerW = Math.max(racksRowW, unassignedGridW, 300);
     const maxRackBottom = rackLayouts.reduce((m, l) => Math.max(m, rackTopY + l.rh), rackTopY + 160);
     const roomW = innerW + 2 * ROOM_PAD_X;
-    const roomH = (maxRackBottom - ROOM_MARGIN) + (floorDevs.length > 0 ? 40 + floorGridH : 0) + ROOM_PAD_BOT;
+    const roomH = (maxRackBottom - ROOM_MARGIN) + (totalFloorH > 0 ? 30 + totalFloorH : 0) + ROOM_PAD_BOT;
 
     newRoomPos[room.id] = { x: curRoomX, y: ROOM_MARGIN };
     newRoomSize[room.id] = { w: roomW, h: Math.max(roomH, 260) };
+
+    const floorBaseY = maxRackBottom + 24;
 
     // Posicionar racks dentro de la sala
     let curRackX = curRoomX + ROOM_PAD_X;
@@ -322,7 +472,7 @@ function _computeTreeLayout() {
       newRackPos[rack.id] = { x: curRackX, y: rackTopY };
       newRackSize[rack.id] = { w: rw, h: rh };
 
-      // Ubicar cada dispositivo en su posición (X, Y)
+      // Ubicar cada dispositivo interno en su posición (X, Y)
       tierKeys.forEach(t => {
         const rowDevs = rackTiers[t];
         const rowY = startY + t * rowGap + nH / 2;
@@ -337,40 +487,45 @@ function _computeTreeLayout() {
         });
       });
 
+      // Equipos de piso afines a este rack (M-39)
+      const fConf = rackFloorConfig[rack.id];
+      if (fConf && fConf.devs.length > 0) {
+        const fCols = fConf.cols;
+        const fDevs = fConf.devs;
+        const fNumRows = fConf.rows;
+
+        fDevs.forEach((fDev, fi) => {
+          const fc = fi % fCols;
+          const fr = Math.floor(fi / fCols);
+          const fRowCount = (fr === fNumRows - 1 && fDevs.length % fCols !== 0)
+            ? (fDevs.length % fCols)
+            : fCols;
+          const fRowW = fRowCount * nW + (fRowCount - 1) * colGap;
+          const fRowStartX = curRackX + (rw - fRowW) / 2 + nW / 2;
+
+          newNodePos[fDev.id] = {
+            x: fRowStartX + fc * (nW + colGap),
+            y: floorBaseY + fr * floorRowH + nH / 2
+          };
+        });
+      }
+
       curRackX += rw + RACK_GAP;
     });
 
-    // Posicionar floor devices en la sala:
-    // Los conectados primero, y los NO conectados en la parte baja de la sala
-    if (floorDevs.length > 0) {
-      let floorCurrentY = maxRackBottom + 20;
+    // Posicionar floor devices no asignados o desconectados en la base de la sala
+    if (unassignedFloorDevs.length > 0) {
+      const unassignedStartY = floorBaseY + (maxAffinityFloorRows > 0 ? maxAffinityFloorRows * floorRowH + 20 : 0);
+      const unassignedStartX = curRoomX + (roomW - unassignedGridW) / 2;
 
-      if (connFloorDevs.length > 0) {
-        const connTotalW = Math.min(connFloorDevs.length, FLOOR_COLS) * (nW + colGap) - colGap;
-        const connStartX = curRoomX + (roomW - connTotalW) / 2;
-        connFloorDevs.forEach((dev, fi) => {
-          const c = fi % FLOOR_COLS;
-          const r = Math.floor(fi / FLOOR_COLS);
-          newNodePos[dev.id] = {
-            x: connStartX + c * (nW + colGap) + nW / 2,
-            y: floorCurrentY + r * (nH + 24) + nH / 2
-          };
-        });
-        floorCurrentY += connFloorRows * (nH + 24) + 20;
-      }
-
-      if (unconnFloorDevs.length > 0) {
-        const unconnTotalW = Math.min(unconnFloorDevs.length, FLOOR_COLS) * (nW + colGap) - colGap;
-        const unconnStartX = curRoomX + (roomW - unconnTotalW) / 2;
-        unconnFloorDevs.forEach((dev, fi) => {
-          const c = fi % FLOOR_COLS;
-          const r = Math.floor(fi / FLOOR_COLS);
-          newNodePos[dev.id] = {
-            x: unconnStartX + c * (nW + colGap) + nW / 2,
-            y: floorCurrentY + r * (nH + 24) + nH / 2
-          };
-        });
-      }
+      unassignedFloorDevs.forEach((dev, fi) => {
+        const c = fi % UNASSIGNED_MAX_COLS;
+        const r = Math.floor(fi / UNASSIGNED_MAX_COLS);
+        newNodePos[dev.id] = {
+          x: unassignedStartX + c * (nW + colGap) + nW / 2,
+          y: unassignedStartY + r * floorRowH + nH / 2
+        };
+      });
     }
 
     curRoomX += roomW + ROOM_GAP;
@@ -464,4 +619,17 @@ function resizeCanvas() {
   if (!canvas) return;
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
+}
+
+if (typeof window !== 'undefined') {
+  window._findAffinityRackForFloorDevice = _findAffinityRackForFloorDevice;
+  window._computeLayout = _computeLayout;
+  window._computeTreeLayout = _computeTreeLayout;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    _findAffinityRackForFloorDevice,
+    _computeLayout,
+    _computeTreeLayout
+  };
 }

@@ -217,14 +217,13 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 #### 3. Conclusión de Factibilidad
 La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS modular** es 100% compatible y viable para este rediseño móvil sin requerir dependencias externas ni reescritura del núcleo. El modelo de datos, la persistencia en `localStorage` y el Service Worker son idénticos; la adaptación radica exclusivamente en la capa de interacción visual (CSS y gestores de puntero/touch).
 
-### 🔌 Gestión Avanzada de Puertos y Validaciones de Conexión
-*   **Propuesta de Mejora:**
-    *   Implementar un **Submenú de Puertos** detallado para cada equipo donde se puedan visualizar y administrar las conexiones de red individuales.
-    *   Al crear una nueva conexión, los menús desplegables (selects) de puerto de origen y puerto de destino **solo deben mostrar los puertos que estén disponibles**, filtrando automáticamente los que ya se encuentren ocupados.
-    *   Añadir validaciones lógicas estrictas para evitar que, bajo ninguna circunstancia, se asigne o conecte un cable a un **puerto ocupado**.
-    *   Incorporar soporte para asignar e identificar propiedades de **VLAN** en cada puerto.
-    *   Refactorizar los **datos demo (`demoData.js`)** para que los ejemplos por defecto incluyan esta nueva estructura de puertos, VLANs y conexiones validadas.
-*   **Objetivo/Beneficio en Producción:** Aumentar el nivel de realismo y precisión en la documentación de red (DCIM). Esto evita errores de cableado lógico en el diseño, garantizando que el estado de los puertos refleje la capacidad física real del equipo.
+### 🔌 [COMPLETADO] Gestión Avanzada de Puertos y Validaciones de Conexión (M-26)
+*   **Estado:** Completado. Implementado en `store.js`, `CableModal.js`, `inspector.js` y `demoData.js`:
+    *   **Modelo de Puertos Estructurado:** `getDevicePorts(deviceId)` genera el inventario de puertos Ethernet y Fibra con su estado en tiempo real.
+    *   **Catálogo y CRUD de VLANs:** Métodos `getVlans()`, `getVlanById()`, `addVlan()`, `updateVlan()` y `deleteVlan()` con protección de la VLAN 1 (Default).
+    *   **Validación Estricta de Colisiones:** `validateConnection()` y `addConnection()` bloquean intentos de conectar puertos que ya estén ocupados (`isPortOccupied()`).
+    *   **Integración en Inspector:** Desconexión individual directa de puertos mediante `disconnectPortFromInspector(connId)`.
+    *   **Auditoría Demo Profesional:** Catálogo de 7 VLANs estandarizadas y 0 colisiones en la demo (`demoData.js`), validado en el Grupo 12 de la suite de integridad.
 
 ### 🕸️ Persistencia de Posiciones en la Vista de Topología
 *   **Propuesta de Mejora:** Implementar un mecanismo para **guardar las posiciones (coordenadas X, Y)** de los nodos (equipos, racks, salas) dentro de la Vista de Topología. Al mover un nodo manualmente, su nueva ubicación debería registrarse en el estado global (`store.js`) y persistir en el archivo `.rack` o `localStorage`.
@@ -255,6 +254,25 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
     *   **Control de separación horizontal:** Un slider o input numérico que permita ajustar la distancia entre nodos hermanos (mismo nivel jerárquico).
     *   **Control de separación vertical:** Un slider o input numérico que permita ajustar la distancia entre niveles padre-hijo del árbol.
 *   **Objetivo/Beneficio en Producción:** Ofrece una representación visual clara de la jerarquía lógica de la red (core → distribución → acceso), facilitando la comprensión de dependencias y la planificación de redundancia. Los controles de espaciado permiten adaptar el diagrama a diferentes densidades de equipos y tamaños de pantalla o exportación.
+
+### 📍 [COMPLETADO] Afinidad y Proximidad de Equipos de Piso por Gabinete en Topología (M-39)
+*   **Estado:** Completado. Implementado en `TopologyLayout.js` (`_findAffinityRackForFloorDevice`, `_computeLayout`, `_computeTreeLayout`) con:
+    *   **Detección de Rack Anfitrión:** Cálculo ponderado de afinidad analizando los enlaces de red (`connections`) de cada periférico hacia los switches/equipos de cada gabinete de la misma sala.
+    *   **Alineación en Cuadrante Inferior:** Submódulos de periféricos ubicados directamente bajo el eje horizontal (`minX` a `maxX`) del rack anfitrión, organizados en subcolumnas compactas que nunca desbordan el ancho del gabinete ni solapan gabinetes vecinos.
+    *   **Preservación de Cuadrícula y Armonía:** La línea de base vertical (`floorBaseY`) es uniforme para todos los gabinetes de la sala; los equipos sin conexión se posicionan ordenadamente al pie de la sala, y la altura total de la sala se calcula de forma reactiva adaptándose con holgura.
+*   **Problema / Limitación Previa:** En el motor de topología (`TopologyLayout.js`), los equipos de piso (`floor devices`) se ubicaban en una cuadrícula homogénea global al fondo de la sala (máximo 4 columnas) o en una fila horizontal general. Cuando un equipo de piso (p. ej. cámara IP, AP, impresora de red o teléfono VoIP) estaba conectado a un switch alojado en un rack específico (p. ej. Rack 101 o Rack 104), las líneas de cableado Bézier o enlaces ortogonales cruzaban horizontalmente toda la sala atravesando otros gabinetes, generando saturación visual ("spaghetti lines").
+*   **Propuesta de Mejora:** Implementar un algoritmo de **Afinidad por Gabinete (Rack Proximity Layout)** para equipos de piso en la Vista de Topología, ubicándolos lo más cercano posible al rack al que están conectados, **sin dañar ni alterar la armonía visual y la alineación estandarizada** de la sala:
+    *   **Asignación por Dependencia de Conexión:** El motor analiza la lista de conexiones (`connections`) del equipo de piso. Si está conectado a un switch, router o panel dentro de un gabinete determinado, hereda dicho rack como su *Gabinete Anfitrión*.
+    *   **Cuadrante Inferior Dedicado por Rack:** En lugar de una cuadrícula desvinculada al fondo, los equipos de piso se agrupan en columnas o submódulos alineados verticalmente justo debajo del eje horizontal (`minX` a `maxX`) del rack al que pertenecen.
+    *   **Preservación de la Armonía y Cuadrícula:**
+        *   Los periféricos se distribuyen en filas compactas bajo el ancho del rack anfitrión, respetando los mismos pasos de espaciado técnico (`colGap` horizontal y `rowGap` vertical) regulados por los controles de la barra superior.
+        *   Si varios equipos de piso dependen del mismo gabinete, se organizan en sub-filas simétricas sin desbordar el margen lateral hacia los gabinetes contiguos (`RACK_GAP = 32px`), evitando solapamientos con las columnas de otros racks.
+        *   Los equipos de piso sin conexiones activas (*unconnected*) se mantienen en una zona neutra o centrada al final, preservando la limpieza del lienzo.
+        *   La altura total del contenedor de la sala se calcula de forma reactiva y uniforme considerando el rack con mayor número de periféricos adyacentes, manteniendo la base de la sala plana y elegante.
+*   **Objetivo/Beneficio en Producción:**
+    *   **Trazado de cables limpio y directo:** Elimina cruces horizontales masivos de cables a lo largo de la sala; los cables descienden directamente desde el switch ToR/distribución hasta sus periféricos adyacentes al pie.
+    *   **Lectura arquitectónica instantánea:** Los operadores identifican de un solo vistazo qué cámaras, puntos de acceso o estaciones de trabajo están alimentados por el Switch PoE de cada rack.
+    *   **Geometría armónica:** El diagrama conserva su diseño ortogonal, proporciones matemáticas y simetría profesional sin romper las pautas estéticas ya consolidadas.
 
 ### 🔌 Sistema de Cableado Mejorado (Frontal vs Trasero)
 *   **Problema:** El sistema de cableado actual no distingue entre los equipos montados en la parte frontal y los equipos montados en la parte trasera del rack.

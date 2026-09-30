@@ -77,6 +77,8 @@ loadScript('../js/ui/outliner.js');
 loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
 loadScript('../js/ui/faceplates.js');
+loadScript('../js/ui/topology/TopologyState.js');
+loadScript('../js/ui/topology/TopologyLayout.js');
 loadScript('../js/demoData.js');
 
 // --- 2. Framework Minimalista de Aserciones ---
@@ -841,6 +843,102 @@ async function runTests() {
   const updatedHtmlCrypto = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
   assert(updatedHtmlCrypto.includes('id="dev-pass-toggle"'), 'M-01: index.html incluye el botón interactivo #dev-pass-toggle en el formulario');
   assert(updatedHtmlCrypto.includes('src="js/auth/crypto.js"'), 'M-01: index.html incluye el script js/auth/crypto.js');
+
+  // ----------------------------------------------------
+  // GRUPO 15: AFINIDAD Y PROXIMIDAD DE EQUIPOS DE PISO (M-39)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 15: Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)');
+
+  // 15.1 Existencia del algoritmo de afinidad
+  assert(typeof _findAffinityRackForFloorDevice === 'function', 'M-39: _findAffinityRackForFloorDevice está expuesta y disponible');
+  assert(typeof _computeLayout === 'function', 'M-39: _computeLayout está expuesta y disponible');
+  assert(typeof _computeTreeLayout === 'function', 'M-39: _computeTreeLayout está expuesta y disponible');
+
+  // Cargar demo data para pruebas reales
+  loadDemoData();
+
+  // Sala 1: Data Center Principal
+  const room1 = store._raw.rooms[0];
+  const racksRoom1 = store.allRacksInRoom(room1.id);
+  const floorDevsRoom1 = store.allFloorDevicesInRoom(room1.id);
+  const devToRackMap = {};
+  store._raw.devices.forEach(d => { if (d.rackId) devToRackMap[d.id] = d.rackId; });
+
+  const m39Rack101 = racksRoom1.find(r => r.name.includes('101'));
+  const m39Rack104 = racksRoom1.find(r => r.name.includes('104'));
+
+  // 15.2 Detección de afinidad en datos reales
+  // Las cámaras están conectadas a swPoeCctvId en Rack 104
+  const camDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('cámara'));
+  const affRackCam = _findAffinityRackForFloorDevice(camDev, racksRoom1, store._raw.connections, devToRackMap);
+  assert(affRackCam === m39Rack104.id, 'M-39: Cámara IP detecta afinidad automática hacia Rack 104 (Switch PoE)');
+
+  // La impresora o AP están conectados a swDistId en Rack 101
+  const netDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('ap') || d.name.toLowerCase().includes('impresora') || d.name.toLowerCase().includes('pc'));
+  const affRackNet = _findAffinityRackForFloorDevice(netDev, racksRoom1, store._raw.connections, devToRackMap);
+  assert(affRackNet === m39Rack101.id, 'M-39: Periférico de red (AP/Impresora) detecta afinidad automática hacia Rack 101');
+
+  // 15.3 Equipo sin conexiones retorna null
+  const unconnectedFloorDev = { id: 'floor-test-unconn', category: 'floor', roomId: room1.id, name: 'Impresora Aislada' };
+  const affUnconn = _findAffinityRackForFloorDevice(unconnectedFloorDev, racksRoom1, store._raw.connections, devToRackMap);
+  assert(affUnconn === null, 'M-39: Equipo de piso sin conexiones retorna afinidad null');
+
+  // 15.4 Resolución por mayoría de conexiones ante múltiples enlaces
+  const multiConnDev = { id: 'floor-test-multi', category: 'floor', roomId: room1.id, name: 'Estación Multi-Homed' };
+  const mockConns = [
+    { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack101.id)[0].id },
+    { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[0].id },
+    { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[1].id }
+  ];
+  const affMulti = _findAffinityRackForFloorDevice(multiConnDev, racksRoom1, mockConns, devToRackMap);
+  assert(affMulti === m39Rack104.id, 'M-39: Equipo con múltiples conexiones elige el rack con mayor número de enlaces (peso)');
+
+  // 15.5 Verificación de coordenadas de Layout por Racks (_computeLayout)
+  const layout = _computeLayout();
+  const r101Pos = layout.newRackPos[m39Rack101.id];
+  const r101Size = layout.newRackSize[m39Rack101.id];
+  const r104Pos = layout.newRackPos[m39Rack104.id];
+  const r104Size = layout.newRackSize[m39Rack104.id];
+
+  // Las cámaras deben estar dentro de la columna horizontal de Rack 104
+  const camPos = layout.newNodePos[camDev.id];
+  assert(camPos && camPos.x >= r104Pos.x && camPos.x <= (r104Pos.x + r104Size.w),
+    'M-39: Cámara se posiciona dentro de la huella horizontal del Rack 104');
+
+  // El periférico de red debe estar dentro de la huella horizontal de Rack 101
+  const netPos = layout.newNodePos[netDev.id];
+  assert(netPos && netPos.x >= r101Pos.x && netPos.x <= (r101Pos.x + r101Size.w),
+    'M-39: Periférico de red se posiciona dentro de la huella horizontal del Rack 101');
+
+  // 15.6 Aislamiento: El periférico de Rack 101 no solapa la columna de Rack 104
+  assert(Math.abs(camPos.x - netPos.x) > 100, 'M-39: Aislamiento lateral: Los periféricos de racks distintos no se solapan');
+
+  // 15.7 Línea de base uniforme de piso para toda la sala
+  const allAffinityFloorDevs = floorDevsRoom1.filter(d => {
+    const aff = _findAffinityRackForFloorDevice(d, racksRoom1, store._raw.connections, devToRackMap);
+    return aff !== null;
+  });
+  const firstRowYValues = new Set(allAffinityFloorDevs.map(d => layout.newNodePos[d.id].y));
+  // La primera fila de cada grupo de afinidad comparte la misma cota Y inicial (o paso simétrico)
+  const minY = Math.min(...Array.from(firstRowYValues));
+  const maxRackBottomInRoom = Math.max(...racksRoom1.map(r => layout.newRackPos[r.id].y + layout.newRackSize[r.id].h));
+  assert(minY >= maxRackBottomInRoom + 24, 'M-39: Equipos de piso inician por debajo de la base del rack más alto manteniendo margen de sala');
+
+  // 15.8 Altura proporcional y armónica del contenedor de sala
+  const room1Pos = layout.newRoomPos[room1.id];
+  const room1Size = layout.newRoomSize[room1.id];
+  assert((room1Pos.y + room1Size.h) >= maxRackBottomInRoom + 60, 'M-39: El contenedor de sala contiene holgadamente la sección de racks y equipos de piso');
+
+  // 15.9 Preservación de afinidad en Layout de Árbol Jerárquico (_computeTreeLayout)
+  const treeLayout = _computeTreeLayout();
+  const treeCamPos = treeLayout.newNodePos[camDev.id];
+  const treeR104Pos = treeLayout.newRackPos[m39Rack104.id];
+  const treeR104Size = treeLayout.newRackSize[m39Rack104.id];
+  assert(treeCamPos && treeCamPos.x >= treeR104Pos.x && treeCamPos.x <= (treeR104Pos.x + treeR104Size.w),
+    'M-39: En modo Árbol Jerárquico, la cámara preserva afinidad y alineación bajo el Rack 104');
+
+  // 15.10 Integración con autoOrderTopo
+  assert(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

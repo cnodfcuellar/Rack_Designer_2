@@ -590,14 +590,19 @@ drawTopo() se ejecuta 60 veces por segundo (requestAnimationFrame)
 
 ### Layout automático
 
-El algoritmo en `TopologyLayout.js` organiza:
+El motor en `TopologyLayout.js` implementa dos modos de distribución y algoritmos de contención armónica:
 
-1. **Salas** horizontalmente con 60px de espacio entre ellas
-2. **Racks** horizontalmente dentro de cada sala, con 32px de gap
-3. **Equipos** verticalmente apilados dentro de cada rack (espaciado configurable con slider)
-4. **Equipos de piso** en grilla debajo de los racks (máx 4 columnas)
+1. **Salas (Rooms):** Distribuidas horizontalmente con 60px de separación entre ellas y padding perimetral de 80px (`ROOM_MARGIN`).
+2. **Racks (Gabinetes):** Distribuidos horizontalmente en cada sala con `RACK_GAP = 32px` y padding interno de 16px.
+3. **Equipos montados en rack:** Apilados verticalmente dentro de las cotas de su rack con espaciado vertical adaptable.
+4. **Equipos de piso (Floor Devices - M-39):**
+   - Agrupación por **afinidad ponderada al rack anfitrión** (`_findAffinityRackForFloorDevice()`): Se conectan y alinean automáticamente justo debajo del gabinete con el que tienen mayor cableado o enlace directo.
+   - **Línea de base uniforme:** Se sitúan a `floorBaseY = rackTopY + maxRackH + 28px`, garantizando armonía estética entre racks de alturas desiguales en la misma sala.
+   - **Centrado y escalonamiento:** Centrados en el eje X del rack anfitrión con apilamiento vertical ordenado (`+44px` por periférico adicional) sin solapar racks contiguos (`RACK_GAP = 32px`).
+   - Periféricos huérfanos o sin conexiones directas se distribuyen de forma equitativa bajo el primer rack disponible de la sala.
+5. **Layout en Árbol Jerárquico (M-32):** Algoritmo de árbol genealógico DAG (Core → Distribution → Access → Floor/Leaf) con trazado de cableado ortogonal/manhattan y base inferior para nodos desconectados.
 
-El slider `#topo-spacing` controla el espaciado vertical entre nodos (`window.TOPO_SPACING`).
+Los sliders `#topo-spacing-h` y `#topo-spacing-v` controlan independientemente el espaciado horizontal y vertical en tiempo real a 60 FPS con presets ('compact', 'normal', 'wide').
 
 ### Persistencia de posiciones
 

@@ -47,14 +47,14 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-17 | ~~Documento de medidas de interfaz~~ | ✅ COMPLETADO |
 | M-18 | Tema Sepia + visibilidad del selector de temas | 🎨 UX |
 | M-19 | ~~Propiedades faltantes en tabla de inventario~~ | ✅ COMPLETADO |
-| M-20 | Ocultar/mostrar columnas en tablas | ⚙️ UX |
+| M-20 | ~~Ocultar/mostrar columnas en tablas~~ | ✅ COMPLETADO |
 | M-21 | Plantilla completa de exportación CSV/Excel | 📋 Datos |
 | M-22 | Importación masiva desde CSV/Excel | 📥 Datos |
 | M-23 | ~~Controles de edición/creación en el Outliner~~ | ✅ COMPLETADO |
 | M-24 | ~~Inspector colapsable en panel derecho~~ | ✅ COMPLETADO |
 | M-25A | Diseño adaptativo y responsive en modo Desktop y Laptops | 🖥️ UX / Layout |
 | M-25B | Modo móvil y tablet (Estudio de factibilidad y paridad funcional 100%) | 📱 UX |
-| M-26 | Gestión avanzada de puertos y validaciones | 🔌 Core |
+| M-26 | ~~Gestión avanzada de puertos y validaciones~~ | ✅ COMPLETADO |
 | M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
 | M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
 | M-29 | ~~Motor de temas y transparencias en topología~~ | ✅ COMPLETADO |
@@ -67,9 +67,10 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-36 | ~~Creación, edición y eliminación de salas y racks desde el Inspector~~ | ✅ COMPLETADO |
 | M-37 | ~~Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas)~~ | ✅ COMPLETADO |
 | M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
+| M-39 | ~~Afinidad y proximidad de equipos de piso por gabinete en topología~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **25 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-23]✓`, `[M-24]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓` y `[M-38]✓`. Total de tareas pendientes: **14**. ¡Fase 0 y Fase 1 completadas al 100%! Fase 3 avanzada (5 de 8 completadas). Fase 4 avanzada (4 de 5 completadas). Fase 2 avanzada (2 de 7 completadas).
+> **28 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-20]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓` y `[M-39]✓`. Total de tareas pendientes: **12** (total general: 40 mejoras). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (4 de 7 completadas). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (5 de 6 completadas).
 
 ---
 
@@ -125,18 +126,19 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-36 | ~~CRUD Salas/Racks en Inspector~~ | ✅ COMPLETADO | Soporte completo para crear, editar y eliminar salas y racks directamente desde `inspector.js`. |
 | M-37 | ~~Exportación fiel (html2canvas)~~ | ✅ COMPLETADO | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
 | M-38 | ~~Opciones de orden en Outliner~~ | ✅ COMPLETADO | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
+| M-39 | ~~Afinidad de equipos de piso en topología~~ | ✅ COMPLETADO | Agrupación ponderada por rack anfitrión en topología, cuadrante inferior alineado, línea de base uniforme y contención reactiva en `TopologyLayout.js`. |
 
-### Resumen de Complejidad (Tareas Pendientes: 15)
+### Resumen de Complejidad (Tareas Pendientes: 12)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
 | 🟡 Baja (2) | 0 | *(Todas completadas)* |
-| 🟠 Media (3) | 6 | M-03, M-18, M-20, M-21, M-25A, M-33 |
-| 🔴 Alta (4) | 6 | M-01, M-04, M-22, M-26, M-28, M-34 |
+| 🟠 Media (3) | 5 | M-03, M-18, M-21, M-25A, M-33 |
+| 🔴 Alta (4) | 4 | M-04, M-22, M-28, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(24 Completadas: M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-23, M-24, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38)*
+*(28 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-20, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39)*
 
 ---
 
@@ -179,6 +181,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-31 | ~~Separación etiquetas topología~~ | ✅ COMPLETADO | IP y nombre independientes con posiciones configurables (arriba/abajo/der/izq). |
 | M-32 | ~~Layout de árbol jerárquico~~ | ✅ COMPLETADO | Visualización clara de la jerarquía de red (Core, Distribución, Acceso) ortogonal y espaciado H/V. |
 | M-33 | Cableado frontal vs trasero | ⚡ P3 | Distingue puertos según la cara de montaje físico del equipo. |
+| M-39 | ~~Afinidad equipos piso por rack~~ | ✅ COMPLETADO | Agrupa periféricos bajo el rack conectado eliminando cruces diagonales sin alterar la cuadrícula. |
 | M-38 | ~~Opciones de orden Outliner~~ | ✅ COMPLETADO | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
 | M-25A | Responsive Desktop / Laptops | 🔥 P2 | Adaptación fluida para laptops (1366x768) y pantallas de escritorio, colapso de paneles y grid fluido. |
 | M-34 | Drag-to-Connect en vista física | 🔥 P2 | Revoluciona la experiencia de cableado; elimina formularios modales lentos. |
@@ -280,7 +283,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
-| 2.1 | M-26 | Modelo de puertos avanzado + validaciones | `store.js`, `CableModal.js`, `demoData.js` | Pendiente |
+| 2.1 | M-26 | ~~Modelo de puertos avanzado + validaciones~~ | `store.js`, `CableModal.js`, `demoData.js` | ✅ COMPLETADO (VLAN CRUD, validación colisión puertos, getDevicePorts) |
 | 2.2 | M-33 | Cableado frontal vs trasero | `store.js`, `CableModal.js`, `rack.js` | Pendiente |
 | 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` | Pendiente |
 | 2.4 | M-19 | ~~Propiedades faltantes en tabla inventario~~ | `tables.js`, `ExportModal.js` | ✅ COMPLETADO (columnas tamaño/skin/notas + inline edit + exportación) |
@@ -303,7 +306,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 3.5 | M-38 | ~~Opciones de ordenamiento en Outliner~~ | `outliner.js`, `index.html`, `panels.css` | ✅ COMPLETADO (selector 4 modos: slot, name-asc, name-desc, type) |
 | 3.6 | M-24 | ~~Inspector colapsable~~ | `inspector.js`, `index.html`, `layout.css`, `panels.css` | ✅ COMPLETADO (toggle colapsable + expansión flex de Outliner) |
 | 3.7 | M-36 | ~~CRUD Salas/Racks desde Inspector~~ | `inspector.js`, `panels.css` | ✅ COMPLETADO (CRUD completo salas/racks/equipos + empty state) |
-| 3.8 | M-20 | Ocultar/mostrar columnas | `tables.js` | Pendiente |
+| 3.8 | M-20 | ~~Ocultar/mostrar columnas~~ | `tables.js`, `index.html`, `panels.css` | ✅ COMPLETADO (popover #columns-dropdown, 18 columnas inventario, 10 conexiones, persistencia localStorage) |
 | 3.9 | M-25A | Diseño adaptativo Desktop / Laptops | `layout.css`, `panels.css`, `main.js` | Pendiente (Breakpoints laptops/desktops, auto-colapso paneles y flex grid) |
 
 ---
@@ -320,6 +323,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` | Pendiente |
 | 4.4 | M-32 | ~~Layout de árbol jerárquico y ortogonal~~ | `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyState.js` | ✅ COMPLETADO (DAG jerárquico + base de desconectados + ortogonal) |
 | 4.5 | M-29 | ~~Motor de temas y transparencias~~ | `TopologyRenderer.js` | ✅ COMPLETADO (patrones dots/grid/hex, fondos light/dark, canal alfa y herencia cromática) |
+| 4.6 | M-39 | ~~Afinidad y proximidad de equipos de piso por gabinete~~ | `TopologyLayout.js` | ✅ COMPLETADO (agrupación por cuadrante inferior de rack + base uniforme + 14 tests) |
 
 ---
 
@@ -544,7 +548,7 @@ graph LR
 | **Fase 1** — Quick Wins | 2-3 días | Semana 2 | M-10, M-13, M-14, M-15, M-09, M-16 |
 | **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22 |
 | **Fase 3** — Navegación & CRUD | 1-2 semanas | Semana 5-6 | M-11, M-12, M-30, M-23, M-38, M-24, M-36, M-20 |
-| **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | M-31, M-28, M-32, M-29 *(M-27 completado)* |
+| **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | M-28 *(M-27, M-29, M-31, M-32, M-39 completados)* |
 | **Fase 5** — Rendimiento & Calidad | 1-2 semanas | Semana 9-10 | M-03, M-04 *(M-08 y M-06 completados)* |
 | **Fase 6** — Premium | 3-4 semanas | Semana 11-14 | M-18, M-25, M-35, M-07 |
 

@@ -1,3 +1,36 @@
+## [2026-09-30] Implementación de M-39: Afinidad y Proximidad de Equipos de Piso por Gabinete en Topología
+
+### Motor de Topología y Distribución Inteligente (`js/ui/topology/TopologyLayout.js`)
+- **Algoritmo de Afinidad por Rack Anfitrión (`_findAffinityRackForFloorDevice`):**
+  - Análisis ponderado de enlaces (`connections`) para cada equipo de piso (`floor: true`). Se contabilizan los enlaces directos hacia equipos montados en cada rack de la sala, asociándolo al gabinete con mayor número de conexiones (resolución por peso ante multi-homed).
+  - Retorno defensivo `null` para equipos sin conexiones o periféricos desconectados.
+- **Cuadrante Inferior Dedicado por Rack:**
+  - Los periféricos asociados a un rack se posicionan inmediatamente debajo de la proyección vertical del gabinete (`x >= rackX` y `x <= rackX + rw`), centrados con respecto al ancho `rw` del rack.
+  - Cálculo dinámico de columnas por gabinete (`floorCols = Math.min(devs.length, maxColsInRack)`), garantizando que las tarjetas o círculos de periféricos nunca desborden lateralmente hacia gabinetes vecinos ni invadan el espacio entre racks (`RACK_GAP = 32px`).
+- **Preservación Estricta de la Grilla Ortogonal y Armonía Visual:**
+  - **Línea de base uniforme (`floorBaseY`):** Todos los racks de la sala comparten la misma coordenada vertical de inicio para su primera fila de periféricos de piso (`floorBaseY = rackTopY + maxRackH + 28px`), evitando dientes de sierra o escalonamientos asimétricos.
+  - **Zona neutra inferior para no conectados:** Los equipos de piso sin enlaces se ubican centrados en la base de la sala sin solapar los grupos de afinidad superiores.
+  - **Cálculo reactivo de dimensiones de sala (`roomW`, `roomH`):** La altura de la sala se expande de forma holgada y matemáticamente exacta considerando la sub-fila más alta de periféricos de toda la sala.
+- **Soporte Paritario para Árbol Jerárquico (`_computeTreeLayout`):**
+  - La misma lógica de afinidad por cuadrante de rack se aplica al layout de árbol jerárquico ortogonal (`DAG`), organizando periféricos de acceso bajo sus respectivos racks de distribución/núcleo.
+- **Exposición Modular:**
+  - Funciones `_findAffinityRackForFloorDevice`, `_computeLayout` y `_computeTreeLayout` expuestas universalmente para `window` y `module.exports`.
+
+### Automatización y Pruebas de Integridad (`tests/integrity_check.cjs`, `tests/index.html`)
+- **Nuevo GRUPO 15 de Pruebas Automatizadas (14 aserciones dedicadas a M-39):**
+  - Detección de afinidad en datos reales con `demoData.js` (cámaras IP hacia Rack 104 PoE, APs/impresoras hacia Rack 101 Distribución).
+  - Validación de equipos aislados (retorno `null`).
+  - Resolución de colisiones por mayoría de enlaces en equipos multi-homed.
+  - Aserción geométrica: periferias dentro de la huella horizontal del rack anfitrión (`x` en `[rackX, rackX + rw]`).
+  - Aislamiento lateral estricto sin solapamiento entre periféricos de diferentes racks.
+  - Validación de línea de base uniforme y cota inferior holgada del contenedor de sala.
+  - Coherencia en modo árbol jerárquico y disponibilidad de reorganización reactiva con `autoOrderTopo()`.
+- **Hito de Calidad:**
+  - **196 pruebas de integridad pasadas al 100% (0 falladas) en 15 grupos completos**, sincronizadas tanto en terminal Node.js como en el runner web interactivo `tests/index.html`.
+  - **28 de 40 mejoras completadas** en el roadmap del proyecto. Fase 4 avanzada al 83% (5 de 6 completadas).
+
+---
+
 ## [2026-09-29] Blindaje de Producción: Cifrado en Reposo (M-01), Modo Dios y Fase 0 al 100%
 
 ### Seguridad, Criptografía y Persistencia (`js/auth/crypto.js`, `js/store.js`, `js/ui/fileManager.js`)
@@ -20,12 +53,15 @@
 - **Toggle de Ojo en Formulario de Equipos (`DeviceModal.js` / `index.html`):**
   - Botón táctil `#dev-pass-toggle` dentro del campo `#dev-pass` para alternar entre `password` y `text` durante la creación o edición de dispositivos.
 
-### Automatización y Calidad (`tests/integrity_check.cjs`, `doc/doc_md/roadmap_mejoras.md`, `mejoras.md`, `memory-bank/progress.md`)
-- **Suite de Pruebas Automatizadas (Grupo 14):**
+### Automatización y Calidad (`tests/integrity_check.cjs`, `tests/index.html`, `doc/doc_md/roadmap_mejoras.md`, `mejoras.md`, `memory-bank/progress.md`)
+- **Suite de Pruebas Automatizadas (Grupos 1 al 14 sincronizados en CLI y Navegador):**
   - Incorporadas 20 pruebas de integridad dedicadas a `M-01` en `tests/integrity_check.cjs`: verificación de API `RackCrypto`, generación de cadenas `enc:v1:`, cifrado en `_save()`, ausencia de texto plano en `localStorage`, descifrado transparente en `_load()`, enmascaramiento por defecto, activación de Modo Dios, protección RBAC de revelación granular y comprobación de elementos UI.
+  - **Sincronización Total de `tests/index.html`:** El runner interactivo web fue ampliado incorporando los Grupos 10 (Doble cara y coexistencia), 11 (Plantilla demo profesional y peso), 12 (Gestión avanzada de puertos y VLANs `M-26`), 13 (Selector de columnas `M-20`) y 14 (Cifrado simétrico `M-01` y Modo Dios). Se cargaron los scripts requeridos (`crypto.js`, `demoData.js`, `Globals.js`, `CableModal.js`) garantizando paridad total 1:1 entre el CLI y la interfaz visual del navegador.
   - **Resultado de la suite completa: 182 pruebas pasadas, 0 falladas (100% de éxito en los 14 grupos).**
 - **Hito de Proyecto:**
   - **Fase 0 (Blindaje de Producción) COMPLETADA AL 100%** (`M-01`, `M-02`, `M-05`).
+  - **Fase 1 (Quick Wins Visuales) COMPLETADA AL 100%**.
+  - **`M-26` y `M-20` Oficialmente Completadas:** Sincronizado el avance real en el roadmap a 27 mejoras completadas de 39.
 
 ---
 

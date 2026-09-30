@@ -145,3 +145,42 @@ Al pasar el cursor sobre un nodo del lienzo, se dibuja un HUD informativo cerca 
                      └──────────────●
                                 Destino (x2, y2)
 ```
+
+---
+
+## 8. Algoritmo y Medidas de Afinidad de Equipos de Piso (M-39)
+
+La vista de topología ubica los equipos de piso (`floor_devices`) en el cuadrante inferior de su rack anfitrión correspondiente para evitar cruces caóticos de cables y preservar una retícula balanceada:
+
+*   **Margen de Sala (`ROOM_MARGIN`):** `80px` de colchón perimetral superior, inferior y lateral.
+*   **Separación entre Racks (`RACK_GAP`):** `32px` de margen horizontal entre gabinetes contiguos.
+*   **Línea de Base Uniforme (`floorBaseY`):**
+    $$floorBaseY = rackTopY + maxRackH + 28px$$
+    Garantiza que todos los periféricos de una sala compartan la misma cota inicial sin importar diferencias de altura en U entre racks adyacentes.
+*   **Alineación Horizontal de Periféricos:**
+    $$slotX = rackPos.x + \frac{rackSize.w}{2}$$
+    Centrado geométrico bajo el eje vertical del rack anfitrión.
+*   **Escalonamiento Vertical por Afinidad:**
+    Si un rack tiene múltiples dispositivos asociados, se apilan verticalmente:
+    $$y_i = floorBaseY + (i \times 44px)$$
+*   **Contención Reactiva de Sala:**
+    $$roomH = maxRackH + (maxFloorCountPerRack \times 44px) + 90px + 60px$$
+    La caja de la sala expande su altura de forma exacta para envolver sin desbordes todos los dispositivos vinculados.
+
+```text
+┌─────────────────────── SALA ─────────────────────────┐
+│                                                      │
+│   ┌──────── RACK 1 ────────┐   ┌──── RACK 2 ────┐    │
+│   │ [ Equipo 1U          ] │   │ [ Equipo 1U  ] │    │
+│   │ [ Equipo 2U          ] │   │ [ Equipo 1U  ] │    │
+│   │ [ Equipo 4U          ] │   └────────────────┘    │
+│   └────────────────────────┘                         │
+│               │ (cable)                              │
+│   ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  │ floorBaseY = maxRackH + 28px
+│               ▼                                      │
+│        ( Periférico A )                              │ dy = +44px
+│               ▼                                      │
+│        ( Periférico B )      ( Periférico Rack 2 )   │
+└──────────────────────────────────────────────────────┘
+```
+

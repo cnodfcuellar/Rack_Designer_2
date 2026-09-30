@@ -4,6 +4,13 @@
 El proyecto ha completado con éxito la **Modernización Integral de la Vista de Topología** (Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas, reubicación de equipos desconectados en la base de racks/sala, personalización completa de ubicación de Nombre/IP en nodos y control dual de espaciado Horizontal/Vertical), la **Navegación y Enfoque reactivo desde el Outliner**, el **Selector Dinámico de Columnas en Tablas de Datos** con persistencia, y la **Protección visual de la cabecera**.
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-30] Implementación de M-39: Afinidad y Proximidad de Equipos de Piso por Gabinete:**
+  - **Algoritmo de Afinidad por Rack Anfitrión (`TopologyLayout.js`):** Función `_findAffinityRackForFloorDevice()` que calcula el rack anfitrión analizando las conexiones directas hacia cada gabinete de la misma sala, con resolución por mayoría de enlaces en periféricos *multi-homed* y manejo de no conectados (`null`).
+  - **Alineación en Cuadrante Inferior:** Periféricos ubicados directamente bajo el ancho horizontal del rack (`[rackX, rackX + rw]`) en subcolumnas compactas que nunca desbordan hacia gabinetes vecinos (`RACK_GAP = 32px`).
+  - **Preservación de Armonía y Cuadrícula:** Línea de base uniforme (`floorBaseY = rackTopY + maxRackH + 28px`), base neutra para no conectados y cálculo reactivo de altura de sala (`roomH`).
+  - **Paridad con Árbol Jerárquico (`_computeTreeLayout`):** Soporte paritario en el modo DAG jerárquico.
+  - **Testing de Integridad:** Grupo 15 con 14 aserciones exhaustivas en `tests/integrity_check.cjs` y `tests/index.html`. Total: 196/196 pruebas pasando al 100%.
+  - **Hito de Roadmap:** 28 de 40 mejoras completadas (Fase 4 al 83%, 5 de 6 completadas).
 - **[2026-09-29] Blindaje de Producción al 100%: Cifrado en Reposo (M-01) y Modo Dios:**
   - **Módulo Criptográfico Autónomo `RackCrypto` (`js/auth/crypto.js`):** Cifrado simétrico de credenciales y campos sensibles (`pass`) con prefijo `enc:v1:<iv>:<ciphertext>` derivado de clave 256-bit y vector de inicialización único por registro.
   - **Persistencia Segura en Reposo:** Cifrado automático en `store._save()`, `fileManager.writeToFile` y `downloadFallback`. En `localStorage` y en respaldos exportados `.rack` nunca reside texto plano.
