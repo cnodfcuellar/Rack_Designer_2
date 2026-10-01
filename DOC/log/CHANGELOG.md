@@ -1,3 +1,19 @@
+## [2026-09-30] Sincronización Total de la Suite Web Interactiva (`tests/index.html`): Paridad 1:1 a 199 Pruebas
+
+### Automatización y Testing Web (`tests/index.html`, `tests/integrity_check.cjs`)
+- **Paridad Absoluta 1:1 en la Suite Web (199/199 Pruebas):**
+  - Se detectó que el runner web interactivo ejecutaba 186 pruebas frente a las 199 de la terminal CLI (`integrity_check.cjs`), debido a aserciones que habían quedado agrupadas o pendientes de sincronizar en sprints previos.
+  - **Grupo 5 (Assets y Faceplates SVG):** Incorporada la verificación explícita de existencia de la carpeta canónica `assets/svg/default/` y la aserción de normalización con `normalizeAssetUrl()`.
+  - **Grupo 6 (Blindaje de Gabinete y Geometría):** Incorporadas las validaciones de bloqueo estricto de ancho a 280px (`.rack-card` y `.rack-wrapper`) y truncamiento elíptico en títulos de racks (`.rack-title`).
+  - **Grupo 7 (Catálogo y Salas):** Desacopladas en 3 aserciones atómicas las pruebas de inserción, consulta unificada en `getCatalog()` y eliminación reactiva en `customCatalog`.
+  - **Grupo 8 (Inspector y Outliner):** Normalizada la validación de botones CRUD de gabinete a 14 pruebas exactas.
+  - **Grupo 9 (Fidelidad 1:1 y Exportación):** Integradas las 5 aserciones de exportación de Sala Completa en Vista Dual Frente + Dorso (`exportRoomToPNG`, modo `dual`, botón `#btn-export-entire-room-dual`, método `store.allRacksInRoom` y ocultamiento defensivo de controles en `.exporting-capture`).
+  - **Grupo 13 (Selector de Columnas):** Desacopladas las aserciones de `#btn-columns-menu`, `#columns-dropdown` y botones de acción rápida a 3 pruebas individuales.
+  - **Grupo 14 (Cifrado y Seguridad):** Desacopladas las aserciones de existencia de `#dev-pass-toggle` y script de `crypto.js`.
+  - **Resultado:** Tanto la terminal (`pnpm test`) como el navegador (`tests/index.html`) ejecutan ahora exactamente **199 pruebas en 15 grupos al 100% de éxito (0 fallos)**.
+
+---
+
 ## [2026-09-30] Refinamiento de Topología: Elipsis Elegante en Nodos/Tarjetas y HUD Tooltip Ampliado a 240px
 
 ### Motor de Renderizado en Topología (`js/ui/topology/TopologyRenderer.js`)

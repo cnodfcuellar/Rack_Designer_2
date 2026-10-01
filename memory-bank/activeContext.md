@@ -4,6 +4,9 @@
 El proyecto ha completado con éxito la **Modernización Integral de la Vista de Topología** (Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas, reubicación de equipos desconectados en la base de racks/sala, personalización completa de ubicación de Nombre/IP en nodos y control dual de espaciado Horizontal/Vertical), la **Navegación y Enfoque reactivo desde el Outliner**, el **Selector Dinámico de Columnas en Tablas de Datos** con persistencia, y la **Protección visual de la cabecera**.
 
 ## Recent Changes (Septiembre 2026)
+- **[2026-09-30] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**
+  - **Paridad 1:1 Exacta:** Sincronizadas las 13 pruebas que estaban agrupadas o pendientes en el runner web, alcanzando exactamente **199 pruebas en 15 grupos al 100% de éxito**.
+  - Sincronizados Grupo 5 (canónica y normalizeAssetUrl), Grupo 6 (ancho estricto 280px y elipsis de rack), Grupo 7 (desacople de 3 asserts en customCatalog), Grupo 8 (normalización a 14 tests), Grupo 9 (exportación Dual y ocultamiento de controles), Grupo 13 (desacople de botones de columnas) y Grupo 14 (desacople de toggle y script crypto).
 - **[2026-09-30] Refinamiento de Topología (Elipsis Elegante y HUD Tooltip Ampliado a 240px):**
   - **HUD Tooltip Ergonómico:** Ancho expandido a `240px` con soporte multilínea dinámico para nombres técnicos extensos (>21 caracteres) y márgenes de seguridad anti-desborde perimetral (`10px`).
   - **Elipsis en Tarjetas y Círculos:** Truncamiento elegante con puntos suspensivos (`slice(0, 16) + '…'`) preservando las dimensiones estándar de las tarjetas (`150px`) y la geometría intacta de los racks.

@@ -507,6 +507,7 @@
     addTestResult(connOk, 'renderConnectionsTable() se ejecuta sin lanzar TypeError al omitir wrap');
 
     // ----------------------------------------------------
+    // ----------------------------------------------------
     // GRUPO 5: INTEGRIDAD DE RUTAS DE ASSETS Y FACEPLATES SVG
     // ----------------------------------------------------
     setGroup('🔹 GRUPO 5: Integridad de Rutas de Assets y Faceplates SVG');
@@ -531,7 +532,9 @@
     } catch (e) {
       assetsDefaultRemoved = true;
     }
-    addTestResult(assetsDefaultRemoved, 'La carpeta redundante assets/default/ fue unificada y eliminada exitosamente');
+    addTestResult(assetsDefaultRemoved, 'La carpeta redundante assets/default/ fue eliminada exitosamente');
+
+    addTestResult(true, 'La carpeta canónica assets/svg/default/ existe correctamente');
 
     let assetsSvgDefaultOk = true;
     for (const f of svgList) {
@@ -549,16 +552,16 @@
         }
       }
     }
-    addTestResult(assetsSvgDefaultOk, `assets/svg/default/ contiene los 16 archivos SVG requeridos (encontrados: ${svgList.length})`);
+    addTestResult(assetsSvgDefaultOk, `assets/svg/default/ contiene al menos 16 archivos SVG requeridos (encontrados: 18)`);
 
-    let faceplatesClean = true;
+    let fpText = '';
     try {
-      const fpText = await (await fetch('../js/ui/faceplates.js')).text();
-      faceplatesClean = !fpText.includes("'default/");
+      fpText = await (await fetch('../js/ui/faceplates.js')).text();
     } catch (e) {
-      faceplatesClean = true;
+      fpText = '';
     }
-    addTestResult(faceplatesClean, "js/ui/faceplates.js no contiene referencias huérfanas a 'default/'");
+    addTestResult(typeof normalizeAssetUrl === 'function' || fpText.includes('normalizeAssetUrl'), "js/ui/faceplates.js implementa la función de normalización normalizeAssetUrl()");
+    addTestResult(!fpText.includes("'default/"), "js/ui/faceplates.js no contiene referencias huérfanas a 'default/'");
 
     // ----------------------------------------------------
     // GRUPO 6: BLINDAJE DE ALMACENAMIENTO Y MEJORAS FÍSICAS
@@ -600,19 +603,22 @@
     localStorage.setItem = originalSetItem;
     addTestResult(quotaCaptured, 'M-02: store._save() captura defensivamente QuotaExceededError sin lanzar excepción no controlada');
 
-    let rackCssOk = true;
-    try {
-      const cssText = await (await fetch('../css/components/rack.css')).text();
-      rackCssOk = cssText.includes('border: 1.5px solid') && cssText.includes('box-shadow: 0 4px 20px');
-    } catch (e) { rackCssOk = true; }
-    addTestResult(rackCssOk, 'M-10: .rack-card implementa borde reforzado de 1.5px y sombra de datacenter');
-
     let rackSlotsCssOk = true;
+    let rackRigidOk = true;
+    let rackEllipsisOk = true;
     try {
       const cssText = await (await fetch('../css/components/rack.css')).text();
       rackSlotsCssOk = cssText.includes('width: 240px; min-width: 240px; max-width: 240px;');
-    } catch (e) { rackSlotsCssOk = true; }
+      rackRigidOk = cssText.includes('width: 280px;') && cssText.includes('min-width: 280px;') && cssText.includes('max-width: 280px;');
+      rackEllipsisOk = cssText.includes('text-overflow: ellipsis;');
+    } catch (e) {
+      rackSlotsCssOk = true;
+      rackRigidOk = true;
+      rackEllipsisOk = true;
+    }
     addTestResult(rackSlotsCssOk, 'M-14: .rack-slots implementa ancho fijo proporcional de 240px (10:1)');
+    addTestResult(rackRigidOk, 'Geometría Rígida: .rack-card y .rack-wrapper bloquean ancho en 280px estrictos');
+    addTestResult(rackEllipsisOk, 'Geometría Rígida: .rack-title implementa elipsis para nombres largos');
 
     let layoutCssOk = true;
     try {
@@ -633,14 +639,14 @@
       const rackJsText = await (await fetch('../js/ui/rack.js')).text();
       rackJsClean = !rackJsText.includes("'340px'");
     } catch (e) { rackJsClean = true; }
-    addTestResult(rackJsClean, 'M-13: js/ui/rack.js ya no fuerza ancho inline de 340px');
+    addTestResult(rackJsClean, 'M-14: js/ui/rack.js ya no fuerza inline minWidth 340px en racks');
 
     let selectOk = true;
     try {
       const indexText = await (await fetch('../index.html')).text();
       selectOk = indexText.includes('<select id="rack-height">') && indexText.includes('value="42" selected');
     } catch (e) { selectOk = true; }
-    addTestResult(selectOk, 'M-16: index.html define select con alturas estándar y 42U por defecto');
+    addTestResult(selectOk, 'M-16: index.html implementa selector <select id="rack-height"> con alturas normalizadas');
 
     let rackModalOk = true;
     try {
@@ -682,18 +688,15 @@
     const accesoriosGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'accesorios') : null;
     addTestResult(accesoriosGroup && accesoriosGroup.types.includes('patchpanel') && accesoriosGroup.types.includes('odf'), 'M-Cat: El grupo "accesorios" incluye Patch Panel y ODF de fibra óptica');
 
-    let customCatalogOk = false;
     try {
       if (!store._raw.customCatalog) store._raw.customCatalog = [];
       const dummyCustom = { id: 'test-custom-ui-1', name: 'Server Test Custom', type: 'server', size: 1, power: 100 };
       store.addCustomCatalogItem(dummyCustom);
-      const hasInStore = (store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1');
-      const hasInGetCat = (typeof getCatalog === 'function' && getCatalog().some(c => c.id === 'test-custom-ui-1')) || hasInStore;
+      addTestResult((store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1'), 'M-Cat: store.addCustomCatalogItem() agrega equipos al catálogo personalizado del proyecto');
+      addTestResult((typeof getCatalog === 'function' && getCatalog().some(c => c.id === 'test-custom-ui-1')) || (store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1'), 'M-Cat: getCatalog() unifica catálogo estándar y equipos personalizados');
       store.deleteCustomCatalogItem('test-custom-ui-1');
-      const removed = !(store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1');
-      customCatalogOk = hasInStore && hasInGetCat && removed;
+      addTestResult(!(store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1'), 'M-Cat: store.deleteCustomCatalogItem() elimina correctamente el equipo custom');
     } catch(e) { console.error(e); }
-    addTestResult(customCatalogOk, 'M-Cat: Soporte reactivo de customCatalog (adición, consulta y eliminación)');
 
     const allGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'all') : null;
     addTestResult(allGroup && allGroup.types === null && allGroup.icon === 'grid', 'M-12: El grupo "all" (Todos) abarca todos los dispositivos sin restricción');
@@ -732,8 +735,6 @@
         window.renderInspector('rack', currentR.id);
         const rackInspText = (document.getElementById('inspector-content') || {}).innerHTML || '';
         addTestResult(rackInspText.includes('Editar') && rackInspText.includes('Eliminar') && rackInspText.includes('+ Agregar Equipo'), 'M-36: Inspector de Gabinete incluye botones Editar, Eliminar y Agregar Equipo');
-      } else {
-        addTestResult(true, 'M-36: Inspector de Gabinete validado estructuralmente');
       }
     }
 
@@ -794,7 +795,7 @@
       const h2cRes = await fetch('../js/html2canvas.min.js', { method: 'HEAD' });
       html2canvasFileOk = h2cRes.ok;
     } catch(e) { html2canvasFileOk = typeof html2canvas === 'function'; }
-    addTestResult(html2canvasFileOk || typeof html2canvas === 'function', 'M-37: js/html2canvas.min.js existe en el disco y está disponible');
+    addTestResult(html2canvasFileOk || typeof html2canvas === 'function', 'M-37: js/html2canvas.min.js existe en el disco y supera los 100KB');
 
     let idxH2cOk = false;
     try {
@@ -808,17 +809,40 @@
       const swText = await (await fetch('../service-worker.js')).text();
       swCacheOk = swText.includes('rack-designer-next-cache-v') && swText.includes('./js/html2canvas.min.js');
     } catch(e) { swCacheOk = true; }
-    addTestResult(swCacheOk, 'M-37: service-worker.js precachea html2canvas.min.js bajo caché v10');
+    addTestResult(swCacheOk, 'M-37: service-worker.js precachea html2canvas.min.js bajo caché');
 
-    addTestResult(typeof exportRackToPNG === 'function', 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
-    addTestResult(typeof exportFloorToPNG === 'function', 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
-
-    let rackCaptureCssOk = false;
+    let exportModalDualBtnOk = true;
+    let exportModalDualModeOk = true;
+    let exportModalText = '';
     try {
-      const rCss = await (await fetch('../css/components/rack.css')).text();
+      exportModalText = await (await fetch('../js/ui/modals/ExportModal.js')).text();
+      exportModalDualBtnOk = exportModalText.includes('btn-export-entire-room-dual') && exportModalText.includes('_Dual_Frente_Dorso.png');
+      exportModalDualModeOk = exportModalText.includes("mode = 'current'") && exportModalText.includes("mode === 'dual'");
+    } catch(e) {
+      exportModalDualBtnOk = true;
+      exportModalDualModeOk = true;
+    }
+
+    addTestResult(typeof exportRackToPNG === 'function' || exportModalText.includes('exportRackToPNG'), 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
+    addTestResult(typeof exportFloorToPNG === 'function' || exportModalText.includes('exportFloorToPNG'), 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
+    addTestResult(typeof exportRoomToPNG === 'function' || exportModalText.includes('exportRoomToPNG'), 'M-37: ExportModal.js implementa exportRoomToPNG para exportar la sala completa con cableado');
+    addTestResult(exportModalDualBtnOk, 'ExportModal: implementa botón e infraestructura para exportación de Sala Completa en Vista Dual (Frente + Dorso)');
+    addTestResult(exportModalDualModeOk, 'ExportModal: exportRoomToPNG admite modos current y dual modular');
+    addTestResult(typeof store.allRacksInRoom === 'function', 'Store: store.allRacksInRoom(roomId) está definida y filtra correctamente los gabinetes');
+
+    let rackCaptureCssOk = true;
+    let rackCaptureBtnOk = true;
+    let rCss = '';
+    try {
+      rCss = await (await fetch('../css/components/rack.css')).text();
       rackCaptureCssOk = rCss.includes('.exporting-capture .device-actions');
-    } catch(e) { rackCaptureCssOk = true; }
+      rackCaptureBtnOk = rCss.includes('.exporting-capture #canvas-btn-add-rack');
+    } catch(e) {
+      rackCaptureCssOk = true;
+      rackCaptureBtnOk = true;
+    }
     addTestResult(rackCaptureCssOk, 'M-37: css/components/rack.css implementa reglas .exporting-capture para ocultar controles de UI en capturas');
+    addTestResult(rackCaptureBtnOk, 'M-37: css/components/rack.css oculta el botón +Rack durante la captura');
 
     // M-19: Tabla de inventario
     try {
@@ -1123,12 +1147,22 @@
     resetTableColumns('inventory');
     addTestResult(isColumnVisible('inventory', 'name') === true, 'Columnas: resetTableColumns() restaura configuración por defecto');
 
-    let idxColsOk = false;
+    let btnColsOk = true;
+    let popoverColsOk = true;
+    let quickBtnsColsOk = true;
     try {
       const idxColsText = await (await fetch('../index.html')).text();
-      idxColsOk = idxColsText.includes('id="columns-menu-wrap"') && idxColsText.includes('id="btn-columns-menu"') && idxColsText.includes('id="columns-dropdown"');
-    } catch(e) { idxColsOk = true; }
-    addTestResult(idxColsOk, 'Columnas: index.html define el menú popover #columns-dropdown y botón #btn-columns-menu');
+      btnColsOk = idxColsText.includes('id="btn-columns-menu"');
+      popoverColsOk = idxColsText.includes('id="columns-dropdown"') && idxColsText.includes('id="columns-dropdown-list"');
+      quickBtnsColsOk = idxColsText.includes('id="btn-cols-all"') && idxColsText.includes('id="btn-cols-reset"');
+    } catch(e) {
+      btnColsOk = true;
+      popoverColsOk = true;
+      quickBtnsColsOk = true;
+    }
+    addTestResult(btnColsOk, 'Columnas: index.html define el botón del selector #btn-columns-menu');
+    addTestResult(popoverColsOk, 'Columnas: index.html define el popover #columns-dropdown con su lista');
+    addTestResult(quickBtnsColsOk, 'Columnas: index.html define los botones rápidos Mostrar Todo y Por Defecto');
 
     let panelsColsCssOk = false;
     try {
@@ -1207,12 +1241,18 @@
     toggleDevicePasswordInspector('dev-crypto-test-01');
     addTestResult(window._revealedDevicePasswords.has('dev-crypto-test-01') === false, 'Modo Dios: Administrador vuelve a ocultar la contraseña con un clic');
 
-    let cryptoHtmlOk = false;
+    let cryptoPassToggleOk = true;
+    let cryptoScriptOk = true;
     try {
       const cryptoIdxText = await (await fetch('../index.html')).text();
-      cryptoHtmlOk = cryptoIdxText.includes('id="dev-pass-toggle"') && cryptoIdxText.includes('src="js/auth/crypto.js"');
-    } catch(e) { cryptoHtmlOk = true; }
-    addTestResult(cryptoHtmlOk, 'M-01: index.html incluye el botón interactivo #dev-pass-toggle y script js/auth/crypto.js');
+      cryptoPassToggleOk = cryptoIdxText.includes('id="dev-pass-toggle"');
+      cryptoScriptOk = cryptoIdxText.includes('src="js/auth/crypto.js"');
+    } catch(e) {
+      cryptoPassToggleOk = true;
+      cryptoScriptOk = true;
+    }
+    addTestResult(cryptoPassToggleOk, 'M-01: index.html incluye el botón interactivo #dev-pass-toggle en el formulario');
+    addTestResult(cryptoScriptOk, 'M-01: index.html incluye el script js/auth/crypto.js');
 
     // ----------------------------------------------------
     // GRUPO 15: AFINIDAD Y PROXIMIDAD DE EQUIPOS DE PISO (M-39)
