@@ -4,6 +4,9 @@ function initTopology() {
   ctx = canvas.getContext('2d');
   
   canvas.addEventListener('pointerdown', e => {
+    dragSnapshotTaken = false;
+    dragPointerStart = { x: e.clientX, y: e.clientY };
+
     const zoom = store._raw.topoZoom || 1;
     const px   = store._raw.topoPanX || 0;
     const py   = store._raw.topoPanY || 0;
@@ -68,7 +71,6 @@ function initTopology() {
     panStart = { x: e.clientX, y: e.clientY };
     panOrig  = { x: store._raw.topoPanX || 0, y: store._raw.topoPanY || 0 };
     mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
-    dragSnapshotTaken = false;
   });
 
   canvas.addEventListener('pointermove', e => {
@@ -81,9 +83,13 @@ function initTopology() {
     mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
 
     if (resizingRack || resizingRoom || draggingNode || draggingRack || draggingRoom) {
-      if (!dragSnapshotTaken) {
-        store.snapshot();
-        dragSnapshotTaken = true;
+      if (!dragSnapshotTaken && dragPointerStart) {
+        const dpx = e.clientX - dragPointerStart.x;
+        const dpy = e.clientY - dragPointerStart.y;
+        if (dpx * dpx + dpy * dpy >= 9) { // Movimiento real de al menos 3px
+          store.snapshot();
+          dragSnapshotTaken = true;
+        }
       }
     }
 
@@ -289,13 +295,14 @@ function initTopology() {
   });
 
   canvas.addEventListener('pointerup', e => {
-    if (draggingNode || draggingRack || draggingRoom || resizingRack || resizingRoom) {
-      saveTopo(); // Guardar cualquier cambio de posición o tamaño
+    if (dragSnapshotTaken) {
+      saveTopo(); // Guardar cualquier cambio de posición o tamaño solo si hubo arrastre
     }
     draggingNode = null; draggingRack = null; draggingRoom = null; 
     resizingRack = null; resizingRoom = null;
     panStart = null;
     dragSnapshotTaken = false;
+    dragPointerStart = null;
   });
 
   canvas.addEventListener('pointercancel', e => {
@@ -303,6 +310,7 @@ function initTopology() {
     resizingRack = null; resizingRoom = null;
     panStart = null;
     dragSnapshotTaken = false;
+    dragPointerStart = null;
   });
 
   canvas.addEventListener('dblclick', e => {

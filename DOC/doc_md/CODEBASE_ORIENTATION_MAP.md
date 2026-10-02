@@ -172,11 +172,11 @@ Rack_Designer_2/
 │   │   │   └── Globals.js        ← Variables globales compartidas entre modales
 │   │   │
 │   │   └── topology/             ← ★ MOTOR DE RED EN CANVAS 2D (patrón MVC)
-│   │       ├── TopologyState.js      ← Modelo: Estado del canvas (hover, dragging)
-│   │       ├── TopologyLayout.js     ← Controlador: Algoritmo de layout automático
-│   │       ├── TopologyRenderer.js   ← Vista: Dibujado en Canvas 2D
-│   │       ├── TopologyEvents.js     ← Controlador: Interacciones (drag, zoom, click)
-│   │       └── TopologyOrchestrator.js ← Lifecycle: init/start/stop del canvas
+│   │       ├── TopologyState.js      ← Modelo: Estado del canvas (hover, dragging, sliders espaciado H/V)
+│   │       ├── TopologyLayout.js     ← Controlador: Algoritmo layout automático, árbol jerárquico DAG y afinidad M-39
+│   │       ├── TopologyRenderer.js   ← Vista: Dibujado Canvas 2D con HUD ampliado (240px) y elipsis elegante
+│   │       ├── TopologyEvents.js     ← Controlador: Interacciones (drag, zoom, click, auto-navegación)
+│   │       └── TopologyOrchestrator.js ← Lifecycle: init/start/stop del canvas y bucle 60 FPS
 │   │
 │   ├── xlsx.full.min.js          ← SheetJS (exportar a Excel) — vendor
 │   ├── html2canvas.min.js        ← Captura DOM 1:1 Retina a PNG — vendor
@@ -219,7 +219,7 @@ Rack_Designer_2/
 ├── json/                         ← Archivos JSON auxiliares
 └── tests/
     ├── index.html                ← Test runner visual interactivo en navegador web
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (83 tests en Node.js, 100% éxito)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (199 tests en 15 grupos en Node.js, 100% éxito)
 ```
 
 ---

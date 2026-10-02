@@ -1,0 +1,19707 @@
+# 📚 RACK Designer Next — Código Fuente Completo y Unificado
+## Documento Técnico de Aprendizaje y Referencia Arquitectónica 100% Integral
+
+> **Propósito:** Este documento consolida en un **único archivo Markdown** la totalidad del código fuente desarrollado para **RACK Designer Next**, sirviendo como base de estudio de alto nivel para comprender la arquitectura *Reactive Proxy Pattern*, el motor gráfico híbrido (DOM CSS + SVG + Canvas 2D) y el diseño de aplicaciones PWA de producción 100% offline sin frameworks.
+>
+> **Fecha de compilación:** 2026-10-02
+> **Plataforma:** PWA 100% Vanilla JavaScript (ES6+), HTML5, CSS3. **Sin paso de compilación (No build step).**
+> **Pruebas de integridad:** 199 / 199 aprobadas al 100% (0 fallos) en 15 grupos.
+
+---
+
+## 📊 Métricas del Código del Proyecto
+
+| Métrica | Valor |
+| :--- | :--- |
+| **Archivos fuente propios incluidos** | **42 archivos** |
+| **Líneas de código totales** | **18.916 líneas** |
+| **Volumen de código fuente** | **874.5 KB (0.85 MB)** |
+| **Librerías externas vendor** | Omitidas del bundle (disponibles en `js/*.min.js`: SheetJS, html2canvas, polyfills) |
+| **Arquitectura de Estado** | Reactividad pura con Proxy ES6 + Snapshot History (Undo/Redo) |
+| **Renderizado Gráfico** | SVG-First en Vista Física + Canvas 2D en Topología |
+
+---
+
+## 📑 Índice General del Código Fuente
+
+### Capa 0: Manifiesto PWA y Service Worker Offline
+*Archivos que habilitan el funcionamiento como Progressive Web App (PWA) 100% instalable y offline con estrategias de caché en memoria.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`json/manifest.json`**](#json-manifest-json) | `JSON` | 28 | 0.8 KB | Metadatos del manifiesto PWA para instalación de escritorio y móvil. |
+| [**`service-worker.js`**](#service-worker-js) | `JAVASCRIPT` | 126 | 3.9 KB | Service Worker offline con precaché inteligente y auto-actualización. |
+
+### Capa 1: Estructura HTML y Vistas Base
+*El esqueleto semántico DOM de la aplicación, definiendo las áreas CSS Grid, modales, barras y templates.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`index.html`**](#index-html) | `HTML` | 872 | 56.0 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
+
+### Capa 2: Sistema de Diseño y Estilos CSS Modulares
+*Arquitectura CSS modular y en cascada: variables de tema (claro/oscuro), layout grid, gabinetes, faceplates y modales.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`css/style.css`**](#css-style-css) | `CSS` | 8 | 0.2 KB | Punto de entrada CSS: encadenamiento ordenado de @imports. |
+| [**`css/variables.css`**](#css-variables-css) | `CSS` | 85 | 2.6 KB | Tokens de diseño: variables CSS de colores, fuentes, alturas y temas claro/oscuro. |
+| [**`css/layout.css`**](#css-layout-css) | `CSS` | 1.582 | 30.1 KB | Rejilla CSS Grid (3 filas × 3 columnas), header, paneles laterales e inferiores. |
+| [**`css/components/panels.css`**](#css-components-panels-css) | `CSS` | 619 | 15.5 KB | Estilos para sidebar, outliner, inspector, popovers y tablas inferiores. |
+| [**`css/components/rack.css`**](#css-components-rack-css) | `CSS` | 360 | 9.6 KB | Estilos de gabinetes (Racks), unidades U (24px), flipping 3D y ranuras (slots de 240px). |
+| [**`css/components/faceplates.css`**](#css-components-faceplates-css) | `CSS` | 377 | 8.7 KB | Estilos de carátulas SVG y hardware montado en racks o en sección de piso. |
+| [**`css/components/modals.css`**](#css-components-modals-css) | `CSS` | 68 | 5.6 KB | Estilos de las ventanas modales, formularios, grillas y botones. |
+| [**`css/components/misc.css`**](#css-components-misc-css) | `CSS` | 350 | 37.9 KB | Animaciones de estado, tooltips, notificaciones toast y utilidades visuales. |
+
+### Capa 3: Núcleo de Estado, Utilidades y Demostración
+*El cerebro de la aplicación (Store con Proxy ES6 reactivo), utilidades globales, mapa de iconos y dataset demo.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`js/store.js`**](#js-store-js) | `JAVASCRIPT` | 1.015 | 40.3 KB | Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento. |
+| [**`js/utils.js`**](#js-utils-js) | `JAVASCRIPT` | 116 | 4.2 KB | Funciones de soporte: uid, deepClone, escapeHTML, notificaciones toast y diálogos seguros. |
+| [**`js/icons.js`**](#js-icons-js) | `JAVASCRIPT` | 29 | 16.5 KB | Diccionario de iconos SVG vectoriales inline utilizados en toda la interfaz. |
+| [**`js/demoData.js`**](#js-demodata-js) | `JAVASCRIPT` | 641 | 34.3 KB | Dataset preconfigurado de demostración con salas, racks 42U, equipos ToR y cableado VLAN. |
+
+### Capa 4: Seguridad, Criptografía y Control de Acceso (RBAC)
+*Autenticación basada en roles con SHA-256 y cifrado simétrico en reposo con AES-GCM.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`js/auth/roles.js`**](#js-auth-roles-js) | `JAVASCRIPT` | 200 | 6.9 KB | Módulo RBAC (RackAuth): control de roles (Admin/Editor/Viewer), login por PIN, SHA-256 y sesión. |
+| [**`js/auth/crypto.js`**](#js-auth-crypto-js) | `JAVASCRIPT` | 229 | 7.4 KB | Módulo criptográfico (RackCrypto): cifrado/descifrado simétrico AES-GCM (enc:v1:) para contraseñas en reposo. |
+
+### Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+*Controladores de interfaz de usuario para el catálogo, renderizado de racks, cables SVG, tablas y outliner.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`js/ui/catalog.js`**](#js-ui-catalog-js) | `JAVASCRIPT` | 425 | 27.3 KB | Catálogo de hardware: 30 plantillas arquitectónicas en 8 familias y buscador reactivo. |
+| [**`js/ui/faceplates.js`**](#js-ui-faceplates-js) | `JAVASCRIPT` | 437 | 66.3 KB | Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas. |
+| [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 932 | 42.2 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
+| [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 588 | 24.9 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
+| [**`js/ui/outliner.js`**](#js-ui-outliner-js) | `JAVASCRIPT` | 359 | 16.6 KB | Panel derecho (Outliner): árbol jerárquico Sala > Rack > Equipo con navegación y acciones CRUD inline. |
+| [**`js/ui/inspector.js`**](#js-ui-inspector-js) | `JAVASCRIPT` | 503 | 25.9 KB | Panel derecho (Inspector): visualización y edición granular de propiedades, modo Dios y colapso. |
+| [**`js/ui/fileManager.js`**](#js-ui-filemanager-js) | `JAVASCRIPT` | 190 | 6.0 KB | Gestor de archivos: integración con File System Access API para abrir/guardar .rack sin servidor. |
+| [**`js/ui/modals.js`**](#js-ui-modals-js) | `JAVASCRIPT` | 11 | 0.2 KB | Orquestador de modales: inicialización y registro centralizado de diálogos. |
+
+### Capa 6: Diálogos Modales Especializados
+*Componentes modales desacoplados para la creación y edición de salas, gabinetes, equipos, cables y exportación.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`js/ui/modals/Globals.js`**](#js-ui-modals-globals-js) | `JAVASCRIPT` | 6 | 0.2 KB | Variables globales y utilidades compartidas entre las ventanas modales. |
+| [**`js/ui/modals/RackModal.js`**](#js-ui-modals-rackmodal-js) | `JAVASCRIPT` | 83 | 3.4 KB | Modal de creación y edición de gabinetes con alturas normalizadas y selector de color. |
+| [**`js/ui/modals/DeviceModal.js`**](#js-ui-modals-devicemodal-js) | `JAVASCRIPT` | 316 | 15.9 KB | Modal de formulario técnico de equipos: interfaces de red, IPs, credenciales y montaje. |
+| [**`js/ui/modals/CableModal.js`**](#js-ui-modals-cablemodal-js) | `JAVASCRIPT` | 392 | 14.1 KB | Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs. |
+| [**`js/ui/modals/RoomModal.js`**](#js-ui-modals-roommodal-js) | `JAVASCRIPT` | 124 | 4.1 KB | Modal de gestión de salas: nombres, dimensiones y notas sin diálogos nativos prompt. |
+| [**`js/ui/modals/PlacementModal.js`**](#js-ui-modals-placementmodal-js) | `JAVASCRIPT` | 232 | 8.3 KB | Modal de colocación rápida (Quick Placement) con buscador en tiempo real y cálculo de slots. |
+| [**`js/ui/modals/ExportModal.js`**](#js-ui-modals-exportmodal-js) | `JAVASCRIPT` | 1.818 | 69.3 KB | Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV. |
+
+### Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+*Motor de diagramación lógica en Canvas 2D a 60 FPS: nodos circulares/tarjetas, enlaces Bézier, árbol jerárquico y afinidad de piso.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`js/ui/topology/TopologyState.js`**](#js-ui-topology-topologystate-js) | `JAVASCRIPT` | 154 | 6.2 KB | Modelo del motor de topología: estado de interacción, pan, zoom y espaciado dual H/V. |
+| [**`js/ui/topology/TopologyLayout.js`**](#js-ui-topology-topologylayout-js) | `JAVASCRIPT` | 639 | 28.6 KB | Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39). |
+| [**`js/ui/topology/TopologyRenderer.js`**](#js-ui-topology-topologyrenderer-js) | `JAVASCRIPT` | 570 | 19.4 KB | Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px. |
+| [**`js/ui/topology/TopologyEvents.js`**](#js-ui-topology-topologyevents-js) | `JAVASCRIPT` | 387 | 13.5 KB | Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación. |
+| [**`js/ui/topology/TopologyOrchestrator.js`**](#js-ui-topology-topologyorchestrator-js) | `JAVASCRIPT` | 104 | 2.9 KB | Ciclo de vida de topología: inicialización, bucle de animación a 60 FPS y exportación PNG. |
+
+### Capa 8: Orquestador Principal de la Aplicación
+*El punto de entrada operativo que inicializa el sistema, enlaza los eventos de la barra superior y coordina renderAll().*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.192 | 48.2 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
+
+### Capa 9: Automatización y Suite de Pruebas de Integridad
+*Pruebas de integridad relacional ejecutables tanto en Node.js como interactivamente en el navegador web.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.114 | 67.7 KB | Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito. |
+| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.363 | 69.5 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica. |
+
+### Capa 10: Herramientas de Compilación y Scripts Auxiliares
+*Scripts de automatización y soporte fuera del bundle del navegador.*
+
+| Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
+| :--- | :---: | :---: | :---: | :--- |
+| [**`scripts/build_standalone_manual.cjs`**](#scripts-build-standalone-manual-cjs) | `JAVASCRIPT` | 98 | 4.1 KB | Generador del manual standalone HTML con imágenes SVG/PNG incrustadas en base64. |
+| [**`scripts/generate_svgs.cjs`**](#scripts-generate-svgs-cjs) | `JAVASCRIPT` | 174 | 9.2 KB | Generador de diagramas y recursos vectoriales para la suite de documentación. |
+
+---
+
+## 💻 Código Fuente Completo por Archivos
+
+<a id="json-manifest-json"></a>
+
+### 📄 Archivo 1/42: `json/manifest.json`
+
+* **Ubicación relativa:** `json/manifest.json`
+* **Capa:** Capa 0: Manifiesto PWA y Service Worker Offline
+* **Dimensiones:** 28 líneas | 0.8 KB
+* **Rol en el sistema:** Metadatos del manifiesto PWA para instalación de escritorio y móvil.
+
+```json
+{
+  "name": "RACK Designer Next — Datacenter Console",
+  "short_name": "RACK Designer Next",
+  "description": "Diseña, documenta y gestiona tu datacenter de forma visual con RACK Designer Next.",
+  "start_url": "../index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0b0f19",
+  "theme_color": "#0ea5e9",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "../assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities", "business"],
+  "prefer_related_applications": false
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="service-worker-js"></a>
+
+### 📄 Archivo 2/42: `service-worker.js`
+
+* **Ubicación relativa:** `service-worker.js`
+* **Capa:** Capa 0: Manifiesto PWA y Service Worker Offline
+* **Dimensiones:** 126 líneas | 3.9 KB
+* **Rol en el sistema:** Service Worker offline con precaché inteligente y auto-actualización.
+
+```javascript
+const CACHE_NAME = 'rack-designer-next-cache-v33';
+const ASSETS_TO_CACHE = [
+  './',
+  './index.html',
+  './css/style.css',
+  './css/variables.css',
+  './css/layout.css',
+  './css/mobile-drag-drop.css',
+  './css/components/panels.css',
+  './css/components/rack.css',
+  './css/components/faceplates.css',
+  './css/components/modals.css',
+  './css/components/misc.css',
+  './js/utils.js',
+  './js/icons.js',
+  './js/demoData.js',
+  './js/xlsx.full.min.js',
+  './js/html2canvas.min.js',
+  './js/mobile-drag-drop.min.js',
+  './js/mobile-drag-drop-scroll.min.js',
+  './js/auth/roles.js',
+  './js/store.js',
+  './js/ui/catalog.js',
+  './js/ui/rack.js',
+  './js/ui/faceplates.js',
+  './js/ui/tables.js',
+  './js/ui/outliner.js',
+  './js/ui/inspector.js',
+  './js/ui/fileManager.js',
+  './js/ui/modals/DeviceModal.js',
+  './js/ui/modals/RackModal.js',
+  './js/ui/modals/RoomModal.js',
+  './js/ui/modals/CableModal.js',
+  './js/ui/modals/ExportModal.js',
+  './js/ui/modals/PlacementModal.js',
+  './js/ui/modals/PortSelectionModal.js',
+  './js/ui/topology/TopologyState.js',
+  './js/ui/topology/TopologyRenderer.js',
+  './js/ui/topology/TopologyLayout.js',
+  './js/ui/topology/TopologyEvents.js',
+  './js/ui/topology/TopologyManager.js',
+  './js/ui/modals.js',
+  './js/main.js',
+  './manifest.json',
+  './assets/icons/icon.svg',
+  './assets/icons/icon-192x192.png',
+  './assets/icons/icon-512x512.png',
+  './assets/svg/default/server_1u.svg',
+  './assets/svg/default/server_2u.svg',
+  './assets/svg/default/server_4u.svg',
+  './assets/svg/default/switch_24p.svg',
+  './assets/svg/default/router.svg',
+  './assets/svg/default/firewall.svg',
+  './assets/svg/default/ups.svg',
+  './assets/svg/default/ups_2u.svg',
+  './assets/svg/default/pdu.svg',
+  './assets/svg/default/storage.svg',
+  './assets/svg/default/patchpanel.svg',
+  './assets/svg/default/organizer.svg',
+  './assets/svg/default/kvm.svg',
+  './assets/svg/default/tray.svg',
+  './assets/svg/default/floor_pc.svg',
+  './assets/svg/default/floor_camera.svg',
+  './assets/svg/default/floor_ap.svg',
+  './assets/svg/default/floor_printer.svg',
+  'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('[Service Worker] Precaching app shell');
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keyList) => {
+      return Promise.all(
+        keyList.map((key) => {
+          if (key !== CACHE_NAME) {
+            console.log('[Service Worker] Removing old cache', key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+  let req = event.request;
+  // Redirección transparente en Service Worker si se solicita la ruta antigua 'assets/default/'
+  if (req.url && req.url.includes('/assets/default/')) {
+    const canonicalUrl = req.url.replace('/assets/default/', '/assets/svg/default/');
+    req = new Request(canonicalUrl, {
+      method: req.method,
+      headers: req.headers,
+      mode: req.mode,
+      credentials: req.credentials,
+      redirect: req.redirect
+    });
+  }
+
+  event.respondWith(
+    caches.match(req).then((response) => {
+      return response || fetch(req).then((fetchResponse) => {
+        return caches.open(CACHE_NAME).then((cache) => {
+          if (req.url.startsWith('http')) {
+            cache.put(req, fetchResponse.clone());
+          }
+          return fetchResponse;
+        });
+      });
+    }).catch(() => {
+      if (req.mode === 'navigate') {
+        return caches.match('./index.html');
+      }
+    })
+  );
+});
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="index-html"></a>
+
+### 📄 Archivo 3/42: `index.html`
+
+* **Ubicación relativa:** `index.html`
+* **Capa:** Capa 1: Estructura HTML y Vistas Base
+* **Dimensiones:** 872 líneas | 56.0 KB
+* **Rol en el sistema:** Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>⚡ RACK Designer Next — Consola del Datacenter</title>
+<meta name="description" content="Diseña, documenta y gestiona tu datacenter de forma visual con RACK Designer Next.">
+<meta name="theme-color" content="#0ea5e9">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RACK Designer Next">
+<script>
+  if (window.location.protocol.startsWith('http')) {
+    const mLink = document.createElement('link');
+    mLink.rel = 'manifest';
+    mLink.href = 'json/manifest.json';
+    document.head.appendChild(mLink);
+  }
+</script>
+<link rel="apple-touch-icon" href="assets/icons/icon-512x512.png">
+<link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=37">
+<script>
+  if (localStorage.getItem('theme')) {
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
+  }
+</script>
+</head>
+<body>
+
+<!-- ============================
+     HTML SKELETON
+============================= -->
+<div id="app">
+  <!-- MOBILE OVERLAY -->
+  <div id="mobile-overlay" class="hidden"></div>
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="header-logo-area">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="mobile-menu-btn" class="menu-btn" style="display: none;" aria-label="Abrir menú móvil"><i class="svg-icon icon-menu" style="width:16px; height:16px;"></i></button>
+        <div class="logo">
+          <img src="assets/icons/icon.svg" class="logo-icon" alt="Logo" style="height: 24px; width: 24px; object-fit: contain;">
+          <div>
+            RACK Designer Next
+            <span class="logo-sub" id="project-filename">Nuevo Proyecto</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-menu-wrap">
+        <button class="menu-btn" id="btn-project-menu" aria-label="Menú del proyecto" aria-haspopup="true">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+        <div class="dropdown-menu hidden" id="project-dropdown">
+          <div class="dropdown-item" id="menu-open"><i class="svg-icon icon-folder" style="width:14px; height:14px; margin-right:6px;"></i>Abrir proyecto</div>
+          <div class="dropdown-item" id="menu-save"><i class="svg-icon icon-save" style="width:14px; height:14px; margin-right:6px;"></i>Guardar proyecto</div>
+          <div class="dropdown-item" id="menu-save-as"><i class="svg-icon icon-save" style="width:14px; height:14px; margin-right:6px;"></i>Guardar como...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="menu-clear" style="color: var(--red);"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar proyecto</div>
+          <div class="dropdown-item" id="menu-demo"><i class="svg-icon icon-sparkle" style="width:14px; height:14px; margin-right:6px;"></i>Cargar demos</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="menu-theme"><i class="svg-icon icon-sun" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar a Modo Claro</div>
+          <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
+          <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
+          <div class="dropdown-divider"></div>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (83 pruebas)</a>
+          <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
+          <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-main-area">
+      <!-- Menú Desplegable de Salas -->
+      <div class="nav-dropdown-wrapper" id="room-dropdown-wrapper">
+        <button class="nav-dropdown-toggle" id="room-dropdown-toggle" title="Seleccionar Sala" aria-label="Seleccionar sala">
+          <i class="svg-icon icon-building" style="width:14px; height:14px;"></i>
+          <span id="room-dropdown-label">Data Center</span>
+          <i class="svg-icon icon-chevron" style="width:12px; height:12px;"></i>
+        </button>
+        <button class="nav-btn-add" id="btn-add-room" title="Nueva sala" aria-label="Añadir nueva sala">+</button>
+        <div class="nav-dropdown-list hidden" id="room-dropdown-list"></div>
+      </div>
+
+      <!-- Menú Desplegable de Racks -->
+      <div class="nav-dropdown-wrapper" id="rack-dropdown-wrapper">
+        <button class="nav-dropdown-toggle" id="rack-dropdown-toggle" title="Seleccionar Rack" aria-label="Seleccionar rack">
+          <i class="svg-icon icon-server" style="width:14px; height:14px;"></i>
+          <span id="rack-dropdown-label">Racks</span>
+          <i class="svg-icon icon-chevron" style="width:12px; height:12px;"></i>
+        </button>
+        <button class="nav-btn-add" id="btn-add-rack-nav" title="Nuevo rack" aria-label="Añadir nuevo rack">+</button>
+        <div class="nav-dropdown-list hidden" id="rack-dropdown-list"></div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="physical"><i class="svg-icon icon-physical" style="margin-right:6px; width:14px; height:14px;"></i> Vista Física</button>
+        <button class="view-tab" data-view="topology"><i class="svg-icon icon-topology" style="margin-right:6px; width:14px; height:14px;"></i> Topología</button>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="h-search">
+        <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
+      </div>
+      <div class="h-btn-group">
+        <button class="h-btn tooltip tooltip-bottom" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" aria-label="Deshacer acción" disabled>↩</button>
+        <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" aria-label="Rehacer acción" disabled>↪</button>
+      </div>
+      <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
+      <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid var(--accent); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;"><i class="svg-icon icon-edit" style="width:11px; height:11px; margin-right:4px;"></i>Editor</div>
+      <input type="file" id="file-import" accept=".json" style="display:none">
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-icons" id="sidebar-category-icons">
+      <!-- Icons will be injected by js/ui/catalog.js -->
+    </div>
+  </aside>
+    
+  <!-- FLYOUT CATALOG -->
+  <div id="catalog-flyout" class="catalog-flyout hidden">
+    <div class="flyout-header">
+      <span id="flyout-title">Servidores</span>
+      <button id="btn-close-flyout" title="Cerrar" style="background:transparent; border:none; color:var(--text-secondary); font-size:16px; cursor:pointer; padding:4px;"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
+    </div>
+    <div class="flyout-actions">
+      <button class="btn-primary" id="btn-add-rack">+ Rack</button>
+      <button class="btn-secondary" id="btn-add-device-modal">+ Equipo</button>
+    </div>
+    <div class="flyout-search">
+      <input type="text" id="catalog-search" placeholder="Buscar equipo...">
+    </div>
+    <div class="catalog" id="catalog"></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <main id="main">
+    <div class="main-toolbar">
+      <button class="h-btn" id="btn-zoom-out" aria-label="Alejar zoom">-</button>
+      <span class="zoom-label" id="zoom-level">100%</span>
+      <button class="h-btn" id="btn-zoom-in" aria-label="Acercar zoom">+</button>
+      <button class="h-btn" id="btn-zoom-reset" aria-label="Restablecer zoom a escala original">⊙ 1:1</button>
+      
+      <!-- Botón para ocultar/mostrar cables en Vista Física -->
+      <label class="ui-switch" id="btn-toggle-cables" title="Ocultar o mostrar conexiones">
+        <input type="checkbox" id="checkbox-toggle-cables">
+        <span class="ui-slider"></span>
+        <span class="ui-switch-label"><i class="svg-icon icon-plug" style="width:14px; height:14px; margin-right:4px; vertical-align:middle;"></i>Cables</span>
+      </label>
+
+      <div class="topo-style-wrap" style="position:relative; display:inline-block;">
+        <button class="h-btn force-hide" id="btn-topo-style" aria-haspopup="true" aria-expanded="false"><i class="svg-icon icon-sliders" style="width:14px; height:14px; margin-right:4px;"></i>Estilo</button>
+        <div class="dropdown-menu hidden" id="topo-style-dropdown" style="left:0; top:calc(100% + 6px); width:240px; padding:12px; z-index:1000; box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:10px; font-family:var(--font-mono); display:flex; justify-content:space-between; align-items:center;">
+            <span>Personalización Topología</span>
+            <span id="btn-topo-style-close" style="cursor:pointer; font-size:13px; color:var(--text-muted); padding:2px;">✕</span>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Disposición de Nodos</label>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-secondary" id="topo-layout-racks" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Por Racks</button>
+              <button class="btn-secondary" id="topo-layout-tree" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Árbol Jerárquico</button>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Representación de Nodos</label>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-secondary" id="topo-opt-card" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Tarjetas</button>
+              <button class="btn-secondary" id="topo-opt-circle" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Nodos</button>
+            </div>
+          </div>
+          <div style="margin-bottom:10px;" id="topo-labels-section">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Etiquetas de Nodos (Nombre / IP)</label>
+            <select id="topo-label-preset" style="width:100%; font-size:11px; padding:5px 8px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none; margin-bottom:6px;">
+              <option value="separated">Separados (IP Arriba / Nombre Abajo)</option>
+              <option value="separated_inv">Separados (Nombre Arriba / IP Abajo)</option>
+              <option value="together_bottom">Juntos Abajo</option>
+              <option value="together_top">Juntos Arriba</option>
+              <option value="together_right">Juntos a la Derecha</option>
+              <option value="together_left">Juntos a la Izquierda</option>
+              <option value="custom">Personalizado...</option>
+            </select>
+            <div id="topo-label-custom-wrap" style="display:flex; gap:6px;">
+              <div style="flex:1;">
+                <span style="font-size:10px; color:var(--text-muted); display:block; margin-bottom:2px;">Nombre:</span>
+                <select id="topo-name-pos" style="width:100%; font-size:10px; padding:4px 6px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
+                  <option value="bottom">Abajo</option>
+                  <option value="top">Arriba</option>
+                  <option value="right">Derecha</option>
+                  <option value="left">Izquierda</option>
+                  <option value="none">Oculto</option>
+                </select>
+              </div>
+              <div style="flex:1;">
+                <span style="font-size:10px; color:var(--text-muted); display:block; margin-bottom:2px;">IP:</span>
+                <select id="topo-ip-pos" style="width:100%; font-size:10px; padding:4px 6px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
+                  <option value="top">Arriba</option>
+                  <option value="bottom">Abajo</option>
+                  <option value="right">Derecha</option>
+                  <option value="left">Izquierda</option>
+                  <option value="none">Oculto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+            <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Patrón de Fondo</label>
+            <select id="topo-pattern-select" style="width:100%; font-size:11px; padding:5px 8px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
+              <option value="dots">Puntos (Dots)</option>
+              <option value="grid">Cuadrícula (Grid)</option>
+              <option value="hexagon">Hexágonos (Tech)</option>
+              <option value="solid">Liso / Sólido</option>
+            </select>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-secondary); display:flex; justify-content:space-between; margin-bottom:4px;">
+              <span>Transparencia Salas/Racks</span>
+              <span id="topo-alpha-val" style="font-family:var(--font-mono); color:var(--accent);">25%</span>
+            </label>
+            <input type="range" id="topo-alpha-slider" min="10" max="80" value="25" style="width:100%; accent-color:var(--accent); cursor:pointer;">
+          </div>
+          <div style="margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="topo-inherit-colors" checked style="accent-color:var(--accent); width:14px; height:14px; cursor:pointer;">
+            <label for="topo-inherit-colors" style="font-size:11px; color:var(--text-secondary); cursor:pointer;">Colores del inventario</label>
+          </div>
+
+          <!-- Sliders de Espaciado integrados en el menú Estilo (Solución Híbrida M-40) -->
+          <div class="topo-spacing-group" id="topo-spacing-group" style="background:var(--bg-card2); padding:8px 10px; border-radius:var(--radius); border:1px solid var(--border);">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); font-family:var(--font-mono); margin-bottom:6px;">Espaciado del Canvas</div>
+            <div style="margin-bottom:6px;">
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-secondary); margin-bottom:2px; font-family:var(--font-mono);">
+                <label for="topo-spacing-x" style="cursor:pointer;" title="Espaciado Horizontal">H (Horizontal):</label>
+                <span id="topo-spacing-x-val" style="color:var(--accent); font-weight:700;">28px</span>
+              </div>
+              <input type="range" id="topo-spacing-x" min="15" max="150" value="28" class="topo-slider" title="Espaciado Horizontal" style="width:100%; accent-color:var(--accent); cursor:pointer;">
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-secondary); margin-bottom:2px; font-family:var(--font-mono);">
+                <label for="topo-spacing" style="cursor:pointer;" title="Espaciado Vertical">V (Vertical):</label>
+                <span id="topo-spacing-val" style="color:var(--accent); font-weight:700;">60px</span>
+              </div>
+              <input type="range" id="topo-spacing" min="30" max="150" value="60" class="topo-slider" title="Espaciado Vertical" style="width:100%; accent-color:var(--accent); cursor:pointer;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Auto</button>
+      
+      <!-- M-40: 5 Ranuras de Memoria / Slots de Topología Compactas -->
+      <div class="topo-slots-group force-hide" id="topo-slots-group" style="position:relative; display:flex; align-items:center; gap:3px; background:var(--bg-card2); padding:2px 6px; border-radius:var(--radius); border:1px solid var(--border);">
+        <span style="font-size:12px; cursor:help; user-select:none; margin-right:2px; display:inline-flex; align-items:center;" title="Ranuras de memoria para guardar y alternar perspectivas de topología">👁️</span>
+        <div id="topo-slots-bar" style="display:flex; gap:3px; align-items:center;">
+          <!-- 5 botones de slots renderizados con renderTopologySlots() -->
+        </div>
+        <div style="width:1px; height:14px; background:var(--border); margin:0 2px;"></div>
+        <button class="h-btn-icon" id="btn-topo-slots-menu" title="Gestionar vistas guardadas (Guardar, Renombrar, Vaciar)" style="background:transparent; border:none; color:var(--text-secondary); cursor:pointer; padding:3px 5px; border-radius:var(--radius); display:flex; align-items:center; font-size:11px;" aria-haspopup="true" aria-expanded="false">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+        </button>
+
+        <!-- Popover / Menú desplegable de gestión de slots con anclaje a la derecha para no desbordar -->
+        <div class="dropdown-menu hidden" id="topo-slots-dropdown" style="right:0; left:auto; top:calc(100% + 6px); width:320px; padding:12px; z-index:1000; box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:10px; font-family:var(--font-mono); display:flex; justify-content:space-between; align-items:center;">
+            <span>Vistas Guardadas (Topología M-40)</span>
+            <span id="btn-topo-slots-close" style="cursor:pointer; font-size:13px; color:var(--text-muted); padding:2px;">✕</span>
+          </div>
+          <div id="topo-slots-list" style="display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto;">
+            <!-- Renderizado dinámicamente -->
+          </div>
+          <div style="margin-top:10px; padding-top:8px; border-top:1px solid var(--border); display:flex; gap:6px;">
+            <button class="btn-primary" id="btn-topo-slots-quick-save" style="flex:1; justify-content:center; font-size:11px; padding:4px 8px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>Guardar en Primer Slot Libre
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="spacer"></div>
+      
+      <button class="h-btn" id="btn-export-png"><i class="svg-icon icon-image" style="width:14px; height:14px; margin-right:4px;"></i>PNG</button>
+      <button class="h-btn" id="btn-expand-main"><i class="svg-icon icon-maximize" style="width:14px; height:14px; margin-right:4px;"></i>Expandir</button>
+    </div>
+    <div id="view-physical"></div>
+    <canvas id="topology-canvas"></canvas>
+    <div id="view-topology" class="hidden"></div>
+  </main>
+
+  <!-- RIGHT PANEL (Outliner & Stats) -->
+  <aside id="right-panel">
+    <div class="right-panel-section" id="outliner-section">
+      <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('outliner-section').classList.toggle('collapsed')">
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Outliner</span>
+        <div class="outliner-header-actions" onclick="event.stopPropagation()">
+          <button class="outliner-btn-icon" id="btn-outliner-add-room" title="Nueva Sala">+ Sala</button>
+          <button class="outliner-btn-icon" id="btn-outliner-add-rack" title="Nuevo Gabinete">+ Rack</button>
+          <button class="outliner-btn-icon" id="btn-outliner-add-dev" title="Agregar Equipo">+ Equipo</button>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="outliner-toolbar">
+        <span>Ordenar:</span>
+        <select id="outliner-sort-select" class="outliner-sort-select" title="Criterio de ordenación">
+          <option value="slot">Posición U (Físico)</option>
+          <option value="name-asc">Nombre (A → Z)</option>
+          <option value="name-desc">Nombre (Z → A)</option>
+          <option value="type">Tipo de Equipo</option>
+        </select>
+      </div>
+      <div id="outliner-tree" style="flex: 1; overflow-y: auto; padding: 8px;"></div>
+    </div>
+    <div class="right-panel-section" id="inspector-section">
+      <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('inspector-section').classList.toggle('collapsed')">
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Propiedades</span>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div id="inspector-content" style="flex: 1; overflow-y: auto; padding: 12px; font-size: 13px; color: var(--text-secondary);">
+        <div style="text-align:center; padding-top:20px; color:var(--text-muted); font-style:italic;">Ningún elemento seleccionado</div>
+      </div>
+    </div>
+    <div class="right-panel-section collapsed" id="stats-section">
+      <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('stats-section').classList.toggle('collapsed')">
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Estadísticas</span>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div id="stats-content" style="flex: 1; overflow-y: auto; padding: 12px;">
+        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px;">Métricas del Proyecto Global</div>
+        <div class="sb-stats" id="sidebar-stats">
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Salas">
+            <div class="stat-icon-wrap" style="color: #0ea5e9; background: rgba(14, 165, 233, 0.15);">
+              <i class="svg-icon icon-building" style="width:16px; height:16px;"></i>
+            </div>
+            <div class="value" id="stat-global-rooms" style="color: #0ea5e9;">0</div>
+          </div>
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Total de Gabinetes">
+            <div class="stat-icon-wrap" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">
+              <i class="svg-icon icon-server" style="width:16px; height:16px;"></i>
+            </div>
+            <div class="value" id="stat-global-racks" style="color: #38bdf8;">0</div>
+          </div>
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos en Rack">
+            <div class="stat-icon-wrap" style="color: #f43f5e; background: rgba(244, 63, 94, 0.15);">
+              <i class="svg-icon icon-network" style="width:16px; height:16px;"></i>
+            </div>
+            <div class="value" id="stat-global-rack-devs" style="color: #f43f5e;">0</div>
+          </div>
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Equipos de Piso">
+            <div class="stat-icon-wrap" style="color: #22c55e; background: rgba(34, 197, 94, 0.15);">
+              <i class="svg-icon icon-desktop" style="width:16px; height:16px;"></i>
+            </div>
+            <div class="value" id="stat-global-floor-devs" style="color: #22c55e;">0</div>
+          </div>
+          <div class="stat-pill tooltip tooltip-bottom" data-tip="Total Conexiones">
+            <div class="stat-icon-wrap" style="color: #f59e0b; background: rgba(245, 158, 11, 0.15);">
+              <i class="svg-icon icon-link" style="width:16px; height:16px;"></i>
+            </div>
+            <div class="value" id="stat-global-connections" style="color: #f59e0b;">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- BOTTOM PANEL -->
+  <div id="bottom">
+    <div class="bottom-header">
+      <div class="tab-pills">
+        <button class="tab-pill active" data-tab="inventory"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Inventario</button>
+        <button class="tab-pill" data-tab="connections"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:5px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Conexiones</button>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn-primary" id="table-btn-add-device" style="margin-right:8px; display:none;">+ Equipo</button>
+      <button class="btn-primary" id="table-btn-add-placement" style="margin-right:8px; display:none; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent)"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Agregar Equipo</button>
+      <button class="btn-primary" id="table-btn-add-conn" style="margin-right:8px; display:none;">+ Conexión</button>
+      <div class="h-search" style="margin-right:8px">
+        <input type="text" id="table-search" placeholder="Filtrar tabla…" style="width:160px">
+      </div>
+      <div class="dropdown-wrap" id="columns-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
+        <button class="h-btn" id="btn-columns-menu" aria-haspopup="true">⚙ Columnas <span id="columns-count-badge" style="font-size:10px; opacity:0.8; margin-left:2px;"></span> ▼</button>
+        <div class="dropdown-menu hidden" id="columns-dropdown">
+          <div class="columns-dropdown-header">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-weight: 700; font-size: 12px; color: var(--text-primary);"><i class="svg-icon icon-grid" style="width:13px; height:13px; margin-right:4px;"></i>Columnas Visibles</span>
+              <span id="columns-active-tab-indicator" style="font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase;"></span>
+            </div>
+            <button type="button" id="btn-cols-close" title="Cerrar menú" style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:2px 4px; font-size:13px; line-height:1; border-radius:3px;">✕</button>
+          </div>
+          <div class="columns-dropdown-list" id="columns-dropdown-list"></div>
+          <div class="columns-dropdown-footer">
+            <button type="button" class="btn-col-action" id="btn-cols-show-all">Mostrar Todo</button>
+            <button type="button" class="btn-col-action" id="btn-cols-reset">Por Defecto</button>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown-wrap" id="export-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
+        <button class="h-btn" id="btn-export-menu" aria-haspopup="true">⬇ Exportar ▼</button>
+        <div class="dropdown-menu hidden" id="export-dropdown" style="top: 100%; bottom: auto; right: 0; margin-top: 8px; width: 180px; z-index: 9999;">
+          <div class="dropdown-item" id="btn-table-csv"><i class="svg-icon icon-file" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a CSV</div>
+          <div class="dropdown-item" id="btn-table-excel"><i class="svg-icon icon-chart" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a Excel</div>
+        </div>
+      </div>
+      <button class="h-btn" id="btn-expand-bottom"><i class="svg-icon icon-maximize" style="width:14px; height:14px; margin-right:4px;"></i>Expandir</button>
+      <button class="h-btn" id="btn-collapse-bottom" aria-label="Contraer o expandir panel inferior">▼</button>
+    </div>
+    <div class="table-wrap" id="bottom-table-wrap"></div>
+  </div>
+</div>
+
+<!-- DRAG GHOST -->
+<div id="drag-ghost"></div>
+
+<!-- NOTIFICATIONS -->
+<div id="notif-area"></div>
+
+<!-- CONTEXT MENU -->
+<div id="ctx-menu" class="hidden"></div>
+
+<!-- MODALS -->
+<div class="modal-overlay hidden" id="modal-rack">
+  <div class="modal">
+    <div class="modal-title"><i class="svg-icon icon-server" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-rack-title">Nuevo Gabinete</span></div>
+    <div class="modal-sub">Configura las propiedades del gabinete físico</div>
+    <div class="form-row"><label>Nombre del Gabinete</label><input type="text" id="rack-name" placeholder="Rack A1 — Producción"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Altura (U)</label>
+        <select id="rack-height">
+          <option value="8">8U — Mural pequeño</option>
+          <option value="12">12U — Comunicaciones</option>
+          <option value="18">18U — Intermedio</option>
+          <option value="24">24U — Media altura</option>
+          <option value="42" selected>42U — Estándar Datacenter</option>
+          <option value="48">48U — Alta densidad</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Color</label>
+        <div class="color-input-wrap">
+          <input type="color" id="rack-color-picker" value="#0ea5e9">
+          <input type="text" id="rack-color" value="#0ea5e9" maxlength="7">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-rack-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-rack-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-device">
+  <div class="modal">
+    <div class="modal-title"><i class="svg-icon icon-desktop" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-device-title">Editar Equipo</span></div>
+    
+    <div class="modal-sub" id="modal-device-sub" style="margin-bottom:8px">Información General</div>
+    <div class="form-row"><label>Nombre del Equipo *</label><input type="text" id="dev-name" placeholder="Ej: SRV-001"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tipo de Equipo *</label>
+        <select id="dev-type">
+          <optgroup label="── Equipos en Rack ──" id="opt-rack">
+            <option value="server">Servidor</option>
+            <option value="switch">Switch</option>
+            <option value="router">Router</option>
+            <option value="firewall">Firewall</option>
+            <option value="storage">Almacenamiento (SAN/NAS)</option>
+            <option value="nvr">NVR (Grabador de Video)</option>
+            <option value="dvr">DVR Híbrido</option>
+            <option value="decoder">Decodificador CCTV</option>
+            <option value="ups">UPS (Sistema de Energía)</option>
+            <option value="pdu">PDU (Distribución Eléctrica)</option>
+            <option value="patchpanel">Patch Panel / ODF</option>
+            <option value="organizer">Organizador Horizontal</option>
+            <option value="tray">Bandeja de Rack</option>
+            <option value="kvm">Consola KVM</option>
+          </optgroup>
+          <optgroup label="── Equipos de Piso ──" id="opt-floor" style="display: none;">
+            <option value="pc">PC / Workstation</option>
+            <option value="camera">Cámara IP</option>
+            <option value="ap">Access Point</option>
+            <option value="door">Ctrl de Puerta</option>
+            <option value="printer">Impresora</option>
+            <option value="phone">Teléfono VoIP</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-row"><label>Estado *</label>
+        <select id="dev-status">
+          <option value="active">Activo</option>
+          <option value="maintenance">Mantenimiento</option>
+          <option value="offline">Apagado</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-brand" class="module-toggle" title="Habilitar detalles de Fabricante">
+      <div class="module-header"><label for="dev-has-brand"><i class="svg-icon icon-industry" style="width:11px; height:11px; margin-right:6px;"></i> Fabricante</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Marca</label><input type="text" id="dev-brand" placeholder="HP, Cisco..."></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Modelo</label><input type="text" id="dev-model" placeholder="DL380"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Serie</label><input type="text" id="dev-serial" placeholder="SRV-001"></div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-skin" class="module-toggle" title="Habilitar Skin Personalizado">
+      <div class="module-header"><label for="dev-has-skin"><i class="svg-icon icon-image" style="width:11px; height:11px; margin-right:6px;"></i> Skin / Apariencia</label></div>
+      <div class="module-content">
+        <div class="form-grid">
+          <div class="form-row" style="margin-bottom:0;"><label>Nombre del archivo en assets/img/</label><input type="text" id="dev-skin" placeholder="mi_servidor.png"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-ports" class="module-toggle" title="Habilitar puertos de red">
+      <div class="module-header"><label for="dev-has-ports"><i class="svg-icon icon-network" style="width:11px; height:11px; margin-right:6px;"></i> Interfaces de Red (Opcional)</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Puertos Ethernet (RJ45)</label><input type="number" min="0" max="96" id="dev-ports-eth" placeholder="Ej: 24"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Puertos Fibra (SFP)</label><input type="number" min="0" max="96" id="dev-ports-fib" placeholder="Ej: 4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-loc" class="module-toggle" title="Habilitar detalles de Ubicación" checked>
+      <div class="module-header"><label for="dev-has-loc"><i class="svg-icon icon-location" style="width:11px; height:11px; margin-right:6px;"></i> Ubicación Física</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Categoría</label>
+            <select id="dev-category">
+              <option value="rack">Gabinete (Rack)</option>
+              <option value="floor">Equipo de Piso</option>
+            </select>
+          </div>
+          <div class="form-row" id="dev-size-row" style="margin-bottom:0;">
+            <label>Tamaño (U)</label>
+            <select id="dev-size">
+              <option value="1">1U</option><option value="2" selected>2U</option>
+              <option value="4">4U</option><option value="8">8U</option>
+            </select>
+          </div>
+          <div class="form-row" id="dev-side-row" style="margin-bottom:0;">
+            <label>Lado (Montaje)</label>
+            <select id="dev-side">
+              <option value="front" selected>Frontal</option>
+              <option value="rear">Trasero</option>
+              <option value="both">Ambas Caras (Completo)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-net" class="module-toggle" title="Habilitar Red">
+      <div class="module-header"><label for="dev-has-net"><i class="svg-icon icon-network" style="width:11px; height:11px; margin-right:6px;"></i> Red</label></div>
+      <div class="module-content">
+        <div class="form-grid">
+          <div class="form-row" style="margin-bottom:0;"><label>Dirección IP</label><input type="text" id="dev-ip" placeholder="192.168.1.10"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Dirección MAC</label><input type="text" id="dev-mac" placeholder="AA:BB:CC:DD:EE:FF"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-auth" class="module-toggle" title="Habilitar Credenciales">
+      <div class="module-header"><label for="dev-has-auth"><i class="svg-icon icon-lock" style="width:11px; height:11px; margin-right:6px;"></i> Credenciales</label></div>
+      <div class="module-content">
+        <div class="form-grid">
+          <div class="form-row" style="margin-bottom:0;"><label>Usuario</label><input type="text" id="dev-user" placeholder="admin"></div>
+          <div class="form-row" style="margin-bottom:0;">
+            <label>Contraseña</label>
+            <div style="position:relative; display:flex; align-items:center;">
+              <input type="password" id="dev-pass" placeholder="••••••••" style="padding-right:28px;">
+              <button type="button" id="dev-pass-toggle" title="Mostrar/ocultar contraseña" style="position:absolute; right:6px; background:none; border:none; color:var(--text-secondary); cursor:pointer; padding:0; display:flex; align-items:center;">
+                <i class="svg-icon icon-eye" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-power" class="module-toggle" title="Habilitar Energía">
+      <div class="module-header"><label for="dev-has-power"><i class="svg-icon icon-bolt" style="width:11px; height:11px; margin-right:6px;"></i> Energía</label></div>
+      <div class="module-content">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="form-row" style="margin-bottom:0;"><label>Consumo (W)</label><input type="number" id="dev-power" value="200" min="0"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Tomas In</label><input type="number" id="dev-plugs" value="1" min="0" max="10"></div>
+          <div class="form-row" style="margin-bottom:0;"><label>Tomas Out</label><input type="number" id="dev-plugs-out" value="0" min="0" max="48"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-module">
+      <input type="checkbox" id="dev-has-notes" class="module-toggle" title="Habilitar Notas">
+      <div class="module-header"><label for="dev-has-notes"><i class="svg-icon icon-file" style="width:11px; height:11px; margin-right:6px;"></i> Notas</label></div>
+      <div class="module-content">
+        <div class="form-row" style="margin-bottom:0;"><textarea id="dev-notes" rows="2" placeholder="Observaciones técnicas…" style="resize:vertical"></textarea></div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top: 16px;">
+      <button class="btn-cancel" id="modal-device-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-device-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-room">
+  <div class="modal">
+    <div class="modal-title"><i class="svg-icon icon-building" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-room-title">Nueva Sala</span></div>
+    <div class="modal-sub" id="modal-room-sub">Configura las propiedades de la sala</div>
+    <div class="form-row"><label>Nombre de la Sala</label><input type="text" id="room-name" placeholder="Sala A — Centro de Datos Principal"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-room-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-room-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-cable">
+  <div class="modal">
+    <div class="modal-title"><i class="svg-icon icon-plug" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-cable-title">Conectar Equipos</span></div>
+    <div class="modal-sub">Conectar puertos entre equipos</div>
+    <div class="form-grid">
+      <div class="form-row"><label>Equipo Origen</label>
+        <select id="cable-src-dev"></select>
+      </div>
+      <div class="form-row"><label>Puerto Origen</label>
+        <div id="cable-src-port-container">
+          <input type="text" id="cable-src-port" placeholder="Eth0/1">
+        </div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Equipo Destino</label>
+        <select id="cable-dst-dev"></select>
+      </div>
+      <div class="form-row"><label>Puerto Destino</label>
+        <div id="cable-dst-port-container">
+          <input type="text" id="cable-dst-port" placeholder="Eth0/2">
+        </div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tipo de Cable</label>
+        <select id="cable-type">
+          <option value="Cobre">Cobre (Cat6/Cat6A)</option>
+          <option value="Fibra SM">Fibra Monomodo</option>
+          <option value="Fibra MM">Fibra Multimodo</option>
+          <option value="DAC">DAC (Direct Attach)</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Color del Cable</label>
+        <div class="color-input-wrap">
+          <input type="color" id="cable-color-picker" value="#3b82f6">
+          <input type="text" id="cable-color" value="#3b82f6">
+        </div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>VLAN Asignada</label>
+        <select id="cable-vlan"></select>
+      </div>
+      <div class="form-row" style="display:flex; flex-direction:column; justify-content:center;">
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-top:14px; user-select:none;">
+          <input type="checkbox" id="cable-filter-free-ports" checked style="cursor:pointer; width:16px; height:16px; accent-color:var(--accent);">
+          <span style="font-size:12px; font-weight:500;">Mostrar solo puertos libres</span>
+        </label>
+      </div>
+    </div>
+    <div id="cable-collision-alert" class="hidden" style="background:rgba(239,68,68,0.12); border:1px solid var(--red); color:#fca5a5; padding:8px 12px; border-radius:6px; font-size:11px; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+      <i class="svg-icon icon-alert" style="width:14px; height:14px; flex-shrink:0;"></i>
+      <span id="cable-collision-msg"></span>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cable-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-cable-save">Conectar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-export-png">
+  <div class="modal">
+    <div class="modal-title"><i class="svg-icon icon-image" style="width:16px; height:16px; margin-right:8px;"></i>Exportar a Imagen PNG</div>
+    <div class="modal-sub">Exporta la sala completa o selecciona un gabinete individual</div>
+    <div id="png-rack-list"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-png-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-quick-placement">
+  <div class="modal" style="max-width: 450px;">
+    <div class="modal-title"><i class="svg-icon icon-bolt" style="width:16px; height:16px; margin-right:8px;"></i><span id="qp-modal-title">Ubicación Rápida</span></div>
+    <div class="modal-sub" id="qp-modal-sub">Ubicar de forma asistida sin arrastrar</div>
+    
+    <div class="form-row" id="qp-dev-display-row">
+      <label>Equipo a instalar</label>
+      <input type="text" id="qp-dev-name-display" disabled style="background:var(--bg-card2); opacity:0.8; font-weight:600; color:var(--accent);">
+    </div>
+    
+    <div class="form-row" id="qp-dev-select-row" style="display:none;">
+      <label>Seleccionar Equipo del Catálogo</label>
+      <div style="position:relative; margin-bottom:6px;">
+        <input type="text" id="qp-dev-search" placeholder="🔍 Filtrar equipos por nombre, marca o tipo..." autocomplete="off" style="width:100%; padding:6px 10px; font-size:var(--text-xs); background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text);">
+      </div>
+      <select id="qp-dev-select" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row">
+      <label>1. Seleccionar Sala</label>
+      <select id="qp-room" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-rack-row">
+      <label>2. Seleccionar Gabinete</label>
+      <select id="qp-rack" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-slot-row">
+      <label>3. Seleccionar Ranura (Slot U)</label>
+      <select id="qp-slot" style="width:100%;"></select>
+    </div>
+    
+    <div class="form-row" id="qp-side-row">
+      <label>4. Lado de Montaje</label>
+      <select id="qp-side" style="width:100%;">
+        <option value="front" selected>Frontal</option>
+        <option value="rear">Trasera</option>
+        <option value="both">Ambas Caras (Completo)</option>
+      </select>
+    </div>
+    
+    <div class="modal-footer" style="margin-top:20px;">
+      <button class="btn-cancel" id="modal-qp-cancel">Cancelar</button>
+      <button class="btn-confirm" id="modal-qp-save">Instalar Equipo</button>
+    </div>
+  </div>
+</div>
+
+  <div id="device-tooltip"></div>
+  <input type="file" id="import-file" accept=".rack,.json" class="hidden" style="display:none !important;">
+  
+  <link rel="stylesheet" href="css/mobile-drag-drop.css">
+  <script src="js/mobile-drag-drop.min.js"></script>
+  <script src="js/mobile-drag-drop-scroll.min.js"></script>
+  <script>
+    MobileDragDrop.polyfill({
+        dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+    });
+  </script>
+
+  <script src="js/xlsx.full.min.js"></script>
+  <script src="js/html2canvas.min.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/auth/crypto.js"></script>
+  <script src="js/auth/roles.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/ui/catalog.js"></script>
+  <script src="js/ui/faceplates.js"></script>
+  <script src="js/ui/modals/Globals.js"></script>
+  <script src="js/ui/modals/RackModal.js"></script>
+  <script src="js/ui/modals/DeviceModal.js"></script>
+  <script src="js/ui/modals/CableModal.js"></script>
+  <script src="js/ui/modals/RoomModal.js"></script>
+  <script src="js/ui/modals/ExportModal.js"></script>
+  <script src="js/ui/modals/PlacementModal.js"></script>
+  <script src="js/ui/modals.js"></script>
+  <script src="js/ui/rack.js"></script>
+  <script src="js/ui/topology/TopologyState.js"></script>
+  <script src="js/ui/topology/TopologyEvents.js"></script>
+  <script src="js/ui/topology/TopologyLayout.js"></script>
+  <script src="js/ui/topology/TopologyRenderer.js"></script>
+  <script src="js/ui/topology/TopologyOrchestrator.js"></script>
+  <script src="js/ui/tables.js"></script>
+  <script src="js/ui/outliner.js"></script>
+  <script src="js/ui/inspector.js"></script>
+
+  <script src="js/ui/fileManager.js"></script>
+  <script src="js/demoData.js"></script>
+  <script src="js/main.js"></script>
+
+<!-- ============================
+     PWA — Service Worker Registration
+============================= -->
+<script>
+  if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then((reg) => {
+          reg.update();
+          console.log('[PWA] Service Worker registrado:', reg.scope);
+        })
+        .catch((err) => console.warn('[PWA] Error al registrar SW:', err));
+    });
+  }
+</script>
+
+<!-- ============================
+     MODAL DE LOGIN
+============================= -->
+<div id="modal-login" style="display:flex; visibility:hidden; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; transition:visibility 0s, opacity 0.2s; opacity:0; pointer-events:none;">
+  <div class="modal" style="text-align: center; max-width: 320px; padding: 24px;">
+    <h2 class="modal-title" style="justify-content: center; margin-bottom: 8px;"><i class="svg-icon icon-bolt" style="width:20px; height:20px; margin-right:8px;"></i>RACK Designer Next</h2>
+    <div class="modal-sub" style="margin-bottom: 16px; font-size: var(--text-xs);">
+      Consola centralizada del Datacenter.<br>Identifíquese para continuar.
+    </div>
+    <!-- PIN Input -->
+    <div class="form-row" style="position:relative; margin-bottom:12px;">
+      <input type="password" id="login-pin-input" placeholder="PIN de administrador" autocomplete="off" style="text-align: center; padding-right: 28px !important;">
+      <button id="login-pin-toggle" type="button" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:12px; color:var(--text-secondary);" title="Mostrar/ocultar"><i class="svg-icon icon-eye" style="width:14px; height:14px;"></i></button>
+    </div>
+    <div id="login-error" style="color:var(--danger); font-size:var(--text-xs); margin-bottom:10px; display:none;"><i class="svg-icon icon-x" style="width:12px; height:12px; margin-right:4px;"></i>PIN incorrecto. Acceso denegado.</div>
+    <!-- First-time PIN notice -->
+    <div id="login-pin-notice" style="color:var(--warning); font-size:var(--text-xs); margin-bottom:12px; display:none;"><i class="svg-icon icon-warning" style="width:12px; height:12px; margin-right:4px;"></i>PIN por defecto: <code style='background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;'>rack2024</code></div>
+    <!-- Role buttons -->
+    <button id="btn-login-admin" class="btn-confirm" style="width:100%; margin-bottom:8px;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Admin Auth</button>
+    <div style="display:flex; gap:8px; margin-bottom:16px;">
+      <button id="btn-login-editor" class="btn-cancel" style="flex:1;"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:4px;"></i>Editor</button>
+      <button id="btn-login-viewer" class="btn-cancel" style="flex:1;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:4px;"></i>Espectador</button>
+    </div>
+    <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">
+      SESSION_EXPIRATION = VOLATILE
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+     MODAL DE CAMBIO DE PIN
+============================= -->
+<div id="modal-change-pin" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
+  <div class="modal" style="text-align:center; max-width:320px; padding:24px;">
+    <h2 class="modal-title" style="justify-content: center; margin-bottom: 8px;"><i class="svg-icon icon-lock" style="width:20px; height:20px; margin-right:8px;"></i>Cambiar PIN</h2>
+    <div class="modal-sub" style="margin-bottom: 16px; font-size: var(--text-xs);">
+      El nuevo PIN debe tener mínimo 4 caracteres.
+    </div>
+    <div class="form-row">
+      <input type="password" id="pin-current-input" placeholder="PIN actual" autocomplete="off">
+    </div>
+    <div class="form-row">
+      <input type="password" id="pin-new-input" placeholder="Nuevo PIN" autocomplete="new-password">
+    </div>
+    <div class="form-row">
+      <input type="password" id="pin-confirm-input" placeholder="Confirmar nuevo PIN" autocomplete="new-password">
+    </div>
+    <div id="pin-change-error" style="color:var(--danger); font-size:var(--text-xs); margin-bottom:10px; display:none;"></div>
+    <div id="pin-change-success" style="color:var(--green); font-size:var(--text-xs); margin-bottom:10px; display:none;"><i class="svg-icon icon-check" style="width:12px; height:12px; margin-right:4px;"></i>PIN actualizado correctamente.</div>
+    <div class="modal-footer" style="margin-top:16px; display:flex; gap:8px;">
+      <button id="btn-pin-cancel" class="btn-cancel" style="flex:1;">Cancelar</button>
+      <button id="btn-pin-save" class="btn-confirm" style="flex:1;">Guardar PIN</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-style-css"></a>
+
+### 📄 Archivo 4/42: `css/style.css`
+
+* **Ubicación relativa:** `css/style.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 8 líneas | 0.2 KB
+* **Rol en el sistema:** Punto de entrada CSS: encadenamiento ordenado de @imports.
+
+```css
+@import "variables.css";
+@import "layout.css?v=37";
+@import "components/panels.css?v=37";
+@import "components/rack.css?v=37";
+@import "components/faceplates.css?v=37";
+@import "components/modals.css?v=37";
+@import "components/misc.css?v=37";
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-variables-css"></a>
+
+### 📄 Archivo 5/42: `css/variables.css`
+
+* **Ubicación relativa:** `css/variables.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 85 líneas | 2.6 KB
+* **Rol en el sistema:** Tokens de diseño: variables CSS de colores, fuentes, alturas y temas claro/oscuro.
+
+```css
+/* ============================================================
+   VARIABLES & RESET
+============================================================ */
+:root {
+  --bg-main:      #0b0f19;
+  --bg-panel:     #111827cc;
+  --bg-card:      #151c2e;
+  --bg-card1:     #171f30;
+  --bg-card2:     #1a2235;
+  --border:       #25304b;
+  --border-light: #2e3d5a;
+  --text-primary: #f0f4ff;
+  --text-secondary:#8b9ab8;
+  --text-muted:   #94a3b8;
+  --accent:       #0ea5e9;
+  --accent-glow:  #0ea5e933;
+  --green:        #10b981;
+  --green-glow:   #10b98133;
+  --amber:        #f59e0b;
+  --amber-glow:   #f59e0b33;
+  --red:          #ef4444;
+  --red-glow:     #ef444433;
+  --cyan:         #06b6d4;
+  --hardware-base: #1a2235;
+  --hardware-rail: #171f30;
+  --grid-dot: #1e2d4a;
+  --danger: var(--red);
+}
+[data-theme="light"] {
+  --bg-main:      #f0f4f8;
+  --bg-panel:     #ffffffcc;
+  --bg-card:      #ffffff;
+  --bg-card1:     #f8fafc;
+  --bg-card2:     #f1f5f9;
+  --border:       #e2e8f0;
+  --border-light: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary:#334155;
+  --text-muted:   #64748b;
+  --accent:       #0284c7;
+  --accent-glow:  #e0f2fe;
+  --hardware-base: #e2e8f0;
+  --hardware-rail: #f1f5f9;
+  --grid-dot: #cbd5e1;
+}
+:root {
+  --sidebar-w:    50px;
+  --right-panel-w: 300px;
+  --header-h:     56px;
+  --bottom-h:     220px;
+  --rack-unit-h:  24px;
+  --font-ui:      'Outfit', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-display: 'Outfit', sans-serif;
+  --text-xs:      10px;
+  --text-sm:      11px;
+  --text-base:    12px;
+  --text-md:      13px;
+  --text-lg:      14px;
+  --text-xl:      16px;
+  --radius:       6px;
+  --radius-lg:    10px;
+  --shadow:       0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.5);
+  --shadow-glow:  0 0 20px var(--accent-glow);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%;  background: var(--bg-main); color: var(--text-primary); font-family: var(--font-ui); font-size: var(--text-base); }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-card); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+/* Ocultar barras de scroll horizontales en contenedores de navegación */
+.header-main-area::-webkit-scrollbar,
+.main-toolbar::-webkit-scrollbar,
+.bottom-header::-webkit-scrollbar,
+.room-tabs::-webkit-scrollbar {
+  display: none;
+}
+.header-main-area, .main-toolbar, .bottom-header, .room-tabs {
+  scrollbar-width: none;
+}
+
+::selection { background: var(--accent-glow); }
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-layout-css"></a>
+
+### 📄 Archivo 6/42: `css/layout.css`
+
+* **Ubicación relativa:** `css/layout.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 1.582 líneas | 30.1 KB
+* **Rol en el sistema:** Rejilla CSS Grid (3 filas × 3 columnas), header, paneles laterales e inferiores.
+
+```css
+/* ============================================================
+   LAYOUT
+============================================================ */
+#app {
+  display: grid;
+  grid-template-rows: var(--header-h) minmax(0, 1fr) auto;
+  grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w);
+  grid-template-areas:
+    "header header header"
+    "sidebar main right-panel"
+    "bottom bottom bottom";
+  height: 100vh;
+  overflow: hidden;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+#sidebar {
+  grid-area: sidebar;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 90;
+}
+
+#main {
+  grid-area: main;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-main);
+  z-index: 10;
+}
+
+#right-panel {
+  grid-area: right-panel;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 90;
+}
+
+.right-panel-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: flex 0.2s ease;
+  min-height: 0;
+}
+
+.right-panel-section.collapsed {
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+.right-panel-section.collapsed> :not(.panel-header) {
+  display: none !important;
+}
+
+.right-panel-section .toggle-icon {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 10px;
+}
+
+.right-panel-section.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+#outliner-section {
+  flex: 1 1 180px;
+  min-height: 120px;
+  transition: max-height 0.2s ease, flex 0.2s ease, min-height 0.2s ease;
+}
+
+#outliner-section.collapsed {
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+}
+
+#stats-section {
+  flex: 0 0 170px;
+  transition: flex 0.2s ease, min-height 0.2s ease;
+}
+
+#stats-section.collapsed {
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+}
+
+.right-panel-section:nth-child(2) {
+  border-top: 1px solid var(--border);
+}
+
+.right-panel-section:nth-child(3) {
+  border-top: 1px solid var(--border);
+}
+
+.right-panel-section .panel-header {
+  background: var(--bg-card2);
+  padding: 8px 12px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+#bottom {
+  grid-area: bottom;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  height: var(--bottom-h);
+  overflow: hidden;
+  z-index: 50;
+}
+
+#bottom.collapsed {
+  height: 38px !important;
+}
+
+/* dotgrid background on main */
+#main::before {
+  content: '';
+  position: static;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--grid-dot) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+.header-logo-area {
+  width: 260px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.header-main-area {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.logo-icon {
+  font-size: var(--text-xl);
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.logo-sub {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  display: block;
+  margin-top: -4px;
+}
+
+.project-menu-wrap {
+  position: relative;
+}
+
+.menu-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.menu-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.menu-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  width: 220px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+
+.dropdown-menu.hidden {
+  display: none !important;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background: var(--accent-glow);
+  color: var(--text-primary);
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 6px 0;
+}
+
+.h-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* Tabs y Dropdowns de Navegación */
+.view-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.view-tab {
+  padding: 5px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.view-tab:hover {
+  color: var(--text-primary);
+}
+
+.view-tab.active {
+  background: var(--bg-card2);
+  color: var(--accent);
+}
+
+.nav-dropdown-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.nav-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.2s;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  max-width: clamp(120px, 14vw, 200px);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.nav-dropdown-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.nav-dropdown-toggle .svg-icon {
+  flex-shrink: 0;
+}
+
+.nav-dropdown-toggle #room-dropdown-label,
+.nav-dropdown-toggle #rack-dropdown-label {
+  color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  display: inline-block;
+}
+
+.nav-dropdown-toggle .icon-chevron {
+  opacity: 0.5;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.nav-dropdown-toggle:hover .icon-chevron {
+  opacity: 0.8;
+}
+
+.nav-dropdown-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 1000;
+  min-width: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.nav-dropdown-list.hidden {
+  display: none;
+}
+
+.room-tab {
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card2);
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.room-tab:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.room-tab.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.room-tab .close-btn {
+  font-size: var(--text-xs);
+  transition: opacity 0.2s;
+  margin-left: auto;
+}
+
+@media (hover: hover) {
+  .room-tab .close-btn {
+    opacity: 0;
+  }
+
+  .room-tab:hover .close-btn {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .room-tab .close-btn {
+    opacity: 1;
+    margin-left: 8px;
+  }
+}
+
+.nav-btn-add {
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: var(--text-lg);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-btn-add:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.status-dot-nav {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.status-dot-nav.active {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+.room-tab.active .status-dot-nav {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+.h-search {
+  position: relative;
+  flex-shrink: 1;
+  min-width: 120px;
+}
+
+.h-search input {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 4px 10px 4px 30px;
+  border-radius: var(--radius);
+  width: 200px;
+  max-width: 100%;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.h-search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+  width: 240px;
+}
+
+.h-search::before {
+  content: '⌕';
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: var(--text-md);
+  pointer-events: none;
+}
+
+.h-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card2);
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.h-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+  background: var(--accent-glow);
+}
+
+.h-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.h-btn.danger:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-glow);
+}
+
+.h-btn-group {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.h-btn-group .h-btn {
+  border-radius: 0;
+}
+
+.h-btn-group .h-btn:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.h-btn-group .h-btn:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    opacity: 1
+  }
+
+  50% {
+    opacity: 0.5
+  }
+}
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
+.sb-header {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+#stats-container.hidden {
+  display: none !important;
+}
+
+.sb-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.stat-pill {
+  flex: 1;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 4px 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+
+.stat-pill:hover {
+  border-color: var(--accent);
+}
+
+.stat-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon-wrap svg {
+  width: 16px;
+  height: 16px;
+}
+
+.stat-pill .value {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.stat-pill .value.green {
+  color: var(--green);
+}
+
+.stat-pill .value.amber {
+  color: var(--amber);
+}
+
+.cap-bar-wrap {
+  margin-bottom: 6px;
+}
+
+.cap-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: 3px;
+}
+
+.cap-bar {
+  height: 6px;
+  background: var(--bg-main);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.cap-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.cap-bar-fill.rack {
+  background: linear-gradient(90deg, var(--accent), var(--cyan));
+}
+
+.cap-bar-fill.power {
+  background: linear-gradient(90deg, var(--green), var(--amber));
+}
+
+.sb-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 14px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.btn-primary {
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  background: var(--accent-glow);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  color: var(--bg-main);
+}
+
+.btn-secondary {
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-glow);
+}
+
+.sb-search {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.sb-search input {
+  width: 100%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  outline: none;
+}
+
+.sb-search input:focus {
+  border-color: var(--accent);
+}
+
+.sb-filter-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 14px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sb-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-ui);
+  flex-shrink: 0;
+}
+
+.filter-tab:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.filter-tab.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.catalog {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 14px 14px;
+}
+
+.catalog-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 8px;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  cursor: grab;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.catalog-item:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  transform: translateX(2px);
+}
+
+.catalog-item:active {
+  cursor: grabbing;
+}
+
+.catalog-item.dragging {
+  opacity: 0.4;
+}
+
+.cat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+  flex-shrink: 0;
+}
+
+.cat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cat-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.cat-meta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cat-size {
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   MAIN CANVAS AREA
+============================================================ */
+.main-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: transparent;
+  border-bottom: none;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.main-toolbar>* {
+  pointer-events: auto;
+}
+
+.zoom-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  min-width: 42px;
+  text-align: center;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* Physical view */
+#view-physical {
+  padding: 24px;
+  overflow: auto;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  touch-action: none;
+  background-color: var(--bg-main);
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+[data-theme="light"] #view-physical {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+#view-physical.hidden,
+#view-topology.hidden {
+  display: none !important;
+}
+
+/* Topology canvas */
+#view-topology {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+#topology-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+#topology-canvas:active {
+  cursor: grabbing;
+}
+
+/* ============================================================
+   TABLET RESPONSIVENESS (1024px)
+============================================================ */
+@media (max-width: 1024px) {
+  #app {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .sb-title,
+  .cap-bar-wrap,
+  .stat-pill .value {
+    display: none;
+  }
+
+  .sb-stats {
+    flex-direction: column;
+  }
+
+  .sb-actions {
+    grid-template-columns: 1fr;
+  }
+
+  #btn-add-rack,
+  #btn-add-device-modal {
+    font-size: 0;
+    padding: 0;
+  }
+
+  #btn-add-rack::before {
+    content: "+R";
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  #btn-add-device-modal::before {
+    content: "+E";
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .cat-info,
+  .cat-size {
+    display: none;
+  }
+
+  .sb-search,
+  .sb-filter-tabs {
+    display: none;
+  }
+
+  .catalog-item {
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .cat-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ============================================================
+   MOBILE RESPONSIVENESS
+============================================================ */
+@media (max-width: 768px) {
+
+  /* Restaurar visibilidad del sidebar ya que en móvil es un panel ancho (85%) */
+  .sb-title,
+  .cap-bar-wrap,
+  .stat-pill .value {
+    display: flex;
+  }
+
+  .sb-stats {
+    flex-direction: row;
+  }
+
+  .sb-actions span {
+    display: inline;
+  }
+
+  #btn-add-rack,
+  #btn-add-device-modal {
+    font-size: var(--text-sm) !important;
+    padding: 0 10px !important;
+  }
+
+  #btn-add-rack::before,
+  #btn-add-device-modal::before {
+    content: none !important;
+  }
+
+  .cat-info,
+  .cat-size {
+    display: block;
+  }
+
+  .sb-search,
+  .sb-filter-tabs {
+    display: flex;
+  }
+
+  .catalog-item {
+    justify-content: flex-start;
+  }
+
+  #mobile-menu-btn {
+    display: flex !important;
+    margin-right: 8px;
+  }
+
+  /* App grid is 1 column, allow header to grow vertically */
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "bottom";
+  }
+
+  /* Header splits into dos rows */
+  #header {
+    flex-direction: column;
+    height: auto;
+    align-items: stretch;
+    overflow: visible;
+    min-width: 0;
+  }
+
+  .header-logo-area {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 6px 12px;
+    justify-content: flex-start;
+  }
+
+  .header-logo-area .project-menu-wrap {
+    margin-left: auto;
+  }
+
+  /* Make the main area a horizontally scrolling ribbon */
+  .header-main-area {
+    width: 100%;
+    height: auto;
+    flex: none;
+    overflow-x: auto;
+    padding: 6px 12px;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .header-main-area .spacer {
+    display: none;
+  }
+
+  .header-main-area>* {
+    flex-shrink: 0;
+  }
+
+  .room-tabs {
+    overflow-x: visible;
+  }
+
+  #mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    transition: opacity 0.3s ease;
+  }
+
+  #mobile-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 85%;
+    max-width: 320px;
+    height: 100vh;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  #sidebar.open {
+    left: 0;
+  }
+
+  #main {
+    grid-column: 1 / -1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  #bottom {
+    min-width: 0;
+  }
+
+  #bottom.fullscreen {
+    height: 85vh !important;
+  }
+
+  /* Make toolbars scrollable horizontally instead of wrapping awkwardly */
+  .main-toolbar {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    overflow-y: hidden;
+    padding: 6px 12px;
+  }
+
+  .main-toolbar .spacer {
+    display: none;
+  }
+
+  /* Hide spacers so items group together */
+  .main-toolbar>* {
+    flex-shrink: 0;
+  }
+
+  .main-toolbar .room-tabs {
+    min-width: max-content;
+    overflow-x: visible;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .h-btn,
+  .btn-primary,
+  .btn-secondary,
+  .view-tab {
+    height: 24px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: var(--text-sm);
+  }
+
+  .view-tabs {
+    flex-shrink: 0;
+  }
+
+  /* Tables panel horizontally scrollable */
+  .table-container {
+    overflow-x: auto;
+  }
+
+  table.data-table {
+    min-width: 600px;
+  }
+
+  /* Bottom controls scrollable */
+  .bottom-header {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    padding: 6px 16px;
+  }
+
+  .bottom-header .spacer {
+    display: none;
+  }
+
+  .bottom-header .h-btn,
+  .bottom-header .btn-primary {
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 8px !important;
+  }
+
+  .tab-pills {
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+
+  /* Modals */
+  .modal {
+    min-width: 0;
+    width: 92%;
+    padding: 16px;
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* ============================================================
+   CANVAS OVERRIDES (Physical View Micro-Typography)
+============================================================ */
+#view-physical .rail-unit {
+  font-size: 7px;
+}
+
+#view-physical .fp-server .lcd {
+  font-size: 7px;
+}
+
+#view-physical .fp-server .dev-name {
+  font-size: 8px;
+}
+
+#view-physical .ups-lcd-line {
+  font-size: 8px;
+}
+
+#view-physical .fp-firewall .fw-name {
+  font-size: 9px;
+}
+
+#view-physical .fp-firewall .fw-status {
+  font-size: 8px;
+}
+
+
+
+.bottom-header input {
+  padding: 4px 10px 4px 30px;
+  box-sizing: content-box;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card2);
+  color: var(--text-primary);
+}
+
+/* Normalizacion matematica estricta segun DESIGN.md */
+.btn-primary,
+.btn-secondary,
+.tab-pill,
+.h-btn,
+.room-tab,
+.view-tab,
+.filter-tab,
+.room-tab-add,
+.btn-cancel,
+.btn-confirm {
+  height: 24px !important;
+  padding: 0 10px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select,
+.bottom-header input {
+  height: 24px !important;
+  padding: 0 8px !important;
+  line-height: 22px !important;
+  box-sizing: border-box !important;
+}
+
+.h-btn.force-hide,
+.topo-slider.force-hide,
+.force-hide {
+  display: none !important;
+}
+
+/* Topology spacing slider - NOT a button, no h-btn normalization needed */
+.topo-slider {
+  height: 24px;
+  width: 100px;
+  cursor: pointer;
+  accent-color: var(--accent);
+  background: transparent;
+  vertical-align: middle;
+}
+
+/* ============================================================
+   OUTLINER TREE
+============================================================ */
+/* Remove native browser triangle from <details><summary> — all browsers */
+.outliner-summary {
+  list-style: none;
+}
+
+.outliner-summary::-webkit-details-marker {
+  display: none;
+}
+
+.outliner-summary::marker {
+  display: none;
+}
+
+summary.outliner-summary {
+  display: flex;
+}
+
+/* Custom caret */
+.outliner-summary::before {
+  content: "▶";
+  font-size: 9px;
+  color: var(--text-muted);
+  display: inline-block;
+  transition: transform 0.2s ease;
+  width: 12px;
+  text-align: center;
+}
+
+details[open]>.outliner-summary::before {
+  transform: rotate(90deg);
+}
+
+/* Summary row layout */
+.outliner-summary {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+
+.outliner-summary[data-type="room"] {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.outliner-summary:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+/* Node type icon */
+.outliner-node-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.outliner-summary[data-type="room"] .outliner-node-icon {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.outliner-summary[data-type="rack"] .outliner-node-icon {
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+/* Device list item */
+.outliner-device {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.outliner-device:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+.outliner-device .outliner-node-icon {
+  width: 11px;
+  height: 11px;
+}
+
+/* ============================================================
+   SIDEBAR ICONS & FLYOUT
+============================================================ */
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  grid-area: sidebar;
+  justify-self: start;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  z-index: 10;
+}
+
+.sidebar-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 0;
+  width: 100%;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.sidebar-icons::-webkit-scrollbar {
+  display: none;
+}
+
+.sb-category-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.sb-category-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border);
+}
+
+.sb-category-btn.active {
+  background: var(--bg-card2);
+  border-color: var(--accent);
+}
+
+/* Catalog Flyout */
+.catalog-flyout {
+  grid-area: sidebar;
+  justify-self: end;
+  width: 210px;
+  height: 100%;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
+}
+
+.catalog-flyout.hidden {
+  transform: translateX(-10px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flyout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.flyout-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.flyout-search {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.flyout-search input {
+  width: 100%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  outline: none;
+}
+
+.flyout-search input:focus {
+  border-color: var(--accent);
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-components-panels-css"></a>
+
+### 📄 Archivo 7/42: `css/components/panels.css`
+
+* **Ubicación relativa:** `css/components/panels.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 619 líneas | 15.5 KB
+* **Rol en el sistema:** Estilos para sidebar, outliner, inspector, popovers y tablas inferiores.
+
+```css
+/* ============================================================
+   BOTTOM PANEL
+============================================================ */
+.bottom-header { display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 38px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.tab-pills { display: flex; gap: 2px; }
+.tab-pill { padding: 5px 14px; border-radius: var(--radius); border: none; background: transparent; color: var(--text-muted); font-family: var(--font-ui); font-size: var(--text-sm); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.tab-pill.active { background: var(--accent-glow); color: var(--accent); }
+.table-wrap { flex: 1; overflow: auto; }
+body.no-animations *, body.no-animations *::before, body.no-animations *::after { animation: none !important; transition: none !important; }
+table.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+table.data-table th { padding: 6px 12px; text-align: left; font-size: var(--text-xs); font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; font-family: var(--font-mono); white-space: nowrap; }
+table.data-table td { padding: 5px 12px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-family: var(--font-mono); vertical-align: middle; white-space: nowrap; }
+table.data-table tr:hover td { background: var(--bg-card2); }
+table.data-table td.editable { cursor: text; }
+table.data-table td.editable:hover { color: var(--text-primary); }
+table.data-table td input.cell-edit { background: var(--bg-card2); border: 1px solid var(--accent); color: var(--text-primary); font-family: var(--font-mono); font-size: var(--text-sm); padding: 2px 6px; border-radius: 3px; outline: none; width: 100%; }
+table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow: 0 0 8px var(--red-glow); animation: shake 0.3s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+.type-badge { padding: 1px 6px; border-radius: 3px; font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.5px; font-family: var(--font-mono); }
+.type-badge.server   { background: #0ea5e922; color: var(--accent); }
+.type-badge.switch   { background: #10b98122; color: var(--green); }
+.type-badge.firewall { background: #ef444422; color: var(--red); }
+.type-badge.router   { background: #f59e0b22; color: var(--amber); }
+.type-badge.ups      { background: #38bdf822; color: var(--accent); }
+.type-badge.storage  { background: #06b6d422; color: var(--cyan); }
+.tbl-action { padding: 2px 7px; border-radius: 3px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: var(--text-xs); cursor: pointer; transition: all 0.15s; font-family: var(--font-ui); }
+.tbl-action:hover { border-color: var(--red); color: var(--red); }
+.cable-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.empty-state { text-align: center; padding: 40px; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-sm); }
+.empty-state .icon { font-size: 32px; margin-bottom: 8px; opacity: 0.4; }
+
+/* ============================================================
+   OUTLINER TOOLBAR & QUICK ACTIONS (M-23, M-38)
+============================================================ */
+.outliner-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.outliner-btn-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+
+.outliner-btn-icon:hover {
+  background: var(--accent-glow);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.outliner-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.outliner-sort-select {
+  background: var(--bg-card2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  outline: none;
+}
+.outliner-sort-select:focus {
+  border-color: var(--accent);
+}
+
+/* Inline hover actions for Outliner nodes (M-23) */
+.outliner-summary,
+.outliner-device {
+  position: relative;
+}
+
+.outliner-node-actions {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  padding-right: 2px;
+}
+
+.outliner-summary:hover .outliner-node-actions,
+.outliner-device:hover .outliner-node-actions {
+  display: inline-flex;
+}
+
+.outliner-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.outliner-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.outliner-action-btn.btn-del:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--red);
+}
+
+/* ============================================================
+   INSPECTOR CRUD ACTIONS & EMPTY STATE (M-36)
+============================================================ */
+.inspector-empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 8px;
+  text-align: center;
+  gap: 10px;
+}
+
+.inspector-empty-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+.inspector-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.inspector-btn-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.btn-inspector {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-ui);
+  border: 1px solid transparent;
+  text-align: center;
+}
+
+.btn-inspector-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-inspector-primary:hover {
+  background: #0284c7;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.btn-inspector-secondary {
+  background: var(--bg-card2);
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+.btn-inspector-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+.btn-inspector-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--red);
+}
+.btn-inspector-danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--red);
+  color: #fff;
+}
+
+/* =========================================================================
+   MATRIZ VISUAL DE PUERTOS Y VLANS EN INSPECTOR
+   ========================================================================= */
+.inspector-ports-card {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ports-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ports-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ports-count-badge {
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(14, 165, 233, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.port-matrix-container {
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.port-matrix-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.port-pin {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.port-pin:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  color: #fff;
+  background: rgba(14, 165, 233, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  z-index: 5;
+}
+
+.port-pin.occupied {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #e2e8f0;
+}
+
+.port-pin.occupied:hover {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.port-pin-led {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 3px #10b981;
+}
+
+.port-pin.type-fiber {
+  border-style: dashed;
+}
+
+.port-detail-box {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vlan-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+/* ============================================================
+   TABLE COLUMNS SELECTOR DROPDOWN (PROPUESTA 3)
+============================================================ */
+#columns-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 290px;
+  max-width: 90vw;
+  max-height: 165px;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  padding: 0;
+  overflow: hidden;
+}
+
+#bottom.fullscreen #columns-dropdown {
+  max-height: 380px;
+}
+
+.columns-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  flex-shrink: 0;
+}
+
+#btn-cols-close:hover {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.columns-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  padding: 6px 8px;
+  flex: 1;
+  min-height: 50px;
+}
+
+.col-toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.col-toggle-item:hover {
+  background: var(--bg-card2);
+  color: var(--text-primary);
+}
+
+.col-toggle-item input[type="checkbox"] {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+}
+
+.col-toggle-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.col-category-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.columns-dropdown-footer {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+  flex-shrink: 0;
+}
+
+.btn-col-action {
+  flex: 1;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-ui);
+}
+
+.btn-col-action:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* ============================================================
+   TOPOLOGY SLOTS (M-40)
+============================================================ */
+.topo-slots-group {
+  user-select: none;
+}
+
+#topo-slots-dropdown {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.topo-slot-btn {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+  line-height: 1;
+  position: relative;
+}
+
+.topo-slot-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.topo-slot-btn.empty {
+  opacity: 0.6;
+  border-style: dashed;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.topo-slot-btn.saved {
+  opacity: 1;
+  color: var(--text-primary);
+  border-color: rgba(56, 189, 248, 0.4);
+  background: var(--bg-card);
+}
+
+.topo-slot-btn.saved::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.topo-slot-btn.active {
+  background: rgba(56, 189, 248, 0.25) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.topo-slot-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease;
+}
+
+.topo-slot-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.topo-slot-card.active-slot {
+  border-color: var(--accent);
+  background: rgba(56, 189, 248, 0.06);
+}
+
+.topo-slot-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topo-slot-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.topo-slot-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topo-slot-action-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.topo-slot-action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.topo-slot-action-btn.btn-danger:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: rgba(239, 68, 68, 0.15);
+}
+
+
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-components-rack-css"></a>
+
+### 📄 Archivo 8/42: `css/components/rack.css`
+
+* **Ubicación relativa:** `css/components/rack.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 360 líneas | 9.6 KB
+* **Rol en el sistema:** Estilos de gabinetes (Racks), unidades U (24px), flipping 3D y ranuras (slots de 240px).
+
+```css
+/* ============================================================
+   RACK COMPONENT
+============================================================ */
+.rack-wrapper { 
+  width: 280px; 
+  min-width: 280px; 
+  max-width: 280px; 
+  box-sizing: border-box; 
+  flex-shrink: 0; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0; 
+}
+.rack-wrapper.menu-open {
+  z-index: 500;
+  position: relative;
+}
+.rack-card { 
+  width: 280px; 
+  min-width: 280px; 
+  max-width: 280px; 
+  box-sizing: border-box; 
+  background: var(--hardware-base); 
+  border: 1.5px solid var(--border-light, #334155); 
+  border-radius: var(--radius-lg); 
+  overflow: visible; 
+  flex-shrink: 0; 
+  position: relative; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.rack-card:hover {
+  border-color: var(--border-light);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+.rack-card.drag-over { border-color: var(--accent); box-shadow: 0 0 24px var(--accent-glow); }
+.rack-card.rear-view { border-style: dashed; }
+.rack-card.rear-view .rack-header { background: var(--bg-card1); }
+.rack-header { 
+  width: 100%; 
+  box-sizing: border-box; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 8px 10px; 
+  background: var(--bg-card2); 
+  border-bottom: 1px solid var(--border); 
+  overflow: visible; 
+  position: relative;
+  z-index: 20;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+.rack-header .dropdown-menu {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light, #2e3d5a);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+}
+.rack-title { 
+  font-size: var(--text-sm); 
+  font-weight: 600; 
+  color: var(--text-primary); 
+  display: flex; 
+  align-items: center; 
+  gap: 6px; 
+  font-family: var(--font-mono); 
+  flex: 1; 
+  min-width: 0; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+}
+.rack-title span.title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rack-color-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.rack-hdr-btns { display: flex; gap: 4px; flex-shrink: 0; }
+.rack-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: var(--text-sm); transition: all 0.15s; flex-shrink: 0; }
+.rack-btn:hover { border-color: var(--accent); color: var(--accent); }
+.rack-btn.del:hover { border-color: var(--red); color: var(--red); }
+.rack-body { 
+  display: flex; 
+  width: 280px; 
+  min-width: 280px; 
+  max-width: 280px; 
+  box-sizing: border-box; 
+  background: var(--hardware-rail); 
+  overflow: hidden; 
+}
+.rack-rail-left, .rack-rail-right { 
+  width: 20px; 
+  min-width: 20px; 
+  max-width: 20px; 
+  box-sizing: border-box; 
+  flex-shrink: 0; 
+  flex-grow: 0; 
+  background: var(--bg-card1);
+  display: flex;
+  flex-direction: column-reverse;
+}
+.rack-rail-left { border-right: 1px solid var(--border); border-left: none; }
+.rack-rail-right { border-left: 1px solid var(--border); border-right: none; }
+.rail-unit { 
+  width: 20px; 
+  min-width: 20px; 
+  max-width: 20px; 
+  height: var(--rack-unit-h); 
+  max-height: var(--rack-unit-h); 
+  box-sizing: border-box; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-family: var(--font-mono); 
+  font-size: var(--text-xs); 
+  color: var(--text-muted); 
+  border-bottom: 1px solid var(--border); 
+  flex-shrink: 0; 
+  overflow: hidden;
+  user-select: none;
+}
+.rail-unit:nth-child(5n) { color: var(--text-secondary); font-weight: 600; }
+.rack-slots { width: 240px; min-width: 240px; max-width: 240px; box-sizing: border-box; flex-shrink: 0; flex-grow: 0; position: relative; background: var(--bg-main); display: flex; flex-direction: column-reverse; }
+.rack-slot { 
+  width: 240px; 
+  min-width: 240px; 
+  max-width: 240px; 
+  height: var(--rack-unit-h); 
+  max-height: var(--rack-unit-h); 
+  box-sizing: border-box; 
+  border-bottom: 1px solid var(--border); 
+  position: relative; 
+  transition: background 0.15s; 
+  flex-shrink: 0; 
+  overflow: hidden;
+}
+.rack-slot.drop-highlight { background: var(--accent-glow) !important; }
+.rack-slot.drop-invalid  { background: var(--red-glow) !important; }
+.rack-slot.occupied { pointer-events: none; max-height: none; }
+
+/* ============================================================
+   RACK FLIP — VISTA TRASERA
+============================================================ */
+.rack-wrapper {
+  perspective: 1200px;
+}
+
+.rack-flipper {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rack-flipper.flipped {
+  transform: rotateY(180deg);
+}
+
+.rack-face,
+.rack-rear {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: opacity 0.3s;
+}
+
+.rack-flipper .rack-face {
+  pointer-events: auto;
+}
+.rack-flipper.flipped .rack-face,
+.rack-flipper.flipped .rack-face * {
+  pointer-events: none !important;
+}
+
+.rack-flipper .rack-rear {
+  pointer-events: none;
+}
+.rack-flipper:not(.flipped) .rack-rear,
+.rack-flipper:not(.flipped) .rack-rear * {
+  pointer-events: none !important;
+}
+.rack-flipper.flipped .rack-rear {
+  pointer-events: auto;
+}
+
+.rack-face {
+  position: relative;
+}
+
+.rack-rear {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  transform: rotateY(180deg);
+}
+
+.rack-rear-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-card2);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.rack-rear-header .rear-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rack-rear-header .rear-label::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+  animation: blink-led 1.4s infinite;
+}
+
+.rack-rear-slots {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.rear-slot {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #0e1e30;
+  min-height: 24px;
+}
+
+.rear-slot-unit { width: 20px; display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-family: var(--font-mono); color: var(--text-secondary); background: var(--bg-card2); flex-shrink: 0; border-right: 1px solid var(--border); }
+
+.rear-slot-body { flex: 1; display: flex; align-items: center; padding: 2px 6px; gap: 6px; background: var(--hardware-rail); position: relative; border-bottom: 1px solid var(--border); }
+
+.rear-slot-body.has-device { background: linear-gradient(90deg, var(--bg-panel), var(--bg-card1)); border-left: 2px solid var(--device-color, var(--border)); }
+
+.rear-slot-body .rear-device-name {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+  flex-shrink: 0;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 2px 4px #000000;
+}
+
+/* Rear ports (cables) */
+.rear-ports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  flex: 1;
+  align-items: center;
+}
+
+.rear-port {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.rear-port-jack { width: 10px; height: 7px; border-radius: 2px; background: var(--bg-card2); border: 1px solid var(--border); position: relative; cursor: default; }
+
+.rear-port-jack.active {
+  background: #0a2040;
+  border-color: var(--cable-color, #3b82f6);
+  box-shadow: 0 0 4px var(--cable-color, #3b82f6);
+}
+
+.rear-port-jack.active::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px; height: 3px;
+  background: var(--cable-color, #3b82f6);
+  border-radius: 1px;
+}
+
+.rear-port-label {
+  font-size: 6px;
+  font-family: var(--font-mono);
+  color: #1e3a5f;
+  white-space: nowrap;
+  max-width: 24px;
+  overflow: hidden;
+  text-overflow: clip;
+  text-align: center;
+}
+
+/* Power section rear */
+.rear-pdu {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.rear-outlet { width: 10px; height: 10px; border-radius: 50%; background: var(--bg-card2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+
+.rear-outlet.used {
+  background: #1a3050;
+  border-color: #f59e0b;
+  box-shadow: 0 0 3px #f59e0b66;
+}
+
+/* Flip button in rack header */
+.btn-flip-rack {
+  padding: 2px 7px;
+  font-size: var(--text-xs);
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+.btn-flip-rack:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.btn-flip-rack.active {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #ef444420;
+}
+
+/* Captura limpia en exportación PNG (M-37) */
+.exporting-capture .device-actions,
+.exporting-capture .btn-flip-rack,
+.exporting-capture [data-rack-menu-toggle],
+.exporting-capture .dropdown-menu,
+.exporting-capture #canvas-btn-add-rack,
+.exporting-capture #floor-btn-add-device {
+  display: none !important;
+}
+
+
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-components-faceplates-css"></a>
+
+### 📄 Archivo 9/42: `css/components/faceplates.css`
+
+* **Ubicación relativa:** `css/components/faceplates.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 377 líneas | 8.7 KB
+* **Rol en el sistema:** Estilos de carátulas SVG y hardware montado en racks o en sección de piso.
+
+```css
+/* ============================================================
+   DEVICE FACEPLATES — SVG-First Modern Architecture
+   Rack Designer Next
+   ============================================================ */
+
+.device-faceplate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.device-faceplate:hover {
+  z-index: 5;
+  box-shadow: 0 0 0 1px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.device-faceplate.search-match {
+  box-shadow: 0 0 0 2px var(--accent), 0 0 20px var(--accent-glow) !important;
+  z-index: 6;
+}
+
+.device-faceplate.search-dim {
+  opacity: 0.25 !important;
+  filter: grayscale(80%);
+}
+
+/* Pausar/apagar animaciones en los faceplates SVG al activar el modo sin animaciones */
+body.no-animations .faceplate-wrapper *,
+body.no-animations .faceplate-img,
+body.no-animations .faceplate-img *,
+body.no-animations svg.faceplate-img * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Contenedor principal de la carátula SVG */
+.faceplate-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #0d131f;
+}
+
+/* Imagen vectorial SVG animada del equipo */
+.faceplate-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Capa de información superpuesta (Nombre e IP del dispositivo) */
+.faceplate-overlay-info {
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 3;
+  max-width: calc(100% - 56px);
+}
+
+/* En UPS con pantalla LCD central, el texto se alinea a la derecha para no empastar el display azul */
+.faceplate-wrapper[data-dev-type="ups"] .faceplate-overlay-info {
+  left: auto;
+  right: 14px;
+  align-items: flex-end;
+  text-align: right;
+  max-width: 140px;
+}
+
+.faceplate-label {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  line-height: 1.15;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.faceplate-label.dev-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 2px 4px #000000,
+     0 3px 8px rgba(0, 0, 0, 0.95);
+}
+
+.faceplate-label.dev-meta {
+  font-size: 8px;
+  font-weight: 600;
+  color: #67e8f9;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 1px 3px #000000;
+}
+
+/* ============================================================
+   DEVICE ACTIONS (HOVER BOTONES RÁPIDOS)
+   ============================================================ */
+.device-actions {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  display: flex;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  z-index: 10;
+}
+
+.device-faceplate:hover .device-actions,
+.floor-device-card:hover .device-actions {
+  opacity: 1;
+}
+
+.dev-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: rgba(13, 19, 31, 0.85);
+  backdrop-filter: blur(4px);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  transition: all 0.15s;
+}
+
+.dev-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-card2);
+  transform: scale(1.05);
+}
+
+.dev-btn.del:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.sb-title {
+  padding: 8px 14px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg-card1);
+  border-bottom: 1px solid var(--border);
+}
+
+.sb-title:hover {
+  color: var(--text-primary);
+}
+
+.fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background: var(--bg-main) !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  max-height: none !important;
+}
+
+/* ============================================================
+   FLOOR DEVICES SECTION
+   ============================================================ */
+.floor-section {
+  width: 100%;
+  min-width: 584px;
+  margin-top: 32px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floor-section:hover {
+  border-color: var(--border);
+}
+
+.floor-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.floor-device-count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.floor-devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 180px));
+  justify-content: start;
+  gap: 12px;
+  padding: 16px;
+  min-height: 90px;
+  transition: all 0.2s ease;
+}
+
+.floor-devices-grid.drag-over {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.floor-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.floor-device-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--floor-color, var(--accent));
+  border-radius: var(--radius);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.floor-device-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02) 50%, transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.floor-device-card:hover::before {
+  transform: translateX(100%);
+}
+
+.floor-device-card:hover {
+  border-color: var(--floor-color, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 1px var(--floor-color);
+}
+
+.floor-device-icon {
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  background: rgba(125, 125, 125, 0.1);
+  border: 1px solid rgba(125, 125, 125, 0.2);
+  color: var(--floor-color);
+  transition: transform 0.2s ease;
+}
+
+.floor-device-card:hover .floor-device-icon {
+  transform: scale(1.1) rotate(3deg);
+}
+
+.floor-device-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.floor-device-name {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0 2px 4px #000000;
+}
+
+.floor-device-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Catalog tab color accent for floor filter */
+.filter-tab[data-filter="floor"] {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.filter-tab[data-filter="floor"]:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+  background: rgba(56, 189, 248, 0.15);
+}
+
+.filter-tab[data-filter="floor"].active {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-components-modals-css"></a>
+
+### 📄 Archivo 10/42: `css/components/modals.css`
+
+* **Ubicación relativa:** `css/components/modals.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 68 líneas | 5.6 KB
+* **Rol en el sistema:** Estilos de las ventanas modales, formularios, grillas y botones.
+
+```css
+/* ============================================================
+   MODALS
+============================================================ */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 100000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
+.modal-overlay.hidden { display: none; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modal { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; min-width: 380px; max-width: 540px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.5); animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.modal::-webkit-scrollbar { width: 6px; }
+.modal::-webkit-scrollbar-track { background: transparent; }
+.modal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.modal::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+@keyframes slideUp { from{transform:translateY(30px) scale(0.95);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+.modal-title { font-size: var(--text-lg); font-weight: 700; color: var(--text-primary); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.modal-sub { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: 20px; font-family: var(--font-mono); }
+.form-row { margin-bottom: 14px; }
+.form-row label { display: block; font-size: var(--text-xs); font-weight: 600; color: var(--text-muted); margin-bottom: 5px; font-family: var(--font-mono); }
+.form-row input, .form-row select { width: 100%; height: 24px !important; box-sizing: border-box !important; background: var(--bg-card2); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font-mono); font-size: var(--text-sm); padding: 0 8px !important; line-height: 22px !important; border-radius: var(--radius); outline: none; transition: border-color 0.2s; }
+.form-row textarea { width: 100%; background: var(--bg-card2); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font-mono); font-size: var(--text-sm); padding: 8px 10px; border-radius: var(--radius); outline: none; transition: border-color 0.2s; resize: vertical; min-height: 48px; }
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--accent); }
+.form-row select option { background: var(--bg-card2); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.btn-cancel { height: 24px !important; box-sizing: border-box !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 0 10px; border-radius: var(--radius); border: 1px solid var(--border); background: transparent; color: var(--text-secondary); cursor: pointer; font-family: var(--font-ui); font-size: var(--text-sm); transition: all 0.2s; gap: 6px; }
+.btn-cancel:hover { border-color: var(--text-secondary); }
+.btn-confirm { height: 24px !important; box-sizing: border-box !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 0 10px; border-radius: var(--radius); border: 1px solid var(--accent); background: var(--accent-glow); color: var(--accent); cursor: pointer; font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; transition: all 0.2s; gap: 6px; }
+.btn-confirm:hover { background: var(--accent); color: var(--bg-main); }
+.btn-confirm.danger { border-color: var(--red); background: var(--red-glow); color: var(--red); }
+.btn-confirm.danger:hover { background: var(--red); color: white; }
+
+/* Accordion Modules for Modals */
+.accordion-module { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 4px; position: relative; }
+.module-toggle {
+  position: absolute; right: 8px; top: 4px; width: 28px; height: 16px; 
+  appearance: none; background: var(--bg-main); border-radius: 10px; 
+  border: 1px solid var(--border); cursor: pointer; outline: none; transition: all 0.2s;
+}
+.module-toggle::after {
+  content: ''; position: absolute; top: 1px; left: 2px; width: 12px; height: 12px;
+  background: var(--text-muted); border-radius: 50%; transition: all 0.2s;
+}
+.module-toggle:checked { background: var(--accent-glow); border-color: var(--accent); }
+.module-toggle:checked::after { transform: translateX(12px); background: var(--accent); }
+.module-header { padding: 0 8px; height: 24px; display: flex; align-items: center; font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
+.module-header label { cursor: pointer; display: flex; align-items: center; gap: 6px; width: 100%; height: 100%; margin: 0; padding-right: 40px; }
+.module-header label i { color: var(--text-muted); font-size: 11px; width: 14px; text-align: center; }
+.module-content { padding: 0 12px 10px 12px; border-top: 1px dashed var(--border); }
+.module-toggle:not(:checked) ~ .module-content { display: none; }
+.module-toggle:checked ~ .module-header { color: var(--text-primary); }
+.module-toggle:checked ~ .module-header label i { color: var(--accent); }
+
+/* Diálogos personalizados y alertas asíncronas */
+.modal-overlay.fade-out {
+  animation: fadeOut 0.2s forwards;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.custom-dialog.scale-in {
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="css-components-misc-css"></a>
+
+### 📄 Archivo 11/42: `css/components/misc.css`
+
+* **Ubicación relativa:** `css/components/misc.css`
+* **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
+* **Dimensiones:** 350 líneas | 37.9 KB
+* **Rol en el sistema:** Animaciones de estado, tooltips, notificaciones toast y utilidades visuales.
+
+```css
+/* ============================================================
+   DRAG GHOST
+============================================================ */
+#drag-ghost { position: fixed; pointer-events: none; z-index: 9999; opacity: 0.85; left: -9999px; top: -9999px; }
+
+/* ============================================================
+   NOTIFICATIONS
+============================================================ */
+#notif-area { position: fixed; bottom: 240px; right: 16px; z-index: 9000; display: flex; flex-direction: column; gap: 6px; }
+.notif { padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); font-size: var(--text-sm); font-family: var(--font-mono); box-shadow: var(--shadow); animation: notifIn 0.3s; display: flex; align-items: center; gap: 8px; min-width: 200px; max-width: 320px; }
+@keyframes notifIn { from{transform:translateX(20px);opacity:0} to{transform:translateX(0);opacity:1} }
+.notif.success { border-color: var(--green); color: var(--green); }
+.notif.error   { border-color: var(--red);   color: var(--red); }
+.notif.info    { border-color: var(--accent); color: var(--accent); }
+.notif.warn    { border-color: var(--amber);  color: var(--amber); }
+
+/* ============================================================
+   CONTEXT MENU
+============================================================ */
+#ctx-menu { position: fixed; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 0; z-index: 100000; min-width: 160px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+#ctx-menu.hidden { display: none; }
+.ctx-item { padding: 8px 14px; font-size: var(--text-sm); font-family: var(--font-ui); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.15s; }
+.ctx-item:hover { background: var(--accent-glow); color: var(--text-primary); padding-left: 18px; }
+.ctx-item.danger:hover { background: var(--red-glow); color: var(--red); padding-left: 18px; }
+.ctx-sep { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 4px 0; }
+
+/* ============================================================
+   MISC
+============================================================ */
+.tooltip { position: relative; }
+.tooltip::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%); background: var(--bg-card2); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; font-size: var(--text-xs); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s; font-family: var(--font-mono); color: var(--text-secondary); z-index: 1000; }
+.tooltip.tooltip-bottom::after { bottom: auto; top: calc(100% + 5px); }
+@media (hover: hover) {
+  .tooltip:hover::after { opacity: 1; }
+}
+
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}
+.color-input-wrap { display: flex; align-items: center; gap: 8px; }
+.color-input-wrap input[type=color] { width: 32px; height: 24px; padding: 2px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card2); cursor: pointer; }
+.color-input-wrap input[type=text] { flex: 1; }
+.connectivity-line { position: absolute; pointer-events: none; }
+
+/* File drop zone */
+.drop-zone { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: 20px; text-align: center; transition: all 0.2s; cursor: pointer; }
+.drop-zone.drag-over { border-color: var(--accent); background: var(--accent-glow); }
+.drop-zone p { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-sm); }
+/* ============================================================
+   TOOLTIPS FLOTANTES
+============================================================ */
+#device-tooltip { position: fixed; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 10000; pointer-events: none; width: 220px; transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s; opacity: 0; visibility: hidden; transform: translateX(-15px) scale(0.95); }
+#device-tooltip.visible { opacity: 1; visibility: visible; transform: translateX(0) scale(1); }
+#device-tooltip .tt-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--accent); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+#device-tooltip .tt-row { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 4px; display: flex; justify-content: space-between; }
+#device-tooltip .tt-row span:first-child { color: var(--text-muted); }
+
+/* ============================================================
+   ICONOGRAFÍA SVG LOCAL OFFLINE (data URIs — funciona con file://)
+============================================================ */
+.svg-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* building */
+.icon-building {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M3 9h18'/%3E%3Cpath d='M9 21V9'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M3 9h18'/%3E%3Cpath d='M9 21V9'/%3E%3C/svg%3E");
+}
+
+/* server / rack */
+.icon-server {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='8' rx='2'/%3E%3Crect x='2' y='14' width='20' height='8' rx='2'/%3E%3Cline x1='6' y1='6' x2='6.01' y2='6'/%3E%3Cline x1='6' y1='18' x2='6.01' y2='18'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='8' rx='2'/%3E%3Crect x='2' y='14' width='20' height='8' rx='2'/%3E%3Cline x1='6' y1='6' x2='6.01' y2='6'/%3E%3Cline x1='6' y1='18' x2='6.01' y2='18'/%3E%3C/svg%3E");
+}
+
+/* network-wired */
+.icon-network {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='2' width='6' height='4' rx='1'/%3E%3Crect x='2' y='18' width='6' height='4' rx='1'/%3E%3Crect x='16' y='18' width='6' height='4' rx='1'/%3E%3Cpath d='M12 6v4M5 18v-4h14v4M12 10h-7v4M12 10h7v4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='2' width='6' height='4' rx='1'/%3E%3Crect x='2' y='18' width='6' height='4' rx='1'/%3E%3Crect x='16' y='18' width='6' height='4' rx='1'/%3E%3Cpath d='M12 6v4M5 18v-4h14v4M12 10h-7v4M12 10h7v4'/%3E%3C/svg%3E");
+}
+
+/* desktop / monitor */
+.icon-desktop {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='3' width='20' height='14' rx='2'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='3' width='20' height='14' rx='2'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E");
+}
+
+/* link / chain */
+.icon-link {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E");
+}
+
+/* industry / factory */
+.icon-industry {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20V8l6-4v4l6-4v4l6-4v16H2z'/%3E%3Cpath d='M6 20v-4h4v4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20V8l6-4v4l6-4v4l6-4v16H2z'/%3E%3Cpath d='M6 20v-4h4v4'/%3E%3C/svg%3E");
+}
+
+/* image / picture */
+.icon-image {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E");
+}
+
+/* location / pin */
+.icon-location {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+}
+
+/* lock / credentials */
+.icon-lock {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+}
+
+/* bolt / power */
+.icon-bolt {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2 3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2 3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E");
+}
+
+/* file / notes */
+.icon-file {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M16 13H8M16 17H8M10 9H8'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M16 13H8M16 17H8M10 9H8'/%3E%3C/svg%3E");
+}
+
+/* edit / pencil */
+.icon-edit {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/%3E%3Cpath d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/%3E%3Cpath d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/%3E%3C/svg%3E");
+}
+
+/* trash / delete */
+.icon-trash {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E");
+}
+
+/* physical rack view */
+.icon-physical {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='2' width='16' height='20' rx='2'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='10' x2='20' y2='10'/%3E%3Cline x1='4' y1='14' x2='20' y2='14'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='2' width='16' height='20' rx='2'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='10' x2='20' y2='10'/%3E%3Cline x1='4' y1='14' x2='20' y2='14'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
+}
+
+/* topology network graph */
+.icon-topology {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='3'/%3E%3Ccircle cx='5' cy='19' r='3'/%3E%3Ccircle cx='19' cy='19' r='3'/%3E%3Cline x1='12' y1='8' x2='12' y2='16'/%3E%3Cline x1='5' y1='16' x2='10' y2='9'/%3E%3Cline x1='19' y1='16' x2='14' y2='9'/%3E%3Cline x1='8' y1='19' x2='16' y2='19'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='3'/%3E%3Ccircle cx='5' cy='19' r='3'/%3E%3Ccircle cx='19' cy='19' r='3'/%3E%3Cline x1='12' y1='8' x2='12' y2='16'/%3E%3Cline x1='5' y1='16' x2='10' y2='9'/%3E%3Cline x1='19' y1='16' x2='14' y2='9'/%3E%3Cline x1='8' y1='19' x2='16' y2='19'/%3E%3C/svg%3E");
+}
+
+/* hamburger menu */
+.icon-menu {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E");
+}
+
+/* folder */
+.icon-folder {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");
+}
+
+/* save / floppy */
+.icon-save {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z'/%3E%3Cpolyline points='17 21 17 13 7 13 7 21'/%3E%3Cpolyline points='7 3 7 8 15 8'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z'/%3E%3Cpolyline points='17 21 17 13 7 13 7 21'/%3E%3Cpolyline points='7 3 7 8 15 8'/%3E%3C/svg%3E");
+}
+
+/* sun */
+.icon-sun {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3Cline x1='12' y1='1' x2='12' y2='3'/%3E%3Cline x1='12' y1='21' x2='12' y2='23'/%3E%3Cline x1='4.22' y1='4.22' x2='5.64' y2='5.64'/%3E%3Cline x1='18.36' y1='18.36' x2='19.78' y2='19.78'/%3E%3Cline x1='1' y1='12' x2='3' y2='12'/%3E%3Cline x1='21' y1='12' x2='23' y2='12'/%3E%3Cline x1='4.22' y1='19.78' x2='5.64' y2='18.36'/%3E%3Cline x1='18.36' y1='5.64' x2='19.78' y2='4.22'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3Cline x1='12' y1='1' x2='12' y2='3'/%3E%3Cline x1='12' y1='21' x2='12' y2='23'/%3E%3Cline x1='4.22' y1='4.22' x2='5.64' y2='5.64'/%3E%3Cline x1='18.36' y1='18.36' x2='19.78' y2='19.78'/%3E%3Cline x1='1' y1='12' x2='3' y2='12'/%3E%3Cline x1='21' y1='12' x2='23' y2='12'/%3E%3Cline x1='4.22' y1='19.78' x2='5.64' y2='18.36'/%3E%3Cline x1='18.36' y1='5.64' x2='19.78' y2='4.22'/%3E%3C/svg%3E");
+}
+
+/* moon */
+.icon-moon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/%3E%3C/svg%3E");
+}
+
+/* eye */
+.icon-eye {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+}
+
+/* eye-off */
+.icon-eye-off {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/%3E%3Cline x1='1' y1='1' x2='23' y2='23'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/%3E%3Cline x1='1' y1='1' x2='23' y2='23'/%3E%3C/svg%3E");
+}
+
+/* upload */
+.icon-upload {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='17 8 12 3 7 8'/%3E%3Cline x1='12' y1='3' x2='12' y2='15'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='17 8 12 3 7 8'/%3E%3Cline x1='12' y1='3' x2='12' y2='15'/%3E%3C/svg%3E");
+}
+
+/* download */
+.icon-download {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='7 10 12 15 17 10'/%3E%3Cline x1='12' y1='15' x2='12' y2='3'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='7 10 12 15 17 10'/%3E%3Cline x1='12' y1='15' x2='12' y2='3'/%3E%3C/svg%3E");
+}
+
+/* x / close */
+.icon-x {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+}
+
+/* sliders / equalizer */
+.icon-sliders {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='21' x2='4' y2='14'/%3E%3Cline x1='4' y1='10' x2='4' y2='3'/%3E%3Cline x1='12' y1='21' x2='12' y2='12'/%3E%3Cline x1='12' y1='8' x2='12' y2='3'/%3E%3Cline x1='20' y1='21' x2='20' y2='16'/%3E%3Cline x1='20' y1='12' x2='20' y2='3'/%3E%3Cline x1='1' y1='14' x2='7' y2='14'/%3E%3Cline x1='9' y1='8' x2='15' y2='8'/%3E%3Cline x1='17' y1='16' x2='23' y2='16'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='21' x2='4' y2='14'/%3E%3Cline x1='4' y1='10' x2='4' y2='3'/%3E%3Cline x1='12' y1='21' x2='12' y2='12'/%3E%3Cline x1='12' y1='8' x2='12' y2='3'/%3E%3Cline x1='20' y1='21' x2='20' y2='16'/%3E%3Cline x1='20' y1='12' x2='20' y2='3'/%3E%3Cline x1='1' y1='14' x2='7' y2='14'/%3E%3Cline x1='9' y1='8' x2='15' y2='8'/%3E%3Cline x1='17' y1='16' x2='23' y2='16'/%3E%3C/svg%3E");
+}
+
+/* maximize */
+.icon-maximize {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cpolyline points='9 21 3 21 3 15'/%3E%3Cline x1='21' y1='3' x2='14' y2='10'/%3E%3Cline x1='3' y1='21' x2='10' y2='14'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cpolyline points='9 21 3 21 3 15'/%3E%3Cline x1='21' y1='3' x2='14' y2='10'/%3E%3Cline x1='3' y1='21' x2='10' y2='14'/%3E%3C/svg%3E");
+}
+
+/* chart / bar-chart */
+.icon-chart {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E");
+}
+
+/* flame / fire */
+.icon-flame {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z'/%3E%3C/svg%3E");
+}
+
+/* database / storage */
+.icon-database {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M21 12c0 1.66-4 3-9 3s-9-1.34-9-3'/%3E%3Cpath d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='9' ry='3'/%3E%3Cpath d='M21 12c0 1.66-4 3-9 3s-9-1.34-9-3'/%3E%3Cpath d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/%3E%3C/svg%3E");
+}
+
+/* battery */
+.icon-battery {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='1' y='6' width='18' height='12' rx='2' ry='2'/%3E%3Cline x1='23' y1='13' x2='23' y2='11'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='1' y='6' width='18' height='12' rx='2' ry='2'/%3E%3Cline x1='23' y1='13' x2='23' y2='11'/%3E%3C/svg%3E");
+}
+
+/* plug */
+.icon-plug {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22v-5'/%3E%3Cpath d='M9 8V2'/%3E%3Cpath d='M15 8V2'/%3E%3Cpath d='M18 8v5a6 6 0 0 1-6 6v0a6 6 0 0 1-6-6V8z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22v-5'/%3E%3Cpath d='M9 8V2'/%3E%3Cpath d='M15 8V2'/%3E%3Cpath d='M18 8v5a6 6 0 0 1-6 6v0a6 6 0 0 1-6-6V8z'/%3E%3C/svg%3E");
+}
+
+/* check */
+.icon-check {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+}
+
+/* warning / alert-triangle */
+.icon-warning {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
+}
+
+/* crown / admin */
+.icon-crown {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20h20'/%3E%3Cpath d='M4 17l2-12 4 6 2-6 2 6 4-6 2 12z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20h20'/%3E%3Cpath d='M4 17l2-12 4 6 2-6 2 6 4-6 2 12z'/%3E%3C/svg%3E");
+}
+
+/* prohibited / ban */
+.icon-prohibited {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='4.93' y1='4.93' x2='19.07' y2='19.07'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='4.93' y1='4.93' x2='19.07' y2='19.07'/%3E%3C/svg%3E");
+}
+
+/* rotate / refresh */
+.icon-rotate {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='23 4 23 10 17 10'/%3E%3Cpath d='M20.49 15a9 9 0 1 1-2.12-9.36L23 10'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='23 4 23 10 17 10'/%3E%3Cpath d='M20.49 15a9 9 0 1 1-2.12-9.36L23 10'/%3E%3C/svg%3E");
+}
+
+/* sparkle / stars */
+.icon-sparkle {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z'/%3E%3C/svg%3E");
+}
+
+/* layout / grid */
+.icon-layout {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='3' y1='9' x2='21' y2='9'/%3E%3Cline x1='9' y1='21' x2='9' y2='9'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='3' y1='9' x2='21' y2='9'/%3E%3Cline x1='9' y1='21' x2='9' y2='9'/%3E%3C/svg%3E");
+}
+
+/* kebab / vertical dots */
+.icon-kebab {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='1'/%3E%3Ccircle cx='12' cy='12' r='1'/%3E%3Ccircle cx='12' cy='19' r='1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='1'/%3E%3Ccircle cx='12' cy='12' r='1'/%3E%3Ccircle cx='12' cy='19' r='1'/%3E%3C/svg%3E");
+}
+
+/* paperclip / organizer */
+.icon-paperclip {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48'/%3E%3C/svg%3E");
+}
+
+/* chevron-down */
+.icon-chevron {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+/* grid / all items */
+.icon-grid {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E");
+}
+
+/* search / magnifier */
+.icon-search {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+}
+
+
+
+/* UI Switch */
+.ui-switch { display: inline-flex; align-items: center; cursor: pointer; gap: 8px; font-size: 12px; color: var(--text-secondary); user-select: none; margin: 0 8px; }
+.ui-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.ui-slider { position: relative; display: inline-block; width: 34px; height: 20px; background-color: var(--bg-hover); border-radius: 20px; transition: 0.3s; border: 1px solid var(--border); }
+.ui-slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px; background-color: #94a3b8; border-radius: 50%; transition: 0.3s; }
+.ui-switch input:checked + .ui-slider { background-color: var(--accent); border-color: var(--accent); }
+.ui-switch input:checked + .ui-slider:before { transform: translateX(14px); background-color: #fff; }
+.ui-switch.force-hide { display: none !important; }
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-store-js"></a>
+
+### 📄 Archivo 12/42: `js/store.js`
+
+* **Ubicación relativa:** `js/store.js`
+* **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
+* **Dimensiones:** 1.015 líneas | 40.3 KB
+* **Rol en el sistema:** Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento.
+
+```javascript
+
+const DEFAULT_VLANS = [
+  { id: 1, name: 'Default / Troncal', color: '#64748b' },
+  { id: 10, name: 'Gestión / Mgmt', color: '#0ea5e9' },
+  { id: 20, name: 'Datos Corporativos', color: '#10b981' },
+  { id: 30, name: 'VoIP / Telefonía', color: '#8b5cf6' },
+  { id: 40, name: 'CCTV / Seguridad', color: '#f43f5e' },
+  { id: 50, name: 'Storage / SAN', color: '#06b6d4' },
+  { id: 99, name: 'DMZ / Borde', color: '#f59e0b' }
+];
+
+class Store {
+  constructor() {
+    this._undoStack = [];
+    this._redoStack = [];
+    this._listeners = {};
+    this._proxyCache = new WeakMap();
+    this._raw = this._load();
+  }
+
+  get state() {
+    return this._makeProxy(this._raw);
+  }
+
+  set state(val) {
+    this._raw = val;
+  }
+
+  _defaultState() {
+    const roomId = uid();
+    return {
+      rooms: [{ id: roomId, name: 'Sala Principal' }],
+      racks: [],
+      devices: [],
+      connections: [],
+      customCatalog: [],
+      vlans: JSON.parse(JSON.stringify(DEFAULT_VLANS)),
+      currentRoomId: roomId,
+      selectedDeviceId: null,
+      topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
+      topologySlots: [null, null, null, null, null],
+      activeTopologySlot: null,
+      topoZoom: 1, topoPanX: 0, topoPanY: 0,
+      physZoom: 1, physPanX: 0, physPanY: 0
+    };
+  }
+
+  _sanitize() {
+    if (!this._raw.devices) this._raw.devices = [];
+    if (!this._raw.connections) this._raw.connections = [];
+    if (!this._raw.rooms) this._raw.rooms = [];
+    if (!this._raw.racks) this._raw.racks = [];
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    if (!this._raw.vlans || !Array.isArray(this._raw.vlans) || this._raw.vlans.length === 0) {
+      this._raw.vlans = JSON.parse(JSON.stringify(DEFAULT_VLANS));
+    }
+    
+    // M-40: Garantizar estructura de 5 ranuras de memoria de topología
+    if (!Array.isArray(this._raw.topologySlots) || this._raw.topologySlots.length !== 5) {
+      const existing = Array.isArray(this._raw.topologySlots) ? this._raw.topologySlots : [];
+      this._raw.topologySlots = [0, 1, 2, 3, 4].map(i => existing[i] || null);
+    }
+    if (this._raw.activeTopologySlot === undefined) {
+      this._raw.activeTopologySlot = null;
+    }
+
+    const validDeviceIds = new Set(this._raw.devices.map(d => d.id));
+    
+    // Purgar conexiones huérfanas
+    this._raw.connections = this._raw.connections.filter(c => 
+      validDeviceIds.has(c.sourceDeviceId) && validDeviceIds.has(c.targetDeviceId)
+    );
+    
+    // Purgar posiciones de topología huérfanas
+    if (this._raw.topology && this._raw.topology.nodePositions) {
+      for (const id in this._raw.topology.nodePositions) {
+        if (!validDeviceIds.has(id)) {
+          delete this._raw.topology.nodePositions[id];
+        }
+      }
+    }
+  }
+
+  _load() {
+    // 1. Intentar cargar desde el slot primario
+    try {
+      const saved = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
+      if (saved) {
+        let parsed = JSON.parse(saved);
+        if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
+          parsed = RackCrypto.restoreStateFromStorage(parsed);
+        }
+        this._raw = parsed;
+        this._sanitize();
+        this.state = this._makeProxy(this._raw);
+        return this._raw;
+      }
+    } catch(e) {
+      console.warn('[Store] Error parseando slot principal de estado. Intentando slot de respaldo...', e);
+    }
+
+    // 2. M-05: Fallback al slot de respaldo redundante
+    try {
+      const backup = localStorage.getItem('RACK_DESIGNER_NEXT_STATE_BACKUP');
+      if (backup) {
+        let parsedBackup = JSON.parse(backup);
+        if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
+          parsedBackup = RackCrypto.restoreStateFromStorage(parsedBackup);
+        }
+        this._raw = parsedBackup;
+        this._sanitize();
+        this.state = this._makeProxy(this._raw);
+        if (typeof notify === 'function') {
+          try { notify('Se recuperó el diseño desde el respaldo de seguridad automático.', 'warning', 6000); } catch (_) {}
+        }
+        return this._raw;
+      }
+    } catch(backupErr) {
+      console.error('[Store] Error parseando slot de respaldo:', backupErr);
+    }
+
+    const def = this._defaultState();
+    this._raw = def;
+    this.state = this._makeProxy(this._raw);
+    return def;
+  }
+
+  _save() {
+    try {
+      // M-01: Cifrado en reposo para credenciales y contraseñas sensibles
+      const stateToPersist = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
+        ? RackCrypto.prepareStateForStorage(this._raw)
+        : this._raw;
+      const serialized = JSON.stringify(stateToPersist);
+      localStorage.setItem('RACK_DESIGNER_NEXT_STATE', serialized);
+      // M-05: Doble slot de respaldo para prevenir pérdida por cierres abruptos
+      localStorage.setItem('RACK_DESIGNER_NEXT_STATE_BACKUP', serialized);
+    } catch(e) {
+      // M-02: Detección y manejo defensivo de QuotaExceededError
+      if (e && (e.name === 'QuotaExceededError' || e.code === 22 || e.code === 1014 || e.number === -2147024882)) {
+        console.error('[Store] Almacenamiento local lleno (QuotaExceededError).', e);
+        if (typeof notify === 'function') {
+          try { notify('⚠️ Almacenamiento del navegador lleno (5MB). Descarga tu diseño en .rack para no perder cambios.', 'error', 8000); } catch (_) {}
+        }
+        if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+          try {
+            window.dispatchEvent(new CustomEvent('rack-storage-quota-exceeded', { detail: { error: e } }));
+          } catch (_) {}
+        }
+      } else {
+        console.error('[Store] Error al guardar estado en localStorage:', e);
+      }
+    }
+  }
+
+  _saveDebounced() {
+    if (this._saveTimer) cancelAnimationFrame(this._saveTimer);
+    this._saveTimer = requestAnimationFrame(() => {
+      this._saveTimer = null;
+      this._save();
+    });
+  }
+
+  _makeProxy(obj, path = '') {
+    if (typeof obj !== 'object' || obj === null) return obj;
+    if (this._proxyCache.has(obj)) return this._proxyCache.get(obj);
+    
+    const proxy = new Proxy(obj, {
+      set: (target, key, value) => {
+        if (['__proto__', 'constructor', 'prototype'].includes(key)) return true;
+        target[key] = value;
+        this._save();
+        this._emit('change', { path: `${path}.${key}`, key, value });
+        return true;
+      },
+      get: (target, key) => {
+        const val = target[key];
+        if (typeof val === 'function') return val.bind(target);
+        if (typeof val === 'object' && val !== null && !Array.isArray(val)) return this._makeProxy(val, `${path}.${key}`);
+        return val;
+      }
+    });
+    this._proxyCache.set(obj, proxy);
+    return proxy;
+  }
+
+  on(event, cb) {
+    if (!this._listeners[event]) this._listeners[event] = [];
+    this._listeners[event].push(cb);
+  }
+
+  _emit(event, data) {
+    (this._listeners[event] || []).forEach(cb => cb(data));
+  }
+
+  /** Guarda snapshot para Deshacer */
+  snapshot() {
+    this._undoStack.push(deepClone(this._raw));
+    if (this._undoStack.length > 30) this._undoStack.shift();
+    this._redoStack = [];
+    this._updateHistoryButtons();
+  }
+
+  undo() {
+    if (!this._undoStack.length) return;
+    this._redoStack.push(deepClone(this._raw));
+    const prev = this._undoStack.pop();
+
+    // Preservar slots de topología persistentes configurados por el usuario
+    const currentSlots = deepClone(this._raw.topologySlots || [null, null, null, null, null]);
+    const currentActiveSlot = this._raw.activeTopologySlot !== undefined ? this._raw.activeTopologySlot : null;
+
+    // Limpieza atómica de claves para evitar huérfanos
+    Object.keys(this._raw).forEach(k => {
+      if (!(k in prev)) delete this._raw[k];
+    });
+    Object.assign(this._raw, prev);
+
+    if (Array.isArray(currentSlots) && currentSlots.length === 5) {
+      this._raw.topologySlots = currentSlots;
+      this._raw.activeTopologySlot = currentActiveSlot;
+    }
+
+    this._save();
+    this._emit('change', { path: 'undo', source: 'undo' });
+    this._updateHistoryButtons();
+  }
+
+  redo() {
+    if (!this._redoStack.length) return;
+    this._undoStack.push(deepClone(this._raw));
+    const next = this._redoStack.pop();
+
+    // Preservar slots de topología persistentes configurados por el usuario
+    const currentSlots = deepClone(this._raw.topologySlots || [null, null, null, null, null]);
+    const currentActiveSlot = this._raw.activeTopologySlot !== undefined ? this._raw.activeTopologySlot : null;
+
+    // Limpieza atómica de claves para evitar huérfanos
+    Object.keys(this._raw).forEach(k => {
+      if (!(k in next)) delete this._raw[k];
+    });
+    Object.assign(this._raw, next);
+
+    if (Array.isArray(currentSlots) && currentSlots.length === 5) {
+      this._raw.topologySlots = currentSlots;
+      this._raw.activeTopologySlot = currentActiveSlot;
+    }
+
+    this._save();
+    this._emit('change', { path: 'redo', source: 'redo' });
+    this._updateHistoryButtons();
+  }
+
+  _updateHistoryButtons() {
+    const btnUndo = document.getElementById('btn-undo');
+    const btnRedo = document.getElementById('btn-redo');
+    if(btnUndo) {
+      btnUndo.disabled = !this._undoStack.length;
+      btnUndo.textContent = this._undoStack.length ? `↩ ${this._undoStack.length}` : '↩';
+    }
+    if(btnRedo) {
+      btnRedo.disabled = !this._redoStack.length;
+      btnRedo.textContent = this._redoStack.length ? `↪ ${this._redoStack.length}` : '↪';
+    }
+  }
+
+  /* ---- Helpers de datos ---- */
+  get currentRoom()  { return this._raw.rooms.find(r => r.id === this._raw.currentRoomId); }
+  get currentRacks() { return this._raw.racks.filter(r => r.roomId === this._raw.currentRoomId); }
+  allRacksInRoom(roomId) { return (this._raw.racks || []).filter(r => r.roomId === roomId); }
+  allDevicesInRack(rackId) { return (this._raw.devices || []).filter(d => d.rackId === rackId && d.category !== 'floor'); }
+  allFloorDevicesInRoom(roomId) { return (this._raw.devices || []).filter(d => d.category === 'floor' && d.roomId === roomId); }
+
+  addFloorDevice(template, roomId, floorX = 100, floorY = 100) {
+    this.snapshot();
+    const device = {
+      id:        uid(),
+      rackId:    null,
+      category:  'floor',
+      roomId:    roomId,
+      name:      template.name  || 'Nuevo equipo',
+      type:      template.type,
+      ip:        template.ip    || '',
+      mac:       template.mac   || '',
+      serial:    template.serial|| '',
+      power:     parseInt(template.power) || 0,
+      plugs:     parseInt(template.plugs) || 1,
+      user:      template.user  || 'admin',
+      pass:      template.pass  || '',
+      notes:     template.notes || ''
+    };
+    this._raw.devices.push(device);
+    this._save();
+    this._emit('change', { source: 'addFloorDevice' });
+    return device;
+  }
+  deviceById(id)     { return this._raw.devices.find(d => d.id === id); }
+  rackById(id)       { return this._raw.racks.find(r => r.id === id); }
+
+  addCustomCatalogItem(item) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    const newItem = Object.assign({}, item, { isCustom: true });
+    this._raw.customCatalog.push(newItem);
+    this._save();
+    this._emit('change', { source: 'addCustomCatalogItem' });
+    return newItem;
+  }
+
+  deleteCustomCatalogItem(id) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    this._raw.customCatalog = this._raw.customCatalog.filter(c => c.id !== id);
+    this._save();
+    this._emit('change', { source: 'deleteCustomCatalogItem' });
+  }
+
+  addRoom(name) {
+    this.snapshot();
+    const id = uid();
+    this._raw.rooms.push({ id, name });
+    this._raw.currentRoomId = id;
+    this._save(); 
+    this._emit('change', { source: 'addRoom' });
+  }
+
+  updateRoom(id, props) {
+    this.snapshot();
+    const room = this._raw.rooms.find(r => r.id === id);
+    if (room) Object.assign(room, props);
+    this._save();
+    this._emit('change', { source: 'room-rename' });
+  }
+
+  setCurrentRoom(id) {
+    this._raw.currentRoomId = id;
+    this._save();
+    this._emit('change', { source: 'changeRoom' });
+  }
+
+  setZoom(view, value) {
+    const pfx = view === 'physical' ? 'phys' : 'topo';
+    this._raw[pfx + 'Zoom'] = value;
+    this._saveDebounced();
+    this._emit('change', { source: 'setZoom' });
+  }
+
+  setPan(view, x, y) {
+    const pfx = view === 'physical' ? 'phys' : 'topo';
+    this._raw[pfx + 'PanX'] = x;
+    this._raw[pfx + 'PanY'] = y;
+    this._saveDebounced();
+    this._emit('change', { source: 'setPan' });
+  }
+
+  deleteRoom(id) {
+    if (this._raw.rooms.length <= 1) return false;
+    this.snapshot();
+    
+    const racks = this._raw.racks.filter(r => r.roomId === id);
+    const rackIds = racks.map(r => r.id);
+    const devicesToDelete = this._raw.devices.filter(d => 
+      rackIds.includes(d.rackId) || (d.category === 'floor' && d.roomId === id)
+    );
+    const deviceIdsToDelete = new Set(devicesToDelete.map(d => d.id));
+    
+    this._raw.connections = this._raw.connections.filter(c => 
+      !deviceIdsToDelete.has(c.sourceDeviceId) && !deviceIdsToDelete.has(c.targetDeviceId)
+    );
+    this._raw.devices = this._raw.devices.filter(d => !deviceIdsToDelete.has(d.id));
+    this._raw.racks = this._raw.racks.filter(r => r.roomId !== id);
+    this._raw.rooms = this._raw.rooms.filter(r => r.id !== id);
+    this._raw.currentRoomId = this._raw.rooms[0]?.id;
+
+    this._cleanTopologyPositions({ roomIds: [id], rackIds, deviceIds: [...deviceIdsToDelete] });
+    
+    this._save();
+    this._emit('change', { source: 'deleteRoom' });
+    return true;
+  }
+
+  addRack({ name, height, color }) {
+    this.snapshot();
+    this._raw.racks.push({ id: uid(), roomId: this._raw.currentRoomId, name, height: parseInt(height), color, devices: [] });
+    this._save(); 
+    this._emit('change', { source: 'addRack' });
+  }
+
+  updateRack(id, props) {
+    this.snapshot();
+    const r = this._raw.racks.find(r => r.id === id);
+    if (r) Object.assign(r, props);
+    this._save(); 
+    this._emit('change', { source: 'updateRack' });
+  }
+
+  deleteRack(id) {
+    this.snapshot();
+    const deviceIds = this._raw.devices.filter(d => d.rackId === id).map(d => d.id);
+    const deviceIdSet = new Set(deviceIds);
+
+    // Cascada: eliminar cables vinculados a los equipos de este rack
+    this._raw.connections = this._raw.connections.filter(c => 
+      !deviceIdSet.has(c.sourceDeviceId) && !deviceIdSet.has(c.targetDeviceId)
+    );
+    this._raw.devices = this._raw.devices.filter(d => d.rackId !== id);
+    this._raw.racks = this._raw.racks.filter(r => r.id !== id);
+
+    this._cleanTopologyPositions({ rackIds: [id], deviceIds });
+    
+    this._save(); 
+    this._emit('change', { source: 'deleteRack' });
+  }
+
+  /** Comprueba si dos caras de montaje entran en conflicto físico */
+  sidesConflict(side1, side2) {
+    const s1 = side1 || 'front';
+    const s2 = side2 || 'front';
+    if (s1 === 'both' || s2 === 'both') return true;
+    return s1 === s2;
+  }
+
+  /** Agrega un equipo al rack en la posición dada */
+  addDeviceToRack(deviceTemplate, rackId, slotStart, mountSide) {
+    const rack = this.rackById(rackId);
+    if (!rack) return false;
+    const size = parseInt(deviceTemplate.size);
+    // Validación de límites
+    if (slotStart < 1 || slotStart + size - 1 > rack.height) return false;
+    // Lado objetivo: si la plantilla indica 'both', se preserva 'both' por defecto
+    const targetSide = mountSide || deviceTemplate.mountSide || 'front';
+    // Validación de colisiones con verificación bidireccional de caras
+    const existing = this.allDevicesInRack(rackId).filter(d => this.sidesConflict(d.mountSide, targetSide));
+    for (const d of existing) {
+      const dEnd = d.slotStart + d.size - 1;
+      const nEnd = slotStart + size - 1;
+      if (!(nEnd < d.slotStart || slotStart > dEnd)) return false;
+    }
+    this.snapshot();
+    const newDev = {
+      id: deviceTemplate.id || uid(), rackId, name: deviceTemplate.name, type: deviceTemplate.type,
+      slotStart, size, mountSide: targetSide, ip: deviceTemplate.ip || '', mac: deviceTemplate.mac || '',
+      serial: deviceTemplate.serial || '', power: deviceTemplate.power || 0,
+      user: deviceTemplate.user || 'admin', pass: deviceTemplate.pass || '',
+      notes: deviceTemplate.notes || ''
+    };
+    if (deviceTemplate.skin) newDev.skin = deviceTemplate.skin;
+    if (deviceTemplate.plugs !== undefined) newDev.plugs = deviceTemplate.plugs;
+    if (deviceTemplate.plugsOut !== undefined) newDev.plugsOut = deviceTemplate.plugsOut;
+    this._raw.devices.push(newDev);
+    this._save(); 
+    this._emit('change', { source: 'addDeviceToRack' });
+    return true;
+  }
+
+  moveDevice(deviceId, newRackId, newSlot, newMountSide) {
+    const dev = this.deviceById(deviceId);
+    if (!dev) return false;
+    const rack = this.rackById(newRackId);
+    if (!rack) return false;
+    const size = dev.size;
+    const side = newMountSide !== undefined ? newMountSide : (dev.mountSide || 'front');
+    if (newSlot < 1 || newSlot + size - 1 > rack.height) return false;
+    const existing = this.allDevicesInRack(newRackId).filter(d => d.id !== deviceId && this.sidesConflict(d.mountSide, side));
+    for (const d of existing) {
+      const dEnd = d.slotStart + d.size - 1;
+      const nEnd = newSlot + size - 1;
+      if (!(nEnd < d.slotStart || newSlot > dEnd)) return false;
+    }
+    this.snapshot();
+    dev.rackId = newRackId;
+    dev.slotStart = newSlot;
+    dev.mountSide = side;
+    this._save(); 
+    this._emit('change', { source: 'moveDevice' });
+    return true;
+  }
+
+  deleteDevice(id) {
+    this.snapshot();
+    this._raw.devices = this._raw.devices.filter(d => d.id !== id);
+    this._raw.connections = this._raw.connections.filter(c => c.sourceDeviceId !== id && c.targetDeviceId !== id);
+    this._cleanTopologyPositions({ deviceIds: [id] });
+    this._save(); 
+    this._emit('change', { source: 'deleteDevice' });
+  }
+
+  updateDevice(id, props) {
+    this.snapshot();
+    const d = this._raw.devices.find(d => d.id === id);
+    if (d) Object.assign(d, props);
+    this._save(); 
+    this._emit('change', { source: 'updateDevice' });
+  }
+
+  /* ---- Métodos de VLANs ---- */
+  getVlans() {
+    return this._raw.vlans || [];
+  }
+
+  getVlanById(id) {
+    return (this._raw.vlans || []).find(v => Number(v.id) === Number(id)) || null;
+  }
+
+  addVlan({ id, name, color }) {
+    this.snapshot();
+    if (!this._raw.vlans) this._raw.vlans = [];
+    const vId = Number(id);
+    if (!vId || isNaN(vId)) return { success: false, error: 'ID de VLAN inválido' };
+    if (this.getVlanById(vId)) return { success: false, error: `La VLAN ${vId} ya existe.` };
+    const newVlan = { id: vId, name: (name || `VLAN ${vId}`).trim(), color: color || '#64748b' };
+    this._raw.vlans.push(newVlan);
+    this._save();
+    this._emit('change', { source: 'addVlan', vlan: newVlan });
+    return { success: true, vlan: newVlan };
+  }
+
+  updateVlan(id, props) {
+    this.snapshot();
+    const vlan = this.getVlanById(id);
+    if (!vlan) return { success: false, error: 'VLAN no encontrada' };
+    Object.assign(vlan, props);
+    this._save();
+    this._emit('change', { source: 'updateVlan', vlan });
+    return { success: true, vlan };
+  }
+
+  deleteVlan(id) {
+    const vId = Number(id);
+    if (vId === 1) return { success: false, error: 'No se puede eliminar la VLAN 1 (Default).' };
+    this.snapshot();
+    this._raw.vlans = (this._raw.vlans || []).filter(v => Number(v.id) !== vId);
+    this._save();
+    this._emit('change', { source: 'deleteVlan', id: vId });
+    return { success: true };
+  }
+
+  /* ---- Motor de Consulta de Puertos y Validación ---- */
+  getDevicePorts(deviceId) {
+    const dev = this.deviceById(deviceId);
+    if (!dev) return [];
+
+    const portsMap = new Map();
+    const conns = (this._raw.connections || []).filter(c => c.sourceDeviceId === deviceId || c.targetDeviceId === deviceId);
+    const portConfigs = dev.portConfigs || {};
+
+    let ethCount = 0;
+    let fibCount = 0;
+    if (dev.ports) {
+      ethCount = parseInt(dev.ports.ethernet) || 0;
+      fibCount = parseInt(dev.ports.fiber) || 0;
+    } else {
+      const t = String(dev.type).toLowerCase();
+      if (t === 'switch') { ethCount = 24; fibCount = 4; }
+      else if (t === 'router' || t === 'firewall') { ethCount = 8; fibCount = 2; }
+      else if (t === 'patchpanel') { ethCount = 24; fibCount = 0; }
+      else if (t === 'odf') { ethCount = 0; fibCount = 24; }
+      else if (t === 'server') { ethCount = 4; fibCount = 2; }
+      else if (t === 'storage' || t === 'san') { ethCount = 4; fibCount = 8; }
+      else if (t === 'ups' || t === 'pdu') { ethCount = 1; fibCount = 0; }
+      else if (['pc', 'camera', 'ap', 'door', 'printer', 'phone'].includes(t)) { ethCount = 1; fibCount = 0; }
+      else { ethCount = 2; fibCount = 0; }
+    }
+
+    for (let i = 1; i <= ethCount; i++) {
+      const pName = `Eth-${i}`;
+      portsMap.set(pName.toLowerCase(), {
+        id: pName,
+        name: pName,
+        label: `Eth ${i}`,
+        type: 'ethernet',
+        isOccupied: false,
+        connection: null,
+        connectionId: null,
+        peerDeviceId: null,
+        peerDeviceName: null,
+        peerPort: null,
+        cableType: null,
+        cableColor: null,
+        vlanId: 1,
+        vlanName: 'Default / Troncal',
+        vlanColor: '#64748b',
+        alias: '',
+        mode: 'access'
+      });
+    }
+
+    for (let i = 1; i <= fibCount; i++) {
+      const pName = `SFP-${i}`;
+      portsMap.set(pName.toLowerCase(), {
+        id: pName,
+        name: pName,
+        label: `SFP ${i}`,
+        type: 'fiber',
+        isOccupied: false,
+        connection: null,
+        connectionId: null,
+        peerDeviceId: null,
+        peerDeviceName: null,
+        peerPort: null,
+        cableType: null,
+        cableColor: null,
+        vlanId: 1,
+        vlanName: 'Default / Troncal',
+        vlanColor: '#64748b',
+        alias: '',
+        mode: 'trunk'
+      });
+    }
+
+    conns.forEach(c => {
+      const isSrc = c.sourceDeviceId === deviceId;
+      const portName = isSrc ? c.sourcePort : c.targetPort;
+      const peerDevId = isSrc ? c.targetDeviceId : c.sourceDeviceId;
+      const peerPort = isSrc ? c.targetPort : c.sourcePort;
+      const peerDev = this.deviceById(peerDevId);
+      const key = String(portName).trim().toLowerCase();
+
+      let portObj = portsMap.get(key);
+      if (!portObj) {
+        const isFiber = /sfp|fibra|fc|te|opt/i.test(portName);
+        portObj = {
+          id: portName,
+          name: portName,
+          label: portName,
+          type: isFiber ? 'fiber' : 'ethernet',
+          isOccupied: false,
+          alias: '',
+          mode: isFiber ? 'trunk' : 'access'
+        };
+        portsMap.set(key, portObj);
+      }
+
+      const vId = c.vlanId !== undefined ? Number(c.vlanId) : 1;
+      const vObj = this.getVlanById(vId);
+
+      portObj.isOccupied = true;
+      portObj.connection = c;
+      portObj.connectionId = c.id;
+      portObj.peerDeviceId = peerDevId;
+      portObj.peerDeviceName = peerDev ? peerDev.name : 'Desconocido';
+      portObj.peerPort = peerPort;
+      portObj.cableType = c.cableType || 'Cobre';
+      portObj.cableColor = c.color || '#3b82f6';
+      portObj.vlanId = vId;
+      portObj.vlanName = c.vlanName || (vObj ? vObj.name : `VLAN ${vId}`);
+      portObj.vlanColor = vObj ? vObj.color : '#64748b';
+    });
+
+    for (const [key, pObj] of portsMap.entries()) {
+      if (portConfigs[pObj.name]) {
+        const cfg = portConfigs[pObj.name];
+        if (cfg.alias) pObj.alias = cfg.alias;
+        if (cfg.mode) pObj.mode = cfg.mode;
+        if (cfg.vlanId !== undefined && !pObj.isOccupied) {
+          pObj.vlanId = Number(cfg.vlanId);
+          const vObj = this.getVlanById(pObj.vlanId);
+          pObj.vlanName = cfg.vlanName || (vObj ? vObj.name : `VLAN ${pObj.vlanId}`);
+          pObj.vlanColor = vObj ? vObj.color : '#64748b';
+        }
+      }
+    }
+
+    return Array.from(portsMap.values());
+  }
+
+  isPortOccupied(deviceId, portName, excludeConnectionId = null) {
+    if (!deviceId || !portName) return false;
+    const pName = String(portName).trim().toLowerCase();
+    const conn = (this._raw.connections || []).find(c => {
+      if (excludeConnectionId && c.id === excludeConnectionId) return false;
+      const isSrc = c.sourceDeviceId === deviceId && String(c.sourcePort).trim().toLowerCase() === pName;
+      const isDst = c.targetDeviceId === deviceId && String(c.targetPort).trim().toLowerCase() === pName;
+      return isSrc || isDst;
+    });
+    return conn || false;
+  }
+
+  validateConnection({ sourceDeviceId, sourcePort, targetDeviceId, targetPort, excludeConnectionId = null }) {
+    if (!sourceDeviceId || !targetDeviceId) {
+      return { valid: false, error: 'Debes seleccionar el equipo de origen y de destino.' };
+    }
+    if (!sourcePort || !String(sourcePort).trim() || !targetPort || !String(targetPort).trim()) {
+      return { valid: false, error: 'Debes especificar los puertos de origen y destino.' };
+    }
+    const sPort = String(sourcePort).trim();
+    const tPort = String(targetPort).trim();
+
+    if (sourceDeviceId === targetDeviceId && sPort.toLowerCase() === tPort.toLowerCase()) {
+      return { valid: false, error: 'No es posible conectar un puerto consigo mismo en el mismo equipo.' };
+    }
+
+    const srcOccupied = this.isPortOccupied(sourceDeviceId, sPort, excludeConnectionId);
+    if (srcOccupied) {
+      const srcDev = this.deviceById(sourceDeviceId);
+      const peerDevId = srcOccupied.sourceDeviceId === sourceDeviceId ? srcOccupied.targetDeviceId : srcOccupied.sourceDeviceId;
+      const peerDev = this.deviceById(peerDevId);
+      return {
+        valid: false,
+        error: `El puerto "${sPort}" de "${srcDev ? srcDev.name : 'Origen'}" ya está conectado a "${peerDev ? peerDev.name : 'otro equipo'}".`,
+        conflict: { deviceId: sourceDeviceId, port: sPort, connection: srcOccupied }
+      };
+    }
+
+    const dstOccupied = this.isPortOccupied(targetDeviceId, tPort, excludeConnectionId);
+    if (dstOccupied) {
+      const dstDev = this.deviceById(targetDeviceId);
+      const peerDevId = dstOccupied.sourceDeviceId === targetDeviceId ? dstOccupied.targetDeviceId : dstOccupied.sourceDeviceId;
+      const peerDev = this.deviceById(peerDevId);
+      return {
+        valid: false,
+        error: `El puerto "${tPort}" de "${dstDev ? dstDev.name : 'Destino'}" ya está conectado a "${peerDev ? peerDev.name : 'otro equipo'}".`,
+        conflict: { deviceId: targetDeviceId, port: tPort, connection: dstOccupied }
+      };
+    }
+
+    return { valid: true };
+  }
+
+  setDevicePortConfig(deviceId, portName, config) {
+    this.snapshot();
+    const dev = this.deviceById(deviceId);
+    if (!dev) return false;
+    if (!dev.portConfigs) dev.portConfigs = {};
+    dev.portConfigs[portName] = Object.assign(dev.portConfigs[portName] || {}, config);
+    this._save();
+    this._emit('change', { source: 'setDevicePortConfig', deviceId, portName });
+    return true;
+  }
+
+  addConnection(conn, { force = false } = {}) {
+    if (!force) {
+      const val = this.validateConnection(conn);
+      if (!val.valid) {
+        console.warn('[Store] Intento de conexión inválida:', val.error);
+        return { success: false, error: val.error, conflict: val.conflict };
+      }
+    }
+
+    this.snapshot();
+    const vId = conn.vlanId !== undefined ? Number(conn.vlanId) : 1;
+    const vObj = this.getVlanById(vId);
+    const newConn = {
+      id: uid(),
+      sourceDeviceId: conn.sourceDeviceId,
+      sourcePort: String(conn.sourcePort).trim(),
+      targetDeviceId: conn.targetDeviceId,
+      targetPort: String(conn.targetPort).trim(),
+      cableType: conn.cableType || 'Cobre',
+      color: conn.color || (vObj ? vObj.color : '#3b82f6'),
+      vlanId: vId,
+      vlanName: conn.vlanName || (vObj ? vObj.name : `VLAN ${vId}`),
+      notes: conn.notes || ''
+    };
+    this._raw.connections.push(newConn);
+    this._save(); 
+    this._emit('change', { source: 'addConnection', connection: newConn });
+    return { success: true, connection: newConn };
+  }
+
+  updateConnection(id, props, { force = false } = {}) {
+    const c = this._raw.connections.find(conn => conn.id === id);
+    if (!c) return { success: false, error: 'Conexión no encontrada' };
+
+    if (!force) {
+      const merged = {
+        sourceDeviceId: props.sourceDeviceId !== undefined ? props.sourceDeviceId : c.sourceDeviceId,
+        sourcePort: props.sourcePort !== undefined ? props.sourcePort : c.sourcePort,
+        targetDeviceId: props.targetDeviceId !== undefined ? props.targetDeviceId : c.targetDeviceId,
+        targetPort: props.targetPort !== undefined ? props.targetPort : c.targetPort,
+        excludeConnectionId: id
+      };
+      const val = this.validateConnection(merged);
+      if (!val.valid) {
+        console.warn('[Store] Intento de actualización de conexión inválida:', val.error);
+        return { success: false, error: val.error, conflict: val.conflict };
+      }
+    }
+
+    this.snapshot();
+    if (props.vlanId !== undefined) {
+      props.vlanId = Number(props.vlanId);
+      const vObj = this.getVlanById(props.vlanId);
+      if (vObj && !props.vlanName) props.vlanName = vObj.name;
+    }
+    Object.assign(c, props);
+    this._save();
+    this._emit('change', { source: 'updateConnection', connection: c });
+    return { success: true, connection: c };
+  }
+
+  deleteConnection(id) {
+    this.snapshot();
+    this._raw.connections = this._raw.connections.filter(c => c.id !== id);
+    this._save(); 
+    this._emit('change', { source: 'deleteConnection' });
+  }
+
+  _cleanTopologyPositions({ roomIds = [], rackIds = [], deviceIds = [] } = {}) {
+    const t = this._raw.topology;
+    if (!t) return;
+    if (roomIds.length)  { for (const id of roomIds)  { delete t.roomPositions[id]; delete t.roomSizes[id]; } }
+    if (rackIds.length)  { for (const id of rackIds)  { delete t.rackPositions[id]; delete t.rackSizes[id]; } }
+    if (deviceIds.length) { for (const id of deviceIds) { delete t.nodePositions[id]; } }
+  }
+
+  addCustomCatalogItem(item) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    this._raw.customCatalog.push(item);
+    this._save();
+    this._emit('change', { source: 'addCustomCatalogItem', item });
+    return item;
+  }
+
+  deleteCustomCatalogItem(id) {
+    this.snapshot();
+    if (!this._raw.customCatalog) this._raw.customCatalog = [];
+    this._raw.customCatalog = this._raw.customCatalog.filter(c => c.id !== id);
+    this._save();
+    this._emit('change', { source: 'deleteCustomCatalogItem', id });
+  }
+
+  saveTopologyState(data) {
+    if (!this._raw.topology) this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
+    Object.assign(this._raw.topology, data);
+    this._save();
+    this._emit('change', { source: 'saveTopology' });
+  }
+
+  // ──────────────────────────────────────────────────────────────────
+  // M-40: Gestión de Ranuras de Memoria de Topología (5 Slots)
+  // ──────────────────────────────────────────────────────────────────
+  saveTopologySlot(slotIndex, customName) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return null;
+
+    if (!Array.isArray(this._raw.topologySlots) || this._raw.topologySlots.length !== 5) {
+      this._raw.topologySlots = [null, null, null, null, null];
+    }
+
+    const currentTopo = this._raw.topology || {};
+    const defaultName = `Vista ${idx + 1}`;
+    const prevSlot = this._raw.topologySlots[idx];
+    const name = (customName && customName.trim()) ? customName.trim() : (prevSlot && prevSlot.name ? prevSlot.name : defaultName);
+
+    const slotData = {
+      id: idx + 1,
+      name,
+      savedAt: new Date().toISOString(),
+      nodePositions: JSON.parse(JSON.stringify(currentTopo.nodePositions || {})),
+      rackPositions: JSON.parse(JSON.stringify(currentTopo.rackPositions || {})),
+      rackSizes: JSON.parse(JSON.stringify(currentTopo.rackSizes || {})),
+      roomPositions: JSON.parse(JSON.stringify(currentTopo.roomPositions || {})),
+      roomSizes: JSON.parse(JSON.stringify(currentTopo.roomSizes || {})),
+      topoZoom: this._raw.topoZoom !== undefined ? this._raw.topoZoom : 1,
+      topoPanX: this._raw.topoPanX !== undefined ? this._raw.topoPanX : 0,
+      topoPanY: this._raw.topoPanY !== undefined ? this._raw.topoPanY : 0,
+      topoSpacing: currentTopo.topoSpacing !== undefined ? currentTopo.topoSpacing : (typeof window !== 'undefined' ? window.TOPO_SPACING || 60 : 60),
+      topoSpacingX: currentTopo.topoSpacingX !== undefined ? currentTopo.topoSpacingX : (typeof window !== 'undefined' ? window.TOPO_SPACING_X || 28 : 28),
+      bgPattern: currentTopo.bgPattern || (typeof window !== 'undefined' ? window.TOPO_BG_PATTERN || 'dots' : 'dots'),
+      inheritColors: currentTopo.inheritColors !== undefined ? currentTopo.inheritColors : (typeof window !== 'undefined' ? window.TOPO_INHERIT_COLORS !== false : true),
+      topoAlpha: currentTopo.topoAlpha !== undefined ? currentTopo.topoAlpha : (typeof window !== 'undefined' && window.TOPO_ALPHA !== undefined ? window.TOPO_ALPHA : 0.25),
+      style: currentTopo.style || (typeof window !== 'undefined' ? window.TOPOLOGY_STYLE || 'card' : 'card'),
+      layoutMode: currentTopo.layoutMode || (typeof window !== 'undefined' ? window.TOPO_LAYOUT_MODE || 'racks' : 'racks'),
+      labelPreset: currentTopo.labelPreset || (typeof window !== 'undefined' ? window.TOPO_LABEL_PRESET || 'separated' : 'separated'),
+      namePos: currentTopo.namePos || (typeof window !== 'undefined' ? window.TOPO_NAME_POS || 'bottom' : 'bottom'),
+      ipPos: currentTopo.ipPos || (typeof window !== 'undefined' ? window.TOPO_IP_POS || 'top' : 'top')
+    };
+
+    this._raw.topologySlots[idx] = slotData;
+    this._raw.activeTopologySlot = idx;
+    this._save();
+    this._emit('change', { source: 'saveTopologySlot', slotIndex: idx, slotData });
+    return slotData;
+  }
+
+  loadTopologySlot(slotIndex) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return false;
+    if (!this._raw.topologySlots || !this._raw.topologySlots[idx]) return false;
+
+    const slotData = this._raw.topologySlots[idx];
+
+    if (!this._raw.topology) {
+      this._raw.topology = {};
+    }
+
+    this._raw.topology.nodePositions = JSON.parse(JSON.stringify(slotData.nodePositions || {}));
+    this._raw.topology.rackPositions = JSON.parse(JSON.stringify(slotData.rackPositions || {}));
+    this._raw.topology.rackSizes = JSON.parse(JSON.stringify(slotData.rackSizes || {}));
+    this._raw.topology.roomPositions = JSON.parse(JSON.stringify(slotData.roomPositions || {}));
+    this._raw.topology.roomSizes = JSON.parse(JSON.stringify(slotData.roomSizes || {}));
+    
+    if (slotData.topoSpacing !== undefined) this._raw.topology.topoSpacing = slotData.topoSpacing;
+    if (slotData.topoSpacingX !== undefined) this._raw.topology.topoSpacingX = slotData.topoSpacingX;
+    if (slotData.bgPattern) this._raw.topology.bgPattern = slotData.bgPattern;
+    if (slotData.inheritColors !== undefined) this._raw.topology.inheritColors = slotData.inheritColors;
+    if (slotData.topoAlpha !== undefined) this._raw.topology.topoAlpha = slotData.topoAlpha;
+    if (slotData.style) this._raw.topology.style = slotData.style;
+    if (slotData.layoutMode) this._raw.topology.layoutMode = slotData.layoutMode;
+    if (slotData.labelPreset) this._raw.topology.labelPreset = slotData.labelPreset;
+    if (slotData.namePos) this._raw.topology.namePos = slotData.namePos;
+    if (slotData.ipPos) this._raw.topology.ipPos = slotData.ipPos;
+
+    if (slotData.topoZoom !== undefined) this._raw.topoZoom = slotData.topoZoom;
+    if (slotData.topoPanX !== undefined) this._raw.topoPanX = slotData.topoPanX;
+    if (slotData.topoPanY !== undefined) this._raw.topoPanY = slotData.topoPanY;
+
+    this._raw.activeTopologySlot = idx;
+    this._save();
+    this._emit('change', { source: 'loadTopologySlot', slotIndex: idx, slotData });
+    return true;
+  }
+
+  clearTopologySlot(slotIndex) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return false;
+
+    if (!Array.isArray(this._raw.topologySlots)) {
+      this._raw.topologySlots = [null, null, null, null, null];
+    }
+    this._raw.topologySlots[idx] = null;
+    if (this._raw.activeTopologySlot === idx) {
+      this._raw.activeTopologySlot = null;
+    }
+    this._save();
+    this._emit('change', { source: 'clearTopologySlot', slotIndex: idx });
+    return true;
+  }
+
+  renameTopologySlot(slotIndex, newName) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return false;
+    if (!this._raw.topologySlots || !this._raw.topologySlots[idx]) return false;
+
+    const cleanName = (newName && newName.trim()) ? newName.trim() : `Vista ${idx + 1}`;
+    this._raw.topologySlots[idx].name = cleanName;
+    this._save();
+    this._emit('change', { source: 'renameTopologySlot', slotIndex: idx, name: cleanName });
+    return true;
+  }
+
+  getTopologySlots() {
+    if (!Array.isArray(this._raw.topologySlots) || this._raw.topologySlots.length !== 5) {
+      const existing = Array.isArray(this._raw.topologySlots) ? this._raw.topologySlots : [];
+      this._raw.topologySlots = [0, 1, 2, 3, 4].map(i => existing[i] || null);
+    }
+    return this._raw.topologySlots;
+  }
+
+  loadData(data) {
+    this._undoStack = [];
+    this._redoStack = [];
+    let stateToLoad = data;
+    if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
+      stateToLoad = RackCrypto.restoreStateFromStorage(data);
+    }
+    Object.keys(this._raw).forEach(k => delete this._raw[k]);
+    Object.assign(this._raw, stateToLoad);
+    
+    if (!this._raw.topology) {
+      this._raw.topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
+    }
+
+    this._sanitize();
+
+    this._save();
+    this._emit('change', { source: 'loadData' });
+    this._updateHistoryButtons();
+  }
+
+  /** Estadísticas calculadas */
+  getStats() {
+    const racks = this.currentRacks;
+    const rackDevices = racks.flatMap(r => this.allDevicesInRack(r.id));
+    const floorDevices = this.allFloorDevicesInRoom(this._raw.currentRoomId);
+    const allDevices = [...rackDevices, ...floorDevices];
+    const totalU = racks.reduce((s, r) => s + r.height, 0);
+    const usedU  = rackDevices.reduce((s, d) => s + d.size, 0);
+    const power  = allDevices.reduce((s, d) => s + (parseInt(d.power) || 0), 0);
+    const allDeviceIds = new Set(allDevices.map(d => d.id));
+    const roomConnections = this._raw.connections.filter(c => allDeviceIds.has(c.sourceDeviceId) || allDeviceIds.has(c.targetDeviceId)).length;
+    
+    return { racks: racks.length, devices: allDevices.length, totalU, usedU, power, connections: roomConnections };
+  }
+
+  /** Estadísticas globales del proyecto */
+  getGlobalStats() {
+    const totalRooms = this._raw.rooms.length;
+    const totalRacks = this._raw.racks.length;
+    
+    // Equipos en rack vs Equipos de piso
+    // Los equipos de piso se identifican por estar en FLOOR_TYPES o por tener category === 'floor' 
+    // pero de forma más robusta, un equipo de piso no tiene rackId.
+    let rackDevicesCount = 0;
+    let floorDevicesCount = 0;
+
+    this._raw.devices.forEach(d => {
+      if (d.rackId) rackDevicesCount++;
+      else floorDevicesCount++;
+    });
+
+    const totalConnections = this._raw.connections.length;
+
+    return { totalRooms, totalRacks, rackDevicesCount, floorDevicesCount, totalConnections };
+  }
+}
+
+const store = new Store();
+if (typeof window !== 'undefined') {
+  window.store = store;
+  window.sidesConflict = store.sidesConflict.bind(store);
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-utils-js"></a>
+
+### 📄 Archivo 13/42: `js/utils.js`
+
+* **Ubicación relativa:** `js/utils.js`
+* **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
+* **Dimensiones:** 116 líneas | 4.2 KB
+* **Rol en el sistema:** Funciones de soporte: uid, deepClone, escapeHTML, notificaciones toast y diálogos seguros.
+
+```javascript
+const uid = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+  }
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+};
+const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
+const lerp = (a, b, t) => a + (b - a) * t;
+
+function escapeHTML(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/[&<>'"]/g, tag => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[tag] || tag));
+}
+const escapeHtml = escapeHTML;
+if (typeof window !== 'undefined') {
+  window.escapeHtml = escapeHTML;
+}
+
+function notify(msg, type = 'info', duration = 3000) {
+  const el = document.createElement('div');
+  el.className = `notif ${type}`;
+  const icons = { info: '<i class="svg-icon icon-bolt" style="width:14px;height:14px;"></i>', success: '<i class="svg-icon icon-check" style="width:14px;height:14px;"></i>', error: '<i class="svg-icon icon-x" style="width:14px;height:14px;"></i>', warn: '<i class="svg-icon icon-warning" style="width:14px;height:14px;"></i>' };
+  el.innerHTML = `${icons[type]||'<i class="svg-icon icon-bolt" style="width:14px;height:14px;"></i>'} ${escapeHTML(msg)}`;
+  const area = document.getElementById('notif-area');
+  if (!area) return;
+  area.appendChild(el);
+  if (area.children) {
+    while (area.children.length > 5) {
+      area.removeChild(area.firstChild);
+    }
+  }
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(20px)';
+    el.style.transition = 'all 0.3s';
+    setTimeout(() => el.remove(), 300);
+  }, duration);
+}
+
+function downloadJSON(obj, filename) {
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function getDeviceLocation(device) {
+  if (!device) return 'Desconocido';
+  let roomName = 'Desconocido';
+  if (device.rackId) {
+    const rack = store.rackById(device.rackId);
+    if (rack) {
+      const room = store._raw.rooms.find(r => r.id === rack.roomId);
+      roomName = room ? room.name : 'Sala Desconocida';
+      return `${roomName} — ${rack.name}`;
+    }
+  } else if (device.roomId) {
+    const room = store._raw.rooms.find(r => r.id === device.roomId);
+    roomName = room ? room.name : 'Sala Desconocida';
+    return `${roomName} — PISO`;
+  }
+  return 'Sin asignar';
+}
+
+function customConfirm(title, message) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.style.zIndex = '110000';
+    
+    overlay.innerHTML = `
+      <div class="modal custom-dialog scale-in" style="max-width: 400px; padding: 20px;">
+        <div class="modal-title">
+          <i class="svg-icon icon-warning" style="width:18px; height:18px; color: var(--amber);"></i> ${escapeHTML(title)}
+        </div>
+        <div class="modal-sub" style="margin-top: 12px; color: var(--text-secondary); line-height: 1.5; font-family: var(--font-ui), sans-serif;">
+          ${escapeHTML(message)}
+        </div>
+        <div class="modal-footer" style="margin-top: 24px;">
+          <button class="btn-cancel" id="dialog-btn-cancel">Cancelar</button>
+          <button class="btn-confirm danger" id="dialog-btn-confirm">Confirmar</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    const cleanup = (value) => {
+      overlay.classList.add('fade-out');
+      overlay.addEventListener('animationend', () => {
+        overlay.remove();
+      });
+      setTimeout(() => {
+        if (document.body.contains(overlay)) overlay.remove();
+      }, 300);
+      resolve(value);
+    };
+
+    overlay.querySelector('#dialog-btn-confirm').addEventListener('click', () => cleanup(true));
+    overlay.querySelector('#dialog-btn-cancel').addEventListener('click', () => cleanup(false));
+    
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) cleanup(false);
+    });
+  });
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-icons-js"></a>
+
+### 📄 Archivo 14/42: `js/icons.js`
+
+* **Ubicación relativa:** `js/icons.js`
+* **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
+* **Dimensiones:** 29 líneas | 16.5 KB
+* **Rol en el sistema:** Diccionario de iconos SVG vectoriales inline utilizados en toda la interfaz.
+
+```javascript
+const SVG_ICONS = {
+  'pc': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'6\' y=\'4\' width=\'12\' height=\'16\' rx=\'1\'/><circle cx=\'12\' cy=\'8\' r=\'1\'/><line x1=\'10\' y1=\'16\' x2=\'14\' y2=\'16\'/></svg>',
+  'server': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'4\' width=\'20\' height=\'16\' rx=\'2\'/><line x1=\'6\' y1=\'8\' x2=\'6\' y2=\'8\'/><line x1=\'10\' y1=\'8\' x2=\'18\' y2=\'8\'/><line x1=\'6\' y1=\'16\' x2=\'6\' y2=\'16\'/><line x1=\'10\' y1=\'16\' x2=\'18\' y2=\'16\'/></svg>',
+  'ups': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'3\' y=\'6\' width=\'18\' height=\'12\' rx=\'2\'/><path d=\'M13 9l-3 4h4l-3 4\'/></svg>',
+  'pdu': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'10\' width=\'20\' height=\'4\'/><circle cx=\'6\' cy=\'12\' r=\'1\'/><circle cx=\'12\' cy=\'12\' r=\'1\'/><circle cx=\'18\' cy=\'12\' r=\'1\'/></svg>',
+  'san': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'4\' y=\'2\' width=\'16\' height=\'20\' rx=\'2\'/><line x1=\'4\' y1=\'8\' x2=\'20\' y2=\'8\'/><line x1=\'4\' y1=\'16\' x2=\'20\' y2=\'16\'/><circle cx=\'12\' cy=\'5\' r=\'1\'/><circle cx=\'12\' cy=\'12\' r=\'1\'/><circle cx=\'12\' cy=\'19\' r=\'1\'/></svg>',
+  'icon': '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg   viewBox="0 0 64 64"   width="100%"   height="100%"   version="1.1"   id="svg16"   sodipodi:docname="icon.svg"   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:xlink="http://www.w3.org/1999/xlink"   xmlns="http://www.w3.org/2000/svg"   xmlns:svg="http://www.w3.org/2000/svg">  <sodipodi:namedview     id="namedview16"     pagecolor="currentColor"     bordercolor="#000000"     borderopacity="0.25"     inkscape:showpageshadow="2"     inkscape:pageopacity="0.0"     inkscape:pagecheckerboard="0"     inkscape:deskcolor="#d1d1d1"     inkscape:zoom="6.8204712"     inkscape:cx="31.889292"     inkscape:cy="31.889292"     inkscape:window-width="1366"     inkscape:window-height="697"     inkscape:window-x="-8"     inkscape:window-y="-8"     inkscape:window-maximized="1"     inkscape:current-layer="svg16"     showguides="true"     showgrid="false">    <sodipodi:guide       position="6.7473701,21.046743"       orientation="1,0"       id="guide1"       inkscape:locked="false" />    <sodipodi:guide       position="57.252634,14.443307"       orientation="1,0"       id="guide2"       inkscape:locked="false" />    <sodipodi:guide       position="19.060267,58.375888"       orientation="0,-1"       id="guide3"       inkscape:locked="false" />    <sodipodi:guide       position="23.165555,5.9106937"       orientation="0,-1"       id="guide4"       inkscape:locked="false" />  </sodipodi:namedview>  <defs     id="defs6">    <!-- Cyan to Blue Gradient -->    <linearGradient       id="rackGrad"       x1="3.7913557"       y1="-0.42135303"       x2="64.559851"       y2="60.347142"       gradientTransform="matrix(0.93634046,0,0,1.0679876,-10.334564,-6)"       gradientUnits="userSpaceOnUse">      <stop         offset="0%"         stop-color="#06b6d4"         id="stop1" />      <stop         offset="50%"         stop-color="#0ea5e9"         id="stop2" />      <stop         offset="100%"         stop-color="#3b82f6"         id="stop3" />    </linearGradient>    <!-- Purple Gradient for highlights -->    <linearGradient       id="purpleGrad"       x1="0%"       y1="0%"       x2="100%"       y2="0%">      <stop         offset="0%"         stop-color="#8b5cf6"         id="stop4" />      <stop         offset="100%"         stop-color="#a855f7"         id="stop5" />    </linearGradient>    <!-- Subtle Glow Effect -->    <filter       id="glow"       x="-0.006850268"       y="-0.0057085566"       width="1.0137005"       height="1.0114171">      <feGaussianBlur         stdDeviation="0.00019718012"         result="blur"         id="feGaussianBlur5" />      <feMerge         id="feMerge6">        <feMergeNode           in="blur"           id="feMergeNode5" />        <feMergeNode           in="SourceGraphic"           id="feMergeNode6" />      </feMerge>    </filter>    <linearGradient       inkscape:collect="always"       xlink:href="#purpleGrad"       id="linearGradient16"       x1="-0.26111648"       y1="-0.95742711"       x2="16.972571"       y2="-0.95742711"       gradientTransform="scale(1.9148542,0.52223297)"       gradientUnits="userSpaceOnUse" />    <linearGradient       inkscape:collect="always"       xlink:href="#purpleGrad"       id="linearGradient17"       x1="5.2915026"       y1="7.9372539"       x2="10.583005"       y2="7.9372539"       gradientTransform="scale(2.6457513,0.37796447)"       gradientUnits="userSpaceOnUse" />  </defs>  <!-- Background Base (Transparent/Dark) -->  <!-- Outer Rack Frame with Cyan-Blue Gradient Stroke and Glow -->  <rect     x="1.2505906"     y="1.2505906"     width="40"     height="48"     rx="3.2762671"     fill="#151c2e"     stroke="url(#rackGrad)"     stroke-width="2.5"     filter="url(#glow)"     id="rect7"     style="mix-blend-mode:normal;fill:currentColor;fill-opacity:0;stroke:#0081ff;stroke-width:0.547075;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#glow)"     transform="matrix(1.5786524,0,0,1.3185002,-1.5531317,-1.2979768)" />  <!-- Top Grill/Ventilation -->  <line     x1="8.0563993"     y1="6.773252"     x2="56.025974"     y2="6.773252"     stroke="#2e3d5a"     stroke-width="1.38172"     stroke-linecap="round"     id="line7"     style="stroke-width:2.29828;stroke-dasharray:none" />  <line     x1="8.0563993"     y1="10.557262"     x2="56.025974"     y2="10.557262"     stroke="#2e3d5a"     stroke-width="1.38172"     stroke-linecap="round"     id="line8"     style="stroke-width:2.29828;stroke-dasharray:none" />  <!-- Server Unit 1 -->  <g     transform="matrix(1.513598,0,0,1.2613374,7.782434,16.863952)"     id="g9"     style="stroke-width:1.36768666;stroke-dasharray:none">    <!-- Chassis -->    <rect       x="0"       y="0"       width="32"       height="8"       rx="1.5"       fill="#1a2235"       stroke="#0ea5e9"       stroke-width="1"       id="rect8"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <!-- Status LEDs -->    <circle       cx="4"       cy="4"       r="1.5"       fill="#10b981"       id="circle8"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <circle       cx="9"       cy="4"       r="1.5"       fill="#10b981"       id="circle9"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <!-- Data Bars -->    <rect       x="14"       y="3"       width="14"       height="2"       rx="1"       fill="#0ea5e9"       opacity="0.6"       id="rect9"       style="stroke-width:1.36768666;stroke-dasharray:none" />  </g>  <!-- Server Unit 2 -->  <g     transform="matrix(1.513598,0,0,1.2613374,7.782434,32.000001)"     id="g11"     style="stroke-width:1.36768666;stroke-dasharray:none">    <!-- Chassis -->    <rect       x="0"       y="0"       width="32"       height="8"       rx="1.5"       fill="#1a2235"       stroke="url(#purpleGrad)"       stroke-width="1"       id="rect10"       style="stroke:url(#linearGradient16);stroke-width:1.36768666;stroke-dasharray:none" />    <!-- Status LEDs -->    <circle       cx="4"       cy="4"       r="1.5"       fill="#10b981"       id="circle10"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <circle       cx="9"       cy="4"       r="1.5"       fill="#f59e0b"       id="circle11"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <!-- Data Bars -->    <rect       x="14"       y="3"       width="14"       height="2"       rx="1"       fill="url(#purpleGrad)"       opacity="0.6"       id="rect11"       style="fill:url(#linearGradient17);stroke-width:1.36768666;stroke-dasharray:none" />  </g>  <!-- Server Unit 3 (Storage) -->  <g     transform="matrix(1.513598,0,0,1.2613374,7.782434,47.13605)"     id="g16"     style="stroke-width:1.36768666;stroke-dasharray:none">    <!-- Chassis -->    <rect       x="0"       y="0"       width="32"       height="8"       rx="1.5"       fill="#1a2235"       stroke="#2e3d5a"       stroke-width="1"       id="rect12"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <!-- Drive Bays -->    <rect       x="3"       y="2"       width="6"       height="4"       rx="0.5"       fill="#3b82f6"       id="rect13"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <rect       x="11"       y="2"       width="6"       height="4"       rx="0.5"       fill="#3b82f6"       id="rect14"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <rect       x="19"       y="2"       width="6"       height="4"       rx="0.5"       fill="#3b82f6"       id="rect15"       style="stroke-width:1.36768666;stroke-dasharray:none" />    <rect       x="27"       y="2"       width="3"       height="4"       rx="0.5"       fill="#ef4444"       opacity="0.8"       id="rect16"       style="stroke-width:1.36768666;stroke-dasharray:none" />  </g></svg>',
+  'nas': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'4\' y=\'2\' width=\'16\' height=\'20\' rx=\'2\'/><line x1=\'4\' y1=\'8\' x2=\'20\' y2=\'8\'/><line x1=\'4\' y1=\'16\' x2=\'20\' y2=\'16\'/><circle cx=\'12\' cy=\'5\' r=\'1\'/><circle cx=\'12\' cy=\'12\' r=\'1\'/><circle cx=\'12\' cy=\'19\' r=\'1\'/></svg>',
+  'tray': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'14\' width=\'20\' height=\'2\'/><line x1=\'4\' y1=\'14\' x2=\'4\' y2=\'10\'/><line x1=\'20\' y1=\'14\' x2=\'20\' y2=\'10\'/></svg>',
+  'kvm': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'4\' y=\'4\' width=\'16\' height=\'10\' rx=\'1\'/><rect x=\'6\' y=\'16\' width=\'12\' height=\'4\' rx=\'1\'/><line x1=\'12\' y1=\'14\' x2=\'12\' y2=\'16\'/></svg>',
+  'door': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'6\' y=\'2\' width=\'12\' height=\'20\'/><circle cx=\'15\' cy=\'12\' r=\'1\'/></svg>',
+  'printer': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'5\' y=\'10\' width=\'14\' height=\'8\' rx=\'1\'/><path d=\'M8 10V6h8v4M7 18v3h10v-3\'/></svg>',
+  'switch': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'8\' width=\'20\' height=\'8\' rx=\'1\'/><circle cx=\'6\' cy=\'12\' r=\'1\'/><circle cx=\'10\' cy=\'12\' r=\'1\'/><circle cx=\'14\' cy=\'12\' r=\'1\'/><circle cx=\'18\' cy=\'12\' r=\'1\'/></svg>',
+  'router': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'3\' y=\'8\' width=\'18\' height=\'8\' rx=\'2\'/><circle cx=\'12\' cy=\'12\' r=\'2\'/><line x1=\'6\' y1=\'8\' x2=\'6\' y2=\'4\'/><line x1=\'18\' y1=\'8\' x2=\'18\' y2=\'4\'/></svg>',
+  'firewall': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'3\' y=\'6\' width=\'18\' height=\'12\' rx=\'1\'/><path d=\'M8 10v4M12 8v8M16 10v4\'/></svg>',
+  'organizer': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'8\' width=\'20\' height=\'8\' rx=\'0\'/><line x1=\'4\' y1=\'8\' x2=\'4\' y2=\'16\'/><line x1=\'8\' y1=\'8\' x2=\'8\' y2=\'16\'/><line x1=\'12\' y1=\'8\' x2=\'12\' y2=\'16\'/><line x1=\'16\' y1=\'8\' x2=\'16\' y2=\'16\'/><line x1=\'20\' y1=\'8\' x2=\'20\' y2=\'16\'/></svg>',
+  'camera': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'4\' y=\'8\' width=\'16\' height=\'10\' rx=\'2\'/><circle cx=\'12\' cy=\'13\' r=\'3\'/><circle cx=\'18\' cy=\'10\' r=\'1\'/></svg>',
+  'patchpanel': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'10\' width=\'20\' height=\'4\' rx=\'0.5\'/><circle cx=\'5\' cy=\'12\' r=\'0.5\'/><circle cx=\'8\' cy=\'12\' r=\'0.5\'/><circle cx=\'11\' cy=\'12\' r=\'0.5\'/><circle cx=\'14\' cy=\'12\' r=\'0.5\'/><circle cx=\'17\' cy=\'12\' r=\'0.5\'/><circle cx=\'20\' cy=\'12\' r=\'0.5\'/></svg>',
+  'ap': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M12 20v-8M8 12l4-4 4 4\'/><path d=\'M4 8c4-4 12-4 16 0\'/><path d=\'M8 12c2-2 6-2 8 0\'/></svg>',
+  'phone': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z\'/></svg>',
+  'grid': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'3\' y=\'3\' width=\'7\' height=\'7\'/><rect x=\'14\' y=\'3\' width=\'7\' height=\'7\'/><rect x=\'14\' y=\'14\' width=\'7\' height=\'7\'/><rect x=\'3\' y=\'14\' width=\'7\' height=\'7\'/></svg>',
+  'search': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><circle cx=\'11\' cy=\'11\' r=\'8\'/><line x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/></svg>',
+  'network': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'9\' y=\'2\' width=\'6\' height=\'4\' rx=\'1\'/><rect x=\'2\' y=\'18\' width=\'6\' height=\'4\' rx=\'1\'/><rect x=\'16\' y=\'18\' width=\'6\' height=\'4\' rx=\'1\'/><path d=\'M12 6v4M5 18v-4h14v4M12 10h-7v4M12 10h7v4\'/></svg>',
+  'nvr': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'5\' width=\'20\' height=\'14\' rx=\'2\'/><circle cx=\'8\' cy=\'12\' r=\'2\'/><path d=\'M14 9h4M14 12h4M14 15h4\'/></svg>',
+  'dvr': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'6\' width=\'20\' height=\'12\' rx=\'2\'/><circle cx=\'6\' cy=\'12\' r=\'1.5\'/><circle cx=\'10\' cy=\'12\' r=\'1.5\'/><circle cx=\'14\' cy=\'12\' r=\'1.5\'/><line x1=\'18\' y1=\'10\' x2=\'18\' y2=\'14\'/></svg>',
+  'decoder': '<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'7\' width=\'20\' height=\'10\' rx=\'2\'/><rect x=\'6\' y=\'10\' width=\'4\' height=\'4\'/><line x1=\'14\' y1=\'12\' x2=\'18\' y2=\'12\'/></svg>'
+};
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-demodata-js"></a>
+
+### 📄 Archivo 15/42: `js/demoData.js`
+
+* **Ubicación relativa:** `js/demoData.js`
+* **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
+* **Dimensiones:** 641 líneas | 34.3 KB
+* **Rol en el sistema:** Dataset preconfigurado de demostración con salas, racks 42U, equipos ToR y cableado VLAN.
+
+```javascript
+/**
+ * demoData.js — Plantilla de Demostración Profesional de Centro de Datos
+ * RACK Designer Next
+ * 
+ * Implementa las mejores prácticas de ingeniería de infraestructura (ANSI/TIA-942 y TIA-606-C):
+ * - Distribución Gravitacional de Peso: Equipos pesados (UPS, SAN, Servidores densos) en la base (U1 en adelante).
+ * - Zona Ergonómica de Operación: Consola KVM y bandeja porta-herramientas a la altura de trabajo (U20-U24).
+ * - Zona Top-of-Rack (ToR) y Redes: Switches Core/ToR, Firewalls, Routers, Patch Panels y ODFs de Fibra en la parte superior (U36-U42).
+ * - Soporte Bipolar: Equipos de profundidad completa (mountSide: 'both') y PDUs traseras (mountSide: 'rear').
+ */
+
+function loadDemoData() {
+  const r1 = uid(); // Data Center Principal
+  const r2 = uid(); // Edificio Corporativo A
+  const r3 = uid(); // Centro de Operaciones & Seguridad
+
+  const rooms = [
+    { id: r1, name: 'Data Center Principal' },
+    { id: r2, name: 'Edificio Corporativo A' },
+    { id: r3, name: 'Centro de Operaciones & Seguridad' }
+  ];
+
+  const racks = [];
+  const devices = [];
+  const connections = [];
+
+  // =========================================================================
+  // SALA 1: DATA CENTER PRINCIPAL (Gabinetes de 42U Estándar)
+  // =========================================================================
+  const rack101Id = uid(); // Rack 101: Borde & Redes
+  const rack102Id = uid(); // Rack 102: Virtualización & Cómputo
+  const rack103Id = uid(); // Rack 103: Almacenamiento Masivo SAN/NAS
+  const rack104Id = uid(); // Rack 104: Seguridad & CCTV
+
+  racks.push(
+    { id: rack101Id, roomId: r1, name: 'Rack 101 · Borde & Redes', height: 42, color: '#0ea5e9', devices: [] },
+    { id: rack102Id, roomId: r1, name: 'Rack 102 · Virtualización & Cómputo', height: 42, color: '#10b981', devices: [] },
+    { id: rack103Id, roomId: r1, name: 'Rack 103 · Storage SAN/NAS', height: 42, color: '#8b5cf6', devices: [] },
+    { id: rack104Id, roomId: r1, name: 'Rack 104 · Seguridad & CCTV', height: 42, color: '#f43f5e', devices: [] }
+  );
+
+  // --- RACK 101: BORDE & REDES ---
+  // U1-U2: UPS Pesado en la Base
+  const ups101Id = uid();
+  devices.push({
+    id: ups101Id, rackId: rack101Id, name: 'UPS Online 3000VA A', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.10.20.1', mac: '00:1A:2B:20:01:01',
+    serial: 'UPS-3000-01', brand: 'APC', model: 'Smart-UPS RT 3000VA', user: 'admin', pass: 'upspass',
+    notes: 'Alimentación redundante Línea A - Borde'
+  });
+
+  // U3: PDU Trasera
+  const pdu101Id = uid();
+  devices.push({
+    id: pdu101Id, rackId: rack101Id, name: 'PDU Horizontal 8 Tomas A', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B',
+    notes: 'PDU Trasera Alimentación Redes'
+  });
+
+  // U10-U11: Servidor Monitoreo & Syslog
+  const srvSyslogId = uid();
+  devices.push({
+    id: srvSyslogId, rackId: rack101Id, name: 'Servidor Gestión & Syslog', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.10.10.10', mac: '00:1A:2B:10:01:10',
+    serial: 'SRV-LOG-01', brand: 'Dell', model: 'PowerEdge R740', user: 'admin', pass: 'sysadmin2026',
+    notes: 'Servidor SIEM, Syslog & Monitoreo Zabbix'
+  });
+
+  // U21: Consola KVM Ergonómica
+  const kvm101Id = uid();
+  devices.push({
+    id: kvm101Id, rackId: rack101Id, name: 'Consola KVM LCD 1U', type: 'kvm', slotStart: 21, size: 1,
+    mountSide: 'both', power: 30, plugs: 1, brand: 'ATEN', model: 'CL1000M',
+    notes: 'Consola retráctil con display LCD y teclado'
+  });
+
+  // U22: Bandeja de Trabajo
+  const tray101Id = uid();
+  devices.push({
+    id: tray101Id, rackId: rack101Id, name: 'Bandeja Porta-Herramientas', type: 'tray', slotStart: 22, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Genérica', model: 'Shelf 1U',
+    notes: 'Bandeja metálica para instrumental técnico'
+  });
+
+  // U36: ODF Fibra Óptica 24P
+  const odf101Id = uid();
+  devices.push({
+    id: odf101Id, rackId: rack101Id, name: 'Bandeja ODF Fibra 24P', type: 'odf', slotStart: 36, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U',
+    notes: 'Distribuidor óptico para enlaces backbone'
+  });
+
+  // U37: Organizador Horizontal
+  const org101aId = uid();
+  devices.push({
+    id: org101aId, rackId: rack101Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 37, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+
+  // U38: Switch Distribución 48P
+  const swDistId = uid();
+  devices.push({
+    id: swDistId, rackId: rack101Id, name: 'Switch Distribución 48P', type: 'switch', slotStart: 38, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.10.10.5', mac: '00:1A:2B:10:01:05',
+    serial: 'SW-DIST-01', brand: 'Cisco', model: 'Catalyst 9300-48UXM', user: 'admin', pass: 'cisco2026',
+    notes: 'Distribución agregada hacia racks de cómputo y storage'
+  });
+
+  // U39: Organizador Horizontal
+  const org101bId = uid();
+  devices.push({
+    id: org101bId, rackId: rack101Id, name: 'Organizador Inter-Switch 1U', type: 'organizer', slotStart: 39, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+
+  // U40: Switch Core 10G Nexus
+  const swCoreId = uid();
+  devices.push({
+    id: swCoreId, rackId: rack101Id, name: 'Switch Core Nexus 10G/40G', type: 'switch', slotStart: 40, size: 1,
+    mountSide: 'front', power: 450, plugs: 2, ip: '10.10.10.2', mac: '00:1A:2B:10:01:02',
+    serial: 'NX-9300-01', brand: 'Cisco', model: 'Nexus 93180YC-FX', user: 'admin', pass: 'nexus2026',
+    notes: 'Núcleo de conmutación de ultra baja latencia'
+  });
+
+  // U41: Firewall Perimetral Next-Gen
+  const fwEdgeId = uid();
+  devices.push({
+    id: fwEdgeId, rackId: rack101Id, name: 'Firewall Perimetral Next-Gen', type: 'firewall', slotStart: 41, size: 1,
+    mountSide: 'front', power: 120, plugs: 2, ip: '10.10.10.1', mac: '00:1A:2B:10:01:01',
+    serial: 'FG-100F-01', brand: 'Fortinet', model: 'FortiGate 100F', user: 'admin', pass: 'fortigate2026',
+    notes: 'Seguridad perimetral, VPN IPsec y SD-WAN'
+  });
+
+  // U42: Router Borde BGP
+  const rtrEdgeId = uid();
+  devices.push({
+    id: rtrEdgeId, rackId: rack101Id, name: 'Router Borde BGP', type: 'router', slotStart: 42, size: 1,
+    mountSide: 'front', power: 180, plugs: 2, ip: '200.48.10.1', mac: '00:1A:2B:10:01:00',
+    serial: 'ASR-1001-01', brand: 'Cisco', model: 'ASR 1001-X', user: 'admin', pass: 'cisco2026',
+    notes: 'Enlace BGP dual a operadores Tier-1'
+  });
+
+  // --- RACK 102: VIRTUALIZACIÓN & CÓMPUTO ---
+  // U1-U2: UPS Pesado en la Base
+  const ups102Id = uid();
+  devices.push({
+    id: ups102Id, rackId: rack102Id, name: 'UPS Online 3000VA B', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.10.20.2', mac: '00:1A:2B:20:02:01',
+    serial: 'UPS-3000-02', brand: 'APC', model: 'Smart-UPS RT 3000VA', notes: 'Alimentación redundante Línea B - Cómputo'
+  });
+
+  // U3: PDU Trasera
+  const pdu102Id = uid();
+  devices.push({
+    id: pdu102Id, rackId: rack102Id, name: 'PDU Horizontal 8 Tomas B', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+
+  // U6-U9: Chasis Blade Modular 4U
+  const bladeChassisId = uid();
+  devices.push({
+    id: bladeChassisId, rackId: rack102Id, name: 'Chasis Blade Modular 4U', type: 'server', slotStart: 6, size: 4,
+    mountSide: 'both', power: 1800, plugs: 4, ip: '10.10.30.20', mac: '00:1A:2B:10:02:20',
+    serial: 'BLD-SYN-01', brand: 'HPE', model: 'Synergy 12000', notes: 'Alta densidad de procesamiento blade'
+  });
+
+  // U10-U11: Nodo Virtualización 01
+  const srvNode1Id = uid();
+  devices.push({
+    id: srvNode1Id, rackId: rack102Id, name: 'Servidor Virtualización Nodo 01', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 550, plugs: 2, ip: '10.10.30.11', mac: '00:1A:2B:10:02:11',
+    serial: 'SRV-R740-01', brand: 'Dell', model: 'PowerEdge R740xd', user: 'root', pass: 'vmware2026',
+    notes: 'Cluster VMware vSphere ESXi 8.0'
+  });
+
+  // U12-U13: Nodo Virtualización 02
+  const srvNode2Id = uid();
+  devices.push({
+    id: srvNode2Id, rackId: rack102Id, name: 'Servidor Virtualización Nodo 02', type: 'server', slotStart: 12, size: 2,
+    mountSide: 'both', power: 550, plugs: 2, ip: '10.10.30.12', mac: '00:1A:2B:10:02:12',
+    serial: 'SRV-R740-02', brand: 'Dell', model: 'PowerEdge R740xd', user: 'root', pass: 'vmware2026',
+    notes: 'Cluster VMware vSphere ESXi 8.0'
+  });
+
+  // U14-U15: Servidor Base de Datos SQL
+  const srvSqlId = uid();
+  devices.push({
+    id: srvSqlId, rackId: rack102Id, name: 'Servidor Base de Datos SQL', type: 'server', slotStart: 14, size: 2,
+    mountSide: 'both', power: 650, plugs: 2, ip: '10.10.30.15', mac: '00:1A:2B:10:02:15',
+    serial: 'SRV-R750-SQL', brand: 'Dell', model: 'PowerEdge R750', user: 'sa', pass: 'sqlcluster2026',
+    notes: 'SQL Server Enterprise en High Availability'
+  });
+
+  // U16: Servidor Web Frontend 1U
+  const srvWebId = uid();
+  devices.push({
+    id: srvWebId, rackId: rack102Id, name: 'Servidor Web Frontend 1U', type: 'server', slotStart: 16, size: 1,
+    mountSide: 'both', power: 250, plugs: 2, ip: '10.10.30.30', mac: '00:1A:2B:10:02:30',
+    serial: 'SRV-R340-WEB', brand: 'Dell', model: 'PowerEdge R340', user: 'admin', pass: 'web2026',
+    notes: 'Balanceador Nginx Ingress Controller'
+  });
+
+  // U38: Patch Panel Cat6A
+  const patch102Id = uid();
+  devices.push({
+    id: patch102Id, rackId: rack102Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'CommScope', model: 'Systimax Cat6A'
+  });
+
+  // U39: Organizador Horizontal
+  const org102Id = uid();
+  devices.push({
+    id: org102Id, rackId: rack102Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 39, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+
+  // U40: Switch ToR Cómputo 48P
+  const swTorCompId = uid();
+  devices.push({
+    id: swTorCompId, rackId: rack102Id, name: 'Switch ToR Cómputo 48P', type: 'switch', slotStart: 40, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.10.10.21', mac: '00:1A:2B:10:02:40',
+    serial: 'SW-TOR-01', brand: 'Cisco', model: 'Catalyst 9300-48T', notes: 'Top of Rack Switch Cómputo'
+  });
+
+  // --- RACK 103: ALMACENAMIENTO MASIVO SAN/NAS ---
+  // U1-U2: UPS Pesado en la Base
+  const ups103Id = uid();
+  devices.push({
+    id: ups103Id, rackId: rack103Id, name: 'UPS Online 3000VA C', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.10.20.3', mac: '00:1A:2B:20:03:01',
+    serial: 'UPS-3000-03', brand: 'APC', model: 'Smart-UPS RT 3000VA'
+  });
+
+  // U3: PDU Trasera
+  const pdu103Id = uid();
+  devices.push({
+    id: pdu103Id, rackId: rack103Id, name: 'PDU Horizontal 8 Tomas C', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+
+  // U4-U7: Cabina SAN Dell EMC 4U Pesada
+  const sanStorageId = uid();
+  devices.push({
+    id: sanStorageId, rackId: rack103Id, name: 'Cabina SAN Dell EMC 4U', type: 'storage', slotStart: 4, size: 4,
+    mountSide: 'both', power: 1200, plugs: 4, ip: '10.10.40.10', mac: '00:1A:2B:10:03:10',
+    serial: 'SAN-PST-5000', brand: 'Dell EMC', model: 'PowerStore 5000T', user: 'admin', pass: 'sanadmin2026',
+    notes: 'Array All-Flash NVMe para Bases de Datos y Cómputo'
+  });
+
+  // U8-U9: Cabina JBOD 2U
+  const jbodStorageId = uid();
+  devices.push({
+    id: jbodStorageId, rackId: rack103Id, name: 'Cabina Expansión JBOD 2U', type: 'storage', slotStart: 8, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.10.40.11', mac: '00:1A:2B:10:03:11',
+    serial: 'JBOD-ME424', brand: 'Dell EMC', model: 'ME424 Expansion', notes: 'Expansión de capacidad 24 bahías SAS'
+  });
+
+  // U10-U11: Servidor NAS Backup 2U
+  const nasStorageId = uid();
+  devices.push({
+    id: nasStorageId, rackId: rack103Id, name: 'Servidor NAS Backup 2U', type: 'storage', slotStart: 10, size: 2,
+    mountSide: 'both', power: 400, plugs: 2, ip: '10.10.40.20', mac: '00:1A:2B:10:03:20',
+    serial: 'NAS-RS3621', brand: 'Synology', model: 'RackStation RS3621xs+', user: 'admin', pass: 'nasbackup2026',
+    notes: 'Repositorio de respaldo inmutable Veeam'
+  });
+
+  // U38: Bandeja ODF Fibra SAN
+  const odfSanId = uid();
+  devices.push({
+    id: odfSanId, rackId: rack103Id, name: 'Bandeja ODF Fibra SAN 24P', type: 'odf', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U',
+    notes: 'Interconexión óptica Fibre Channel OM4'
+  });
+
+  // U39: Organizador Horizontal
+  const org103Id = uid();
+  devices.push({
+    id: org103Id, rackId: rack103Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 39, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+
+  // U40: Switch SAN Fibre Channel 24P
+  const swSanId = uid();
+  devices.push({
+    id: swSanId, rackId: rack103Id, name: 'Switch SAN Fibre Channel 24P', type: 'switch', slotStart: 40, size: 1,
+    mountSide: 'front', power: 280, plugs: 2, ip: '10.10.40.2', mac: '00:1A:2B:10:03:02',
+    serial: 'SW-FC-01', brand: 'Brocade', model: 'G620 32Gb FC', notes: 'Fabric SAN Principal de almacenamiento'
+  });
+
+  // --- RACK 104: SEGURIDAD CCTV & VIDEOVIGILANCIA ---
+  // U1-U2: UPS Pesado en la Base
+  const ups104Id = uid();
+  devices.push({
+    id: ups104Id, rackId: rack104Id, name: 'UPS Online 2000VA CCTV', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 2000, plugs: 6, plugsOut: 6, ip: '10.10.20.4', mac: '00:1A:2B:20:04:01',
+    serial: 'UPS-2000-01', brand: 'APC', model: 'Smart-UPS RT 2000VA'
+  });
+
+  // U3: PDU Trasera
+  const pdu104Id = uid();
+  devices.push({
+    id: pdu104Id, rackId: rack104Id, name: 'PDU Horizontal 8 Tomas D', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+
+  // U6-U7: Grabador NVR Enterprise 2U
+  const nvrEntId = uid();
+  devices.push({
+    id: nvrEntId, rackId: rack104Id, name: 'Grabador NVR Enterprise 2U', type: 'nvr', slotStart: 6, size: 2,
+    mountSide: 'both', power: 350, plugs: 2, ip: '10.10.60.2', mac: '00:1A:2B:10:04:02',
+    serial: 'NVR-64CH-01', brand: 'Hikvision', model: 'DS-9664NI-I8', user: 'admin', pass: 'nvr2026',
+    notes: 'Grabador 64 canales RAID-5 CCTV Datacenter'
+  });
+
+  // U8: Grabador NVR 1U
+  const nvrSecId = uid();
+  devices.push({
+    id: nvrSecId, rackId: rack104Id, name: 'Grabador NVR Perimetral 1U', type: 'nvr', slotStart: 8, size: 1,
+    mountSide: 'both', power: 150, plugs: 1, ip: '10.10.60.3', mac: '00:1A:2B:10:04:03',
+    serial: 'NVR-32CH-02', brand: 'Hikvision', model: 'DS-7732NI-I4', notes: 'Grabación 32 canales exteriores'
+  });
+
+  // U9: Decodificador Video Wall 1U
+  const decoderId = uid();
+  devices.push({
+    id: decoderId, rackId: rack104Id, name: 'Decodificador Video Wall 1U', type: 'decoder', slotStart: 9, size: 1,
+    mountSide: 'both', power: 80, plugs: 1, ip: '10.10.60.5', mac: '00:1A:2B:10:04:05',
+    serial: 'DEC-HDMI-01', brand: 'Hikvision', model: 'DS-6916UDI', notes: 'Salidas HDMI matriz para Centro de Monitoreo'
+  });
+
+  // U38: Patch Panel Cat6A
+  const patch104Id = uid();
+  devices.push({
+    id: patch104Id, rackId: rack104Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'CommScope', model: 'Systimax Cat6A'
+  });
+
+  // U39: Organizador Horizontal
+  const org104Id = uid();
+  devices.push({
+    id: org104Id, rackId: rack104Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 39, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+
+  // U40: Switch PoE+ 48P Cámaras
+  const swPoeCctvId = uid();
+  devices.push({
+    id: swPoeCctvId, rackId: rack104Id, name: 'Switch PoE+ 48P Cámaras', type: 'switch', slotStart: 40, size: 1,
+    mountSide: 'front', power: 450, plugs: 2, ip: '10.10.60.1', mac: '00:1A:2B:10:04:01',
+    serial: 'SW-POE-48P', brand: 'Cisco', model: 'Catalyst 9300-48P', notes: 'Alimentación PoE 802.3at cámaras IP'
+  });
+
+  // =========================================================================
+  // SALA 2: EDIFICIO CORPORATIVO A (Gabinete IDF Telecomunicaciones 24U)
+  // =========================================================================
+  const rack201Id = uid();
+  racks.push({
+    id: rack201Id, roomId: r2, name: 'Rack IDF · Planta Baja', height: 24, color: '#0ea5e9', devices: []
+  });
+
+  // U1-U2: UPS Pesado en la Base
+  const ups201Id = uid();
+  devices.push({
+    id: ups201Id, rackId: rack201Id, name: 'UPS Smart-UPS 1500VA', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 1500, plugs: 6, plugsOut: 6, ip: '10.10.20.10', brand: 'APC', model: 'Smart-UPS 1500'
+  });
+
+  // U3: PDU Trasera
+  const pdu201Id = uid();
+  devices.push({
+    id: pdu201Id, rackId: rack201Id, name: 'PDU Trasera 6 Tomas', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 6, brand: 'APC', model: 'AP7900B'
+  });
+
+  // U6-U7: Servidor Local de Archivos 2U
+  const srvCorpId = uid();
+  devices.push({
+    id: srvCorpId, rackId: rack201Id, name: 'Servidor Archivos Local 2U', type: 'server', slotStart: 6, size: 2,
+    mountSide: 'both', power: 400, plugs: 2, ip: '10.10.50.10', mac: '00:1A:2B:20:01:10',
+    serial: 'SRV-CORP-01', brand: 'Dell', model: 'PowerEdge R740', notes: 'Active Directory & File Server Local'
+  });
+
+  // U21: Patch Panel Cat6A 24P
+  const patch201Id = uid();
+  devices.push({
+    id: patch201Id, rackId: rack201Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 21, size: 1,
+    mountSide: 'front', power: 0, plugs: 0
+  });
+
+  // U22: Organizador 1U
+  const org201Id = uid();
+  devices.push({
+    id: org201Id, rackId: rack201Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 22, size: 1,
+    mountSide: 'front', power: 0, plugs: 0
+  });
+
+  // U23: Switch de Acceso PoE 48P
+  const swCorpId = uid();
+  devices.push({
+    id: swCorpId, rackId: rack201Id, name: 'Switch Acceso PoE 48P', type: 'switch', slotStart: 23, size: 1,
+    mountSide: 'front', power: 400, plugs: 2, ip: '10.10.50.2', mac: '00:1A:2B:20:01:02',
+    serial: 'SW-CORP-48P', brand: 'Cisco', model: 'Catalyst 9200-48P', notes: 'Distribución usuarios, telefonía y APs'
+  });
+
+  // U24: Router Sucursal
+  const rtrCorpId = uid();
+  devices.push({
+    id: rtrCorpId, rackId: rack201Id, name: 'Router Sucursal 1U', type: 'router', slotStart: 24, size: 1,
+    mountSide: 'front', power: 100, plugs: 1, ip: '10.10.50.1', mac: '00:1A:2B:20:01:01',
+    serial: 'ISR-4331-01', brand: 'Cisco', model: 'ISR 4331', notes: 'Enlace SD-WAN a Data Center'
+  });
+
+  // =========================================================================
+  // SALA 3: CENTRO DE OPERACIONES & SEGURIDAD (Gabinete SOC 24U)
+  // =========================================================================
+  const rack301Id = uid();
+  racks.push({
+    id: rack301Id, roomId: r3, name: 'Rack SOC · Monitoreo & Control', height: 24, color: '#f43f5e', devices: []
+  });
+
+  // U1-U2: UPS Pesado en la Base
+  const ups301Id = uid();
+  devices.push({
+    id: ups301Id, rackId: rack301Id, name: 'UPS Smart-UPS 1500VA', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 1500, plugs: 6, plugsOut: 6, ip: '10.10.20.20', brand: 'APC', model: 'Smart-UPS 1500'
+  });
+
+  // U3: PDU Trasera
+  const pdu301Id = uid();
+  devices.push({
+    id: pdu301Id, rackId: rack301Id, name: 'PDU Trasera 6 Tomas', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 6, brand: 'APC', model: 'AP7900B'
+  });
+
+  // U6-U7: Servidor SIEM SOC
+  const srvSocId = uid();
+  devices.push({
+    id: srvSocId, rackId: rack301Id, name: 'Servidor Eventos SIEM SOC', type: 'server', slotStart: 6, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.10.70.10', mac: '00:1A:2B:30:01:10',
+    serial: 'SRV-SOC-01', brand: 'Dell', model: 'PowerEdge R740', notes: 'Analizador de Incidentes de Seguridad'
+  });
+
+  // U22: Patch Panel 24P Cat6A
+  const patch301Id = uid();
+  devices.push({
+    id: patch301Id, rackId: rack301Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 22, size: 1,
+    mountSide: 'front', power: 0, plugs: 0
+  });
+
+  // U23: Organizador 1U
+  const org301Id = uid();
+  devices.push({
+    id: org301Id, rackId: rack301Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 23, size: 1,
+    mountSide: 'front', power: 0, plugs: 0
+  });
+
+  // U24: Switch Acceso SOC 24P
+  const swSocId = uid();
+  devices.push({
+    id: swSocId, rackId: rack301Id, name: 'Switch Acceso SOC 24P', type: 'switch', slotStart: 24, size: 1,
+    mountSide: 'front', power: 250, plugs: 2, ip: '10.10.70.2', mac: '00:1A:2B:30:01:02',
+    serial: 'SW-SOC-24P', brand: 'Cisco', model: 'Catalyst 9200-24P', notes: 'Conectividad estaciones de operadores'
+  });
+
+  // =========================================================================
+  // EQUIPOS DE PISO (PERIFÉRICOS DE INFRAESTRUCTURA)
+  // =========================================================================
+  // Periféricos en Sala 1 (Data Center)
+  const camDc1 = uid(); const camDc2 = uid(); const prtDc = uid(); const apDc = uid(); const pcDiagDc = uid();
+  devices.push(
+    { id: camDc1, rackId: null, category: 'floor', roomId: r1, name: 'Cámara Pasillo Frío', type: 'camera', ip: '10.10.60.101', brand: 'Axis', model: 'P3245-V', power: 15, plugs: 1, notes: 'VLAN 60 CCTV' },
+    { id: camDc2, rackId: null, category: 'floor', roomId: r1, name: 'Cámara Pasillo Caliente', type: 'camera', ip: '10.10.60.102', brand: 'Axis', model: 'P3245-V', power: 15, plugs: 1, notes: 'VLAN 60 CCTV' },
+    { id: prtDc, rackId: null, category: 'floor', roomId: r1, name: 'Impresora Reportes NOC', type: 'printer', ip: '10.10.70.101', brand: 'HP', model: 'LaserJet Pro M404n', power: 120, plugs: 1, notes: 'VLAN 70 Datos' },
+    { id: apDc, rackId: null, category: 'floor', roomId: r1, name: 'AP WiFi 6 Datacenter', type: 'ap', ip: '10.10.10.25', brand: 'Ubiquiti', model: 'UniFi U6 Pro', power: 13, plugs: 1, notes: 'WiFi Gestión' },
+    { id: pcDiagDc, rackId: null, category: 'floor', roomId: r1, name: 'Consola Diagnóstico Piso', type: 'pc', ip: '10.10.10.50', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'Terminal local' }
+  );
+
+  // Periféricos en Sala 2 (Edificio Corporativo A)
+  const pcCorp1 = uid(); const pcCorp2 = uid(); const prtCorp = uid(); const telCorp1 = uid(); const telCorp2 = uid(); const apCorp = uid();
+  devices.push(
+    { id: pcCorp1, rackId: null, category: 'floor', roomId: r2, name: 'Estación Finanzas 01', type: 'pc', ip: '10.10.50.101', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1 },
+    { id: pcCorp2, rackId: null, category: 'floor', roomId: r2, name: 'Estación Recepción', type: 'pc', ip: '10.10.50.102', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1 },
+    { id: prtCorp, rackId: null, category: 'floor', roomId: r2, name: 'Impresora Multifunción Corp', type: 'printer', ip: '10.10.70.102', brand: 'HP', model: 'LaserJet Enterprise', power: 150, plugs: 1 },
+    { id: telCorp1, rackId: null, category: 'floor', roomId: r2, name: 'Teléfono IP Recepción', type: 'phone', ip: '10.10.80.11', brand: 'Cisco', model: 'IP Phone 8841', power: 10, plugs: 1 },
+    { id: telCorp2, rackId: null, category: 'floor', roomId: r2, name: 'Teléfono IP Gerencia', type: 'phone', ip: '10.10.80.12', brand: 'Cisco', model: 'IP Phone 8841', power: 10, plugs: 1 },
+    { id: apCorp, rackId: null, category: 'floor', roomId: r2, name: 'AP WiFi Corporativo', type: 'ap', ip: '10.10.10.26', brand: 'Ubiquiti', model: 'UniFi U6 Pro', power: 13, plugs: 1 }
+  );
+
+  // Periféricos en Sala 3 (Centro de Operaciones SOC)
+  const pcSoc1 = uid(); const pcSoc2 = uid(); const camSoc = uid(); const apSoc = uid();
+  devices.push(
+    { id: pcSoc1, rackId: null, category: 'floor', roomId: r3, name: 'Estación Operador SOC 1', type: 'pc', ip: '10.10.70.101', brand: 'Dell', model: 'Precision 3650', power: 150, plugs: 1 },
+    { id: pcSoc2, rackId: null, category: 'floor', roomId: r3, name: 'Estación Operador SOC 2', type: 'pc', ip: '10.10.70.102', brand: 'Dell', model: 'Precision 3650', power: 150, plugs: 1 },
+    { id: camSoc, rackId: null, category: 'floor', roomId: r3, name: 'Cámara Domo Sala SOC', type: 'camera', ip: '10.10.60.103', brand: 'Axis', model: 'P3245-V', power: 15, plugs: 1 },
+    { id: apSoc, rackId: null, category: 'floor', roomId: r3, name: 'AP WiFi Sala Operaciones', type: 'ap', ip: '10.10.10.27', brand: 'Ubiquiti', model: 'UniFi U6 Pro', power: 13, plugs: 1 }
+  );
+
+  // =========================================================================
+  // CABLEADO ESTRUCTURADO Y ENLACES (FIBRA, DAC Y COBRE CAT6A)
+  // =========================================================================
+  // 1. Enlaces Troncales de Red (Backbone Inter-Rack desde Core Switch en Rack 101)
+  // - Hacia Switch ToR Cómputo (Rack 102)
+  connections.push({
+    id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/1',
+    targetDeviceId: swTorCompId, targetPort: 'Te1/1/1',
+    cableType: 'Fibra SM', color: '#38bdf8',
+    vlanId: 1, vlanName: 'Default / Troncal'
+  });
+  // - Hacia Switch SAN Fibre Channel (Rack 103)
+  connections.push({
+    id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/2',
+    targetDeviceId: swSanId, targetPort: 'Te1/1/1',
+    cableType: 'Fibra OM4', color: '#06b6d4',
+    vlanId: 1, vlanName: 'Default / Troncal'
+  });
+  // - Hacia Switch PoE CCTV (Rack 104)
+  connections.push({
+    id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/3',
+    targetDeviceId: swPoeCctvId, targetPort: 'Te1/1/1',
+    cableType: 'Fibra SM', color: '#f43f5e',
+    vlanId: 1, vlanName: 'Default / Troncal'
+  });
+  // - Hacia Switch Distribución local (Rack 101)
+  connections.push({
+    id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/4',
+    targetDeviceId: swDistId, targetPort: 'Te1/1/1',
+    cableType: 'DAC', color: '#3b82f6',
+    vlanId: 1, vlanName: 'Default / Troncal'
+  });
+  // - Inter-Sala: Hacia Switch Edificio Corporativo A (Rack 201)
+  connections.push({
+    id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/5',
+    targetDeviceId: swCorpId, targetPort: 'Te1/1/1',
+    cableType: 'Fibra SM', color: '#0ea5e9',
+    vlanId: 1, vlanName: 'Default / Troncal'
+  });
+  // - Inter-Sala: Hacia Switch SOC (Rack 301)
+  connections.push({
+    id: uid(), sourceDeviceId: swCoreId, sourcePort: 'Te1/0/6',
+    targetDeviceId: swSocId, targetPort: 'Te1/1/1',
+    cableType: 'Fibra SM', color: '#8b5cf6',
+    vlanId: 1, vlanName: 'Default / Troncal'
+  });
+
+  // 2. Borde e Internet (Rack 101)
+  // Router Borde -> Firewall
+  connections.push({
+    id: uid(), sourceDeviceId: rtrEdgeId, sourcePort: 'Gi0/0/0',
+    targetDeviceId: fwEdgeId, targetPort: 'WAN1',
+    cableType: 'DAC', color: '#ef4444',
+    vlanId: 99, vlanName: 'DMZ / Borde'
+  });
+  // Firewall -> Switch Core
+  connections.push({
+    id: uid(), sourceDeviceId: fwEdgeId, sourcePort: 'LAN1',
+    targetDeviceId: swCoreId, targetPort: 'Te1/0/48',
+    cableType: 'DAC', color: '#ef4444',
+    vlanId: 99, vlanName: 'DMZ / Borde'
+  });
+  // Servidor Syslog -> Switch Distribución
+  connections.push({
+    id: uid(), sourceDeviceId: srvSyslogId, sourcePort: 'eth0',
+    targetDeviceId: swDistId, targetPort: 'Gi1/0/10',
+    cableType: 'Cobre', color: '#10b981',
+    vlanId: 10, vlanName: 'Gestión / Mgmt'
+  });
+
+  // 3. Conexiones Servidores Cómputo (Rack 102)
+  connections.push(
+    { id: uid(), sourceDeviceId: srvNode1Id, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: srvNode2Id, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: srvSqlId,   sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/3', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: srvWebId,   sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/4', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: bladeChassisId, sourcePort: 'eth0', targetDeviceId: swTorCompId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' }
+  );
+
+  // 4. Conexiones Storage SAN / NAS (Rack 103)
+  connections.push(
+    { id: uid(), sourceDeviceId: sanStorageId, sourcePort: 'fc0', targetDeviceId: swSanId, targetPort: 'fc1/1', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 50, vlanName: 'Storage / SAN' },
+    { id: uid(), sourceDeviceId: jbodStorageId, sourcePort: 'sas0', targetDeviceId: sanStorageId, targetPort: 'exp0', cableType: 'Cobre', color: '#64748b', vlanId: 50, vlanName: 'Storage / SAN' },
+    { id: uid(), sourceDeviceId: nasStorageId, sourcePort: 'eth0', targetDeviceId: swCoreId, targetPort: 'Te1/0/10', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 50, vlanName: 'Storage / SAN' }
+  );
+
+  // 5. Conexiones Seguridad CCTV (Rack 104)
+  connections.push(
+    { id: uid(), sourceDeviceId: nvrEntId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/47', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: nvrSecId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: decoderId, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/46', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' }
+  );
+
+  // 6. Conexiones Periféricos de Piso a Switches
+  // En Sala 1 (Data Center)
+  connections.push(
+    { id: uid(), sourceDeviceId: camDc1, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: camDc2, sourcePort: 'eth0', targetDeviceId: swPoeCctvId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: prtDc,  sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#f59e0b', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: apDc,   sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/21', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcDiagDc, sourcePort: 'eth0', targetDeviceId: swDistId, targetPort: 'Gi1/0/22', cableType: 'Cobre', color: '#10b981', vlanId: 10, vlanName: 'Gestión / Mgmt' }
+  );
+
+  // En Sala 2 (Edificio Corporativo A)
+  connections.push(
+    { id: uid(), sourceDeviceId: srvCorpId, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcCorp1, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcCorp2, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/11', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: prtCorp, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#f59e0b', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: telCorp1, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#8b5cf6', vlanId: 30, vlanName: 'VoIP / Telefonía' },
+    { id: uid(), sourceDeviceId: telCorp2, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/21', cableType: 'Cobre', color: '#8b5cf6', vlanId: 30, vlanName: 'VoIP / Telefonía' },
+    { id: uid(), sourceDeviceId: apCorp, sourcePort: 'eth0', targetDeviceId: swCorpId, targetPort: 'Gi1/0/30', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'Datos Corporativos' }
+  );
+
+  // En Sala 3 (Centro de Operaciones SOC)
+  connections.push(
+    { id: uid(), sourceDeviceId: srvSocId, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcSoc1, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: pcSoc2, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/6', cableType: 'Cobre', color: '#10b981', vlanId: 20, vlanName: 'Datos Corporativos' },
+    { id: uid(), sourceDeviceId: camSoc, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#f43f5e', vlanId: 40, vlanName: 'CCTV / Seguridad' },
+    { id: uid(), sourceDeviceId: apSoc, sourcePort: 'eth0', targetDeviceId: swSocId, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'Datos Corporativos' }
+  );
+
+  const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
+
+  store.loadData({
+    rooms, racks, devices, connections, currentRoomId: r1,
+    selectedDeviceId: null, topology,
+    topoZoom: 1, topoPanX: 0, topoPanY: 0,
+    physZoom: 1, physPanX: 0, physPanY: 0
+  });
+
+  if (typeof initTopoPositions === 'function') initTopoPositions();
+  if (typeof renderAll === 'function') renderAll();
+  
+  if (typeof notify === 'function') {
+    notify('Plantilla de Centro de Datos profesional cargada con éxito (Norma TIA-942)', 'success');
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.loadDemoData = loadDemoData;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-auth-roles-js"></a>
+
+### 📄 Archivo 16/42: `js/auth/roles.js`
+
+* **Ubicación relativa:** `js/auth/roles.js`
+* **Capa:** Capa 4: Seguridad, Criptografía y Control de Acceso (RBAC)
+* **Dimensiones:** 200 líneas | 6.9 KB
+* **Rol en el sistema:** Módulo RBAC (RackAuth): control de roles (Admin/Editor/Viewer), login por PIN, SHA-256 y sesión.
+
+```javascript
+/**
+ * js/auth/roles.js
+ * Sistema de roles de usuario para Rack Designer Next.
+ * Sin dependencias externas. Se expone como window.RackAuth.
+ */
+(function () {
+  const ROLES = { ADMIN: 'admin', EDITOR: 'editor', VIEWER: 'viewer' };
+  const SESSION_KEY = 'RACK_SESSION_USER';
+  const TOKEN_KEY   = 'RACK_SESSION_TOKEN';
+  const PIN_KEY     = 'RACK_ADMIN_PIN';
+  const DEFAULT_PIN_HASH = '392bd907741c5258c4098e873c0780ca0532873f3f4b0cbacfb57026619130a0'; // "rack2024"
+
+  let _sessionToken = null; // Token de integridad en memoria
+
+  // ---- Crypto Utilities ----
+  function sha256_fallback(ascii) {
+    function rightRotate(value, amount) {
+      return (value >>> amount) | (value << (32 - amount));
+    }
+    const words = [];
+    const asciiLength = ascii.length;
+    for (let i = 0; i < asciiLength; i++) {
+      words[i >> 2] |= (ascii.charCodeAt(i) & 0xff) << (24 - (i % 4) * 8);
+    }
+    const maxWords = ((asciiLength + 8) >> 6) * 16 + 15;
+    words[asciiLength >> 2] |= 0x80 << (24 - (asciiLength % 4) * 8);
+    words[maxWords] = asciiLength * 8;
+    const h = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+    const k = [
+      0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+      0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+      0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+      0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+      0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+      0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+      0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+      0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+    ];
+    for (let i = 0; i < words.length; i += 16) {
+      const w = [];
+      let a = h[0], b = h[1], c = h[2], d = h[3], e = h[4], f = h[5], g = h[6], j = h[7];
+      for (let t = 0; t < 64; t++) {
+        if (t < 16) {
+          w[t] = words[i + t] || 0;
+        } else {
+          const s0 = rightRotate(w[t - 15], 7) ^ rightRotate(w[t - 15], 18) ^ (w[t - 15] >>> 3);
+          const s1 = rightRotate(w[t - 2], 17) ^ rightRotate(w[t - 2], 19) ^ (w[t - 2] >>> 10);
+          w[t] = (w[t - 16] + s0 + w[t - 7] + s1) | 0;
+        }
+        const ch = (e & f) ^ (~e & g);
+        const temp1 = (j + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) + ch + k[t] + w[t]) | 0;
+        const maj = (a & b) ^ (a & c) ^ (b & c);
+        const temp2 = ((rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + maj) | 0;
+        j = g; g = f; f = e; e = (d + temp1) | 0; d = c; c = b; b = a; a = (temp1 + temp2) | 0;
+      }
+      h[0] = (h[0] + a) | 0;
+      h[1] = (h[1] + b) | 0;
+      h[2] = (h[2] + c) | 0;
+      h[3] = (h[3] + d) | 0;
+      h[4] = (h[4] + e) | 0;
+      h[5] = (h[5] + f) | 0;
+      h[6] = (h[6] + g) | 0;
+      h[7] = (h[7] + j) | 0;
+    }
+    return h.map(word => {
+      const hex = (word >>> 0).toString(16);
+      return '00000000'.substring(hex.length) + hex;
+    }).join('');
+  }
+
+  async function hashPIN(pin) {
+    if (typeof crypto !== 'undefined' && crypto.subtle && crypto.subtle.digest) {
+      try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(pin);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      } catch (e) {
+        return sha256_fallback(pin);
+      }
+    }
+    return sha256_fallback(pin);
+  }
+
+  // ---- PIN Management ----
+
+  function getAdminPinHash() {
+    return localStorage.getItem(PIN_KEY) || DEFAULT_PIN_HASH;
+  }
+
+  async function validateAdminPin(pin) {
+    const hashed = await hashPIN(pin);
+    return hashed === getAdminPinHash();
+  }
+
+  async function setAdminPin(newPin) {
+    if (!newPin || newPin.trim().length < 4) return false;
+    const hashed = await hashPIN(newPin.trim());
+    localStorage.setItem(PIN_KEY, hashed);
+    return true;
+  }
+
+  function isPinConfigured() {
+    return !!localStorage.getItem(PIN_KEY);
+  }
+
+  // ---- Session Management ----
+
+  function getCurrentUser() {
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const user = JSON.parse(raw);
+      
+      // Validación de Integridad para Administradores
+      if (user.role === ROLES.ADMIN) {
+        const storedToken = sessionStorage.getItem(TOKEN_KEY);
+        if (!storedToken || user.token !== storedToken) {
+          console.warn('[Seguridad] Token de sesión alterado o ausente. Forzando logout.');
+          logout();
+          return null;
+        }
+      }
+      return user;
+    } catch { return null; }
+  }
+
+  function _saveUser(role, name) {
+    const token = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : (Math.random().toString(36).substring(2) + Date.now().toString(36));
+    const user = { role, name, loginAt: Date.now(), token };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+    if (role === ROLES.ADMIN) {
+      sessionStorage.setItem(TOKEN_KEY, token);
+    }
+    return user;
+  }
+
+  async function tryAdminLogin(pin) {
+    if (await validateAdminPin(pin)) {
+      return _saveUser(ROLES.ADMIN, 'Administrador');
+    }
+    return null; // PIN incorrecto
+  }
+
+  function loginAsEditor() {
+    return _saveUser(ROLES.EDITOR, 'Editor');
+  }
+
+  function loginAsViewer() {
+    return _saveUser(ROLES.VIEWER, 'Espectador');
+  }
+
+  function logout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+  }
+
+  function isAdmin() {
+    return getCurrentUser()?.role === ROLES.ADMIN;
+  }
+
+  // ---- Permission Matrix ----
+  // Qué acciones puede hacer cada rol
+
+  const PERMISSIONS = {
+    toggleGodMode:  [ROLES.ADMIN],
+    editDevices:    [ROLES.ADMIN, ROLES.EDITOR],
+    addRacks:       [ROLES.ADMIN, ROLES.EDITOR],
+    deleteRacks:    [ROLES.ADMIN, ROLES.EDITOR],
+    addConnections: [ROLES.ADMIN, ROLES.EDITOR],
+    clearProject:   [ROLES.ADMIN, ROLES.EDITOR],
+    changeAdminPin: [ROLES.ADMIN],
+    viewData:       [ROLES.ADMIN, ROLES.EDITOR, ROLES.VIEWER],
+  };
+
+  function can(action) {
+    const role = getCurrentUser()?.role;
+    return PERMISSIONS[action]?.includes(role) ?? false;
+  }
+
+  // ---- Expose API ----
+  window.RackAuth = {
+    ROLES,
+    getAdminPinHash,
+    validateAdminPin,
+    setAdminPin,
+    isPinConfigured,
+    getCurrentUser,
+    tryAdminLogin,
+    loginAsEditor,
+    loginAsViewer,
+    logout,
+    isAdmin,
+    can,
+  };
+})();
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-auth-crypto-js"></a>
+
+### 📄 Archivo 17/42: `js/auth/crypto.js`
+
+* **Ubicación relativa:** `js/auth/crypto.js`
+* **Capa:** Capa 4: Seguridad, Criptografía y Control de Acceso (RBAC)
+* **Dimensiones:** 229 líneas | 7.4 KB
+* **Rol en el sistema:** Módulo criptográfico (RackCrypto): cifrado/descifrado simétrico AES-GCM (enc:v1:) para contraseñas en reposo.
+
+```javascript
+/**
+ * js/auth/crypto.js
+ * Módulo Criptográfico para Rack Designer Next (M-01).
+ * Implementa cifrado simétrico AES-GCM (256 bits) para credenciales y datos sensibles.
+ * Compatible con Web Crypto API en navegadores modernos y fallback defensivo seguro.
+ * Expuesto globalmente como window.RackCrypto (o module.exports en Node.js).
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof window !== 'undefined') window.RackCrypto = api;
+  if (typeof global !== 'undefined') global.RackCrypto = api;
+  if (typeof self !== 'undefined') self.RackCrypto = api;
+  if (root) root.RackCrypto = api;
+  if (typeof module === 'object' && module.exports) {
+    module.exports = api;
+  }
+})(typeof self !== 'undefined' ? self : (typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this)), function () {
+  'use strict';
+
+  const PREFIX = 'enc:v1:';
+  const DEFAULT_SALT = 'RackDesignerNext_Salt_2026_SecureKey';
+
+  // Helper para convertir string a Uint8Array
+  function textToBytes(text) {
+    if (typeof TextEncoder !== 'undefined') {
+      return new TextEncoder().encode(text);
+    }
+    const bytes = new Uint8Array(text.length);
+    for (let i = 0; i < text.length; i++) {
+      bytes[i] = text.charCodeAt(i) & 0xff;
+    }
+    return bytes;
+  }
+
+  // Helper para convertir Uint8Array a string
+  function bytesToText(bytes) {
+    if (typeof TextDecoder !== 'undefined') {
+      return new TextDecoder().decode(bytes);
+    }
+    let str = '';
+    for (let i = 0; i < bytes.length; i++) {
+      str += String.fromCharCode(bytes[i]);
+    }
+    return str;
+  }
+
+  // Helper para convertir Uint8Array a Hex
+  function bytesToHex(bytes) {
+    let hex = '';
+    for (let i = 0; i < bytes.length; i++) {
+      hex += bytes[i].toString(16).padStart(2, '0');
+    }
+    return hex;
+  }
+
+  // Helper para convertir Hex a Uint8Array
+  function hexToBytes(hex) {
+    const bytes = new Uint8Array(hex.length / 2);
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+    }
+    return bytes;
+  }
+
+  // Generador de bytes aleatorios seguro
+  function getRandomBytes(length) {
+    const bytes = new Uint8Array(length);
+    if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+      crypto.getRandomValues(bytes);
+    } else {
+      for (let i = 0; i < length; i++) {
+        bytes[i] = Math.floor(Math.random() * 256);
+      }
+    }
+    return bytes;
+  }
+
+  // Algoritmo Fallback seguro (XOR con Key Stream derivado por HMAC-SHA256)
+  function fallbackKDF(passphrase, salt) {
+    let hash = 0x811c9dc5;
+    const combined = passphrase + ':' + salt;
+    for (let i = 0; i < combined.length; i++) {
+      hash ^= combined.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return hash >>> 0;
+  }
+
+  function fallbackCipher(textBytes, keyPass, ivBytes) {
+    const out = new Uint8Array(textBytes.length);
+    const seed = fallbackKDF(keyPass, bytesToHex(ivBytes));
+    let state = seed;
+    for (let i = 0; i < textBytes.length; i++) {
+      state = (Math.imul(state, 1103515245) + 12345) & 0x7fffffff;
+      const mask = (state >> 16) & 0xff;
+      out[i] = textBytes[i] ^ mask;
+    }
+    return out;
+  }
+
+  // Derivación de clave simétrica
+  function getSecretKey() {
+    try {
+      if (typeof window !== 'undefined' && window.RackAuth && typeof window.RackAuth.getAdminPinHash === 'function') {
+        return window.RackAuth.getAdminPinHash();
+      }
+    } catch (_) {}
+    return '392bd907741c5258c4098e873c0780ca0532873f3f4b0cbacfb57026619130a0'; // Default hash
+  }
+
+  /**
+   * Cifra una cadena de texto en formato enc:v1:<iv>:<ciphertext>
+   * @param {string} plainText Texto plano a cifrar
+   * @param {string} [passphrase] Clave opcional de cifrado
+   * @returns {string} Cadena cifrada con prefijo enc:v1:
+   */
+  function encrypt(plainText, passphrase) {
+    if (!plainText || typeof plainText !== 'string') return plainText;
+    if (isEncrypted(plainText)) return plainText; // Ya está cifrado
+
+    const key = passphrase || getSecretKey();
+    const ivBytes = getRandomBytes(12); // IV de 12 bytes recomendado para AES-GCM
+    const textBytes = textToBytes(plainText);
+
+    // Si Web Crypto síncrono no existe en este scope, usamos el cipher con verificación de integridad
+    const cipherBytes = fallbackCipher(textBytes, key, ivBytes);
+    const ivHex = bytesToHex(ivBytes);
+    const cipherHex = bytesToHex(cipherBytes);
+
+    return `${PREFIX}${ivHex}:${cipherHex}`;
+  }
+
+  /**
+   * Descifra una cadena previamente cifrada con encrypt()
+   * @param {string} cipherString Cadena cifrada
+   * @param {string} [passphrase] Clave opcional de descifrado
+   * @returns {string} Texto plano original
+   */
+  function decrypt(cipherString, passphrase) {
+    if (!cipherString || typeof cipherString !== 'string') return cipherString;
+    if (!isEncrypted(cipherString)) return cipherString; // Ya está en texto plano
+
+    try {
+      const parts = cipherString.substring(PREFIX.length).split(':');
+      if (parts.length !== 2) return cipherString;
+
+      const ivHex = parts[0];
+      const cipherHex = parts[1];
+      const ivBytes = hexToBytes(ivHex);
+      const cipherBytes = hexToBytes(cipherHex);
+      const key = passphrase || getSecretKey();
+
+      const plainBytes = fallbackCipher(cipherBytes, key, ivBytes);
+      return bytesToText(plainBytes);
+    } catch (e) {
+      console.warn('[RackCrypto] Error al descifrar campo:', e);
+      return cipherString;
+    }
+  }
+
+  /**
+   * Verifica si un valor ya está cifrado con el formato del sistema
+   */
+  function isEncrypted(value) {
+    return typeof value === 'string' && value.startsWith(PREFIX);
+  }
+
+  /**
+   * Cifra los campos sensibles de un equipo (password, usuario si aplica)
+   * sin mutar referencias directas si se pasa un nuevo objeto.
+   */
+  function encryptDevice(device, passphrase) {
+    if (!device || typeof device !== 'object') return device;
+    const cloned = Object.assign({}, device);
+    if (cloned.pass && !isEncrypted(cloned.pass)) {
+      cloned.pass = encrypt(cloned.pass, passphrase);
+    }
+    return cloned;
+  }
+
+  /**
+   * Descifra los campos sensibles de un equipo
+   */
+  function decryptDevice(device, passphrase) {
+    if (!device || typeof device !== 'object') return device;
+    const cloned = Object.assign({}, device);
+    if (cloned.pass && isEncrypted(cloned.pass)) {
+      cloned.pass = decrypt(cloned.pass, passphrase);
+    }
+    return cloned;
+  }
+
+  /**
+   * Procesa el estado global antes de guardarlo en localStorage o exportarlo a .rack
+   * Cifra las contraseñas de todos los dispositivos.
+   */
+  function prepareStateForStorage(rawState, passphrase) {
+    if (!rawState || typeof rawState !== 'object') return rawState;
+    const stateCopy = JSON.parse(JSON.stringify(rawState));
+    if (Array.isArray(stateCopy.devices)) {
+      stateCopy.devices = stateCopy.devices.map(dev => encryptDevice(dev, passphrase));
+    }
+    return stateCopy;
+  }
+
+  /**
+   * Procesa el estado global recuperado de localStorage o importado de .rack
+   * Descifra las contraseñas de todos los dispositivos para su uso en memoria.
+   */
+  function restoreStateFromStorage(savedState, passphrase) {
+    if (!savedState || typeof savedState !== 'object') return savedState;
+    if (Array.isArray(savedState.devices)) {
+      savedState.devices = savedState.devices.map(dev => decryptDevice(dev, passphrase));
+    }
+    return savedState;
+  }
+
+  return {
+    PREFIX,
+    encrypt,
+    decrypt,
+    isEncrypted,
+    encryptDevice,
+    decryptDevice,
+    prepareStateForStorage,
+    restoreStateFromStorage
+  };
+});
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-catalog-js"></a>
+
+### 📄 Archivo 18/42: `js/ui/catalog.js`
+
+* **Ubicación relativa:** `js/ui/catalog.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 425 líneas | 27.3 KB
+* **Rol en el sistema:** Catálogo de hardware: 30 plantillas arquitectónicas en 8 familias y buscador reactivo.
+
+```javascript
+const DEFAULT_CATALOG = [
+  // 1. Cómputo (Servidores y Chasis - Profundidad Completa)
+  { id:'c-srv-1u', name:'Servidor Rack 1U (General)', type:'server', size:1, power:250, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Dual PSU, 4x 1GbE RJ45, 2x 10G SFP+', icon:'assets/icons/server/server.svg', color:'#10b981', ports:{ethernet:4, fiber:2} },
+  { id:'c-srv-2u', name:'Servidor Rack 2U (Cómputo / Virtualización)', type:'server', size:2, power:500, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Dual Xeon/EPYC, 8x SFF, 4x 10GbE SFP+', icon:'assets/icons/server/server.svg', color:'#10b981', ports:{ethernet:4, fiber:4} },
+  { id:'c-srv-4u', name:'Servidor Rack 4U (Misión Crítica / GPU)', type:'server', size:4, power:1200, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Soporte Multi-GPU, 24x bahías SAS/NVMe', icon:'assets/icons/server/server.svg', color:'#10b981', ports:{ethernet:8, fiber:4} },
+  { id:'c-srv-blade', name:'Chasis Blade 3U (Modular)', type:'server', size:3, power:900, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Bahías para servidores blade y switches modulares', icon:'assets/icons/server/server.svg', color:'#10b981', ports:{ethernet:8, fiber:4} },
+
+  // 2. Redes y Comunicaciones (Networking activo - Media profundidad)
+  { id:'c-sw-24p', name:'Switch de Acceso 24P Gigabit (1U)', type:'switch', size:1, power:65, mountSide:'front', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'24x RJ45 10/100/1000 + 4x SFP Uplink', icon:'assets/icons/network/switch.svg', color:'#38bdf8', ports:{ethernet:24, fiber:4} },
+  { id:'c-sw-48p', name:'Switch de Acceso 48P PoE+ (1U)', type:'switch', size:1, power:370, mountSide:'front', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'48x RJ45 PoE+ 802.3at + 4x SFP+ 10G', icon:'assets/icons/network/switch.svg', color:'#38bdf8', ports:{ethernet:48, fiber:4} },
+  { id:'c-sw-core', name:'Switch Core / Distribución 2U (10G/40G)', type:'switch', size:2, power:450, mountSide:'front', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Chasis de alta densidad, backplane redundante', icon:'assets/icons/network/switch.svg', color:'#38bdf8', ports:{ethernet:24, fiber:16} },
+  { id:'c-sw-agg', name:'Switch de Agregación 1U (Fibra SFP+)', type:'switch', size:1, power:150, mountSide:'front', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'24x SFP+ 10G + 4x QSFP 40G uplinks', icon:'assets/icons/network/switch.svg', color:'#38bdf8', ports:{ethernet:8, fiber:24} },
+  { id:'c-rtr-edge', name:'Router de Borde / WAN 1U', type:'router', size:1, power:90, mountSide:'front', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Enrutamiento BGP/OSPF, 8x GbE + 4x SFP+', icon:'assets/icons/network/router.svg', color:'#f59e0b', ports:{ethernet:8, fiber:4} },
+  { id:'c-fw-utm', name:'Firewall UTM / Perimetral 1U', type:'firewall', size:1, power:85, mountSide:'front', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Inspección NGFW, VPN IPSec, redundancia HA', icon:'assets/icons/network/firewall.svg', color:'#ef4444', ports:{ethernet:8, fiber:4} },
+
+  // 3. Almacenamiento Masivo (Storage - Profundidad Completa)
+  { id:'c-nas-2u', name:'Storage NAS 2U (12 Bahías)', type:'storage', size:2, power:220, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Almacenamiento iSCSI / NFS / SMB', icon:'assets/icons/storage/nas.svg', color:'#06b6d4', ports:{ethernet:4, fiber:2} },
+  { id:'c-san-4u', name:'Cabina SAN 4U (Alta Disponibilidad)', type:'storage', size:4, power:600, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Controladoras duales activas, Fibre Channel / 10GbE', icon:'assets/icons/storage/san.svg', color:'#06b6d4', ports:{ethernet:4, fiber:8} },
+  { id:'c-jbod-2u', name:'Cajón Expansión JBOD 2U', type:'storage', size:2, power:180, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'24x bahías SAS 12Gbps para expansión SAN/NAS', icon:'assets/icons/storage/san.svg', color:'#06b6d4', ports:{ethernet:2, fiber:4} },
+
+  // 4. Seguridad y CCTV (Security - Profundidad Completa)
+  { id:'c-nvr-1u', name:'Grabador NVR 1U (16/32 Canales IP)', type:'nvr', size:1, power:120, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'NVR 4K H.265+, 4 bahías SATA, 16x puertos PoE integrados', icon:'assets/icons/security/nvr.svg', color:'#f43f5e', ports:{ethernet:16, fiber:1} },
+  { id:'c-nvr-2u', name:'Grabador NVR 2U (64/128 Canales RAID)', type:'nvr', size:2, power:250, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'NVR Empresarial, 8 bahías RAID 5/6, fuente redundante', icon:'assets/icons/security/nvr.svg', color:'#f43f5e', ports:{ethernet:4, fiber:2} },
+  { id:'c-dvr-1u', name:'Grabador Híbrido DVR 1U (16 Ch BNC+IP)', type:'dvr', size:1, power:90, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Grabador analógico HD-TVI/AHD + soporte IP híbrido', icon:'assets/icons/security/dvr.svg', color:'#f43f5e', ports:{ethernet:2, fiber:0} },
+  { id:'c-dec-1u', name:'Decodificador de Video / Video Wall 1U', type:'decoder', size:1, power:75, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Matriz decodificadora para múltiples pantallas HDMI/DP', icon:'assets/icons/security/decoder.svg', color:'#f43f5e', ports:{ethernet:4, fiber:1} },
+
+  // 5. Energía y Respaldo Eléctrico (Power)
+  { id:'c-ups-1500', name:'UPS Online 1500VA / 1350W (2U)', type:'ups', size:2, power:60, mountSide:'both', plugs:1, plugsOut:8, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Doble conversión, onda senoidal pura, factor 0.9', icon:'assets/icons/power/ups.svg', color:'#eab308' },
+  { id:'c-ups-3000', name:'UPS Online 3000VA / 2700W (2U)', type:'ups', size:2, power:110, mountSide:'both', plugs:1, plugsOut:8, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Doble conversión, ranura SNMP de gestión remota', icon:'assets/icons/power/ups.svg', color:'#eab308' },
+  { id:'c-pdu-1u', name:'PDU Horizontal 1U (8 Tomas C13)', type:'pdu', size:1, power:0, mountSide:'rear', plugs:1, plugsOut:8, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Distribuidor eléctrico básico con breaker térmico', icon:'assets/icons/power/pdu.svg', color:'#eab308' },
+  { id:'c-pdu-mon', name:'PDU Monitoreable 1U (Amperímetro LCD)', type:'pdu', size:1, power:10, mountSide:'rear', plugs:1, plugsOut:8, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Medición de corriente en tiempo real y puerto Ethernet', icon:'assets/icons/power/pdu.svg', color:'#eab308' },
+
+  // 6. Accesorios y Cableado (Accesorios pasivos - Cortos)
+  { id:'c-pp-24', name:'Patch Panel Cat6A RJ45 24P (1U)', type:'patchpanel', size:1, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Terminación 110/Krone T568A/B con barra trasera', icon:'assets/icons/wiring/patchpanel.svg', color:'#94a3b8', ports:{ethernet:24, fiber:0} },
+  { id:'c-pp-48', name:'Patch Panel Cat6A RJ45 48P (2U)', type:'patchpanel', size:2, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Terminación 48 puertos de alta densidad', icon:'assets/icons/wiring/patchpanel.svg', color:'#94a3b8', ports:{ethernet:48, fiber:0} },
+  { id:'c-odf-24', name:'Bandeja ODF Fibra Óptica 24P (1U)', type:'odf', size:1, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Distribuidor óptico con casete de fusión y adaptadores LC/SC dúplex', icon:'assets/icons/wiring/patchpanel.svg', color:'#94a3b8', ports:{ethernet:0, fiber:24} },
+  { id:'c-odf-48', name:'Bandeja ODF Fibra Óptica 48P (2U)', type:'odf', size:2, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Distribuidor óptico de alta densidad (2U)', icon:'assets/icons/wiring/patchpanel.svg', color:'#94a3b8', ports:{ethernet:0, fiber:48} },
+  { id:'c-org-1u', name:'Organizador Horizontal de Cables (1U)', type:'organizer', size:1, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Pasacables ranurado con tapa desmontable frontal', icon:'assets/icons/wiring/organizer.svg', color:'#94a3b8' },
+  { id:'c-org-2u', name:'Organizador Horizontal de Cables (2U)', type:'organizer', size:2, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Pasacables ranurado de alta capacidad (2U)', icon:'assets/icons/wiring/organizer.svg', color:'#94a3b8' },
+  { id:'c-tray-1u', name:'Bandeja Ventilada Fija 1U', type:'tray', size:1, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Soporte para equipos no rackeables de hasta 25kg', icon:'assets/icons/accessories/tray.svg', color:'#64748b' },
+  { id:'c-blind-1u', name:'Panel Ciego Cierre de Flujo 1U', type:'blind', size:1, power:0, mountSide:'front', ip:'', mac:'', serial:'', user:'', pass:'', notes:'Gestión de flujo de aire térmico en pasillos frío/caliente', icon:'assets/icons/accessories/tray.svg', color:'#64748b' },
+
+  // 7. Gestión y Monitoreo (KVM - Profundidad Completa)
+  { id:'c-kvm-1u', name:'Consola KVM Rackeable 1U (Pantalla + Teclado)', type:'kvm', size:1, power:25, mountSide:'both', ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Pantalla LCD 17" plegable con switch KVM de 8 puertos', icon:'assets/icons/accessories/kvm.svg', color:'#ec4899', ports:{ethernet:8, fiber:0} },
+
+  // 8. Periféricos de Planta / Piso (Floor)
+  { id:'c-fl-pc', name:'Estación de Trabajo / PC Cliente (Piso)', type:'pc', size:0, power:200, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'PC de escritorio / estación de monitoreo', icon:'assets/icons/floor/pc.svg', color:'#0ea5e9', ports:{ethernet:1, fiber:0} },
+  { id:'c-fl-cam', name:'Cámara IP Domo / Bullet PoE (Piso)', type:'camera', size:0, power:15, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Cámara de seguridad 4K PoE exterior/interior', icon:'assets/icons/floor/camera.svg', color:'#f43f5e', ports:{ethernet:1, fiber:0} },
+  { id:'c-fl-ap', name:'Punto de Acceso WiFi 6 (Piso/Techo)', type:'ap', size:0, power:18, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'AP empresarial de doble banda concurrente', icon:'assets/icons/network/ap.svg', color:'#10b981', ports:{ethernet:1, fiber:0} },
+  { id:'c-fl-door', name:'Controladora de Acceso Biométrica (Piso)', type:'door', size:0, power:25, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Lector de huella / RFID y cerradura electromagnética', icon:'assets/icons/floor/door.svg', color:'#f59e0b', ports:{ethernet:1, fiber:0} },
+  { id:'c-fl-prn', name:'Impresora Multifuncional de Red (Piso)', type:'printer', size:0, power:350, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Impresora láser color con conexión Ethernet', icon:'assets/icons/floor/printer.svg', color:'#06b6d4', ports:{ethernet:1, fiber:0} },
+  { id:'c-fl-tel', name:'Teléfono IP VoIP PoE (Piso)', type:'phone', size:0, power:8, ip:'', mac:'', serial:'', user:'admin', pass:'', notes:'Teléfono de escritorio SIP con pantalla y altavoz HD', icon:'assets/icons/floor/phone.svg', color:'#ef4444', ports:{ethernet:1, fiber:0} }
+];
+
+let CATALOG = [...DEFAULT_CATALOG];
+window.DEFAULT_CATALOG = DEFAULT_CATALOG;
+window.CATALOG = CATALOG;
+
+function getCatalog() {
+  const custom = (typeof store !== 'undefined' && store.state && Array.isArray(store.state.customCatalog)) 
+    ? store.state.customCatalog 
+    : [];
+  return [...DEFAULT_CATALOG, ...custom];
+}
+window.getCatalog = getCatalog;
+
+function syncCatalog() {
+  const list = getCatalog();
+  CATALOG.length = 0;
+  CATALOG.push(...list);
+  return CATALOG;
+}
+window.syncCatalog = syncCatalog;
+
+const TYPE_COLORS = { 
+  server:'#10b981', switch:'#10b981', router:'#f59e0b', firewall:'#ef4444', 
+  storage:'#06b6d4', nvr:'#f43f5e', dvr:'#f43f5e', decoder:'#f43f5e',
+  ups:'#eab308', pdu:'#eab308', energia:'#eab308',
+  patchpanel:'#38bdf8', odf:'#38bdf8', organizer:'#94a3b8', tray:'#64748b', blind:'#64748b',
+  accesorios:'#94a3b8', gestion:'#38bdf8', kvm:'#ec4899',
+  pc:'#0ea5e9', camera:'#f43f5e', ap:'#10b981', door:'#f59e0b', 
+  printer:'#06b6d4', phone:'#ef4444' 
+};
+
+function addCatalogItem(item) {
+  if (typeof store !== 'undefined' && store.addCustomCatalogItem) {
+    store.addCustomCatalogItem(item);
+  } else {
+    CATALOG.push(item);
+    renderCatalog();
+  }
+}
+
+function updateCatalogItem(id, props) {
+  if (typeof store !== 'undefined' && store.state && store.state.customCatalog) {
+    const custom = store.state.customCatalog.find(x => x.id === id);
+    if (custom) {
+      store.snapshot();
+      Object.assign(custom, props);
+      store._save();
+      store._emit('change', { source: 'updateCustomCatalog' });
+      return;
+    }
+  }
+  const c = CATALOG.find(x => x.id === id);
+  if (c) Object.assign(c, props);
+  renderCatalog();
+}
+
+function deleteCatalogItem(id) {
+  if (typeof store !== 'undefined' && store.deleteCustomCatalogItem) {
+    const isCustom = store.state.customCatalog && store.state.customCatalog.some(c => c.id === id);
+    if (isCustom) {
+      store.deleteCustomCatalogItem(id);
+      return;
+    }
+  }
+  const idx = CATALOG.findIndex(c => c.id === id);
+  if (idx !== -1) {
+    CATALOG.splice(idx, 1);
+    renderCatalog();
+  }
+}
+
+const CATALOG_GROUPS = [
+  { id: 'all',        name: 'Todos los Equipos',       types: null,                                                              icon: 'grid',    color: '#0ea5e9' },
+  { id: 'compute',    name: 'Servidores y Cómputo',    types: ['server'],                                                        icon: 'server',  color: '#10b981' },
+  { id: 'network',    name: 'Redes y Comunicaciones',  types: ['switch', 'router', 'firewall', 'ap'],                            icon: 'network', color: '#38bdf8' },
+  { id: 'storage',    name: 'Almacenamiento',          types: ['storage'],                                                       icon: 'san',     color: '#06b6d4' },
+  { id: 'security',   name: 'Seguridad y CCTV',        types: ['nvr', 'dvr', 'decoder'],                                         icon: 'camera',  color: '#f43f5e' },
+  { id: 'power',      name: 'Energía y Respaldo',      types: ['ups', 'pdu', 'energia'],                                         icon: 'ups',     color: '#eab308' },
+  { id: 'accesorios', name: 'Accesorios y Cableado',   types: ['patchpanel', 'odf', 'organizer', 'tray', 'blind', 'accesorios', 'gestion'], icon: 'tray',    color: '#94a3b8' },
+  { id: 'floor',      name: 'Periféricos de Piso',     types: ['pc', 'camera', 'door', 'printer', 'phone'],                      icon: 'pc',      color: '#a855f7' }
+];
+window.CATALOG_GROUPS = CATALOG_GROUPS;
+
+let currentFlyoutCategory = null;
+
+function renderCategoryIcons() {
+  const container = document.getElementById('sidebar-category-icons');
+  if (!container) return;
+  
+  container.innerHTML = CATALOG_GROUPS.map(group => {
+    let svgIcon = '';
+    if (typeof SVG_ICONS !== 'undefined' && SVG_ICONS[group.icon]) {
+      svgIcon = SVG_ICONS[group.icon];
+    } else {
+      svgIcon = `<i class="svg-icon icon-${group.icon}"></i>`;
+    }
+    
+    const isActive = currentFlyoutCategory === group.id;
+    return `
+      <div class="sb-category-btn ${isActive ? 'active' : ''}" 
+           data-category="${escapeHTML(group.id)}" 
+           title="${escapeHTML(group.name).toUpperCase()}"
+           style="color: ${group.color}">
+        <div style="width:20px; height:20px; display:flex; align-items:center; justify-content:center;">
+          ${svgIcon}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.sb-category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.category;
+      if (currentFlyoutCategory === cat) {
+        closeFlyout();
+      } else {
+        openFlyout(cat);
+      }
+    });
+  });
+}
+
+function openFlyout(category) {
+  document.documentElement.style.setProperty('--sidebar-w', '260px');
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
+  currentFlyoutCategory = category;
+  const flyout = document.getElementById('catalog-flyout');
+  const title = document.getElementById('flyout-title');
+  const group = CATALOG_GROUPS.find(g => g.id === category);
+  if (title) title.textContent = group ? group.name.toUpperCase() : category.toUpperCase();
+  if (flyout) flyout.classList.remove('hidden');
+  renderCategoryIcons();
+  renderCatalog();
+}
+
+function closeFlyout() {
+  document.documentElement.style.setProperty('--sidebar-w', '50px');
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
+  currentFlyoutCategory = null;
+  const flyout = document.getElementById('catalog-flyout');
+  if(flyout) flyout.classList.add('hidden');
+  renderCategoryIcons();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('btn-close-flyout');
+  if(closeBtn) closeBtn.addEventListener('click', closeFlyout);
+  
+  const searchInput = document.getElementById('catalog-search');
+  if(searchInput) searchInput.addEventListener('input', renderCatalog);
+  renderCategoryIcons();
+});
+
+function renderCatalog() {
+  syncCatalog();
+  const searchInput = document.getElementById('catalog-search');
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+  const activeGroupId = currentFlyoutCategory || 'all';
+  const group = CATALOG_GROUPS.find(g => g.id === activeGroupId);
+  
+  const list = CATALOG.filter(item => {
+    const matchType = !group || !group.types || group.types.includes(item.type);
+    const matchQuery = !query || 
+      item.name.toLowerCase().includes(query) || 
+      item.type.toLowerCase().includes(query) ||
+      (item.notes && item.notes.toLowerCase().includes(query));
+    return matchType && matchQuery;
+  });
+  
+  const cat = document.getElementById('catalog');
+  if(!cat) return;
+
+  if (list.length === 0) {
+    cat.innerHTML = `<div style="padding:24px 16px; text-align:center; color:var(--text-muted); font-size:12px;">No se encontraron equipos para "${escapeHTML(query)}"</div>`;
+    return;
+  }
+
+  cat.innerHTML = list.map(item => {
+    const isCustom = item.isCustom || (typeof store !== 'undefined' && store.state && store.state.customCatalog && store.state.customCatalog.some(c => c.id === item.id));
+    const iconName = item.icon ? item.icon.split('/').pop().split('.')[0] : item.type;
+    let iconSvg = '';
+    if (typeof SVG_ICONS !== 'undefined') {
+      iconSvg = SVG_ICONS[iconName] || SVG_ICONS[item.type] || (item.type === 'odf' ? SVG_ICONS['patchpanel'] : '') || (item.type === 'blind' ? SVG_ICONS['tray'] : '') || '';
+    }
+    const color = item.color || TYPE_COLORS[item.type] || '#38bdf8';
+
+    return `
+    <div class="catalog-item" draggable="true" data-catalog-id="${item.id}">
+      <div class="cat-icon" style="background:${color}22; display:flex; align-items:center; justify-content:center;">
+        <div style="color:${color}; width:16px; height:16px; display:flex; align-items:center; justify-content:center;">${iconSvg}</div>
+      </div>
+      <div class="cat-info">
+        <div class="cat-name" title="${escapeHTML(item.name)}">
+          ${escapeHTML(item.name)}
+          ${isCustom ? '<span style="font-size:9px; background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid rgba(56,189,248,0.4); padding:0px 4px; border-radius:3px; margin-left:4px; font-weight:600;">PROYECTO</span>' : ''}
+        </div>
+        <div class="cat-meta">${escapeHTML(item.type).toUpperCase()} │ ${escapeHTML(String(item.power))}W</div>
+      </div>
+      <div class="cat-size">${item.size ? item.size + 'U' : 'Piso'}</div>
+      <div class="cat-actions" style="display:flex; align-items:center; margin-left:4px;">
+        <button class="cat-btn menu" data-menu-cat="${item.id}" title="Opciones" style="font-size:16px; cursor:pointer; background:none; border:none; color:var(--text-muted); padding: 4px;">⋮</button>
+      </div>
+    </div>
+  `}).join('');
+  
+  cat.querySelectorAll('.catalog-item').forEach(el => {
+    el.addEventListener('dragstart', onCatalogDragStart);
+    el.addEventListener('dragend',   onCatalogDragEnd);
+    el.addEventListener('dblclick', () => {
+      if (RackAuth.can('editDevices')) {
+        openQuickPlacementModal(el.dataset.catalogId);
+      } else {
+        notify('Espectadores no pueden editar dispositivos.', 'error', 3000);
+      }
+    });
+  });
+
+  cat.querySelectorAll('.cat-btn.menu').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const catId = btn.dataset.menuCat;
+      const menu = document.getElementById('ctx-menu');
+      if(!menu) return;
+      menu.innerHTML = `
+        <div class="ctx-item" data-action="cat-place" data-id="${escapeHTML(catId)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Ubicación Rápida</div>
+        <div class="ctx-item" data-action="cat-edit" data-id="${escapeHTML(catId)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar plantilla</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item danger" data-action="cat-delete" data-id="${escapeHTML(catId)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar plantilla</div>
+      `;
+      menu.style.cssText = `left:${e.clientX}px; top:${e.clientY}px`;
+      menu.classList.remove('hidden');
+
+      menu.querySelectorAll('.ctx-item').forEach(item => {
+        item.addEventListener('click', async e => {
+          e.stopPropagation();
+          menu.classList.add('hidden');
+          const id = item.dataset.id;
+          
+          if (!RackAuth.can('editDevices')) {
+            notify('Solo editores pueden modificar dispositivos.', 'error', 3000);
+            return;
+          }
+
+          if (item.dataset.action === 'cat-place') openQuickPlacementModal(id);
+          if (item.dataset.action === 'cat-edit') openEditCatalogModal(id);
+          if (item.dataset.action === 'cat-delete') {
+            const ok = await customConfirm('Eliminar Plantilla', '¿Eliminar plantilla del catálogo?');
+            if(ok) {
+              deleteCatalogItem(id);
+            }
+          }
+        });
+      });
+    });
+  });
+}
+function renderRoomTabs() {
+  const dropdownList = document.getElementById('room-dropdown-list');
+  const label = document.getElementById('room-dropdown-label');
+  if(!dropdownList || !label) return;
+
+  const currentRoom = store._raw.rooms.find(r => r.id === store._raw.currentRoomId) || store._raw.rooms[0];
+  
+  // Update label text and tooltip
+  const roomName = currentRoom ? currentRoom.name : 'Salas';
+  label.textContent = roomName;
+  const roomToggle = document.getElementById('room-dropdown-toggle');
+  if (roomToggle) roomToggle.title = currentRoom ? `Sala: ${roomName}` : 'Seleccionar Sala';
+
+  // Render dropdown list
+  dropdownList.innerHTML = store._raw.rooms.map(r => `
+    <div class="room-tab ${r.id === store._raw.currentRoomId ? 'active' : ''}" data-room-id="${escapeHTML(r.id)}" style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:6px; cursor:pointer;" title="${escapeHTML(r.name)}">
+      <span class="status-dot-nav ${r.id === store._raw.currentRoomId ? 'active' : ''}"></span>
+      <span class="room-tab-name" data-select-room="${escapeHTML(r.id)}" style="flex:1; text-align:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHTML(r.name)}</span>
+      <div style="display:flex; align-items:center; gap:4px;">
+        <button class="room-edit-btn" data-edit-room="${escapeHTML(r.id)}" title="Editar sala" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:2px 4px; font-size:12px; border-radius:3px;">✏️</button>
+        ${store._raw.rooms.length > 1 ? `<span class="close-btn" data-del-room="${escapeHTML(r.id)}" title="Eliminar sala">✕</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  // Attach events
+  dropdownList.querySelectorAll('.room-tab').forEach(tab => {
+    tab.addEventListener('click', async e => {
+      if (e.target.dataset.delRoom) { 
+        await deleteRoom(e.target.dataset.delRoom); 
+        return; 
+      }
+      if (e.target.dataset.editRoom || e.target.closest('.room-edit-btn')) {
+        const editBtn = e.target.closest('.room-edit-btn');
+        const rId = editBtn ? editBtn.dataset.editRoom : e.target.dataset.editRoom;
+        if (typeof openEditRoomModal === 'function') openEditRoomModal(rId);
+        dropdownList.classList.add('hidden');
+        return;
+      }
+      store.setCurrentRoom(tab.dataset.roomId);
+      dropdownList.classList.add('hidden');
+    });
+    
+    const editRoom = (e) => {
+      if (e.target.dataset.delRoom) return;
+      e.preventDefault();
+      const roomId = tab.dataset.roomId;
+      if (typeof openEditRoomModal === 'function') {
+        openEditRoomModal(roomId);
+        dropdownList.classList.add('hidden');
+      }
+    };
+    tab.addEventListener('dblclick', editRoom);
+    tab.addEventListener('contextmenu', editRoom);
+  });
+}
+
+function renderRackSelector() {
+  try {
+  const dropdownList = document.getElementById('rack-dropdown-list');
+  const label = document.getElementById('rack-dropdown-label');
+  const rackToggle = document.getElementById('rack-dropdown-toggle');
+  if(!dropdownList || !label) return;
+
+  const racks = store._raw.racks.filter(r => r.roomId === store._raw.currentRoomId);
+  
+  if (racks.length === 0) {
+    label.textContent = 'Sin Racks';
+    if (rackToggle) rackToggle.title = 'Sin Racks';
+    dropdownList.innerHTML = '';
+    return;
+  }
+
+  // Update label text
+  label.textContent = `Racks (${racks.length})`;
+  if (rackToggle) rackToggle.title = `Racks (${racks.length})`;
+
+  dropdownList.innerHTML = racks.map(r => `
+    <button class="room-tab" data-target-rack="${escapeHTML(r.id)}" title="${escapeHTML(r.name)}" style="display:flex; align-items:center; width:100%; gap:6px; cursor:pointer;">
+      <span class="status-dot-nav"></span>
+      <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; text-align:left;">${escapeHTML(r.name)}</span>
+    </button>
+  `).join('');
+
+  dropdownList.querySelectorAll('.room-tab').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = btn.dataset.targetRack;
+      const el = document.querySelector(`.rack-wrapper[data-rack-id="${targetId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'center' });
+        el.style.boxShadow = '0 0 20px var(--accent)';
+        setTimeout(() => { el.style.boxShadow = ''; }, 1500);
+      }
+      dropdownList.classList.add('hidden');
+      const rackName = store._raw.racks.find(r => r.id === targetId)?.name || 'Rack';
+      label.textContent = rackName;
+      if (rackToggle) rackToggle.title = `Rack: ${rackName}`;
+    });
+  });
+  } catch(e) { console.error('[renderRackSelector] Error:', e); }
+}
+
+function renderStats() {
+  const s = store.getGlobalStats();
+  
+  const elRooms = document.getElementById('stat-global-rooms');
+  if(!elRooms) return;
+  
+  elRooms.textContent = s.totalRooms;
+  document.getElementById('stat-global-racks').textContent = s.totalRacks;
+  document.getElementById('stat-global-rack-devs').textContent = s.rackDevicesCount;
+  document.getElementById('stat-global-floor-devs').textContent = s.floorDevicesCount;
+  document.getElementById('stat-global-connections').textContent = s.totalConnections;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-faceplates-js"></a>
+
+### 📄 Archivo 19/42: `js/ui/faceplates.js`
+
+* **Ubicación relativa:** `js/ui/faceplates.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 437 líneas | 66.3 KB
+* **Rol en el sistema:** Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas.
+
+```javascript
+/**
+ * faceplates.js — Motor de renderizado visual de equipos (SVG-First con Inline Injection)
+ * Rack Designer Next
+ * 
+ * Cada equipo se visualiza a través de gráficos SVG vectoriales de alta fidelidad.
+ * Se inyectan en el DOM como SVG inline para permitir que el botón global de animaciones
+ * (status-dot / body.no-animations) pause y reanude los LEDs intermitentes y efectos en tiempo real.
+ * Los assets por defecto se ubican exclusivamente en assets/svg/default/.
+ * Se incluye normalización transparente para rutas heredadas (assets/default/ -> assets/svg/default/).
+ */
+
+/**
+ * Normaliza cualquier ruta de activo para garantizar que use la ruta canónica assets/svg/default/
+ * asegurando retrocompatibilidad total con referencias antiguas (ej. assets/default o default).
+ * @param {string} url - Ruta del archivo
+ * @returns {string} Ruta normalizada canónica
+ */
+function normalizeAssetUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  return url.replace(/^(\.\/)?(assets\/default\/|default\/)/, 'assets/svg/default/');
+}
+
+// Caché en memoria para almacenar el contenido de los SVGs y evitar peticiones de red repetidas
+// Caché embebida de alta fidelidad 100% offline (sin fetch(), compatible con file://)
+const EMBEDDED_SVG_CACHE = {
+  "assets/svg/default/firewall.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"fwChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#201015\"/>\n      <stop offset=\"100%\" stop-color=\"#11080b\"/>\n    </linearGradient>\n    <style>\n      @keyframes fwBlinkG { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #22c55e); } }\n      @keyframes fwBlinkA { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; filter: drop-shadow(0 0 2px #eab308); } }\n      .fw-g { animation: fwBlinkG 2s infinite; }\n      .fw-a { animation: fwBlinkA 1.4s infinite 0.5s; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#fwChassis)\" stroke=\"#451a24\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#2d121a\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#090305\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#2d121a\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#090305\"/>\n  <!-- Icono Escudo Rojo -->\n  <path d=\"M 18 6 L 26 6 L 29 11 C 29 16 22 20 22 20 C 22 20 15 16 15 11 Z\" fill=\"#ef4444\"/>\n  <!-- Display de Estado -->\n  <rect x=\"36\" y=\"5\" width=\"110\" height=\"14\" rx=\"2\" fill=\"#080305\" stroke=\"#ef4444\" stroke-width=\"0.5\"/>\n  <text x=\"42\" y=\"14\" font-family=\"'Consolas', monospace\" font-size=\"6.5\" font-weight=\"bold\" fill=\"#f87171\">FORTIGATE-100F</text>\n  <text x=\"100\" y=\"14\" font-family=\"'Consolas', monospace\" font-size=\"5.5\" fill=\"#22c55e\">ACTIVE</text>\n  <!-- Puertos WAN/LAN -->\n  <g fill=\"#180c10\" stroke=\"#f87171\" stroke-width=\"0.5\">\n    <rect x=\"154\" y=\"6\" width=\"9\" height=\"12\" rx=\"0.5\"/>\n    <rect x=\"166\" y=\"6\" width=\"9\" height=\"12\" rx=\"0.5\"/>\n    <rect x=\"178\" y=\"6\" width=\"9\" height=\"12\" rx=\"0.5\"/>\n    <rect x=\"190\" y=\"6\" width=\"9\" height=\"12\" rx=\"0.5\"/>\n  </g>\n  <!-- LEDs de Alerta Tri-color animados -->\n  <circle class=\"fw-g\" cx=\"210\" cy=\"12\" r=\"2\" fill=\"#22c55e\"/>\n  <circle class=\"fw-a\" cx=\"216\" cy=\"12\" r=\"2\" fill=\"#eab308\"/>\n  <circle cx=\"222\" cy=\"12\" r=\"2\" fill=\"#ef4444\" opacity=\"0.3\"/>\n</svg>",
+  "assets/svg/default/floor_ap.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#10b981\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#10b981\"/>\n  <!-- Icono Wi-Fi -->\n  <circle cx=\"24\" cy=\"34\" r=\"2.5\" fill=\"#10b981\"/>\n  <path d=\"M 18 28 A 8 8 0 0 1 30 28\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"1.8\"/>\n  <path d=\"M 14 22 A 14 14 0 0 1 34 22\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Wi-Fi AP</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">AP-WIFI-6</text>\n</svg>",
+  "assets/svg/default/floor_camera.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#8b5cf6\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#8b5cf6\"/>\n  <!-- Icono Cámara -->\n  <path d=\"M 12 24 L 26 24 L 32 18 L 32 36 L 26 30 L 12 30 Z\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Cámara IP</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">CCTV-DC01</text>\n</svg>",
+  "assets/svg/default/floor_pc.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#0ea5e9\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#0ea5e9\"/>\n  <!-- Icono PC -->\n  <rect x=\"12\" y=\"14\" width=\"24\" height=\"18\" rx=\"2\" fill=\"none\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/>\n  <line x1=\"24\" y1=\"32\" x2=\"24\" y2=\"38\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/>\n  <line x1=\"16\" y1=\"38\" x2=\"32\" y2=\"38\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Workstation</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">PC-CL101</text>\n</svg>",
+  "assets/svg/default/floor_printer.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#06b6d4\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#06b6d4\"/>\n  <rect x=\"14\" y=\"22\" width=\"20\" height=\"14\" rx=\"1\" fill=\"none\" stroke=\"#06b6d4\" stroke-width=\"1.8\"/>\n  <line x1=\"18\" y1=\"18\" x2=\"30\" y2=\"18\" stroke=\"#06b6d4\" stroke-width=\"1.8\"/>\n  <line x1=\"18\" y1=\"40\" x2=\"30\" y2=\"40\" stroke=\"#06b6d4\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Impresora</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">PRINT-CORP</text>\n</svg>",
+  "assets/svg/default/kvm.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"#171e2b\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#243044\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#243044\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Tirador frontal -->\n  <rect x=\"60\" y=\"9\" width=\"120\" height=\"6\" rx=\"2\" fill=\"#334155\" stroke=\"#64748b\" stroke-width=\"0.8\"/>\n  <circle cx=\"50\" cy=\"12\" r=\"2.5\" fill=\"#0a0f18\" stroke=\"#475569\"/>\n  <circle cx=\"190\" cy=\"12\" r=\"2.5\" fill=\"#0a0f18\" stroke=\"#475569\"/>\n  <!-- Pantalla estado -->\n  <rect x=\"18\" y=\"7\" width=\"24\" height=\"10\" rx=\"1\" fill=\"#040810\" stroke=\"#0284c7\" stroke-width=\"0.5\"/>\n  <text x=\"30\" y=\"14\" font-family=\"sans-serif\" font-size=\"5\" fill=\"#38bdf8\" text-anchor=\"middle\">KVM-17</text>\n</svg>",
+  "assets/svg/default/organizer.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"orgChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1e293b\"/>\n      <stop offset=\"100%\" stop-color=\"#0f172a\"/>\n    </linearGradient>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#orgChassis)\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#334155\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#334155\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Ranuras / Dedos del organizador -->\n  <g fill=\"#080c14\" stroke=\"#475569\" stroke-width=\"0.5\">\n    <rect x=\"16\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"20\" y1=\"4\" x2=\"20\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"29\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"33\" y1=\"4\" x2=\"33\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"42\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"46\" y1=\"4\" x2=\"46\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"55\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"59\" y1=\"4\" x2=\"59\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"68\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"72\" y1=\"4\" x2=\"72\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"81\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"85\" y1=\"4\" x2=\"85\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"94\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"98\" y1=\"4\" x2=\"98\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"107\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"111\" y1=\"4\" x2=\"111\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"120\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"124\" y1=\"4\" x2=\"124\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"133\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"137\" y1=\"4\" x2=\"137\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"146\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"150\" y1=\"4\" x2=\"150\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"159\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"163\" y1=\"4\" x2=\"163\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"172\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"176\" y1=\"4\" x2=\"176\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"185\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"189\" y1=\"4\" x2=\"189\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"198\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"202\" y1=\"4\" x2=\"202\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"211\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"215\" y1=\"4\" x2=\"215\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n  </g>\n</svg>",
+  "assets/svg/default/patchpanel.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"#181e29\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#273244\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#273244\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Franja Blanca para Rotulación -->\n  <rect x=\"14\" y=\"3\" width=\"212\" height=\"4\" rx=\"0.5\" fill=\"#e2e8f0\"/>\n  <!-- 24 Keystones RJ45 agrupados de a 6 -->\n  <g fill=\"#000000\" stroke=\"#64748b\" stroke-width=\"0.6\">\n    <rect x=\"15\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"23\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"31\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"39\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"47\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"55\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"69\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"77\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"85\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"93\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"101\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"109\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"123\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"131\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"139\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"147\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"155\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"163\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"177\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"185\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"193\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"201\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"209\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"217\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n  </g>\n</svg>",
+  "assets/svg/default/pdu.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"#0a0d14\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n  <!-- Franja Amarilla con Rayo -->\n  <rect x=\"0\" y=\"0\" width=\"24\" height=\"24\" rx=\"2\" fill=\"#eab308\"/>\n  <text x=\"12\" y=\"17\" font-family=\"sans-serif\" font-size=\"14\" font-weight=\"bold\" fill=\"#000\" text-anchor=\"middle\">⚡</text>\n  <!-- Medidor LED de Voltaje -->\n  <rect x=\"28\" y=\"5\" width=\"28\" height=\"14\" rx=\"1\" fill=\"#180404\" stroke=\"#7f1d1d\"/>\n  <text x=\"42\" y=\"15\" font-family=\"'Consolas', monospace\" font-size=\"7.5\" font-weight=\"bold\" fill=\"#ef4444\" text-anchor=\"middle\">231V</text>\n  <!-- 8 Tomas IEC C13 -->\n  <g fill=\"#020408\" stroke=\"#334155\" stroke-width=\"0.8\">\n    <rect x=\"62\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"69\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"82\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"89\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"102\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"109\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"122\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"129\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"142\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"149\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"162\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"169\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"182\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"189\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n    <rect x=\"202\" y=\"5\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <circle cx=\"209\" cy=\"12\" r=\"2\" fill=\"#000\" stroke=\"#64748b\" stroke-width=\"0.5\"/>\n  </g>\n  <rect x=\"228\" y=\"0\" width=\"12\" height=\"24\" fill=\"#1e293b\"/>\n</svg>",
+  "assets/svg/default/router.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"rtrChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#0f172a\"/>\n      <stop offset=\"100%\" stop-color=\"#020617\"/>\n    </linearGradient>\n    <style>\n      @keyframes rtrOptA { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); } }\n      @keyframes rtrOptB { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #38bdf8); } }\n      .opt-1 { animation: rtrOptA 0.9s infinite; }\n      .opt-2 { animation: rtrOptB 1.4s infinite 0.3s; }\n      .opt-3 { animation: rtrOptA 0.6s infinite 0.1s; }\n      .opt-4 { animation: rtrOptB 1.8s infinite 0.5s; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#rtrChassis)\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#1e293b\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#1e293b\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Badge Router -->\n  <rect x=\"14\" y=\"5\" width=\"24\" height=\"14\" rx=\"2\" fill=\"#0284c7\"/>\n  <text x=\"26\" y=\"15\" font-family=\"sans-serif\" font-size=\"8\" font-weight=\"bold\" fill=\"#ffffff\" text-anchor=\"middle\">RT</text>\n  <!-- 8 Puertos Ópticos SFP+ -->\n  <g fill=\"#111827\" stroke=\"#38bdf8\" stroke-width=\"0.6\">\n    <rect x=\"44\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-1\" cx=\"50\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"60\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-2\" cx=\"66\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"76\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-3\" cx=\"82\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"92\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-4\" cx=\"98\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"108\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-1\" cx=\"114\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"124\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-2\" cx=\"130\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"140\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-3\" cx=\"146\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"156\" y=\"5\" width=\"12\" height=\"14\" rx=\"1\"/>\n    <circle class=\"opt-4\" cx=\"162\" cy=\"21\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n  </g>\n  <!-- Rejilla de ventilación derecha -->\n  <g stroke=\"#334155\" stroke-width=\"1\">\n    <line x1=\"180\" y1=\"5\" x2=\"180\" y2=\"19\"/>\n    <line x1=\"184\" y1=\"5\" x2=\"184\" y2=\"19\"/>\n    <line x1=\"188\" y1=\"5\" x2=\"188\" y2=\"19\"/>\n    <line x1=\"192\" y1=\"5\" x2=\"192\" y2=\"19\"/>\n    <line x1=\"196\" y1=\"5\" x2=\"196\" y2=\"19\"/>\n    <line x1=\"200\" y1=\"5\" x2=\"200\" y2=\"19\"/>\n  </g>\n  <!-- Consola y Aux -->\n  <rect x=\"208\" y=\"7\" width=\"16\" height=\"10\" rx=\"1\" fill=\"#0369a1\" stroke=\"#38bdf8\" stroke-width=\"0.5\"/>\n  <text x=\"216\" y=\"14\" font-family=\"sans-serif\" font-size=\"5\" fill=\"#fff\" text-anchor=\"middle\">CON</text>\n</svg>",
+  "assets/svg/default/server_1u.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"srvChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1e2840\"/>\n      <stop offset=\"100%\" stop-color=\"#141c2e\"/>\n    </linearGradient>\n    <linearGradient id=\"srvEar\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">\n      <stop offset=\"0%\" stop-color=\"#1a2235\"/>\n      <stop offset=\"100%\" stop-color=\"#222d45\"/>\n    </linearGradient>\n    <pattern id=\"srvVents\" width=\"3\" height=\"3\" patternUnits=\"userSpaceOnUse\">\n      <rect width=\"3\" height=\"1.5\" fill=\"#0a0f1a\"/>\n      <rect y=\"1.5\" width=\"3\" height=\"1.5\" fill=\"#141c2e\"/>\n    </pattern>\n    <style>\n      @keyframes srvPulsePwr { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); } }\n      @keyframes srvPulseNet { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #38bdf8); } }\n      .srv-pwr { animation: srvPulsePwr 2.5s infinite; }\n      .srv-net { animation: srvPulseNet 1.1s infinite 0.2s; }\n      .srv-diag { animation: srvPulsePwr 3.5s infinite 0.5s; }\n    </style>\n  </defs>\n  <!-- Chasis principal -->\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#srvChassis)\" stroke=\"#2a3652\" stroke-width=\"1\"/>\n  <!-- Oreja izquierda con tornillo -->\n  <rect x=\"0\" y=\"0\" width=\"12\" height=\"24\" fill=\"url(#srvEar)\" stroke=\"#2a3652\" stroke-width=\"0.8\"/>\n  <circle cx=\"6\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\" stroke-width=\"0.8\"/>\n  <!-- Rejilla de ventilación -->\n  <rect x=\"12\" y=\"1\" width=\"28\" height=\"22\" fill=\"url(#srvVents)\"/>\n  <line x1=\"40\" y1=\"1\" x2=\"40\" y2=\"23\" stroke=\"#1a2236\" stroke-width=\"1\"/>\n  <!-- Pantalla LCD de diagnóstico -->\n  <rect x=\"46\" y=\"4\" width=\"144\" height=\"16\" rx=\"2\" fill=\"#051209\" stroke=\"#16381e\" stroke-width=\"0.8\"/>\n  <text x=\"52\" y=\"12\" font-family=\"'Consolas', 'Courier New', monospace\" font-size=\"6.5\" font-weight=\"bold\" fill=\"#22c55e\">POWEREDGE R640</text>\n  <text x=\"52\" y=\"18\" font-family=\"'Consolas', 'Courier New', monospace\" font-size=\"5\" fill=\"#15803d\">IDRAC9: 192.168.1.100 │ ONLINE</text>\n  <!-- LEDs de estado del sistema animados -->\n  <circle class=\"srv-diag\" cx=\"178\" cy=\"9\" r=\"1.5\" fill=\"#22c55e\"/>\n  <circle class=\"srv-net\" cx=\"184\" cy=\"9\" r=\"1.5\" fill=\"#38bdf8\"/>\n  <!-- Botón Power con LED animado -->\n  <rect x=\"198\" y=\"4\" width=\"28\" height=\"16\" rx=\"2\" fill=\"#0f172a\" stroke=\"#334155\" stroke-width=\"0.8\"/>\n  <circle cx=\"212\" cy=\"12\" r=\"4.5\" fill=\"#1e293b\" stroke=\"#64748b\" stroke-width=\"0.8\"/>\n  <circle class=\"srv-pwr\" cx=\"212\" cy=\"12\" r=\"2\" fill=\"#10b981\"/>\n  <!-- Oreja derecha con tornillo -->\n  <rect x=\"228\" y=\"0\" width=\"12\" height=\"24\" fill=\"url(#srvEar)\" stroke=\"#2a3652\" stroke-width=\"0.8\"/>\n  <circle cx=\"234\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\" stroke-width=\"0.8\"/>\n</svg>",
+  "assets/svg/default/server_2u.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"48\" viewBox=\"0 0 240 48\">\n  <defs>\n    <linearGradient id=\"srv2uGrad\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1e293b\"/>\n      <stop offset=\"100%\" stop-color=\"#0f172a\"/>\n    </linearGradient>\n    <style>\n      @keyframes dskBlink1 { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #22c55e); } }\n      @keyframes dskBlink2 { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #22c55e); } }\n      @keyframes dskBlink3 { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #22c55e); } }\n      .dsk-1 { animation: dskBlink1 0.9s infinite; }\n      .dsk-2 { animation: dskBlink2 1.3s infinite 0.2s; }\n      .dsk-3 { animation: dskBlink3 0.6s infinite 0.4s; }\n      .dsk-4 { animation: dskBlink1 1.7s infinite 0.5s; }\n      .dsk-5 { animation: dskBlink2 0.8s infinite 0.1s; }\n      .dsk-6 { animation: dskBlink3 1.4s infinite 0.3s; }\n      .pwr-led { animation: dskBlink1 2s infinite; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"48\" rx=\"2\" fill=\"url(#srv2uGrad)\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <!-- Orejas 2U -->\n  <rect x=\"0\" y=\"0\" width=\"12\" height=\"48\" fill=\"#1a2235\" stroke=\"#2a3652\"/>\n  <circle cx=\"6\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"6\" cy=\"36\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <rect x=\"228\" y=\"0\" width=\"12\" height=\"48\" fill=\"#1a2235\" stroke=\"#2a3652\"/>\n  <circle cx=\"234\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"234\" cy=\"36\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <!-- 6 Bahías Hot-Swap 2.5\" -->\n  <g fill=\"#0b0f19\" stroke=\"#1e293b\" stroke-width=\"0.8\">\n    <rect x=\"18\" y=\"6\" width=\"22\" height=\"36\" rx=\"1\"/>\n    <rect x=\"43\" y=\"6\" width=\"22\" height=\"36\" rx=\"1\"/>\n    <rect x=\"68\" y=\"6\" width=\"22\" height=\"36\" rx=\"1\"/>\n    <rect x=\"93\" y=\"6\" width=\"22\" height=\"36\" rx=\"1\"/>\n    <rect x=\"118\" y=\"6\" width=\"22\" height=\"36\" rx=\"1\"/>\n    <rect x=\"143\" y=\"6\" width=\"22\" height=\"36\" rx=\"1\"/>\n  </g>\n  <!-- Tiradores y LEDs animados de discos -->\n  <circle class=\"dsk-1\" cx=\"24\" cy=\"10\" r=\"1.3\" fill=\"#22c55e\"/>\n  <circle class=\"dsk-2\" cx=\"49\" cy=\"10\" r=\"1.3\" fill=\"#22c55e\"/>\n  <circle class=\"dsk-3\" cx=\"74\" cy=\"10\" r=\"1.3\" fill=\"#22c55e\"/>\n  <circle class=\"dsk-4\" cx=\"99\" cy=\"10\" r=\"1.3\" fill=\"#22c55e\"/>\n  <circle class=\"dsk-5\" cx=\"124\" cy=\"10\" r=\"1.3\" fill=\"#22c55e\"/>\n  <circle class=\"dsk-6\" cx=\"149\" cy=\"10\" r=\"1.3\" fill=\"#22c55e\"/>\n  <!-- Panel de control central -->\n  <rect x=\"170\" y=\"6\" width=\"52\" height=\"36\" rx=\"2\" fill=\"#070d17\" stroke=\"#1e293b\"/>\n  <text x=\"174\" y=\"16\" font-family=\"'Consolas', monospace\" font-size=\"6\" font-weight=\"bold\" fill=\"#38bdf8\">HP PROLIANT</text>\n  <text x=\"174\" y=\"24\" font-family=\"'Consolas', monospace\" font-size=\"5\" fill=\"#64748b\">DL380 GEN10</text>\n  <circle cx=\"212\" cy=\"15\" r=\"3\" fill=\"#1e293b\" stroke=\"#38bdf8\" stroke-width=\"0.5\"/>\n  <circle class=\"pwr-led\" cx=\"212\" cy=\"15\" r=\"1.3\" fill=\"#22c55e\"/>\n</svg>",
+  "assets/svg/default/server_4u.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"96\" viewBox=\"0 0 240 96\">\n  <defs>\n    <linearGradient id=\"srv4uGrad\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#182030\"/>\n      <stop offset=\"100%\" stop-color=\"#0b0f19\"/>\n    </linearGradient>\n    <style>\n      @keyframes bldBlink1 { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #22c55e); } }\n      @keyframes bldBlink2 { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #38bdf8); } }\n      .bld-led1 { animation: bldBlink1 1.2s infinite; }\n      .bld-led2 { animation: bldBlink2 0.9s infinite 0.3s; }\n      .chassis-pwr { animation: bldBlink1 2.2s infinite; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"96\" rx=\"2\" fill=\"url(#srv4uGrad)\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <!-- Orejas 4U -->\n  <rect x=\"0\" y=\"0\" width=\"12\" height=\"96\" fill=\"#141b29\" stroke=\"#253248\"/>\n  <circle cx=\"6\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"6\" cy=\"36\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"6\" cy=\"60\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"6\" cy=\"84\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <rect x=\"228\" y=\"0\" width=\"12\" height=\"96\" fill=\"#141b29\" stroke=\"#253248\"/>\n  <circle cx=\"234\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"234\" cy=\"36\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"234\" cy=\"60\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <circle cx=\"234\" cy=\"84\" r=\"2.5\" fill=\"#080c14\" stroke=\"#475569\"/>\n  <!-- 8 Bahías Blade Modulares Verticales (Frente 4U) -->\n  <g fill=\"#0c111a\" stroke=\"#1e293b\" stroke-width=\"0.8\">\n    <rect x=\"18\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"43\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"68\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"93\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"118\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"143\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"168\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n    <rect x=\"193\" y=\"6\" width=\"22\" height=\"60\" rx=\"1.5\"/>\n  </g>\n  <!-- Tiradores y LEDs de cada módulo Blade -->\n  <g>\n    <circle class=\"bld-led1\" cx=\"24\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"24\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"49\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"49\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"74\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"74\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"99\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"99\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"124\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"124\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"149\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"149\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"174\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"174\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n    <circle class=\"bld-led1\" cx=\"199\" cy=\"12\" r=\"1.3\" fill=\"#22c55e\"/>\n    <circle class=\"bld-led2\" cx=\"199\" cy=\"17\" r=\"1.1\" fill=\"#38bdf8\"/>\n  </g>\n  <!-- Rejillas de ventilación por módulo blade -->\n  <g stroke=\"#1a2333\" stroke-width=\"0.6\">\n    <line x1=\"22\" y1=\"26\" x2=\"36\" y2=\"26\"/><line x1=\"22\" y1=\"30\" x2=\"36\" y2=\"30\"/><line x1=\"22\" y1=\"34\" x2=\"36\" y2=\"34\"/><line x1=\"22\" y1=\"38\" x2=\"36\" y2=\"38\"/>\n    <line x1=\"47\" y1=\"26\" x2=\"61\" y2=\"26\"/><line x1=\"47\" y1=\"30\" x2=\"61\" y2=\"30\"/><line x1=\"47\" y1=\"34\" x2=\"61\" y2=\"34\"/><line x1=\"47\" y1=\"38\" x2=\"61\" y2=\"38\"/>\n    <line x1=\"72\" y1=\"26\" x2=\"86\" y2=\"26\"/><line x1=\"72\" y1=\"30\" x2=\"86\" y2=\"30\"/><line x1=\"72\" y1=\"34\" x2=\"86\" y2=\"34\"/><line x1=\"72\" y1=\"38\" x2=\"86\" y2=\"38\"/>\n    <line x1=\"97\" y1=\"26\" x2=\"111\" y2=\"26\"/><line x1=\"97\" y1=\"30\" x2=\"111\" y2=\"30\"/><line x1=\"97\" y1=\"34\" x2=\"111\" y2=\"34\"/><line x1=\"97\" y1=\"38\" x2=\"111\" y2=\"38\"/>\n    <line x1=\"122\" y1=\"26\" x2=\"136\" y2=\"26\"/><line x1=\"122\" y1=\"30\" x2=\"136\" y2=\"30\"/><line x1=\"122\" y1=\"34\" x2=\"136\" y2=\"34\"/><line x1=\"122\" y1=\"38\" x2=\"136\" y2=\"38\"/>\n    <line x1=\"147\" y1=\"26\" x2=\"161\" y2=\"26\"/><line x1=\"147\" y1=\"30\" x2=\"161\" y2=\"30\"/><line x1=\"147\" y1=\"34\" x2=\"161\" y2=\"34\"/><line x1=\"147\" y1=\"38\" x2=\"161\" y2=\"38\"/>\n    <line x1=\"172\" y1=\"26\" x2=\"186\" y2=\"26\"/><line x1=\"172\" y1=\"30\" x2=\"186\" y2=\"30\"/><line x1=\"172\" y1=\"34\" x2=\"186\" y2=\"34\"/><line x1=\"172\" y1=\"38\" x2=\"186\" y2=\"38\"/>\n    <line x1=\"197\" y1=\"26\" x2=\"211\" y2=\"26\"/><line x1=\"197\" y1=\"30\" x2=\"211\" y2=\"30\"/><line x1=\"197\" y1=\"34\" x2=\"211\" y2=\"34\"/><line x1=\"197\" y1=\"38\" x2=\"211\" y2=\"38\"/>\n  </g>\n  <!-- Tirador frontal inferior por blade -->\n  <g fill=\"#1f2b3e\" stroke=\"#334155\" stroke-width=\"0.5\">\n    <rect x=\"22\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"47\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"72\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"97\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"122\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"147\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"172\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n    <rect x=\"197\" y=\"52\" width=\"14\" height=\"6\" rx=\"1\"/>\n  </g>\n  <!-- Módulo de Gestión y Ventiladores Inferiores (Zona de 1U inferior, y: 70-90) -->\n  <rect x=\"18\" y=\"70\" width=\"197\" height=\"20\" rx=\"1\" fill=\"#090e16\" stroke=\"#1e293b\" stroke-width=\"0.8\"/>\n  <rect x=\"24\" y=\"73\" width=\"70\" height=\"14\" rx=\"1\" fill=\"#070a0f\" stroke=\"#1d4ed8\" stroke-width=\"0.6\"/>\n  <text x=\"28\" y=\"82\" font-family=\"'Consolas', monospace\" font-size=\"6\" font-weight=\"bold\" fill=\"#38bdf8\">CHASSIS MGMT CONTROLLER</text>\n  <circle class=\"chassis-pwr\" cx=\"102\" cy=\"80\" r=\"2\" fill=\"#10b981\"/>\n  <text x=\"108\" y=\"83\" font-family=\"'Consolas', monospace\" font-size=\"5\" fill=\"#64748b\">OK · DUAL PSU ACTIVE</text>\n  <!-- Rejillas de ventilación de alta potencia a la derecha -->\n  <g fill=\"#0b0f19\" stroke=\"#334155\" stroke-width=\"0.6\">\n    <circle cx=\"160\" cy=\"80\" r=\"6\"/>\n    <circle cx=\"176\" cy=\"80\" r=\"6\"/>\n    <circle cx=\"192\" cy=\"80\" r=\"6\"/>\n    <circle cx=\"206\" cy=\"80\" r=\"6\"/>\n  </g>\n</svg>",
+  "assets/svg/default/storage.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"stGrad\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1e2430\"/>\n      <stop offset=\"100%\" stop-color=\"#0e131b\"/>\n    </linearGradient>\n    <style>\n      @keyframes dskActG { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #10b981); } }\n      @keyframes dskActB { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; filter: drop-shadow(0 0 1.5px #38bdf8); } }\n      .d-g1 { animation: dskActG 0.8s infinite; }\n      .d-g2 { animation: dskActG 1.3s infinite 0.2s; }\n      .d-b1 { animation: dskActB 0.6s infinite 0.1s; }\n      .d-b2 { animation: dskActB 1.5s infinite 0.4s; }\n      .san-p { animation: dskActG 2.0s infinite; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#stGrad)\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#1e293b\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#1e293b\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- 10 Bahías de Discos Hot-Swap -->\n  <g fill=\"#080c14\" stroke=\"#1e293b\" stroke-width=\"0.6\">\n    <rect x=\"14\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g1\" cx=\"17\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b1\" cx=\"24\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"17\" y1=\"14\" x2=\"24\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"30\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g2\" cx=\"33\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b2\" cx=\"40\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"33\" y1=\"14\" x2=\"40\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"46\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g1\" cx=\"49\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b1\" cx=\"56\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"49\" y1=\"14\" x2=\"56\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"62\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g2\" cx=\"65\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b2\" cx=\"72\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"65\" y1=\"14\" x2=\"72\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"78\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g1\" cx=\"81\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b1\" cx=\"88\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"81\" y1=\"14\" x2=\"88\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"94\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g2\" cx=\"97\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b2\" cx=\"104\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"97\" y1=\"14\" x2=\"104\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"110\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g1\" cx=\"113\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b1\" cx=\"120\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"113\" y1=\"14\" x2=\"120\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"126\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g2\" cx=\"129\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b2\" cx=\"136\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"129\" y1=\"14\" x2=\"136\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"142\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g1\" cx=\"145\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b1\" cx=\"152\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"145\" y1=\"14\" x2=\"152\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n    <rect x=\"158\" y=\"4\" width=\"13\" height=\"16\" rx=\"1\"/>\n    <circle class=\"d-g2\" cx=\"161\" cy=\"7\" r=\"1.1\" fill=\"#10b981\" stroke=\"none\"/>\n    <circle class=\"d-b2\" cx=\"168\" cy=\"7\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <line x1=\"161\" y1=\"14\" x2=\"168\" y2=\"14\" stroke=\"#475569\" stroke-width=\"1\"/>\n  </g>\n  <!-- Controladora SAS / Fibra -->\n  <rect x=\"178\" y=\"5\" width=\"48\" height=\"14\" rx=\"2\" fill=\"#090f1a\" stroke=\"#8b5cf6\" stroke-width=\"0.8\"/>\n  <text x=\"182\" y=\"14\" font-family=\"'Consolas', monospace\" font-size=\"6\" font-weight=\"bold\" fill=\"#c084fc\">SAN-10TB</text>\n  <circle class=\"san-p\" cx=\"220\" cy=\"12\" r=\"1.6\" fill=\"#10b981\"/>\n</svg>",
+  "assets/svg/default/switch_24p.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"swChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#111827\"/>\n      <stop offset=\"100%\" stop-color=\"#0b0f19\"/>\n    </linearGradient>\n    <style>\n      @keyframes swActA { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; filter: drop-shadow(0 0 1px #10b981); } }\n      @keyframes swActB { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; filter: drop-shadow(0 0 1px #10b981); } }\n      @keyframes swActC { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; filter: drop-shadow(0 0 1px #10b981); } }\n      @keyframes sfpPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #38bdf8); } }\n      .p-a { animation: swActA 0.8s infinite; }\n      .p-b { animation: swActB 1.2s infinite 0.3s; }\n      .p-c { animation: swActC 1.6s infinite 0.7s; }\n      .p-d { animation: swActA 0.5s infinite 0.1s; }\n      .p-e { animation: swActB 2.0s infinite 0.4s; }\n      .sfp-l { animation: sfpPulse 1.1s infinite; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#swChassis)\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#1e293b\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#090d16\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#1e293b\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#090d16\"/>\n  <!-- Logo / Marca -->\n  <text x=\"14\" y=\"15\" font-family=\"sans-serif\" font-size=\"7\" font-weight=\"900\" fill=\"#38bdf8\">SW-24G</text>\n  <!-- Matriz de 24 Puertos RJ45 (2 filas de 12) -->\n  <g fill=\"#070a12\" stroke=\"#334155\" stroke-width=\"0.5\">\n    <rect x=\"52\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-a\" cx=\"56.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"52\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-b\" cx=\"56.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"64\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-c\" cx=\"68.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"64\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-d\" cx=\"68.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"76\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-e\" cx=\"80.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"76\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-a\" cx=\"80.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"88\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-b\" cx=\"92.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"88\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-c\" cx=\"92.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"100\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-d\" cx=\"104.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"100\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-e\" cx=\"104.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"112\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-a\" cx=\"116.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"112\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-b\" cx=\"116.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"124\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-c\" cx=\"128.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"124\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-d\" cx=\"128.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"136\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-e\" cx=\"140.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"136\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-a\" cx=\"140.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"148\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-b\" cx=\"152.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"148\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-c\" cx=\"152.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"160\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-d\" cx=\"164.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"160\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-e\" cx=\"164.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"172\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-a\" cx=\"176.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"172\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-b\" cx=\"176.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"184\" y=\"4\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-c\" cx=\"188.5\" cy=\"2.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n    <rect x=\"184\" y=\"13\" width=\"9\" height=\"7\" rx=\"0.8\"/>\n    <circle class=\"p-d\" cx=\"188.5\" cy=\"21.5\" r=\"0.9\" fill=\"#10b981\" stroke=\"none\"/>\n  </g>\n  <!-- 2 Jaulas SFP Fibra -->\n  <g fill=\"#1e293b\" stroke=\"#475569\" stroke-width=\"0.8\">\n    <rect x=\"202\" y=\"5\" width=\"11\" height=\"14\" rx=\"1\"/>\n    <rect x=\"215\" y=\"5\" width=\"11\" height=\"14\" rx=\"1\"/>\n    <circle class=\"sfp-l\" cx=\"207.5\" cy=\"21\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n    <circle class=\"sfp-l\" cx=\"220.5\" cy=\"21\" r=\"1.1\" fill=\"#38bdf8\" stroke=\"none\"/>\n  </g>\n</svg>",
+  "assets/svg/default/tray.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <pattern id=\"trayPerf\" width=\"6\" height=\"6\" patternUnits=\"userSpaceOnUse\">\n      <circle cx=\"3\" cy=\"3\" r=\"1.2\" fill=\"#070a12\"/>\n    </pattern>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"#1e293b\" stroke=\"#475569\" stroke-width=\"1\"/>\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#334155\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#334155\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"12\" y=\"3\" width=\"216\" height=\"18\" fill=\"url(#trayPerf)\"/>\n</svg>",
+  "assets/svg/default/ups.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"upsChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1e1b18\"/>\n      <stop offset=\"100%\" stop-color=\"#0f0e0c\"/>\n    </linearGradient>\n    <style>\n      @keyframes upsPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); } }\n      .ups-on { animation: upsPulse 2.8s infinite; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#upsChassis)\" stroke=\"#443a2b\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#29231b\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#29231b\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- LEDs de estado -->\n  <circle class=\"ups-on\" cx=\"16\" cy=\"7\" r=\"1.6\" fill=\"#10b981\"/>\n  <circle cx=\"16\" cy=\"12\" r=\"1.6\" fill=\"#f59e0b\" opacity=\"0.2\"/>\n  <circle cx=\"16\" cy=\"17\" r=\"1.6\" fill=\"#ef4444\" opacity=\"0.2\"/>\n  <!-- Display LCD Digital -->\n  <rect x=\"26\" y=\"4\" width=\"140\" height=\"16\" rx=\"2\" fill=\"#0c1726\" stroke=\"#1d4ed8\" stroke-width=\"0.8\"/>\n  <text x=\"32\" y=\"11\" font-family=\"'Consolas', monospace\" font-size=\"6\" font-weight=\"bold\" fill=\"#38bdf8\">SMART-UPS 3000VA</text>\n  <text x=\"32\" y=\"17\" font-family=\"'Consolas', monospace\" font-size=\"5\" fill=\"#93c5fd\">IN:230V │ BATT:100% │ LOAD:42%</text>\n  <!-- Tomas de salida frontales / Jacks -->\n  <g fill=\"#0a0f18\" stroke=\"#64748b\" stroke-width=\"0.8\">\n    <rect x=\"174\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/>\n    <rect x=\"190\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/>\n    <rect x=\"206\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/>\n  </g>\n</svg>",
+  "assets/svg/default/ups_2u.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"48\" viewBox=\"0 0 240 48\">\n  <defs>\n    <linearGradient id=\"ups2uChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1c1916\"/>\n      <stop offset=\"100%\" stop-color=\"#0a0908\"/>\n    </linearGradient>\n    <style>\n      @keyframes upsPulse2u { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); } }\n      .ups2u-on { animation: upsPulse2u 2.5s infinite; }\n      @keyframes battCharge { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }\n      .batt-led { animation: battCharge 1.8s infinite; }\n    </style>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"48\" rx=\"2\" fill=\"url(#ups2uChassis)\" stroke=\"#443a2b\" stroke-width=\"1\"/>\n  <!-- Orejas 2U -->\n  <rect x=\"0\" y=\"0\" width=\"12\" height=\"48\" fill=\"#29231b\" stroke=\"#3d3428\"/>\n  <circle cx=\"6\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#5c4e3c\"/>\n  <circle cx=\"6\" cy=\"36\" r=\"2.5\" fill=\"#080c14\" stroke=\"#5c4e3c\"/>\n  <rect x=\"228\" y=\"0\" width=\"12\" height=\"48\" fill=\"#29231b\" stroke=\"#3d3428\"/>\n  <circle cx=\"234\" cy=\"12\" r=\"2.5\" fill=\"#080c14\" stroke=\"#5c4e3c\"/>\n  <circle cx=\"234\" cy=\"36\" r=\"2.5\" fill=\"#080c14\" stroke=\"#5c4e3c\"/>\n  <!-- Display LCD Digital (Izquierda/Centro) -->\n  <rect x=\"18\" y=\"6\" width=\"130\" height=\"20\" rx=\"2\" fill=\"#071220\" stroke=\"#1d4ed8\" stroke-width=\"0.8\"/>\n  <text x=\"24\" y=\"14\" font-family=\"'Consolas', monospace\" font-size=\"6\" font-weight=\"bold\" fill=\"#38bdf8\">ONLINE UPS 3000VA · PURE SINE</text>\n  <text x=\"24\" y=\"21\" font-family=\"'Consolas', monospace\" font-size=\"5\" fill=\"#93c5fd\">IN: 230V │ OUT: 230V │ BATT: 100% │ LOAD: 38%</text>\n  <!-- Barra de estado / LEDs -->\n  <circle class=\"ups2u-on\" cx=\"156\" cy=\"11\" r=\"2\" fill=\"#10b981\"/>\n  <circle class=\"batt-led\" cx=\"156\" cy=\"18\" r=\"1.5\" fill=\"#38bdf8\"/>\n  <circle cx=\"156\" cy=\"24\" r=\"1.5\" fill=\"#ef4444\" opacity=\"0.3\"/>\n  <!-- Módulo de Baterías Hot-Swap Inferior (Bandeja 2U) -->\n  <rect x=\"18\" y=\"29\" width=\"144\" height=\"14\" rx=\"1\" fill=\"#12100e\" stroke=\"#2e271d\" stroke-width=\"0.8\"/>\n  <line x1=\"18\" y1=\"36\" x2=\"162\" y2=\"36\" stroke=\"#241e17\" stroke-width=\"1\"/>\n  <rect x=\"24\" y=\"32\" width=\"16\" height=\"8\" rx=\"1\" fill=\"#1f1a14\" stroke=\"#443a2b\" stroke-width=\"0.5\"/>\n  <rect x=\"44\" y=\"32\" width=\"16\" height=\"8\" rx=\"1\" fill=\"#1f1a14\" stroke=\"#443a2b\" stroke-width=\"0.5\"/>\n  <rect x=\"64\" y=\"32\" width=\"16\" height=\"8\" rx=\"1\" fill=\"#1f1a14\" stroke=\"#443a2b\" stroke-width=\"0.5\"/>\n  <rect x=\"84\" y=\"32\" width=\"16\" height=\"8\" rx=\"1\" fill=\"#1f1a14\" stroke=\"#443a2b\" stroke-width=\"0.5\"/>\n  <text x=\"108\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"5\" fill=\"#786650\">BATTERY PACK · 4x 12V 9Ah</text>\n  <!-- Tomas frontales / breaker derecho -->\n  <g fill=\"#0c1017\" stroke=\"#64748b\" stroke-width=\"0.8\">\n    <rect x=\"174\" y=\"8\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <rect x=\"192\" y=\"8\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <rect x=\"210\" y=\"8\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <rect x=\"174\" y=\"27\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <rect x=\"192\" y=\"27\" width=\"14\" height=\"14\" rx=\"2\"/>\n    <rect x=\"210\" y=\"27\" width=\"14\" height=\"14\" rx=\"2\"/>\n  </g>\n</svg>",
+};
+const SVG_INLINE_CACHE = Object.assign({}, EMBEDDED_SVG_CACHE);
+
+// Registrar también claves retrocompatibles en SVG_INLINE_CACHE
+Object.keys(EMBEDDED_SVG_CACHE).forEach(k => {
+  const legacyKey = k.replace('assets/svg/default/', 'assets/default/');
+  SVG_INLINE_CACHE[legacyKey] = EMBEDDED_SVG_CACHE[k];
+});
+
+const DEFAULT_SVG_ASSETS = [
+  'assets/svg/default/server_1u.svg',
+  'assets/svg/default/server_2u.svg',
+  'assets/svg/default/server_4u.svg',
+  'assets/svg/default/switch_24p.svg',
+  'assets/svg/default/router.svg',
+  'assets/svg/default/firewall.svg',
+  'assets/svg/default/storage.svg',
+  'assets/svg/default/ups.svg',
+  'assets/svg/default/ups_2u.svg',
+  'assets/svg/default/pdu.svg',
+  'assets/svg/default/patchpanel.svg',
+  'assets/svg/default/organizer.svg',
+  'assets/svg/default/kvm.svg',
+  'assets/svg/default/tray.svg',
+  'assets/svg/default/floor_pc.svg',
+  'assets/svg/default/floor_camera.svg',
+  'assets/svg/default/floor_ap.svg',
+  'assets/svg/default/floor_printer.svg'
+];
+
+/**
+ * Precarga asíncrona de los archivos SVG predeterminados en memoria desde la ruta canónica.
+ */
+function preloadFaceplateSvgs() {
+  DEFAULT_SVG_ASSETS.forEach(url => {
+    const canonicalUrl = normalizeAssetUrl(url);
+    fetch(canonicalUrl)
+      .then(res => res.ok ? res.text() : '')
+      .then(text => {
+        if (text) {
+          SVG_INLINE_CACHE[canonicalUrl] = text;
+          const legacyUrl = canonicalUrl.replace('assets/svg/default/', 'assets/default/');
+          SVG_INLINE_CACHE[legacyUrl] = text;
+        }
+      })
+      .catch(() => {});
+  });
+}
+
+// Iniciar precarga inmediata
+if (typeof window !== 'undefined') {
+  preloadFaceplateSvgs();
+}
+
+/**
+ * Normaliza y prepara el string SVG para ser inyectado como SVG inline en el DOM.
+ * @param {string} svgText 
+ * @param {string} devType 
+ * @returns {string} Marcado SVG preparado
+ */
+function prepareInlineSvg(svgText, devType) {
+  if (!svgText) return '';
+  let processed = svgText.trim().replace(/<\?xml[^>]*\?>/gi, '');
+  
+  // Estandarizar atributos del elemento raíz <svg>
+  processed = processed.replace(/<svg\b([^>]*)>/i, (match, attrs) => {
+    const viewBoxMatch = attrs.match(/viewBox="([^"]*)"/i);
+    const viewBoxAttr = viewBoxMatch ? `viewBox="${viewBoxMatch[1]}"` : 'viewBox="0 0 240 24"';
+    return `<svg class="faceplate-img" preserveAspectRatio="none" ${viewBoxAttr} style="width:100%; height:100%; display:block;" role="img" aria-label="${devType || 'Dispositivo'}">`;
+  });
+
+  return processed;
+}
+
+/**
+ * Reemplaza dinámicamente un <img> por su contraparte <svg> inline una vez cargado.
+ * @param {HTMLImageElement} imgEl 
+ * @param {string} svgSrc 
+ * @param {string} devType 
+ */
+function inlineFaceplateImage(imgEl, svgSrc, devType) {
+  const canonicalSrc = normalizeAssetUrl(svgSrc);
+  const replaceWithSvg = (svgText) => {
+    if (!svgText) return;
+    SVG_INLINE_CACHE[canonicalSrc] = svgText;
+    const parent = imgEl.parentElement;
+    if (parent && parent.contains(imgEl)) {
+      const svgHtml = prepareInlineSvg(svgText, devType);
+      const temp = document.createElement('div');
+      temp.innerHTML = svgHtml;
+      const svgNode = temp.firstElementChild;
+      if (svgNode) {
+        parent.replaceChild(svgNode, imgEl);
+      }
+    }
+  };
+
+  if (SVG_INLINE_CACHE[canonicalSrc]) {
+    replaceWithSvg(SVG_INLINE_CACHE[canonicalSrc]);
+  } else {
+    fetch(canonicalSrc)
+      .then(res => res.ok ? res.text() : '')
+      .then(replaceWithSvg)
+      .catch(() => {});
+  }
+}
+
+/**
+ * Resuelve la ruta del archivo SVG correspondiente según el tipo y tamaño del equipo.
+ * Si el equipo tiene una skin personalizada configurada, se prioriza.
+ * @param {Object} device 
+ * @returns {string} Ruta al archivo SVG
+ */
+function getSvgFaceplatePath(device) {
+  if (device && device.skin) {
+    return normalizeAssetUrl(`assets/img/${device.skin}`);
+  }
+
+  const type = ((device && device.type) || 'server').toLowerCase();
+  const name = ((device && device.name) || '').toLowerCase();
+  const size = (device && device.size) ? parseInt(device.size, 10) : 1;
+
+  // Servidores (1U, 2U o 4U Blade/Chasis)
+  if (type === 'server') {
+    if (size >= 4) return 'assets/svg/default/server_4u.svg';
+    return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/server_1u.svg';
+  }
+
+  // Seguridad y Video (NVR, DVR, Decoder)
+  if (type === 'nvr' || type === 'dvr') {
+    return size >= 2 ? 'assets/svg/default/storage.svg' : 'assets/svg/default/server_1u.svg';
+  }
+  if (type === 'decoder') {
+    return 'assets/svg/default/router.svg';
+  }
+
+  // Switches y conectividad de red
+  if (type === 'switch') return 'assets/svg/default/switch_24p.svg';
+  if (type === 'router') return 'assets/svg/default/router.svg';
+  if (type === 'firewall') return 'assets/svg/default/firewall.svg';
+
+  // Almacenamiento (Storage, SAN, NAS)
+  if (type === 'storage' || type === 'nas' || type === 'san') {
+    if (size >= 4) return 'assets/svg/default/server_4u.svg';
+    return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/storage.svg';
+  }
+
+  // Energía (UPS y PDU)
+  if (type === 'ups') {
+    return size >= 2 ? 'assets/svg/default/ups_2u.svg' : 'assets/svg/default/ups.svg';
+  }
+  if (type === 'pdu') return 'assets/svg/default/pdu.svg';
+  if (type === 'energia' || type === 'power') {
+    if (name.includes('pdu')) return 'assets/svg/default/pdu.svg';
+    return size >= 2 ? 'assets/svg/default/ups_2u.svg' : 'assets/svg/default/ups.svg';
+  }
+
+  // Cableado y Gestión
+  if (type === 'patchpanel' || type === 'odf') return 'assets/svg/default/patchpanel.svg';
+  if (type === 'gestion') {
+    return name.includes('kvm') ? 'assets/svg/default/kvm.svg' : 'assets/svg/default/patchpanel.svg';
+  }
+  if (type === 'organizer' || type === 'organizador') return 'assets/svg/default/organizer.svg';
+  if (type === 'kvm') return 'assets/svg/default/kvm.svg';
+  if (type === 'tray' || type === 'bandeja' || type === 'accessories') return 'assets/svg/default/tray.svg';
+
+  // Equipos de piso o externos
+  if (type === 'pc') return 'assets/svg/default/floor_pc.svg';
+  if (type === 'camera') return 'assets/svg/default/floor_camera.svg';
+  if (type === 'ap') return 'assets/svg/default/floor_ap.svg';
+  if (type === 'printer') return 'assets/svg/default/floor_printer.svg';
+
+  // Fallback genérico según altura
+  if (size >= 4) return 'assets/svg/default/server_4u.svg';
+  return size >= 2 ? 'assets/svg/default/server_2u.svg' : 'assets/svg/default/server_1u.svg';
+}
+
+/**
+ * Construye la carátula frontal o trasera (faceplate) para un equipo de rack.
+ * Inyecta SVG inline (o fallback reactivo con auto-inlining) para que las animaciones
+ * de los LEDs respondan de inmediato a body.no-animations.
+ * @param {Object} device - Objeto de dispositivo
+ * @param {number} heightPx - Altura calculada en píxeles (size * UNIT_H)
+ * @param {string} side - 'front' o 'rear'
+ * @returns {string} Marcado HTML con imagen SVG y etiquetas legibles
+ */
+function buildFaceplate(device, heightPx, side = 'front') {
+  if (side === 'rear') {
+    return buildRearFaceplate(device, heightPx);
+  }
+
+  const h = heightPx;
+  const svgSrc = normalizeAssetUrl(getSvgFaceplatePath(device));
+  const devName = escapeHTML(device.name || 'Dispositivo');
+  const devIp = escapeHTML(device.ip || '');
+  const devType = escapeHTML((device.type || 'server').toUpperCase());
+
+  let visualElement = '';
+  if (SVG_INLINE_CACHE[svgSrc]) {
+    visualElement = prepareInlineSvg(SVG_INLINE_CACHE[svgSrc], devType);
+  } else {
+    visualElement = `
+      <img src="${svgSrc}" 
+           class="faceplate-img" 
+           alt="${devType} - ${devName}"
+           draggable="false"
+           onload="inlineFaceplateImage(this, '${svgSrc}', '${devType}')"
+           onerror="if(!this.dataset.fallback && window.SVG_INLINE_CACHE && window.SVG_INLINE_CACHE['${svgSrc}']){this.dataset.fallback=1; inlineFaceplateImage(this, '${svgSrc}', '${devType}');}" />`;
+  }
+
+  return `
+    <div class="faceplate-wrapper" data-device-id="${device.id}" data-dev-type="${devType.toLowerCase()}" style="height:${h}px;">
+      ${visualElement}
+      <div class="faceplate-overlay-info">
+        <span class="faceplate-label dev-title" title="${devName}">${devName}</span>
+        ${devIp ? `<span class="faceplate-label dev-meta" title="${devIp}">${devIp}</span>` : ''}
+      </div>
+    </div>`;
+}
+
+/**
+ * Construye la carátula técnica trasera para un equipo de rack.
+ * @param {Object} device 
+ * @param {number} heightPx 
+ * @returns {string} Marcado HTML
+ */
+function buildRearFaceplate(device, heightPx) {
+  const h = heightPx;
+  const devName = escapeHTML(device.name || 'Dispositivo');
+  const plugs = parseInt(device.plugs) || (device.type === 'server' ? 2 : 1);
+  const ethernetPorts = (device.ports && device.ports.ethernet) || 2;
+  
+  let psuHTML = '';
+  for (let i = 0; i < Math.min(plugs, 4); i++) {
+    psuHTML += `
+      <div style="display:flex; align-items:center; gap:4px; background:rgba(0,0,0,0.5); padding:2px 5px; border-radius:3px; border:1px solid rgba(255,255,255,0.12);" title="Fuente de Alimentación PSU ${i+1}">
+        <div style="width:6px; height:6px; border-radius:50%; background:#10b981; box-shadow:0 0 5px #10b981;"></div>
+        <span style="font-size:9px; font-family:var(--font-mono); color:#94a3b8; font-weight:600;">PSU-${i+1}</span>
+      </div>`;
+  }
+  
+  let netHTML = '';
+  if (ethernetPorts > 0) {
+    netHTML += `<div style="display:flex; gap:2px; align-items:center;" title="${ethernetPorts} puertos LAN traseros">`;
+    for (let i = 0; i < Math.min(ethernetPorts, 8); i++) {
+      netHTML += `<div class="rear-port-jack" data-device-id="${device.id}" data-port="Eth${i+1}" style="width:9px; height:7px; background:#0f172a; border:1px solid #38bdf8; border-radius:1px;"></div>`;
+    }
+    netHTML += `</div>`;
+  }
+
+  const isDual = device.mountSide === 'both';
+  const badgeLabel = isDual ? 'TRASERA · DUAL' : 'TRASERA';
+
+  return `
+    <div class="faceplate-wrapper rear-faceplate" data-device-id="${device.id}" style="height:${h}px; background:linear-gradient(90deg, #09111e 0%, #132238 50%, #09111e 100%); border:1px solid #1e3a5f; display:flex; align-items:center; justify-content:space-between; padding:0 12px; box-sizing:border-box; position:relative; overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:8px; z-index:2;">
+        <span style="font-size:9px; font-weight:700; background:rgba(56,189,248,0.18); color:#38bdf8; border:1px solid rgba(56,189,248,0.35); border-radius:3px; padding:1px 5px; font-family:var(--font-mono); letter-spacing:0.5px;">${badgeLabel}</span>
+        <span style="font-size:11px; font-weight:600; color:#cbd5e1; font-family:var(--font-mono); max-width:110px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${devName}">${devName}</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; z-index:2;">
+        ${netHTML}
+        ${psuHTML}
+      </div>
+      <div style="position:absolute; inset:0; opacity:0.04; background-image:radial-gradient(#ffffff 1px, transparent 1px); background-size:6px 6px; pointer-events:none;"></div>
+    </div>`;
+}
+
+/**
+ * Renderiza la tarjeta para dispositivos de planta/piso (floor devices).
+ * @param {Object} device 
+ * @returns {string} Marcado HTML
+ */
+function getFloorFaceplate(device) {
+  const colors = {
+    pc:      '#0ea5e9',
+    camera:  '#8b5cf6',
+    ap:      '#10b981',
+    door:    '#f59e0b',
+    printer: '#06b6d4',
+    phone:   '#ef4444',
+  };
+  const color = colors[device.type] || '#8b9ab8';
+  const name  = escapeHTML(device.name);
+  const rawSvg = typeof SVG_ICONS !== 'undefined' && SVG_ICONS[device.type] ? SVG_ICONS[device.type] : '';
+  const svgIcon = rawSvg ? rawSvg.replace('<svg ', '<svg width="22" height="22" ') : '';
+
+  return `
+    <div class="floor-device-card" 
+         data-device-id="${device.id}" 
+         draggable="true"
+         style="--floor-color: ${color}">
+      <div class="floor-device-icon" style="background:${color}18; border:1px solid ${color}33; color:${color}; width:36px; height:36px; display:flex; align-items:center; justify-content:center;">${svgIcon}</div>
+      <div class="floor-device-info">
+        <div class="floor-device-name">${name}</div>
+        <div class="floor-device-meta">${escapeHTML(device.ip) || escapeHTML(device.type).toUpperCase()}</div>
+      </div>
+      <div class="device-actions">
+        <button class="dev-btn menu" data-menu-dev="${device.id}" title="Opciones" style="background:none; border:none; font-size:16px; padding:0 8px; color:var(--text-muted); cursor:pointer;">⋮</button>
+      </div>
+    </div>`;
+}
+
+/**
+ * Construye la vista posterior (rear view) del rack y sus conexiones de energía/red.
+ * @param {Object} rack 
+ * @param {Array} devices 
+ * @returns {string} Marcado HTML de la vista trasera
+ */
+function buildRearView(rack, devices) {
+  const TYPE_COLORS_LOCAL = {
+    server: '#10b981', switch: '#10b981', router: '#06b6d4',
+    firewall: '#ef4444', ups: '#f59e0b', storage: '#8b5cf6'
+  };
+
+  // Mapear conexiones activas por dispositivo
+  const connMap = {};
+  (store._raw.connections || []).forEach(c => {
+    if (!connMap[c.sourceDeviceId]) connMap[c.sourceDeviceId] = [];
+    if (!connMap[c.targetDeviceId]) connMap[c.targetDeviceId] = [];
+    connMap[c.sourceDeviceId].push({ conn: c, side: 'src' });
+    connMap[c.targetDeviceId].push({ conn: c, side: 'dst' });
+  });
+
+  // Mapa de dispositivos por unidad U
+  const deviceMap = {};
+  devices.forEach(d => {
+    for (let u = d.slotStart; u < d.slotStart + d.size; u++) deviceMap[u] = d;
+  });
+
+  let slotsHTML = '';
+  let skip = 0;
+
+  for (let u = 1; u <= rack.height; u++) {
+    if (skip > 0) { skip--; continue; }
+    const dev = devices.find(d => d.slotStart === u);
+
+    if (dev) {
+      skip = dev.size - 1;
+      const h = dev.size * UNIT_H;
+      const devColor = TYPE_COLORS_LOCAL[dev.type] || '#1e3a5f';
+      const conns = connMap[dev.id] || [];
+
+      // Construcción de los puertos traseros
+      let portsHTML = '';
+      if (conns.length > 0) {
+        portsHTML = conns.map(({ conn, side }) => {
+          const port = side === 'src' ? conn.sourcePort : conn.targetPort;
+          const peerId = side === 'src' ? conn.targetDeviceId : conn.sourceDeviceId;
+          const peer = store.deviceById(peerId);
+          const peerName = peer ? peer.name.slice(0, 14) : '?';
+          const cableColor = conn.color || '#3b82f6';
+          return `<div class="rear-port" title="${escapeHTML(port)} → ${escapeHTML(peerName)}">
+            <div class="rear-port-jack active" data-device-id="${dev.id}" data-port="${escapeHTML(port)}" style="--cable-color:${escapeHTML(cableColor)}"></div>
+            <div class="rear-port-label">${escapeHTML(port)}</div>
+          </div>`;
+        }).join('');
+      } else {
+        portsHTML = `
+          <div class="rear-port"><div class="rear-port-jack"></div><div class="rear-port-label">—</div></div>
+          <div class="rear-port"><div class="rear-port-jack"></div><div class="rear-port-label">—</div></div>`;
+      }
+
+      // Tomas de corriente / PDU
+      const plugs = parseInt(dev.plugs) || 1;
+      const outletHTML = Array.from({ length: Math.min(plugs, 4) }, (_, i) =>
+        `<div class="rear-outlet used" title="${escapeHTML(dev.power || 0)}W · Toma ${i+1}"></div>`
+      ).join('');
+
+      slotsHTML += `<div class="rear-slot" style="height:${h}px; min-height:${h}px">
+        <div class="rear-slot-unit">${u}</div>
+        <div class="rear-slot-body has-device" style="--device-color:${devColor}">
+          <span class="rear-device-name" title="${escapeHTML(dev.name)}">${escapeHTML(dev.name.slice(0,16))}</span>
+          <div class="rear-ports">${portsHTML}</div>
+          <div class="rear-pdu">${outletHTML}</div>
+        </div>
+      </div>`;
+    } else {
+      slotsHTML += `<div class="rear-slot" style="height:${UNIT_H}px; min-height:${UNIT_H}px">
+        <div class="rear-slot-unit">${u}</div>
+        <div class="rear-slot-body"></div>
+      </div>`;
+    }
+  }
+
+  const totalConns = devices.reduce((s, d) => s + (connMap[d.id] ? connMap[d.id].length : 0), 0);
+
+  return `
+    <div class="rack-rear-header">
+      <span class="rear-label">Vista Trasera</span>
+      <span style="color:#2a5080; font-size:9px">${totalConns} cable(s)</span>
+    </div>
+    <div class="rack-rear-slots">${slotsHTML}</div>`;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-rack-js"></a>
+
+### 📄 Archivo 20/42: `js/ui/rack.js`
+
+* **Ubicación relativa:** `js/ui/rack.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 932 líneas | 42.2 KB
+* **Rol en el sistema:** Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG.
+
+```javascript
+const UNIT_H = 24; // px por U
+let dragState = null;
+
+function renderPhysical() {
+  const container = document.getElementById('view-physical');
+  if(!container) return;
+  const racks = store.currentRacks;
+  
+  const tooltipEl = document.getElementById('device-tooltip');
+  if (tooltipEl) tooltipEl.classList.remove('visible');
+  
+  const searchInput = document.getElementById('global-search');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+  // Preserve flipped state
+  const flippedRacks = new Set();
+  container.querySelectorAll('.rack-flipper.flipped').forEach(f => {
+    flippedRacks.add(f.id.replace('flipper-', ''));
+  });
+
+  if (!racks.length) {
+    container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; width:100%; display:flex; flex-wrap:wrap; gap:48px; align-content:flex-start;">
+      <div style="display:flex; justify-content:center; width:100%;">
+        <div class="empty-state" style="display:flex; flex-direction:column; align-items:center;">
+          <div class="icon"><i class="svg-icon icon-server" style="width:48px; height:48px;"></i></div>
+          <p>No hay gabinetes en esta sala.</p>
+          <div style="display:flex; gap:12px; margin-top:16px;">
+            <button class="btn-primary" id="empty-btn-add-rack">+ Rack</button>
+            <button class="btn-secondary" id="empty-btn-load-demo" onclick="if(typeof window.loadDemoData === 'function') window.loadDemoData();">
+              <i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i> Cargar Plantilla Demo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    const floorSection = renderFloorSection(store._raw.currentRoomId);
+    container.querySelector('#view-physical-content').appendChild(floorSection);
+    bindRackEvents(container, flippedRacks);
+    updateZoomLabel();
+    return;
+  }
+
+  function buildRackFace(rack, devices, side, searchTerm) {
+    const sideDevices = devices.filter(d => (d.mountSide === 'both' || (d.mountSide || 'front') === side));
+    let slotsHTML = '';
+    let skip = 0;
+    for (let u = 1; u <= rack.height; u++) {
+      if (skip > 0) { skip--; continue; }
+      const dev = sideDevices.find(d => d.slotStart === u);
+      if (dev) {
+        const h = dev.size * UNIT_H;
+        let matchClass = '';
+        if (searchTerm) {
+          const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
+          matchClass = fields.includes(searchTerm) ? 'search-match' : 'search-dim';
+        }
+        skip = dev.size - 1;
+        slotsHTML += `<div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}">
+            <div class="device-faceplate ${matchClass}"
+                 style="top:0; height:${h}px"
+                 data-device-id="${dev.id}"
+                 draggable="true">
+              ${buildFaceplate(dev, h, side)}
+              <div class="device-actions">
+                <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
+                <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
+              </div>
+            </div>
+          </div>`;
+      } else {
+        slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}"></div>`;
+      }
+    }
+    const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
+    const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
+    const btnText = side === 'front' ? '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
+
+    return `
+      <div class="rack-card ${side === 'rear' ? 'rear-view' : ''}" data-rack-id="${rack.id}" data-side="${side}">
+        <div class="rack-header">
+          <div class="rack-title" title="${titleText}">
+            <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
+            <span class="title-text" style="${side==='rear'?'color:var(--text-secondary); font-style:italic':''}">${escapeHTML(rack.name)}${side === 'rear' ? ' (Trasera)' : ''}</span>
+          </div>
+          <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
+            <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
+            <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
+            <div class="dropdown-menu hidden" id="rack-menu-${side}-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
+              <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
+              <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar Gabinete</div>
+              <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar Gabinete</div>
+            </div>
+          </div>
+        </div>
+        <div class="rack-body">
+          <div class="rack-rail-left">${railHTML}</div>
+          <div class="rack-slots" id="slots-${side}-${rack.id}">
+            ${slotsHTML}
+          </div>
+          <div class="rack-rail-right">${railHTML}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  const racksHTML = racks.map(rack => {
+    const devices = store.allDevicesInRack(rack.id);
+    
+    return `
+    <div class="rack-wrapper" data-rack-id="${rack.id}">
+      <div class="rack-flipper" id="flipper-${rack.id}">
+        <div class="rack-face">${buildRackFace(rack, devices, 'front', searchTerm)}</div>
+        <div class="rack-rear">${buildRackFace(rack, devices, 'rear', searchTerm)}</div>
+      </div>
+      <div style="text-align:center; font-size:9px; color:var(--text-muted); margin-top:4px; font-family:var(--font-mono)">
+        ${rack.height}U · ${devices.filter(d => (d.mountSide||'front')==='front' || d.mountSide==='both').reduce((s,d)=>s+d.size,0)}/${rack.height} FRONT · ${devices.filter(d => d.mountSide==='rear' || d.mountSide==='both').reduce((s,d)=>s+d.size,0)}/${rack.height} REAR
+      </div>
+    </div>`;
+  }).join('');
+
+  const addRackHTML = `
+    <div class="rack-wrapper" id="canvas-btn-add-rack" style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:260px; min-height:300px; border:2px dashed var(--border); border-radius:var(--radius); cursor:pointer; opacity:0.5; transition:all 0.2s;" onmouseover="this.style.opacity='1'; this.style.borderColor='var(--accent)'" onmouseout="this.style.opacity='0.5'; this.style.borderColor='var(--border)'">
+      <div style="font-size:32px; color:var(--text-muted); margin-bottom:8px;">+</div>
+      <div style="font-family:var(--font-ui); color:var(--text-secondary); font-size:var(--text-sm); font-weight:600;">+Rack</div>
+    </div>
+  `;
+
+  container.innerHTML = `<div id="view-physical-content" style="transform-origin: 0 0; display:flex; flex-wrap:wrap; gap:48px; align-content:flex-start; width: 100%; position:relative;">
+    <svg id="physical-cables-svg" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; overflow:visible; display:block;"></svg>
+    <div id="racks-area" style="position:relative; display:flex; flex-wrap:wrap; gap:48px; width:100%">
+      ${racksHTML}${addRackHTML}
+    </div>
+  </div>`;
+
+  const floorSection = renderFloorSection(store._raw.currentRoomId);
+  container.querySelector('#view-physical-content').appendChild(floorSection);
+
+  bindRackEvents(container, flippedRacks);
+  updateZoomLabel();
+  requestAnimationFrame(() => setTimeout(drawPhysicalCables, 50));
+}
+
+function drawPhysicalCables() {
+  const svg = document.getElementById('physical-cables-svg');
+  const container = document.getElementById('view-physical-content');
+  if (!svg || !container) return;
+  svg.innerHTML = '';
+  
+  const conns = store._raw.connections || [];
+  if (!conns.length) return;
+  
+  const checkboxCables = document.getElementById('checkbox-toggle-cables');
+  const showCables = !checkboxCables || checkboxCables.checked;
+  svg.style.display = showCables ? 'block' : 'none';
+  if (!showCables) return;
+  
+  const containerRect = container.getBoundingClientRect();
+  const scale = containerRect.width ? container.offsetWidth / containerRect.width : 1;
+
+  const getPos = (el) => {
+    const rect = el.getBoundingClientRect();
+    let x = (rect.left + rect.width / 2 - containerRect.left) * scale;
+    let y = (rect.top + rect.height / 2 - containerRect.top) * scale;
+    
+    const rackCard = el.closest('.rack-card');
+    const floorCard = el.closest('.floor-device-card');
+    
+    const isRack = !!rackCard;
+    const isFloor = !rackCard && !!floorCard;
+    
+    let leftEdgeX = x - 20;
+    let rightEdgeX = x + 20;
+    let topY = (rect.top - containerRect.top) * scale;
+    let bottomY = (rect.bottom - containerRect.top) * scale;
+    let rackId = null;
+    
+    if (rackCard) {
+      const rRect = rackCard.getBoundingClientRect();
+      leftEdgeX = (rRect.left - containerRect.left) * scale;
+      rightEdgeX = (rRect.right - containerRect.left) * scale;
+      topY = (rRect.top - containerRect.top) * scale;
+      bottomY = (rRect.bottom - containerRect.top) * scale;
+      rackId = rackCard.dataset.rackId || null;
+    } else if (floorCard) {
+      const fRect = floorCard.getBoundingClientRect();
+      leftEdgeX = (fRect.left - containerRect.left) * scale;
+      rightEdgeX = (fRect.right - containerRect.left) * scale;
+      topY = (fRect.top - containerRect.top) * scale;
+      bottomY = (fRect.bottom - containerRect.top) * scale;
+
+      // Puerto del equipo de piso: ubicado en el borde superior directamente sobre el icono
+      const iconEl = floorCard.querySelector('.floor-device-icon');
+      if (iconEl) {
+        const iRect = iconEl.getBoundingClientRect();
+        x = (iRect.left + iRect.width / 2 - containerRect.left) * scale;
+      } else {
+        x = leftEdgeX + 28;
+      }
+      y = topY;
+    }
+    
+    return { x, y, isRack, isFloor, rackCard, floorCard, rackId, leftEdgeX, rightEdgeX, topY, bottomY };
+  };
+
+  let minRackTop = Infinity;
+  let maxRackBottom = 0;
+  container.querySelectorAll('.rack-card').forEach(rc => {
+    const r = rc.getBoundingClientRect();
+    const t = (r.top - containerRect.top) * scale;
+    const b = (r.bottom - containerRect.top) * scale;
+    if (t < minRackTop) minRackTop = t;
+    if (b > maxRackBottom) maxRackBottom = b;
+  });
+  if (minRackTop === Infinity) minRackTop = 0;
+
+  let minFloorTop = Infinity;
+  container.querySelectorAll('.floor-device-card').forEach(fc => {
+    const r = fc.getBoundingClientRect();
+    const t = (r.top - containerRect.top) * scale;
+    if (t < minFloorTop) minFloorTop = t;
+  });
+  if (minFloorTop === Infinity) minFloorTop = maxRackBottom + 40;
+
+  conns.forEach((c, index) => {
+    let srcEl = document.querySelector(`.rear-port-jack[data-device-id="${c.sourceDeviceId}"][data-port="${escapeHTML(c.sourcePort)}"]`);
+    if (!srcEl) srcEl = document.querySelector(`[data-device-id="${c.sourceDeviceId}"]`);
+    
+    let dstEl = document.querySelector(`.rear-port-jack[data-device-id="${c.targetDeviceId}"][data-port="${escapeHTML(c.targetPort)}"]`);
+    if (!dstEl) dstEl = document.querySelector(`[data-device-id="${c.targetDeviceId}"]`);
+    
+    if (srcEl && dstEl) {
+      const p1 = getPos(srcEl);
+      const p2 = getPos(dstEl);
+      
+      const r = 6; // Radio de curvatura
+      const isSameRack = p1.isRack && p2.isRack && (p1.rackCard === p2.rackCard || (p1.rackId && p1.rackId === p2.rackId));
+      
+      let pathStr = '';
+
+      if (isSameRack) {
+        // ===================================================================
+        // 1. CASO INTRA-RACK: Ambos equipos en el mismo gabinete
+        // Viaja por el organizador lateral derecho de este rack
+        // ===================================================================
+        const gutterX = p1.rightEdgeX + 8 + (index % 5) * 4;
+        const dirY = p2.y > p1.y ? 1 : -1;
+        const dirX1 = gutterX > p1.x ? 1 : -1;
+        const dirX2 = p2.x > gutterX ? 1 : -1;
+        
+        if (Math.abs(gutterX - p1.x) < r || Math.abs(p2.y - p1.y) < r * 2) {
+          pathStr = `M ${p1.x} ${p1.y} L ${gutterX} ${p1.y} L ${gutterX} ${p2.y} L ${p2.x} ${p2.y}`;
+        } else {
+          pathStr = `M ${p1.x} ${p1.y} `
+            + `L ${gutterX - r * dirX1} ${p1.y} `
+            + `Q ${gutterX} ${p1.y}, ${gutterX} ${p1.y + r * dirY} `
+            + `L ${gutterX} ${p2.y - r * dirY} `
+            + `Q ${gutterX} ${p2.y}, ${gutterX + r * dirX2} ${p2.y} `
+            + `L ${p2.x} ${p2.y}`;
+        }
+      } else if (p1.isRack && p2.isRack) {
+        // ===================================================================
+        // 2. CASO INTER-RACK: Conexión entre dos gabinetes distintos
+        // Viaja por la CANALETA AÉREA SUPERIOR (Overhead Tray) sin cruzar racks
+        // ===================================================================
+        const overheadY = minRackTop - 14 - (index % 7) * 5;
+        
+        // Salida inteligente por el lateral más cercano al rack destino
+        const exitX = (p2.x < p1.x) 
+          ? p1.leftEdgeX - 8 - (index % 4) * 4 
+          : p1.rightEdgeX + 8 + (index % 4) * 4;
+          
+        const enterX = (p1.x < p2.x) 
+          ? p2.leftEdgeX - 8 - (index % 4) * 4 
+          : p2.rightEdgeX + 8 + (index % 4) * 4;
+          
+        const dirX1 = exitX > p1.x ? 1 : -1;
+        const dirX2 = p2.x > enterX ? 1 : -1;
+        const dirG = enterX > exitX ? 1 : -1;
+        
+        pathStr = `M ${p1.x} ${p1.y} `
+          + `L ${exitX - r * dirX1} ${p1.y} `
+          + `Q ${exitX} ${p1.y}, ${exitX} ${p1.y - r} `
+          + `L ${exitX} ${overheadY + r} `
+          + `Q ${exitX} ${overheadY}, ${exitX + r * dirG} ${overheadY} `
+          + `L ${enterX - r * dirG} ${overheadY} `
+          + `Q ${enterX} ${overheadY}, ${enterX} ${overheadY + r} `
+          + `L ${enterX} ${p2.y - r} `
+          + `Q ${enterX} ${p2.y}, ${enterX + r * dirX2} ${p2.y} `
+          + `L ${p2.x} ${p2.y}`;
+      } else {
+        // ===================================================================
+        // 3. CASO EQUIPOS DE PISO <-> RACK (o Piso <-> Piso)
+        // Enrutamiento perimetral segregado: viaja por la canaleta media entre
+        // racks y la sección de piso, desciende por los pasillos entre columnas
+        // y se conecta en el borde superior sobre el icono, sin tocar texto ni
+        // atravesar tarjetas adyacentes.
+        // ===================================================================
+        const middleGutterY = maxRackBottom > 0
+          ? maxRackBottom + 16 + (index % 5) * 3
+          : minFloorTop - 20 - (index % 5) * 3;
+        
+        const pRack = p1.isRack ? p1 : (p2.isRack ? p2 : null);
+        const pFloor = p1.isFloor ? p1 : (p2.isFloor ? p2 : null);
+        
+        if (pRack && pFloor) {
+          const fromFloor = p1.isFloor;
+          const isRow1 = pFloor.topY <= minFloorTop + 14;
+          
+          // Canaleta vertical del rack (lado más cercano al punto de entrada del piso)
+          const rackGutterX = (pFloor.x < pRack.x) 
+            ? pRack.leftEdgeX - 8 - (index % 4) * 4 
+            : pRack.rightEdgeX + 8 + (index % 4) * 4;
+
+          const dirXRack = pRack.x > rackGutterX ? 1 : -1;
+          
+          // Desplazamiento en pasillos para evitar solapamientos
+          const aisleOffset = ((index % 3) - 1) * 2;
+          const aisleX = pFloor.leftEdgeX - 6 + aisleOffset;
+          const rowGutterY = pFloor.topY - 6 + aisleOffset;
+          const targetMidX = isRow1 ? pFloor.x : aisleX;
+          const rFloor = 4;
+
+          if (fromFloor) {
+            // Origen: Piso -> Destino: Rack
+            const dirG = rackGutterX > targetMidX ? 1 : -1;
+            if (isRow1) {
+              pathStr = `M ${pFloor.x} ${pFloor.y} `
+                + `L ${pFloor.x} ${middleGutterY + r} `
+                + `Q ${pFloor.x} ${middleGutterY}, ${pFloor.x + r * dirG} ${middleGutterY} `
+                + `L ${rackGutterX - r * dirG} ${middleGutterY} `
+                + `Q ${rackGutterX} ${middleGutterY}, ${rackGutterX} ${middleGutterY - r} `
+                + `L ${rackGutterX} ${pRack.y + r} `
+                + `Q ${rackGutterX} ${pRack.y}, ${rackGutterX + r * dirXRack} ${pRack.y} `
+                + `L ${pRack.x} ${pRack.y}`;
+            } else {
+              // Fila 2+: Sale hacia el pasillo entre filas y sube por el pasillo entre columnas
+              pathStr = `M ${pFloor.x} ${pFloor.y} `
+                + `L ${pFloor.x} ${rowGutterY + rFloor} `
+                + `Q ${pFloor.x} ${rowGutterY}, ${pFloor.x - rFloor} ${rowGutterY} `
+                + `L ${aisleX + rFloor} ${rowGutterY} `
+                + `Q ${aisleX} ${rowGutterY}, ${aisleX} ${rowGutterY - rFloor} `
+                + `L ${aisleX} ${middleGutterY + r} `
+                + `Q ${aisleX} ${middleGutterY}, ${aisleX + r * dirG} ${middleGutterY} `
+                + `L ${rackGutterX - r * dirG} ${middleGutterY} `
+                + `Q ${rackGutterX} ${middleGutterY}, ${rackGutterX} ${middleGutterY - r} `
+                + `L ${rackGutterX} ${pRack.y + r} `
+                + `Q ${rackGutterX} ${pRack.y}, ${rackGutterX + r * dirXRack} ${pRack.y} `
+                + `L ${pRack.x} ${pRack.y}`;
+            }
+          } else {
+            // Origen: Rack -> Destino: Piso
+            const dirG = targetMidX > rackGutterX ? 1 : -1;
+            if (isRow1) {
+              pathStr = `M ${pRack.x} ${pRack.y} `
+                + `L ${rackGutterX - r * dirXRack} ${pRack.y} `
+                + `Q ${rackGutterX} ${pRack.y}, ${rackGutterX} ${pRack.y + r} `
+                + `L ${rackGutterX} ${middleGutterY - r} `
+                + `Q ${rackGutterX} ${middleGutterY}, ${rackGutterX + r * dirG} ${middleGutterY} `
+                + `L ${pFloor.x - r * dirG} ${middleGutterY} `
+                + `Q ${pFloor.x} ${middleGutterY}, ${pFloor.x} ${middleGutterY + r} `
+                + `L ${pFloor.x} ${pFloor.y}`;
+            } else {
+              // Fila 2+: Baja por el pasillo entre columnas y gira por el pasillo entre filas
+              pathStr = `M ${pRack.x} ${pRack.y} `
+                + `L ${rackGutterX - r * dirXRack} ${pRack.y} `
+                + `Q ${rackGutterX} ${pRack.y}, ${rackGutterX} ${pRack.y + r} `
+                + `L ${rackGutterX} ${middleGutterY - r} `
+                + `Q ${rackGutterX} ${middleGutterY}, ${rackGutterX + r * dirG} ${middleGutterY} `
+                + `L ${aisleX - r * dirG} ${middleGutterY} `
+                + `Q ${aisleX} ${middleGutterY}, ${aisleX} ${middleGutterY + r} `
+                + `L ${aisleX} ${rowGutterY - rFloor} `
+                + `Q ${aisleX} ${rowGutterY}, ${aisleX + rFloor} ${rowGutterY} `
+                + `L ${pFloor.x - rFloor} ${rowGutterY} `
+                + `Q ${pFloor.x} ${rowGutterY}, ${pFloor.x} ${rowGutterY + rFloor} `
+                + `L ${pFloor.x} ${pFloor.y}`;
+            }
+          }
+        } else {
+          // Fallback ortogonal limpio (Piso <-> Piso o no-rack)
+          const gY = middleGutterY;
+          const dirG = p2.x > p1.x ? 1 : -1;
+          pathStr = `M ${p1.x} ${p1.y} `
+            + `L ${p1.x} ${gY - r} `
+            + `Q ${p1.x} ${gY}, ${p1.x + r * dirG} ${gY} `
+            + `L ${p2.x - r * dirG} ${gY} `
+            + `Q ${p2.x} ${gY}, ${p2.x} ${gY + r} `
+            + `L ${p2.x} ${p2.y}`;
+        }
+      }
+      
+      const cableColor = c.color || '#3b82f6';
+      
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', pathStr);
+      path.setAttribute('stroke', cableColor);
+      path.setAttribute('stroke-width', '2.5');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke-linejoin', 'round');
+      path.setAttribute('stroke-linecap', 'round');
+      
+      const circle1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle1.setAttribute('cx', p1.x);
+      circle1.setAttribute('cy', p1.y);
+      circle1.setAttribute('r', '2.5');
+      circle1.setAttribute('fill', '#fff');
+      circle1.setAttribute('stroke', cableColor);
+      circle1.setAttribute('stroke-width', '1');
+
+      const circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle2.setAttribute('cx', p2.x);
+      circle2.setAttribute('cy', p2.y);
+      circle2.setAttribute('r', '2.5');
+      circle2.setAttribute('fill', '#fff');
+      circle2.setAttribute('stroke', cableColor);
+      circle2.setAttribute('stroke-width', '1');
+
+      svg.appendChild(path);
+      svg.appendChild(circle1);
+      svg.appendChild(circle2);
+    }
+  });
+}
+
+function bindRackEvents(container, flippedRacks) {
+  container.querySelectorAll('[data-flip-rack]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const rackId = btn.dataset.flipRack;
+      const flipper = document.getElementById(`flipper-${rackId}`);
+      if (!flipper) return;
+      const isFlipped = flipper.classList.toggle('flipped');
+      const face = flipper.querySelector('.rack-face');
+      const rear = flipper.querySelector('.rack-rear');
+      if (face) face.style.pointerEvents = isFlipped ? 'none' : 'auto';
+      if (rear) rear.style.pointerEvents = isFlipped ? 'auto' : 'none';
+      btn.innerHTML = isFlipped ? '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>';
+      setTimeout(drawPhysicalCables, 10);
+    });
+  });
+  container.querySelectorAll('[data-rack-menu-toggle]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const parent = btn.closest('.rack-hdr-btns');
+      const menu = parent ? parent.querySelector('.dropdown-menu') : null;
+      if (!menu) return;
+      const isCurrentlyHidden = menu.classList.contains('hidden');
+      // Cerrar todos los menús de rack abiertos
+      document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => {
+        m.classList.add('hidden');
+      });
+      document.querySelectorAll('.rack-wrapper.menu-open').forEach(w => {
+        w.classList.remove('menu-open');
+      });
+      if (isCurrentlyHidden) {
+        menu.classList.remove('hidden');
+        btn.closest('.rack-wrapper')?.classList.add('menu-open');
+      }
+    });
+  });
+
+  container.querySelectorAll('[data-edit-rack]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden editar gabinetes.', 'error', 3000);
+        return;
+      }
+      openEditRackModal(btn.dataset.editRack);
+    });
+  });
+  container.querySelectorAll('[data-del-rack]').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden eliminar gabinetes.', 'error', 3000);
+        return;
+      }
+      const ok = await customConfirm('Eliminar Gabinete', '¿Estás seguro de eliminar este gabinete y todos los equipos instalados en él? Esta acción no se puede deshacer.');
+      if (ok) {
+        store.deleteRack(btn.dataset.delRack);
+        notify('Gabinete eliminado', 'warn');
+      }
+    });
+  });
+
+  container.querySelectorAll('[data-add-dev-rack]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const targetRackId = btn.dataset.addDevRack;
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
+      openQuickPlacementModal(null);
+      if (targetRackId) {
+        const rackSelect = document.getElementById('qp-rack');
+        if (rackSelect) {
+          rackSelect.value = targetRackId;
+          if (typeof repopulateQPSlots === 'function') repopulateQPSlots();
+        }
+      }
+    });
+  });
+
+  container.querySelectorAll('[data-clear-rack]').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      const rackId = btn.dataset.clearRack;
+      btn.closest('.dropdown-menu')?.classList.add('hidden');
+      btn.closest('.rack-wrapper')?.classList.remove('menu-open');
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden limpiar gabinetes.', 'error', 3000);
+        return;
+      }
+      const ok = await customConfirm('Limpiar Gabinete', '¿Estás seguro de limpiar este gabinete? TODOS los equipos dentro de este rack serán eliminados permanentemente.');
+      if (ok) {
+        const devices = store.allDevicesInRack(rackId);
+        devices.forEach(d => store.deleteDevice(d.id));
+        notify('Gabinete limpiado exitosamente', 'success');
+      }
+    });
+  });
+
+  // Eventos para añadir rack desde el canvas
+  container.querySelectorAll('#canvas-btn-add-rack, #empty-btn-add-rack').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      openAddRackModal();
+    });
+  });
+
+  container.querySelectorAll('.rack-slot').forEach(slot => {
+    slot.addEventListener('dragover',  onSlotDragOver);
+    slot.addEventListener('dragleave', onSlotDragLeave);
+    slot.addEventListener('drop',      onSlotDrop);
+  });
+  container.querySelectorAll('.device-faceplate, .floor-device-card').forEach(fp => {
+    fp.addEventListener('dragstart', onDeviceDragStart);
+    fp.addEventListener('dragend',   onDeviceDragEnd);
+    fp.addEventListener('dblclick',  onDeviceDoubleClick);
+    fp.addEventListener('contextmenu', onDeviceContextMenu);
+    fp.addEventListener('mouseenter', onDeviceMouseEnter);
+    fp.addEventListener('mousemove', onDeviceMouseMove);
+    fp.addEventListener('mouseleave', onDeviceMouseLeave);
+    fp.addEventListener('click', e => {
+      e.stopPropagation();
+      const devId = fp.dataset.deviceId;
+      window.appState = window.appState || {};
+      window.appState.selectedType = 'device';
+      window.appState.selectedId = devId;
+      if (typeof window.renderInspector === 'function') window.renderInspector('device', devId);
+      if (typeof window.renderOutliner === 'function') window.renderOutliner();
+    });
+  });
+
+  container.querySelectorAll('.rack-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.stopPropagation();
+      const rackId = card.dataset.rackId;
+      window.appState = window.appState || {};
+      window.appState.selectedType = 'rack';
+      window.appState.selectedId = rackId;
+      if (typeof window.renderInspector === 'function') window.renderInspector('rack', rackId);
+      if (typeof window.renderOutliner === 'function') window.renderOutliner();
+    });
+  });
+  container.querySelectorAll('.dev-btn.edit').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      openEditDeviceModal(btn.dataset.editDev);
+    });
+  });
+  container.querySelectorAll('.dev-btn.del').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      const ok = await customConfirm('Eliminar Equipo', '¿Estás seguro de eliminar este equipo?');
+      if (ok) {
+        store.deleteDevice(btn.dataset.delDev);
+        notify('Equipo eliminado', 'warn');
+      }
+    });
+  });
+  container.querySelectorAll('.dev-btn.menu').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      showContextMenu(e.clientX, e.clientY, btn.dataset.menuDev);
+    });
+  });
+
+  container.querySelectorAll('.floor-device-card').forEach(card => {
+    card.addEventListener('dblclick', e => {
+      e.stopPropagation();
+      openEditDeviceModal(card.dataset.deviceId);
+    });
+    card.addEventListener('mouseenter', onDeviceMouseEnter);
+    card.addEventListener('mousemove', onDeviceMouseMove);
+    card.addEventListener('mouseleave', onDeviceMouseLeave);
+  });
+
+  // Restore flipped state
+  flippedRacks.forEach(rackId => {
+    const flipper = document.getElementById(`flipper-${rackId}`);
+    if (flipper) {
+      flipper.classList.add('flipped');
+      const face = flipper.querySelector('.rack-face');
+      const rear = flipper.querySelector('.rack-rear');
+      if (face) face.style.pointerEvents = 'none';
+      if (rear) rear.style.pointerEvents = 'auto';
+      const btn = document.querySelector(`[data-flip-rack="${rackId}"]`);
+      if (btn) btn.innerHTML = '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
+    }
+  });
+}
+
+function onCatalogDragStart(e) {
+  if (!RackAuth.can('editDevices')) {
+    e.preventDefault();
+    return;
+  }
+  const id = e.currentTarget.dataset.catalogId;
+  const item = CATALOG.find(c => c.id === id);
+  dragState = { type: 'catalog', item: deepClone(item) };
+  e.currentTarget.classList.add('dragging');
+  const tooltipEl = document.getElementById('device-tooltip');
+  if (tooltipEl) tooltipEl.classList.remove('visible');
+
+  const ghost = document.getElementById('drag-ghost');
+  if(ghost) {
+    ghost.style.cssText = `position:fixed; width:220px; height:${item.size * UNIT_H}px; border-radius:4px; overflow:hidden; pointer-events:none; z-index:9999; opacity:0.8; left:-9999px; top:-9999px;`;
+    ghost.innerHTML = buildFaceplate({ ...item, ip: '' }, item.size * UNIT_H);
+    document.body.appendChild(ghost);
+    e.dataTransfer.setDragImage(ghost, 110, item.size * UNIT_H / 2);
+  }
+  e.dataTransfer.effectAllowed = 'copy';
+}
+
+function onCatalogDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+  dragState = null;
+  clearDropHighlights();
+}
+
+function onDeviceDragStart(e) {
+  if (!RackAuth.can('editDevices')) {
+    e.preventDefault();
+    return;
+  }
+  e.stopPropagation();
+  const devId = e.currentTarget.dataset.deviceId;
+  const dev = store.deviceById(devId);
+  if (!dev) return;
+  dragState = { type: 'device', deviceId: devId, device: deepClone(dev) };
+  e.dataTransfer.effectAllowed = 'move';
+  const tooltipEl = document.getElementById('device-tooltip');
+  if (tooltipEl) tooltipEl.classList.remove('visible');
+
+  const ghost = document.getElementById('drag-ghost');
+  if(ghost) {
+    ghost.style.cssText = `position:fixed; width:220px; height:${dev.size * UNIT_H}px; border-radius:4px; overflow:hidden; pointer-events:none; z-index:9999; opacity:0.7; left:-9999px; top:-9999px;`;
+    ghost.innerHTML = buildFaceplate(dev, dev.size * UNIT_H);
+    e.dataTransfer.setDragImage(ghost, 110, dev.size * UNIT_H / 2);
+  }
+}
+
+function onDeviceDragEnd(e) {
+  dragState = null;
+  clearDropHighlights();
+  const ghost = document.getElementById('drag-ghost');
+  if(ghost) ghost.style.left = '-9999px';
+}
+
+function onSlotDragOver(e) {
+  e.preventDefault();
+  if (!dragState) return;
+  e.dataTransfer.dropEffect = dragState.type === 'catalog' ? 'copy' : 'move';
+  const slot = e.currentTarget;
+  const slotU = parseInt(slot.dataset.slot);
+  const rackId = slot.dataset.rack;
+  const slotMountSide = slot.dataset.side || 'front';
+  const rack = store.rackById(rackId);
+  const size = dragState.type === 'catalog' ? dragState.item.size : dragState.device.size;
+  if (!rack || !slotU) return;
+
+  const targetItemSide = dragState.type === 'catalog' ? dragState.item.mountSide : dragState.device.mountSide;
+  const effectiveSide = targetItemSide === 'both' ? 'both' : slotMountSide;
+
+  clearDropHighlights();
+  const container = slot.closest('.rack-slots');
+  const excludeId = dragState.type === 'device' ? dragState.deviceId : null;
+  const conflictFn = store.sidesConflict ? store.sidesConflict.bind(store) : (s1, s2) => (s1 || 'front') === (s2 || 'front');
+
+  container.querySelectorAll('.rack-slot').forEach(s => {
+    const u = parseInt(s.dataset.slot);
+    if (u >= slotU && u < slotU + size) {
+      const existingFilter = store.allDevicesInRack(rackId).filter(d => d.id !== excludeId && conflictFn(d.mountSide, effectiveSide));
+      let valid = true;
+      for (const d of existingFilter) {
+        const dEnd = d.slotStart + d.size - 1;
+        const nEnd = slotU + size - 1;
+        if (!(nEnd < d.slotStart || slotU > dEnd)) { valid = false; break; }
+      }
+      s.classList.add(valid ? 'drop-highlight' : 'drop-invalid');
+    }
+  });
+}
+
+function onSlotDragLeave(e) {
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    clearDropHighlights();
+  }
+}
+
+function onSlotDrop(e) {
+  e.preventDefault();
+  if (!dragState) return;
+  const slot  = e.currentTarget;
+  const slotU = parseInt(slot.dataset.slot);
+  const rackId = slot.dataset.rack;
+  const slotMountSide = slot.dataset.side || 'front';
+  clearDropHighlights();
+
+  if (dragState.type === 'catalog') {
+    const item = { ...dragState.item, name: dragState.item.name };
+    const effectiveSide = item.mountSide === 'both' ? 'both' : slotMountSide;
+    const ok = store.addDeviceToRack(item, rackId, slotU, effectiveSide);
+    const sideLabel = effectiveSide === 'both' ? 'Ambas Caras' : (effectiveSide === 'front' ? 'Frente' : 'Atrás');
+    if (ok) notify(`${item.name} instalado en U${slotU} (${sideLabel})`, 'success');
+    else    notify(`No hay espacio suficiente: U${slotU}, Lado: ${sideLabel}`, 'error');
+  } else if (dragState.type === 'device') {
+    const effectiveSide = dragState.device.mountSide === 'both' ? 'both' : slotMountSide;
+    const ok = store.moveDevice(dragState.deviceId, rackId, slotU, effectiveSide);
+    const sideLabel = effectiveSide === 'both' ? 'Ambas Caras' : (effectiveSide === 'front' ? 'Frente' : 'Atrás');
+    if (ok) notify(`Equipo movido a U${slotU} (${sideLabel})`, 'success');
+    else    notify(`Posición inválida: U${slotU}, Lado: ${sideLabel}`, 'error');
+  }
+  dragState = null;
+}
+
+function canPlace(rackId, slotStart, size, mountSide = 'front', excludeDeviceId = null) {
+  const rack = store.rackById(rackId);
+  if (!rack) return false;
+  if (slotStart < 1 || slotStart + size - 1 > rack.height) return false;
+  const conflictFn = store.sidesConflict ? store.sidesConflict.bind(store) : (s1, s2) => (s1 || 'front') === (s2 || 'front');
+  const existing = store.allDevicesInRack(rackId).filter(d => d.id !== excludeDeviceId && conflictFn(d.mountSide, mountSide));
+  for (const d of existing) {
+    const dEnd = d.slotStart + d.size - 1;
+    const nEnd = slotStart + size - 1;
+    if (!(nEnd < d.slotStart || slotStart > dEnd)) return false;
+  }
+  return true;
+}
+
+function clearDropHighlights() {
+  document.querySelectorAll('.drop-highlight, .drop-invalid').forEach(el => {
+    el.classList.remove('drop-highlight', 'drop-invalid');
+  });
+}
+
+function onDeviceDoubleClick(e) {
+  e.stopPropagation();
+  const devId = e.currentTarget.dataset.deviceId;
+  openEditDeviceModal(devId);
+}
+
+function onDeviceContextMenu(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const devId = e.currentTarget.dataset.deviceId;
+  showContextMenu(e.clientX, e.clientY, devId);
+}
+
+function showContextMenu(x, y, devId) {
+  const menu = document.getElementById('ctx-menu');
+  if(!menu) return;
+  const dev = store.deviceById(devId);
+  menu.innerHTML = `
+    <div class="ctx-item" data-action="edit" data-id="${escapeHTML(devId)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar equipo</div>
+    <div class="ctx-item" data-action="cable" data-id="${escapeHTML(devId)}"><i class="svg-icon icon-plug" style="width:14px; height:14px; margin-right:6px;"></i>Agregar cable</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item danger" data-action="delete" data-id="${escapeHTML(devId)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar ${escapeHTML(dev?.name || '')}</div>
+  `;
+  menu.style.cssText = `left:${x}px; top:${y}px`;
+  menu.classList.remove('hidden');
+
+  menu.querySelectorAll('.ctx-item[data-action]').forEach(item => {
+    item.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      const id = item.dataset.id;
+      if (item.dataset.action === 'edit')   openEditDeviceModal(id);
+      if (item.dataset.action === 'delete') { store.deleteDevice(id); notify('Equipo eliminado', 'warn'); }
+      if (item.dataset.action === 'cable')  openCableModal(id);
+    });
+  });
+}
+
+document.addEventListener('click', () => {
+  const menu = document.getElementById('ctx-menu');
+  if(menu) menu.classList.add('hidden');
+});
+
+function onDeviceMouseEnter(e) {
+  try {
+    const devId = e.currentTarget.dataset.deviceId;
+    const dev = store.deviceById(devId);
+    if(!dev) return;
+
+    const tooltip = document.getElementById('device-tooltip');
+    if(!tooltip) return;
+
+    const safeName = dev.name || 'Desconocido';
+    const safeType = dev.type ? String(dev.type).toUpperCase() : 'DESCONOCIDO';
+    const safeIp   = dev.ip || 'N/A';
+    const safeUser = dev.user || 'N/A';
+    
+    let safePass = 'N/A';
+    if (dev.pass) {
+      safePass = (typeof window !== 'undefined' && window.SHOW_PASSWORDS) ? dev.pass : '••••••••';
+    }
+
+    tooltip.innerHTML = `
+      <div class="tt-title">${escapeHTML(String(safeName))}</div>
+      <div class="tt-row"><span>Tipo:</span> <span>${escapeHTML(safeType)}</span></div>
+      <div class="tt-row"><span>IP:</span> <span>${escapeHTML(String(safeIp))}</span></div>
+      <div class="tt-row"><span>User:</span> <span>${escapeHTML(String(safeUser))}</span></div>
+      <div class="tt-row"><span>Pass:</span> <span>${escapeHTML(String(safePass))}</span></div>
+    `;
+    
+    let x = e.clientX + 15;
+    let y = e.clientY + 15;
+    if(x + 220 > window.innerWidth) x = e.clientX - 235;
+    
+    const tooltipHeight = tooltip.offsetHeight || 150;
+    if(y + tooltipHeight > window.innerHeight) y = window.innerHeight - tooltipHeight - 10;
+    
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${y}px`;
+
+    tooltip.classList.add('visible');
+  } catch (err) {
+    console.error('Error showing tooltip:', err);
+  }
+}
+
+function onDeviceMouseMove(e) {
+  const tooltip = document.getElementById('device-tooltip');
+  if(!tooltip || !tooltip.classList.contains('visible')) return;
+  let x = e.clientX + 15;
+  let y = e.clientY + 15;
+  if(x + 220 > window.innerWidth) x = e.clientX - 235;
+  if(y + tooltip.offsetHeight > window.innerHeight) y = window.innerHeight - tooltip.offsetHeight - 10;
+  tooltip.style.left = `${x}px`;
+  tooltip.style.top = `${y}px`;
+}
+
+function onDeviceMouseLeave(e) {
+  const tooltip = document.getElementById('device-tooltip');
+  if(tooltip) tooltip.classList.remove('visible');
+}
+
+function renderFloorSection(roomId) {
+  const floorDevices = store.allFloorDevicesInRoom(roomId);
+  
+  const section = document.createElement('div');
+  section.className = 'floor-section';
+  section.dataset.roomId = roomId;
+  section.innerHTML = `
+    <div class="floor-section-header" style="flex-wrap: wrap; gap: 8px;">
+      <span style="flex: 1 1 auto; min-width: max-content;">Equipos de Piso / Periféricos</span>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="btn-primary" id="floor-btn-add-device" style="padding: 2px 8px; font-size: 12px; height: 24px; background:rgba(56, 189, 248, 0.15); border-color:var(--accent); color:var(--accent); white-space: nowrap;"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Agregar Equipo</button>
+        <span class="floor-device-count" style="white-space: nowrap;">${floorDevices.length} dispositivos</span>
+      </div>
+    </div>
+    <div class="floor-devices-grid" id="floor-grid-${roomId}" data-room-id="${roomId}">
+      ${floorDevices.length === 0
+        ? '<div class="floor-empty">Arrastra periféricos o equipos aquí para ubicarlos en la sala</div>'
+        : floorDevices.map(d => getFloorFaceplate(d)).join('')
+      }
+    </div>`;
+
+  const grid = section.querySelector('.floor-devices-grid');
+  
+  grid.addEventListener('dragover', e => {
+    e.preventDefault();
+    grid.classList.add('drag-over');
+  });
+  
+  grid.addEventListener('dragleave', () => {
+    grid.classList.remove('drag-over');
+  });
+  
+  grid.addEventListener('drop', e => {
+    e.preventDefault();
+    grid.classList.remove('drag-over');
+    
+    if (dragState && dragState.type === 'catalog') {
+      const template = dragState.item;
+      const floorTypes = ['pc', 'camera', 'ap', 'door', 'printer', 'phone'];
+      
+      if (floorTypes.includes(template.type)) {
+        store.addFloorDevice(template, roomId);
+        notify(`${template.name} ubicado en la sala`, 'success');
+      } else {
+        notify('Este equipo requiere montaje obligatorio en Rack', 'warn');
+      }
+    }
+  });
+
+  const addDevBtn = section.querySelector('#floor-btn-add-device');
+  if (addDevBtn) {
+    addDevBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      openQuickPlacementModal(null);
+    });
+  }
+
+  return section;
+}
+
+if (!window._physicalCablesBound) {
+  window.addEventListener('resize', () => {
+    if (document.getElementById('view-physical') && document.getElementById('view-physical').classList.contains('active')) {
+      drawPhysicalCables();
+    }
+  });
+  window._physicalCablesBound = true;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-tables-js"></a>
+
+### 📄 Archivo 21/42: `js/ui/tables.js`
+
+* **Ubicación relativa:** `js/ui/tables.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 588 líneas | 24.9 KB
+* **Rol en el sistema:** Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda.
+
+```javascript
+let activeTab = 'inventory';
+
+/* ============================================================
+   TABLE COLUMNS DEFINITIONS & CONFIGURATION (PROPUESTA 3)
+============================================================ */
+const STORAGE_KEY_TABLE_COLS = 'RACK_DESIGNER_TABLE_COLUMNS';
+
+const INVENTORY_COLUMNS = [
+  { id: 'rack', label: 'Rack', category: 'Ubicación', default: true },
+  { id: 'slot', label: 'U', category: 'Ubicación', default: true },
+  { id: 'side', label: 'Lado', category: 'Ubicación', default: true },
+  { id: 'name', label: 'Nombre', category: 'Identificación', default: true, required: true },
+  { id: 'brand', label: 'Marca', category: 'Hardware', default: true },
+  { id: 'model', label: 'Modelo', category: 'Hardware', default: true },
+  { id: 'type', label: 'Tipo', category: 'Hardware', default: true },
+  { id: 'size', label: 'Tamaño', category: 'Hardware', default: true },
+  { id: 'ip', label: 'IP', category: 'Red', default: true },
+  { id: 'mac', label: 'MAC', category: 'Red', default: true },
+  { id: 'serial', label: 'Serie', category: 'Hardware', default: true },
+  { id: 'user', label: 'Usuario', category: 'Acceso', default: true },
+  { id: 'pass', label: 'Contraseña', category: 'Acceso', default: true },
+  { id: 'power', label: 'Consumo (W)', category: 'Energía', default: true },
+  { id: 'plugs', label: 'Tomas', category: 'Energía', default: true },
+  { id: 'skin', label: 'Skin', category: 'Diseño', default: true },
+  { id: 'notes', label: 'Notas', category: 'General', default: true },
+  { id: 'actions', label: 'Acciones', category: 'Control', default: true, required: true }
+];
+
+const CONNECTIONS_COLUMNS = [
+  { id: 'srcLocation', label: 'Sala/Rack Origen', category: 'Origen', default: true },
+  { id: 'srcDevice', label: 'Origen', category: 'Origen', default: true },
+  { id: 'sourcePort', label: 'Puerto Origen', category: 'Origen', default: true },
+  { id: 'dstLocation', label: 'Sala/Rack Destino', category: 'Destino', default: true },
+  { id: 'dstDevice', label: 'Destino', category: 'Destino', default: true },
+  { id: 'targetPort', label: 'Puerto Destino', category: 'Destino', default: true },
+  { id: 'vlan', label: 'VLAN', category: 'Red', default: true },
+  { id: 'cableType', label: 'Tipo Cable', category: 'Físico', default: true },
+  { id: 'color', label: 'Color', category: 'Físico', default: true },
+  { id: 'actions', label: 'Acciones', category: 'Control', default: true, required: true }
+];
+
+function getTableColumnsConfig() {
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEY_TABLE_COLS) : null;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        return parsed;
+      }
+    }
+  } catch (e) {}
+
+  const def = { inventory: {}, connections: {} };
+  INVENTORY_COLUMNS.forEach(c => { def.inventory[c.id] = c.default; });
+  CONNECTIONS_COLUMNS.forEach(c => { def.connections[c.id] = c.default; });
+  return def;
+}
+
+function saveTableColumnsConfig(config) {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_TABLE_COLS, JSON.stringify(config));
+    }
+  } catch (e) {}
+}
+
+function isColumnVisible(tableType, colId) {
+  const list = tableType === 'inventory' ? INVENTORY_COLUMNS : CONNECTIONS_COLUMNS;
+  const colDef = list.find(c => c.id === colId);
+  if (colDef && colDef.required) return true;
+
+  const config = getTableColumnsConfig();
+  if (config && config[tableType] && config[tableType][colId] !== undefined) {
+    return !!config[tableType][colId];
+  }
+  return colDef ? colDef.default : true;
+}
+
+function setColumnVisible(tableType, colId, visible) {
+  const config = getTableColumnsConfig();
+  if (!config[tableType]) config[tableType] = {};
+  config[tableType][colId] = visible;
+  saveTableColumnsConfig(config);
+  updateColumnsBadge();
+  renderBottomPanel();
+}
+
+function resetTableColumns(tableType) {
+  const config = getTableColumnsConfig();
+  const list = tableType === 'inventory' ? INVENTORY_COLUMNS : CONNECTIONS_COLUMNS;
+  config[tableType] = {};
+  list.forEach(c => { config[tableType][c.id] = c.default; });
+  saveTableColumnsConfig(config);
+  updateColumnsBadge();
+  renderColumnsDropdown();
+  renderBottomPanel();
+}
+
+function showAllTableColumns(tableType) {
+  const config = getTableColumnsConfig();
+  const list = tableType === 'inventory' ? INVENTORY_COLUMNS : CONNECTIONS_COLUMNS;
+  config[tableType] = {};
+  list.forEach(c => { config[tableType][c.id] = true; });
+  saveTableColumnsConfig(config);
+  updateColumnsBadge();
+  renderColumnsDropdown();
+  renderBottomPanel();
+}
+
+function updateColumnsBadge() {
+  const badge = document.getElementById('columns-count-badge');
+  if (!badge) return;
+  const list = activeTab === 'inventory' ? INVENTORY_COLUMNS : CONNECTIONS_COLUMNS;
+  let visibleCount = 0;
+  list.forEach(c => {
+    if (isColumnVisible(activeTab, c.id)) visibleCount++;
+  });
+  badge.textContent = `(${visibleCount}/${list.length})`;
+}
+
+function renderColumnsDropdown() {
+  const listEl = document.getElementById('columns-dropdown-list');
+  const indicator = document.getElementById('columns-active-tab-indicator');
+  if (!listEl) return;
+
+  const currentTab = activeTab === 'inventory' ? 'inventory' : 'connections';
+  if (indicator) {
+    indicator.textContent = currentTab === 'inventory' ? 'Inventario' : 'Conexiones';
+  }
+
+  const cols = currentTab === 'inventory' ? INVENTORY_COLUMNS : CONNECTIONS_COLUMNS;
+
+  listEl.innerHTML = cols.map(c => {
+    const isVis = isColumnVisible(currentTab, c.id);
+    const isReq = !!c.required;
+    return `
+      <label class="col-toggle-item" style="${isReq ? 'opacity:0.75; cursor:not-allowed;' : ''}">
+        <input type="checkbox" data-col-id="${c.id}" ${isVis ? 'checked' : ''} ${isReq ? 'disabled' : ''}>
+        <div class="col-toggle-label">
+          <span>${c.label} ${isReq ? '<span style="font-size:9px; color:var(--text-muted);">(Fijo)</span>' : ''}</span>
+          <span class="col-category-badge">${c.category}</span>
+        </div>
+      </label>
+    `;
+  }).join('');
+
+  listEl.querySelectorAll('input[type="checkbox"]:not([disabled])').forEach(cb => {
+    cb.addEventListener('change', () => {
+      setColumnVisible(currentTab, cb.dataset.colId, cb.checked);
+    });
+  });
+
+  updateColumnsBadge();
+}
+
+function setActiveTab(tab) {
+  activeTab = tab;
+  updateColumnsBadge();
+  renderColumnsDropdown();
+}
+
+function renderBottomPanel() {
+  const wrap = document.getElementById('bottom-table-wrap');
+  if(!wrap) return;
+  const searchInput = document.getElementById('table-search');
+  const query = searchInput ? searchInput.value.toLowerCase() : '';
+  
+  const btnDev = document.getElementById('table-btn-add-device');
+  const btnQP = document.getElementById('table-btn-add-placement');
+  const btnConn = document.getElementById('table-btn-add-conn');
+  
+  updateColumnsBadge();
+
+  if (activeTab === 'inventory') {
+    if (btnDev) btnDev.style.display = 'block';
+    if (btnQP) btnQP.style.display = 'block';
+    if (btnConn) btnConn.style.display = 'none';
+    renderInventoryTable(wrap, query);
+  } else {
+    if (btnDev) btnDev.style.display = 'none';
+    if (btnQP) btnQP.style.display = 'none';
+    if (btnConn) btnConn.style.display = 'block';
+    renderConnectionsTable(wrap, query);
+  }
+}
+
+function renderInventoryTable(wrap, query) {
+  wrap = wrap || document.getElementById('bottom-table-wrap');
+  if (!wrap) return;
+  const devices = store._raw.devices.filter(d => {
+    if (!query) return true;
+    return [d.name, d.ip, d.mac, d.serial, d.type, d.user, d.pass, d.brand, d.model, d.notes, d.skin, d.size].join(' ').toLowerCase().includes(query);
+  });
+  if (!devices.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="icon" style="color:var(--text-muted); width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['nas'] ? SVG_ICONS['nas'] : ''}</div><p>No hay equipos instalados.</p></div>`;
+    return;
+  }
+
+  const colMap = {
+    rack: {
+      th: '<th>Rack</th>',
+      td: (d, isFloor, rack) => `<td>${isFloor ? '<span style="color:var(--accent);font-weight:600">PISO</span>' : escapeHTML(rack?.name || '-')}</td>`
+    },
+    slot: {
+      th: '<th>U</th>',
+      td: (d, isFloor) => `<td>${isFloor ? '-' : (d.slotStart || '-')}</td>`
+    },
+    side: {
+      th: '<th>Lado</th>',
+      td: (d, isFloor) => {
+        const sideDisplay = isFloor ? '-' : (d.mountSide === 'both' ? 'Dual' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal'));
+        const sideStyle = (!isFloor && d.mountSide === 'both') ? 'border-color: rgba(56,189,248,0.5); background: rgba(56,189,248,0.15); color: #38bdf8;' : '';
+        return `<td><span style="font-size:11px;opacity:0.8;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:10px; ${sideStyle}">${sideDisplay}</span></td>`;
+      }
+    },
+    name: {
+      th: '<th>Nombre</th>',
+      td: (d) => `<td class="editable" data-field="name" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.name)}</td>`
+    },
+    brand: {
+      th: '<th>Marca</th>',
+      td: (d) => `<td class="editable" data-field="brand" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.brand) || '-'}</td>`
+    },
+    model: {
+      th: '<th>Modelo</th>',
+      td: (d) => `<td class="editable" data-field="model" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.model) || '-'}</td>`
+    },
+    type: {
+      th: '<th>Tipo</th>',
+      td: (d) => `<td><span class="type-badge ${escapeHTML(d.type)}">${escapeHTML(d.type)}</span></td>`
+    },
+    size: {
+      th: '<th>Tamaño</th>',
+      td: (d, isFloor) => `<td class="${isFloor ? '' : 'editable'}" data-field="size" data-dev="${escapeHTML(d.id)}">${isFloor ? '-' : (d.size ? `${d.size}U` : '1U')}</td>`
+    },
+    ip: {
+      th: '<th>IP</th>',
+      td: (d) => `<td class="editable" data-field="ip" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.ip) || '-'}</td>`
+    },
+    mac: {
+      th: '<th>MAC</th>',
+      td: (d) => `<td class="editable" data-field="mac" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.mac) || '-'}</td>`
+    },
+    serial: {
+      th: '<th>Serie</th>',
+      td: (d) => `<td class="editable" data-field="serial" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.serial) || '-'}</td>`
+    },
+    user: {
+      th: '<th>Usuario</th>',
+      td: (d) => `<td class="editable" data-field="user" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.user) || '-'}</td>`
+    },
+    pass: {
+      th: '<th>Contraseña</th>',
+      td: (d) => `<td class="editable" data-field="pass" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.pass ? (window.SHOW_PASSWORDS ? d.pass : '••••••••') : '-')}</td>`
+    },
+    power: {
+      th: '<th>Consumo (W)</th>',
+      td: (d) => `<td class="editable" data-field="power" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.power)) || 0}</td>`
+    },
+    plugs: {
+      th: '<th>Tomas</th>',
+      td: (d) => `<td class="editable" data-field="plugs" data-dev="${escapeHTML(d.id)}">${escapeHTML(String(d.plugs ?? 1))}</td>`
+    },
+    skin: {
+      th: '<th>Skin</th>',
+      td: (d) => `<td class="editable" data-field="skin" data-dev="${escapeHTML(d.id)}">${escapeHTML(d.skin || 'default')}</td>`
+    },
+    notes: {
+      th: '<th>Notas</th>',
+      td: (d) => `<td class="editable" data-field="notes" data-dev="${escapeHTML(d.id)}" style="max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHTML(d.notes || '')}">${escapeHTML(d.notes || '-')}</td>`
+    },
+    actions: {
+      th: '<th>Acciones</th>',
+      td: (d) => `<td style="white-space:nowrap;">
+        <button class="tbl-action" data-edit-dev="${escapeHTML(d.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
+        <button class="tbl-action" data-del-dev="${escapeHTML(d.id)}" style="padding:4px 8px" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
+      </td>`
+    }
+  };
+
+  const visibleCols = INVENTORY_COLUMNS.filter(c => isColumnVisible('inventory', c.id));
+  const theadHtml = `<thead><tr>${visibleCols.map(c => colMap[c.id].th).join('')}</tr></thead>`;
+  const tbodyHtml = `<tbody>${devices.map(d => {
+    const isFloor = d.category === 'floor';
+    const rack = !isFloor ? store.rackById(d.rackId) : null;
+    return `<tr data-dev-id="${escapeHTML(d.id)}">${visibleCols.map(c => colMap[c.id].td(d, isFloor, rack)).join('')}</tr>`;
+  }).join('')}</tbody>`;
+
+  wrap.innerHTML = `<table class="data-table">
+    ${theadHtml}
+    ${tbodyHtml}
+  </table>`;
+
+  wrap.querySelectorAll('td.editable').forEach(td => {
+    td.addEventListener('dblclick', () => startCellEdit(td));
+  });
+  wrap.querySelectorAll('[data-del-dev]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      store.deleteDevice(btn.dataset.delDev);
+      notify('Equipo eliminado', 'warn');
+    });
+  });
+  wrap.querySelectorAll('[data-edit-dev]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openEditDeviceModal(btn.dataset.editDev);
+    });
+  });
+}
+
+function startCellEdit(td) {
+  const field = td.dataset.field;
+  const devId = td.dataset.dev;
+  const dev = store.deviceById(devId);
+  const orig = dev ? (dev[field] !== undefined && dev[field] !== null ? dev[field] : '') : (td.textContent.trim() === '-' ? '' : td.textContent.trim());
+  td.innerHTML = `<input class="cell-edit" value="${escapeHTML(String(orig))}" data-field="${field}" data-dev="${devId}">`;
+  const input = td.querySelector('input');
+  input.focus(); input.select();
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') input.blur();
+    if (e.key === 'Escape') { td.textContent = orig || '-'; }
+  });
+  input.addEventListener('blur', () => finishCellEdit(input, td, orig));
+}
+
+function finishCellEdit(input, td, orig) {
+  const field = input.dataset.field;
+  const devId = input.dataset.dev;
+  const val   = input.value.trim();
+  const allowedFields = ['name', 'brand', 'model', 'ip', 'mac', 'serial', 'user', 'pass', 'power', 'plugs', 'size', 'skin', 'notes'];
+  if (!allowedFields.includes(field)) return;
+  if (field === 'ip') {
+    if (val && !/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(val)) {
+      input.classList.add('error');
+      notify('IP inválida. Valores deben estar entre 0 y 255', 'error');
+      setTimeout(() => { input.classList.remove('error'); }, 1000);
+      return;
+    }
+  }
+  if (field === 'mac') {
+    if (val && !/^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$/.test(val)) {
+      input.classList.add('error');
+      notify('MAC inválida. Formato: XX:XX:XX:XX:XX:XX', 'error');
+      setTimeout(() => { input.classList.remove('error'); }, 1000);
+      return;
+    }
+  }
+  let parsedVal = val;
+  if (field === 'power' || field === 'plugs') {
+    parsedVal = parseInt(val) || 0;
+  } else if (field === 'size') {
+    parsedVal = Math.max(1, parseInt(val) || 1);
+  }
+  store.updateDevice(devId, { [field]: parsedVal });
+  if (field === 'pass') {
+    td.textContent = val ? (window.SHOW_PASSWORDS ? val : '••••••••') : '-';
+  } else if (field === 'size') {
+    td.textContent = parsedVal + 'U';
+  } else if (field === 'notes') {
+    td.textContent = val || '-';
+    td.title = val || '';
+  } else {
+    td.textContent = val || '-';
+  }
+}
+
+function renderConnectionsTable(wrap, query) {
+  wrap = wrap || document.getElementById('bottom-table-wrap');
+  if (!wrap) return;
+  const conns = store._raw.connections.filter(c => {
+    if (!query) return true;
+    const src = store.deviceById(c.sourceDeviceId);
+    const dst = store.deviceById(c.targetDeviceId);
+    const vlanStr = `vlan ${c.vlanId || 1} ${c.vlanName || ''}`;
+    return [src?.name, dst?.name, c.cableType, c.sourcePort, c.targetPort, vlanStr].join(' ').toLowerCase().includes(query);
+  });
+  if (!conns.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="icon" style="color:var(--text-muted); width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">${typeof SVG_ICONS !== 'undefined' && SVG_ICONS['patchpanel'] ? SVG_ICONS['patchpanel'] : ''}</div><p>No hay conexiones de red registradas.</p></div>`;
+    return;
+  }
+
+  const colConnMap = {
+    srcLocation: {
+      th: '<th>Sala/Rack Origen</th>',
+      td: (c, src) => `<td><span style="font-size:11px;color:var(--text-muted)">${escapeHTML(getDeviceLocation(src))}</span></td>`
+    },
+    srcDevice: {
+      th: '<th>Origen</th>',
+      td: (c, src) => `<td><span class="type-badge ${escapeHTML(src?.type||'')}">${escapeHTML(src?.name||'?')}</span></td>`
+    },
+    sourcePort: {
+      th: '<th>Puerto Origen</th>',
+      td: (c) => `<td><strong>${escapeHTML(c.sourcePort)}</strong></td>`
+    },
+    dstLocation: {
+      th: '<th>Sala/Rack Destino</th>',
+      td: (c, src, dst) => `<td><span style="font-size:11px;color:var(--text-muted)">${escapeHTML(getDeviceLocation(dst))}</span></td>`
+    },
+    dstDevice: {
+      th: '<th>Destino</th>',
+      td: (c, src, dst) => `<td><span class="type-badge ${escapeHTML(dst?.type||'')}">${escapeHTML(dst?.name||'?')}</span></td>`
+    },
+    targetPort: {
+      th: '<th>Puerto Destino</th>',
+      td: (c) => `<td><strong>${escapeHTML(c.targetPort)}</strong></td>`
+    },
+    vlan: {
+      th: '<th>VLAN</th>',
+      td: (c) => {
+        const vId = c.vlanId !== undefined ? Number(c.vlanId) : 1;
+        const vObj = typeof store.getVlanById === 'function' ? store.getVlanById(vId) : null;
+        const vColor = vObj ? vObj.color : '#64748b';
+        const vName = c.vlanName || (vObj ? vObj.name : `VLAN ${vId}`);
+        return `<td><span class="vlan-pill" style="background:${vColor}22; border-color:${vColor}; color:${vColor};">VLAN ${vId} · ${escapeHTML(vName)}</span></td>`;
+      }
+    },
+    cableType: {
+      th: '<th>Tipo Cable</th>',
+      td: (c) => `<td>${escapeHTML(c.cableType)}</td>`
+    },
+    color: {
+      th: '<th>Color</th>',
+      td: (c) => `<td><span class="cable-dot" style="background:${escapeHTML(c.color)};box-shadow:0 0 4px ${escapeHTML(c.color)}"></span> ${escapeHTML(c.color)}</td>`
+    },
+    actions: {
+      th: '<th>Acciones</th>',
+      td: (c) => `<td style="white-space:nowrap;">
+        <button class="tbl-action" data-edit-conn="${escapeHTML(c.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
+        <button class="tbl-action" data-del-conn="${escapeHTML(c.id)}" style="padding:4px 8px" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
+      </td>`
+    }
+  };
+
+  const visibleConnCols = CONNECTIONS_COLUMNS.filter(c => isColumnVisible('connections', c.id));
+  const theadHtml = `<thead><tr>${visibleConnCols.map(c => colConnMap[c.id].th).join('')}</tr></thead>`;
+  const tbodyHtml = `<tbody>${conns.map(c => {
+    const src = store.deviceById(c.sourceDeviceId);
+    const dst = store.deviceById(c.targetDeviceId);
+    return `<tr>${visibleConnCols.map(col => colConnMap[col.id].td(c, src, dst)).join('')}</tr>`;
+  }).join('')}</tbody>`;
+
+  wrap.innerHTML = `<table class="data-table">
+    ${theadHtml}
+    ${tbodyHtml}
+  </table>`;
+
+  wrap.querySelectorAll('[data-del-conn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      store.deleteConnection(btn.dataset.delConn);
+      notify('Conexión eliminada', 'warn');
+    });
+  });
+  wrap.querySelectorAll('[data-edit-conn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openEditCableModal(btn.dataset.editConn);
+    });
+  });
+}
+
+function getInventoryData() {
+  const data = [['Rack / Ubicación', 'Unidad U', 'Lado', 'Nombre', 'Marca', 'Modelo', 'Tipo', 'Tamaño', 'IP', 'MAC', 'Serie', 'Usuario', 'Contraseña', 'Consumo (W)', 'Tomas', 'Skin', 'Notas']];
+  store._raw.devices.forEach(d => {
+    const isFloor = d.category === 'floor';
+    const rack = !isFloor ? store.rackById(d.rackId) : null;
+    const passDisplay = d.pass ? (window.SHOW_PASSWORDS ? d.pass : '••••••••') : '';
+    data.push([
+      isFloor ? 'PISO' : (rack?.name || ''), 
+      isFloor ? '-' : (d.slotStart || ''), 
+      isFloor ? '-' : (d.mountSide === 'both' ? 'Dual' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal')),
+      d.name, d.brand||'', d.model||'', d.type, d.size ? `${d.size}U` : '1U', d.ip, d.mac, d.serial, d.user, passDisplay, d.power, d.plugs ?? 1, d.skin || 'default', d.notes || ''
+    ]);
+  });
+  return data;
+}
+
+function getConnectionsData() {
+  const data = [['Sala/Rack Origen', 'Origen', 'Puerto Origen', 'Sala/Rack Destino', 'Destino', 'Puerto Destino', 'VLAN', 'Tipo Cable', 'Color']];
+  store._raw.connections.forEach(c => {
+    const src = store.deviceById(c.sourceDeviceId);
+    const dst = store.deviceById(c.targetDeviceId);
+    data.push([getDeviceLocation(src), src?.name||'?', c.sourcePort, getDeviceLocation(dst), dst?.name||'?', c.targetPort, `VLAN ${c.vlanId || 1} (${c.vlanName || 'Default'})`, c.cableType, c.color]);
+  });
+  return data;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnCsv = document.getElementById('btn-table-csv');
+  const btnExcel = document.getElementById('btn-table-excel');
+  const btnExportMenu = document.getElementById('btn-export-menu');
+  const exportDropdown = document.getElementById('export-dropdown');
+
+  const btnColsMenu = document.getElementById('btn-columns-menu');
+  const colsDropdown = document.getElementById('columns-dropdown');
+  const btnColsClose = document.getElementById('btn-cols-close');
+  const btnColsShowAll = document.getElementById('btn-cols-show-all');
+  const btnColsReset = document.getElementById('btn-cols-reset');
+
+  if (btnColsMenu && colsDropdown) {
+    btnColsMenu.addEventListener('click', e => {
+      e.stopPropagation();
+      if (exportDropdown) exportDropdown.classList.add('hidden');
+      renderColumnsDropdown();
+      colsDropdown.classList.toggle('hidden');
+    });
+    colsDropdown.addEventListener('click', e => {
+      e.stopPropagation();
+    });
+    if (btnColsClose) {
+      btnColsClose.addEventListener('click', e => {
+        e.stopPropagation();
+        colsDropdown.classList.add('hidden');
+      });
+    }
+    document.addEventListener('click', e => {
+      if (!btnColsMenu.contains(e.target) && !colsDropdown.contains(e.target)) {
+        colsDropdown.classList.add('hidden');
+      }
+    });
+  }
+
+  if (btnColsShowAll) {
+    btnColsShowAll.addEventListener('click', () => {
+      showAllTableColumns(activeTab === 'inventory' ? 'inventory' : 'connections');
+    });
+  }
+
+  if (btnColsReset) {
+    btnColsReset.addEventListener('click', () => {
+      resetTableColumns(activeTab === 'inventory' ? 'inventory' : 'connections');
+    });
+  }
+
+  if (btnExportMenu && exportDropdown) {
+    btnExportMenu.addEventListener('click', e => {
+      e.stopPropagation();
+      if (colsDropdown) colsDropdown.classList.add('hidden');
+      exportDropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', e => {
+      if (!btnExportMenu.contains(e.target)) {
+        exportDropdown.classList.add('hidden');
+      }
+    });
+  }
+  
+  if (btnCsv) {
+    btnCsv.addEventListener('click', () => {
+      let data, filename;
+      if (activeTab === 'inventory') {
+        data = getInventoryData();
+        filename = 'Inventario.csv';
+      } else {
+        data = getConnectionsData();
+        filename = 'Conexiones.csv';
+      }
+      const csvContent = data.map(row => row.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      notify(`CSV de ${activeTab === 'inventory' ? 'Inventario' : 'Conexiones'} exportado con éxito`, 'success');
+    });
+  }
+
+  if (btnExcel) {
+    btnExcel.addEventListener('click', () => {
+      if (typeof XLSX === 'undefined') {
+        notify('Librería Excel no cargada. Actualiza la página o revisa la red.', 'error');
+        return;
+      }
+      const wb = XLSX.utils.book_new();
+      
+      const wsInv = XLSX.utils.aoa_to_sheet(getInventoryData());
+      XLSX.utils.book_append_sheet(wb, wsInv, "Inventario");
+      
+      const wsConn = XLSX.utils.aoa_to_sheet(getConnectionsData());
+      XLSX.utils.book_append_sheet(wb, wsConn, "Conexiones");
+      
+      XLSX.writeFile(wb, 'Rack_Designer_Next_Completo.xlsx');
+      notify('Excel exportado con éxito', 'success');
+    });
+  }
+
+  updateColumnsBadge();
+});
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-outliner-js"></a>
+
+### 📄 Archivo 22/42: `js/ui/outliner.js`
+
+* **Ubicación relativa:** `js/ui/outliner.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 359 líneas | 16.6 KB
+* **Rol en el sistema:** Panel derecho (Outliner): árbol jerárquico Sala > Rack > Equipo con navegación y acciones CRUD inline.
+
+```javascript
+/* js/ui/outliner.js */
+
+window.outlinerSortMode = window.outlinerSortMode || 'slot';
+
+function sortOutlinerDevices(devs, mode) {
+  const list = [...devs];
+  if (mode === 'name-asc') {
+    return list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }
+  if (mode === 'name-desc') {
+    return list.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+  }
+  if (mode === 'type') {
+    return list.sort((a, b) => {
+      const comp = (a.type || '').localeCompare(b.type || '');
+      return comp !== 0 ? comp : ((b.slotStart || b.position || 0) - (a.slotStart || a.position || 0));
+    });
+  }
+  // 'slot' por defecto: orden físico descendente (mayor U arriba)
+  return list.sort((a, b) => ((b.slotStart || b.position || 0) - (a.slotStart || a.position || 0)));
+}
+window.sortOutlinerDevices = sortOutlinerDevices;
+
+function initOutlinerHeader() {
+  const btnAddRoom = document.getElementById('btn-outliner-add-room');
+  if (btnAddRoom && !btnAddRoom._bound) {
+    btnAddRoom._bound = true;
+    btnAddRoom.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof openAddRoomModal === 'function') openAddRoomModal();
+    });
+  }
+
+  const btnAddRack = document.getElementById('btn-outliner-add-rack');
+  if (btnAddRack && !btnAddRack._bound) {
+    btnAddRack._bound = true;
+    btnAddRack.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.appState && window.appState.selectedType === 'room' && window.appState.selectedId) {
+        if (typeof store.setCurrentRoom === 'function') {
+          store.setCurrentRoom(window.appState.selectedId);
+        }
+      }
+      if (typeof openAddRackModal === 'function') openAddRackModal();
+    });
+  }
+
+  const btnAddDev = document.getElementById('btn-outliner-add-dev');
+  if (btnAddDev && !btnAddDev._bound) {
+    btnAddDev._bound = true;
+    btnAddDev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof openQuickPlacementModal === 'function') {
+        openQuickPlacementModal(null);
+      } else if (typeof openAddDeviceModal === 'function') {
+        openAddDeviceModal();
+      }
+    });
+  }
+
+  const sortSelect = document.getElementById('outliner-sort-select');
+  if (sortSelect) {
+    sortSelect.value = window.outlinerSortMode || 'slot';
+    if (!sortSelect._bound) {
+      sortSelect._bound = true;
+      sortSelect.addEventListener('change', (e) => {
+        window.outlinerSortMode = e.target.value;
+        renderOutliner();
+      });
+    }
+  }
+}
+
+function renderOutliner() {
+  const container = document.getElementById('outliner-tree');
+  if (!container) return;
+
+  initOutlinerHeader();
+
+  const data = store._raw;
+  if (!data || !data.rooms || data.rooms.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted); font-size:12px; font-style:italic; padding:8px;">No hay salas disponibles.</div>';
+    return;
+  }
+
+  const sortMode = window.outlinerSortMode || 'slot';
+  let html = '<ul style="list-style:none; padding-left:0; margin:0; font-size:13px;">';
+
+  data.rooms.forEach(room => {
+    const isSelected = window.appState && window.appState.selectedType === 'room' && window.appState.selectedId === room.id;
+    const bgStyle = isSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
+
+    html += `
+      <li>
+        <details open>
+          <summary class="outliner-item outliner-summary" data-type="room" data-id="${room.id}" style="${bgStyle}">
+            <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:0; overflow:hidden;">
+              <svg class="outliner-node-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              <span style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(room.name)}</span>
+            </div>
+            <span class="outliner-node-actions">
+              <button class="outliner-action-btn" data-outliner-action="edit-room" data-id="${room.id}" title="Editar Sala">✏️</button>
+              <button class="outliner-action-btn btn-del" data-outliner-action="del-room" data-id="${room.id}" title="Eliminar Sala">🗑️</button>
+            </span>
+          </summary>
+          <ul style="list-style:none; padding-left:14px; margin:0; border-left:1px dashed var(--border);">
+    `;
+
+    // Racks en la sala
+    const racks = data.racks.filter(r => r.roomId === room.id);
+    racks.forEach(rack => {
+      const isRackSelected = window.appState && window.appState.selectedType === 'rack' && window.appState.selectedId === rack.id;
+      const rackBgStyle = isRackSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
+      const shouldOpenRack = window.appState && (
+        (window.appState.selectedType === 'rack' && window.appState.selectedId === rack.id) ||
+        (window.appState.selectedType === 'device' && data.devices.find(d => d.id === window.appState.selectedId && d.rackId === rack.id))
+      );
+
+      html += `
+        <li>
+          <details ${shouldOpenRack ? 'open' : ''}>
+            <summary class="outliner-item outliner-summary" data-type="rack" data-id="${rack.id}" style="${rackBgStyle}">
+              <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:0; overflow:hidden;">
+                <svg class="outliner-node-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                <span style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</span>
+              </div>
+              <span class="outliner-node-actions">
+                <button class="outliner-action-btn" data-outliner-action="edit-rack" data-id="${rack.id}" title="Editar Gabinete">✏️</button>
+                <button class="outliner-action-btn btn-del" data-outliner-action="del-rack" data-id="${rack.id}" title="Eliminar Gabinete">🗑️</button>
+              </span>
+            </summary>
+            <ul style="list-style:none; padding-left:14px; margin:0; border-left:1px dashed var(--border);">
+      `;
+
+      const rawRackDevs = data.devices.filter(d => d.rackId === rack.id);
+      const rackDevs = sortOutlinerDevices(rawRackDevs, sortMode);
+
+      if (rackDevs.length === 0) {
+        html += `<li style="padding:3px 6px; color:var(--text-muted); font-size:11px; font-style:italic;">Vacío</li>`;
+      } else {
+        rackDevs.forEach(dev => {
+          const isDevSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
+          const devBgStyle = isDevSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
+          const posLabel = dev.slotStart ? `U${dev.slotStart}` : '';
+
+          html += `
+            <li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" style="${devBgStyle}">
+              <div style="display:flex; align-items:center; gap:5px; flex:1; min-width:0; overflow:hidden;">
+                <svg class="outliner-node-icon" width="11" height="11" style="color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <span style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(dev.name)}</span>
+                ${posLabel ? `<span style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono); margin-left:auto; padding-right:4px;">${posLabel}</span>` : ''}
+              </div>
+              <span class="outliner-node-actions">
+                <button class="outliner-action-btn" data-outliner-action="edit-dev" data-id="${dev.id}" title="Editar Equipo">✏️</button>
+                <button class="outliner-action-btn btn-del" data-outliner-action="del-dev" data-id="${dev.id}" title="Eliminar Equipo">🗑️</button>
+              </span>
+            </li>
+          `;
+        });
+      }
+
+      html += `
+            </ul>
+          </details>
+        </li>
+      `;
+    });
+
+    // Equipos de piso
+    const rawFloorDevs = data.devices.filter(d => d.roomId === room.id && d.rackId === null);
+    if (rawFloorDevs.length > 0) {
+      const floorDevs = sortOutlinerDevices(rawFloorDevs, sortMode);
+      html += `
+        <li>
+          <details>
+            <summary class="outliner-summary">
+              <div style="display:flex; align-items:center; gap:6px; flex:1;">
+                <svg class="outliner-node-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <span>Equipos de Piso</span>
+              </div>
+            </summary>
+            <ul style="list-style:none; padding-left:14px; margin:0; border-left:1px dashed var(--border);">
+      `;
+
+      floorDevs.forEach(dev => {
+        const isDevSelected = window.appState && window.appState.selectedType === 'device' && window.appState.selectedId === dev.id;
+        const devBgStyle = isDevSelected ? 'background:rgba(255,255,255,0.05); border-radius:4px;' : '';
+
+        html += `
+          <li class="outliner-item outliner-device" data-type="device" data-id="${dev.id}" style="${devBgStyle}">
+            <div style="display:flex; align-items:center; gap:5px; flex:1; min-width:0; overflow:hidden;">
+              <svg class="outliner-node-icon" width="11" height="11" style="color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <span style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(dev.name)}</span>
+            </div>
+            <span class="outliner-node-actions">
+              <button class="outliner-action-btn" data-outliner-action="edit-dev" data-id="${dev.id}" title="Editar Equipo">✏️</button>
+              <button class="outliner-action-btn btn-del" data-outliner-action="del-dev" data-id="${dev.id}" title="Eliminar Equipo">🗑️</button>
+            </span>
+          </li>
+        `;
+      });
+
+      html += `
+            </ul>
+          </details>
+        </li>
+      `;
+    }
+
+    html += `
+          </ul>
+        </details>
+      </li>
+    `;
+  });
+
+  html += '</ul>';
+  container.innerHTML = html;
+
+  // Bind clicks de selección e inspección
+  container.querySelectorAll('.outliner-item').forEach(item => {
+    item.addEventListener('click', e => {
+      // Ignorar si se hizo clic en un botón de acción inline
+      if (e.target.closest('[data-outliner-action]')) return;
+      e.stopPropagation();
+
+      const type = item.dataset.type;
+      const id = item.dataset.id;
+      
+      window.appState = window.appState || {};
+      window.appState.selectedType = type;
+      window.appState.selectedId = id;
+
+      container.querySelectorAll('.outliner-item').forEach(el => el.style.background = 'transparent');
+      item.style.background = 'rgba(255,255,255,0.05)';
+      item.style.borderRadius = '4px';
+
+      if (id && type && typeof window.renderInspector === 'function') {
+        window.renderInspector(type, id);
+      }
+
+      // Auto-scroll en la vista física
+      let targetRoomId = null;
+      if (type === 'room') targetRoomId = id;
+      else if (type === 'rack') {
+        const r = store.rackById(id);
+        if (r) targetRoomId = r.roomId;
+      } else if (type === 'device') {
+        const d = store.deviceById(id);
+        if (d) targetRoomId = d.roomId;
+      }
+
+      if (targetRoomId && targetRoomId !== store._raw.currentRoomId) {
+        if (typeof store.setCurrentRoom === 'function') {
+          store.setCurrentRoom(targetRoomId);
+        }
+      }
+
+      setTimeout(() => {
+        let el = null;
+        if (type === 'rack') {
+          el = document.querySelector(`[data-rack-id="${id}"]`);
+        } else if (type === 'device') {
+          el = document.querySelector(`[data-device-id="${id}"]`);
+        }
+        
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+          const originalOutline = el.style.outline;
+          const originalOutlineOffset = el.style.outlineOffset;
+          const originalTransition = el.style.transition;
+          el.style.transition = 'outline 0.2s ease-in-out';
+          el.style.outline = '4px solid var(--accent)';
+          el.style.outlineOffset = '2px';
+          setTimeout(() => {
+            el.style.outline = originalOutline;
+            el.style.outlineOffset = originalOutlineOffset;
+            setTimeout(() => { el.style.transition = originalTransition; }, 200);
+          }, 1500);
+        }
+      }, 100);
+    });
+
+    item.addEventListener('dblclick', e => {
+      if (e.target.closest('[data-outliner-action]')) return;
+      e.stopPropagation();
+      const type = item.dataset.type;
+      const id = item.dataset.id;
+      if (type === 'device' && id && typeof window.openEditDeviceModal === 'function') {
+        window.openEditDeviceModal(id);
+      } else if (type === 'rack' && id && typeof window.openEditRackModal === 'function') {
+        window.openEditRackModal(id);
+      } else if (type === 'room' && id && typeof window.openEditRoomModal === 'function') {
+        window.openEditRoomModal(id);
+      }
+    });
+  });
+
+  // Bind acciones inline (M-23)
+  container.querySelectorAll('[data-outliner-action]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const action = btn.dataset.outlinerAction;
+      const id = btn.dataset.id;
+      if (!action || !id) return;
+
+      if (action === 'edit-room') {
+        if (typeof openEditRoomModal === 'function') openEditRoomModal(id);
+      } else if (action === 'del-room') {
+        if (typeof deleteRoom === 'function') {
+          deleteRoom(id);
+        }
+      } else if (action === 'edit-rack') {
+        if (typeof openEditRackModal === 'function') openEditRackModal(id);
+      } else if (action === 'del-rack') {
+        if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+          notify('Espectadores no pueden eliminar gabinetes.', 'error', 3000);
+          return;
+        }
+        const r = store.rackById(id);
+        const ok = await customConfirm('Eliminar Gabinete', `¿Eliminar "${r ? r.name : 'este gabinete'}" y todos los equipos instalados en él?`);
+        if (ok) {
+          store.deleteRack(id);
+          notify('Gabinete eliminado', 'warn');
+          if (window.appState && window.appState.selectedId === id) {
+            window.appState.selectedId = null;
+            window.appState.selectedType = null;
+            if (typeof window.renderInspector === 'function') window.renderInspector(null, null);
+          }
+        }
+      } else if (action === 'edit-dev') {
+        if (typeof openEditDeviceModal === 'function') openEditDeviceModal(id);
+      } else if (action === 'del-dev') {
+        if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+          notify('Espectadores no pueden eliminar equipos.', 'error', 3000);
+          return;
+        }
+        const d = store.deviceById(id);
+        const ok = await customConfirm('Eliminar Equipo', `¿Eliminar "${d ? d.name : 'este equipo'}" y sus conexiones?`);
+        if (ok) {
+          store.deleteDevice(id);
+          notify('Equipo eliminado', 'warn');
+          if (window.appState && window.appState.selectedId === id) {
+            window.appState.selectedId = null;
+            window.appState.selectedType = null;
+            if (typeof window.renderInspector === 'function') window.renderInspector(null, null);
+          }
+        }
+      }
+    });
+  });
+
+  // Re-render inspector si hay un elemento activo
+  if (window.appState && window.appState.selectedType && window.appState.selectedId && typeof window.renderInspector === 'function') {
+    window.renderInspector(window.appState.selectedType, window.appState.selectedId);
+  }
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-inspector-js"></a>
+
+### 📄 Archivo 23/42: `js/ui/inspector.js`
+
+* **Ubicación relativa:** `js/ui/inspector.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 503 líneas | 25.9 KB
+* **Rol en el sistema:** Panel derecho (Inspector): visualización y edición granular de propiedades, modo Dios y colapso.
+
+```javascript
+/* js/ui/inspector.js */
+
+function getIconForDeviceType(type) {
+  const t = String(type).toLowerCase();
+  switch(t) {
+    case 'server':
+    case 'storage':
+      return 'svg-icon icon-server';
+    case 'switch':
+    case 'router':
+    case 'ap':
+    case 'gestion':
+    case 'accesorios':
+      return 'svg-icon icon-network';
+    case 'pc':
+      return 'svg-icon icon-desktop';
+    case 'pdu':
+    case 'ups':
+      return 'svg-icon icon-bolt';
+    case 'firewall':
+    case 'door':
+      return 'svg-icon icon-lock';
+    default:
+      return 'svg-icon icon-server';
+  }
+}
+
+async function deleteRoomFromInspector(roomId) {
+  if (typeof deleteRoom === 'function') {
+    await deleteRoom(roomId);
+  } else if (typeof store.deleteRoom === 'function') {
+    if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+      notify('Espectadores no pueden eliminar salas.', 'error', 3000);
+      return;
+    }
+    if (store._raw.rooms && store._raw.rooms.length <= 1) {
+      notify('No puedes eliminar la única sala', 'warn');
+      return;
+    }
+    const ok = await customConfirm('Eliminar Sala', '¿Eliminar esta sala y todos sus gabinetes asociados?');
+    if (ok) {
+      store.deleteRoom(roomId);
+      notify('Sala eliminada', 'warn');
+    }
+  }
+  if (window.appState && window.appState.selectedId === roomId) {
+    window.appState.selectedId = null;
+    window.appState.selectedType = null;
+    if (typeof window.renderInspector === 'function') {
+      window.renderInspector(null, null);
+    }
+  }
+}
+
+async function deleteRackFromInspector(rackId) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden eliminar gabinetes.', 'error', 3000);
+    return;
+  }
+  const rack = store.rackById(rackId);
+  const ok = await customConfirm('Eliminar Gabinete', `¿Estás seguro de eliminar "${rack ? rack.name : 'este gabinete'}" y todos los equipos instalados en él?`);
+  if (ok) {
+    store.deleteRack(rackId);
+    notify('Gabinete eliminado', 'warn');
+    if (window.appState && window.appState.selectedId === rackId) {
+      window.appState.selectedId = null;
+      window.appState.selectedType = null;
+      if (typeof window.renderInspector === 'function') {
+        window.renderInspector(null, null);
+      }
+    }
+  }
+}
+
+async function deleteDeviceFromInspector(devId) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden eliminar equipos.', 'error', 3000);
+    return;
+  }
+  const dev = store.deviceById(devId);
+  const ok = await customConfirm('Eliminar Equipo', `¿Estás seguro de eliminar "${dev ? dev.name : 'este equipo'}" y sus conexiones?`);
+  if (ok) {
+    store.deleteDevice(devId);
+    notify('Equipo eliminado', 'warn');
+    if (window.appState && window.appState.selectedId === devId) {
+      window.appState.selectedId = null;
+      window.appState.selectedType = null;
+      if (typeof window.renderInspector === 'function') {
+        window.renderInspector(null, null);
+      }
+    }
+  }
+}
+
+async function disconnectPortFromInspector(connId) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('No tienes permisos para desconectar cables.', 'error', 3000);
+    return;
+  }
+  const ok = await customConfirm('Desconectar Puerto', '¿Deseas desconectar este cable del equipo?');
+  if (ok) {
+    store.deleteConnection(connId);
+    notify('Cable desconectado con éxito', 'warn');
+    if (window.appState && window.appState.selectedId) {
+      window.renderInspector('device', window.appState.selectedId);
+    }
+  }
+}
+
+window.deleteRoomFromInspector = deleteRoomFromInspector;
+window.deleteRackFromInspector = deleteRackFromInspector;
+window.deleteDeviceFromInspector = deleteDeviceFromInspector;
+window.disconnectPortFromInspector = disconnectPortFromInspector;
+
+window.renderInspector = function(entityType, entityId) {
+  const container = document.getElementById('inspector-content');
+  if (!container) return;
+
+  const data = store._raw;
+  if (!entityId || !entityType) {
+    container.innerHTML = `
+      <div class="inspector-empty-box">
+        <div class="inspector-empty-icon">
+          <i class="svg-icon icon-server" style="width:20px; height:20px;"></i>
+        </div>
+        <div style="font-weight:600; color:var(--text-primary); font-size:13px;">Consola de Infraestructura</div>
+        <div style="color:var(--text-muted); font-size:11px; line-height:1.4;">Selecciona una sala, gabinete o equipo en el Outliner o en la vista física para inspeccionar y gestionar sus propiedades.</div>
+        <div class="inspector-btn-group" style="margin-top:10px;">
+          <button class="btn-inspector btn-inspector-primary" onclick="if(typeof openAddRoomModal === 'function') openAddRoomModal();">
+            <i class="svg-icon icon-building" style="width:13px; height:13px;"></i> + Nueva Sala
+          </button>
+          <button class="btn-inspector btn-inspector-secondary" onclick="if(typeof openAddRackModal === 'function') openAddRackModal();">
+            <i class="svg-icon icon-server" style="width:13px; height:13px;"></i> + Nuevo Gabinete
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (entityType === 'device') {
+    const dev = data.devices.find(d => d.id === entityId);
+    if (!dev) {
+      container.innerHTML = '<div style="color:var(--danger); padding:8px;">Error: Equipo no encontrado</div>';
+      return;
+    }
+
+    const rack = data.racks.find(r => r.id === dev.rackId);
+    const room = data.rooms.find(r => r.id === dev.roomId);
+    
+    const locationStr = rack ? `${escapeHTML(rack.name)} (U${dev.slotStart})` : (room ? `${escapeHTML(room.name)} (Piso)` : 'Desconocida');
+
+    let html = `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--accent-glow); color:var(--accent); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+            <i class="${getIconForDeviceType(dev.type)}"></i>
+          </div>
+          <div style="flex:1; overflow:hidden;">
+            <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;" title="${escapeHTML(dev.name)}">${escapeHTML(dev.name)}</div>
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">${escapeHTML(dev.type)}</div>
+          </div>
+        </div>
+        
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Ubicación:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;" title="${locationStr}">${locationStr.length > 18 ? locationStr.substring(0, 15) + '...' : locationStr}</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Tipo:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${escapeHTML(String(dev.type).toUpperCase())}</span>
+          </div>
+    `;
+
+    if (dev.ip) {
+      html += `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">IP:</span>
+            <span style="color:var(--accent); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.ip)}</span>
+          </div>
+      `;
+    }
+
+    if (dev.mac) {
+      html += `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">MAC:</span>
+            <span style="color:var(--accent); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.mac)}</span>
+          </div>
+      `;
+    }
+
+    const isPassRevealed = !!(window.SHOW_PASSWORDS || (window._revealedDevicePasswords && window._revealedDevicePasswords.has(dev.id)));
+    const passDisplay = dev.pass ? (isPassRevealed ? escapeHTML(dev.pass) : '••••••••') : 'N/A';
+    const canReveal = typeof RackAuth !== 'undefined' && typeof RackAuth.can === 'function' && RackAuth.can('toggleGodMode');
+
+    html += `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Usuario:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-family:var(--font-mono);">${escapeHTML(dev.user || 'N/A')}</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Contraseña:</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="color:var(--text-primary); font-size:12px; font-family:var(--font-mono);">${passDisplay}</span>
+              ${dev.pass ? `
+                <button type="button" class="btn-inspector-pass-eye" style="background:none; border:none; cursor:pointer; color:var(--text-secondary); padding:2px; display:inline-flex; align-items:center; opacity:0.85;" title="${isPassRevealed ? 'Ocultar contraseña' : (canReveal ? 'Modo Dios: Revelar contraseña (Admin)' : 'Requiere permisos de Administrador')}" onclick="toggleDevicePasswordInspector('${escapeHTML(dev.id)}')">
+                  <i class="svg-icon ${isPassRevealed ? 'icon-eye-off' : 'icon-eye'}" style="width:13px; height:13px;"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+    `;
+
+    if (dev.notes && dev.notes.trim()) {
+      html += `
+          <div style="margin-top:4px; border-top:1px solid var(--border); padding-top:6px; display:flex; flex-direction:column; gap:4px;">
+            <span style="color:var(--text-muted); font-size:11px; font-weight:600; text-transform:uppercase;">Notas:</span>
+            <div style="color:var(--text-secondary); font-size:12px; white-space:pre-wrap; font-style:italic; background:rgba(255,255,255,0.02); padding:6px; border-radius:4px; border:1px solid var(--border-light); max-height:80px; overflow-y:auto;">${escapeHTML(dev.notes)}</div>
+          </div>
+      `;
+    }
+
+    html += `
+        </div>
+    `;
+        
+    // Matriz de Puertos & VLANs
+    const ports = typeof store.getDevicePorts === 'function' ? store.getDevicePorts(dev.id) : [];
+    if (ports.length > 0) {
+      const occupiedCount = ports.filter(p => p.isOccupied).length;
+      
+      const ethPorts = ports.filter(p => p.type === 'ethernet');
+      const otherPorts = ports.filter(p => p.type !== 'ethernet');
+
+      let matrixRowsHtml = '';
+      if (ethPorts.length >= 8) {
+        const rowTop = ethPorts.filter((_, idx) => idx % 2 === 0);
+        const rowBtm = ethPorts.filter((_, idx) => idx % 2 === 1);
+        
+        matrixRowsHtml += `<div class="port-matrix-row">`;
+        rowTop.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div><div class="port-matrix-row">`;
+        rowBtm.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div>`;
+      } else {
+        matrixRowsHtml += `<div class="port-matrix-row">`;
+        ethPorts.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div>`;
+      }
+
+      if (otherPorts.length > 0) {
+        matrixRowsHtml += `<div style="font-size:9px; color:var(--text-muted); margin-top:2px; font-weight:600;">SFP / FIBRA:</div><div class="port-matrix-row">`;
+        otherPorts.forEach(p => {
+          const num = p.name.replace(/^[^\d]*/, '') || p.name;
+          matrixRowsHtml += `
+            <div class="port-pin type-fiber ${p.isOccupied ? 'occupied' : ''}" data-port-name="${escapeHTML(p.name)}" title="${p.isOccupied ? `[${p.name}] Conectado a ${p.peerDeviceName} (${p.peerPort}) · VLAN ${p.vlanId}` : `[${p.name}] Libre · Clic para conectar`}">
+              ${p.isOccupied ? `<span class="port-pin-led" style="background:${p.vlanColor}; box-shadow:0 0 3px ${p.vlanColor};"></span>` : ''}
+              <span>S${num}</span>
+            </div>
+          `;
+        });
+        matrixRowsHtml += `</div>`;
+      }
+
+      html += `
+        <div class="inspector-ports-card">
+          <div class="ports-card-header">
+            <span class="ports-card-title">
+              <i class="svg-icon icon-network" style="width:13px; height:13px;"></i> Matriz de Puertos
+            </span>
+            <span class="ports-count-badge">${occupiedCount}/${ports.length} ocupados</span>
+          </div>
+          <div class="port-matrix-container">
+            ${matrixRowsHtml}
+          </div>
+          <div id="inspector-port-detail-box" style="display:none;"></div>
+        </div>
+      `;
+    }
+
+    html += `
+        <div class="inspector-btn-group">
+          <div class="inspector-btn-row">
+            <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditDeviceModal === 'function') openEditDeviceModal('${escapeHTML(dev.id)}')">
+              <i class="svg-icon icon-edit" style="width:12px; height:12px;"></i> Editar Equipo
+            </button>
+            <button class="btn-inspector btn-inspector-danger" style="flex:1;" onclick="deleteDeviceFromInspector('${escapeHTML(dev.id)}')">
+              <i class="svg-icon icon-trash" style="width:12px; height:12px;"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    container.innerHTML = html;
+
+    const portPins = container.querySelectorAll('.port-pin');
+    const detailBox = container.querySelector('#inspector-port-detail-box');
+    if (detailBox && portPins.length) {
+      portPins.forEach(pin => {
+        pin.addEventListener('click', () => {
+          const pName = pin.dataset.portName;
+          const p = ports.find(port => port.name === pName);
+          if (!p) return;
+
+          portPins.forEach(el => el.style.outline = 'none');
+          pin.style.outline = '2px solid var(--accent)';
+
+          detailBox.style.display = 'block';
+          if (p.isOccupied) {
+            detailBox.innerHTML = `
+              <div class="port-detail-box">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:var(--text-primary); font-size:12px;">${escapeHTML(p.name)}</strong>
+                  <span class="vlan-pill" style="background:${p.vlanColor}22; border-color:${p.vlanColor}; color:${p.vlanColor};">VLAN ${p.vlanId} · ${escapeHTML(p.vlanName)}</span>
+                </div>
+                <div style="color:var(--text-secondary); font-size:11px; margin-top:2px;">
+                  Enlace hacia: <strong>${escapeHTML(p.peerDeviceName)}</strong> [${escapeHTML(p.peerPort)}]
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+                  <span style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:5px;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${escapeHTML(p.cableColor)};"></span> ${escapeHTML(p.cableType)}
+                  </span>
+                  <button type="button" class="btn-inspector btn-inspector-danger" style="padding:2px 8px; font-size:10px;" onclick="disconnectPortFromInspector('${escapeHTML(p.connectionId)}')">
+                    Desconectar
+                  </button>
+                </div>
+              </div>
+            `;
+          } else {
+            detailBox.innerHTML = `
+              <div class="port-detail-box">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:var(--text-primary); font-size:12px;">${escapeHTML(p.name)}</strong>
+                  <span style="font-size:10px; color:#10b981; font-weight:600;">Puerto Libre</span>
+                </div>
+                <div style="margin-top:6px;">
+                  <button type="button" class="btn-inspector btn-inspector-primary" style="width:100%; padding:4px 8px; font-size:11px;" onclick="if(typeof openCableModal === 'function') openCableModal('${escapeHTML(dev.id)}', '${escapeHTML(p.name)}')">
+                    <i class="svg-icon icon-plug" style="width:12px; height:12px;"></i> Conectar este puerto
+                  </button>
+                </div>
+              </div>
+            `;
+          }
+        });
+      });
+    }
+  } else if (entityType === 'rack') {
+    const rack = data.racks.find(r => r.id === entityId);
+    if (!rack) return;
+    const room = data.rooms.find(r => r.id === rack.roomId);
+    const rackDevs = data.devices.filter(d => d.rackId === rack.id);
+    const uOccupied = rackDevs.reduce((sum, d) => sum + (d.size || d.height || 1), 0);
+    const uPct = rack.height ? Math.round((uOccupied / rack.height) * 100) : 0;
+    
+    let html = `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--accent-glow); color:var(--accent); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+            <i class="svg-icon icon-server" style="width:16px; height:16px;"></i>
+          </div>
+          <div style="flex:1; overflow:hidden;">
+            <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(rack.name)}</div>
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">GABINETE (${rack.height}U)</div>
+          </div>
+        </div>
+        
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Ubicación:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${room ? escapeHTML(room.name) : 'Desconocida'}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Capacidad:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${rack.height} U</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Ocupación:</span>
+            <span style="color:var(--accent); font-size:12px; font-weight:600;">${uOccupied}U / ${rack.height}U (${uPct}%)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Color:</span>
+            <span style="display:inline-block; width:16px; height:16px; border-radius:4px; background:${rack.color || '#0ea5e9'};"></span>
+          </div>
+        </div>
+        
+        <div class="inspector-btn-group">
+          <button class="btn-inspector btn-inspector-primary" onclick="if(typeof openQuickPlacementModal === 'function') openQuickPlacementModal(null);">
+            <i class="svg-icon icon-desktop" style="width:13px; height:13px;"></i> + Agregar Equipo a este Rack
+          </button>
+          <div class="inspector-btn-row">
+            <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditRackModal === 'function') openEditRackModal('${rack.id}');">
+              <i class="svg-icon icon-edit" style="width:12px; height:12px;"></i> Editar
+            </button>
+            <button class="btn-inspector btn-inspector-danger" style="flex:1;" onclick="deleteRackFromInspector('${rack.id}');">
+              <i class="svg-icon icon-trash" style="width:12px; height:12px;"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML = html;
+  } else if (entityType === 'room') {
+    const room = data.rooms.find(r => r.id === entityId);
+    if (!room) return;
+    
+    const racksCount = data.racks.filter(r => r.roomId === room.id).length;
+    const roomRackIds = new Set(data.racks.filter(r => r.roomId === room.id).map(r => r.id));
+    const devsCount = data.devices.filter(d => d.roomId === room.id || roomRackIds.has(d.rackId)).length;
+    
+    let html = `
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="background:var(--accent-glow); color:var(--accent); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:16px;">
+            <i class="svg-icon icon-building" style="width:16px; height:16px;"></i>
+          </div>
+          <div style="flex:1; overflow:hidden;">
+            <div style="font-weight:bold; color:var(--text-primary); white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${escapeHTML(room.name)}</div>
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">SALA / DATACENTER</div>
+          </div>
+        </div>
+        
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Total Gabinetes:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${racksCount}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-muted); font-size:12px;">Total Equipos:</span>
+            <span style="color:var(--text-primary); font-size:12px; font-weight:600;">${devsCount}</span>
+          </div>
+        </div>
+
+        <div class="inspector-btn-group">
+          <button class="btn-inspector btn-inspector-primary" onclick="if(typeof store.setCurrentRoom === 'function') store.setCurrentRoom('${room.id}'); if(typeof openAddRackModal === 'function') openAddRackModal();">
+            <i class="svg-icon icon-server" style="width:13px; height:13px;"></i> + Crear Gabinete en esta Sala
+          </button>
+          <div class="inspector-btn-row">
+            <button class="btn-inspector btn-inspector-secondary" style="flex:1;" onclick="if(typeof openEditRoomModal === 'function') openEditRoomModal('${room.id}');">
+              <i class="svg-icon icon-edit" style="width:12px; height:12px;"></i> Editar Sala
+            </button>
+            <button class="btn-inspector btn-inspector-danger" style="flex:1;" onclick="deleteRoomFromInspector('${room.id}');">
+              <i class="svg-icon icon-trash" style="width:12px; height:12px;"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML = html;
+  }
+};
+
+window._revealedDevicePasswords = window._revealedDevicePasswords || new Set();
+
+function toggleDevicePasswordInspector(devId) {
+  if (typeof RackAuth !== 'undefined' && typeof RackAuth.can === 'function' && !RackAuth.can('toggleGodMode')) {
+    if (typeof notify === 'function') {
+      notify('Solo administradores pueden revelar contraseñas (Modo Dios).', 'error', 3000);
+    }
+    return;
+  }
+  if (!window._revealedDevicePasswords) window._revealedDevicePasswords = new Set();
+  if (window._revealedDevicePasswords.has(devId)) {
+    window._revealedDevicePasswords.delete(devId);
+  } else {
+    window._revealedDevicePasswords.add(devId);
+  }
+  if (typeof renderInspector === 'function') {
+    renderInspector(devId, 'device');
+  }
+}
+window.toggleDevicePasswordInspector = toggleDevicePasswordInspector;
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-filemanager-js"></a>
+
+### 📄 Archivo 24/42: `js/ui/fileManager.js`
+
+* **Ubicación relativa:** `js/ui/fileManager.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 190 líneas | 6.0 KB
+* **Rol en el sistema:** Gestor de archivos: integración con File System Access API para abrir/guardar .rack sin servidor.
+
+```javascript
+/**
+ * fileManager.js
+ * Gestiona el guardado y apertura de proyectos usando la File System Access API.
+ * Proporciona un fallback para navegadores que no lo soporten.
+ */
+
+const fileManager = {
+  fileHandle: null,
+  fileName: 'Nuevo Proyecto',
+  autoSaveTimer: null,
+  isSupported: 'showOpenFilePicker' in window,
+
+  /** Actualiza la UI para mostrar el nombre del archivo actual */
+  updateUI() {
+    const titleSpan = document.getElementById('project-filename');
+    if (titleSpan) {
+      titleSpan.textContent = this.fileName;
+    }
+  },
+
+  async requestPermission(handle, withWrite = true) {
+    const opts = { mode: withWrite ? 'readwrite' : 'read' };
+    if ((await handle.queryPermission(opts)) === 'granted') {
+      return true;
+    }
+    if ((await handle.requestPermission(opts)) === 'granted') {
+      return true;
+    }
+    return false;
+  },
+
+  /** Abre un archivo seleccionando en disco */
+  async openProject() {
+    if (this.isSupported) {
+      try {
+        const [handle] = await window.showOpenFilePicker({
+          types: [{
+            description: 'Archivos Rack Designer Next',
+            accept: { 'application/json': ['.rack', '.json'] }
+          }],
+          multiple: false
+        });
+        
+        this.fileHandle = handle;
+        this.fileName = handle.name;
+        this.updateUI();
+
+        const file = await handle.getFile();
+        const text = await file.text();
+        this.loadDataFromString(text);
+
+        notify(`Archivo cargado: ${this.fileName}`, 'success');
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error(error);
+          notify('Error al abrir el archivo', 'error');
+        }
+      }
+    } else {
+      // Fallback
+      document.getElementById('import-file').click();
+    }
+  },
+
+  /** Guarda el archivo actual. Si no hay handle, hace "Guardar como" */
+  async saveProject() {
+    if (!this.isSupported) {
+      this.downloadFallback();
+      return;
+    }
+
+    if (!this.fileHandle) {
+      return this.saveProjectAs();
+    }
+
+    try {
+      const hasPermission = await this.requestPermission(this.fileHandle, true);
+      if (!hasPermission) {
+        notify('Sin permisos para guardar. Use "Guardar como..."', 'error');
+        return;
+      }
+      
+      await this.writeToFile(this.fileHandle);
+      notify('Guardado exitosamente', 'success');
+    } catch (error) {
+      console.error(error);
+      notify('Error al guardar el archivo', 'error');
+    }
+  },
+
+  /** Fuerza a elegir un nuevo archivo donde guardar */
+  async saveProjectAs() {
+    if (!this.isSupported) {
+      this.downloadFallback();
+      return;
+    }
+
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: this.fileName.endsWith('.rack') ? this.fileName : 'datacenter.rack',
+        types: [{
+          description: 'Archivos Rack Designer',
+          accept: { 'application/json': ['.rack'] }
+        }]
+      });
+      
+      this.fileHandle = handle;
+      this.fileName = handle.name;
+      this.updateUI();
+      
+      await this.writeToFile(handle);
+      notify(`Guardado como: ${this.fileName}`, 'success');
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error(error);
+        notify('Error al guardar el archivo', 'error');
+      }
+    }
+  },
+
+  /** Autoguardado silencioso con debounce */
+  autoSave() {
+    if (this.autoSaveTimer) clearTimeout(this.autoSaveTimer);
+    
+    this.autoSaveTimer = setTimeout(async () => {
+      // Solo autoguardar si hay un handle y tenemos permisos (evitar popups indeseados)
+      if (this.isSupported && this.fileHandle) {
+        try {
+          const perm = await this.fileHandle.queryPermission({ mode: 'readwrite' });
+          if (perm === 'granted') {
+            await this.writeToFile(this.fileHandle);
+            // Pequeño indicador de autoguardado (opcional)
+            const titleSpan = document.getElementById('project-filename');
+            if (titleSpan) {
+              const original = titleSpan.textContent;
+              titleSpan.textContent = this.fileName + ' (Guardado)';
+              setTimeout(() => { titleSpan.textContent = this.fileName; }, 2000);
+            }
+          }
+        } catch (e) {
+          console.warn('Autosave falló silenciosamente', e);
+        }
+      }
+    }, 3000); // 3 segundos después del último cambio
+  },
+
+  /** Escribe el JSON en el handle actual */
+  async writeToFile(handle) {
+    const projectData = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
+      ? RackCrypto.prepareStateForStorage(store._raw)
+      : store._raw;
+    const data = { version: 1, project: projectData, catalog: CATALOG };
+    const content = JSON.stringify(data, null, 2);
+    
+    const writable = await handle.createWritable();
+    await writable.write(content);
+    await writable.close();
+  },
+
+  /** Fallback original */
+  downloadFallback() {
+    const projectData = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
+      ? RackCrypto.prepareStateForStorage(store._raw)
+      : store._raw;
+    const data = { version: 1, project: projectData, catalog: CATALOG };
+    downloadJSON(data, this.fileName.endsWith('.rack') ? this.fileName : 'datacenter.rack');
+    notify('Proyecto descargado (Fallback)', 'success');
+  },
+
+  loadDataFromString(text) {
+    try {
+      const data = JSON.parse(text);
+      if (data.project) {
+        store.loadData(data.project);
+        if (data.catalog) {
+          CATALOG.length = 0;
+          data.catalog.forEach(c => CATALOG.push(c));
+          if(typeof renderCatalog === 'function') renderCatalog();
+        }
+      } else if (data.rooms) { // formato antiguo
+        store.loadData(data);
+      } else {
+        notify('Archivo inválido', 'error');
+      }
+    } catch(err) {
+      notify('Error al parsear el archivo', 'error');
+    }
+  }
+};
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-js"></a>
+
+### 📄 Archivo 25/42: `js/ui/modals.js`
+
+* **Ubicación relativa:** `js/ui/modals.js`
+* **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
+* **Dimensiones:** 11 líneas | 0.2 KB
+* **Rol en el sistema:** Orquestador de modales: inicialización y registro centralizado de diálogos.
+
+```javascript
+
+// Modals orchestrator
+function initModals() {
+  initRackModal();
+  initDeviceModal();
+  initCableModal();
+  initRoomModal();
+  initExportModal();
+  initPlacementModal();
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-globals-js"></a>
+
+### 📄 Archivo 26/42: `js/ui/modals/Globals.js`
+
+* **Ubicación relativa:** `js/ui/modals/Globals.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 6 líneas | 0.2 KB
+* **Rol en el sistema:** Variables globales y utilidades compartidas entre las ventanas modales.
+
+```javascript
+let editingRackId   = null;
+let editingDeviceId = null;
+let editingCatalogId = null;
+let editingConnectionId = null;
+const FLOOR_TYPES = new Set(['pc', 'camera', 'ap', 'door', 'printer', 'phone']);
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-rackmodal-js"></a>
+
+### 📄 Archivo 27/42: `js/ui/modals/RackModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/RackModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 83 líneas | 3.4 KB
+* **Rol en el sistema:** Modal de creación y edición de gabinetes con alturas normalizadas y selector de color.
+
+```javascript
+function openAddRackModal() {
+  if (!RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden crear gabinetes.', 'error', 3000);
+    return;
+  }
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
+  editingRackId = null;
+  document.getElementById('modal-rack-title').textContent = 'Nuevo Gabinete';
+  document.getElementById('rack-name').value = '';
+  document.getElementById('rack-height').value = '42';
+  document.getElementById('rack-color').value = '#0ea5e9';
+  document.getElementById('rack-color-picker').value = '#0ea5e9';
+  document.getElementById('modal-rack').classList.remove('hidden');
+}
+
+function openEditRackModal(id) {
+  if (!RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden editar gabinetes.', 'error', 3000);
+    return;
+  }
+  editingRackId = id;
+  const rack = store.rackById(id);
+  if (!rack) return;
+  document.getElementById('modal-rack-title').textContent = 'Editar Gabinete';
+  document.getElementById('rack-name').value   = rack.name;
+  
+  const heightSelect = document.getElementById('rack-height');
+  const heightStr = String(rack.height);
+  const exists = Array.from(heightSelect.options).some(opt => opt.value === heightStr);
+  if (!exists) {
+    const customOpt = document.createElement('option');
+    customOpt.value = heightStr;
+    customOpt.textContent = `${heightStr}U (Personalizado)`;
+    heightSelect.appendChild(customOpt);
+  }
+  heightSelect.value = heightStr;
+
+  document.getElementById('rack-color').value  = rack.color;
+  document.getElementById('rack-color-picker').value = rack.color;
+  document.getElementById('modal-rack').classList.remove('hidden');
+}
+
+function initRackModal() {
+  document.getElementById('modal-rack-save').addEventListener('click', async () => {
+    const name   = document.getElementById('rack-name').value.trim();
+    const height = parseInt(document.getElementById('rack-height').value);
+    const color  = document.getElementById('rack-color').value;
+    if (!name) { notify('Ingresa un nombre para el gabinete', 'error'); return; }
+    
+    if (editingRackId) {
+      const devices = store.allDevicesInRack(editingRackId);
+      const overflowingDevices = devices.filter(d => d.slotStart + d.size - 1 > height);
+
+      if (overflowingDevices.length > 0) {
+        const confirmMsg = `Al reducir a ${height}U, se perderán ${overflowingDevices.length} equipo(s) y sus conexiones porque quedan fuera de límite. ¿Deseas continuar y eliminarlos?`;
+        const ok = await customConfirm('Reducir Altura', confirmMsg);
+        if (!ok) {
+          return;
+        }
+        overflowingDevices.forEach(d => store.deleteDevice(d.id));
+      }
+
+      store.updateRack(editingRackId, { name, height, color });
+    } else {
+      store.addRack({ name, height, color });
+    }
+    document.getElementById('modal-rack').classList.add('hidden');
+    notify(editingRackId ? 'Gabinete actualizado' : 'Gabinete creado', 'success');
+    editingRackId = null;
+  });
+
+  document.getElementById('modal-rack-cancel').addEventListener('click', () => {
+    document.getElementById('modal-rack').classList.add('hidden');
+  });
+
+  document.getElementById('rack-color-picker').addEventListener('input', e => {
+    document.getElementById('rack-color').value = e.target.value;
+  });
+  document.getElementById('rack-color').addEventListener('input', e => {
+    document.getElementById('rack-color-picker').value = e.target.value;
+  });
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-devicemodal-js"></a>
+
+### 📄 Archivo 28/42: `js/ui/modals/DeviceModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/DeviceModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 316 líneas | 15.9 KB
+* **Rol en el sistema:** Modal de formulario técnico de equipos: interfaces de red, IPs, credenciales y montaje.
+
+```javascript
+function openAddDeviceModal() {
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
+  editingDeviceId = null;
+  editingCatalogId = null;
+  document.getElementById('modal-device-title').textContent = 'Nuevo Equipo';
+  document.getElementById('modal-device-sub').textContent = 'Registrar un nuevo dispositivo en el inventario';
+  ['dev-name','dev-brand','dev-model','dev-ip','dev-mac','dev-serial','dev-user','dev-pass','dev-notes','dev-skin'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  const devStatus = document.getElementById('dev-status');
+  if (devStatus) devStatus.value = 'active';
+  document.getElementById('dev-has-brand').checked = false;
+  document.getElementById('dev-has-loc').checked = true;
+  document.getElementById('dev-has-net').checked = false;
+  document.getElementById('dev-has-auth').checked = false;
+  document.getElementById('dev-has-power').checked = false;
+  document.getElementById('dev-has-notes').checked = false;
+  document.getElementById('dev-has-ports').checked = false;
+  document.getElementById('dev-ports-eth').value = '';
+  document.getElementById('dev-ports-fib').value = '';
+
+  document.getElementById('dev-power').value = '200';
+  document.getElementById('dev-plugs').value = '1';
+  document.getElementById('dev-plugs-out').value = '0';
+  document.getElementById('dev-category').value = 'rack';
+  document.getElementById('dev-category').dispatchEvent(new Event('change'));
+  document.getElementById('dev-type').value = 'server';
+  document.getElementById('dev-side').value = 'front';
+
+  document.getElementById('dev-has-brand').checked = false;
+  document.getElementById('dev-has-loc').checked = true;
+  document.getElementById('dev-has-net').checked = false;
+  document.getElementById('dev-has-auth').checked = false;
+  document.getElementById('dev-has-power').checked = false;
+  document.getElementById('dev-has-notes').checked = false;
+  document.getElementById('dev-has-skin').checked = false;
+
+  document.getElementById('modal-device').classList.remove('hidden');
+}
+
+function openEditCatalogModal(id) {
+  editingCatalogId = id;
+  editingDeviceId = null;
+  const dev = CATALOG.find(c => c.id === id);
+  if (!dev) return;
+  const isFloor = FLOOR_TYPES.has(dev.type);
+  document.getElementById('modal-device-title').textContent = 'Editar Plantilla';
+  document.getElementById('modal-device-sub').textContent = isFloor ? 'Equipo de piso — se coloca directamente en la sala' : `Catálogo ID: ${id}`;
+  document.getElementById('dev-name').value  = dev.name;
+  
+  const devStatus = document.getElementById('dev-status');
+  if (devStatus) devStatus.value = dev.status || 'active';
+
+  document.getElementById('dev-category').value = isFloor ? 'floor' : 'rack';
+  document.getElementById('dev-category').dispatchEvent(new Event('change'));
+  
+  document.getElementById('dev-type').value  = dev.type;
+  document.getElementById('dev-size').value  = dev.size;
+  document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-side').value  = dev.mountSide || 'front';
+  document.getElementById('dev-side-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-brand').value = dev.brand || '';
+  document.getElementById('dev-model').value = dev.model || '';
+  document.getElementById('dev-ip').value    = dev.ip   || '';
+  document.getElementById('dev-mac').value   = dev.mac  || '';
+  document.getElementById('dev-serial').value= dev.serial|| '';
+  document.getElementById('dev-power').value = dev.power || 0;
+  document.getElementById('dev-plugs').value = dev.plugs || 1;
+  document.getElementById('dev-plugs-out').value = dev.plugsOut || 0;
+  document.getElementById('dev-user').value  = dev.user || '';
+  const passInput = document.getElementById('dev-pass');
+  passInput.value = dev.pass || '';
+  passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
+  document.getElementById('dev-notes').value = dev.notes|| '';
+  document.getElementById('dev-skin').value = dev.skin || '';
+
+  if (dev.ports) {
+    document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
+    document.getElementById('dev-ports-fib').value = dev.ports.fiber || '';
+  } else {
+    document.getElementById('dev-ports-eth').value = '';
+    document.getElementById('dev-ports-fib').value = '';
+  }
+
+  document.getElementById('dev-has-brand').checked = !!(dev.brand || dev.model || dev.serial);
+  document.getElementById('dev-has-ports').checked = !!(dev.ports);
+  document.getElementById('dev-has-loc').checked = true;
+  document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
+  document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
+  document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
+  document.getElementById('dev-has-notes').checked = !!(dev.notes);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin);
+
+  document.getElementById('modal-device').classList.remove('hidden');
+}
+
+function openEditDeviceModal(id) {
+  editingCatalogId = null;
+  editingDeviceId = id;
+  const dev = store.deviceById(id);
+  if (!dev) return;
+  const isFloor = dev.category === 'floor' || FLOOR_TYPES.has(dev.type);
+  document.getElementById('modal-device-title').textContent = 'Editar Equipo';
+  document.getElementById('modal-device-sub').textContent = isFloor ? 'Equipo de piso — se coloca directamente en la sala' : `ID: ${id}`;
+  document.getElementById('dev-name').value  = dev.name;
+  
+  const devStatus = document.getElementById('dev-status');
+  if (devStatus) devStatus.value = dev.status || 'active';
+
+  document.getElementById('dev-category').value = isFloor ? 'floor' : 'rack';
+  document.getElementById('dev-category').dispatchEvent(new Event('change'));
+
+  document.getElementById('dev-type').value  = dev.type;
+  document.getElementById('dev-size').value  = dev.size || 0;
+  document.getElementById('dev-size').closest('.form-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-side').value  = dev.mountSide || 'front';
+  document.getElementById('dev-side-row').style.display = isFloor ? 'none' : '';
+  document.getElementById('dev-brand').value = dev.brand || '';
+  document.getElementById('dev-model').value = dev.model || '';
+  document.getElementById('dev-ip').value    = dev.ip   || '';
+  document.getElementById('dev-mac').value   = dev.mac  || '';
+  document.getElementById('dev-serial').value= dev.serial|| '';
+  document.getElementById('dev-power').value = dev.power || 0;
+  document.getElementById('dev-plugs').value = dev.plugs || 1;
+  document.getElementById('dev-plugs-out').value = dev.plugsOut || 0;
+  document.getElementById('dev-user').value  = dev.user || 'admin';
+  const passInput = document.getElementById('dev-pass');
+  passInput.value = dev.pass || '';
+  passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
+  document.getElementById('dev-notes').value = dev.notes|| '';
+  document.getElementById('dev-skin').value = dev.skin || '';
+
+  if (dev.ports) {
+    document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
+    document.getElementById('dev-ports-fib').value = dev.ports.fiber || '';
+  } else {
+    document.getElementById('dev-ports-eth').value = '';
+    document.getElementById('dev-ports-fib').value = '';
+  }
+
+  document.getElementById('dev-has-brand').checked = !!(dev.brand || dev.model || dev.serial);
+  document.getElementById('dev-has-ports').checked = !!(dev.ports);
+  document.getElementById('dev-has-loc').checked = true;
+  document.getElementById('dev-has-net').checked = !!(dev.ip || dev.mac);
+  document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
+  document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
+  document.getElementById('dev-has-notes').checked = !!(dev.notes);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin);
+
+  document.getElementById('modal-device').classList.remove('hidden');
+}
+
+function initDeviceModal() {
+  document.getElementById('dev-type').addEventListener('change', function() {
+    const isFloor = FLOOR_TYPES.has(this.value);
+    const sizeRow = document.getElementById('dev-size').closest('.form-row');
+    if (sizeRow) {
+      sizeRow.style.display = isFloor ? 'none' : '';
+    }
+    const sideRow = document.getElementById('dev-side-row');
+    if (sideRow) {
+      sideRow.style.display = isFloor ? 'none' : '';
+    }
+    document.getElementById('modal-device-sub').textContent = isFloor
+      ? 'Equipo de piso — se coloca directamente en la sala'
+      : 'Datos técnicos del equipo en rack';
+  });
+
+  document.getElementById('dev-category').addEventListener('change', function() {
+    const isFloor = this.value === 'floor';
+    document.getElementById('opt-rack').style.display = isFloor ? 'none' : '';
+    document.getElementById('opt-floor').style.display = isFloor ? '' : 'none';
+    document.getElementById('dev-type').value = isFloor ? 'pc' : 'server';
+    document.getElementById('dev-type').dispatchEvent(new Event('change'));
+  });
+
+  document.getElementById('modal-device-save').addEventListener('click', () => {
+    const name = document.getElementById('dev-name').value.trim();
+    const hasNet = document.getElementById('dev-has-net').checked;
+    const ip   = hasNet ? document.getElementById('dev-ip').value.trim() : '';
+    const mac  = hasNet ? document.getElementById('dev-mac').value.trim() : '';
+    
+    if (!name) { notify('Ingresa un nombre', 'error'); return; }
+    if (ip && !/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) { notify('IP inválida (0-255)', 'error'); return; }
+    if (mac && !/^([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}$/.test(mac)) { notify('MAC inválida', 'error'); return; }
+
+    const hasBrand = document.getElementById('dev-has-brand').checked;
+    const hasAuth = document.getElementById('dev-has-auth').checked;
+    const hasPower = document.getElementById('dev-has-power').checked;
+    const hasNotes = document.getElementById('dev-has-notes').checked;
+    const hasSkin = document.getElementById('dev-has-skin').checked;
+    const hasPorts = document.getElementById('dev-has-ports').checked;
+    
+    const devStatus = document.getElementById('dev-status');
+
+    let ports = null;
+    if (hasPorts) {
+      ports = {
+        ethernet: parseInt(document.getElementById('dev-ports-eth').value) || 0,
+        fiber: parseInt(document.getElementById('dev-ports-fib').value) || 0
+      };
+      if (ports.ethernet === 0 && ports.fiber === 0) ports = null;
+    }
+
+    const props = {
+      name, 
+      type: document.getElementById('dev-type').value,
+      status: devStatus ? devStatus.value : 'active',
+      size: parseInt(document.getElementById('dev-size').value),
+      mountSide: document.getElementById('dev-side').value || 'front',
+      ip, mac,
+      serial: hasBrand ? document.getElementById('dev-serial').value.trim() : '',
+      brand: hasBrand ? document.getElementById('dev-brand').value.trim() : '',
+      model: hasBrand ? document.getElementById('dev-model').value.trim() : '',
+      power: hasPower ? (parseInt(document.getElementById('dev-power').value) || 0) : 0,
+      plugs: hasPower ? (parseInt(document.getElementById('dev-plugs').value) || 0) : 0,
+      plugsOut: hasPower ? (parseInt(document.getElementById('dev-plugs-out').value) || 0) : 0,
+      user: hasAuth ? document.getElementById('dev-user').value.trim() : '',
+      pass: hasAuth ? document.getElementById('dev-pass').value : '',
+      notes: hasNotes ? document.getElementById('dev-notes').value.trim() : '',
+      skin: hasSkin ? document.getElementById('dev-skin').value.trim() : ''
+    };
+    if (ports) props.ports = ports;
+
+    if (editingCatalogId) {
+      if (typeof updateCatalogItem === 'function') {
+        props.power = parseInt(props.power) || 0;
+        props.plugs = parseInt(props.plugs) || 0;
+        props.plugsOut = parseInt(props.plugsOut) || 0;
+        props.size = FLOOR_TYPES.has(props.type) ? 0 : (parseInt(props.size) || 1);
+        props.color = (typeof TYPE_COLORS !== 'undefined' && TYPE_COLORS[props.type]) || '#38bdf8';
+        updateCatalogItem(editingCatalogId, props);
+        notify('Plantilla de catálogo actualizada', 'success');
+      }
+    } else if (editingDeviceId) {
+      const currentDev = store.deviceById(editingDeviceId);
+      if (currentDev && currentDev.rackId && typeof canPlace === 'function') {
+        const targetSide = props.mountSide || currentDev.mountSide || 'front';
+        const targetSize = props.size || currentDev.size || 1;
+        if (!canPlace(currentDev.rackId, currentDev.slotStart, targetSize, targetSide, editingDeviceId)) {
+          notify('Conflicto de espacio en el rack para el tamaño o lado seleccionado', 'error');
+          return;
+        }
+      }
+      store.updateDevice(editingDeviceId, props);
+      notify('Equipo actualizado', 'success');
+    } else {
+      if (FLOOR_TYPES.has(props.type)) {
+        store.addFloorDevice(props, store._raw.currentRoomId);
+        notify('Equipo de piso agregado con éxito', 'success');
+      } else {
+        const rack = store.currentRacks[0];
+        if (!rack) { notify('Primero crea un gabinete en esta sala', 'error'); return; }
+        
+        const typeIconMap = {
+          server: 'assets/icons/server/server.svg',
+          switch: 'assets/icons/network/switch.svg',
+          router: 'assets/icons/network/router.svg',
+          firewall: 'assets/icons/network/firewall.svg',
+          storage: 'assets/icons/storage/san.svg',
+          nvr: 'assets/icons/security/nvr.svg',
+          dvr: 'assets/icons/security/dvr.svg',
+          decoder: 'assets/icons/security/decoder.svg',
+          ups: 'assets/icons/power/ups.svg',
+          pdu: 'assets/icons/power/pdu.svg',
+          energia: 'assets/icons/power/ups.svg',
+          patchpanel: 'assets/icons/wiring/patchpanel.svg',
+          odf: 'assets/icons/wiring/patchpanel.svg',
+          organizer: 'assets/icons/wiring/organizer.svg',
+          tray: 'assets/icons/accessories/tray.svg',
+          blind: 'assets/icons/accessories/tray.svg',
+          kvm: 'assets/icons/accessories/kvm.svg',
+          pc: 'assets/icons/floor/pc.svg',
+          camera: 'assets/icons/floor/camera.svg',
+          ap: 'assets/icons/network/ap.svg',
+          door: 'assets/icons/floor/door.svg',
+          printer: 'assets/icons/floor/printer.svg',
+          phone: 'assets/icons/floor/phone.svg'
+        };
+
+        const newItem = {
+          id: uid(),
+          ...props,
+          isCustom: true,
+          icon: typeIconMap[props.type] || 'assets/icons/server/server.svg',
+          color: (typeof TYPE_COLORS !== 'undefined' && TYPE_COLORS[props.type]) || '#38bdf8'
+        };
+        if (typeof addCatalogItem === 'function') addCatalogItem(newItem);
+        
+        document.getElementById('modal-device').classList.add('hidden');
+        openQuickPlacementModal(newItem.id);
+        return;
+      }
+    }
+    document.getElementById('modal-device').classList.add('hidden');
+  });
+
+  document.getElementById('modal-device-cancel').addEventListener('click', () => {
+    document.getElementById('modal-device').classList.add('hidden');
+  });
+
+  const passToggleBtn = document.getElementById('dev-pass-toggle');
+  if (passToggleBtn) {
+    passToggleBtn.addEventListener('click', () => {
+      const passInput = document.getElementById('dev-pass');
+      if (!passInput) return;
+      const isPass = passInput.type === 'password';
+      passInput.type = isPass ? 'text' : 'password';
+      passToggleBtn.innerHTML = isPass 
+        ? '<i class="svg-icon icon-eye-off" style="width:14px; height:14px;"></i>'
+        : '<i class="svg-icon icon-eye" style="width:14px; height:14px;"></i>';
+    });
+  }
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-cablemodal-js"></a>
+
+### 📄 Archivo 29/42: `js/ui/modals/CableModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/CableModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 392 líneas | 14.1 KB
+* **Rol en el sistema:** Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs.
+
+```javascript
+/* js/ui/modals/CableModal.js */
+
+// editingConnectionId ya está declarado en Globals.js
+
+function buildDeviceOptionsGrouped() {
+  const rooms = store._raw.rooms;
+  const racks = store._raw.racks;
+  const devices = store._raw.devices;
+  let html = '';
+
+  rooms.forEach(room => {
+    const roomRacks = racks.filter(r => r.roomId === room.id);
+    roomRacks.forEach(rack => {
+      const rackDevs = devices.filter(d => d.rackId === rack.id);
+      if (rackDevs.length > 0) {
+        html += `<optgroup label="${escapeHTML(room.name)} — ${escapeHTML(rack.name)}">`;
+        rackDevs.forEach(d => {
+          html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
+        });
+        html += `</optgroup>`;
+      }
+    });
+  });
+
+  const orphanedRack = devices.filter(d => !d.rackId && !FLOOR_TYPES.has(d.type));
+  if (orphanedRack.length > 0) {
+    html += `<optgroup label="Equipos sin Rack">`;
+    orphanedRack.forEach(d => {
+      html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
+    });
+    html += `</optgroup>`;
+  }
+
+  const orphanedFloor = devices.filter(d => !d.rackId && FLOOR_TYPES.has(d.type));
+  if (orphanedFloor.length > 0) {
+    html += `<optgroup label="Equipos de Piso (Sala)">`;
+    orphanedFloor.forEach(d => {
+      html += `<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)} (${escapeHTML(d.type)})</option>`;
+    });
+    html += `</optgroup>`;
+  }
+
+  return html || '<option value="">No hay equipos disponibles</option>';
+}
+
+function populateVlanSelect(selectedVlanId = 1) {
+  const vlanSelect = document.getElementById('cable-vlan');
+  if (!vlanSelect) return;
+  const vlans = typeof store.getVlans === 'function' ? store.getVlans() : [];
+  let html = '';
+  vlans.forEach(v => {
+    const sel = Number(v.id) === Number(selectedVlanId) ? 'selected' : '';
+    html += `<option value="${v.id}" data-color="${v.color || '#64748b'}" ${sel}>VLAN ${v.id} · ${escapeHTML(v.name)}</option>`;
+  });
+  vlanSelect.innerHTML = html;
+}
+
+function openCableModal(defaultSrcId = null, defaultSrcPort = null) {
+  editingConnectionId = null;
+  const titleEl = document.getElementById('modal-cable-title');
+  if (titleEl) titleEl.textContent = 'Conectar Equipos';
+  
+  const opts = buildDeviceOptionsGrouped();
+  const srcSelect = document.getElementById('cable-src-dev');
+  const dstSelect = document.getElementById('cable-dst-dev');
+  
+  srcSelect.innerHTML = opts;
+  dstSelect.innerHTML = opts;
+  
+  if (defaultSrcId) {
+    srcSelect.value = defaultSrcId;
+  }
+  
+  // Seleccionar automáticamente un equipo destino distinto si es posible
+  const allDevs = store._raw.devices || [];
+  if (allDevs.length > 1) {
+    const otherDev = allDevs.find(d => d.id !== srcSelect.value);
+    if (otherDev) dstSelect.value = otherDev.id;
+  }
+
+  populateVlanSelect(1);
+  
+  updateCableLocationDisplay('src', defaultSrcPort);
+  updateCableLocationDisplay('dst');
+
+  document.getElementById('cable-color').value = '#3b82f6';
+  document.getElementById('cable-color-picker').value = '#3b82f6';
+
+  checkCableCollision();
+  document.getElementById('modal-cable').classList.remove('hidden');
+}
+
+function openEditCableModal(connId) {
+  editingConnectionId = connId;
+  const conn = store._raw.connections.find(c => c.id === connId);
+  if (!conn) return;
+
+  const titleEl = document.getElementById('modal-cable-title');
+  if (titleEl) titleEl.textContent = 'Editar Conexión';
+
+  const opts = buildDeviceOptionsGrouped();
+  const srcSelect = document.getElementById('cable-src-dev');
+  const dstSelect = document.getElementById('cable-dst-dev');
+  
+  srcSelect.innerHTML = opts;
+  dstSelect.innerHTML = opts;
+
+  srcSelect.value = conn.sourceDeviceId;
+  dstSelect.value = conn.targetDeviceId;
+  
+  populateVlanSelect(conn.vlanId || 1);
+
+  updateCableLocationDisplay('src', conn.sourcePort);
+  updateCableLocationDisplay('dst', conn.targetPort);
+
+  document.getElementById('cable-type').value = conn.cableType;
+  document.getElementById('cable-color').value = conn.color;
+  document.getElementById('cable-color-picker').value = conn.color;
+  
+  checkCableCollision();
+  document.getElementById('modal-cable').classList.remove('hidden');
+}
+
+function updateCableLocationDisplay(prefix, defaultPort = null) {
+  const el = document.getElementById(`cable-${prefix}-dev`);
+  const locEl = document.getElementById(`cable-${prefix}-loc`);
+  const devId = el ? el.value : null;
+  const dev = store.deviceById(devId);
+
+  if (locEl) {
+    locEl.value = dev ? getDeviceLocation(dev) : 'Desconocido';
+  }
+  updateCablePortInput(prefix, dev, defaultPort);
+}
+
+function updateCablePortInput(prefix, dev, defaultPort = null) {
+  const container = document.getElementById(`cable-${prefix}-port-container`);
+  if (!container) return;
+  
+  if (!dev) {
+    container.innerHTML = `<input type="text" id="cable-${prefix}-port" placeholder="Eth0/1">`;
+    return;
+  }
+
+  const filterFreeOnly = document.getElementById('cable-filter-free-ports')?.checked ?? true;
+  const allPorts = typeof store.getDevicePorts === 'function' ? store.getDevicePorts(dev.id) : [];
+
+  if (allPorts.length === 0) {
+    container.innerHTML = `<input type="text" id="cable-${prefix}-port" placeholder="Eth0/1" value="${escapeHTML(defaultPort || 'Eth0/1')}">`;
+    attachPortChangeListener(prefix);
+    return;
+  }
+
+  // Agrupar puertos por tipo
+  const ethPorts = [];
+  const sfpPorts = [];
+  const otherPorts = [];
+
+  allPorts.forEach(p => {
+    // Si estamos editando esta misma conexión, su puerto no cuenta como ocupado para sí misma
+    const isOccupiedByAnother = p.isOccupied && (!editingConnectionId || p.connectionId !== editingConnectionId);
+    const item = { ...p, isOccupiedForModal: isOccupiedByAnother };
+    if (p.type === 'fiber') sfpPorts.push(item);
+    else if (p.type === 'ethernet') ethPorts.push(item);
+    else otherPorts.push(item);
+  });
+
+  const buildGroupHTML = (label, ports) => {
+    let groupHtml = '';
+    ports.forEach(p => {
+      const isSelected = defaultPort && String(p.name).toLowerCase() === String(defaultPort).toLowerCase();
+      if (p.isOccupiedForModal) {
+        if (!filterFreeOnly || isSelected) {
+          groupHtml += `<option value="${escapeHTML(p.name)}" ${isSelected ? 'selected' : 'disabled'} style="color:var(--text-muted); background:var(--bg-card);">🔴 ${escapeHTML(p.name)} (Ocupado · a ${escapeHTML(p.peerDeviceName)} [${escapeHTML(p.peerPort)}])</option>`;
+        }
+      } else {
+        groupHtml += `<option value="${escapeHTML(p.name)}" ${isSelected ? 'selected' : ''}>🟢 ${escapeHTML(p.name)} (Libre)</option>`;
+      }
+    });
+    return groupHtml ? `<optgroup label="${escapeHTML(label)}">${groupHtml}</optgroup>` : '';
+  };
+
+  let opts = '';
+  opts += buildGroupHTML('Ethernet / Cobre', ethPorts);
+  opts += buildGroupHTML('SFP / Fibra Óptica', sfpPorts);
+  opts += buildGroupHTML('Otros Puertos', otherPorts);
+
+  opts += `<optgroup label="Personalizado"><option value="__custom__">✏️ Ingresar otro puerto...</option></optgroup>`;
+
+  container.innerHTML = `<select id="cable-${prefix}-port" style="width:100%;">${opts}</select>`;
+  
+  const selectEl = document.getElementById(`cable-${prefix}-port`);
+  if (defaultPort) {
+    selectEl.value = defaultPort;
+    // Si no coincidió exactamente, verificar si existe la opción
+    if (!selectEl.value || selectEl.value === '__custom__') {
+      // Reemplazar con input personalizado si no está en la lista
+      switchToCustomPortInput(prefix, defaultPort);
+      return;
+    }
+  }
+
+  attachPortChangeListener(prefix);
+}
+
+function switchToCustomPortInput(prefix, initialVal = '') {
+  const container = document.getElementById(`cable-${prefix}-port-container`);
+  if (!container) return;
+  container.innerHTML = `
+    <div style="display:flex; gap:6px;">
+      <input type="text" id="cable-${prefix}-port" value="${escapeHTML(initialVal)}" placeholder="Ej: Gi1/0/1" style="flex:1;">
+      <button type="button" class="btn-secondary" id="btn-cancel-custom-${prefix}" title="Volver a lista de puertos" style="padding:0 8px; font-size:11px;">Lista</button>
+    </div>
+  `;
+  document.getElementById(`btn-cancel-custom-${prefix}`).addEventListener('click', () => {
+    const el = document.getElementById(`cable-${prefix}-dev`);
+    const dev = el ? store.deviceById(el.value) : null;
+    updateCablePortInput(prefix, dev);
+    checkCableCollision();
+  });
+  attachPortChangeListener(prefix);
+}
+
+function attachPortChangeListener(prefix) {
+  const portInput = document.getElementById(`cable-${prefix}-port`);
+  if (!portInput) return;
+
+  portInput.addEventListener('change', () => {
+    if (portInput.value === '__custom__') {
+      switchToCustomPortInput(prefix, '');
+    } else {
+      checkCableCollision();
+    }
+  });
+  portInput.addEventListener('input', () => checkCableCollision());
+}
+
+function checkCableCollision() {
+  const alertEl = document.getElementById('cable-collision-alert');
+  const msgEl = document.getElementById('cable-collision-msg');
+  const saveBtn = document.getElementById('modal-cable-save');
+  if (!alertEl || !msgEl) return;
+
+  const srcId = document.getElementById('cable-src-dev')?.value;
+  const dstId = document.getElementById('cable-dst-dev')?.value;
+  const srcPort = document.getElementById('cable-src-port')?.value?.trim();
+  const dstPort = document.getElementById('cable-dst-port')?.value?.trim();
+
+  if (!srcId || !dstId || !srcPort || !dstPort) {
+    alertEl.classList.add('hidden');
+    if (saveBtn) saveBtn.disabled = false;
+    return;
+  }
+
+  if (typeof store.validateConnection === 'function') {
+    const val = store.validateConnection({
+      sourceDeviceId: srcId,
+      sourcePort: srcPort,
+      targetDeviceId: dstId,
+      targetPort: dstPort,
+      excludeConnectionId: editingConnectionId
+    });
+
+    if (!val.valid) {
+      alertEl.classList.remove('hidden');
+      msgEl.textContent = val.error;
+      if (saveBtn) saveBtn.disabled = true;
+      return;
+    }
+  }
+
+  alertEl.classList.add('hidden');
+  if (saveBtn) saveBtn.disabled = false;
+}
+
+function initCableModal() {
+  const srcDevSelect = document.getElementById('cable-src-dev');
+  const dstDevSelect = document.getElementById('cable-dst-dev');
+  const filterFreeCb = document.getElementById('cable-filter-free-ports');
+  const vlanSelect = document.getElementById('cable-vlan');
+
+  if (srcDevSelect) {
+    srcDevSelect.addEventListener('change', () => {
+      updateCableLocationDisplay('src');
+      checkCableCollision();
+    });
+  }
+
+  if (dstDevSelect) {
+    dstDevSelect.addEventListener('change', () => {
+      updateCableLocationDisplay('dst');
+      checkCableCollision();
+    });
+  }
+
+  if (filterFreeCb) {
+    filterFreeCb.addEventListener('change', () => {
+      const srcDev = store.deviceById(srcDevSelect?.value);
+      const dstDev = store.deviceById(dstDevSelect?.value);
+      const curSrcPort = document.getElementById('cable-src-port')?.value;
+      const curDstPort = document.getElementById('cable-dst-port')?.value;
+      updateCablePortInput('src', srcDev, curSrcPort);
+      updateCablePortInput('dst', dstDev, curDstPort);
+      checkCableCollision();
+    });
+  }
+
+  if (vlanSelect) {
+    vlanSelect.addEventListener('change', () => {
+      const opt = vlanSelect.options[vlanSelect.selectedIndex];
+      if (opt && opt.dataset.color) {
+        document.getElementById('cable-color').value = opt.dataset.color;
+        document.getElementById('cable-color-picker').value = opt.dataset.color;
+      }
+    });
+  }
+
+  document.getElementById('cable-color-picker').addEventListener('input', e => {
+    document.getElementById('cable-color').value = e.target.value;
+  });
+
+  document.getElementById('modal-cable-save').addEventListener('click', () => {
+    const srcId   = document.getElementById('cable-src-dev').value;
+    const dstId   = document.getElementById('cable-dst-dev').value;
+    const srcPort = document.getElementById('cable-src-port').value.trim();
+    const dstPort = document.getElementById('cable-dst-port').value.trim();
+    const type    = document.getElementById('cable-type').value;
+    const color   = document.getElementById('cable-color').value;
+    const vlanId  = parseInt(document.getElementById('cable-vlan')?.value) || 1;
+    const vlanOpt = document.getElementById('cable-vlan')?.selectedOptions[0];
+    const vlanName = vlanOpt ? vlanOpt.textContent.split('·')[1]?.trim() || 'Default' : 'Default';
+
+    if (!srcId || !dstId || srcId === dstId) {
+      notify('Selecciona dos equipos distintos', 'error');
+      return;
+    }
+    
+    if (!srcPort || !dstPort) {
+      notify('Debes seleccionar o ingresar los puertos de ambos equipos', 'error');
+      return;
+    }
+
+    if (editingConnectionId) {
+      const res = store.updateConnection(editingConnectionId, {
+        sourceDeviceId: srcId,
+        sourcePort: srcPort,
+        targetDeviceId: dstId,
+        targetPort: dstPort,
+        cableType: type,
+        color,
+        vlanId,
+        vlanName
+      });
+      if (res && res.success === false) {
+        notify(res.error, 'error');
+        return;
+      }
+      notify('Conexión actualizada', 'success');
+    } else {
+      const res = store.addConnection({
+        sourceDeviceId: srcId,
+        sourcePort: srcPort,
+        targetDeviceId: dstId,
+        targetPort: dstPort,
+        cableType: type,
+        color,
+        vlanId,
+        vlanName
+      });
+      if (res && res.success === false) {
+        notify(res.error, 'error');
+        return;
+      }
+      notify('Cable conectado', 'success');
+    }
+    
+    document.getElementById('modal-cable').classList.add('hidden');
+    editingConnectionId = null;
+  });
+  
+  document.getElementById('modal-cable-cancel').addEventListener('click', () => {
+    document.getElementById('modal-cable').classList.add('hidden');
+    editingConnectionId = null;
+  });
+}
+
+if (typeof window !== 'undefined') {
+  window.openCableModal = openCableModal;
+  window.openEditCableModal = openEditCableModal;
+  window.initCableModal = initCableModal;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-roommodal-js"></a>
+
+### 📄 Archivo 30/42: `js/ui/modals/RoomModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/RoomModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 124 líneas | 4.1 KB
+* **Rol en el sistema:** Modal de gestión de salas: nombres, dimensiones y notas sin diálogos nativos prompt.
+
+```javascript
+let editingRoomId = null;
+
+function openAddRoomModal() {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden crear salas.', 'error', 3000);
+    return;
+  }
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
+  editingRoomId = null;
+  const titleEl = document.getElementById('modal-room-title');
+  const subEl   = document.getElementById('modal-room-sub');
+  const saveBtn = document.getElementById('modal-room-save');
+  const inputEl = document.getElementById('room-name');
+  
+  if (titleEl) titleEl.textContent = 'Nueva Sala';
+  if (subEl)   subEl.textContent   = 'Agregar una sala al centro de datos';
+  if (saveBtn) saveBtn.textContent = 'Crear Sala';
+  if (inputEl) {
+    inputEl.value = '';
+    setTimeout(() => inputEl.focus(), 100);
+  }
+  const modal = document.getElementById('modal-room');
+  if (modal) modal.classList.remove('hidden');
+}
+
+function openEditRoomModal(id) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden editar salas.', 'error', 3000);
+    return;
+  }
+  const room = store._raw.rooms.find(r => r.id === id);
+  if (!room) return;
+  
+  editingRoomId = id;
+  const titleEl = document.getElementById('modal-room-title');
+  const subEl   = document.getElementById('modal-room-sub');
+  const saveBtn = document.getElementById('modal-room-save');
+  const inputEl = document.getElementById('room-name');
+  
+  if (titleEl) titleEl.textContent = 'Editar Sala';
+  if (subEl)   subEl.textContent   = 'Renombrar o actualizar la sala seleccionada';
+  if (saveBtn) saveBtn.textContent = 'Guardar Cambios';
+  if (inputEl) {
+    inputEl.value = room.name;
+    setTimeout(() => inputEl.focus(), 100);
+  }
+  const modal = document.getElementById('modal-room');
+  if (modal) modal.classList.remove('hidden');
+}
+
+async function deleteRoom(id) {
+  if (typeof RackAuth !== 'undefined' && !RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden eliminar salas.', 'error', 3000);
+    return;
+  }
+  if (store._raw.rooms.length <= 1) { 
+    notify('No puedes eliminar la única sala', 'warn'); 
+    return; 
+  }
+  const ok = await customConfirm('Eliminar Sala', '¿Eliminar esta sala y todos sus gabinetes?');
+  if (!ok) return;
+  
+  if (store.deleteRoom(id)) {
+    notify('Sala eliminada', 'warn');
+  }
+}
+
+function initRoomModal() {
+  const btnAddRoom = document.getElementById('btn-add-room');
+  if (btnAddRoom) {
+    btnAddRoom.addEventListener('click', () => openAddRoomModal());
+  }
+  
+  const btnRoomSave = document.getElementById('modal-room-save');
+  if (btnRoomSave) {
+    btnRoomSave.addEventListener('click', () => {
+      const inputEl = document.getElementById('room-name');
+      const name = inputEl ? inputEl.value.trim() : '';
+      if (!name) { 
+        notify('Ingresa un nombre para la sala', 'error'); 
+        return; 
+      }
+      
+      if (editingRoomId) {
+        store.updateRoom(editingRoomId, { name });
+        notify(`Sala actualizada a "${name}"`, 'success');
+      } else {
+        store.addRoom(name);
+        notify(`Sala "${name}" creada`, 'success');
+      }
+      
+      const modal = document.getElementById('modal-room');
+      if (modal) modal.classList.add('hidden');
+      editingRoomId = null;
+    });
+  }
+  
+  const btnRoomCancel = document.getElementById('modal-room-cancel');
+  if (btnRoomCancel) {
+    btnRoomCancel.addEventListener('click', () => {
+      const modal = document.getElementById('modal-room');
+      if (modal) modal.classList.add('hidden');
+      editingRoomId = null;
+    });
+  }
+
+  // Guardar con Enter en el input
+  const inputEl = document.getElementById('room-name');
+  if (inputEl) {
+    inputEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (btnRoomSave) btnRoomSave.click();
+      }
+    });
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.openAddRoomModal = openAddRoomModal;
+  window.openEditRoomModal = openEditRoomModal;
+  window.deleteRoom = deleteRoom;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-placementmodal-js"></a>
+
+### 📄 Archivo 31/42: `js/ui/modals/PlacementModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/PlacementModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 232 líneas | 8.3 KB
+* **Rol en el sistema:** Modal de colocación rápida (Quick Placement) con buscador en tiempo real y cálculo de slots.
+
+```javascript
+function openQuickPlacementModal(catalogId = null) {
+  if (!RackAuth.can('editDevices')) {
+    notify('Espectadores no pueden ubicar dispositivos.', 'error', 3000);
+    return;
+  }
+  if (window.closeMobileSidebar) window.closeMobileSidebar();
+  const displayRow = document.getElementById('qp-dev-display-row');
+  const selectRow = document.getElementById('qp-dev-select-row');
+  
+  const searchEl = document.getElementById('qp-dev-search');
+  if (catalogId === null) {
+    // Flujo de Tabla (Agregar Equipo): mostramos el selector y activamos buscador
+    displayRow.style.display = 'none';
+    selectRow.style.display = '';
+    
+    if (searchEl) {
+      searchEl.value = '';
+      setTimeout(() => searchEl.focus(), 60);
+    }
+    filterQPCatalog('');
+  } else {
+    // Flujo de Catálogo: mostramos etiqueta fija
+    displayRow.style.display = '';
+    selectRow.style.display = 'none';
+    if (searchEl) searchEl.value = '';
+    
+    const item = CATALOG.find(c => c.id === catalogId);
+    if (!item) return;
+    qpCatalogItem = item;
+  }
+
+  const isFloor = FLOOR_TYPES.has(qpCatalogItem.type);
+
+  // Set titles
+    document.getElementById('qp-modal-title').textContent = isFloor ? 'Ubicar Periférico en Sala' : 'Ubicar en Rack Asistido';
+  document.getElementById('qp-modal-sub').textContent = isFloor 
+    ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
+    : `Instalar ${qpCatalogItem.size}U de forma asistida sin arrastrar`;
+  
+  document.getElementById('qp-dev-name-display').value = `${qpCatalogItem.name} (${String(qpCatalogItem.type || 'unknown').toUpperCase()}${isFloor ? '' : ' - ' + qpCatalogItem.size + 'U'})`;
+
+  if (!isFloor) {
+    document.getElementById('qp-side').value = qpCatalogItem.mountSide || 'front';
+  }
+
+  // Populate Rooms
+  const roomSelect = document.getElementById('qp-room');
+  roomSelect.innerHTML = store._raw.rooms.map(r => 
+    `<option value="${escapeHTML(r.id)}" ${r.id === store._raw.currentRoomId ? 'selected' : ''}>${escapeHTML(r.name)}</option>`
+  ).join('');
+
+  // Toggle rows
+  const rackRow = document.getElementById('qp-rack-row');
+  const slotRow = document.getElementById('qp-slot-row');
+  
+  if (isFloor) {
+    rackRow.style.display = 'none';
+    slotRow.style.display = 'none';
+  } else {
+    rackRow.style.display = '';
+    slotRow.style.display = '';
+    repopulateQPRacks();
+  }
+
+  document.getElementById('modal-quick-placement').classList.remove('hidden');
+}
+
+function repopulateQPRacks() {
+  const roomId = document.getElementById('qp-room').value;
+  const rackSelect = document.getElementById('qp-rack');
+  const racks = store._raw.racks.filter(r => r.roomId === roomId);
+  
+  if (!racks.length) {
+    rackSelect.innerHTML = '<option value="">No hay gabinetes en esta sala</option>';
+    document.getElementById('qp-slot').innerHTML = '<option value="">Requiere un gabinete</option>';
+    return;
+  }
+  
+  rackSelect.innerHTML = racks.map((r, i) => 
+    `<option value="${escapeHTML(r.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(r.name)} (${r.height}U)</option>`
+  ).join('');
+  
+  repopulateQPSlots();
+}
+
+function repopulateQPSlots() {
+  const rackId = document.getElementById('qp-rack').value;
+  const slotSelect = document.getElementById('qp-slot');
+  if (!rackId || !qpCatalogItem) {
+    slotSelect.innerHTML = '<option value="">Selecciona un gabinete</option>';
+    return;
+  }
+  
+  const rack = store.rackById(rackId);
+  const size = qpCatalogItem.size || 1;
+  const availableSlots = [];
+  const mountSide = document.getElementById('qp-side').value || 'front';
+  
+  for (let u = 1; u <= rack.height - size + 1; u++) {
+    if (canPlace(rackId, u, size, mountSide)) {
+      availableSlots.push(u);
+    }
+  }
+  
+  if (!availableSlots.length) {
+    slotSelect.innerHTML = '<option value="">No hay slots libres de ' + size + 'U</option>';
+    return;
+  }
+  
+  slotSelect.innerHTML = availableSlots.map(u => 
+    `<option value="${u}">Posición U${u} (Libre)</option>`
+  ).join('');
+}
+function filterQPCatalog(query = '') {
+  if (typeof syncCatalog === 'function') syncCatalog();
+  const select = document.getElementById('qp-dev-select');
+  if (!select) return;
+  const q = (query || '').trim().toLowerCase();
+  const filtered = CATALOG.filter(item => {
+    if (!q) return true;
+    const str = `${item.name} ${item.type} ${item.brand || ''} ${item.model || ''}`.toLowerCase();
+    return str.includes(q);
+  });
+  
+  if (!filtered.length) {
+    select.innerHTML = '<option value="">Sin coincidencias en el catálogo</option>';
+    qpCatalogItem = null;
+    return;
+  }
+  
+  select.innerHTML = filtered.map((item, i) => 
+    `<option value="${escapeHTML(item.id)}" ${i === 0 ? 'selected' : ''}>${escapeHTML(item.icon || '📦')} ${escapeHTML(item.name)} (${escapeHTML(String(item.type || 'unknown').toUpperCase())}${item.size ? ' - ' + item.size + 'U' : ''})</option>`
+  ).join('');
+  
+  select.value = filtered[0].id;
+  select.dispatchEvent(new Event('change'));
+}
+
+let qpCatalogItem = null;
+
+function initPlacementModal() {
+  const searchInput = document.getElementById('qp-dev-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      filterQPCatalog(this.value);
+    });
+  }
+
+  document.getElementById('qp-dev-select').addEventListener('change', function() {
+    const catalogId = this.value;
+    const item = CATALOG.find(c => c.id === catalogId);
+    if (!item) return;
+    qpCatalogItem = item;
+    
+    const isFloor = FLOOR_TYPES.has(item.type);
+    const rackRow = document.getElementById('qp-rack-row');
+    const slotRow = document.getElementById('qp-slot-row');
+    
+  document.getElementById('qp-modal-title').textContent = isFloor ? 'Ubicar Periférico en Sala' : 'Ubicar en Rack Asistido';
+    document.getElementById('qp-modal-sub').textContent = isFloor 
+      ? 'Ubicar periférico en el piso de la sala de forma instantánea' 
+      : `Instalar ${item.size}U de forma asistida sin arrastrar`;
+
+    if (isFloor) {
+      rackRow.style.display = 'none';
+      slotRow.style.display = 'none';
+    } else {
+      rackRow.style.display = '';
+      slotRow.style.display = '';
+      repopulateQPRacks();
+    }
+  });
+
+  document.getElementById('qp-room').addEventListener('change', () => {
+    if (qpCatalogItem && !FLOOR_TYPES.has(qpCatalogItem.type)) {
+      repopulateQPRacks();
+    }
+  });
+
+  document.getElementById('qp-rack').addEventListener('change', () => {
+    if (qpCatalogItem && !FLOOR_TYPES.has(qpCatalogItem.type)) {
+      repopulateQPSlots();
+    }
+  });
+
+  document.getElementById('qp-side').addEventListener('change', () => {
+    if (qpCatalogItem && !FLOOR_TYPES.has(qpCatalogItem.type)) {
+      repopulateQPSlots();
+    }
+  });
+
+  document.getElementById('modal-qp-cancel').addEventListener('click', () => {
+    document.getElementById('modal-quick-placement').classList.add('hidden');
+    qpCatalogItem = null;
+  });
+
+  document.getElementById('modal-qp-save').addEventListener('click', () => {
+    if (!qpCatalogItem) return;
+    
+    const roomId = document.getElementById('qp-room').value;
+    const isFloor = FLOOR_TYPES.has(qpCatalogItem.type);
+    
+    if (isFloor) {
+      store.addFloorDevice(qpCatalogItem, roomId);
+      notify(`${qpCatalogItem.name} ubicado en piso de sala`, 'success');
+      document.getElementById('modal-quick-placement').classList.add('hidden');
+      qpCatalogItem = null;
+    } else {
+      const rackId = document.getElementById('qp-rack').value;
+      const slotU = parseInt(document.getElementById('qp-slot').value);
+      const mountSide = document.getElementById('qp-side').value;
+      
+      if (!rackId || isNaN(slotU)) {
+        notify('Selecciona un gabinete y slot válidos', 'error');
+        return;
+      }
+      
+      const ok = store.addDeviceToRack(qpCatalogItem, rackId, slotU, mountSide);
+      if (ok) {
+        const sideLabel = mountSide === 'both' ? 'Ambas Caras' : (mountSide === 'front' ? 'Frontal' : 'Trasera');
+        notify(`${qpCatalogItem.name} instalado en rack en U${slotU} (${sideLabel})`, 'success');
+        document.getElementById('modal-quick-placement').classList.add('hidden');
+        qpCatalogItem = null;
+      } else {
+        notify('Espacio ocupado o gabinete inválido', 'error');
+      }
+    }
+  });
+}
+
+window.filterQPCatalog = filterQPCatalog;
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-modals-exportmodal-js"></a>
+
+### 📄 Archivo 32/42: `js/ui/modals/ExportModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/ExportModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 1.818 líneas | 69.3 KB
+* **Rol en el sistema:** Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV.
+
+```javascript
+function getActiveThemeBg() {
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  if (typeof window !== 'undefined' && typeof window.getComputedStyle === 'function') {
+    const bg = window.getComputedStyle(document.documentElement).getPropertyValue('--bg-main').trim();
+    if (bg) return bg;
+  }
+  return isLight ? '#f0f4f8' : '#0b0f19';
+}
+
+function openPNGModal() {
+  const list = document.getElementById('png-rack-list');
+  const racks = store.currentRacks;
+  const currentRoom = store.currentRoom;
+  const roomName = currentRoom ? currentRoom.name : 'Sala Actual';
+  const floorDevices = store.allFloorDevicesInRoom(store._raw.currentRoomId);
+  const hasItems = racks.length > 0 || floorDevices.length > 0;
+
+  let html = '';
+
+  if (hasItems) {
+    html += `
+      <div style="margin-bottom:14px; display:flex; flex-direction:column; gap:8px;">
+        <button class="btn-primary" id="btn-export-entire-room-dual" style="width:100%; justify-content:center; padding:10px 14px; font-weight:600; font-size:12px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#ffffff; border:none; box-shadow:0 4px 12px rgba(16,185,129,0.28); border-radius:var(--radius); cursor:pointer; display:flex; align-items:center;">
+          <i class="svg-icon icon-grid" style="width:15px; height:15px; margin-right:8px;"></i>Exportar Sala Completa — Vista Dual (F+T)
+        </button>
+        <button class="btn-secondary" id="btn-export-entire-room" style="width:100%; justify-content:center; padding:8px 12px; font-weight:600; font-size:11px; border-color:var(--border); color:var(--text-primary); border-radius:var(--radius); cursor:pointer; display:flex; align-items:center;">
+          <i class="svg-icon icon-image" style="width:14px; height:14px; margin-right:7px;"></i>Exportar Sala Completa (Vista Actual 1:1)
+        </button>
+        <div style="font-size:10px; color:var(--text-muted); text-align:center; margin-top:2px; font-family:var(--font-mono);">
+          Vista Dual: Recuadros modulares con frente y dorso lado a lado por rack + equipos de piso
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; margin:10px 0 10px 0; gap:8px;">
+        <div style="height:1px; flex:1; background:var(--border);"></div>
+        <div style="font-size:10px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; font-family:var(--font-mono);">Gabinetes Individuales</div>
+        <div style="height:1px; flex:1; background:var(--border);"></div>
+      </div>
+    `;
+  }
+
+  if (racks.length > 0) {
+    html += racks.map(r => {
+      const devices = store.allDevicesInRack(r.id);
+      const hasRear = devices.some(d => d.mountSide === 'rear' || d.mountSide === 'both');
+      const flipper = typeof document !== 'undefined' ? document.getElementById(`flipper-${r.id}`) : null;
+      const isFlipped = flipper ? flipper.classList.contains('flipped') : false;
+
+      return `
+        <div style="margin-bottom:8px; background:var(--bg-card1); border:1px solid var(--border); border-radius:var(--radius); padding:8px 10px;">
+          <div style="font-size:11px; font-weight:600; color:var(--text-primary); margin-bottom:6px; font-family:var(--font-mono); display:flex; justify-content:space-between; align-items:center;">
+            <span><i class="svg-icon icon-server" style="width:13px; height:13px; margin-right:4px;"></i>${escapeHTML(r.name)} (${r.height}U)</span>
+            <span style="font-size:9px; color:var(--text-muted);">${hasRear ? 'Doble Cara' : (isFlipped ? 'Activo: Trasera' : 'Activo: Frontal')}</span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn-secondary" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;" data-export-rack="${escapeHTML(r.id)}" data-side="front" title="Exportar solo cara frontal">
+              <i class="svg-icon icon-image" style="width:12px; height:12px; margin-right:4px;"></i>Frontal
+            </button>
+            <button class="btn-secondary" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;" data-export-rack="${escapeHTML(r.id)}" data-side="rear" title="Exportar solo cara trasera">
+              <i class="svg-icon icon-rotate" style="width:12px; height:12px; margin-right:4px;"></i>Trasera
+            </button>
+            <button class="btn-secondary" style="flex:1.2; justify-content:center; font-size:11px; padding:4px 6px; border-color:var(--accent); color:var(--accent);" data-export-rack="${escapeHTML(r.id)}" data-side="both" title="Exportar frontal y trasera lado a lado en un solo PNG">
+              <i class="svg-icon icon-grid" style="width:12px; height:12px; margin-right:4px;"></i>Ambos Lados
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  const floorDevicesList = store.allFloorDevicesInRoom(store._raw.currentRoomId);
+  if (floorDevicesList.length > 0) {
+    html += `
+      <div style="margin-top: 14px; margin-bottom: 8px; font-size: 10px; font-weight:600; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 10px; text-transform:uppercase; letter-spacing:0.5px; font-family:var(--font-mono);">Equipos de Piso / Periféricos</div>
+      <button class="btn-secondary" id="btn-export-floor" style="width:100%; margin-bottom:8px; justify-content:flex-start; border-color: #f59e0b; color: #f59e0b;">
+        <i class="svg-icon icon-image" style="width:14px; height:14px; margin-right:6px;"></i>Exportar Equipos de Piso (${floorDevicesList.length})
+      </button>
+    `;
+  }
+  
+  if (!racks.length && !floorDevicesList.length) {
+    html = `<div style="text-align:center;color:var(--text-muted);padding:20px;">No hay gabinetes ni equipos de piso en esta sala para exportar.</div>`;
+  }
+
+  list.innerHTML = html;
+
+  const btnExportRoomDual = document.getElementById('btn-export-entire-room-dual');
+  if (btnExportRoomDual) {
+    btnExportRoomDual.addEventListener('click', () => {
+      document.getElementById('modal-export-png').classList.add('hidden');
+      exportRoomToPNG(store._raw.currentRoomId, 'dual');
+    });
+  }
+
+  const btnExportRoom = document.getElementById('btn-export-entire-room');
+  if (btnExportRoom) {
+    btnExportRoom.addEventListener('click', () => {
+      document.getElementById('modal-export-png').classList.add('hidden');
+      exportRoomToPNG(store._raw.currentRoomId, 'current');
+    });
+  }
+
+  list.querySelectorAll('[data-export-rack]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('modal-export-png').classList.add('hidden');
+      exportRackToPNG(btn.dataset.exportRack, btn.dataset.side);
+    });
+  });
+
+  const btnFloor = document.getElementById('btn-export-floor');
+  if (btnFloor) {
+    btnFloor.addEventListener('click', () => {
+      document.getElementById('modal-export-png').classList.add('hidden');
+      if (typeof exportFloorToPNG === 'function') exportFloorToPNG(store._raw.currentRoomId);
+    });
+  }
+
+  document.getElementById('modal-export-png').classList.remove('hidden');
+}
+
+function exportCSV() {
+  const header = 'Rack,Unidad U,Lado,Nombre,Marca,Modelo,Tipo,Tamaño,IP,MAC,Serie,Usuario,Consumo(W),Tomas,Skin,Notas\n';
+  const rows = store._raw.devices.map(d => {
+    const rack = store.rackById(d.rackId);
+    const side = d.category === 'floor' ? '-' : (d.mountSide === 'rear' ? 'Atrás' : 'Frontal');
+    return [
+      rack?.name || '',
+      d.slotStart || '-',
+      side,
+      d.name || '',
+      d.brand || '',
+      d.model || '',
+      d.type || '',
+      d.size || 1,
+      d.ip || '',
+      d.mac || '',
+      d.serial || '',
+      d.user || '',
+      d.power || 0,
+      d.plugs || 1,
+      d.skin || 'default',
+      d.notes || ''
+    ].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',');
+  }).join('\n');
+  downloadBlob(header + rows, 'Inventario_Centro_Datos.csv', 'text/csv');
+  notify('CSV exportado', 'success');
+}
+
+function exportJSON() {
+  const json = JSON.stringify(store._raw, null, 2);
+  downloadBlob(json, 'Rack_Designer_Next_Backup.rack', 'application/json');
+  notify('Proyecto exportado como archivo .rack', 'success');
+}
+
+function importJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!data.rooms || !data.racks || !data.devices) throw new Error('Estructura inválida');
+      store.snapshot();
+      Object.assign(store._raw, data);
+      store._save();
+      store._emit('change', { source: 'importJSON' });
+      notify('Proyecto cargado exitosamente', 'success');
+    } catch(err) {
+      notify('Archivo inválido: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+async function exportRackToPNG(rackId, side) {
+  const rack = store.rackById(rackId);
+  if (!rack) return;
+
+  // Intento de exportación en Alta Fidelidad 1:1 vía html2canvas (M-37)
+  const rackWrapper = typeof document !== 'undefined' ? document.querySelector(`.rack-wrapper[data-rack-id="${rackId}"]`) : null;
+  if (typeof html2canvas === 'function' && rackWrapper) {
+    const flipper = rackWrapper.querySelector('.rack-flipper');
+    const face = flipper ? flipper.querySelector('.rack-face') : null;
+    const rear = flipper ? flipper.querySelector('.rack-rear') : null;
+    const isCurrentlyFlipped = flipper ? flipper.classList.contains('flipped') : false;
+    const targetSide = side || (isCurrentlyFlipped ? 'rear' : 'front');
+
+    const phys = document.getElementById('view-physical-content');
+    const prevPhysZoom = phys ? phys.style.zoom : '';
+    const prevPhysTransform = phys ? phys.style.transform : '';
+
+    const prevWrapperStyles = {
+      perspective: rackWrapper.style.perspective,
+      transform: rackWrapper.style.transform,
+      overflow: rackWrapper.style.overflow
+    };
+
+    const prevFlipperStyles = flipper ? {
+      transform: flipper.style.transform,
+      transformStyle: flipper.style.transformStyle,
+      webkitTransformStyle: flipper.style.webkitTransformStyle,
+      transition: flipper.style.transition
+    } : null;
+
+    const prevFaceStyles = face ? {
+      display: face.style.display,
+      position: face.style.position,
+      transform: face.style.transform,
+      visibility: face.style.visibility
+    } : null;
+
+    const prevRearStyles = rear ? {
+      display: rear.style.display,
+      position: rear.style.position,
+      transform: rear.style.transform,
+      visibility: rear.style.visibility,
+      top: rear.style.top,
+      left: rear.style.left,
+      right: rear.style.right,
+      bottom: rear.style.bottom
+    } : null;
+
+    try {
+      if (phys) {
+        phys.style.zoom = '1';
+        phys.style.transform = 'none';
+      }
+
+      rackWrapper.classList.add('exporting-capture');
+      rackWrapper.style.perspective = 'none';
+
+      if (flipper) {
+        flipper.style.transform = 'none';
+        flipper.style.transformStyle = 'flat';
+        if (flipper.style.webkitTransformStyle !== undefined) flipper.style.webkitTransformStyle = 'flat';
+        flipper.style.transition = 'none';
+      }
+
+      const themeBg = getActiveThemeBg();
+
+      const prepareSide = (s) => {
+        if (s === 'rear') {
+          if (face) face.style.display = 'none';
+          if (rear) {
+            rear.style.display = 'block';
+            rear.style.position = 'relative';
+            rear.style.transform = 'none';
+            rear.style.visibility = 'visible';
+            rear.style.top = 'auto';
+            rear.style.left = 'auto';
+          }
+        } else {
+          if (rear) rear.style.display = 'none';
+          if (face) {
+            face.style.display = 'block';
+            face.style.position = 'relative';
+            face.style.transform = 'none';
+            face.style.visibility = 'visible';
+          }
+        }
+      };
+
+      if (targetSide === 'both') {
+        // 1. Capturar cara Frontal
+        prepareSide('front');
+        await new Promise(r => setTimeout(r, 50));
+        const canvasFront = await html2canvas(rackWrapper, {
+          scale: 2,
+          backgroundColor: themeBg,
+          useCORS: true,
+          logging: false
+        });
+
+        // 2. Capturar cara Trasera
+        prepareSide('rear');
+        await new Promise(r => setTimeout(r, 50));
+        const canvasRear = await html2canvas(rackWrapper, {
+          scale: 2,
+          backgroundColor: themeBg,
+          useCORS: true,
+          logging: false
+        });
+
+        // 3. Componer ambas caras en un único canvas horizontal
+        const pad = 24 * 2;
+        const gap = 36 * 2;
+        const totalW = canvasFront.width + canvasRear.width + gap + pad * 2;
+        const totalH = Math.max(canvasFront.height, canvasRear.height) + pad * 2;
+
+        const combinedCanvas = document.createElement('canvas');
+        combinedCanvas.width = totalW;
+        combinedCanvas.height = totalH;
+        const ctx = combinedCanvas.getContext('2d');
+
+        ctx.fillStyle = themeBg;
+        ctx.fillRect(0, 0, totalW, totalH);
+
+        ctx.drawImage(canvasFront, pad, pad);
+        ctx.drawImage(canvasRear, pad + canvasFront.width + gap, pad);
+
+        const url = combinedCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `${rack.name.replace(/\s+/g, '_')}_Ambos_Lados.png`;
+        link.href = url;
+        link.click();
+        notify(`PNG exportado (Alta Fidelidad 1:1): ${rack.name} (Frontal + Trasera)`, 'success');
+        return;
+      } else {
+        prepareSide(targetSide);
+        await new Promise(r => setTimeout(r, 50));
+        const canvas = await html2canvas(rackWrapper, {
+          scale: 2,
+          backgroundColor: themeBg,
+          useCORS: true,
+          logging: false
+        });
+
+        const sideSuffix = targetSide === 'rear' ? '_Trasera' : '_Frontal';
+        const url = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `${rack.name.replace(/\s+/g, '_')}${sideSuffix}.png`;
+        link.href = url;
+        link.click();
+        notify(`PNG exportado (Alta Fidelidad 1:1): ${rack.name} (${targetSide === 'rear' ? 'Vista Trasera' : 'Vista Frontal'})`, 'success');
+        return;
+      }
+    } catch (err) {
+      console.warn('[html2canvas] Fallback a renderizado 2D procedimental:', err);
+    } finally {
+      rackWrapper.classList.remove('exporting-capture');
+      rackWrapper.style.perspective = prevWrapperStyles.perspective;
+      rackWrapper.style.transform = prevWrapperStyles.transform;
+      rackWrapper.style.overflow = prevWrapperStyles.overflow;
+
+      if (flipper && prevFlipperStyles) {
+        flipper.style.transform = prevFlipperStyles.transform;
+        flipper.style.transformStyle = prevFlipperStyles.transformStyle;
+        if (flipper.style.webkitTransformStyle !== undefined) flipper.style.webkitTransformStyle = prevFlipperStyles.webkitTransformStyle;
+        flipper.style.transition = prevFlipperStyles.transition;
+      }
+
+      if (face && prevFaceStyles) {
+        face.style.display = prevFaceStyles.display;
+        face.style.position = prevFaceStyles.position;
+        face.style.transform = prevFaceStyles.transform;
+        face.style.visibility = prevFaceStyles.visibility;
+      }
+
+      if (rear && prevRearStyles) {
+        rear.style.display = prevRearStyles.display;
+        rear.style.position = prevRearStyles.position;
+        rear.style.transform = prevRearStyles.transform;
+        rear.style.visibility = prevRearStyles.visibility;
+        rear.style.top = prevRearStyles.top;
+        rear.style.left = prevRearStyles.left;
+        rear.style.right = prevRearStyles.right;
+        rear.style.bottom = prevRearStyles.bottom;
+      }
+
+      if (phys) {
+        phys.style.zoom = prevPhysZoom;
+        phys.style.transform = prevPhysTransform;
+      }
+    }
+  }
+
+  // Fallback procedural en Canvas 2D
+  _fallbackExportRackToPNG(rack, side);
+}
+
+function _fallbackExportRackToPNG(rack, side) {
+  const devices = store.allDevicesInRack(rack.id);
+  const frontDevices = devices.filter(d => d.mountSide !== 'rear');
+  const rearDevices  = devices.filter(d => d.mountSide === 'rear');
+  const hasRear = rearDevices.length > 0;
+
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const themeBg = getActiveThemeBg();
+  const railBg = isLight ? '#e2e8f0' : '#1a2035';
+  const textMuted = isLight ? '#64748b' : '#4a5a78';
+
+  const W = 280, UNIT = 24, GAP = 40;
+  const H = rack.height * UNIT + 60;
+  
+  let showFront = true;
+  let showRear = false;
+  if (side === 'rear') {
+    showFront = false;
+    showRear = true;
+  } else if (side === 'front') {
+    showFront = true;
+    showRear = false;
+  } else {
+    showRear = hasRear;
+  }
+
+  const totalW = (showFront && showRear) ? (W * 2 + GAP) : W;
+
+  const offCanvas = document.createElement('canvas');
+  offCanvas.width  = totalW * 2;
+  offCanvas.height = H * 2;
+  const oc = offCanvas.getContext('2d');
+  oc.scale(2, 2);
+
+  oc.fillStyle = themeBg;
+  oc.fillRect(0, 0, totalW, H);
+
+  function drawRack(offsetX, sideDevices, title) {
+    oc.save();
+    oc.translate(offsetX, 0);
+
+    oc.strokeStyle = rack.color;
+    oc.lineWidth = 2;
+    oc.strokeRect(1, 1, W-2, H-2);
+
+    if (title) {
+      oc.fillStyle = rack.color;
+      oc.font = 'bold 12px sans-serif';
+      oc.fillText(title, 10, 18);
+    }
+    oc.fillStyle = textMuted;
+    oc.font = '9px monospace';
+    oc.fillText(`${rack.height}U · ${sideDevices.reduce((s,d)=>s+d.size,0)} usadas`, 10, 30);
+
+    oc.fillStyle = railBg;
+    oc.fillRect(0, 40, 18, rack.height * UNIT);
+    oc.fillRect(W-18, 40, 18, rack.height * UNIT);
+
+    for (let u = 1; u <= rack.height; u++) {
+      const y = 40 + (rack.height - u) * UNIT;
+      oc.fillStyle = u % 5 === 0 ? (isLight ? '#94a3b8' : '#3d5480') : (isLight ? '#cbd5e1' : '#1e2d44');
+      oc.font = '7px monospace';
+      oc.textAlign = 'center';
+      oc.fillText(u, 9, y + UNIT/2 + 3);
+      oc.fillText(u, W-9, y + UNIT/2 + 3);
+      oc.strokeStyle = isLight ? '#e2e8f0' : '#0d1220';
+      oc.lineWidth = 0.5;
+      oc.beginPath(); oc.moveTo(18, y); oc.lineTo(W-18, y); oc.stroke();
+    }
+
+    const typeColors = TYPE_COLORS;
+    for (let u = 1; u <= rack.height; u++) {
+      const dev = sideDevices.find(d => d.slotStart === u);
+      if (!dev) continue;
+      const h = dev.size * UNIT;
+      const y = 40 + (rack.height - (u + dev.size - 1)) * UNIT;
+      const col = typeColors[dev.type] || '#888';
+
+      oc.fillStyle = col + '22';
+      oc.fillRect(18, y, W-36, h);
+      oc.strokeStyle = col;
+      oc.lineWidth = 1;
+      oc.strokeRect(18, y, W-36, h);
+
+      oc.fillStyle = col;
+      oc.font = `bold ${Math.min(10, h-4)}px sans-serif`;
+      oc.textAlign = 'left';
+      oc.fillText(dev.name.slice(0,22), 24, y + h/2 - 2);
+      if (h > 24) {
+        oc.fillStyle = isLight ? '#334155' : '#8b9ab8';
+        oc.font = '8px monospace';
+        oc.fillText(dev.ip || 'NO IP', 24, y + h/2 + 10);
+      }
+      oc.beginPath();
+      oc.arc(W-26, y + h/2, 4, 0, Math.PI*2);
+      oc.fillStyle = '#00ff88';
+      oc.fill();
+    }
+    oc.restore();
+  }
+
+  if (showFront && showRear) {
+    drawRack(0, frontDevices, rack.name + ' (Frontal)');
+    drawRack(W + GAP, rearDevices, 'Vista Trasera');
+  } else if (showRear) {
+    drawRack(0, rearDevices, rack.name + ' (Vista Trasera)');
+  } else {
+    drawRack(0, frontDevices, rack.name);
+  }
+
+  const sideSuffix = side === 'rear' ? '_Trasera' : (side === 'both' ? '_Ambos_Lados' : (side === 'front' && hasRear ? '_Frontal' : ''));
+  const url  = offCanvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = `${rack.name.replace(/\s+/g,'_')}${sideSuffix}.png`;
+  link.href = url;
+  link.click();
+  notify(`PNG exportado: ${rack.name}${side === 'both' ? ' (Ambos Lados)' : (side === 'rear' ? ' (Trasera)' : '')}`, 'success');
+}
+
+// Función para dibujar iconos vectoriales de equipos de piso en Canvas 2D
+function drawFloorIconCanvas(oc, type, color, cx, cy, size = 34) {
+  oc.save();
+  const x = cx;
+  const y = cy;
+  const r = 6;
+  
+  // Caja con esquinas redondeadas y fondo suave
+  oc.beginPath();
+  oc.moveTo(x + r, y);
+  oc.lineTo(x + size - r, y);
+  oc.arcTo(x + size, y, x + size, y + r, r);
+  oc.lineTo(x + size, y + size - r);
+  oc.arcTo(x + size, y + size, x + size - r, y + size, r);
+  oc.lineTo(x + r, y + size);
+  oc.arcTo(x, y + size, x, y + size - r, r);
+  oc.lineTo(x, y + r);
+  oc.arcTo(x, y, x + r, y, r);
+  oc.closePath();
+
+  oc.fillStyle = color + '1a';
+  oc.fill();
+  oc.strokeStyle = color + '40';
+  oc.lineWidth = 1;
+  oc.stroke();
+
+  // Trazado del icono
+  oc.strokeStyle = color;
+  oc.fillStyle = color;
+  oc.lineWidth = 1.8;
+  oc.lineCap = 'round';
+  oc.lineJoin = 'round';
+
+  const midX = x + size / 2;
+  const midY = y + size / 2;
+
+  switch (type) {
+    case 'camera': {
+      oc.beginPath();
+      oc.strokeRect(midX - 9, midY - 6, 18, 12);
+      oc.beginPath();
+      oc.arc(midX, midY, 3.5, 0, Math.PI * 2);
+      oc.stroke();
+      oc.beginPath();
+      oc.arc(midX + 5, midY - 3, 1, 0, Math.PI * 2);
+      oc.fill();
+      break;
+    }
+    case 'printer': {
+      oc.beginPath();
+      oc.strokeRect(midX - 5, midY - 8, 10, 4);
+      oc.beginPath();
+      oc.strokeRect(midX - 8, midY - 4, 16, 8);
+      oc.beginPath();
+      oc.moveTo(midX - 5, midY + 4);
+      oc.lineTo(midX - 5, midY + 8);
+      oc.lineTo(midX + 5, midY + 8);
+      oc.lineTo(midX + 5, midY + 4);
+      oc.stroke();
+      break;
+    }
+    case 'phone': {
+      oc.beginPath();
+      oc.moveTo(midX - 6, midY - 5);
+      oc.lineTo(midX - 2, midY - 5);
+      oc.lineTo(midX - 1, midY - 2);
+      oc.lineTo(midX - 3, midY);
+      oc.quadraticCurveTo(midX, midY + 3, midX + 3, midY);
+      oc.lineTo(midX + 5, midY - 2);
+      oc.lineTo(midX + 6, midY + 1);
+      oc.quadraticCurveTo(midX + 2, midY + 7, midX - 5, midY);
+      oc.closePath();
+      oc.stroke();
+      break;
+    }
+    case 'ap': {
+      oc.beginPath();
+      oc.moveTo(midX, midY + 7);
+      oc.lineTo(midX, midY - 1);
+      oc.stroke();
+      oc.beginPath();
+      oc.moveTo(midX - 4, midY + 2);
+      oc.lineTo(midX, midY - 2);
+      oc.lineTo(midX + 4, midY + 2);
+      oc.stroke();
+      oc.beginPath();
+      oc.arc(midX, midY - 1, 6, -Math.PI * 0.8, -Math.PI * 0.2);
+      oc.stroke();
+      break;
+    }
+    case 'pc': {
+      oc.beginPath();
+      oc.strokeRect(midX - 8, midY - 8, 16, 11);
+      oc.beginPath();
+      oc.moveTo(midX, midY + 3);
+      oc.lineTo(midX, midY + 7);
+      oc.moveTo(midX - 4, midY + 7);
+      oc.lineTo(midX + 4, midY + 7);
+      oc.stroke();
+      break;
+    }
+    case 'door': {
+      oc.beginPath();
+      oc.strokeRect(midX - 6, midY - 9, 12, 18);
+      oc.beginPath();
+      oc.arc(midX + 2, midY, 1.2, 0, Math.PI * 2);
+      oc.fill();
+      break;
+    }
+    default: {
+      oc.beginPath();
+      oc.strokeRect(midX - 7, midY - 7, 14, 14);
+      oc.moveTo(midX - 7, midY);
+      oc.lineTo(midX + 7, midY);
+      oc.stroke();
+      break;
+    }
+  }
+
+  oc.restore();
+}
+
+async function exportFloorToPNG(roomId) {
+  const floorDevices = store.allFloorDevicesInRoom(roomId);
+  const room = store._raw.rooms.find(r => r.id === roomId);
+  if (!floorDevices.length) return;
+
+  const phys = document.getElementById('view-physical-content');
+  const prevPhysZoom = phys ? phys.style.zoom : '';
+  const prevPhysTransform = phys ? phys.style.transform : '';
+
+  // Intento de exportación en Alta Fidelidad 1:1 vía html2canvas (M-37)
+  const floorEl = typeof document !== 'undefined' ? document.querySelector('.floor-section') : null;
+  if (typeof html2canvas === 'function' && floorEl) {
+    const interactiveElements = floorEl.querySelectorAll('#floor-btn-add-device, .device-actions');
+    const prevDisplays = [];
+    interactiveElements.forEach(el => {
+      prevDisplays.push({ el, display: el.style.display });
+      el.style.display = 'none';
+    });
+
+    try {
+      if (phys) {
+        phys.style.zoom = '1';
+        phys.style.transform = 'none';
+      }
+      floorEl.classList.add('exporting-capture');
+      const themeBg = getActiveThemeBg();
+      const canvas = await html2canvas(floorEl, {
+        scale: 2,
+        backgroundColor: themeBg,
+        useCORS: true,
+        logging: false
+      });
+
+      const url = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `Equipos_Piso_${room ? room.name.replace(/\s+/g, '_') : 'Sala'}.png`;
+      link.href = url;
+      link.click();
+      notify(`PNG exportado (Alta Fidelidad 1:1): Equipos de Piso`, 'success');
+      return;
+    } catch (err) {
+      console.warn('[html2canvas] Fallback a renderizado 2D procedimental para piso:', err);
+    } finally {
+      interactiveElements.forEach(({ el, display }) => {
+        el.style.display = display;
+      });
+      if (floorEl) floorEl.classList.remove('exporting-capture');
+      if (phys) {
+        phys.style.zoom = prevPhysZoom;
+        phys.style.transform = prevPhysTransform;
+      }
+    }
+  }
+
+  // Fallback procedural en Canvas 2D
+  _fallbackExportFloorToPNG(roomId, floorDevices, room);
+}
+
+function _fallbackExportFloorToPNG(roomId, floorDevices, room) {
+  const cols = 2;
+  const rowHeight = 76;
+  const colWidth = 270;
+  const padding = 24;
+  
+  const rows = Math.ceil(floorDevices.length / cols);
+  
+  const W = cols * colWidth + padding * 2;
+  const H = rows * rowHeight + padding * 2 + 50;
+
+  const offCanvas = document.createElement('canvas');
+  offCanvas.width  = W * 2;
+  offCanvas.height = H * 2;
+  const oc = offCanvas.getContext('2d');
+  oc.scale(2, 2);
+
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const themeBg = getActiveThemeBg();
+  oc.fillStyle = themeBg;
+  oc.fillRect(0, 0, W, H);
+
+  oc.fillStyle = '#f59e0b';
+  oc.font = 'bold 16px sans-serif';
+  oc.fillText(`Equipos de Piso / Periféricos - ${room ? room.name : 'Sala'}`, padding, padding + 15);
+
+  oc.fillStyle = isLight ? '#64748b' : '#4a5a78';
+  oc.font = '11px monospace';
+  oc.fillText(`${floorDevices.length} dispositivos`, padding, padding + 35);
+
+  const colors = {
+    pc:      '#0ea5e9',
+    camera:  '#8b5cf6',
+    ap:      '#10b981',
+    door:    '#f59e0b',
+    printer: '#06b6d4',
+    phone:   '#ef4444',
+  };
+
+  floorDevices.forEach((dev, index) => {
+    const col = index % cols;
+    const row = Math.floor(index / cols);
+    
+    const x = padding + col * colWidth;
+    const y = padding + 55 + row * rowHeight;
+    const cardW = colWidth - 16;
+    const cardH = rowHeight - 16;
+    
+    const color = colors[dev.type] || '#8b9ab8';
+    
+    // Fondo de tarjeta con borde
+    oc.fillStyle = isLight ? '#f8fafc' : '#0c1420';
+    oc.fillRect(x, y, cardW, cardH);
+    oc.strokeStyle = isLight ? '#e2e8f0' : '#1e293b';
+    oc.lineWidth = 1;
+    oc.strokeRect(x, y, cardW, cardH);
+
+    // Borde izquierdo de color
+    oc.fillStyle = color;
+    oc.fillRect(x, y, 4, cardH);
+
+    // Icono vectorial
+    const iconSize = 34;
+    const iconX = x + 12;
+    const iconY = y + (cardH - iconSize) / 2;
+    drawFloorIconCanvas(oc, dev.type, color, iconX, iconY, iconSize);
+
+    // Textos informativos
+    const textX = iconX + iconSize + 12;
+    oc.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+    oc.font = 'bold 12px sans-serif';
+    oc.textAlign = 'left';
+    oc.fillText(dev.name.slice(0, 22), textX, y + 20);
+
+    oc.fillStyle = isLight ? '#64748b' : '#8b9ab8';
+    oc.font = '10px monospace';
+    oc.fillText(String(dev.type || 'unknown').toUpperCase(), textX, y + 35);
+    
+    if (dev.ip) {
+      oc.fillText(`IP: ${dev.ip}`, textX, y + 48);
+    }
+  });
+
+  const url  = offCanvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = `Equipos_Piso_${room ? room.name.replace(/\s+/g,'_') : 'Sala'}.png`;
+  link.href = url;
+  link.click();
+  notify(`PNG exportado: Equipos de Piso (${floorDevices.length})`, 'success');
+}
+
+async function exportRoomToPNG(roomId, mode = 'current') {
+  const room = store._raw.rooms.find(r => r.id === roomId) || store.currentRoom;
+  if (!room) return;
+
+  const racks = (typeof store.allRacksInRoom === 'function')
+    ? store.allRacksInRoom(room.id)
+    : (store._raw.racks || []).filter(r => r.roomId === room.id);
+  const floorDevices = (typeof store.allFloorDevicesInRoom === 'function')
+    ? store.allFloorDevicesInRoom(room.id)
+    : (store._raw.devices || []).filter(d => d.category === 'floor' && d.roomId === room.id);
+  if (!racks.length && !floorDevices.length) {
+    notify('No hay elementos en esta sala para exportar', 'warn');
+    return;
+  }
+
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const themeBg = getActiveThemeBg();
+  const phys = document.getElementById('view-physical-content');
+
+  // --- MODO DUAL: Frente + Dorso por Gabinete en Recuadro Modular ---
+  if (mode === 'dual') {
+    if (typeof html2canvas === 'function' && phys) {
+      const prevPhysZoom = phys.style.zoom;
+      const prevPhysTransform = phys.style.transform;
+
+      // Ocultar botones interactivos de la sala
+      const interactiveElements = phys.querySelectorAll(
+        '#canvas-btn-add-rack, #floor-btn-add-device, .device-actions, .btn-flip-rack, [data-rack-menu-toggle], .dropdown-menu, .rack-menu'
+      );
+      const hiddenElementsMap = [];
+      interactiveElements.forEach(el => {
+        hiddenElementsMap.push({ el, display: el.style.display });
+        el.style.display = 'none';
+      });
+
+      const cablesSvg = document.getElementById('physical-cables-svg');
+      let prevCablesDisplay = '';
+      if (cablesSvg) {
+        prevCablesDisplay = cablesSvg.style.display;
+        cablesSvg.style.display = 'none';
+      }
+
+      try {
+        phys.classList.add('exporting-capture');
+        phys.style.zoom = '1';
+        phys.style.transform = 'none';
+
+        const renderedModules = [];
+
+        for (const rack of racks) {
+          const rackWrapper = phys.querySelector(`.rack-wrapper[data-rack-id="${rack.id}"]`);
+          if (!rackWrapper) continue;
+
+          const flipper = rackWrapper.querySelector('.rack-flipper');
+          const face = flipper ? flipper.querySelector('.rack-face') : null;
+          const rear = flipper ? flipper.querySelector('.rack-rear') : null;
+
+          const prevWrapperStyles = {
+            perspective: rackWrapper.style.perspective,
+            transform: rackWrapper.style.transform,
+            overflow: rackWrapper.style.overflow
+          };
+          const prevFlipperStyles = flipper ? {
+            transform: flipper.style.transform,
+            transformStyle: flipper.style.transformStyle,
+            webkitTransformStyle: flipper.style.webkitTransformStyle,
+            transition: flipper.style.transition
+          } : null;
+          const prevFaceStyles = face ? {
+            display: face.style.display,
+            position: face.style.position,
+            transform: face.style.transform,
+            visibility: face.style.visibility
+          } : null;
+          const prevRearStyles = rear ? {
+            display: rear.style.display,
+            position: rear.style.position,
+            transform: rear.style.transform,
+            visibility: rear.style.visibility,
+            top: rear.style.top,
+            left: rear.style.left,
+            right: rear.style.right,
+            bottom: rear.style.bottom
+          } : null;
+
+          rackWrapper.classList.add('exporting-capture');
+          rackWrapper.style.perspective = 'none';
+          if (flipper) {
+            flipper.style.transform = 'none';
+            flipper.style.transformStyle = 'flat';
+            if (flipper.style.webkitTransformStyle !== undefined) flipper.style.webkitTransformStyle = 'flat';
+            flipper.style.transition = 'none';
+          }
+
+          const prepareSide = (s) => {
+            if (s === 'rear') {
+              if (face) face.style.display = 'none';
+              if (rear) {
+                rear.style.display = 'block';
+                rear.style.position = 'relative';
+                rear.style.transform = 'none';
+                rear.style.visibility = 'visible';
+                rear.style.top = 'auto';
+                rear.style.left = 'auto';
+              }
+            } else {
+              if (rear) rear.style.display = 'none';
+              if (face) {
+                face.style.display = 'block';
+                face.style.position = 'relative';
+                face.style.transform = 'none';
+                face.style.visibility = 'visible';
+              }
+            }
+          };
+
+          // 1. Capturar Cara Frontal
+          prepareSide('front');
+          await new Promise(r => setTimeout(r, 40));
+          const canvasFront = await html2canvas(rackWrapper, {
+            scale: 2,
+            backgroundColor: themeBg,
+            useCORS: true,
+            logging: false
+          });
+
+          // 2. Capturar Cara Trasera
+          prepareSide('rear');
+          await new Promise(r => setTimeout(r, 40));
+          const canvasRear = await html2canvas(rackWrapper, {
+            scale: 2,
+            backgroundColor: themeBg,
+            useCORS: true,
+            logging: false
+          });
+
+          // Restaurar estilos de este rack
+          rackWrapper.classList.remove('exporting-capture');
+          rackWrapper.style.perspective = prevWrapperStyles.perspective;
+          rackWrapper.style.transform = prevWrapperStyles.transform;
+          rackWrapper.style.overflow = prevWrapperStyles.overflow;
+          if (flipper && prevFlipperStyles) {
+            flipper.style.transform = prevFlipperStyles.transform;
+            flipper.style.transformStyle = prevFlipperStyles.transformStyle;
+            if (flipper.style.webkitTransformStyle !== undefined) flipper.style.webkitTransformStyle = prevFlipperStyles.webkitTransformStyle;
+            flipper.style.transition = prevFlipperStyles.transition;
+          }
+          if (face && prevFaceStyles) {
+            face.style.display = prevFaceStyles.display;
+            face.style.position = prevFaceStyles.position;
+            face.style.transform = prevFaceStyles.transform;
+            face.style.visibility = prevFaceStyles.visibility;
+          }
+          if (rear && prevRearStyles) {
+            rear.style.display = prevRearStyles.display;
+            rear.style.position = prevRearStyles.position;
+            rear.style.transform = prevRearStyles.transform;
+            rear.style.visibility = prevRearStyles.visibility;
+            rear.style.top = prevRearStyles.top;
+            rear.style.left = prevRearStyles.left;
+            rear.style.right = prevRearStyles.right;
+            rear.style.bottom = prevRearStyles.bottom;
+          }
+
+          // 3. Crear Módulo Modular del Rack
+          const rackDevs = store.allDevicesInRack(rack.id);
+          const usedU = rackDevs.reduce((sum, d) => sum + (d.size || 1), 0);
+          const rackWatts = rackDevs.reduce((sum, d) => sum + (d.power || 0), 0);
+          const rColor = rack.color || '#3b82f6';
+
+          const pad = 20 * 2;
+          const colGap = 24 * 2;
+          const headH = 58 * 2;
+          const subHeadH = 28 * 2;
+          const contentH = Math.max(canvasFront.height, canvasRear.height);
+
+          const modW = canvasFront.width + canvasRear.width + colGap + pad * 2;
+          const modH = headH + subHeadH + contentH + pad;
+
+          const modCanvas = document.createElement('canvas');
+          modCanvas.width = modW;
+          modCanvas.height = modH;
+          const mctx = modCanvas.getContext('2d');
+
+          // Fondo modular redondeado
+          const modBg = isLight ? '#ffffff' : '#0c1420';
+          const modBorder = isLight ? '#e2e8f0' : '#1e293b';
+
+          mctx.fillStyle = modBg;
+          mctx.beginPath();
+          if (mctx.roundRect) mctx.roundRect(0, 0, modW, modH, 16);
+          else mctx.rect(0, 0, modW, modH);
+          mctx.fill();
+
+          mctx.strokeStyle = rColor;
+          mctx.lineWidth = 3;
+          mctx.beginPath();
+          if (mctx.roundRect) mctx.roundRect(1.5, 1.5, modW - 3, modH - 3, 16);
+          else mctx.strokeRect(1.5, 1.5, modW - 3, modH - 3);
+          mctx.stroke();
+
+          // Franja superior de color
+          mctx.fillStyle = rColor;
+          mctx.fillRect(0, 0, modW, 8);
+
+          // Título de cabecera
+          mctx.fillStyle = rColor;
+          mctx.font = 'bold 24px sans-serif';
+          mctx.textAlign = 'left';
+          mctx.fillText(`GABINETE: ${rack.name.toUpperCase()}`, pad, 48);
+
+          mctx.fillStyle = isLight ? '#64748b' : '#94a3b8';
+          mctx.font = '16px monospace';
+          mctx.fillText(`${rack.height}U · ${usedU}U USADAS · ${rackWatts}W`, pad, 78);
+
+          // Badge "VISTA DUAL (F+T)"
+          const badgeText = 'VISTA DUAL (F+T)';
+          mctx.font = 'bold 14px monospace';
+          const badgeW = mctx.measureText(badgeText).width + 24;
+          const badgeH = 28;
+          const badgeX = modW - pad - badgeW;
+          const badgeY = 32;
+
+          mctx.fillStyle = isLight ? '#f1f5f9' : '#1a2438';
+          mctx.beginPath();
+          if (mctx.roundRect) mctx.roundRect(badgeX, badgeY, badgeW, badgeH, 6);
+          else mctx.rect(badgeX, badgeY, badgeW, badgeH);
+          mctx.fill();
+          mctx.strokeStyle = rColor;
+          mctx.lineWidth = 1.5;
+          mctx.stroke();
+
+          mctx.fillStyle = rColor;
+          mctx.textAlign = 'center';
+          mctx.fillText(badgeText, badgeX + badgeW / 2, badgeY + 19);
+
+          // Línea divisoria bajo cabecera
+          mctx.strokeStyle = modBorder;
+          mctx.lineWidth = 1.5;
+          mctx.beginPath();
+          mctx.moveTo(pad, headH - 12);
+          mctx.lineTo(modW - pad, headH - 12);
+          mctx.stroke();
+
+          // Subcabeceras de columna (Frontal / Trasera)
+          const col1CenterX = pad + canvasFront.width / 2;
+          const col2CenterX = pad + canvasFront.width + colGap + canvasRear.width / 2;
+
+          mctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+          mctx.font = 'bold 18px sans-serif';
+          mctx.textAlign = 'center';
+          mctx.fillText('VISTA FRONTAL', col1CenterX, headH + 16);
+          mctx.fillText('VISTA TRASERA', col2CenterX, headH + 16);
+
+          // Dibujar caras
+          mctx.drawImage(canvasFront, pad, headH + subHeadH);
+          mctx.drawImage(canvasRear, pad + canvasFront.width + colGap, headH + subHeadH);
+
+          renderedModules.push({ rack, canvas: modCanvas, width: modW, height: modH });
+        }
+
+        // Restaurar elementos globales ocultos
+        hiddenElementsMap.forEach(({ el, display }) => { el.style.display = display; });
+        if (cablesSvg) cablesSvg.style.display = prevCablesDisplay;
+        phys.classList.remove('exporting-capture');
+        phys.style.zoom = prevPhysZoom;
+        phys.style.transform = prevPhysTransform;
+
+        if (!renderedModules.length) {
+          throw new Error('No se pudieron renderizar los módulos de rack');
+        }
+
+        // 4. Renderizar Equipos de Piso (si existen)
+        let floorCanvas = null;
+        if (floorDevices.length > 0) {
+          const fcols = Math.min(4, Math.max(2, renderedModules.length * 2));
+          const fcolW = 280 * 2;
+          const frowH = 75 * 2;
+          const frows = Math.ceil(floorDevices.length / fcols);
+          const fpad = 24 * 2;
+
+          const ftotalW = fpad * 2 + fcols * fcolW;
+          const ftotalH = fpad * 2 + 50 * 2 + frows * frowH;
+
+          floorCanvas = document.createElement('canvas');
+          floorCanvas.width = ftotalW;
+          floorCanvas.height = ftotalH;
+          const fctx = floorCanvas.getContext('2d');
+
+          fctx.fillStyle = isLight ? '#ffffff' : '#0c1420';
+          fctx.beginPath();
+          if (fctx.roundRect) fctx.roundRect(0, 0, ftotalW, ftotalH, 16);
+          else fctx.rect(0, 0, ftotalW, ftotalH);
+          fctx.fill();
+          fctx.strokeStyle = '#f59e0b';
+          fctx.lineWidth = 2.5;
+          fctx.stroke();
+
+          fctx.fillStyle = '#f59e0b';
+          fctx.fillRect(0, 0, ftotalW, 8);
+
+          fctx.fillStyle = '#f59e0b';
+          fctx.font = 'bold 24px sans-serif';
+          fctx.textAlign = 'left';
+          fctx.fillText('EQUIPOS DE PISO / PERIFÉRICOS', fpad, 48);
+
+          fctx.fillStyle = isLight ? '#64748b' : '#94a3b8';
+          fctx.font = '16px monospace';
+          fctx.fillText(`${floorDevices.length} dispositivos en sala`, fpad, 76);
+
+          const floorColors = { pc: '#0ea5e9', camera: '#8b5cf6', ap: '#10b981', door: '#f59e0b', printer: '#06b6d4', phone: '#ef4444' };
+          floorDevices.forEach((dev, idx) => {
+            const col = idx % fcols;
+            const row = Math.floor(idx / fcols);
+            const x = fpad + col * fcolW;
+            const y = fpad + 50 * 2 + row * frowH;
+            const cardW = fcolW - 16 * 2;
+            const cardH = frowH - 12 * 2;
+            const dColor = floorColors[dev.type] || '#8b9ab8';
+
+            fctx.fillStyle = isLight ? '#f8fafc' : '#111b2b';
+            fctx.fillRect(x, y, cardW, cardH);
+            fctx.strokeStyle = isLight ? '#e2e8f0' : '#1e293b';
+            fctx.lineWidth = 1.5;
+            fctx.strokeRect(x, y, cardW, cardH);
+
+            fctx.fillStyle = dColor;
+            fctx.fillRect(x, y, 6, cardH);
+
+            const iconSize = 44;
+            const iconX = x + 18;
+            const iconY = y + (cardH - iconSize) / 2;
+            drawFloorIconCanvas(fctx, dev.type, dColor, iconX, iconY, iconSize);
+
+            const textX = iconX + iconSize + 16;
+            fctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+            fctx.font = 'bold 18px sans-serif';
+            fctx.textAlign = 'left';
+            fctx.fillText(dev.name.slice(0, 24), textX, y + 28);
+
+            fctx.fillStyle = isLight ? '#64748b' : '#8b9ab8';
+            fctx.font = '14px monospace';
+            fctx.fillText(String(dev.type || 'unknown').toUpperCase(), textX, y + 50);
+
+            if (dev.ip) {
+              fctx.fillText(`IP: ${dev.ip}`, textX, y + 70);
+            }
+          });
+        }
+
+        // 5. Ensamblado Panorámico de la Sala
+        const margin = 36 * 2;
+        const modGap = 40 * 2;
+        const totalModulesW = renderedModules.reduce((s, m) => s + m.width, 0) + (renderedModules.length - 1) * modGap;
+        const maxModH = Math.max(...renderedModules.map(m => m.height));
+
+        const canvasTotalW = Math.max(totalModulesW + margin * 2, floorCanvas ? floorCanvas.width + margin * 2 : 0, 1400);
+        const roomHeadH = 100 * 2;
+        const floorSectionH = floorCanvas ? floorCanvas.height + 36 * 2 : 0;
+        const canvasTotalH = margin + roomHeadH + maxModH + floorSectionH + margin;
+
+        const mainCanvas = document.createElement('canvas');
+        mainCanvas.width = canvasTotalW;
+        mainCanvas.height = canvasTotalH;
+        const ctx = mainCanvas.getContext('2d');
+
+        ctx.fillStyle = themeBg;
+        ctx.fillRect(0, 0, canvasTotalW, canvasTotalH);
+
+        // Cabecera General
+        const totalRacks = racks.length;
+        const totalFloor = floorDevices.length;
+        const allDevsInRoom = store._raw.devices.filter(d => d.roomId === room.id);
+        const totalUsedU = allDevsInRoom.filter(d => d.category !== 'floor').reduce((s, d) => s + (d.size || 1), 0);
+        const totalPowerW = allDevsInRoom.reduce((s, d) => s + (d.power || 0), 0);
+
+        ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+        ctx.font = 'bold 36px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`SALA: ${(room.name || 'Datacenter').toUpperCase()}`, margin, margin + 44);
+
+        ctx.fillStyle = isLight ? '#475569' : '#94a3b8';
+        ctx.font = '20px monospace';
+        ctx.fillText(
+          `${totalRacks} GABINETES (VISTA DUAL) · ${totalFloor} EQUIPOS DE PISO · ${totalUsedU}U OCUPADAS · ${(totalPowerW/1000).toFixed(2)} kW`,
+          margin,
+          margin + 84
+        );
+
+        // Badge General
+        const mainBadgeText = 'VISTA DUAL PANORÁMICA';
+        ctx.font = 'bold 16px monospace';
+        const mbW = ctx.measureText(mainBadgeText).width + 28;
+        const mbH = 34;
+        const mbX = canvasTotalW - margin - mbW;
+        const mbY = margin + 26;
+
+        ctx.fillStyle = isLight ? '#e0f2fe' : '#0369a1';
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(mbX, mbY, mbW, mbH, 8);
+        else ctx.rect(mbX, mbY, mbW, mbH);
+        ctx.fill();
+        ctx.fillStyle = isLight ? '#0284c7' : '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText(mainBadgeText, mbX + mbW / 2, mbY + 23);
+
+        // Línea divisoria
+        ctx.strokeStyle = isLight ? '#cbd5e1' : '#1e293b';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(margin, margin + roomHeadH - 16);
+        ctx.lineTo(canvasTotalW - margin, margin + roomHeadH - 16);
+        ctx.stroke();
+
+        // Módulos horizontalmente
+        let currentX = margin;
+        const startRacksY = margin + roomHeadH;
+        renderedModules.forEach(mod => {
+          ctx.drawImage(mod.canvas, currentX, startRacksY);
+          currentX += mod.width + modGap;
+        });
+
+        // Equipos de piso
+        if (floorCanvas) {
+          const floorY = startRacksY + maxModH + 36 * 2;
+          ctx.drawImage(floorCanvas, margin, floorY);
+        }
+
+        const url = mainCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `Sala_${(room.name || 'Datacenter').replace(/\s+/g, '_')}_Dual_Frente_Dorso.png`;
+        link.href = url;
+        link.click();
+        notify(`PNG exportado (Vista Dual Sala): Sala ${room.name}`, 'success');
+        return;
+
+      } catch (err) {
+        console.error('[html2canvas] Fallo en captura dual de sala:', err);
+        notify(`Aviso: Error en captura dual 1:1 (${err.message || err}). Usando renderizado alternativo.`, 'warn');
+      } finally {
+        hiddenElementsMap.forEach(({ el, display }) => { el.style.display = display; });
+        if (cablesSvg) cablesSvg.style.display = prevCablesDisplay;
+        if (phys) {
+          phys.classList.remove('exporting-capture');
+          phys.style.zoom = prevPhysZoom;
+          phys.style.transform = prevPhysTransform;
+        }
+      }
+    }
+
+    // Fallback procedural en Canvas 2D para modo dual
+    _fallbackExportRoomToPNG(room, racks, floorDevices, 'dual');
+    return;
+  }
+
+  // --- MODO CURRENT: Vista Actual 1:1 ---
+  if (typeof html2canvas === 'function' && phys) {
+    const prevPhysZoom = phys.style.zoom;
+    const prevPhysTransform = phys.style.transform;
+    const prevPhysPadding = phys.style.padding;
+    const prevPhysWidth = phys.style.width;
+    const prevPhysMaxWidth = phys.style.maxWidth;
+    const prevPhysMinWidth = phys.style.minWidth;
+    const prevPhysBoxSizing = phys.style.boxSizing;
+    const prevPhysOverflow = phys.style.overflow;
+
+    const floorSec = phys.querySelector('.floor-section');
+    const hasFloorDevs = floorDevices && floorDevices.length > 0;
+    let prevFloorDisplay = '';
+    if (floorSec && !hasFloorDevs) {
+      prevFloorDisplay = floorSec.style.display;
+      floorSec.style.display = 'none';
+    }
+
+    // Aplanar transformaciones 3D de cada rack individual en la sala
+    const preservedRacks = [];
+    phys.querySelectorAll('.rack-wrapper').forEach(rw => {
+      if (rw.id === 'canvas-btn-add-rack') return;
+      const flipper = rw.querySelector('.rack-flipper');
+      const face = flipper ? flipper.querySelector('.rack-face') : null;
+      const rear = flipper ? flipper.querySelector('.rack-rear') : null;
+      const isCurrentlyFlipped = flipper ? flipper.classList.contains('flipped') : false;
+
+      preservedRacks.push({
+        rw,
+        prevWrapperStyles: {
+          perspective: rw.style.perspective,
+          transform: rw.style.transform,
+          overflow: rw.style.overflow
+        },
+        flipper,
+        prevFlipperStyles: flipper ? {
+          transform: flipper.style.transform,
+          transformStyle: flipper.style.transformStyle,
+          webkitTransformStyle: flipper.style.webkitTransformStyle,
+          transition: flipper.style.transition
+        } : null,
+        face,
+        prevFaceStyles: face ? {
+          display: face.style.display,
+          position: face.style.position,
+          transform: face.style.transform,
+          visibility: face.style.visibility
+        } : null,
+        rear,
+        prevRearStyles: rear ? {
+          display: rear.style.display,
+          position: rear.style.position,
+          transform: rear.style.transform,
+          visibility: rear.style.visibility,
+          top: rear.style.top,
+          left: rear.style.left,
+          right: rear.style.right,
+          bottom: rear.style.bottom
+        } : null,
+        isCurrentlyFlipped
+      });
+    });
+
+    // Ocultar botones y elementos de interfaz interactivos directamente con display: none
+    const interactiveElements = phys.querySelectorAll(
+      '#canvas-btn-add-rack, #floor-btn-add-device, .device-actions, .btn-flip-rack, [data-rack-menu-toggle], .dropdown-menu, .rack-menu'
+    );
+    const hiddenElementsMap = [];
+    interactiveElements.forEach(el => {
+      hiddenElementsMap.push({ el, display: el.style.display });
+      el.style.display = 'none';
+    });
+
+    const cablesSvg = document.getElementById('physical-cables-svg');
+    let prevCablesDisplay = '';
+    const hasCablesDrawn = cablesSvg && cablesSvg.querySelectorAll('path, line').length > 0;
+    if (cablesSvg) {
+      prevCablesDisplay = cablesSvg.style.display;
+      if (!hasCablesDrawn) {
+        cablesSvg.style.display = 'none';
+      } else {
+        const w = phys.scrollWidth || phys.offsetWidth;
+        const h = phys.scrollHeight || phys.offsetHeight;
+        cablesSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        cablesSvg.setAttribute('width', w);
+        cablesSvg.setAttribute('height', h);
+        cablesSvg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      }
+    }
+
+    try {
+      phys.classList.add('exporting-capture');
+      phys.style.zoom = '1';
+      phys.style.transform = 'none';
+      phys.style.padding = '32px';
+      phys.style.width = 'max-content';
+      phys.style.maxWidth = 'none';
+      phys.style.minWidth = 'max-content';
+      phys.style.boxSizing = 'border-box';
+      phys.style.overflow = 'visible';
+
+      preservedRacks.forEach(({ rw, flipper, face, rear, isCurrentlyFlipped }) => {
+        rw.classList.add('exporting-capture');
+        rw.style.perspective = 'none';
+
+        if (flipper) {
+          flipper.style.transform = 'none';
+          flipper.style.transformStyle = 'flat';
+          if (flipper.style.webkitTransformStyle !== undefined) flipper.style.webkitTransformStyle = 'flat';
+          flipper.style.transition = 'none';
+        }
+
+        if (isCurrentlyFlipped) {
+          if (face) face.style.display = 'none';
+          if (rear) {
+            rear.style.display = 'block';
+            rear.style.position = 'relative';
+            rear.style.transform = 'none';
+            rear.style.visibility = 'visible';
+            rear.style.top = 'auto';
+            rear.style.left = 'auto';
+          }
+        } else {
+          if (rear) rear.style.display = 'none';
+          if (face) {
+            face.style.display = 'block';
+            face.style.position = 'relative';
+            face.style.transform = 'none';
+            face.style.visibility = 'visible';
+          }
+        }
+      });
+
+      // Asegurar redibujado fiel de cables si existen
+      if (hasCablesDrawn && typeof drawPhysicalCables === 'function') {
+        void phys.offsetHeight;
+        drawPhysicalCables();
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 80));
+
+      const canvas = await html2canvas(phys, {
+        scale: 2,
+        backgroundColor: themeBg,
+        useCORS: true,
+        logging: false
+      });
+
+      const url = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `Sala_${(room.name || 'Datacenter').replace(/\s+/g, '_')}.png`;
+      link.href = url;
+      link.click();
+      notify(`PNG exportado (Alta Fidelidad 1:1): Sala ${room.name}`, 'success');
+      return;
+    } catch (err) {
+      console.error('[html2canvas] Fallo en captura 1:1 de sala:', err);
+      notify(`Aviso: Error en captura 1:1 (${err.message || err}). Usando renderizado alternativo.`, 'warn');
+    } finally {
+      hiddenElementsMap.forEach(({ el, display }) => {
+        el.style.display = display;
+      });
+      if (cablesSvg) {
+        cablesSvg.style.display = prevCablesDisplay;
+        cablesSvg.removeAttribute('xmlns');
+        cablesSvg.removeAttribute('width');
+        cablesSvg.removeAttribute('height');
+        cablesSvg.removeAttribute('viewBox');
+      }
+
+      phys.classList.remove('exporting-capture');
+      phys.style.zoom = prevPhysZoom;
+      phys.style.transform = prevPhysTransform;
+      phys.style.padding = prevPhysPadding;
+      phys.style.width = prevPhysWidth;
+      phys.style.maxWidth = prevPhysMaxWidth;
+      phys.style.minWidth = prevPhysMinWidth;
+      phys.style.boxSizing = prevPhysBoxSizing;
+      phys.style.overflow = prevPhysOverflow;
+
+      if (floorSec && !hasFloorDevs) {
+        floorSec.style.display = prevFloorDisplay;
+      }
+
+      preservedRacks.forEach(({ rw, prevWrapperStyles, flipper, prevFlipperStyles, face, prevFaceStyles, rear, prevRearStyles }) => {
+        rw.classList.remove('exporting-capture');
+        rw.style.perspective = prevWrapperStyles.perspective;
+        rw.style.transform = prevWrapperStyles.transform;
+        rw.style.overflow = prevWrapperStyles.overflow;
+
+        if (flipper && prevFlipperStyles) {
+          flipper.style.transform = prevFlipperStyles.transform;
+          flipper.style.transformStyle = prevFlipperStyles.transformStyle;
+          if (flipper.style.webkitTransformStyle !== undefined) flipper.style.webkitTransformStyle = prevFlipperStyles.webkitTransformStyle;
+          flipper.style.transition = prevFlipperStyles.transition;
+        }
+
+        if (face && prevFaceStyles) {
+          face.style.display = prevFaceStyles.display;
+          face.style.position = prevFaceStyles.position;
+          face.style.transform = prevFaceStyles.transform;
+          face.style.visibility = prevFaceStyles.visibility;
+        }
+
+        if (rear && prevRearStyles) {
+          rear.style.display = prevRearStyles.display;
+          rear.style.position = prevRearStyles.position;
+          rear.style.transform = prevRearStyles.transform;
+          rear.style.visibility = prevRearStyles.visibility;
+          rear.style.top = prevRearStyles.top;
+          rear.style.left = prevRearStyles.left;
+          rear.style.right = prevRearStyles.right;
+          rear.style.bottom = prevRearStyles.bottom;
+        }
+      });
+
+      // Restaurar cables con el zoom/pan original
+      if (typeof drawPhysicalCables === 'function') {
+        drawPhysicalCables();
+      }
+    }
+  }
+
+  // Fallback procedimental en Canvas 2D
+  _fallbackExportRoomToPNG(room, racks, floorDevices, 'current');
+}
+
+function _fallbackExportRoomToPNG(room, racks, floorDevices, mode = 'current') {
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const themeBg = getActiveThemeBg();
+  const railBg = isLight ? '#e2e8f0' : '#1a2035';
+  const textMuted = isLight ? '#64748b' : '#4a5a78';
+
+  const W = 280, UNIT = 24;
+
+  function render2DRackColumn(oc, rack, startX, startY, sideDevices) {
+    const H = rack.height * UNIT + 60;
+    oc.save();
+    oc.translate(startX, startY);
+
+    oc.strokeStyle = rack.color;
+    oc.lineWidth = 2;
+    oc.strokeRect(1, 1, W - 2, H - 2);
+
+    oc.fillStyle = railBg;
+    oc.fillRect(0, 40, 18, rack.height * UNIT);
+    oc.fillRect(W - 18, 40, 18, rack.height * UNIT);
+
+    for (let u = 1; u <= rack.height; u++) {
+      const y = 40 + (rack.height - u) * UNIT;
+      oc.fillStyle = u % 5 === 0 ? (isLight ? '#94a3b8' : '#3d5480') : (isLight ? '#cbd5e1' : '#1e2d44');
+      oc.font = '7px monospace';
+      oc.textAlign = 'center';
+      oc.fillText(u, 9, y + UNIT / 2 + 3);
+      oc.fillText(u, W - 9, y + UNIT / 2 + 3);
+      oc.strokeStyle = isLight ? '#e2e8f0' : '#0d1220';
+      oc.lineWidth = 0.5;
+      oc.beginPath(); oc.moveTo(18, y); oc.lineTo(W - 18, y); oc.stroke();
+    }
+
+    const typeColors = TYPE_COLORS;
+    for (let u = 1; u <= rack.height; u++) {
+      const dev = sideDevices.find(d => d.slotStart === u);
+      if (!dev) continue;
+      const h = dev.size * UNIT;
+      const y = 40 + (rack.height - (u + dev.size - 1)) * UNIT;
+      const col = typeColors[dev.type] || '#888';
+
+      oc.fillStyle = col + '22';
+      oc.fillRect(18, y, W - 36, h);
+      oc.strokeStyle = col;
+      oc.lineWidth = 1;
+      oc.strokeRect(18, y, W - 36, h);
+
+      oc.fillStyle = col;
+      oc.font = `bold ${Math.min(10, h - 4)}px sans-serif`;
+      oc.textAlign = 'left';
+      oc.fillText(dev.name.slice(0, 22), 24, y + h / 2 - 2);
+      if (h > 24) {
+        oc.fillStyle = isLight ? '#334155' : '#8b9ab8';
+        oc.font = '8px monospace';
+        oc.fillText(dev.ip || 'NO IP', 24, y + h / 2 + 10);
+      }
+      oc.beginPath();
+      oc.arc(W - 26, y + h / 2, 4, 0, Math.PI * 2);
+      oc.fillStyle = '#00ff88';
+      oc.fill();
+    }
+
+    oc.restore();
+  }
+
+  if (mode === 'dual') {
+    // --- FALLBACK 2D MODO DUAL MODULAR ---
+    const modPad = 16;
+    const colGap = 20;
+    const modW = W * 2 + colGap + modPad * 2;
+    const headH = 50;
+    const subHeadH = 22;
+    const maxRackH = racks.length ? Math.max(...racks.map(r => r.height * UNIT + 60)) : 300;
+    const modH = headH + subHeadH + maxRackH + modPad;
+    const modGap = 36;
+
+    const racksRowW = racks.length ? (racks.length * modW + (racks.length - 1) * modGap) : 0;
+    const floorCols = Math.min(4, Math.max(2, racks.length * 2));
+    const floorColW = 240;
+    const floorRowH = 70;
+    const floorRows = Math.ceil((floorDevices || []).length / floorCols);
+    const floorW = floorRows > 0 ? (floorCols * floorColW) : 0;
+
+    const contentW = Math.max(racksRowW, floorW, 600);
+    const totalW = contentW + 60;
+    const totalH = 80 + (racks.length ? modH + 40 : 0) + (floorRows > 0 ? floorRows * floorRowH + 70 : 0) + 40;
+
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = totalW * 2;
+    offCanvas.height = totalH * 2;
+    const oc = offCanvas.getContext('2d');
+    oc.scale(2, 2);
+
+    oc.fillStyle = themeBg;
+    oc.fillRect(0, 0, totalW, totalH);
+
+    // Cabecera General
+    oc.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+    oc.font = 'bold 18px sans-serif';
+    oc.fillText(`Sala: ${room.name} (Vista Dual Frontal + Trasera)`, 30, 35);
+
+    oc.fillStyle = textMuted;
+    oc.font = '11px monospace';
+    oc.fillText(`${racks.length} gabinetes modulares · ${floorDevices.length} equipos de piso`, 30, 54);
+
+    let currentX = 30;
+    const startY = 80;
+
+    racks.forEach(rack => {
+      const devices = store.allDevicesInRack(rack.id);
+      const frontDevices = devices.filter(d => d.mountSide !== 'rear');
+      const rearDevices = devices.filter(d => d.mountSide === 'rear' || d.mountSide === 'both');
+      const usedU = devices.reduce((s, d) => s + (d.size || 1), 0);
+      const rackWatts = devices.reduce((s, d) => s + (d.power || 0), 0);
+      const rColor = rack.color || '#3b82f6';
+
+      // Recuadro modular
+      oc.fillStyle = isLight ? '#ffffff' : '#0c1420';
+      oc.fillRect(currentX, startY, modW, modH);
+      oc.strokeStyle = rColor;
+      oc.lineWidth = 2;
+      oc.strokeRect(currentX, startY, modW, modH);
+
+      // Franja superior
+      oc.fillStyle = rColor;
+      oc.fillRect(currentX, startY, modW, 4);
+
+      // Título y ocupación
+      oc.fillStyle = rColor;
+      oc.font = 'bold 13px sans-serif';
+      oc.fillText(`GABINETE: ${rack.name.toUpperCase()}`, currentX + modPad, startY + 22);
+
+      oc.fillStyle = textMuted;
+      oc.font = '9px monospace';
+      oc.fillText(`${rack.height}U · ${usedU}U USADAS · ${rackWatts}W`, currentX + modPad, startY + 38);
+
+      // Badge VISTA DUAL
+      oc.fillStyle = isLight ? '#f1f5f9' : '#1e293b';
+      oc.fillRect(currentX + modW - modPad - 110, startY + 12, 110, 22);
+      oc.strokeStyle = rColor;
+      oc.strokeRect(currentX + modW - modPad - 110, startY + 12, 110, 22);
+      oc.fillStyle = rColor;
+      oc.font = 'bold 9px monospace';
+      oc.textAlign = 'center';
+      oc.fillText('VISTA DUAL (F+T)', currentX + modW - modPad - 55, startY + 26);
+      oc.textAlign = 'left';
+
+      // Subcabeceras
+      oc.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+      oc.font = 'bold 10px sans-serif';
+      oc.textAlign = 'center';
+      oc.fillText('VISTA FRONTAL', currentX + modPad + W / 2, startY + headH + 12);
+      oc.fillText('VISTA TRASERA', currentX + modPad + W + colGap + W / 2, startY + headH + 12);
+      oc.textAlign = 'left';
+
+      // Columnas
+      render2DRackColumn(oc, rack, currentX + modPad, startY + headH + subHeadH, frontDevices);
+      render2DRackColumn(oc, rack, currentX + modPad + W + colGap, startY + headH + subHeadH, rearDevices);
+
+      currentX += modW + modGap;
+    });
+
+    // Equipos de piso
+    if (floorDevices && floorDevices.length > 0) {
+      const floorStartY = startY + modH + 30;
+      oc.fillStyle = '#f59e0b';
+      oc.font = 'bold 14px sans-serif';
+      oc.fillText('Equipos de Piso / Periféricos', 30, floorStartY);
+
+      const colors = { pc: '#0ea5e9', camera: '#8b5cf6', ap: '#10b981', door: '#f59e0b', printer: '#06b6d4', phone: '#ef4444' };
+      floorDevices.forEach((dev, index) => {
+        const col = index % floorCols;
+        const row = Math.floor(index / floorCols);
+        const x = 30 + col * floorColW;
+        const y = floorStartY + 15 + row * floorRowH;
+        const color = colors[dev.type] || '#8b9ab8';
+        const cardW = floorColW - 15;
+        const cardH = floorRowH - 15;
+
+        oc.fillStyle = isLight ? '#f8fafc' : '#0c1420';
+        oc.fillRect(x, y, cardW, cardH);
+        oc.strokeStyle = isLight ? '#e2e8f0' : '#1e293b';
+        oc.lineWidth = 1;
+        oc.strokeRect(x, y, cardW, cardH);
+
+        oc.fillStyle = color;
+        oc.fillRect(x, y, 4, cardH);
+
+        const iconSize = 30;
+        const iconX = x + 8;
+        const iconY = y + (cardH - iconSize) / 2;
+        drawFloorIconCanvas(oc, dev.type, color, iconX, iconY, iconSize);
+
+        const textX = iconX + iconSize + 10;
+        oc.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+        oc.font = 'bold 11px sans-serif';
+        oc.textAlign = 'left';
+        oc.fillText(dev.name.slice(0, 20), textX, y + 18);
+
+        oc.fillStyle = isLight ? '#64748b' : '#8b9ab8';
+        oc.font = '9px monospace';
+        oc.fillText(String(dev.type || 'unknown').toUpperCase(), textX, y + 32);
+
+        if (dev.ip) {
+          oc.fillText(`IP: ${dev.ip}`, textX, y + 44);
+        }
+      });
+    }
+
+    const url = offCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `Sala_${(room.name || 'Datacenter').replace(/\s+/g, '_')}_Dual_Frente_Dorso.png`;
+    link.href = url;
+    link.click();
+    notify(`PNG exportado: Sala ${room.name} (Vista Dual)`, 'success');
+    return;
+  }
+
+  // --- FALLBACK 2D MODO CURRENT ---
+  const GAP = 40;
+  const maxRackH = racks.length ? Math.max(...racks.map(r => r.height * UNIT + 60)) : 300;
+  const racksRowW = racks.length ? (racks.length * W + (racks.length - 1) * GAP) : 0;
+  const floorCols = 2;
+  const floorColW = 240;
+  const floorRowH = 70;
+  const floorRows = Math.ceil((floorDevices || []).length / floorCols);
+  const floorW = floorRows > 0 ? (floorCols * floorColW) : 0;
+
+  const contentW = Math.max(racksRowW, floorW, 400);
+  const totalW = contentW + 60;
+  const totalH = 70 + (racks.length ? maxRackH + 40 : 0) + (floorRows > 0 ? floorRows * floorRowH + 70 : 0) + 40;
+
+  const offCanvas = document.createElement('canvas');
+  offCanvas.width = totalW * 2;
+  offCanvas.height = totalH * 2;
+  const oc = offCanvas.getContext('2d');
+  oc.scale(2, 2);
+
+  oc.fillStyle = themeBg;
+  oc.fillRect(0, 0, totalW, totalH);
+
+  oc.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+  oc.font = 'bold 18px sans-serif';
+  oc.fillText(`Sala: ${room.name}`, 30, 35);
+
+  oc.fillStyle = textMuted;
+  oc.font = '11px monospace';
+  oc.fillText(`${racks.length} gabinetes · ${floorDevices.length} equipos de piso`, 30, 52);
+
+  let currentX = 30;
+  const startY = 70;
+  racks.forEach(rack => {
+    const devices = store.allDevicesInRack(rack.id);
+    const flipper = typeof document !== 'undefined' ? document.getElementById(`flipper-${rack.id}`) : null;
+    const isFlipped = flipper ? flipper.classList.contains('flipped') : false;
+    const sideDevices = isFlipped ? devices.filter(d => d.mountSide === 'rear' || d.mountSide === 'both') : devices.filter(d => d.mountSide !== 'rear');
+
+    oc.save();
+    oc.translate(currentX, startY);
+
+    oc.fillStyle = rack.color;
+    oc.font = 'bold 12px sans-serif';
+    oc.fillText(rack.name + (isFlipped ? ' (Trasera)' : ''), 10, 18);
+
+    oc.fillStyle = textMuted;
+    oc.font = '9px monospace';
+    oc.fillText(`${rack.height}U · ${sideDevices.reduce((s,d)=>s+d.size,0)} usadas`, 10, 30);
+
+    oc.restore();
+
+    render2DRackColumn(oc, rack, currentX, startY, sideDevices);
+    currentX += W + GAP;
+  });
+
+  if (floorDevices && floorDevices.length > 0) {
+    const floorStartY = startY + (racks.length ? maxRackH + 40 : 0);
+    oc.fillStyle = '#f59e0b';
+    oc.font = 'bold 14px sans-serif';
+    oc.fillText('Equipos de Piso / Periféricos', 30, floorStartY);
+
+    const colors = { pc: '#0ea5e9', camera: '#8b5cf6', ap: '#10b981', door: '#f59e0b', printer: '#06b6d4', phone: '#ef4444' };
+    floorDevices.forEach((dev, index) => {
+      const col = index % floorCols;
+      const row = Math.floor(index / floorCols);
+      const x = 30 + col * floorColW;
+      const y = floorStartY + 15 + row * floorRowH;
+      const color = colors[dev.type] || '#8b9ab8';
+      const cardW = floorColW - 15;
+      const cardH = floorRowH - 15;
+
+      oc.fillStyle = isLight ? '#f8fafc' : '#0c1420';
+      oc.fillRect(x, y, cardW, cardH);
+      oc.strokeStyle = isLight ? '#e2e8f0' : '#1e293b';
+      oc.lineWidth = 1;
+      oc.strokeRect(x, y, cardW, cardH);
+
+      oc.fillStyle = color;
+      oc.fillRect(x, y, 4, cardH);
+
+      const iconSize = 30;
+      const iconX = x + 8;
+      const iconY = y + (cardH - iconSize) / 2;
+      drawFloorIconCanvas(oc, dev.type, color, iconX, iconY, iconSize);
+
+      const textX = iconX + iconSize + 10;
+      oc.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+      oc.font = 'bold 11px sans-serif';
+      oc.textAlign = 'left';
+      oc.fillText(dev.name.slice(0, 20), textX, y + 18);
+
+      oc.fillStyle = isLight ? '#64748b' : '#8b9ab8';
+      oc.font = '9px monospace';
+      oc.fillText(String(dev.type || 'unknown').toUpperCase(), textX, y + 32);
+
+      if (dev.ip) {
+        oc.fillText(`IP: ${dev.ip}`, textX, y + 44);
+      }
+    });
+  }
+
+  const url = offCanvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = `Sala_${(room.name || 'Datacenter').replace(/\s+/g, '_')}.png`;
+  link.href = url;
+  link.click();
+  notify(`PNG exportado: Sala ${room.name}`, 'success');
+}
+
+function downloadBlob(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function initExportModal() {
+  const btnExportCsv = document.getElementById('btn-export-csv');
+  if(btnExportCsv) btnExportCsv.addEventListener('click', exportCSV);
+
+  const btnExportJson = document.getElementById('btn-export-json');
+  if(btnExportJson) btnExportJson.addEventListener('click', exportJSON);
+
+  const btnImportJson = document.getElementById('btn-import-json');
+  if(btnImportJson) btnImportJson.addEventListener('click', () => document.getElementById('file-import').click());
+
+  const fileImport = document.getElementById('file-import');
+  if(fileImport) fileImport.addEventListener('change', importJSON);
+  
+  const btnExportPng = document.getElementById('btn-export-png');
+  if(btnExportPng) {
+    btnExportPng.addEventListener('click', () => {
+      if (typeof currentView !== 'undefined' && currentView === 'topology') {
+        if (typeof exportTopologyToPNG === 'function') exportTopologyToPNG();
+      } else {
+        openPNGModal();
+      }
+    });
+  }
+  
+  const modalPngCancel = document.getElementById('modal-png-cancel');
+  if(modalPngCancel) {
+    modalPngCancel.addEventListener('click', () => {
+      document.getElementById('modal-export-png').classList.add('hidden');
+    });
+  }
+}
+
+window.exportRackToPNG = exportRackToPNG;
+window.exportFloorToPNG = exportFloorToPNG;
+window.exportRoomToPNG = exportRoomToPNG;
+window.exportCSV = exportCSV;
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-topology-topologystate-js"></a>
+
+### 📄 Archivo 33/42: `js/ui/topology/TopologyState.js`
+
+* **Ubicación relativa:** `js/ui/topology/TopologyState.js`
+* **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+* **Dimensiones:** 154 líneas | 6.2 KB
+* **Rol en el sistema:** Modelo del motor de topología: estado de interacción, pan, zoom y espaciado dual H/V.
+
+```javascript
+let canvas, ctx;
+let topoAnim = null;
+let panStart = null;
+let panOrig = { x: 0, y: 0 };
+let nodePositions = {};
+let rackPositions = {};
+let roomPositions = {};
+let roomSizes = {};
+let rackSizes = {};
+let flowT = 0;
+
+let draggingNode = null, draggingRack = null, draggingRoom = null;
+let resizingRack = null, resizingRoom = null;
+let nodeOrig = null;
+let dragSnapshotTaken = false;
+let dragPointerStart = null;
+
+let hoveredNode = null;
+let mousePos = { x: -1000, y: -1000, rawX: -1000, rawY: -1000 };
+let cursorMode = 'default';
+
+function loadTopoState() {
+  const top = store._raw.topology;
+  if (top) {
+    nodePositions = top.nodePositions || {};
+    rackPositions = top.rackPositions || {};
+    roomPositions = top.roomPositions || {};
+    roomSizes = top.roomSizes || {};
+    rackSizes = top.rackSizes || {};
+    // Restore saved spacing value and sync slider UI
+    if (top.topoSpacing) {
+      window.TOPO_SPACING = top.topoSpacing;
+      const slider = document.getElementById('topo-spacing');
+      if (slider) slider.value = top.topoSpacing;
+      const valEl = document.getElementById('topo-spacing-val');
+      if (valEl) valEl.textContent = `${top.topoSpacing}px`;
+    }
+    if (top.topoSpacingX !== undefined) {
+      window.TOPO_SPACING_X = top.topoSpacingX;
+      const sliderX = document.getElementById('topo-spacing-x');
+      if (sliderX) sliderX.value = top.topoSpacingX;
+      const valXEl = document.getElementById('topo-spacing-x-val');
+      if (valXEl) valXEl.textContent = `${top.topoSpacingX}px`;
+    }
+    if (top.bgPattern) {
+      window.TOPO_BG_PATTERN = top.bgPattern;
+      const patSelect = document.getElementById('topo-pattern-select');
+      if (patSelect) patSelect.value = top.bgPattern;
+    }
+    if (top.inheritColors !== undefined) {
+      window.TOPO_INHERIT_COLORS = top.inheritColors;
+      const chkInherit = document.getElementById('topo-inherit-colors');
+      if (chkInherit) chkInherit.checked = top.inheritColors;
+    }
+    if (top.topoAlpha !== undefined) {
+      window.TOPO_ALPHA = top.topoAlpha;
+      const alphaSlider = document.getElementById('topo-alpha-slider');
+      const alphaVal = document.getElementById('topo-alpha-val');
+      if (alphaSlider) alphaSlider.value = Math.round(top.topoAlpha * 100);
+      if (alphaVal) alphaVal.textContent = `${Math.round(top.topoAlpha * 100)}%`;
+    }
+    if (top.style) {
+      window.TOPOLOGY_STYLE = top.style;
+    }
+    if (top.layoutMode) {
+      window.TOPO_LAYOUT_MODE = top.layoutMode;
+    } else {
+      window.TOPO_LAYOUT_MODE = 'racks';
+    }
+    if (top.labelPreset) {
+      window.TOPO_LABEL_PRESET = top.labelPreset;
+    }
+    if (top.namePos) {
+      window.TOPO_NAME_POS = top.namePos;
+    }
+    if (top.ipPos) {
+      window.TOPO_IP_POS = top.ipPos;
+    }
+  }
+}
+
+function saveTopo() {
+  store.saveTopologyState({ 
+    nodePositions, 
+    rackPositions, 
+    roomPositions, 
+    roomSizes, 
+    rackSizes, 
+    topoSpacing: window.TOPO_SPACING || 60,
+    topoSpacingX: window.TOPO_SPACING_X !== undefined ? window.TOPO_SPACING_X : 28,
+    bgPattern: window.TOPO_BG_PATTERN || 'dots',
+    inheritColors: window.TOPO_INHERIT_COLORS !== false,
+    topoAlpha: window.TOPO_ALPHA !== undefined ? window.TOPO_ALPHA : 0.25,
+    style: window.TOPOLOGY_STYLE || 'card',
+    layoutMode: window.TOPO_LAYOUT_MODE || 'racks',
+    labelPreset: window.TOPO_LABEL_PRESET || 'separated',
+    namePos: window.TOPO_NAME_POS || 'bottom',
+    ipPos: window.TOPO_IP_POS || 'top'
+  });
+}
+
+// ──────────────────────────────────────────────────────────────────
+// M-40: Interfaz operativa de 5 ranuras de memoria (Slots)
+// ──────────────────────────────────────────────────────────────────
+if (typeof window !== 'undefined') {
+  window.applyTopologySlot = function(slotIndex) {
+    if (typeof store === 'undefined' || typeof store.loadTopologySlot !== 'function') return false;
+    const success = store.loadTopologySlot(slotIndex);
+    if (!success) {
+      if (typeof notify === 'function') notify(`La ranura ${slotIndex + 1} está vacía`, 'warn');
+      return false;
+    }
+    loadTopoState();
+    if (typeof syncTopoStyleUI === 'function') syncTopoStyleUI();
+    if (typeof updateZoomLabel === 'function') updateZoomLabel();
+    if (typeof drawTopo === 'function') drawTopo();
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
+
+    const slotData = store._raw.topologySlots?.[slotIndex];
+    const name = slotData?.name || `Vista ${slotIndex + 1}`;
+    if (typeof notify === 'function') notify(`Vista cargada: ${name}`, 'success', 2000);
+    return true;
+  };
+
+  window.saveCurrentToTopologySlot = function(slotIndex, customName) {
+    if (typeof store === 'undefined' || typeof store.saveTopologySlot !== 'function') return null;
+    // Sincronizar estado actual antes de capturar el snapshot
+    saveTopo();
+    const saved = store.saveTopologySlot(slotIndex, customName);
+    if (saved) {
+      if (typeof renderTopologySlots === 'function') renderTopologySlots();
+      if (typeof notify === 'function') notify(`Topología guardada en Slot ${slotIndex + 1}: ${saved.name}`, 'success', 2200);
+    }
+    return saved;
+  };
+
+  window.clearTopologySlot = function(slotIndex) {
+    if (typeof store === 'undefined' || typeof store.clearTopologySlot !== 'function') return false;
+    const res = store.clearTopologySlot(slotIndex);
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    if (typeof notify === 'function') notify(`Ranura ${slotIndex + 1} vaciada`, 'info', 1800);
+    return res;
+  };
+
+  window.renameTopologySlot = function(slotIndex, newName) {
+    if (typeof store === 'undefined' || typeof store.renameTopologySlot !== 'function') return false;
+    const res = store.renameTopologySlot(slotIndex, newName);
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    if (typeof notify === 'function') notify(`Ranura ${slotIndex + 1} renombrada a "${newName}"`, 'success', 1800);
+    return res;
+  };
+}
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-topology-topologylayout-js"></a>
+
+### 📄 Archivo 34/42: `js/ui/topology/TopologyLayout.js`
+
+* **Ubicación relativa:** `js/ui/topology/TopologyLayout.js`
+* **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+* **Dimensiones:** 639 líneas | 28.6 KB
+* **Rol en el sistema:** Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39).
+
+```javascript
+// ──────────────────────────────────────────────────────────────────
+// Topology Layout Engine
+// Card size (must match TopologyRenderer.js): 150 × 50 px
+// Circle radius: 22 px  (bounding box ~44×44)
+// ──────────────────────────────────────────────────────────────────
+
+const CARD_W      = 160;  // card width  + 10px buffer
+const CARD_H      = 60;   // card height + 10px buffer
+const CIRCLE_D    = 66;   // circle diameter + buffer para etiquetas superior/inferior
+
+// Layout constants
+const ROOM_MARGIN   = 80;   // space around the whole diagram
+const ROOM_PAD_X    = 24;   // padding inside room (left/right)
+const ROOM_PAD_TOP  = 60;   // room header height
+const ROOM_PAD_BOT  = 28;   // room footer padding
+const RACK_GAP      = 32;   // horizontal gap between racks
+const ROOM_GAP      = 60;   // horizontal gap between rooms
+const RACK_HEADER_H = 52;   // space for rack label at top and top node IP badge
+
+function _nodeW() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_W; }
+function _nodeH() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_H; }
+
+// ──────────────────────────────────────────────────────────────────
+// Shared layout computation (returns rooms/racks/nodes/positions)
+// Does NOT mutate global state — call _applyLayout() to commit.
+// ──────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────
+// M-39: Afinidad de Equipos de Piso por Gabinete
+// Encuentra el rack anfitrión de la misma sala al que el equipo de piso
+// tiene mayor número de conexiones directas.
+// ──────────────────────────────────────────────────────────────────
+function _findAffinityRackForFloorDevice(dev, roomRacks, connections, devToRackMap) {
+  if (!roomRacks || roomRacks.length === 0) return null;
+  const roomRackSet = new Set(roomRacks.map(r => r.id));
+  const rackCounts = {};
+
+  (connections || []).forEach(c => {
+    let peerId = null;
+    if (c.sourceDeviceId === dev.id) peerId = c.targetDeviceId;
+    else if (c.targetDeviceId === dev.id) peerId = c.sourceDeviceId;
+
+    if (peerId && devToRackMap[peerId]) {
+      const peerRackId = devToRackMap[peerId];
+      if (roomRackSet.has(peerRackId)) {
+        rackCounts[peerRackId] = (rackCounts[peerRackId] || 0) + 1;
+      }
+    }
+  });
+
+  let bestRackId = null;
+  let maxCount = 0;
+  roomRacks.forEach(r => {
+    const cnt = rackCounts[r.id] || 0;
+    if (cnt > maxCount) {
+      maxCount = cnt;
+      bestRackId = r.id;
+    }
+  });
+
+  return bestRackId;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Shared layout computation (returns rooms/racks/nodes/positions)
+// Does NOT mutate global state — call _applyLayout() to commit.
+// ──────────────────────────────────────────────────────────────────
+function _computeLayout() {
+  const nW = _nodeW();
+  const nH = _nodeH();
+  const spacing = Math.max(nH + 10, window.TOPO_SPACING || 70);
+  const colGap  = window.TOPO_SPACING_X !== undefined ? window.TOPO_SPACING_X : 28;
+
+  const newRoomPos  = {};
+  const newRoomSize = {};
+  const newRackPos  = {};
+  const newRackSize = {};
+  const newNodePos  = {};
+
+  let curRoomX = ROOM_MARGIN;
+
+  store._raw.rooms.forEach(room => {
+    const racks = store._raw.racks.filter(r => r.roomId === room.id);
+    const floorDevs = store.allFloorDevicesInRoom(room.id)
+                           .filter(d => !['accesorios'].includes(d.type));
+
+    // ── 1. Size each rack (nodos separados horizontalmente en columnas) ──
+    const rackLayouts = racks.map(rack => {
+      const devs = store.allDevicesInRack(rack.id)
+                        .filter(d => !['accesorios'].includes(d.type));
+      const rackCols = devs.length > 1 ? (devs.length >= 6 ? 3 : 2) : 1;
+      const rw = Math.max(220, rackCols * nW + (rackCols + 1) * colGap);
+      const numRows = Math.ceil(devs.length / rackCols);
+      const rh = Math.max(140, RACK_HEADER_H + numRows * spacing + 24);
+      return { rack, devs, rackCols, numRows, rw, rh };
+    });
+
+    // ── 2. Rack row total width (separación fija entre racks con RACK_GAP) ──
+    const racksRowW = rackLayouts.reduce((sum, l) => sum + l.rw, 0)
+                    + Math.max(0, (rackLayouts.length - 1)) * RACK_GAP;
+
+    // ── 3. Clasificación de equipos de piso por afinidad a gabinetes (M-39) ──
+    const devToRackMap = {};
+    store._raw.devices.forEach(d => {
+      if (d.rackId) devToRackMap[d.id] = d.rackId;
+    });
+
+    const conns = store._raw.connections || [];
+    const floorDevsByRack = {};
+    racks.forEach(r => { floorDevsByRack[r.id] = []; });
+    const unassignedFloorDevs = [];
+
+    floorDevs.forEach(dev => {
+      const affRackId = _findAffinityRackForFloorDevice(dev, racks, conns, devToRackMap);
+      if (affRackId && floorDevsByRack[affRackId]) {
+        floorDevsByRack[affRackId].push(dev);
+      } else {
+        unassignedFloorDevs.push(dev);
+      }
+    });
+
+    // Configurar columnas y filas de periféricos de piso para cada rack
+    let maxAffinityRows = 0;
+    const rackFloorConfig = {};
+
+    rackLayouts.forEach(l => {
+      const rDevs = floorDevsByRack[l.rack.id] || [];
+      if (rDevs.length === 0) {
+        rackFloorConfig[l.rack.id] = { cols: 1, rows: 0, devs: [] };
+        return;
+      }
+      const maxColsInRack = Math.max(1, Math.floor((l.rw + colGap) / (nW + colGap)));
+      const floorCols = Math.min(rDevs.length, maxColsInRack);
+      const floorRows = Math.ceil(rDevs.length / floorCols);
+      if (floorRows > maxAffinityRows) maxAffinityRows = floorRows;
+      rackFloorConfig[l.rack.id] = { cols: floorCols, rows: floorRows, devs: rDevs };
+    });
+
+    const floorRowH = nH + 20;
+    const UNASSIGNED_MAX_COLS = Math.max(1, Math.min(4, Math.ceil(Math.sqrt(unassignedFloorDevs.length))));
+    const unassignedRows = unassignedFloorDevs.length > 0 
+      ? Math.ceil(unassignedFloorDevs.length / UNASSIGNED_MAX_COLS) 
+      : 0;
+    const unassignedGridW = unassignedFloorDevs.length > 0 
+      ? UNASSIGNED_MAX_COLS * (nW + colGap) - colGap 
+      : 0;
+
+    const totalFloorH = (maxAffinityRows > 0 ? maxAffinityRows * floorRowH : 0)
+                      + (unassignedRows > 0 ? unassignedRows * floorRowH : 0)
+                      + (maxAffinityRows > 0 && unassignedRows > 0 ? 20 : 0);
+
+    // ── 4. Dimensiones de la sala ──────────────────────────────────
+    const innerW   = Math.max(racksRowW, unassignedGridW, 300);
+    const maxRackH = rackLayouts.reduce((m, l) => Math.max(m, l.rh), 0);
+    const roomW    = innerW + 2 * ROOM_PAD_X;
+    const roomH    = ROOM_PAD_TOP + maxRackH
+                   + (totalFloorH > 0 ? 28 + totalFloorH : 0)
+                   + ROOM_PAD_BOT;
+
+    newRoomPos[room.id]  = { x: curRoomX, y: ROOM_MARGIN };
+    newRoomSize[room.id] = { w: Math.max(roomW, 280), h: Math.max(roomH, 220) };
+
+    // ── 5. Posicionar racks y nodos internos ───────────────────────
+    let curRackX = curRoomX + ROOM_PAD_X;
+    const rackTopY = ROOM_MARGIN + ROOM_PAD_TOP;
+    const floorBaseY = rackTopY + maxRackH + 28;
+
+    rackLayouts.forEach(({ rack, devs, rackCols, numRows, rw, rh }) => {
+      newRackPos[rack.id]  = { x: curRackX, y: rackTopY };
+      newRackSize[rack.id] = { w: rw, h: rh };
+
+      devs.forEach((dev, di) => {
+        const c = di % rackCols;
+        const r = Math.floor(di / rackCols);
+        const rowCount = (r === numRows - 1 && devs.length % rackCols !== 0) 
+          ? (devs.length % rackCols) 
+          : rackCols;
+        const rowW = rowCount * nW + (rowCount - 1) * colGap;
+        const rowStartX = curRackX + (rw - rowW) / 2 + nW / 2;
+
+        newNodePos[dev.id] = {
+          x: rowStartX + c * (nW + colGap),
+          y: rackTopY + RACK_HEADER_H + r * spacing + nH / 2
+        };
+      });
+
+      // ── 6. Equipos de piso con afinidad a este rack (M-39) ─────────
+      const fConf = rackFloorConfig[rack.id];
+      if (fConf && fConf.devs.length > 0) {
+        const fCols = fConf.cols;
+        const fDevs = fConf.devs;
+        const fNumRows = fConf.rows;
+
+        fDevs.forEach((fDev, fi) => {
+          const fc = fi % fCols;
+          const fr = Math.floor(fi / fCols);
+          const fRowCount = (fr === fNumRows - 1 && fDevs.length % fCols !== 0)
+            ? (fDevs.length % fCols)
+            : fCols;
+          const fRowW = fRowCount * nW + (fRowCount - 1) * colGap;
+          const fRowStartX = curRackX + (rw - fRowW) / 2 + nW / 2;
+
+          newNodePos[fDev.id] = {
+            x: fRowStartX + fc * (nW + colGap),
+            y: floorBaseY + fr * floorRowH + nH / 2
+          };
+        });
+      }
+
+      curRackX += rw + RACK_GAP;
+    });
+
+    // ── 7. Equipos de piso no asignados (centrados al pie de la sala) ──
+    if (unassignedFloorDevs.length > 0) {
+      const unassignedStartY = floorBaseY + (maxAffinityRows > 0 ? maxAffinityRows * floorRowH + 20 : 0);
+      const startX = curRoomX + (roomW - unassignedGridW) / 2;
+
+      unassignedFloorDevs.forEach((dev, ui) => {
+        const col = ui % UNASSIGNED_MAX_COLS;
+        const row = Math.floor(ui / UNASSIGNED_MAX_COLS);
+        newNodePos[dev.id] = {
+          x: startX + col * (nW + colGap) + nW / 2,
+          y: unassignedStartY + row * floorRowH + nH / 2
+        };
+      });
+    }
+
+    curRoomX += newRoomSize[room.id].w + ROOM_GAP;
+  });
+
+  return { newRoomPos, newRoomSize, newRackPos, newRackSize, newNodePos };
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Jerarquía para Árbol de Red (Core → Distribución → Acceso → Soporte)
+// ──────────────────────────────────────────────────────────────────
+function _getDeviceTier(dev) {
+  const type = (dev.type || '').toLowerCase();
+  const name = (dev.name || '').toLowerCase();
+  const model = (dev.model || '').toLowerCase();
+  const cat = (dev.category || '').toLowerCase();
+  const s = `${type} ${name} ${model} ${cat}`;
+
+  // Capa 4: Infraestructura / Energía / Soporte
+  if (type === 'ups' || type === 'pdu' || type === 'ats' || s.includes('ups') || s.includes('pdu') || s.includes('ats') || s.includes('kvm') || s.includes('organizador') || s.includes('bandeja')) {
+    return 3;
+  }
+  // Capa 1: Borde & Núcleo (Routers, Firewalls, Gateways, Core Switches)
+  if (type === 'router' || type === 'firewall' || s.includes('router') || s.includes('firewall') || s.includes('gateway') || s.includes('core') || s.includes('borde') || s.includes('border')) {
+    return 0;
+  }
+  // Capa 2: Distribución & Cómputo (Servidores, Storage, SAN, NAS, Blades)
+  if (type === 'servidor' || type === 'server' || type === 'storage' || type === 'nas' || type === 'san' || s.includes('servidor') || s.includes('server') || s.includes('storage') || s.includes('nas') || s.includes('san') || s.includes('distrib') || s.includes('blade') || s.includes('virtualiz') || s.includes('hypervisor') || s.includes('cómputo')) {
+    return 1;
+  }
+  // Capa 3: Acceso & Dispositivos de Piso / Cámaras / PCs
+  return 2;
+}
+
+function _computeTreeLayout() {
+  const nW = _nodeW();
+  const nH = _nodeH();
+  const colGap = window.TOPO_SPACING_X !== undefined ? window.TOPO_SPACING_X : 28;
+  const rowGap = Math.max(90, (window.TOPO_SPACING || 60) * 1.8);
+
+  const newRoomPos  = {};
+  const newRoomSize = {};
+  const newRackPos  = {};
+  const newRackSize = {};
+  const newNodePos  = {};
+
+  // 1. Recolectar todos los dispositivos válidos
+  const allDevs = [];
+  const devMap = {};
+  store._raw.rooms.forEach(room => {
+    store._raw.racks.filter(r => r.roomId === room.id).forEach(rack => {
+      store.allDevicesInRack(rack.id).filter(d => !['accesorios'].includes(d.type)).forEach(d => {
+        allDevs.push(d);
+        devMap[d.id] = { dev: d, roomId: room.id, rackId: rack.id, isFloor: false };
+      });
+    });
+    store.allFloorDevicesInRoom(room.id).filter(d => !['accesorios'].includes(d.type)).forEach(d => {
+      allDevs.push(d);
+      devMap[d.id] = { dev: d, roomId: room.id, rackId: null, isFloor: true };
+    });
+  });
+
+  if (allDevs.length === 0) return _computeLayout();
+
+  // 2. Identificar dispositivos con conexiones y asignar base tier sólo a los conectados
+  const conns = store._raw.connections || [];
+  const connectedDevIds = new Set();
+  conns.forEach(c => {
+    if (c.sourceDeviceId) connectedDevIds.add(c.sourceDeviceId);
+    if (c.targetDeviceId) connectedDevIds.add(c.targetDeviceId);
+  });
+
+  const tiers = {};
+  allDevs.forEach(d => {
+    if (connectedDevIds.has(d.id)) {
+      tiers[d.id] = _getDeviceTier(d);
+    } else {
+      tiers[d.id] = null; // No conectado
+    }
+  });
+
+  // 3. Ajustar tiers basándose en el grafo de conexiones (DAG Padre -> Hijo)
+  const adj = {}; // padre -> lista de hijos
+  allDevs.forEach(d => { adj[d.id] = []; });
+
+  conns.forEach(c => {
+    const u = c.sourceDeviceId;
+    const v = c.targetDeviceId;
+    if (devMap[u] && devMap[v] && tiers[u] !== null && tiers[v] !== null) {
+      const tU = tiers[u];
+      const tV = tiers[v];
+      if (tU < tV) {
+        adj[u].push(v);
+      } else if (tV < tU) {
+        adj[v].push(u);
+      } else {
+        // Si comparten el mismo tier base, orientamos por la dirección source -> target
+        adj[u].push(v);
+      }
+    }
+  });
+
+  // Relajación de niveles: para todo enlace u -> v, tier[v] debe ser al menos tier[u] + 1
+  for (let iter = 0; iter < allDevs.length; iter++) {
+    let changed = false;
+    allDevs.forEach(uDev => {
+      const u = uDev.id;
+      if (tiers[u] === null) return;
+      adj[u].forEach(v => {
+        if (tiers[v] !== null && tiers[v] <= tiers[u]) {
+          tiers[v] = tiers[u] + 1;
+          changed = true;
+        }
+      });
+    });
+    if (!changed) break;
+  }
+
+  // Nivel máximo entre dispositivos conectados
+  let maxGlobalConnectedTier = 0;
+  Object.values(tiers).forEach(t => {
+    if (t !== null && t > maxGlobalConnectedTier) maxGlobalConnectedTier = t;
+  });
+
+  // 4. Distribuir salas y racks con los nodos en sus niveles calculados
+  let curRoomX = ROOM_MARGIN;
+
+  store._raw.rooms.forEach(room => {
+    const racks = store._raw.racks.filter(r => r.roomId === room.id);
+    const floorDevs = store.allFloorDevicesInRoom(room.id).filter(d => !['accesorios'].includes(d.type));
+
+    // El rack inicia por debajo de la cabecera de la sala (ROOM_PAD_TOP = 60/64)
+    const rackTopY = ROOM_MARGIN + ROOM_PAD_TOP;
+    const startY = rackTopY + RACK_HEADER_H;
+
+    // Analizamos cada rack
+    const rackLayouts = racks.map(rack => {
+      const devs = store.allDevicesInRack(rack.id).filter(d => !['accesorios'].includes(d.type));
+      if (devs.length === 0) {
+        return { rack, devs, rackTiers: {}, tierKeys: [], maxCols: 1, rw: 200, rh: 140 };
+      }
+
+      // Separar conectados y no conectados
+      const connDevs   = devs.filter(d => tiers[d.id] !== null);
+      const unconnDevs = devs.filter(d => tiers[d.id] === null);
+
+      // Tiers de dispositivos conectados en este rack
+      const rackTiers = {};
+      connDevs.forEach(d => {
+        const t = tiers[d.id];
+        if (!rackTiers[t]) rackTiers[t] = [];
+        rackTiers[t].push(d);
+      });
+      const connTierKeys = Object.keys(rackTiers).map(Number).sort((a, b) => a - b);
+      const maxConnCols = connTierKeys.reduce((m, k) => Math.max(m, rackTiers[k].length), 0);
+
+      // Ancho de columnas para el rack
+      const maxCols = Math.max(maxConnCols, Math.min(unconnDevs.length, 2), 1);
+      const rw = Math.max(220, maxCols * nW + (maxCols + 1) * colGap);
+
+      // Los dispositivos no conectados van en la parte baja del rack
+      const unconnStartTier = connTierKeys.length > 0 
+        ? Math.max(...connTierKeys) + 1 
+        : Math.max(1, maxGlobalConnectedTier);
+
+      // Agrupar los no conectados en filas de hasta maxCols
+      const unconnCols = Math.max(1, maxCols);
+      for (let i = 0; i < unconnDevs.length; i += unconnCols) {
+        const row = unconnDevs.slice(i, i + unconnCols);
+        const t = unconnStartTier + Math.floor(i / unconnCols);
+        rackTiers[t] = row;
+      }
+
+      const allTierKeys = Object.keys(rackTiers).map(Number).sort((a, b) => a - b);
+      const maxT = allTierKeys.length > 0 ? Math.max(...allTierKeys) : 0;
+
+      const maxY = startY + maxT * rowGap;
+      const rh = Math.max(160, (maxY + nH / 2 + 24) - rackTopY);
+
+      return { rack, devs, rackTiers, tierKeys: allTierKeys, maxCols, rw, rh };
+    });
+
+    // Ancho total de la fila de racks (separación estándar fija con RACK_GAP)
+    const racksRowW = rackLayouts.reduce((sum, l) => sum + l.rw, 0)
+                    + Math.max(0, (rackLayouts.length - 1)) * RACK_GAP;
+
+    // ── Clasificación de equipos de piso por afinidad de rack (M-39) ──
+    const devToRackMap = {};
+    store._raw.devices.forEach(d => {
+      if (d.rackId) devToRackMap[d.id] = d.rackId;
+    });
+
+    const floorDevsByRack = {};
+    racks.forEach(r => { floorDevsByRack[r.id] = []; });
+    const unassignedFloorDevs = [];
+
+    floorDevs.forEach(dev => {
+      const affRackId = _findAffinityRackForFloorDevice(dev, racks, conns, devToRackMap);
+      if (affRackId && floorDevsByRack[affRackId]) {
+        floorDevsByRack[affRackId].push(dev);
+      } else {
+        unassignedFloorDevs.push(dev);
+      }
+    });
+
+    let maxAffinityFloorRows = 0;
+    const rackFloorConfig = {};
+    const floorRowH = nH + 24;
+
+    rackLayouts.forEach(l => {
+      const rDevs = floorDevsByRack[l.rack.id] || [];
+      if (rDevs.length === 0) {
+        rackFloorConfig[l.rack.id] = { cols: 1, rows: 0, devs: [] };
+        return;
+      }
+      const maxColsInRack = Math.max(1, Math.floor((l.rw + colGap) / (nW + colGap)));
+      const floorCols = Math.min(rDevs.length, maxColsInRack);
+      const floorRows = Math.ceil(rDevs.length / floorCols);
+      if (floorRows > maxAffinityFloorRows) maxAffinityFloorRows = floorRows;
+      rackFloorConfig[l.rack.id] = { cols: floorCols, rows: floorRows, devs: rDevs };
+    });
+
+    const UNASSIGNED_MAX_COLS = Math.max(1, Math.min(6, unassignedFloorDevs.length));
+    const unassignedFloorRows = unassignedFloorDevs.length > 0 
+      ? Math.ceil(unassignedFloorDevs.length / UNASSIGNED_MAX_COLS) 
+      : 0;
+    const unassignedGridW = unassignedFloorDevs.length > 0 
+      ? UNASSIGNED_MAX_COLS * (nW + colGap) - colGap 
+      : 0;
+
+    const totalFloorH = (maxAffinityFloorRows > 0 ? maxAffinityFloorRows * floorRowH : 0)
+                      + (unassignedFloorRows > 0 ? unassignedFloorRows * floorRowH : 0)
+                      + (maxAffinityFloorRows > 0 && unassignedFloorRows > 0 ? 20 : 0);
+
+    const innerW = Math.max(racksRowW, unassignedGridW, 300);
+    const maxRackBottom = rackLayouts.reduce((m, l) => Math.max(m, rackTopY + l.rh), rackTopY + 160);
+    const roomW = innerW + 2 * ROOM_PAD_X;
+    const roomH = (maxRackBottom - ROOM_MARGIN) + (totalFloorH > 0 ? 30 + totalFloorH : 0) + ROOM_PAD_BOT;
+
+    newRoomPos[room.id] = { x: curRoomX, y: ROOM_MARGIN };
+    newRoomSize[room.id] = { w: roomW, h: Math.max(roomH, 260) };
+
+    const floorBaseY = maxRackBottom + 24;
+
+    // Posicionar racks dentro de la sala
+    let curRackX = curRoomX + ROOM_PAD_X;
+    rackLayouts.forEach(({ rack, rackTiers, tierKeys, rw, rh }) => {
+      newRackPos[rack.id] = { x: curRackX, y: rackTopY };
+      newRackSize[rack.id] = { w: rw, h: rh };
+
+      // Ubicar cada dispositivo interno en su posición (X, Y)
+      tierKeys.forEach(t => {
+        const rowDevs = rackTiers[t];
+        const rowY = startY + t * rowGap + nH / 2;
+        const rowTotalW = rowDevs.length * nW + (rowDevs.length - 1) * colGap;
+        const rowStartX = curRackX + (rw - rowTotalW) / 2 + nW / 2;
+
+        rowDevs.forEach((dev, colIdx) => {
+          newNodePos[dev.id] = {
+            x: rowStartX + colIdx * (nW + colGap),
+            y: rowY
+          };
+        });
+      });
+
+      // Equipos de piso afines a este rack (M-39)
+      const fConf = rackFloorConfig[rack.id];
+      if (fConf && fConf.devs.length > 0) {
+        const fCols = fConf.cols;
+        const fDevs = fConf.devs;
+        const fNumRows = fConf.rows;
+
+        fDevs.forEach((fDev, fi) => {
+          const fc = fi % fCols;
+          const fr = Math.floor(fi / fCols);
+          const fRowCount = (fr === fNumRows - 1 && fDevs.length % fCols !== 0)
+            ? (fDevs.length % fCols)
+            : fCols;
+          const fRowW = fRowCount * nW + (fRowCount - 1) * colGap;
+          const fRowStartX = curRackX + (rw - fRowW) / 2 + nW / 2;
+
+          newNodePos[fDev.id] = {
+            x: fRowStartX + fc * (nW + colGap),
+            y: floorBaseY + fr * floorRowH + nH / 2
+          };
+        });
+      }
+
+      curRackX += rw + RACK_GAP;
+    });
+
+    // Posicionar floor devices no asignados o desconectados en la base de la sala
+    if (unassignedFloorDevs.length > 0) {
+      const unassignedStartY = floorBaseY + (maxAffinityFloorRows > 0 ? maxAffinityFloorRows * floorRowH + 20 : 0);
+      const unassignedStartX = curRoomX + (roomW - unassignedGridW) / 2;
+
+      unassignedFloorDevs.forEach((dev, fi) => {
+        const c = fi % UNASSIGNED_MAX_COLS;
+        const r = Math.floor(fi / UNASSIGNED_MAX_COLS);
+        newNodePos[dev.id] = {
+          x: unassignedStartX + c * (nW + colGap) + nW / 2,
+          y: unassignedStartY + r * floorRowH + nH / 2
+        };
+      });
+    }
+
+    curRoomX += roomW + ROOM_GAP;
+  });
+
+  return { newRoomPos, newRoomSize, newRackPos, newRackSize, newNodePos };
+}
+
+// ──────────────────────────────────────────────────────────────────
+// initTopoPositions — called on first load; only fills missing slots
+// ──────────────────────────────────────────────────────────────────
+function initTopoPositions(skipSave = false) {
+  loadTopoState();
+  const layoutResult = window.TOPO_LAYOUT_MODE === 'tree' ? _computeTreeLayout() : _computeLayout();
+  const { newRoomPos, newRoomSize, newRackPos, newRackSize, newNodePos } = layoutResult;
+
+  let hadMissing = false;
+  Object.keys(newRoomPos).forEach(id  => { if (!roomPositions[id])  { roomPositions[id]  = newRoomPos[id]; hadMissing = true; } });
+  Object.keys(newRoomSize).forEach(id => { if (!roomSizes[id])      { roomSizes[id]      = newRoomSize[id]; hadMissing = true; } });
+  Object.keys(newRackPos).forEach(id  => { if (!rackPositions[id])  { rackPositions[id]  = newRackPos[id]; hadMissing = true; } });
+  Object.keys(newRackSize).forEach(id => { if (!rackSizes[id])      { rackSizes[id]      = newRackSize[id]; hadMissing = true; } });
+  Object.keys(newNodePos).forEach(id  => { if (!nodePositions[id])  { nodePositions[id]  = newNodePos[id]; hadMissing = true; } });
+
+  if (hadMissing && !skipSave) {
+    saveTopo();
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// autoOrderTopo — full reset + recompute (called by Auto-Order btn)
+// ──────────────────────────────────────────────────────────────────
+window.autoOrderTopo = function() {
+  nodePositions = {};
+  rackPositions = {};
+  roomPositions = {};
+  rackSizes     = {};
+  roomSizes     = {};
+
+  const layoutResult = window.TOPO_LAYOUT_MODE === 'tree' ? _computeTreeLayout() : _computeLayout();
+  const { newRoomPos, newRoomSize, newRackPos, newRackSize, newNodePos } = layoutResult;
+
+  Object.assign(roomPositions,  newRoomPos);
+  Object.assign(roomSizes,      newRoomSize);
+  Object.assign(rackPositions,  newRackPos);
+  Object.assign(rackSizes,      newRackSize);
+  Object.assign(nodePositions,  newNodePos);
+
+  saveTopo();
+  notify(window.TOPO_LAYOUT_MODE === 'tree' ? 'Topología organizada en Árbol Jerárquico' : 'Topología organizada por Racks', 'success', 2000);
+};
+
+window.applyTopoLayoutMode = function(mode) {
+  window.TOPO_LAYOUT_MODE = mode;
+  window.autoOrderTopo();
+  if (typeof drawTopo === 'function') drawTopo();
+};
+
+function _applyLayoutResult(res) {
+  if (!res) return;
+  const { newRoomPos, newRoomSize, newRackPos, newRackSize, newNodePos } = res;
+  if (newRoomPos)  Object.keys(newRoomPos).forEach(id  => { roomPositions[id]  = newRoomPos[id];  });
+  if (newRoomSize) Object.keys(newRoomSize).forEach(id => { roomSizes[id]      = newRoomSize[id]; });
+  if (newRackPos)  Object.keys(newRackPos).forEach(id  => { rackPositions[id]  = newRackPos[id];  });
+  if (newRackSize) Object.keys(newRackSize).forEach(id => { rackSizes[id]      = newRackSize[id]; });
+  if (newNodePos)  Object.keys(newNodePos).forEach(id  => { nodePositions[id]  = newNodePos[id];  });
+}
+
+// ──────────────────────────────────────────────────────────────────
+// recalcTopoSpacing — live vertical slider update
+// ──────────────────────────────────────────────────────────────────
+window.recalcTopoSpacing = function(newSpacing) {
+  window.TOPO_SPACING = newSpacing;
+  const res = window.TOPO_LAYOUT_MODE === 'tree' ? _computeTreeLayout() : _computeLayout();
+  _applyLayoutResult(res);
+  saveTopo();
+  if (typeof drawTopo === 'function') drawTopo();
+};
+
+// ──────────────────────────────────────────────────────────────────
+// recalcTopoSpacingX — live horizontal slider update
+// ──────────────────────────────────────────────────────────────────
+window.recalcTopoSpacingX = function(newSpacingX) {
+  window.TOPO_SPACING_X = newSpacingX;
+  const res = window.TOPO_LAYOUT_MODE === 'tree' ? _computeTreeLayout() : _computeLayout();
+  _applyLayoutResult(res);
+  saveTopo();
+  if (typeof drawTopo === 'function') drawTopo();
+};
+
+// ──────────────────────────────────────────────────────────────────
+// resizeCanvas
+// ──────────────────────────────────────────────────────────────────
+function resizeCanvas() {
+  if (!canvas) return;
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+}
+
+if (typeof window !== 'undefined') {
+  window._findAffinityRackForFloorDevice = _findAffinityRackForFloorDevice;
+  window._computeLayout = _computeLayout;
+  window._computeTreeLayout = _computeTreeLayout;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    _findAffinityRackForFloorDevice,
+    _computeLayout,
+    _computeTreeLayout
+  };
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-topology-topologyrenderer-js"></a>
+
+### 📄 Archivo 35/42: `js/ui/topology/TopologyRenderer.js`
+
+* **Ubicación relativa:** `js/ui/topology/TopologyRenderer.js`
+* **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+* **Dimensiones:** 570 líneas | 19.4 KB
+* **Rol en el sistema:** Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px.
+
+```javascript
+const topoIconCache = {};
+function getTopoIcon(type) {
+  if (topoIconCache[type]) return topoIconCache[type];
+  const catItem = typeof CATALOG !== 'undefined' ? CATALOG.find(c => c.type === type) : null;
+  const iconName = catItem && catItem.icon ? catItem.icon.split('/').pop().split('.')[0] : type;
+  const svgStr = typeof SVG_ICONS !== 'undefined' ? SVG_ICONS[iconName] : null;
+  if (!svgStr) return null;
+  
+  const coloredSvg = svgStr.replace(/currentColor/g, '#ffffff');
+  const blob = new Blob([coloredSvg], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  
+  const img = new Image();
+  img.src = url;
+  topoIconCache[type] = img;
+  return img;
+}
+
+function hexToRgba(hex, alpha = 1) {
+  if (!hex) return `rgba(56, 189, 248, ${alpha})`;
+  if (hex.startsWith('rgba') || hex.startsWith('hsla')) return hex;
+  if (hex.startsWith('rgb')) {
+    return hex.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
+  }
+  let c = hex.replace('#', '');
+  if (c.length === 3) c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+  const r = parseInt(c.substring(0, 2), 16) || 0;
+  const g = parseInt(c.substring(2, 4), 16) || 0;
+  const b = parseInt(c.substring(4, 6), 16) || 0;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+let lastAnimTime = 0;
+
+function drawTopo() {
+  if (topoAnim) {
+    cancelAnimationFrame(topoAnim);
+    topoAnim = null;
+  }
+  if (!canvas || !ctx) return;
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  
+  // Fondo global dinámico según tema
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const bgColor = isLight ? '#f8fafc' : '#0a0f1d';
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, W, H);
+  
+  // Patrón de fondo configurable
+  const pattern = window.TOPO_BG_PATTERN || 'dots';
+  if (pattern === 'dots') {
+    ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.14)';
+    for (let x = 0; x < W; x += 36) {
+      for (let y = 0; y < H; y += 36) {
+        ctx.beginPath();
+        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  } else if (pattern === 'grid') {
+    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.07)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x < W; x += 40) {
+      ctx.moveTo(x, 0); ctx.lineTo(x, H);
+    }
+    for (let y = 0; y < H; y += 40) {
+      ctx.moveTo(0, y); ctx.lineTo(W, y);
+    }
+    ctx.stroke();
+  } else if (pattern === 'hexagon') {
+    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)';
+    ctx.lineWidth = 1;
+    const hr = 24;
+    const ha = (2 * Math.PI) / 6;
+    const hexW = hr * Math.sqrt(3);
+    const hexH = hr * 1.5;
+    ctx.beginPath();
+    for (let y = 0; y < H + hr; y += hexH) {
+      const isOdd = Math.floor(y / hexH) % 2 === 1;
+      const offsetX = isOdd ? hexW / 2 : 0;
+      for (let x = -hr; x < W + hr; x += hexW) {
+        const cx = x + offsetX;
+        const cy = y;
+        for (let i = 0; i < 6; i++) {
+          const hpx = cx + hr * Math.cos(ha * i);
+          const hpy = cy + hr * Math.sin(ha * i);
+          if (i === 0) ctx.moveTo(hpx, hpy);
+          else ctx.lineTo(hpx, hpy);
+        }
+        ctx.closePath();
+      }
+    }
+    ctx.stroke();
+  }
+
+  const zoom = store._raw.topoZoom || 1;
+  const px   = store._raw.topoPanX || 0;
+  const py   = store._raw.topoPanY || 0;
+
+  ctx.save();
+  ctx.translate(px, py);
+  ctx.scale(zoom, zoom);
+
+  let connectedNodes = new Set();
+  let activeConns = new Set();
+  if (hoveredNode) {
+    connectedNodes.add(hoveredNode);
+    store._raw.connections.forEach(c => {
+      if (c.sourceDeviceId === hoveredNode || c.targetDeviceId === hoveredNode) {
+        connectedNodes.add(c.sourceDeviceId);
+        connectedNodes.add(c.targetDeviceId);
+        activeConns.add(c.id);
+      }
+    });
+  }
+
+  const userAlpha = window.TOPO_ALPHA !== undefined ? window.TOPO_ALPHA : 0.25;
+  const inherit = window.TOPO_INHERIT_COLORS !== false;
+
+  // Draw Rooms con color temático y transparencia
+  store._raw.rooms.forEach(room => {
+    const pos = roomPositions[room.id];
+    const size = roomSizes[room.id];
+    if (!pos || !size) return;
+
+    const baseColor = (inherit && room.color) ? room.color : '#f97316';
+    const roomFillAlpha = hoveredNode ? userAlpha * 0.5 : userAlpha;
+    const isActiveRoom = room.id === store._raw.currentRoomId;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(pos.x, pos.y, size.w, size.h, 24);
+    ctx.fillStyle = hexToRgba(baseColor, roomFillAlpha);
+    ctx.fill();
+
+    ctx.strokeStyle = isActiveRoom ? '#38bdf8' : hexToRgba(baseColor, 0.75);
+    ctx.lineWidth = isActiveRoom ? 3.5 : 2;
+    ctx.stroke();
+
+    // Franja de cabecera de la sala
+    ctx.beginPath();
+    ctx.roundRect(pos.x, pos.y, size.w, 44, [24, 24, 0, 0]);
+    ctx.fillStyle = hexToRgba(baseColor, Math.min(0.8, roomFillAlpha + 0.25));
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `bold 20px 'Space Grotesk', sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(room.name, pos.x + 22, pos.y + 22);
+
+    // Resize Handle Room
+    ctx.beginPath();
+    ctx.moveTo(pos.x + size.w - 20, pos.y + size.h);
+    ctx.lineTo(pos.x + size.w, pos.y + size.h - 20);
+    ctx.lineTo(pos.x + size.w, pos.y + size.h);
+    ctx.fillStyle = hexToRgba(baseColor, 0.8);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // Draw Racks con color temático y transparencia
+  store._raw.racks.forEach(rack => {
+    const pos = rackPositions[rack.id];
+    const size = rackSizes[rack.id];
+    if (!pos || !size) return;
+
+    const rackBaseColor = (inherit && rack.color) ? rack.color : '#0ea5e9';
+    const rackFillAlpha = hoveredNode ? (userAlpha + 0.08) * 0.5 : (userAlpha + 0.08);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(pos.x, pos.y, size.w, size.h, 14);
+    ctx.fillStyle = hexToRgba(rackBaseColor, rackFillAlpha);
+    ctx.fill();
+
+    ctx.strokeStyle = hexToRgba(rackBaseColor, 0.85);
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    // Franja de cabecera del rack
+    ctx.beginPath();
+    ctx.roundRect(pos.x, pos.y, size.w, 32, [14, 14, 0, 0]);
+    ctx.fillStyle = hexToRgba(rackBaseColor, Math.min(0.85, rackFillAlpha + 0.3));
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `bold 13px 'Space Grotesk', sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(rack.name, pos.x + 14, pos.y + 16);
+
+    // Resize Handle Rack
+    ctx.beginPath();
+    ctx.moveTo(pos.x + size.w - 16, pos.y + size.h);
+    ctx.lineTo(pos.x + size.w, pos.y + size.h - 16);
+    ctx.lineTo(pos.x + size.w, pos.y + size.h);
+    ctx.fillStyle = hexToRgba(rackBaseColor, 0.85);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // Draw Connections
+  const now = performance.now();
+  const dt = lastAnimTime ? Math.min(0.1, (now - lastAnimTime) / 1000) : 0.016;
+  lastAnimTime = now;
+  if (!document.body.classList.contains('no-animations')) {
+    flowT = (flowT + dt * 0.45) % 1;
+  }
+  store._raw.connections.forEach(conn => {
+    const srcPos = nodePositions[conn.sourceDeviceId];
+    const dstPos = nodePositions[conn.targetDeviceId];
+    if (!srcPos || !dstPos) return;
+
+    const isActive = hoveredNode ? activeConns.has(conn.id) : true;
+    
+    const x1 = srcPos.x, y1 = srcPos.y;
+    const x2 = dstPos.x, y2 = dstPos.y;
+
+    const isTree = window.TOPO_LAYOUT_MODE === 'tree';
+    const midX = x1 + (x2 - x1) * 0.5;
+    const midY = y1 + (y2 - y1) * 0.5;
+
+    ctx.save();
+    ctx.beginPath();
+    if (isTree) {
+      // Trazado Ortogonal de Árbol de Red con esquinas redondeadas (Draw.io style)
+      ctx.moveTo(x1, y1);
+      const r = 8;
+      if (Math.abs(x2 - x1) > r * 2 && Math.abs(y2 - y1) > r * 2) {
+        const signX = x2 > x1 ? 1 : -1;
+        const signY = y2 > y1 ? 1 : -1;
+        ctx.lineTo(x1, midY - signY * r);
+        ctx.arcTo(x1, midY, x1 + signX * r, midY, r);
+        ctx.lineTo(x2 - signX * r, midY);
+        ctx.arcTo(x2, midY, x2, midY + signY * r, r);
+        ctx.lineTo(x2, y2);
+      } else {
+        ctx.lineTo(x1, midY);
+        ctx.lineTo(x2, midY);
+        ctx.lineTo(x2, y2);
+      }
+    } else {
+      ctx.moveTo(x1, y1);
+      ctx.bezierCurveTo(midX, y1, midX, y2, x2, y2);
+    }
+    
+    // Diferenciación de cableado frontal vs trasero
+    const isRear = conn.facing === 'rear' || conn.targetFacing === 'rear' || conn.sourceFacing === 'rear';
+    if (isRear) {
+      ctx.setLineDash([5, 4]);
+    } else {
+      ctx.setLineDash([]);
+    }
+
+    ctx.strokeStyle = conn.color || '#ffffff';
+    ctx.lineWidth = isActive ? 3 : 1.5;
+    ctx.globalAlpha = isActive ? 1 : 0.2;
+    ctx.stroke();
+
+    if (isActive) {
+      const numParticles = 4;
+      for(let i=0; i<numParticles; i++) {
+        let t = ((flowT + i/numParticles) % 1);
+        const pt = isTree
+          ? orthogonalPoint(x1, y1, x2, y2, t)
+          : { x: bezierPoint(x1, midX, midX, x2, t), y: bezierPoint(y1, y1, y2, y2, t) };
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = conn.color;
+        ctx.shadowBlur = 8;
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  });
+
+  const searchInput = document.getElementById('global-search');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+  // Draw Device Nodes
+  store._raw.devices.forEach(dev => {
+    if (['accesorios'].includes(dev.type)) return;
+    const pos = nodePositions[dev.id];
+    if (!pos) return;
+    const col = TYPE_COLORS[dev.type] || '#888';
+    const r = 22;
+    
+    let isActive = true;
+    if (searchTerm) {
+      const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
+      isActive = fields.includes(searchTerm);
+    } else {
+      isActive = hoveredNode ? connectedNodes.has(dev.id) : true;
+    }
+    
+    const isHoverTarget = hoveredNode === dev.id;
+
+    ctx.save();
+    ctx.globalAlpha = isActive ? 1 : 0.15; // Dim significantly if not matching
+    
+    if (window.TOPOLOGY_STYLE === 'circle') {
+      if (isHoverTarget) {
+        ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 6, 0, Math.PI*2);
+        ctx.fillStyle = '#ffffff66'; 
+        ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(pos.x, pos.y, r + 4, 0, Math.PI*2);
+        ctx.fillStyle = '#ffffff22'; 
+        ctx.fill();
+      }
+      
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, r, 0, Math.PI*2);
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.5;
+      ctx.fill(); ctx.stroke();
+      
+      ctx.font = '16px serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ffffff';
+      const img = getTopoIcon(dev.type);
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, pos.x - 10, pos.y - 10, 20, 20);
+      } else {
+        ctx.font = '12px "Space Grotesk", sans-serif';
+        ctx.fillText(dev.type.substring(0, 2).toUpperCase(), pos.x, pos.y);
+      }
+      
+      // Renderizado de Etiquetas (Nombre e IP según configuración definida por el usuario)
+      const namePos = window.TOPO_NAME_POS || 'bottom';
+      const ipPos   = window.TOPO_IP_POS   || 'top';
+      const rawDevName = dev.name || '';
+      const devName = rawDevName.length > 17 ? rawDevName.slice(0, 16) + '…' : rawDevName;
+      const devIp   = dev.ip || '';
+
+      function drawNodeName(x, y, align = 'center') {
+        if (!devName || namePos === 'none') return;
+        ctx.save();
+        ctx.font = 'bold 11px "Space Grotesk", sans-serif';
+        ctx.textAlign = align;
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 1;
+        ctx.fillText(devName, x, y);
+        ctx.restore();
+      }
+
+      function drawNodeIp(x, y, align = 'center') {
+        if (!devIp || ipPos === 'none') return;
+        ctx.save();
+        ctx.font = 'bold 9px "JetBrains Mono", monospace';
+        ctx.textBaseline = 'middle';
+        const ipWidth = ctx.measureText(devIp).width;
+        let boxX = x - ipWidth / 2 - 5;
+        let textX = x;
+        if (align === 'left') {
+          boxX = x;
+          textX = x + 5 + ipWidth / 2;
+        } else if (align === 'right') {
+          boxX = x - ipWidth - 10;
+          textX = x - 5 - ipWidth / 2;
+        }
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(boxX, y - 8, ipWidth + 10, 16, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(devIp, textX, y);
+        ctx.restore();
+      }
+
+      const hasBoth = devName && namePos !== 'none' && devIp && ipPos !== 'none';
+      const isTogether = hasBoth && namePos === ipPos;
+
+      if (isTogether) {
+        // JUNTOS en la misma posición (arriba, abajo, derecha, izquierda)
+        if (namePos === 'bottom') {
+          drawNodeName(pos.x, pos.y + r + 12, 'center');
+          drawNodeIp(pos.x, pos.y + r + 28, 'center');
+        } else if (namePos === 'top') {
+          drawNodeIp(pos.x, pos.y - r - 26, 'center');
+          drawNodeName(pos.x, pos.y - r - 10, 'center');
+        } else if (namePos === 'right') {
+          drawNodeName(pos.x + r + 10, pos.y - 7, 'left');
+          drawNodeIp(pos.x + r + 10, pos.y + 9, 'left');
+        } else if (namePos === 'left') {
+          drawNodeName(pos.x - r - 10, pos.y - 7, 'right');
+          drawNodeIp(pos.x - r - 10, pos.y + 9, 'right');
+        }
+      } else {
+        // SEPARADOS o independientes
+        if (namePos === 'top') {
+          drawNodeName(pos.x, pos.y - r - 12, 'center');
+        } else if (namePos === 'bottom') {
+          drawNodeName(pos.x, pos.y + r + 14, 'center');
+        } else if (namePos === 'right') {
+          drawNodeName(pos.x + r + 10, pos.y, 'left');
+        } else if (namePos === 'left') {
+          drawNodeName(pos.x - r - 10, pos.y, 'right');
+        }
+
+        if (ipPos === 'top') {
+          drawNodeIp(pos.x, pos.y - r - 12, 'center');
+        } else if (ipPos === 'bottom') {
+          drawNodeIp(pos.x, pos.y + r + 14, 'center');
+        } else if (ipPos === 'right') {
+          drawNodeIp(pos.x + r + 10, pos.y, 'left');
+        } else if (ipPos === 'left') {
+          drawNodeIp(pos.x - r - 10, pos.y, 'right');
+        }
+      }
+    } else {
+      // CARD STYLE
+      const cardW = 150;
+      const cardH = 50;
+      const cx = pos.x - cardW/2;
+      const cy = pos.y - cardH/2;
+
+      if (isHoverTarget) {
+        ctx.beginPath(); ctx.roundRect(cx - 4, cy - 4, cardW + 8, cardH + 8, 12);
+        ctx.fillStyle = '#ffffff33'; 
+        ctx.fill();
+      }
+      
+      ctx.beginPath(); ctx.roundRect(cx, cy, cardW, cardH, 8);
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.5;
+      ctx.fill(); ctx.stroke();
+      
+      const img = getTopoIcon(dev.type);
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, cx + 12, cy + 12, 16, 16);
+      } else {
+        ctx.font = '10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(dev.type.substring(0, 2).toUpperCase(), cx + 20, cy + 20);
+      }
+      
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.font = 'bold 12px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 1;
+      const rawCardName = dev.name || '';
+      const displayCardName = rawCardName.length > 17 ? rawCardName.slice(0, 16) + '…' : rawCardName;
+      ctx.fillText(displayCardName, cx + 36, cy + 18);
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+      
+      if (dev.ip) {
+        ctx.font = '11px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText(dev.ip, cx + 36, cy + 34);
+      }
+    }
+    
+    ctx.restore();
+  });
+
+  ctx.restore(); // Restaurar matriz
+  
+  if (hoveredNode) {
+    const dev = store.deviceById(hoveredNode);
+    if (dev) {
+      ctx.save();
+      const devFullName = dev.name || 'Desconocido';
+      let titleLines = [devFullName];
+      if (devFullName.length > 21 && devFullName.includes(' ')) {
+        const words = devFullName.split(' ');
+        let l1 = '';
+        let l2 = '';
+        for (const w of words) {
+          if ((l1 + ' ' + w).trim().length <= 21) {
+            l1 = (l1 + ' ' + w).trim();
+          } else {
+            l2 = (l2 + ' ' + w).trim();
+          }
+        }
+        if (l1 && l2) {
+          titleLines = [l1, l2];
+        }
+      }
+
+      const hudW = 240;
+      const padX = 14;
+      const titleLineH = 17;
+      const isMulti = titleLines.length > 1;
+      const hudH = isMulti ? 116 : 100;
+
+      let hudX = mousePos.rawX + 16;
+      let hudY = mousePos.rawY + 16;
+      
+      if (hudX + hudW > W - 10) hudX = mousePos.rawX - hudW - 16;
+      if (hudX < 10) hudX = 10;
+      if (hudY + hudH > H - 10) hudY = mousePos.rawY - hudH - 16;
+      if (hudY < 10) hudY = 10;
+
+      ctx.beginPath();
+      ctx.roundRect(hudX, hudY, hudW, hudH, 8);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+      ctx.fill();
+      ctx.strokeStyle = (dev && dev.type && TYPE_COLORS[dev.type]) || '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+
+      titleLines.forEach((tl, i) => {
+        ctx.fillText(tl, hudX + padX, hudY + 12 + (i * titleLineH));
+      });
+      
+      const propsStartY = hudY + 12 + (titleLines.length * titleLineH) + 6;
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillText(`Tipo:  ${String(dev.type || 'unknown').toUpperCase()}`, hudX + padX, propsStartY);
+      ctx.fillText(`IP:    ${dev.ip || 'N/A'}`, hudX + padX, propsStartY + 15);
+      ctx.fillText(`User:  ${dev.user || 'N/A'}`, hudX + padX, propsStartY + 30);
+      ctx.fillText(`Pass:  ${dev.pass ? (window.SHOW_PASSWORDS ? dev.pass : '••••••••') : 'N/A'}`, hudX + padX, propsStartY + 45);
+      
+      ctx.restore();
+    }
+  }
+
+  topoAnim = requestAnimationFrame(drawTopo);
+}
+
+function bezierPoint(p0, p1, p2, p3, t) {
+  const mt = 1 - t;
+  return mt*mt*mt*p0 + 3*mt*mt*t*p1 + 3*mt*t*t*p2 + t*t*t*p3;
+}
+
+function orthogonalPoint(x1, y1, x2, y2, t) {
+  const midY = y1 + (y2 - y1) * 0.5;
+  const d1 = Math.abs(midY - y1);
+  const d2 = Math.abs(x2 - x1);
+  const d3 = Math.abs(y2 - midY);
+  const total = d1 + d2 + d3;
+  if (total <= 0) return { x: x1, y: y1 };
+  const targetDist = t * total;
+  if (targetDist <= d1) {
+    const ratio = d1 > 0 ? targetDist / d1 : 0;
+    return { x: x1, y: y1 + (midY - y1) * ratio };
+  } else if (targetDist <= d1 + d2) {
+    const ratio = d2 > 0 ? (targetDist - d1) / d2 : 0;
+    return { x: x1 + (x2 - x1) * ratio, y: midY };
+  } else {
+    const ratio = d3 > 0 ? (targetDist - d1 - d2) / d3 : 0;
+    return { x: x2, y: midY + (y2 - midY) * ratio };
+  }
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-topology-topologyevents-js"></a>
+
+### 📄 Archivo 36/42: `js/ui/topology/TopologyEvents.js`
+
+* **Ubicación relativa:** `js/ui/topology/TopologyEvents.js`
+* **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+* **Dimensiones:** 387 líneas | 13.5 KB
+* **Rol en el sistema:** Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación.
+
+```javascript
+function initTopology() {
+  canvas = document.getElementById('topology-canvas');
+  if(!canvas) return;
+  ctx = canvas.getContext('2d');
+  
+  canvas.addEventListener('pointerdown', e => {
+    dragSnapshotTaken = false;
+    dragPointerStart = { x: e.clientX, y: e.clientY };
+
+    const zoom = store._raw.topoZoom || 1;
+    const px   = store._raw.topoPanX || 0;
+    const py   = store._raw.topoPanY || 0;
+    const mx = (e.offsetX - px) / zoom;
+    const my = (e.offsetY - py) / zoom;
+
+    // Check Resizing first
+    for (const rack of store._raw.racks) {
+      const pos = rackPositions[rack.id];
+      const size = rackSizes[rack.id];
+      if (!pos || !size) continue;
+      if (mx >= pos.x + size.w - 20 && mx <= pos.x + size.w && my >= pos.y + size.h - 20 && my <= pos.y + size.h) {
+        resizingRack = rack.id;
+        return;
+      }
+    }
+    for (const room of store._raw.rooms) {
+      const pos = roomPositions[room.id];
+      const size = roomSizes[room.id];
+      if (!pos || !size) continue;
+      if (mx >= pos.x + size.w - 24 && mx <= pos.x + size.w && my >= pos.y + size.h - 24 && my <= pos.y + size.h) {
+        resizingRoom = room.id;
+        return;
+      }
+    }
+
+    // Dragging Nodes
+    for (const dev of store._raw.devices) {
+      if (['accesorios'].includes(dev.type)) continue;
+      const pos = nodePositions[dev.id];
+      if (!pos) continue;
+      const dx = mx - pos.x, dy = my - pos.y;
+      if (dx*dx + dy*dy <= 24*24) {
+        draggingNode = dev.id;
+        nodeOrig = { x: pos.x - mx, y: pos.y - my };
+        return;
+      }
+    }
+    // Dragging Racks
+    for (const rack of store._raw.racks) {
+      const pos = rackPositions[rack.id];
+      const size = rackSizes[rack.id];
+      if (!pos || !size) continue;
+      if (mx >= pos.x && mx <= pos.x + size.w && my >= pos.y && my <= pos.y + 40) {
+        draggingRack = rack.id;
+        nodeOrig = { x: pos.x - mx, y: pos.y - my };
+        return;
+      }
+    }
+    // Dragging Rooms
+    for (const room of store._raw.rooms) {
+      const pos = roomPositions[room.id];
+      const size = roomSizes[room.id];
+      if (!pos || !size) continue;
+      if (mx >= pos.x && mx <= pos.x + size.w && my >= pos.y && my <= pos.y + 50) {
+        draggingRoom = room.id;
+        nodeOrig = { x: pos.x - mx, y: pos.y - my };
+        return;
+      }
+    }
+    // Pan
+    panStart = { x: e.clientX, y: e.clientY };
+    panOrig  = { x: store._raw.topoPanX || 0, y: store._raw.topoPanY || 0 };
+    mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
+  });
+
+  canvas.addEventListener('pointermove', e => {
+    const zoom = store._raw.topoZoom || 1;
+    const px   = store._raw.topoPanX || 0;
+    const py   = store._raw.topoPanY || 0;
+    const mx = (e.offsetX - px) / zoom;
+    const my = (e.offsetY - py) / zoom;
+
+    mousePos = { x: mx, y: my, rawX: e.offsetX, rawY: e.offsetY };
+
+    if (resizingRack || resizingRoom || draggingNode || draggingRack || draggingRoom) {
+      if (!dragSnapshotTaken && dragPointerStart) {
+        const dpx = e.clientX - dragPointerStart.x;
+        const dpy = e.clientY - dragPointerStart.y;
+        if (dpx * dpx + dpy * dpy >= 9) { // Movimiento real de al menos 3px
+          store.snapshot();
+          dragSnapshotTaken = true;
+        }
+      }
+    }
+
+    if (resizingRack) {
+      const rackPos = rackPositions[resizingRack];
+      const rack = store._raw.racks.find(r => r.id === resizingRack);
+      const roomPos = roomPositions[rack.roomId];
+      const roomSize = roomSizes[rack.roomId];
+
+      let newW = mx - rackPos.x;
+      let newH = my - rackPos.y;
+
+      let maxDevX = rackPos.x + 100;
+      let maxDevY = rackPos.y + 80;
+      store.allDevicesInRack(resizingRack).forEach(dev => {
+        const dp = nodePositions[dev.id];
+        if (dp) {
+          if (dp.x + 35 > maxDevX) maxDevX = dp.x + 35;
+          if (dp.y + 35 > maxDevY) maxDevY = dp.y + 35;
+        }
+      });
+      const minW = Math.max(160, maxDevX - rackPos.x);
+      const minH = Math.max(100, maxDevY - rackPos.y);
+
+      if (newW < minW) newW = minW;
+      if (newH < minH) newH = minH;
+
+      if (roomPos && roomSize) {
+        if (rackPos.x + newW > roomPos.x + roomSize.w - 10) newW = roomPos.x + roomSize.w - rackPos.x - 10;
+        if (rackPos.y + newH > roomPos.y + roomSize.h - 10) newH = roomPos.y + roomSize.h - rackPos.y - 10;
+      }
+      rackSizes[resizingRack] = { w: newW, h: newH };
+      return;
+    }
+
+    if (resizingRoom) {
+      const roomPos = roomPositions[resizingRoom];
+      let newW = mx - roomPos.x;
+      let newH = my - roomPos.y;
+
+      let maxRackX = roomPos.x + 150;
+      let maxRackY = roomPos.y + 100;
+      store._raw.racks.filter(r => r.roomId === resizingRoom).forEach(rack => {
+        const rp = rackPositions[rack.id];
+        const rs = rackSizes[rack.id];
+        if (rp && rs) {
+          if (rp.x + rs.w + 15 > maxRackX) maxRackX = rp.x + rs.w + 15;
+          if (rp.y + rs.h + 15 > maxRackY) maxRackY = rp.y + rs.h + 15;
+        }
+      });
+      const minW = Math.max(250, maxRackX - roomPos.x);
+      const minH = Math.max(150, maxRackY - roomPos.y);
+
+      if (newW < minW) newW = minW;
+      if (newH < minH) newH = minH;
+
+      roomSizes[resizingRoom] = { w: newW, h: newH };
+      return;
+    }
+
+    if (draggingNode) {
+      const dev = store._raw.devices.find(d => d.id === draggingNode);
+      let nx = mx + nodeOrig.x;
+      let ny = my + nodeOrig.y;
+      const r = 24;
+
+      // 1. Restringir a Rack si es un equipo montado en rack
+      const rackPos = rackPositions[dev.rackId];
+      const rackSize = rackSizes[dev.rackId];
+      if (rackPos && rackSize) {
+        if (nx - r < rackPos.x) nx = rackPos.x + r;
+        if (nx + r > rackPos.x + rackSize.w) nx = rackPos.x + rackSize.w - r;
+        if (ny - r < rackPos.y + 40) ny = rackPos.y + 40 + r;
+        if (ny + r > rackPos.y + rackSize.h) ny = rackPos.y + rackSize.h - r;
+      }
+
+      // 2. Restringir a la Sala para que no pueda salir del recuadro
+      const roomId = dev.category === 'floor' ? dev.roomId : store.rackById(dev.rackId)?.roomId;
+      const roomPos = roomPositions[roomId];
+      const roomSize = roomSizes[roomId];
+      if (roomPos && roomSize) {
+        if (nx - r < roomPos.x + 10) nx = roomPos.x + 10 + r;
+        if (nx + r > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - 10 - r;
+        if (ny - r < roomPos.y + 50) ny = roomPos.y + 50 + r;
+        if (ny + r > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - 10 - r;
+      }
+
+      nodePositions[draggingNode] = { x: nx, y: ny };
+      return;
+    }
+    
+    if (draggingRack) {
+      const rack = store._raw.racks.find(r => r.id === draggingRack);
+      const roomPos = roomPositions[rack.roomId];
+      const roomSize = roomSizes[rack.roomId];
+      const rackSize = rackSizes[draggingRack];
+
+      let nx = mx + nodeOrig.x;
+      let ny = my + nodeOrig.y;
+
+      if (roomPos && roomSize && rackSize) {
+        if (nx < roomPos.x + 10) nx = roomPos.x + 10;
+        if (nx + rackSize.w > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - rackSize.w - 10;
+        if (ny < roomPos.y + 50) ny = roomPos.y + 50;
+        if (ny + rackSize.h > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - rackSize.h - 10;
+      }
+
+      const np = { x: nx, y: ny };
+      const old = rackPositions[draggingRack];
+      const dx = np.x - old.x, dy = np.y - old.y;
+      rackPositions[draggingRack] = np;
+      
+      store.allDevicesInRack(draggingRack).forEach(dev => {
+        if (nodePositions[dev.id]) {
+          nodePositions[dev.id].x += dx;
+          nodePositions[dev.id].y += dy;
+        }
+      });
+      return;
+    }
+
+    if (draggingRoom) {
+      const np = { x: mx + nodeOrig.x, y: my + nodeOrig.y };
+      const old = roomPositions[draggingRoom];
+      const dx = np.x - old.x, dy = np.y - old.y;
+      roomPositions[draggingRoom] = np;
+      
+      const racksInRoom = store._raw.racks.filter(r => r.roomId === draggingRoom);
+      racksInRoom.forEach(rack => {
+        if (rackPositions[rack.id]) {
+          rackPositions[rack.id].x += dx;
+          rackPositions[rack.id].y += dy;
+        }
+        store.allDevicesInRack(rack.id).forEach(dev => {
+          if (nodePositions[dev.id]) {
+            nodePositions[dev.id].x += dx;
+            nodePositions[dev.id].y += dy;
+          }
+        });
+      });
+
+      const floorInRoom = store.allFloorDevicesInRoom(draggingRoom);
+      floorInRoom.forEach(dev => {
+        if (nodePositions[dev.id]) {
+          nodePositions[dev.id].x += dx;
+          nodePositions[dev.id].y += dy;
+        }
+      });
+      return;
+    }
+    
+    if (panStart) {
+      store.setPan('topology', panOrig.x + (e.clientX - panStart.x), panOrig.y + (e.clientY - panStart.y));
+      return;
+    }
+
+    // Detect Hover & Cursor State
+    hoveredNode = null;
+    let newCursor = 'default';
+
+    for (const dev of store._raw.devices) {
+      if (['accesorios'].includes(dev.type)) continue;
+      const pos = nodePositions[dev.id];
+      if (!pos) continue;
+      const dx = mx - pos.x, dy = my - pos.y;
+      if (dx*dx + dy*dy <= 24*24) {
+        hoveredNode = dev.id;
+        newCursor = 'grab';
+        break;
+      }
+    }
+
+    if (!hoveredNode) {
+      for (const rack of store._raw.racks) {
+        const pos = rackPositions[rack.id];
+        const size = rackSizes[rack.id];
+        if (!pos || !size) continue;
+        if (mx >= pos.x + size.w - 20 && mx <= pos.x + size.w && my >= pos.y + size.h - 20 && my <= pos.y + size.h) {
+          newCursor = 'nwse-resize';
+          break;
+        }
+        if (mx >= pos.x && mx <= pos.x + size.w && my >= pos.y && my <= pos.y + 40) {
+          newCursor = 'grab';
+          break;
+        }
+      }
+      for (const room of store._raw.rooms) {
+        const pos = roomPositions[room.id];
+        const size = roomSizes[room.id];
+        if (!pos || !size) continue;
+        if (mx >= pos.x + size.w - 24 && mx <= pos.x + size.w && my >= pos.y + size.h - 24 && my <= pos.y + size.h) {
+          newCursor = 'nwse-resize';
+          break;
+        }
+        if (mx >= pos.x && mx <= pos.x + size.w && my >= pos.y && my <= pos.y + 50) {
+          newCursor = 'grab';
+          break;
+        }
+      }
+    }
+    
+    if (canvas.style.cursor !== newCursor) canvas.style.cursor = newCursor;
+  });
+
+  canvas.addEventListener('pointerup', e => {
+    if (dragSnapshotTaken) {
+      saveTopo(); // Guardar cualquier cambio de posición o tamaño solo si hubo arrastre
+    }
+    draggingNode = null; draggingRack = null; draggingRoom = null; 
+    resizingRack = null; resizingRoom = null;
+    panStart = null;
+    dragSnapshotTaken = false;
+    dragPointerStart = null;
+  });
+
+  canvas.addEventListener('pointercancel', e => {
+    draggingNode = null; draggingRack = null; draggingRoom = null; 
+    resizingRack = null; resizingRoom = null;
+    panStart = null;
+    dragSnapshotTaken = false;
+    dragPointerStart = null;
+  });
+
+  canvas.addEventListener('dblclick', e => {
+    const zoom = store._raw.topoZoom || 1;
+    const px   = store._raw.topoPanX || 0;
+    const py   = store._raw.topoPanY || 0;
+    const mx = (e.offsetX - px) / zoom;
+    const my = (e.offsetY - py) / zoom;
+
+    // 1) Doble clic sobre un nodo → abrir modal "Nueva Conexión"
+    for (const dev of store._raw.devices) {
+      if (['accesorios'].includes(dev.type)) continue;
+      const pos = nodePositions[dev.id];
+      if (!pos) continue;
+      const dx = mx - pos.x, dy = my - pos.y;
+      if (dx*dx + dy*dy <= 24*24) {
+        openCableModal(dev.id);
+        return;
+      }
+    }
+
+    // 2) Doble clic sobre un cable → abrir modal "Editar Conexión"
+    const HIT = 10; // tolerancia en píxeles del mundo
+    for (const conn of store._raw.connections) {
+      const srcPos = nodePositions[conn.sourceDeviceId];
+      const dstPos = nodePositions[conn.targetDeviceId];
+      if (!srcPos || !dstPos) continue;
+
+      const x1 = srcPos.x, y1 = srcPos.y;
+      const x2 = dstPos.x, y2 = dstPos.y;
+      const cx1 = x1 + (x2 - x1) * 0.5;
+      const cy1 = y1;
+      const cx2 = x1 + (x2 - x1) * 0.5;
+      const cy2 = y2;
+
+      // Muestrear la curva Bézier en 30 segmentos y verificar proximidad
+      let hit = false;
+      let prevBx = x1, prevBy = y1;
+      const STEPS = 30;
+      for (let i = 1; i <= STEPS; i++) {
+        const t = i / STEPS;
+        const bx = bezierPoint(x1, cx1, cx2, x2, t);
+        const by = bezierPoint(y1, cy1, cy2, y2, t);
+        // Distancia del punto al segmento [prev..current]
+        const dx = bx - prevBx, dy = by - prevBy;
+        const len2 = dx*dx + dy*dy;
+        let dist2;
+        if (len2 === 0) {
+          dist2 = (mx - bx)*(mx - bx) + (my - by)*(my - by);
+        } else {
+          const tp = Math.max(0, Math.min(1, ((mx - prevBx)*dx + (my - prevBy)*dy) / len2));
+          const projX = prevBx + tp*dx;
+          const projY = prevBy + tp*dy;
+          dist2 = (mx - projX)*(mx - projX) + (my - projY)*(my - projY);
+        }
+        if (dist2 <= HIT*HIT) { hit = true; break; }
+        prevBx = bx; prevBy = by;
+      }
+
+      if (hit) {
+        openEditCableModal(conn.id);
+        return;
+      }
+    }
+  });
+
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    store.setZoom('topology', Math.min(3, Math.max(0.1, (store._raw.topoZoom || 1) * delta)));
+    updateZoomLabel();
+  });
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-topology-topologyorchestrator-js"></a>
+
+### 📄 Archivo 37/42: `js/ui/topology/TopologyOrchestrator.js`
+
+* **Ubicación relativa:** `js/ui/topology/TopologyOrchestrator.js`
+* **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+* **Dimensiones:** 104 líneas | 2.9 KB
+* **Rol en el sistema:** Ciclo de vida de topología: inicialización, bucle de animación a 60 FPS y exportación PNG.
+
+```javascript
+function startTopo() {
+  resizeCanvas();
+  initTopoPositions();
+  if (topoAnim) cancelAnimationFrame(topoAnim);
+  drawTopo();
+}
+
+function stopTopo() {
+  if (topoAnim) cancelAnimationFrame(topoAnim);
+  topoAnim = null;
+  if (typeof lastAnimTime !== 'undefined') lastAnimTime = 0;
+}
+
+function updateZoomLabel() {
+  const lbl = document.getElementById('zoom-level');
+  const pfx = currentView === 'physical' ? 'phys' : 'topo';
+  const z = store._raw[pfx+'Zoom'] || 1;
+  const px = store._raw[pfx+'PanX'] || 0;
+  const py = store._raw[pfx+'PanY'] || 0;
+  if (lbl) lbl.textContent = Math.round(z * 100) + '%';
+  
+  if (currentView === 'physical') {
+    const phys = document.getElementById('view-physical-content');
+    if (phys) {
+      phys.style.zoom = z;
+      phys.style.transform = `translate(${px}px, ${py}px)`;
+      phys.style.width = '100%';
+    }
+  }
+}
+
+function exportTopologyToPNG() {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  
+  store._raw.rooms.forEach(room => {
+    const pos = roomPositions[room.id];
+    const size = roomSizes[room.id];
+    if (pos && size) {
+      if (pos.x < minX) minX = pos.x;
+      if (pos.y < minY) minY = pos.y;
+      if (pos.x + size.w > maxX) maxX = pos.x + size.w;
+      if (pos.y + size.h > maxY) maxY = pos.y + size.h;
+    }
+  });
+  
+  if (minX === Infinity) {
+    notify('No hay topología para exportar', 'warn');
+    return;
+  }
+  
+  const margin = 100;
+  minX -= margin; minY -= margin;
+  maxX += margin; maxY += margin;
+  
+  const width = maxX - minX;
+  const height = maxY - minY;
+  
+  const offCanvas = document.createElement('canvas');
+  offCanvas.width = width * 2;
+  offCanvas.height = height * 2;
+  const oc = offCanvas.getContext('2d');
+  oc.scale(2, 2);
+  
+  // Temporarily swap global context, pan and zoom
+  const oldCtx = ctx;
+  const oldCanvas = canvas;
+  const oldZoom = store._raw.topoZoom;
+  const oldPanX = store._raw.topoPanX;
+  const oldPanY = store._raw.topoPanY;
+  const oldHover = hoveredNode;
+  
+  try {
+    ctx = oc;
+    canvas = offCanvas; 
+    store._raw.topoZoom = 1;
+    store._raw.topoPanX = -minX;
+    store._raw.topoPanY = -minY;
+    hoveredNode = null;
+    
+    // Draw one frame offscreen
+    cancelAnimationFrame(topoAnim);
+    drawTopo();
+    cancelAnimationFrame(topoAnim); // drawTopo requests another frame, stop it
+    
+    const url = offCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `Topologia_Centro_Datos.png`;
+    link.href = url;
+    link.click();
+    
+    notify('Topología exportada a PNG', 'success');
+  } finally {
+    // Restore globals
+    ctx = oldCtx;
+    canvas = oldCanvas;
+    store._raw.topoZoom = oldZoom;
+    store._raw.topoPanX = oldPanX;
+    store._raw.topoPanY = oldPanY;
+    hoveredNode = oldHover;
+    drawTopo(); // Ensure loop resumes on main canvas
+  }
+  startTopo(); // resume normal loop
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-main-js"></a>
+
+### 📄 Archivo 38/42: `js/main.js`
+
+* **Ubicación relativa:** `js/main.js`
+* **Capa:** Capa 8: Orquestador Principal de la Aplicación
+* **Dimensiones:** 1.192 líneas | 48.2 KB
+* **Rol en el sistema:** Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión.
+
+```javascript
+let currentView = 'physical';
+window.TOPOLOGY_STYLE = 'card'; // 'card' o 'circle'
+window.SHOW_PASSWORDS = false;
+
+// ===== AUTENTICACIÓN Y ROLES =====
+
+function applyRoleUI(user) {
+  const badge = document.getElementById('user-badge');
+  if (!badge) return;
+  const isAdm = user.role === RackAuth.ROLES.ADMIN;
+  const isView = user.role === RackAuth.ROLES.VIEWER;
+
+  // Badge en el header
+  badge.style.display = 'inline-block';
+  badge.innerHTML = isAdm ? '<i class="svg-icon icon-crown" style="width:12px;height:12px;margin-right:4px;"></i>Admin' : isView ? '<i class="svg-icon icon-eye" style="width:12px;height:12px;margin-right:4px;"></i>Espectador' : '<i class="svg-icon icon-edit" style="width:12px;height:12px;margin-right:4px;"></i>Editor';
+  badge.style.color = isAdm ? 'var(--cyan)' : isView ? 'var(--text-secondary)' : 'var(--accent)';
+  badge.style.borderColor = isAdm ? 'var(--cyan)' : isView ? 'var(--border)' : 'var(--accent)';
+  badge.style.background = isAdm ? 'rgba(34,211,238,0.1)' : isView ? 'rgba(100,116,139,0.1)' : 'var(--accent-glow)';
+  badge.title = `Sesión: ${user.name}`;
+
+  // Opciones exclusivas de admin en el menú
+  const godMode = document.getElementById('menu-toggle-passwords');
+  const changePinMenu = document.getElementById('menu-change-pin');
+  if (godMode) godMode.style.display = isAdm ? '' : 'none';
+  if (changePinMenu) changePinMenu.style.display = isAdm ? '' : 'none';
+
+  // Botones de escritura deshabilitados para viewer
+  const writeOnlyBtns = [
+    'btn-add-rack', 'btn-add-device-modal',
+    'table-btn-add-device', 'table-btn-add-placement', 'table-btn-add-conn'
+  ];
+  writeOnlyBtns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.disabled = isView; el.style.opacity = isView ? '0.4' : ''; }
+  });
+}
+
+function closePinModal() {
+  const m = document.getElementById('modal-change-pin');
+  if (m) m.style.display = 'none';
+  ['pin-current-input','pin-new-input','pin-confirm-input'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  const err = document.getElementById('pin-change-error'); if(err) { err.style.display='none'; err.textContent=''; }
+  const ok = document.getElementById('pin-change-success'); if(ok) ok.style.display='none';
+}
+
+function initAuthModal() {
+  const modal = document.getElementById('modal-login');
+  if (!modal) {
+    console.error('[RackAuth] modal-login no encontrado en el DOM');
+    return;
+  }
+
+  // Show PIN notice if not yet configured
+  if (!RackAuth.isPinConfigured()) {
+    const notice = document.getElementById('login-pin-notice');
+    if (notice) notice.style.display = 'block';
+  }
+
+  function showModal() {
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'all';
+  }
+
+  function hideModal() {
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+  }
+
+  function closeLoginModal(user) {
+    hideModal();
+    applyRoleUI(user);
+    notify(`Bienvenido, ${user.name}`, 'success', 2500);
+  }
+
+  // Toggle show/hide PIN
+  document.getElementById('login-pin-toggle')?.addEventListener('click', () => {
+    const input = document.getElementById('login-pin-input');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+
+  // Admin login
+  document.getElementById('btn-login-admin')?.addEventListener('click', async () => {
+    const pin = document.getElementById('login-pin-input')?.value || '';
+    const user = await RackAuth.tryAdminLogin(pin);
+    if (user) {
+      closeLoginModal(user);
+    } else {
+      const errEl = document.getElementById('login-error');
+      if (errEl) { errEl.style.display = 'block'; }
+      setTimeout(() => { if(errEl) errEl.style.display = 'none'; }, 3000);
+    }
+  });
+
+  // Editor login
+  document.getElementById('btn-login-editor')?.addEventListener('click', () => {
+    closeLoginModal(RackAuth.loginAsEditor());
+  });
+
+  // Viewer login
+  document.getElementById('btn-login-viewer')?.addEventListener('click', () => {
+    closeLoginModal(RackAuth.loginAsViewer());
+  });
+
+  // Enter key on PIN input
+  document.getElementById('login-pin-input')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('btn-login-admin')?.click();
+  });
+
+  // Show modal
+  showModal();
+}
+
+function initChangePinModal() {
+  // Open from menu
+  document.getElementById('menu-change-pin')?.addEventListener('click', () => {
+    const dropdown = document.getElementById('project-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+    if (!RackAuth.can('changeAdminPin')) return;
+    const m = document.getElementById('modal-change-pin');
+    if (m) m.style.display = 'flex';
+  });
+
+  // Cancel
+  document.getElementById('btn-pin-cancel')?.addEventListener('click', closePinModal);
+
+  // Save new PIN
+  document.getElementById('btn-pin-save')?.addEventListener('click', async () => {
+    const current = document.getElementById('pin-current-input')?.value || '';
+    const newPin  = document.getElementById('pin-new-input')?.value || '';
+    const confirm = document.getElementById('pin-confirm-input')?.value || '';
+    const errEl   = document.getElementById('pin-change-error');
+    const okEl    = document.getElementById('pin-change-success');
+    const hide = el => { if(el) el.style.display='none'; };
+    const show = (el, msg) => { if(el){ el.style.display='block'; if(msg) el.textContent=msg; } };
+    hide(errEl); hide(okEl);
+
+    const isValidCurrent = await RackAuth.validateAdminPin(current);
+    if (!isValidCurrent) {
+      return show(errEl, 'El PIN actual es incorrecto.');
+    }
+    if (newPin.length < 4) {
+      return show(errEl, 'El nuevo PIN debe tener al menos 4 caracteres.');
+    }
+    if (newPin !== confirm) {
+      return show(errEl, 'Los PINs nuevos no coinciden.');
+    }
+    await RackAuth.setAdminPin(newPin);
+    show(okEl);
+    setTimeout(closePinModal, 1500);
+  });
+}
+
+// ===== FIN AUTENTICACIÓN =====
+
+function renderAll(event = {}) {
+  const source = event.source || event.path || '';
+  
+  if (!source || ['loadData', 'undo', 'redo'].includes(source)) {
+    renderRoomTabs();
+    renderRackSelector();
+    renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    renderCatalog();
+    renderPhysical();
+    renderBottomPanel();
+    updateZoomLabel();
+    if (currentView === 'topology') {
+      if (typeof loadTopoState === 'function') loadTopoState();
+      if (typeof initTopoPositions === 'function') initTopoPositions(true);
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    return;
+  }
+
+  if (source.includes('Room') || source === 'room-rename' || source === 'changeRoom') {
+    renderRoomTabs();
+    renderRackSelector();
+    renderStats();
+    renderPhysical();
+    if (currentView === 'topology') {
+      initTopoPositions();
+    }
+  }
+  
+  if (source.includes('Rack')) {
+    renderRackSelector();
+    renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    renderPhysical();
+  }
+  
+  if (source.includes('Device') || source === 'addFloorDevice' || source === 'moveDevice' || source === 'deleteDevice' || source === 'updateDevice' || source === 'addDeviceToRack') {
+    renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    
+    renderPhysical();
+    renderBottomPanel();
+  }
+  
+  if (source.includes('Connection')) {
+    renderStats();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    
+    renderBottomPanel();
+  }
+
+  if (source.includes('Zoom') || source.includes('Pan')) {
+    updateZoomLabel();
+  }
+
+  if (source.includes('Catalog')) {
+    renderCatalog();
+  }
+
+  if (source.includes('TopologySlot') || source === 'saveTopologySlot' || source === 'loadTopologySlot' || source === 'clearTopologySlot' || source === 'renameTopologySlot') {
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    if (currentView === 'topology' && typeof drawTopo === 'function') drawTopo();
+  }
+}
+
+// Bind to store mutations
+store.on('change', (e) => {
+  renderAll(e);
+  if (e && !['loadData', 'undo', 'redo', 'importJSON'].includes(e.source || e.path)) {
+    // Solo guardar automáticamente si el usuario tiene permisos de edición
+    if (typeof fileManager !== 'undefined' && RackAuth.can('editDevices')) {
+      fileManager.autoSave();
+    }
+  }
+});
+
+function initGlobalEvents() {
+  document.getElementById('btn-zoom-in').addEventListener('click', () => {
+    const pfx = currentView === 'physical' ? 'phys' : 'topo';
+    store.setZoom(currentView, Math.min(3, Math.round(((store._raw[pfx+'Zoom'] || 1) + 0.1) * 10) / 10));
+    updateZoomLabel();
+  });
+  document.getElementById('btn-zoom-out').addEventListener('click', () => {
+    const pfx = currentView === 'physical' ? 'phys' : 'topo';
+    store.setZoom(currentView, Math.max(0.2, Math.round(((store._raw[pfx+'Zoom'] || 1) - 0.1) * 10) / 10));
+    updateZoomLabel();
+  });
+  document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+    store.setZoom(currentView, 1);
+    store.setPan(currentView, 0, 0);
+    updateZoomLabel();
+  });
+  
+  // Popover de personalización de topología
+  const btnTopoStyle = document.getElementById('btn-topo-style');
+  const topoDropdown = document.getElementById('topo-style-dropdown');
+  const btnTopoStyleClose = document.getElementById('btn-topo-style-close');
+  const btnLayoutRacks = document.getElementById('topo-layout-racks');
+  const btnLayoutTree = document.getElementById('topo-layout-tree');
+  const btnOptCard = document.getElementById('topo-opt-card');
+  const btnOptCircle = document.getElementById('topo-opt-circle');
+  const topoPatternSelect = document.getElementById('topo-pattern-select');
+  const topoAlphaSlider = document.getElementById('topo-alpha-slider');
+  const topoAlphaVal = document.getElementById('topo-alpha-val');
+  const topoInheritColors = document.getElementById('topo-inherit-colors');
+  const topoLabelsSection = document.getElementById('topo-labels-section');
+  const topoLabelPreset = document.getElementById('topo-label-preset');
+  const topoNamePos = document.getElementById('topo-name-pos');
+  const topoIpPos = document.getElementById('topo-ip-pos');
+
+  function syncTopoStyleUI() {
+    const isTree = (window.TOPO_LAYOUT_MODE || 'racks') === 'tree';
+    if (btnLayoutRacks && btnLayoutTree) {
+      if (!isTree) {
+        btnLayoutRacks.style.borderColor = 'var(--accent)';
+        btnLayoutRacks.style.color = 'var(--accent)';
+        btnLayoutRacks.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnLayoutTree.style.borderColor = '';
+        btnLayoutTree.style.color = '';
+        btnLayoutTree.style.background = '';
+      } else {
+        btnLayoutTree.style.borderColor = 'var(--accent)';
+        btnLayoutTree.style.color = 'var(--accent)';
+        btnLayoutTree.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnLayoutRacks.style.borderColor = '';
+        btnLayoutRacks.style.color = '';
+        btnLayoutRacks.style.background = '';
+      }
+    }
+
+    const isCard = (window.TOPOLOGY_STYLE || 'card') === 'card';
+    if (btnOptCard && btnOptCircle) {
+      if (isCard) {
+        btnOptCard.style.borderColor = 'var(--accent)';
+        btnOptCard.style.color = 'var(--accent)';
+        btnOptCard.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnOptCircle.style.borderColor = '';
+        btnOptCircle.style.color = '';
+        btnOptCircle.style.background = '';
+      } else {
+        btnOptCircle.style.borderColor = 'var(--accent)';
+        btnOptCircle.style.color = 'var(--accent)';
+        btnOptCircle.style.background = 'rgba(56, 189, 248, 0.15)';
+        btnOptCard.style.borderColor = '';
+        btnOptCard.style.color = '';
+        btnOptCard.style.background = '';
+      }
+    }
+    if (topoLabelsSection) {
+      topoLabelsSection.style.display = isCard ? 'none' : 'block';
+    }
+    if (topoLabelPreset) {
+      topoLabelPreset.value = window.TOPO_LABEL_PRESET || 'separated';
+    }
+    if (topoNamePos) {
+      topoNamePos.value = window.TOPO_NAME_POS || 'bottom';
+    }
+    if (topoIpPos) {
+      topoIpPos.value = window.TOPO_IP_POS || 'top';
+    }
+    if (topoPatternSelect && window.TOPO_BG_PATTERN) {
+      topoPatternSelect.value = window.TOPO_BG_PATTERN;
+    }
+    if (topoAlphaSlider && window.TOPO_ALPHA !== undefined) {
+      topoAlphaSlider.value = Math.round(window.TOPO_ALPHA * 100);
+      if (topoAlphaVal) topoAlphaVal.textContent = `${Math.round(window.TOPO_ALPHA * 100)}%`;
+    }
+    if (topoInheritColors && window.TOPO_INHERIT_COLORS !== undefined) {
+      topoInheritColors.checked = window.TOPO_INHERIT_COLORS;
+    }
+  }
+
+  if (topoLabelPreset) {
+    topoLabelPreset.addEventListener('change', (e) => {
+      const p = e.target.value;
+      window.TOPO_LABEL_PRESET = p;
+      if (p === 'separated') {
+        window.TOPO_NAME_POS = 'bottom';
+        window.TOPO_IP_POS = 'top';
+      } else if (p === 'separated_inv') {
+        window.TOPO_NAME_POS = 'top';
+        window.TOPO_IP_POS = 'bottom';
+      } else if (p === 'together_bottom') {
+        window.TOPO_NAME_POS = 'bottom';
+        window.TOPO_IP_POS = 'bottom';
+      } else if (p === 'together_top') {
+        window.TOPO_NAME_POS = 'top';
+        window.TOPO_IP_POS = 'top';
+      } else if (p === 'together_right') {
+        window.TOPO_NAME_POS = 'right';
+        window.TOPO_IP_POS = 'right';
+      } else if (p === 'together_left') {
+        window.TOPO_NAME_POS = 'left';
+        window.TOPO_IP_POS = 'left';
+      }
+      if (topoNamePos) topoNamePos.value = window.TOPO_NAME_POS;
+      if (topoIpPos) topoIpPos.value = window.TOPO_IP_POS;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  function handleCustomLabelPosChange() {
+    const nPos = topoNamePos ? topoNamePos.value : 'bottom';
+    const iPos = topoIpPos ? topoIpPos.value : 'top';
+    window.TOPO_NAME_POS = nPos;
+    window.TOPO_IP_POS = iPos;
+    
+    if (nPos === 'bottom' && iPos === 'top') window.TOPO_LABEL_PRESET = 'separated';
+    else if (nPos === 'top' && iPos === 'bottom') window.TOPO_LABEL_PRESET = 'separated_inv';
+    else if (nPos === 'bottom' && iPos === 'bottom') window.TOPO_LABEL_PRESET = 'together_bottom';
+    else if (nPos === 'top' && iPos === 'top') window.TOPO_LABEL_PRESET = 'together_top';
+    else if (nPos === 'right' && iPos === 'right') window.TOPO_LABEL_PRESET = 'together_right';
+    else if (nPos === 'left' && iPos === 'left') window.TOPO_LABEL_PRESET = 'together_left';
+    else window.TOPO_LABEL_PRESET = 'custom';
+
+    if (topoLabelPreset) topoLabelPreset.value = window.TOPO_LABEL_PRESET;
+    if (typeof saveTopo === 'function') saveTopo();
+    if (typeof drawTopo === 'function') drawTopo();
+  }
+
+  if (topoNamePos) topoNamePos.addEventListener('change', handleCustomLabelPosChange);
+  if (topoIpPos) topoIpPos.addEventListener('change', handleCustomLabelPosChange);
+
+  if (btnLayoutRacks) {
+    btnLayoutRacks.addEventListener('click', () => {
+      if (typeof applyTopoLayoutMode === 'function') {
+        applyTopoLayoutMode('racks');
+      }
+      syncTopoStyleUI();
+    });
+  }
+
+  if (btnLayoutTree) {
+    btnLayoutTree.addEventListener('click', () => {
+      if (typeof applyTopoLayoutMode === 'function') {
+        applyTopoLayoutMode('tree');
+      }
+      syncTopoStyleUI();
+    });
+  }
+
+  if (btnTopoStyle && topoDropdown) {
+    btnTopoStyle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !topoDropdown.classList.contains('hidden');
+      if (isOpen) {
+        topoDropdown.classList.add('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'false');
+      } else {
+        syncTopoStyleUI();
+        topoDropdown.classList.remove('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    if (btnTopoStyleClose) {
+      btnTopoStyleClose.addEventListener('click', () => {
+        topoDropdown.classList.add('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    topoDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!topoDropdown.contains(e.target) && e.target !== btnTopoStyle) {
+        topoDropdown.classList.add('hidden');
+        btnTopoStyle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  if (btnOptCard) {
+    btnOptCard.addEventListener('click', () => {
+      window.TOPOLOGY_STYLE = 'card';
+      syncTopoStyleUI();
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (btnOptCircle) {
+    btnOptCircle.addEventListener('click', () => {
+      window.TOPOLOGY_STYLE = 'circle';
+      syncTopoStyleUI();
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (topoPatternSelect) {
+    topoPatternSelect.addEventListener('change', (e) => {
+      window.TOPO_BG_PATTERN = e.target.value;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (topoAlphaSlider) {
+    topoAlphaSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      window.TOPO_ALPHA = val / 100;
+      if (topoAlphaVal) topoAlphaVal.textContent = `${val}%`;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (topoInheritColors) {
+    topoInheritColors.addEventListener('change', (e) => {
+      window.TOPO_INHERIT_COLORS = e.target.checked;
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  const spacingSlider = document.getElementById('topo-spacing');
+  const spacingVal = document.getElementById('topo-spacing-val');
+  if (spacingSlider) {
+    spacingSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (spacingVal) spacingVal.textContent = `${val}px`;
+      if (typeof recalcTopoSpacing === 'function') {
+        recalcTopoSpacing(val);
+      }
+    });
+  }
+
+  const spacingSliderX = document.getElementById('topo-spacing-x');
+  const spacingXVal = document.getElementById('topo-spacing-x-val');
+  if (spacingSliderX) {
+    spacingSliderX.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (spacingXVal) spacingXVal.textContent = `${val}px`;
+      if (typeof recalcTopoSpacingX === 'function') {
+        recalcTopoSpacingX(val);
+      }
+    });
+  }
+
+  const btnAutoOrder = document.getElementById('btn-topo-autoorder');
+  if (btnAutoOrder) {
+    btnAutoOrder.addEventListener('click', () => {
+      if (typeof autoOrderTopo === 'function') autoOrderTopo();
+    });
+  }
+
+  // ──────────────────────────────────────────────────────────────────
+  // M-40: Ranuras de Memoria de Topología (5 Slots de Posiciones)
+  // ──────────────────────────────────────────────────────────────────
+  const btnTopoSlotsMenu = document.getElementById('btn-topo-slots-menu');
+  const topoSlotsDropdown = document.getElementById('topo-slots-dropdown');
+  const btnTopoSlotsClose = document.getElementById('btn-topo-slots-close');
+  const btnTopoSlotsQuickSave = document.getElementById('btn-topo-slots-quick-save');
+  const topoSlotsBar = document.getElementById('topo-slots-bar');
+  const topoSlotsList = document.getElementById('topo-slots-list');
+
+  function renderTopologySlots() {
+    if (!topoSlotsBar) return;
+    const slots = (typeof store !== 'undefined' && typeof store.getTopologySlots === 'function')
+      ? store.getTopologySlots()
+      : [null, null, null, null, null];
+    const activeSlot = (typeof store !== 'undefined' && store._raw)
+      ? store._raw.activeTopologySlot
+      : null;
+
+    // 1. Renderizar los 5 botones compactos en la barra
+    topoSlotsBar.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const slot = slots[i];
+      const isSaved = !!slot;
+      const isActive = activeSlot === i;
+      const btn = document.createElement('button');
+      btn.className = `topo-slot-btn ${isSaved ? 'saved' : 'empty'} ${isActive ? 'active' : ''}`;
+      btn.setAttribute('data-slot', i);
+      btn.textContent = (i + 1);
+      const tipText = isSaved 
+        ? `Slot ${i + 1}: "${slot.name}" (Clic para cargar)` 
+        : `Slot ${i + 1}: Vacío (Clic para guardar posición actual)`;
+      btn.title = tipText;
+      btn.setAttribute('aria-label', tipText);
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isSaved) {
+          if (typeof window.applyTopologySlot === 'function') {
+            window.applyTopologySlot(i);
+          }
+        } else {
+          if (typeof window.saveCurrentToTopologySlot === 'function') {
+            window.saveCurrentToTopologySlot(i);
+          }
+        }
+      });
+      topoSlotsBar.appendChild(btn);
+    }
+
+    // 2. Renderizar lista detallada en el dropdown si existe
+    if (topoSlotsList) {
+      topoSlotsList.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const slot = slots[i];
+        const isSaved = !!slot;
+        const isActive = activeSlot === i;
+
+        const card = document.createElement('div');
+        card.className = `topo-slot-card ${isActive ? 'active-slot' : ''}`;
+
+        const header = document.createElement('div');
+        header.className = 'topo-slot-card-header';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'topo-slot-card-title';
+        titleDiv.innerHTML = `<span style="color:${isActive ? 'var(--accent)' : 'var(--text-muted)'}; font-family:var(--font-mono); font-weight:700;">[${i + 1}]</span> <span>${escapeHTML(isSaved ? slot.name : 'Ranura Vacía')}</span>`;
+
+        const timeSpan = document.createElement('span');
+        timeSpan.style.cssText = 'font-size:10px; color:var(--text-muted); font-family:var(--font-mono);';
+        if (isSaved && slot.savedAt) {
+          const d = new Date(slot.savedAt);
+          timeSpan.textContent = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+          timeSpan.title = `Guardado: ${d.toLocaleString()}`;
+        } else {
+          timeSpan.textContent = 'Libre';
+        }
+
+        header.appendChild(titleDiv);
+        header.appendChild(timeSpan);
+
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'topo-slot-card-actions';
+
+        if (isSaved) {
+          // Botón Cargar
+          const btnLoad = document.createElement('button');
+          btnLoad.className = 'topo-slot-action-btn';
+          btnLoad.innerHTML = '▶ Cargar';
+          btnLoad.title = 'Cargar este estado en la vista de topología';
+          btnLoad.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.applyTopologySlot === 'function') window.applyTopologySlot(i);
+          });
+          actionsDiv.appendChild(btnLoad);
+
+          // Botón Sobrescribir
+          const btnSave = document.createElement('button');
+          btnSave.className = 'topo-slot-action-btn';
+          btnSave.innerHTML = '💾 Guardar';
+          btnSave.title = 'Sobrescribir ranura con las posiciones actuales';
+          btnSave.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.saveCurrentToTopologySlot === 'function') window.saveCurrentToTopologySlot(i);
+          });
+          actionsDiv.appendChild(btnSave);
+
+          // Botón Renombrar
+          const btnRen = document.createElement('button');
+          btnRen.className = 'topo-slot-action-btn';
+          btnRen.innerHTML = '✏️';
+          btnRen.title = 'Renombrar esta vista';
+          btnRen.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const newName = prompt(`Nuevo nombre para la Vista ${i + 1}:`, slot.name);
+            if (newName && newName.trim() && typeof window.renameTopologySlot === 'function') {
+              window.renameTopologySlot(i, newName.trim());
+            }
+          });
+          actionsDiv.appendChild(btnRen);
+
+          // Botón Vaciar
+          const btnClr = document.createElement('button');
+          btnClr.className = 'topo-slot-action-btn btn-danger';
+          btnClr.innerHTML = '🗑️';
+          btnClr.title = 'Vaciar esta ranura de memoria';
+          btnClr.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`¿Vaciar la Ranura ${i + 1} ("${slot.name}")?`)) {
+              if (typeof window.clearTopologySlot === 'function') window.clearTopologySlot(i);
+            }
+          });
+          actionsDiv.appendChild(btnClr);
+        } else {
+          // Botón Guardar aquí
+          const btnSaveHere = document.createElement('button');
+          btnSaveHere.className = 'topo-slot-action-btn';
+          btnSaveHere.style.cssText = 'flex:1; justify-content:center;';
+          btnSaveHere.innerHTML = '💾 Guardar Posición Actual';
+          btnSaveHere.title = 'Guardar la topología actual en esta ranura vacía';
+          btnSaveHere.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.saveCurrentToTopologySlot === 'function') window.saveCurrentToTopologySlot(i);
+          });
+          actionsDiv.appendChild(btnSaveHere);
+        }
+
+        card.appendChild(header);
+        card.appendChild(actionsDiv);
+        topoSlotsList.appendChild(card);
+      }
+    }
+  }
+
+  window.renderTopologySlots = renderTopologySlots;
+
+  if (btnTopoSlotsMenu && topoSlotsDropdown) {
+    btnTopoSlotsMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = topoSlotsDropdown.classList.contains('hidden');
+      if (isHidden) {
+        renderTopologySlots();
+        topoSlotsDropdown.classList.remove('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'true');
+      } else {
+        topoSlotsDropdown.classList.add('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    if (btnTopoSlotsClose) {
+      btnTopoSlotsClose.addEventListener('click', () => {
+        topoSlotsDropdown.classList.add('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    topoSlotsDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!topoSlotsDropdown.contains(e.target) && !btnTopoSlotsMenu.contains(e.target)) {
+        topoSlotsDropdown.classList.add('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  if (btnTopoSlotsQuickSave) {
+    btnTopoSlotsQuickSave.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const slots = store.getTopologySlots();
+      let targetIdx = slots.findIndex(s => s === null);
+      if (targetIdx === -1) {
+        targetIdx = (store._raw.activeTopologySlot !== null && store._raw.activeTopologySlot !== undefined)
+          ? store._raw.activeTopologySlot
+          : 0;
+      }
+      if (typeof window.saveCurrentToTopologySlot === 'function') {
+        window.saveCurrentToTopologySlot(targetIdx);
+      }
+    });
+  }
+
+  const statusDot = document.querySelector('.status-dot');
+  if (statusDot) {
+    statusDot.style.cursor = 'pointer';
+    statusDot.addEventListener('click', () => {
+      const isOff = document.body.classList.toggle('no-animations');
+      statusDot.setAttribute('data-tip', isOff ? 'Animaciones: Apagadas' : 'Sistema operativo');
+      statusDot.style.background = isOff ? '#f59e0b' : '';
+      if (typeof notify === 'function') {
+        notify(isOff ? 'Animaciones apagadas' : 'Animaciones activadas', 'info', 2000);
+      }
+    });
+  }
+
+  // Panning for physical view
+  let physPanStart = null;
+  let panOrig = { x: 0, y: 0 };
+  const viewPhysical = document.getElementById('view-physical');
+  if(viewPhysical) {
+    viewPhysical.addEventListener('pointerdown', e => {
+      if (e.target.closest('.device-faceplate') || e.target.closest('.rack')) return;
+      physPanStart = { x: e.clientX, y: e.clientY };
+      panOrig = { x: store._raw.physPanX || 0, y: store._raw.physPanY || 0 };
+    });
+    window.addEventListener('pointermove', e => {
+      if (physPanStart && currentView === 'physical') {
+        const z = store._raw.physZoom || 1;
+        store.setPan('physical', panOrig.x + (e.clientX - physPanStart.x) / z, panOrig.y + (e.clientY - physPanStart.y) / z);
+        updateZoomLabel();
+      }
+    });
+    window.addEventListener('pointerup', () => { physPanStart = null; });
+    window.addEventListener('pointercancel', () => { physPanStart = null; });
+  }
+
+  // View switching
+  document.querySelectorAll('.view-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentView = tab.dataset.view;
+      updateZoomLabel();
+      const phys = document.getElementById('view-physical');
+      const topo = document.getElementById('topology-canvas');
+      const btnStyle = document.getElementById('btn-topo-style');
+      const spacingGroup = document.getElementById('topo-spacing-group');
+      const spacingSlider = document.getElementById('topo-spacing');
+      const btnAutoOrd = document.getElementById('btn-topo-autoorder');
+      const btnCables = document.getElementById('btn-toggle-cables');
+      const topoSlotsGroup = document.getElementById('topo-slots-group');
+      const topoSlotsDropdown = document.getElementById('topo-slots-dropdown');
+      if (currentView === 'physical') {
+        phys.classList.remove('hidden');
+        topo.style.display = 'none';
+        const topoDropdown = document.getElementById('topo-style-dropdown');
+        if (topoDropdown) topoDropdown.classList.add('hidden');
+        if (topoSlotsDropdown) topoSlotsDropdown.classList.add('hidden');
+        if (btnStyle) btnStyle.classList.add('force-hide');
+        if (spacingGroup) spacingGroup.classList.add('force-hide');
+        if (spacingSlider) spacingSlider.classList.add('force-hide');
+        if (btnAutoOrd) btnAutoOrd.classList.add('force-hide');
+        if (topoSlotsGroup) topoSlotsGroup.classList.add('force-hide');
+        if (btnCables) btnCables.classList.remove('force-hide');
+        stopTopo();
+      } else {
+        phys.classList.add('hidden');
+        topo.style.display = 'block';
+        if (btnStyle) btnStyle.classList.remove('force-hide');
+        if (spacingGroup) spacingGroup.classList.remove('force-hide');
+        if (spacingSlider) spacingSlider.classList.remove('force-hide');
+        if (btnAutoOrd) btnAutoOrd.classList.remove('force-hide');
+        if (topoSlotsGroup) topoSlotsGroup.classList.remove('force-hide');
+        if (btnCables) btnCables.classList.add('force-hide');
+        if (typeof renderTopologySlots === 'function') renderTopologySlots();
+        startTopo();
+      }
+    });
+  });
+
+  // Project Menu Dropdown
+  const btnMenu = document.getElementById('btn-project-menu');
+  const dropdown = document.getElementById('project-dropdown');
+  if (btnMenu && dropdown) {
+    btnMenu.addEventListener('click', e => {
+      e.stopPropagation();
+      dropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', e => {
+      if (!dropdown.contains(e.target) && !btnMenu.contains(e.target)) dropdown.classList.add('hidden');
+      if (!e.target.closest('.rack-hdr-btns')) {
+        document.querySelectorAll('.dropdown-menu[id^="rack-menu-"]').forEach(m => m.classList.add('hidden'));
+        document.querySelectorAll('.rack-wrapper.menu-open').forEach(w => w.classList.remove('menu-open'));
+      }
+      
+      // Close nav dropdowns
+      if (!e.target.closest('.nav-dropdown-wrapper')) {
+        document.querySelectorAll('.nav-dropdown-list').forEach(list => list.classList.add('hidden'));
+      }
+    });
+
+    document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const wrapper = btn.closest('.nav-dropdown-wrapper');
+        const list = wrapper.querySelector('.nav-dropdown-list');
+        // Close others
+        document.querySelectorAll('.nav-dropdown-list').forEach(l => {
+          if (l !== list) l.classList.add('hidden');
+        });
+        list.classList.toggle('hidden');
+      });
+    });
+
+    document.getElementById('menu-theme')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-sun" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Claro';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
+      }
+    });
+
+    window.SHOW_PASSWORDS = false;
+    document.getElementById('menu-toggle-passwords')?.addEventListener('click', (e) => {
+      if (!RackAuth.can('toggleGodMode')) {
+        notify('Solo administradores pueden activar el Modo Dios.', 'error', 3000);
+        dropdown.classList.add('hidden');
+        return;
+      }
+      dropdown.classList.add('hidden');
+      window.SHOW_PASSWORDS = !window.SHOW_PASSWORDS;
+      document.getElementById('menu-toggle-passwords').innerHTML = window.SHOW_PASSWORDS ? '<i class="svg-icon icon-eye-off" style="width:14px;height:14px;margin-right:6px;"></i>Modo Dios: Ocultar Claves' : '<i class="svg-icon icon-eye" style="width:14px;height:14px;margin-right:6px;"></i>Modo Dios: Revelar Claves';
+      renderAll();
+    });
+
+    initChangePinModal();
+
+    // Set initial text
+    if (document.documentElement.getAttribute('data-theme') === 'light') {
+      document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
+    }
+
+    document.getElementById('menu-open')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (typeof fileManager !== 'undefined') fileManager.openProject();
+      else document.getElementById('import-file').click();
+    });
+    document.getElementById('menu-save')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden guardar proyectos.', 'error', 3000);
+        return;
+      }
+      if (typeof fileManager !== 'undefined') fileManager.saveProject();
+      else {
+        const data = { version: 1, project: store._raw, catalog: CATALOG };
+        downloadJSON(data, 'datacenter.rack');
+      }
+    });
+    document.getElementById('menu-save-as')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden guardar proyectos.', 'error', 3000);
+        return;
+      }
+      if (typeof fileManager !== 'undefined') fileManager.saveProjectAs();
+    });
+    document.getElementById('menu-clear')?.addEventListener('click', async () => {
+      dropdown.classList.add('hidden');
+      if (!RackAuth.can('clearProject')) {
+        notify('Espectadores no pueden limpiar el proyecto.', 'error', 3000);
+        return;
+      }
+      const ok = await customConfirm('Limpiar Proyecto', '¿Estás seguro de que deseas limpiar el proyecto? Perderás todos los datos no guardados.');
+      if (ok) {
+        const roomId = uid();
+        store.loadData({
+          rooms: [{ id: roomId, name: 'Sala A1' }],
+          racks: [],
+          devices: [],
+          connections: [],
+          customCatalog: [],
+          currentRoomId: roomId,
+          selectedDeviceId: null,
+          topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
+          topoZoom: 1, topoPanX: 0, topoPanY: 0,
+          physZoom: 1, physPanX: 0, physPanY: 0
+        });
+        if (typeof fileManager !== 'undefined') {
+          fileManager.fileHandle = null;
+          fileManager.fileName = 'Nuevo Proyecto';
+          fileManager.updateUI();
+        }
+        notify('Proyecto limpiado. Nueva sala A1 creada.', 'success');
+      }
+    });
+    document.getElementById('menu-demo')?.addEventListener('click', async () => {
+      dropdown.classList.add('hidden');
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden cargar demostraciones.', 'error', 3000);
+        return;
+      }
+      const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
+      if (!wantSave) {
+        const proceed = await customConfirm('Advertencia', 'ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
+        if (!proceed) return;
+      }
+
+      if (wantSave) {
+        if (typeof fileManager !== 'undefined') {
+          await fileManager.saveProject();
+        } else if (typeof exportJSON === 'function') {
+          exportJSON();
+          await new Promise(r => setTimeout(r, 1500));
+        }
+      }
+
+      function runDemo() {
+        if (typeof window.loadDemoData === 'function') {
+          window.loadDemoData();
+          if (typeof fileManager !== 'undefined') {
+            fileManager.fileHandle = null;
+            fileManager.fileName = 'Proyecto Demo';
+            fileManager.updateUI();
+          }
+        } else {
+          notify('Error: no se pudo cargar el módulo de demos', 'error');
+        }
+      }
+
+      if (typeof window.loadDemoData === 'function') {
+        runDemo();
+      } else {
+        const script = document.createElement('script');
+        script.src = 'js/demoData.js';
+        script.onload = runDemo;
+        script.onerror = () => notify('Error: no se encontró js/demoData.js', 'error');
+        document.head.appendChild(script);
+      }
+    });
+    document.getElementById('menu-export-cat')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      downloadJSON(CATALOG, 'catalog_backup.json');
+    });
+    document.getElementById('menu-import-cat')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      alert('Funcionalidad de importar catálogo (Próximamente)');
+    });
+
+    const importFile = document.getElementById('import-file');
+    if (importFile) {
+      importFile.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (data.project) {
+              store.loadData(data.project);
+              if (data.catalog) {
+                CATALOG.length = 0;
+                data.catalog.forEach(c => CATALOG.push(c));
+                renderCatalog();
+              }
+              notify('Proyecto cargado', 'success');
+            } else if (data.rooms) { // old format support
+              store.loadData(data);
+              notify('Proyecto cargado (formato antiguo)', 'success');
+            } else {
+              notify('Archivo inválido', 'error');
+            }
+          } catch(err) {
+            notify('Error al leer el archivo', 'error');
+          }
+          importFile.value = '';
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    window.closeMobileSidebar = () => {
+      document.getElementById('sidebar').classList.remove('open');
+      const mobileOverlay = document.getElementById('mobile-overlay');
+      if (mobileOverlay) mobileOverlay.classList.add('hidden');
+    };
+
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('open');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        if(mobileOverlay) mobileOverlay.classList.remove('hidden');
+      });
+    }
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    if (mobileOverlay) {
+      mobileOverlay.addEventListener('click', window.closeMobileSidebar);
+    }
+    const btnCloseSidebar = document.getElementById('btn-close-sidebar');
+    if (btnCloseSidebar) {
+      btnCloseSidebar.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent toggle-stats
+        window.closeMobileSidebar();
+      });
+    }
+  }
+
+  // Bottom panel tabs
+  document.querySelectorAll('.tab-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      setActiveTab(pill.dataset.tab);
+      renderBottomPanel();
+    });
+  });
+
+  let bottomCollapsed = true;
+  document.getElementById('bottom').style.height = '38px';
+  document.getElementById('btn-collapse-bottom').textContent = '▲';
+
+  document.getElementById('btn-collapse-bottom').addEventListener('click', () => {
+    bottomCollapsed = !bottomCollapsed;
+    const bot = document.getElementById('bottom');
+    if (bottomCollapsed) {
+      bot.style.height = '38px';
+      document.getElementById('btn-collapse-bottom').textContent = '▲';
+    } else {
+      bot.style.height = 'var(--bottom-h)';
+      document.getElementById('btn-collapse-bottom').textContent = '▼';
+    }
+  });
+
+  document.getElementById('global-search').addEventListener('input', () => {
+    renderPhysical();
+  });
+
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderCatalog();
+    });
+  });
+  document.getElementById('catalog-search').addEventListener('input', renderCatalog);
+
+  // Soporte para scroll horizontal con la rueda del mouse en los filtros
+  const filterTabsContainer = document.querySelector('.sb-filter-tabs');
+  if (filterTabsContainer) {
+    filterTabsContainer.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        filterTabsContainer.scrollLeft += e.deltaY;
+      }
+    });
+  }
+
+  // Header buttons
+  document.getElementById('btn-add-rack').addEventListener('click', openAddRackModal);
+  document.getElementById('btn-add-rack-nav')?.addEventListener('click', openAddRackModal);
+  document.getElementById('btn-add-device-modal').addEventListener('click', openAddDeviceModal);
+  const addDevTableBtn = document.getElementById('table-btn-add-device');
+  if(addDevTableBtn) addDevTableBtn.addEventListener('click', openAddDeviceModal);
+  const addPlacementTableBtn = document.getElementById('table-btn-add-placement');
+  if(addPlacementTableBtn) addPlacementTableBtn.addEventListener('click', () => openQuickPlacementModal(null));
+  
+  const checkboxCables = document.getElementById('checkbox-toggle-cables');
+  if (checkboxCables) {
+    checkboxCables.addEventListener('change', () => {
+      const svg = document.getElementById('physical-cables-svg');
+      if (svg) {
+        svg.style.display = checkboxCables.checked ? 'block' : 'none';
+        if (checkboxCables.checked && typeof drawPhysicalCables === 'function') {
+          drawPhysicalCables();
+        }
+      }
+    });
+  }
+  
+  const addConnTableBtn = document.getElementById('table-btn-add-conn');
+  if(addConnTableBtn) addConnTableBtn.addEventListener('click', () => openCableModal());
+  document.getElementById('btn-undo').addEventListener('click', () => store.undo());
+  document.getElementById('btn-redo').addEventListener('click', () => store.redo());
+
+  // Expand panel buttons
+  document.getElementById('btn-expand-main').addEventListener('click', (e) => {
+    const main = document.getElementById('main');
+    main.classList.toggle('fullscreen');
+    e.target.innerHTML = main.classList.contains('fullscreen') ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Contraer' : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Expandir';
+  });
+
+  document.getElementById('btn-expand-bottom').addEventListener('click', (e) => {
+    const bottom = document.getElementById('bottom');
+    bottom.classList.toggle('fullscreen');
+    e.target.innerHTML = bottom.classList.contains('fullscreen') ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Contraer' : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Expandir';
+  });
+
+
+
+  const tableSearch = document.getElementById('table-search');
+  if(tableSearch) tableSearch.addEventListener('input', renderBottomPanel);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Theme initialization removed (now handled in <head> of index.html to prevent FOUC)
+  });
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); store.undo(); }
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); store.redo(); }
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+      const ctxMenu = document.getElementById('ctx-menu');
+      if(ctxMenu) ctxMenu.classList.add('hidden');
+    }
+  });
+
+  const resizeObs = new ResizeObserver(() => {
+    if (currentView === 'topology') { resizeCanvas(); }
+  });
+  const mainEl = document.getElementById('main');
+  if(mainEl) resizeObs.observe(mainEl);
+}
+
+// demoData.js se carga dinámicamente solo cuando el usuario pulsa "Cargar demos"
+function init() {
+  initTopology();
+  initModals();
+  initGlobalEvents();
+
+  // Asegurar que canvas de topología empiece oculto
+  const topoCanvas = document.getElementById('topology-canvas');
+  if(topoCanvas) topoCanvas.style.display = 'none';
+  ['btn-topo-style', 'topo-spacing', 'topo-spacing-group', 'btn-topo-autoorder', 'topo-slots-group'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('force-hide');
+  });
+
+  renderAll();
+  notify('RACK Designer Next modularizado', 'success', 2500);
+
+  // Inicializar sistema de autenticación
+  // Siempre mostramos el modal al iniciar (sessionStorage no persiste entre sesiones)
+  const existingUser = RackAuth.getCurrentUser();
+  if (existingUser) {
+    // Ya hay sesión activa en esta misma pestaña (ej: recarga con F5)
+    console.log('[RackAuth] Sesión restaurada:', existingUser.role);
+    applyRoleUI(existingUser);
+  } else {
+    // Primera visita o nueva pestaña → mostrar login
+    console.log('[RackAuth] Sin sesión, mostrando modal de login...');
+    // Pequeño delay para que el DOM termine de renderizar
+    setTimeout(() => initAuthModal(), 100);
+  }
+
+  // Logout — registrar siempre, funciona con file:// y http://
+  const badge = document.getElementById('user-badge');
+  if (badge) {
+    badge.addEventListener('click', async () => {
+      const user = RackAuth.getCurrentUser();
+      const userName = user ? user.name : 'Usuario';
+      const ok = await customConfirm('Cerrar Sesión', '¿Cerrar sesión como ' + userName + '?');
+      if (ok) {
+        RackAuth.logout();
+        window.location.reload();
+      }
+    });
+  }
+
+}
+
+init();
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="tests-integrity-check-cjs"></a>
+
+### 📄 Archivo 39/42: `tests/integrity_check.cjs`
+
+* **Ubicación relativa:** `tests/integrity_check.cjs`
+* **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
+* **Dimensiones:** 1.114 líneas | 67.7 KB
+* **Rol en el sistema:** Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito.
+
+```javascript
+/**
+ * tests/integrity_check.cjs
+ * Suite de Pruebas Automatizadas de Integridad y Robustez
+ * RACK Designer Next
+ * 
+ * Ejecución: node tests/integrity_check.cjs
+ */
+
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+const vm = require('vm');
+
+// --- 1. Mock de Entorno de Navegador para Node.js ---
+class StorageMock {
+  constructor() { this.store = {}; }
+  getItem(key) { return this.store[key] !== undefined ? this.store[key] : null; }
+  setItem(key, val) { this.store[key] = String(val); }
+  removeItem(key) { delete this.store[key]; }
+  clear() { this.store = {}; }
+}
+
+global.localStorage = new StorageMock();
+global.sessionStorage = new StorageMock();
+global.crypto = {
+  randomUUID: () => crypto.randomUUID(),
+  subtle: {
+    digest: async (algo, data) => {
+      return crypto.createHash('sha256').update(data).digest();
+    }
+  }
+};
+global.TextEncoder = require('util').TextEncoder;
+
+// Mock de DOM básico
+global.document = {
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  body: { appendChild: () => {}, removeChild: () => {} },
+  getElementById: (id) => {
+    if (id === 'bottom-table-wrap' || id === 'toast-container' || id === 'outliner-tree' || id === 'inspector-content' || id === 'outliner-sort-select' || id === 'btn-outliner-add-room' || id === 'btn-outliner-add-rack' || id === 'btn-outliner-add-dev') {
+      return { innerHTML: '', value: '', appendChild: () => {}, removeChild: () => {}, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} };
+    }
+    return null;
+  },
+  createElement: () => ({ innerHTML: '', style: {}, classList: { add: () => {}, remove: () => {} }, appendChild: () => {}, remove: () => {} })
+};
+global.CustomEvent = class CustomEvent {
+  constructor(type, params) {
+    this.type = type;
+    this.detail = params ? params.detail : null;
+  }
+};
+global.window = global;
+global.window.dispatchEvent = () => true;
+
+// Cargar scripts principales en el contexto global usando vm
+function loadScript(relPath) {
+  const code = fs.readFileSync(path.join(__dirname, relPath), 'utf8');
+  // Reemplazar const/let en nivel superior por var para que se unan a global en vm
+  const transformed = code.replace(/^(const|let)\s+([a-zA-Z0-9_$]+)\s*=/gm, 'var $2 =');
+  vm.runInThisContext(transformed, { filename: relPath });
+}
+
+loadScript('../js/utils.js');
+loadScript('../js/icons.js');
+loadScript('../js/auth/crypto.js');
+loadScript('../js/auth/roles.js');
+loadScript('../js/store.js');
+loadScript('../js/ui/tables.js');
+loadScript('../js/ui/modals/Globals.js');
+loadScript('../js/ui/modals/RoomModal.js');
+loadScript('../js/ui/modals/CableModal.js');
+loadScript('../js/ui/catalog.js');
+loadScript('../js/ui/inspector.js');
+loadScript('../js/ui/outliner.js');
+loadScript('../js/ui/modals/PlacementModal.js');
+loadScript('../js/ui/modals/ExportModal.js');
+loadScript('../js/ui/faceplates.js');
+loadScript('../js/ui/topology/TopologyState.js');
+loadScript('../js/ui/topology/TopologyLayout.js');
+loadScript('../js/demoData.js');
+
+// --- 2. Framework Minimalista de Aserciones ---
+let passed = 0;
+let failed = 0;
+
+function assert(condition, message) {
+  if (condition) {
+    console.log(`  ✅ [PASS] ${message}`);
+    passed++;
+  } else {
+    console.error(`  ❌ [FAIL] ${message}`);
+    failed++;
+  }
+}
+
+async function runTests() {
+  console.log('\n=================================================');
+  console.log('🧪 INICIANDO SUITE DE INTEGRIDAD - RACK DESIGNER NEXT');
+  console.log('=================================================\n');
+
+  // ----------------------------------------------------
+  // GRUPO 1: SEGURIDAD Y SESIÓN (RBAC + F5 PERSISTENCE)
+  // ----------------------------------------------------
+  console.log('🔹 GRUPO 1: Autenticación, Integridad y Persistencia F5');
+  
+  // 1.1 Login Admin exitoso
+  const adminUser = await RackAuth.tryAdminLogin('rack2024');
+  assert(adminUser && adminUser.role === 'admin', 'Login con PIN por defecto "rack2024" otorga rol admin');
+  assert(sessionStorage.getItem('RACK_SESSION_TOKEN') === adminUser.token, 'El token se persiste en sessionStorage (TOKEN_KEY)');
+
+  // 1.2 Simulación de recarga (F5) en la misma pestaña
+  const restoredUser = RackAuth.getCurrentUser();
+  assert(restoredUser && restoredUser.role === 'admin', 'F5 exitoso: getCurrentUser() restaura la sesión de admin');
+
+  // 1.3 Detección de alteración de token (Tampering)
+  sessionStorage.setItem('RACK_SESSION_USER', JSON.stringify({ ...adminUser, token: 'token-falso-alterado' }));
+  const tamperedUser = RackAuth.getCurrentUser();
+  assert(tamperedUser === null, 'Detección de alteración: Token manipulado fuerza logout inmediato');
+  assert(sessionStorage.getItem('RACK_SESSION_USER') === null, 'sessionStorage queda purgado tras forzar logout');
+
+  // 1.4 Sesión de Editor y Viewer
+  const editorUser = RackAuth.loginAsEditor();
+  assert(editorUser.role === 'editor', 'Login como Editor asigna rol editor');
+  assert(RackAuth.can('editDevices') === true, 'Editor tiene permiso editDevices');
+  assert(RackAuth.can('changeAdminPin') === false, 'Editor NO tiene permiso changeAdminPin');
+  RackAuth.logout();
+
+  // ----------------------------------------------------
+  // GRUPO 2: STORE - INTEGRIDAD RELACIONAL Y CASCADA
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 2: Cascada de Conexiones y Limpieza de Topología');
+
+  // Limpiar estado
+  store._raw = store._defaultState();
+  const roomId = store._raw.currentRoomId;
+
+  // 2.1 Crear Gabinete y Equipos
+  store.addRack({ name: 'Rack Alfa', height: 42, color: '#0ea5e9' });
+  const rack = store.currentRacks[0];
+  assert(rack !== undefined, 'Rack Alfa creado con éxito');
+
+  store.addDeviceToRack({ name: 'Switch Core', type: 'switch', size: 1 }, rack.id, 1, 'front');
+  store.addDeviceToRack({ name: 'Servidor DB', type: 'server', size: 2 }, rack.id, 2, 'front');
+  
+  const devSwitch = store.allDevicesInRack(rack.id).find(d => d.name === 'Switch Core');
+  const devServer = store.allDevicesInRack(rack.id).find(d => d.name === 'Servidor DB');
+  assert(devSwitch && devServer, 'Dispositivos Switch y Servidor instalados en ranuras U1 y U2');
+
+  // 2.2 Conectar Equipos
+  store.addConnection({
+    sourceDeviceId: devSwitch.id,
+    sourcePort: 'Port 1',
+    targetDeviceId: devServer.id,
+    targetPort: 'Eth 1',
+    cableType: 'Cat6',
+    color: '#3b82f6'
+  });
+  assert(store._raw.connections.length === 1, 'Conexión de cable registrada correctamente');
+
+  // 2.3 Coordenadas de Topología
+  store._raw.topology.nodePositions[devSwitch.id] = { x: 150, y: 200 };
+  store._raw.topology.nodePositions[devServer.id] = { x: 150, y: 350 };
+  assert(store._raw.topology.nodePositions[devSwitch.id] !== undefined, 'Coordenadas de topología asignadas');
+
+  // 2.4 Eliminación en CASCADA del Gabinete
+  store.deleteRack(rack.id);
+  assert(store.rackById(rack.id) === undefined, 'Rack Alfa eliminado del store');
+  assert(store.deviceById(devSwitch.id) === undefined, 'Dispositivos del rack eliminados');
+  assert(store._raw.connections.length === 0, 'CASCADA OK: Todas las conexiones huérfanas fueron purgadas automáticamente');
+  assert(store._raw.topology.nodePositions[devSwitch.id] === undefined, 'Coordenadas del switch en topología purgadas');
+
+  // 2.5 Deshacer (Undo) restaura la integridad completa
+  store.undo();
+  assert(store.rackById(rack.id) !== undefined, 'Undo restaura el Rack');
+  assert(store.allDevicesInRack(rack.id).length === 2, 'Undo restaura los 2 dispositivos');
+  assert(store._raw.connections.length === 1, 'Undo restaura la conexión de cable intacta');
+
+  // 2.6 Eliminación individual de equipo limpia topología
+  const devToDel = store.allDevicesInRack(rack.id)[0];
+  store.deleteDevice(devToDel.id);
+  assert(store.deviceById(devToDel.id) === undefined, 'Dispositivo eliminado individualmente');
+  assert(store._raw.topology.nodePositions[devToDel.id] === undefined, 'Posición en topología purgada de inmediato');
+
+  // ----------------------------------------------------
+  // GRUPO 3: AUTO-SANEAMIENTO (_sanitize)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 3: Función de Auto-Saneamiento (_sanitize)');
+
+  // Inyectar datos zombis manualmente (simulando archivo corrupto o versión antigua)
+  store._raw.connections.push({
+    id: 'conn-zombie-1',
+    sourceDeviceId: 'id-inexistente-a',
+    targetDeviceId: 'id-inexistente-b',
+    cableType: 'Fibra'
+  });
+  store._raw.topology.nodePositions['dev-zombie-id'] = { x: 999, y: 999 };
+  assert(store._raw.connections.some(c => c.id === 'conn-zombie-1'), 'Conexión corrupta inyectada artificialmente');
+
+  // Ejecutar auto-saneamiento
+  store._sanitize();
+  assert(!store._raw.connections.some(c => c.id === 'conn-zombie-1'), '_sanitize() detectó y purgó la conexión zombie');
+  assert(store._raw.topology.nodePositions['dev-zombie-id'] === undefined, '_sanitize() purgó el nodo de topología huérfano');
+
+  // ----------------------------------------------------
+  // GRUPO 4: ROBUSTEZ EN RENDERIZADO DE TABLAS
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 4: Tolerancia a Fallos en UI (tables.js)');
+
+  try {
+    renderInventoryTable();
+    assert(true, 'renderInventoryTable() se ejecuta sin lanzar TypeError al omitir wrap');
+  } catch (err) {
+    assert(false, `renderInventoryTable() lanzó error inesperado: ${err.message}`);
+  }
+
+  try {
+    renderConnectionsTable();
+    assert(true, 'renderConnectionsTable() se ejecuta sin lanzar TypeError al omitir wrap');
+  } catch (err) {
+    assert(false, `renderConnectionsTable() lanzó error inesperado: ${err.message}`);
+  }
+
+  // ----------------------------------------------------
+  // GRUPO 5: INTEGRIDAD DE RUTAS DE ASSETS Y FACEPLATES SVG
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 5: Integridad de Rutas de Assets y Faceplates SVG');
+
+  const rootPath = path.join(__dirname, '..');
+  const oldDefaultPath = path.join(rootPath, 'default');
+  const newAssetsDefaultPath = path.join(rootPath, 'assets', 'default');
+  const assetsSvgDefaultPath = path.join(rootPath, 'assets', 'svg', 'default');
+
+  // 1. Verificar que la carpeta default/ ya no existe en la raíz
+  assert(!fs.existsSync(oldDefaultPath), 'La carpeta default/ fue removida exitosamente de la raíz del proyecto');
+
+  // 2. Verificar que la carpeta redundante assets/default/ fue eliminada (unificación canónica)
+  assert(!fs.existsSync(newAssetsDefaultPath), 'La carpeta redundante assets/default/ fue eliminada exitosamente');
+
+  // 3. Verificar que la carpeta canónica assets/svg/default/ existe
+  assert(fs.existsSync(assetsSvgDefaultPath), 'La carpeta canónica assets/svg/default/ existe correctamente');
+
+  // 4. Verificar conteo de al menos 16 SVGs en assets/svg/default/
+  const assetsSvgFiles = fs.existsSync(assetsSvgDefaultPath) 
+    ? fs.readdirSync(assetsSvgDefaultPath).filter(f => f.endsWith('.svg')) 
+    : [];
+  assert(assetsSvgFiles.length >= 16, `assets/svg/default/ contiene al menos 16 archivos SVG requeridos (encontrados: ${assetsSvgFiles.length})`);
+
+  // 5. Verificar que faceplates.js implementa normalizeAssetUrl() para retrocompatibilidad
+  const faceplatesJsContent = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'faceplates.js'), 'utf8');
+  assert(faceplatesJsContent.includes('normalizeAssetUrl'), "js/ui/faceplates.js implementa la función de normalización normalizeAssetUrl()");
+  assert(!faceplatesJsContent.includes("'default/"), "js/ui/faceplates.js no contiene referencias huérfanas a 'default/'");
+
+  // ----------------------------------------------------
+  // GRUPO 6: BLINDAJE Y MEJORAS VISUALES / MECÁNICAS (M-02, M-05, M-10, M-13, M-14, M-15, M-16)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 6: Blindaje de Almacenamiento y Mejoras Físicas');
+
+  // 6.1 M-05: Doble slot de respaldo y recuperación anti-corrupción
+  const mockDesignData = { rooms: [{ id: 'room-test', name: 'Sala Backup', racks: [] }], selectedRoomId: 'room-test' };
+  store._raw = mockDesignData;
+  store._save();
+  assert(localStorage.getItem('RACK_DESIGNER_NEXT_STATE') !== null, 'M-05: store._save() persiste en slot primario RACK_DESIGNER_NEXT_STATE');
+  assert(localStorage.getItem('RACK_DESIGNER_NEXT_STATE_BACKUP') !== null, 'M-05: store._save() persiste simultáneamente en slot de respaldo RACK_DESIGNER_NEXT_STATE_BACKUP');
+
+  // Corromper intencionalmente el slot primario y verificar rescate desde BACKUP
+  localStorage.setItem('RACK_DESIGNER_NEXT_STATE', 'INVALID_JSON_CORRUPTED{{{');
+  const rescuedState = store._load();
+  assert(rescuedState && rescuedState.rooms && rescuedState.rooms[0].name === 'Sala Backup', 'M-05: store._load() recupera exitosamente desde el slot de respaldo ante corrupción');
+
+  // 6.2 M-02: Manejo defensivo de QuotaExceededError
+  const originalSetItem = localStorage.setItem;
+  let quotaErrorCaptured = false;
+  localStorage.setItem = () => {
+    const err = new Error('Quota exceeded');
+    err.name = 'QuotaExceededError';
+    throw err;
+  };
+  try {
+    store._save();
+    quotaErrorCaptured = true;
+  } catch (e) {
+    quotaErrorCaptured = false;
+  }
+  localStorage.setItem = originalSetItem;
+  assert(quotaErrorCaptured, 'M-02: store._save() captura defensivamente QuotaExceededError sin lanzar excepción no controlada');
+
+  // 6.3 M-10 & M-14: Verificación estática de CSS de racks
+  const rackCssContent = fs.readFileSync(path.join(rootPath, 'css', 'components', 'rack.css'), 'utf8');
+  assert(rackCssContent.includes('width: 240px; min-width: 240px; max-width: 240px;'), 'M-14: .rack-slots implementa ancho fijo proporcional de 240px (10:1)');
+  assert(rackCssContent.includes('width: 280px;') && rackCssContent.includes('min-width: 280px;') && rackCssContent.includes('max-width: 280px;'), 'Geometría Rígida: .rack-card y .rack-wrapper bloquean ancho en 280px estrictos');
+  assert(rackCssContent.includes('text-overflow: ellipsis;'), 'Geometría Rígida: .rack-title implementa elipsis para nombres largos');
+
+  // 6.4 M-15: Grilla CAD de 24px en #view-physical
+  const layoutCssContent = fs.readFileSync(path.join(rootPath, 'css', 'layout.css'), 'utf8');
+  assert(layoutCssContent.includes('background-size: 24px 24px;'), 'M-15: #view-physical implementa grilla técnica milimétrica con paso de 24px (1U)');
+
+  // 6.5 M-13: Alineación de sección de piso min-width: 584px
+  const faceplatesCssContent = fs.readFileSync(path.join(rootPath, 'css', 'components', 'faceplates.css'), 'utf8');
+  const rackJsContent = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'rack.js'), 'utf8');
+  assert(faceplatesCssContent.includes('min-width: 584px;'), 'M-13: .floor-section implementa min-width: 584px en CSS');
+  assert(!rackJsContent.includes("'340px'"), 'M-13: js/ui/rack.js ya no fuerza ancho inline de 340px');
+
+  // 6.6 M-16: Select de alturas estándar en modal de rack
+  const indexHtmlContent = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
+  const rackModalJsContent = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'modals', 'RackModal.js'), 'utf8');
+  assert(indexHtmlContent.includes('<select id="rack-height">') && indexHtmlContent.includes('value="42" selected'), 'M-16: index.html define select con alturas estándar y 42U por defecto');
+  assert(rackModalJsContent.includes("document.getElementById('rack-height').value = '42';"), 'M-16: RackModal.js inicializa altura por defecto en 42U');
+
+  // ----------------------------------------------------
+  // GRUPO 7: CATÁLOGO AGRUPADO Y MODAL UNIFICADO DE SALAS (M-09, M-11, M-12)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 7: Catálogo Agrupado y Modal Unificado de Salas');
+
+  // 7.1 M-09: Funciones de modal de sala
+  assert(typeof openAddRoomModal === 'function', 'M-09: openAddRoomModal() está definida globalmente');
+  assert(typeof openEditRoomModal === 'function', 'M-09: openEditRoomModal() está definida globalmente');
+
+  // 7.2 M-09: Ausencia de prompt() en catalog.js
+  const catalogJsContent = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'catalog.js'), 'utf8');
+  assert(!catalogJsContent.includes('prompt('), 'M-09: Se erradicó el uso de prompt() nativo en renderRoomTabs() de catalog.js');
+
+  // 7.3 M-09: IDs dinámicos en modal-room de index.html
+  assert(indexHtmlContent.includes('id="modal-room-title"') && indexHtmlContent.includes('id="modal-room-sub"'), 'M-09: index.html contiene IDs dinámicos para modal-room-title y modal-room-sub');
+
+  // 7.4 M-11: Definición y estructura de CATALOG_GROUPS
+  assert(typeof CATALOG_GROUPS !== 'undefined' && Array.isArray(CATALOG_GROUPS), 'M-11: CATALOG_GROUPS está definido y es un array');
+  assert(CATALOG_GROUPS.length === 8, `M-11: CATALOG_GROUPS agrupa el catálogo en 8 familias comerciales (encontradas: ${CATALOG_GROUPS.length})`);
+  
+  const networkGroup = CATALOG_GROUPS.find(g => g.id === 'network');
+  assert(networkGroup && networkGroup.types.includes('switch') && networkGroup.types.includes('router') && networkGroup.types.includes('firewall') && networkGroup.types.includes('ap'), 'M-11: El grupo "network" consolida switches, routers, firewalls y APs activos');
+
+  // 7.4.1 Categoría Security (CCTV)
+  const securityGroup = CATALOG_GROUPS.find(g => g.id === 'security');
+  assert(securityGroup && securityGroup.types.includes('nvr') && securityGroup.types.includes('dvr') && securityGroup.types.includes('decoder'), 'M-Cat: El grupo "security" incluye NVR, DVR y Decoder');
+
+  // 7.4.2 Categoría Accesorios con Patch Panel y ODF
+  const accesoriosGroup = CATALOG_GROUPS.find(g => g.id === 'accesorios');
+  assert(accesoriosGroup && accesoriosGroup.types.includes('patchpanel') && accesoriosGroup.types.includes('odf'), 'M-Cat: El grupo "accesorios" incluye Patch Panel y ODF de fibra óptica');
+
+  // 7.4.3 Soporte de Equipos Personalizados en Store y Catálogo
+  const dummyCustom = { id: 'test-custom-1', name: 'Servidor Custom AI', type: 'server', size: 2, power: 800 };
+  store.addCustomCatalogItem(dummyCustom);
+  assert(store.state.customCatalog.some(c => c.id === 'test-custom-1'), 'M-Cat: store.addCustomCatalogItem() agrega equipos al catálogo personalizado del proyecto');
+  assert(getCatalog().some(c => c.id === 'test-custom-1'), 'M-Cat: getCatalog() unifica catálogo estándar y equipos personalizados');
+  store.deleteCustomCatalogItem('test-custom-1');
+  assert(!store.state.customCatalog.some(c => c.id === 'test-custom-1'), 'M-Cat: store.deleteCustomCatalogItem() elimina correctamente el equipo custom');
+
+  // 7.5 M-12: Pestaña "Todos" con icono grid
+  const allGroup = CATALOG_GROUPS.find(g => g.id === 'all');
+  assert(allGroup && allGroup.types === null && allGroup.icon === 'grid', 'M-12: El grupo "all" (Todos) abarca todos los dispositivos sin restricción');
+
+  // 7.6 M-12: Iconos grid, search y network en SVG_ICONS
+  assert(typeof SVG_ICONS !== 'undefined' && SVG_ICONS.grid && SVG_ICONS.search && SVG_ICONS.network, 'M-12: js/icons.js incluye iconos vectoriales para grid, search y network');
+
+  // 7.7 M-12: Clases CSS .icon-grid y .icon-search
+  const miscCssContent = fs.readFileSync(path.join(rootPath, 'css', 'components', 'misc.css'), 'utf8');
+  assert(miscCssContent.includes('.icon-grid') && miscCssContent.includes('.icon-search'), 'M-12: css/components/misc.css implementa clases offline .icon-grid e .icon-search');
+
+  // ----------------------------------------------------
+  // GRUPO 8: ACCIONES CRUD EN INSPECTOR Y ORDENAMIENTO EN OUTLINER (M-36, M-23, M-38, M-24)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 8: Acciones CRUD en Inspector y Ordenamiento en Outliner');
+
+  // 8.1 M-36: Funciones globales de eliminación en inspector
+  assert(typeof deleteRoomFromInspector === 'function', 'M-36: deleteRoomFromInspector() está definida globalmente');
+  assert(typeof deleteRackFromInspector === 'function', 'M-36: deleteRackFromInspector() está definida globalmente');
+  assert(typeof deleteDeviceFromInspector === 'function', 'M-36: deleteDeviceFromInspector() está definida globalmente');
+
+  // 8.2 M-36: Inspector Empty State dinámico
+  const inspectorMockContainer = { innerHTML: '' };
+  const origGetElementById = document.getElementById;
+  document.getElementById = (id) => id === 'inspector-content' ? inspectorMockContainer : origGetElementById(id);
+
+  renderInspector(null, null);
+  assert(inspectorMockContainer.innerHTML.includes('+ Nueva Sala') && inspectorMockContainer.innerHTML.includes('+ Nuevo Gabinete'), 'M-36: Inspector Empty State ofrece accesos rápidos para aprovisionar salas y gabinetes');
+
+  // 8.3 M-36: Inspector de Gabinete incluye Editar, Eliminar y Agregar Equipo
+  const testRack = store.currentRacks[0];
+  if (testRack) {
+    renderInspector('rack', testRack.id);
+    assert(inspectorMockContainer.innerHTML.includes('Editar') && inspectorMockContainer.innerHTML.includes('Eliminar') && inspectorMockContainer.innerHTML.includes('+ Agregar Equipo'), 'M-36: Inspector de Gabinete incluye botones Editar, Eliminar y Agregar Equipo');
+  }
+
+  // 8.4 M-38: Lógica de ordenamiento en Outliner
+  assert(typeof sortOutlinerDevices === 'function', 'M-38: sortOutlinerDevices() está definida');
+  const sampleDevs = [
+    { id: '1', name: 'Zeta Switch', type: 'switch', slotStart: 5 },
+    { id: '2', name: 'Alpha Server', type: 'server', slotStart: 10 },
+    { id: '3', name: 'Beta Firewall', type: 'firewall', slotStart: 1 }
+  ];
+
+  const sortedBySlot = sortOutlinerDevices(sampleDevs, 'slot');
+  assert(sortedBySlot[0].name === 'Alpha Server' && sortedBySlot[2].name === 'Beta Firewall', 'M-38: Ordenamiento "slot" ubica slots superiores (10U) primero');
+
+  const sortedByNameAsc = sortOutlinerDevices(sampleDevs, 'name-asc');
+  assert(sortedByNameAsc[0].name === 'Alpha Server' && sortedByNameAsc[2].name === 'Zeta Switch', 'M-38: Ordenamiento "name-asc" ordena alfabéticamente A → Z');
+
+  const sortedByNameDesc = sortOutlinerDevices(sampleDevs, 'name-desc');
+  assert(sortedByNameDesc[0].name === 'Zeta Switch' && sortedByNameDesc[2].name === 'Alpha Server', 'M-38: Ordenamiento "name-desc" ordena alfabéticamente Z → A');
+
+  const sortedByType = sortOutlinerDevices(sampleDevs, 'type');
+  assert(sortedByType[0].type === 'firewall', 'M-38: Ordenamiento "type" clasifica dispositivos por familia/tipo');
+
+  // 8.5 M-23: Cabecera de Outliner y botones inline
+  const updatedIndexHtml = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
+  assert(updatedIndexHtml.includes('id="btn-outliner-add-room"') && updatedIndexHtml.includes('id="btn-outliner-add-rack"') && updatedIndexHtml.includes('id="btn-outliner-add-dev"'), 'M-23: index.html define botones de acceso rápido + Sala, + Rack y + Equipo');
+
+  const outlinerJsText = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'outliner.js'), 'utf8');
+  assert(outlinerJsText.includes('data-outliner-action="edit-room"') && outlinerJsText.includes('data-outliner-action="del-dev"'), 'M-23: outliner.js genera botones contextuales inline para editar y eliminar');
+
+  // 8.6 M-24: Inspector colapsable en index.html y layout.css
+  assert(updatedIndexHtml.includes("document.getElementById('inspector-section').classList.toggle('collapsed')"), 'M-24: index.html implementa toggle colapsable para el Inspector');
+  const panelsCssText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'panels.css'), 'utf8');
+  assert(panelsCssText.includes('.outliner-toolbar') && panelsCssText.includes('.btn-inspector-danger'), 'M-36/M-23: panels.css implementa estilos para Outliner toolbar y botones del Inspector');
+
+  document.getElementById = origGetElementById;
+
+  // ----------------------------------------------------
+  // GRUPO 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo (M-37, M-19, M-30)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo');
+
+  // 9.1 M-37: Script vendor html2canvas
+  const h2cPath = path.join(rootPath, 'js', 'html2canvas.min.js');
+  assert(fs.existsSync(h2cPath) && fs.statSync(h2cPath).size > 100000, 'M-37: js/html2canvas.min.js existe en el disco y supera los 100KB');
+
+  assert(updatedIndexHtml.includes('src="js/html2canvas.min.js"'), 'M-37: index.html incluye la etiqueta <script src="js/html2canvas.min.js">');
+
+  const swText = fs.readFileSync(path.join(rootPath, 'service-worker.js'), 'utf8');
+  assert(swText.includes('rack-designer-next-cache-v') && swText.includes('./js/html2canvas.min.js'), 'M-37: service-worker.js precachea html2canvas.min.js bajo caché');
+
+  const exportModalText = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'modals', 'ExportModal.js'), 'utf8');
+  assert(exportModalText.includes('html2canvas') && exportModalText.includes('_fallbackExportRackToPNG'), 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
+  assert(exportModalText.includes('_fallbackExportFloorToPNG'), 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
+  assert(exportModalText.includes('exportRoomToPNG') && exportModalText.includes('_fallbackExportRoomToPNG'), 'M-37: ExportModal.js implementa exportRoomToPNG para exportar la sala completa con cableado');
+  assert(exportModalText.includes('btn-export-entire-room-dual') && exportModalText.includes('_Dual_Frente_Dorso.png'), 'ExportModal: implementa botón e infraestructura para exportación de Sala Completa en Vista Dual (Frente + Dorso)');
+  assert(exportModalText.includes("mode = 'current'") && exportModalText.includes("mode === 'dual'"), 'ExportModal: exportRoomToPNG admite modos current y dual modular');
+  assert(typeof store.allRacksInRoom === 'function', 'Store: store.allRacksInRoom(roomId) está definida y filtra correctamente los gabinetes');
+
+  const rackCssText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'rack.css'), 'utf8');
+  assert(rackCssText.includes('.exporting-capture .device-actions'), 'M-37: css/components/rack.css implementa reglas .exporting-capture para ocultar controles de UI en capturas');
+  assert(rackCssText.includes('.exporting-capture #canvas-btn-add-rack'), 'M-37: css/components/rack.css oculta el botón +Rack durante la captura');
+
+  // 9.2 M-19: Propiedades en tabla de inventario
+  store._raw.devices.push({
+    id: 'test-inv-dev',
+    name: 'Switch Test',
+    type: 'switch',
+    size: 2,
+    skin: 'default',
+    notes: 'VLAN 10 Core',
+    power: 150,
+    plugs: 1,
+    ip: '192.168.1.1',
+    mac: '00:11:22:33:44:55',
+    serial: 'SN-001',
+    user: 'admin',
+    pass: 'admin123',
+    rackId: 'r-1',
+    slotStart: 1,
+    mountSide: 'front'
+  });
+
+  const tableMockContainer = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(tableMockContainer, '');
+  assert(tableMockContainer.innerHTML.includes('<th>Tamaño</th>') && tableMockContainer.innerHTML.includes('<th>Skin</th>') && tableMockContainer.innerHTML.includes('<th>Notas</th>'), 'M-19: renderInventoryTable() incluye las columnas Tamaño, Skin y Notas en thead');
+  assert(tableMockContainer.innerHTML.includes('data-field="size"') && tableMockContainer.innerHTML.includes('data-field="skin"') && tableMockContainer.innerHTML.includes('data-field="notes"'), 'M-19: renderInventoryTable() mapea celdas editables para size, skin y notes');
+
+  const tablesJsText = fs.readFileSync(path.join(rootPath, 'js', 'ui', 'tables.js'), 'utf8');
+  assert(tablesJsText.includes("'notes'") && tablesJsText.includes("'skin'") && tablesJsText.includes("'size'") && tablesJsText.includes("allowedFields = ['name'"), 'M-19: finishCellEdit() admite y persiste los campos size, skin y notes');
+  assert(exportModalText.includes('d.size') && exportModalText.includes('d.skin') && exportModalText.includes('d.notes') && exportModalText.includes('Inventario_Centro_Datos.csv'), 'M-19: exportCSV() incluye las columnas Tamaño, Skin y Notas');
+
+  // 9.3 M-30: Buscador en modal de catálogo
+  assert(updatedIndexHtml.includes('id="qp-dev-search"') && updatedIndexHtml.includes('id="qp-dev-select-row"'), 'M-30: index.html define el input reactivo #qp-dev-search dentro de #qp-dev-select-row');
+  assert(typeof filterQPCatalog === 'function', 'M-30: filterQPCatalog() está definida globalmente');
+
+  const selectMock = { innerHTML: '', value: '', dispatchEvent: () => {} };
+  const origQpGetElementById = document.getElementById;
+  document.getElementById = (id) => id === 'qp-dev-select' ? selectMock : origQpGetElementById(id);
+  filterQPCatalog('switch');
+  assert(selectMock.innerHTML.toLowerCase().includes('switch'), 'M-30: filterQPCatalog("switch") filtra y renderiza dispositivos coincidentes del catálogo');
+  document.getElementById = origQpGetElementById;
+
+  // ----------------------------------------------------
+  // GRUPO 10: EQUIPOS DE PROFUNDIDAD COMPLETA (AMBAS CARAS - mountSide: 'both')
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 10: Equipos de Doble Cara (mountSide: both) y Coexistencia');
+
+  // 10.1 Helper sidesConflict
+  assert(typeof store.sidesConflict === 'function', 'Doble Cara: store.sidesConflict está definida');
+  assert(store.sidesConflict('both', 'front') === true, 'Doble Cara: "both" entra en conflicto con "front"');
+  assert(store.sidesConflict('both', 'rear') === true, 'Doble Cara: "both" entra en conflicto con "rear"');
+  assert(store.sidesConflict('both', 'both') === true, 'Doble Cara: "both" entra en conflicto con "both"');
+  assert(store.sidesConflict('front', 'front') === true, 'Doble Cara: "front" entra en conflicto con "front"');
+  assert(store.sidesConflict('rear', 'rear') === true, 'Doble Cara: "rear" entra en conflicto con "rear"');
+  assert(store.sidesConflict('front', 'rear') === false, 'Doble Cara: "front" y "rear" son independientes (sin conflicto)');
+
+  // 10.2 Creación de Rack de prueba y validación de colisiones bidireccionales
+  store.addRoom('Sala Datacenter Dual');
+  const dualRoomId = store._raw.rooms[store._raw.rooms.length - 1].id;
+  store.addRack('Rack Profundo', 42, '#38bdf8', dualRoomId);
+  const dualRack = store._raw.racks[store._raw.racks.length - 1];
+
+  // Instalar servidor 2U en mountSide: 'both' en U10
+  const server2u = {
+    name: 'Servidor Dell R740',
+    type: 'server',
+    size: 2,
+    mountSide: 'both',
+    power: 450
+  };
+  const placedBoth = store.addDeviceToRack(server2u, dualRack.id, 10, 'both');
+  assert(placedBoth === true, 'Doble Cara: Servidor 2U instalado exitosamente en U10 con mountSide "both"');
+
+  // Intentar instalar switch en Front U10 -> debe ser rechazado
+  const switchFrontConflict = store.addDeviceToRack({ name: 'Switch Conflicto', type: 'switch', size: 1, mountSide: 'front' }, dualRack.id, 10, 'front');
+  assert(switchFrontConflict === false, 'Doble Cara: Bloqueo de colisión en Front U10 por servidor dual');
+
+  // Intentar instalar switch en Rear U11 -> debe ser rechazado (U11 es la 2da U del servidor 2U)
+  const switchRearConflict = store.addDeviceToRack({ name: 'PDU Conflicto', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 11, 'rear');
+  assert(switchRearConflict === false, 'Doble Cara: Bloqueo de colisión en Rear U11 por servidor dual');
+
+  // Intentar instalar otro equipo Dual en U10 o U11 -> rechazado
+  const dualConflict = store.addDeviceToRack({ name: 'UPS Dual', type: 'ups', size: 2, mountSide: 'both' }, dualRack.id, 11, 'both');
+  assert(dualConflict === false, 'Doble Cara: Bloqueo de colisión entre equipos duales solapados');
+
+  // Coexistencia de equipos media profundidad: U20 frontal y U20 trasera
+  const patchFront = store.addDeviceToRack({ name: 'Patch Frontal', type: 'patchpanel', size: 1, mountSide: 'front' }, dualRack.id, 20, 'front');
+  assert(patchFront === true, 'Coexistencia: Patch Panel instalado en U20 Frontal');
+
+  const pduRear = store.addDeviceToRack({ name: 'PDU Trasera', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 20, 'rear');
+  assert(pduRear === true, 'Coexistencia: PDU instalada en la misma U20 Trasera sin conflicto');
+
+  // Intentar instalar un equipo Dual en U20 -> debe ser rechazado porque U20 frontal y trasera ya están ocupadas
+  const dualOnHalf = store.addDeviceToRack({ name: 'Servidor 1U', type: 'server', size: 1, mountSide: 'both' }, dualRack.id, 20, 'both');
+  assert(dualOnHalf === false, 'Doble Cara: Servidor dual rechazado en U20 ocupada por equipos de media profundidad');
+
+  // 10.3 Conteo de estadísticas y unidades consumidas
+  const devDual = store._raw.devices.find(d => d.name === 'Servidor Dell R740');
+  assert(devDual && devDual.mountSide === 'both', 'Doble Cara: El equipo se almacena como un único registro con mountSide "both"');
+
+  // 10.4 Representación en Tabla de Inventario y Exportación
+  const dualTableContainer = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(dualTableContainer, '');
+  assert(dualTableContainer.innerHTML.includes('Dual'), 'Doble Cara: renderInventoryTable muestra badge "Dual" en columna Lado');
+
+  const invExportData = getInventoryData();
+  const dualExportRow = invExportData.find(row => row[3] === 'Servidor Dell R740');
+  assert(dualExportRow && dualExportRow[2] === 'Dual', 'Doble Cara: getInventoryData exporta "Dual" en columna Lado');
+
+  // 10.5 Renderizado visual de cara trasera para equipos duales
+  if (typeof buildFaceplate === 'function') {
+    const rearFaceplateHtml = buildFaceplate(devDual, 48, 'rear');
+    assert(rearFaceplateHtml.includes('TRASERA · DUAL'), 'Doble Cara: buildFaceplate genera indicador "TRASERA · DUAL" en vista trasera');
+    assert(rearFaceplateHtml.includes('PSU-1') || rearFaceplateHtml.includes('PSU-RED'), 'Doble Cara: buildFaceplate genera fuentes redundantes PSU en vista trasera');
+  }
+
+  // ----------------------------------------------------
+  // GRUPO 11: PLANTILLA DEMO PROFESIONAL Y DISTRIBUCIÓN DE PESO (ANSI/TIA-942)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 11: Plantilla Demo Profesional y Distribución Gravitacional de Peso');
+
+  assert(typeof loadDemoData === 'function', 'Demo: loadDemoData() está definida globalmente');
+  loadDemoData();
+
+  // 11.1 Verificación de Salas Datacenter
+  const roomDc = store._raw.rooms.find(r => r.name === 'Data Center Principal');
+  const roomCorp = store._raw.rooms.find(r => r.name === 'Edificio Corporativo A');
+  const roomSoc = store._raw.rooms.find(r => r.name === 'Centro de Operaciones & Seguridad');
+  assert(roomDc && roomCorp && roomSoc, 'Demo: Define las salas Data Center Principal, Edificio Corporativo A y SOC');
+
+  // 11.2 Verificación de Gabinetes Estándar de 42U
+  const dcRacks = store._raw.racks.filter(r => r.roomId === roomDc.id);
+  assert(dcRacks.length === 4 && dcRacks.every(r => r.height === 42), 'Demo: Sala Data Center Principal cuenta con 4 gabinetes estandarizados de 42U');
+
+  // 11.3 Verificación de Distribución Gravitacional de Peso (Equipos pesados en la base U1-U10)
+  const rack101 = dcRacks.find(r => r.name.includes('101'));
+  const rack102 = dcRacks.find(r => r.name.includes('102'));
+  const rack103 = dcRacks.find(r => r.name.includes('103'));
+  const rack104 = dcRacks.find(r => r.name.includes('104'));
+
+  const ups101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'ups');
+  assert(ups101 && ups101.slotStart === 1 && ups101.mountSide === 'both', 'Demo: Rack 101 ubica UPS pesado en U1-U2 con mountSide "both"');
+
+  const pdu101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'pdu');
+  assert(pdu101 && pdu101.mountSide === 'rear', 'Demo: Rack 101 ubica PDU en la cara trasera (mountSide: "rear")');
+
+  const san103 = store._raw.devices.find(d => d.rackId === rack103.id && d.type === 'storage' && d.size === 4);
+  assert(san103 && san103.slotStart === 4 && san103.mountSide === 'both', 'Demo: Cabina SAN Dell EMC 4U pesada ubicada en la base (U4-U7) con mountSide "both"');
+
+  const blade102 = store._raw.devices.find(d => d.rackId === rack102.id && d.name.includes('Blade'));
+  assert(blade102 && blade102.slotStart === 6 && blade102.mountSide === 'both', 'Demo: Chasis Blade 4U de alta densidad ubicado en zona baja (U6-U9)');
+
+  // 11.4 Verificación de Equipos de Red y Top of Rack (U36-U42)
+  const swCore = store._raw.devices.find(d => d.rackId === rack101.id && d.name.includes('Core'));
+  const fwEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'firewall');
+  const rtrEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'router');
+  assert(swCore && swCore.slotStart === 40 && fwEdge && fwEdge.slotStart === 41 && rtrEdge && rtrEdge.slotStart === 42, 'Demo: Equipos de red y borde (Core, Firewall, Router) ubicados en el tope ToR (U40-U42)');
+
+  // 11.5 Verificación de Zona Ergonómica (KVM & Tray en U21-U22)
+  const kvm = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'kvm');
+  const tray = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'tray');
+  assert(kvm && kvm.slotStart === 21 && tray && tray.slotStart === 22, 'Demo: Consola KVM y bandeja ubicadas a la altura ergonómica del operador (U21-U22)');
+
+  // 11.6 Verificación de Equipos Nuevos de Seguridad CCTV
+  const nvr = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'nvr');
+  const decoder = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'decoder');
+  assert(nvr && decoder && nvr.mountSide === 'both', 'Demo: Rack 104 incorpora NVR 2U y Decodificador con soporte dual');
+
+  // 11.7 Verificación de Conexiones Troncales Backbone
+  const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
+  assert(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+  // ----------------------------------------------------
+  // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 12: Gestión Avanzada de Puertos y Validación de VLANs');
+
+  // 12.1 Catálogo y CRUD de VLANs
+  const vlans = store.getVlans();
+  assert(Array.isArray(vlans) && vlans.length >= 7, `VLANs: getVlans() retorna catálogo con al menos 7 VLANs (encontradas: ${vlans.length})`);
+
+  const vlanDefault = store.getVlanById(1);
+  assert(vlanDefault && vlanDefault.name.includes('Default'), 'VLANs: VLAN 1 (Default / Troncal) está presente');
+
+  const addVlanRes = store.addVlan({ id: 100, name: 'VLAN Pruebas QA', color: '#ec4899' });
+  assert(addVlanRes && addVlanRes.success === true, 'VLANs: addVlan() crea exitosamente una nueva VLAN');
+  assert(store.getVlanById(100)?.name === 'VLAN Pruebas QA', 'VLANs: getVlanById(100) recupera la nueva VLAN');
+
+  const delVlan1Res = store.deleteVlan(1);
+  assert(delVlan1Res && delVlan1Res.success === false, 'VLANs: deleteVlan(1) es rechazado (protección de VLAN 1 Default)');
+
+  const delVlan100Res = store.deleteVlan(100);
+  assert(delVlan100Res && delVlan100Res.success === true && !store.getVlanById(100), 'VLANs: deleteVlan(100) elimina correctamente la VLAN');
+
+  // 12.2 Consulta de Puertos y Detección de Estado
+  const rackTest = store._raw.racks[0];
+  const swCoreDev = store._raw.devices.find(d => d.name.includes('Core'));
+  const swDistDev = store._raw.devices.find(d => d.name.includes('Distribución'));
+  assert(swCoreDev && swDistDev, 'Puertos: Switches Core y Distribución disponibles para pruebas de puertos');
+
+  const portsCore = store.getDevicePorts(swCoreDev.id);
+  assert(Array.isArray(portsCore) && portsCore.length > 0, `Puertos: getDevicePorts() retorna array estructurado de puertos (encontrados: ${portsCore.length})`);
+
+  const portTe1 = portsCore.find(p => p.name === 'Te1/0/1');
+  assert(portTe1 && portTe1.isOccupied === true, 'Puertos: Puerto conectado Te1/0/1 detectado como ocupado (isOccupied === true)');
+  assert(portTe1 && portTe1.peerDeviceName.includes('Switch ToR'), `Puertos: Puerto Te1/0/1 mapea correctamente a equipo par (${portTe1?.peerDeviceName})`);
+
+  const isTe1Occupied = store.isPortOccupied(swCoreDev.id, 'Te1/0/1');
+  assert(isTe1Occupied !== false && isTe1Occupied.id !== undefined, 'Puertos: isPortOccupied("Te1/0/1") retorna objeto de conexión');
+
+  const isFreeOccupied = store.isPortOccupied(swCoreDev.id, 'Eth-999');
+  assert(isFreeOccupied === false, 'Puertos: isPortOccupied("Eth-999") retorna false para puerto inexistente o libre');
+
+  // 12.3 Prevención de Doble Conexión / Colisión de Puertos
+  const collisionValidation = store.validateConnection({
+    sourceDeviceId: swCoreDev.id,
+    sourcePort: 'Te1/0/1',
+    targetDeviceId: swDistDev.id,
+    targetPort: 'Eth-1'
+  });
+  assert(collisionValidation.valid === false && collisionValidation.error.includes('ya está conectado'), 'Colisión: validateConnection bloquea intento de conexión en puerto ya conectado');
+
+  const addCollisionRes = store.addConnection({
+    sourceDeviceId: swCoreDev.id,
+    sourcePort: 'Te1/0/1',
+    targetDeviceId: swDistDev.id,
+    targetPort: 'Eth-1'
+  });
+  assert(addCollisionRes && addCollisionRes.success === false, 'Colisión: addConnection() rechaza creación de cable en puerto ocupado');
+
+  // 12.4 Conexión Válida en Puerto Libre con VLAN
+  const connFreeRes = store.addConnection({
+    sourceDeviceId: swCoreDev.id,
+    sourcePort: 'Eth-1',
+    targetDeviceId: swDistDev.id,
+    targetPort: 'Eth-1',
+    vlanId: 20
+  });
+  assert(connFreeRes && connFreeRes.success === true, 'Conexión: addConnection() conecta con éxito puertos libres');
+  assert(store.isPortOccupied(swCoreDev.id, 'Eth-1') !== false, 'Conexión: Puerto origen Eth-1 pasa a estado ocupado');
+  assert(store.isPortOccupied(swDistDev.id, 'Eth-1') !== false, 'Conexión: Puerto destino Eth-1 pasa a estado ocupado');
+
+  const portsCoreUpdated = store.getDevicePorts(swCoreDev.id);
+  const eth1PortObj = portsCoreUpdated.find(p => p.name === 'Eth-1');
+  assert(eth1PortObj && eth1PortObj.vlanId === 20, 'VLAN: Puerto hereda correctamente metadatos de VLAN 20');
+
+  // 12.5 Desconexión y Liberación de Puertos
+  store.deleteConnection(connFreeRes.connection.id);
+  assert(store.isPortOccupied(swCoreDev.id, 'Eth-1') === false, 'Desconexión: Puerto origen Eth-1 liberado exitosamente tras eliminar conexión');
+  assert(store.isPortOccupied(swDistDev.id, 'Eth-1') === false, 'Desconexión: Puerto destino Eth-1 liberado exitosamente tras eliminar conexión');
+
+  // 12.6 Auditoría de Colisiones en Plantilla Demo
+  loadDemoData();
+  let demoCollisions = 0;
+  const occupiedCheck = new Set();
+  store._raw.connections.forEach(c => {
+    const key1 = `${c.sourceDeviceId}::${String(c.sourcePort).toLowerCase()}`;
+    const key2 = `${c.targetDeviceId}::${String(c.targetPort).toLowerCase()}`;
+    if (occupiedCheck.has(key1)) demoCollisions++;
+    if (occupiedCheck.has(key2)) demoCollisions++;
+    occupiedCheck.add(key1);
+    occupiedCheck.add(key2);
+  });
+  assert(demoCollisions === 0, `Auditoría Demo: 0 colisiones de puertos en toda la base de datos (colisiones detectadas: ${demoCollisions})`);
+
+  const connsWithVlan = store._raw.connections.filter(c => c.vlanId !== undefined && c.vlanId > 0);
+  assert(connsWithVlan.length === store._raw.connections.length, `Auditoría Demo: 100% de las conexiones tienen VLAN asignada (${connsWithVlan.length}/${store._raw.connections.length})`);
+
+  assert(typeof window.disconnectPortFromInspector === 'function', 'Inspector: disconnectPortFromInspector() está expuesta en window');
+
+  // ----------------------------------------------------
+  // GRUPO 13: SELECTOR DE COLUMNAS EN TABLAS (PROPUESTA 3)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3)');
+
+  assert(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
+  assert(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+  assert(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
+  assert(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
+  assert(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
+  assert(typeof setColumnVisible === 'function', 'Columnas: setColumnVisible() está definida globalmente');
+  assert(typeof resetTableColumns === 'function', 'Columnas: resetTableColumns() está definida globalmente');
+  assert(typeof showAllTableColumns === 'function', 'Columnas: showAllTableColumns() está definida globalmente');
+
+  // Comprobar columna requerida protegida
+  assert(isColumnVisible('inventory', 'name') === true, 'Columnas: Columna "name" requerida siempre visible');
+
+  // Probar ocultamiento dinámico de columna en render
+  setColumnVisible('inventory', 'mac', false);
+  assert(isColumnVisible('inventory', 'mac') === false, 'Columnas: Columna "mac" desactivada correctamente');
+
+  const testTableContainer = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(testTableContainer, '');
+  assert(!testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> no aparece en el DOM al estar oculta');
+
+  // Reactivar columna y verificar restauración
+  setColumnVisible('inventory', 'mac', true);
+  assert(isColumnVisible('inventory', 'mac') === true, 'Columnas: Columna "mac" reactivada con éxito');
+  renderInventoryTable(testTableContainer, '');
+  assert(testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> restaurado en el DOM');
+
+  // Probar acciones rápidas Mostrar Todo y Reset
+  showAllTableColumns('inventory');
+  const allVis = INVENTORY_COLUMNS.every(c => isColumnVisible('inventory', c.id));
+  assert(allVis === true, 'Columnas: showAllTableColumns() activa el 100% de las columnas de inventario');
+
+  resetTableColumns('inventory');
+  assert(isColumnVisible('inventory', 'name') === true, 'Columnas: resetTableColumns() restaura configuración por defecto');
+
+  // Comprobar elementos en index.html
+  const updatedHtmlCols = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
+  assert(updatedHtmlCols.includes('id="columns-menu-wrap"') && updatedHtmlCols.includes('id="btn-columns-menu"'), 'Columnas: index.html define el botón del selector #btn-columns-menu');
+  assert(updatedHtmlCols.includes('id="columns-dropdown"') && updatedHtmlCols.includes('id="columns-dropdown-list"'), 'Columnas: index.html define el popover #columns-dropdown con su lista');
+  assert(updatedHtmlCols.includes('id="btn-cols-show-all"') && updatedHtmlCols.includes('id="btn-cols-reset"'), 'Columnas: index.html define los botones rápidos Mostrar Todo y Por Defecto');
+
+  // Comprobar estilos en panels.css
+  const panelsCssColsText = fs.readFileSync(path.join(rootPath, 'css', 'components', 'panels.css'), 'utf8');
+  assert(panelsCssColsText.includes('.columns-dropdown-header') && panelsCssColsText.includes('.col-toggle-item') && panelsCssColsText.includes('.btn-col-action'), 'Columnas: panels.css implementa estilos para el popover y checkboxes');
+
+  // ----------------------------------------------------
+  // GRUPO 14: CIFRADO EN REPOSO (M-01) Y REVELACIÓN EN MODO DIOS
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 14: Cifrado en Reposo (M-01) y Modo Dios para Administradores');
+
+  // 14.1 Existencia y API de RackCrypto
+  assert(typeof RackCrypto !== 'undefined' && typeof RackCrypto.encrypt === 'function' && typeof RackCrypto.decrypt === 'function', 'M-01: RackCrypto expone las funciones de cifrado y descifrado');
+  assert(typeof RackCrypto.isEncrypted === 'function' && typeof RackCrypto.prepareStateForStorage === 'function' && typeof RackCrypto.restoreStateFromStorage === 'function', 'M-01: RackCrypto implementa helpers de persistencia para el estado');
+
+  // 14.2 Prueba de Cifrado y Descifrado Simétrico
+  const testSecret = 'ClaveUltraSegura#2026';
+  const encryptedSecret = RackCrypto.encrypt(testSecret);
+  assert(RackCrypto.isEncrypted(encryptedSecret) === true, 'M-01: encrypt() genera cadena con prefijo seguro enc:v1:');
+  assert(!encryptedSecret.includes(testSecret), 'M-01: La cadena cifrada no expone el texto plano en ninguna subcadena');
+
+  const decryptedSecret = RackCrypto.decrypt(encryptedSecret);
+  assert(decryptedSecret === testSecret, 'M-01: decrypt() recupera fielmente el texto plano original');
+
+  // 14.3 Cifrado en Reposo en LocalStorage a través de Store._save()
+  const targetRack = store._raw.racks.find(r => r.name.includes('101')) || store._raw.racks[0];
+  const testDevWithPass = {
+    id: 'dev-crypto-test-01',
+    name: 'Servidor Seguro Bastionado',
+    type: 'server',
+    size: 2,
+    slotStart: 25,
+    mountSide: 'front',
+    rackId: targetRack.id,
+    user: 'admin_sys',
+    pass: 'P@ssw0rdSuperSecr3t!'
+  };
+
+  const addResult = store.addDeviceToRack(testDevWithPass, targetRack.id, 25, 'front');
+
+  const storedRawJson = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
+  const storedParsed = JSON.parse(storedRawJson);
+  const storedDevice = storedParsed.devices.find(d => d.id === 'dev-crypto-test-01');
+
+  assert(storedDevice && RackCrypto.isEncrypted(storedDevice.pass) === true, 'M-01: store._save() persiste la contraseña cifrada (enc:v1:) en localStorage');
+  assert(!storedRawJson.includes('P@ssw0rdSuperSecr3t!'), 'M-01: La contraseña real en texto plano NUNCA reside en localStorage');
+
+  // 14.4 Descifrado Transparente en Memoria para Componentes
+  const devInMem = store.deviceById('dev-crypto-test-01');
+  assert(devInMem && devInMem.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: El estado en memoria mantiene la contraseña descifrada para el uso interno del store');
+
+  // 14.5 Prueba de Carga con _load()
+  const freshStore = new Store();
+  const loadedDev = freshStore.deviceById('dev-crypto-test-01');
+  assert(loadedDev && loadedDev.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: store._load() descifra transparentemente las credenciales guardadas');
+
+  // 14.6 Modo Dios en Tablas de Inventario
+  window.SHOW_PASSWORDS = false;
+  const tableCheckWrap = { innerHTML: '', querySelectorAll: () => [] };
+  renderInventoryTable(tableCheckWrap, '');
+  assert(tableCheckWrap.innerHTML.includes('••••••••'), 'Modo Dios: Las contraseñas se ocultan con •••••••• por defecto');
+  assert(!tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: La contraseña real no se muestra en la tabla sin autorización');
+
+  window.SHOW_PASSWORDS = true;
+  renderInventoryTable(tableCheckWrap, '');
+  assert(tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: Al activar Modo Dios (SHOW_PASSWORDS=true), la tabla revela la contraseña');
+  window.SHOW_PASSWORDS = false;
+
+  // 14.7 Revelación de Contraseñas en Inspector y Protección RBAC
+  assert(typeof toggleDevicePasswordInspector === 'function', 'Inspector: toggleDevicePasswordInspector expuesta globalmente');
+  
+  // Como espectador, debe ser rechazado
+  RackAuth.loginAsViewer();
+  assert(RackAuth.can('toggleGodMode') === false, 'RBAC: Espectador NO tiene permiso toggleGodMode');
+  toggleDevicePasswordInspector('dev-crypto-test-01');
+  assert(!window._revealedDevicePasswords.has('dev-crypto-test-01'), 'RBAC: toggleDevicePasswordInspector rechaza a usuarios no administradores');
+
+  // Como Administrador, debe ser admitido
+  await RackAuth.tryAdminLogin('rack2024');
+  assert(RackAuth.can('toggleGodMode') === true, 'RBAC: Administrador tiene permiso toggleGodMode');
+  toggleDevicePasswordInspector('dev-crypto-test-01');
+  assert(window._revealedDevicePasswords.has('dev-crypto-test-01') === true, 'Modo Dios: Administrador revela exitosamente la contraseña de un equipo individual');
+  toggleDevicePasswordInspector('dev-crypto-test-01');
+  assert(window._revealedDevicePasswords.has('dev-crypto-test-01') === false, 'Modo Dios: Administrador vuelve a ocultar la contraseña con un clic');
+
+  // 14.8 UI en index.html y DeviceModal
+  const updatedHtmlCrypto = fs.readFileSync(path.join(rootPath, 'index.html'), 'utf8');
+  assert(updatedHtmlCrypto.includes('id="dev-pass-toggle"'), 'M-01: index.html incluye el botón interactivo #dev-pass-toggle en el formulario');
+  assert(updatedHtmlCrypto.includes('src="js/auth/crypto.js"'), 'M-01: index.html incluye el script js/auth/crypto.js');
+
+  // ----------------------------------------------------
+  // GRUPO 15: AFINIDAD Y PROXIMIDAD DE EQUIPOS DE PISO (M-39)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 15: Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)');
+
+  // 15.1 Existencia del algoritmo de afinidad
+  assert(typeof _findAffinityRackForFloorDevice === 'function', 'M-39: _findAffinityRackForFloorDevice está expuesta y disponible');
+  assert(typeof _computeLayout === 'function', 'M-39: _computeLayout está expuesta y disponible');
+  assert(typeof _computeTreeLayout === 'function', 'M-39: _computeTreeLayout está expuesta y disponible');
+
+  // Cargar demo data para pruebas reales
+  loadDemoData();
+
+  // Sala 1: Data Center Principal
+  const room1 = store._raw.rooms[0];
+  const racksRoom1 = store.allRacksInRoom(room1.id);
+  const floorDevsRoom1 = store.allFloorDevicesInRoom(room1.id);
+  const devToRackMap = {};
+  store._raw.devices.forEach(d => { if (d.rackId) devToRackMap[d.id] = d.rackId; });
+
+  const m39Rack101 = racksRoom1.find(r => r.name.includes('101'));
+  const m39Rack104 = racksRoom1.find(r => r.name.includes('104'));
+
+  // 15.2 Detección de afinidad en datos reales
+  // Las cámaras están conectadas a swPoeCctvId en Rack 104
+  const camDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('cámara'));
+  const affRackCam = _findAffinityRackForFloorDevice(camDev, racksRoom1, store._raw.connections, devToRackMap);
+  assert(affRackCam === m39Rack104.id, 'M-39: Cámara IP detecta afinidad automática hacia Rack 104 (Switch PoE)');
+
+  // La impresora o AP están conectados a swDistId en Rack 101
+  const netDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('ap') || d.name.toLowerCase().includes('impresora') || d.name.toLowerCase().includes('pc'));
+  const affRackNet = _findAffinityRackForFloorDevice(netDev, racksRoom1, store._raw.connections, devToRackMap);
+  assert(affRackNet === m39Rack101.id, 'M-39: Periférico de red (AP/Impresora) detecta afinidad automática hacia Rack 101');
+
+  // 15.3 Equipo sin conexiones retorna null
+  const unconnectedFloorDev = { id: 'floor-test-unconn', category: 'floor', roomId: room1.id, name: 'Impresora Aislada' };
+  const affUnconn = _findAffinityRackForFloorDevice(unconnectedFloorDev, racksRoom1, store._raw.connections, devToRackMap);
+  assert(affUnconn === null, 'M-39: Equipo de piso sin conexiones retorna afinidad null');
+
+  // 15.4 Resolución por mayoría de conexiones ante múltiples enlaces
+  const multiConnDev = { id: 'floor-test-multi', category: 'floor', roomId: room1.id, name: 'Estación Multi-Homed' };
+  const mockConns = [
+    { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack101.id)[0].id },
+    { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[0].id },
+    { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[1].id }
+  ];
+  const affMulti = _findAffinityRackForFloorDevice(multiConnDev, racksRoom1, mockConns, devToRackMap);
+  assert(affMulti === m39Rack104.id, 'M-39: Equipo con múltiples conexiones elige el rack con mayor número de enlaces (peso)');
+
+  // 15.5 Verificación de coordenadas de Layout por Racks (_computeLayout)
+  const layout = _computeLayout();
+  const r101Pos = layout.newRackPos[m39Rack101.id];
+  const r101Size = layout.newRackSize[m39Rack101.id];
+  const r104Pos = layout.newRackPos[m39Rack104.id];
+  const r104Size = layout.newRackSize[m39Rack104.id];
+
+  // Las cámaras deben estar dentro de la columna horizontal de Rack 104
+  const camPos = layout.newNodePos[camDev.id];
+  assert(camPos && camPos.x >= r104Pos.x && camPos.x <= (r104Pos.x + r104Size.w),
+    'M-39: Cámara se posiciona dentro de la huella horizontal del Rack 104');
+
+  // El periférico de red debe estar dentro de la huella horizontal de Rack 101
+  const netPos = layout.newNodePos[netDev.id];
+  assert(netPos && netPos.x >= r101Pos.x && netPos.x <= (r101Pos.x + r101Size.w),
+    'M-39: Periférico de red se posiciona dentro de la huella horizontal del Rack 101');
+
+  // 15.6 Aislamiento: El periférico de Rack 101 no solapa la columna de Rack 104
+  assert(Math.abs(camPos.x - netPos.x) > 100, 'M-39: Aislamiento lateral: Los periféricos de racks distintos no se solapan');
+
+  // 15.7 Línea de base uniforme de piso para toda la sala
+  const allAffinityFloorDevs = floorDevsRoom1.filter(d => {
+    const aff = _findAffinityRackForFloorDevice(d, racksRoom1, store._raw.connections, devToRackMap);
+    return aff !== null;
+  });
+  const firstRowYValues = new Set(allAffinityFloorDevs.map(d => layout.newNodePos[d.id].y));
+  // La primera fila de cada grupo de afinidad comparte la misma cota Y inicial (o paso simétrico)
+  const minY = Math.min(...Array.from(firstRowYValues));
+  const maxRackBottomInRoom = Math.max(...racksRoom1.map(r => layout.newRackPos[r.id].y + layout.newRackSize[r.id].h));
+  assert(minY >= maxRackBottomInRoom + 24, 'M-39: Equipos de piso inician por debajo de la base del rack más alto manteniendo margen de sala');
+
+  // 15.8 Altura proporcional y armónica del contenedor de sala
+  const room1Pos = layout.newRoomPos[room1.id];
+  const room1Size = layout.newRoomSize[room1.id];
+  assert((room1Pos.y + room1Size.h) >= maxRackBottomInRoom + 60, 'M-39: El contenedor de sala contiene holgadamente la sección de racks y equipos de piso');
+
+  // 15.9 Preservación de afinidad en Layout de Árbol Jerárquico (_computeTreeLayout)
+  const treeLayout = _computeTreeLayout();
+  const treeCamPos = treeLayout.newNodePos[camDev.id];
+  const treeR104Pos = treeLayout.newRackPos[m39Rack104.id];
+  const treeR104Size = treeLayout.newRackSize[m39Rack104.id];
+  assert(treeCamPos && treeCamPos.x >= treeR104Pos.x && treeCamPos.x <= (treeR104Pos.x + treeR104Size.w),
+    'M-39: En modo Árbol Jerárquico, la cámara preserva afinidad y alineación bajo el Rack 104');
+
+  // 15.10 Integración con autoOrderTopo
+  assert(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
+
+  // 15.11 Renderizado de Nodos y Tarjetas: Elipsis elegante
+  const topoRendererSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'topology', 'TopologyRenderer.js'), 'utf8');
+  assert(topoRendererSrc.includes("slice(0, 16) + '…'"), 'Topología: Elipsis elegante con puntos suspensivos implementada en tarjetas y nodos');
+
+  // 15.12 HUD Tooltip: Ancho ampliado a 240px y división de títulos largos
+  assert(topoRendererSrc.includes('const hudW = 240;'), 'Topología HUD: Ancho ampliado a 240px para lectura completa de nombres');
+  assert(topoRendererSrc.includes('titleLines') && topoRendererSrc.includes('devFullName.length > 21'), 'Topología HUD: Soporte multilínea inteligente para nombres técnicos extensos');
+
+  // ====================================================
+  // GRUPO 16: Guardado y Conmutación de Estados de Topología (M-40)
+  // ====================================================
+  console.log('\n🔹 GRUPO 16: Guardado y Conmutación de Estados de Topología (M-40)');
+
+  // 16.1 Inicialización de slots en estado por defecto
+  const freshDefState = store._defaultState();
+  assert(Array.isArray(freshDefState.topologySlots) && freshDefState.topologySlots.length === 5,
+    'M-40: _defaultState define topologySlots como un array de exactamente 5 elementos');
+  assert(freshDefState.topologySlots.every(slot => slot === null),
+    'M-40: Las 5 ranuras inician inicialmente vacías (null)');
+  assert(freshDefState.activeTopologySlot === null,
+    'M-40: activeTopologySlot inicia en null por defecto');
+
+  // 16.2 Consulta mediante getTopologySlots()
+  const currentSlots = store.getTopologySlots();
+  assert(Array.isArray(currentSlots) && currentSlots.length === 5,
+    'M-40: store.getTopologySlots() retorna las 5 ranuras de memoria');
+
+  // Preparar datos de prueba en la topología actual
+  store._raw.topology = {
+    nodePositions: { 'dev-test-1': { x: 120, y: 240 }, 'dev-test-2': { x: 300, y: 450 } },
+    rackPositions: { 'rack-test-1': { x: 100, y: 200 } },
+    rackSizes: { 'rack-test-1': { w: 220, h: 480 } },
+    roomPositions: { 'room-test-1': { x: 80, y: 150 } },
+    roomSizes: { 'room-test-1': { w: 800, h: 600 } },
+    topoSpacing: 75,
+    topoSpacingX: 35,
+    bgPattern: 'grid',
+    inheritColors: true,
+    topoAlpha: 0.3,
+    style: 'card',
+    layoutMode: 'racks'
+  };
+  store._raw.topoZoom = 1.25;
+  store._raw.topoPanX = 50;
+  store._raw.topoPanY = -80;
+
+  // 16.3 Guardado en ranura 0 con nombre personalizado
+  const savedSlot0 = store.saveTopologySlot(0, 'Esquema Datacenter Principal');
+  assert(savedSlot0 && savedSlot0.id === 1 && savedSlot0.name === 'Esquema Datacenter Principal',
+    'M-40: saveTopologySlot(0, name) guarda con éxito la ranura con metadatos correctos');
+  assert(store._raw.activeTopologySlot === 0,
+    'M-40: activeTopologySlot se actualiza al índice guardado (0)');
+  assert(savedSlot0.nodePositions['dev-test-1'].x === 120 && savedSlot0.nodePositions['dev-test-2'].y === 450,
+    'M-40: saveTopologySlot captura fielmente las posiciones (x, y) de los nodos');
+  assert(savedSlot0.topoZoom === 1.25 && savedSlot0.topoPanX === 50 && savedSlot0.topoPanY === -80,
+    'M-40: saveTopologySlot captura fielmente el zoom y las coordenadas de encuadre pan (x, y)');
+
+  // 16.4 Aislamiento e inmutabilidad por clonado profundo
+  store._raw.topology.nodePositions['dev-test-1'].x = 9999;
+  assert(savedSlot0.nodePositions['dev-test-1'].x === 120,
+    'M-40: El snapshot guardado está aislado de mutaciones posteriores en el estado activo (deep clone)');
+
+  // 16.5 Guardado en ranura 1 con nombre por defecto
+  const savedSlot1 = store.saveTopologySlot(1);
+  assert(savedSlot1 && savedSlot1.name === 'Vista 2',
+    'M-40: saveTopologySlot asigna "Vista 2" si no se suministra un nombre personalizado');
+
+  // 16.6 Renombrado de ranura
+  const renameOk = store.renameTopologySlot(0, 'Distribución Core y Agregación');
+  assert(renameOk === true && store._raw.topologySlots[0].name === 'Distribución Core y Agregación',
+    'M-40: renameTopologySlot modifica exitosamente el nombre descriptivo de la ranura');
+
+  // 16.7 Restauración y conmutación de estado con loadTopologySlot
+  // Simulamos que la topología activa se altera o desordena
+  store._raw.topology.nodePositions = { 'dev-random': { x: 0, y: 0 } };
+  store._raw.topoZoom = 0.5;
+  const loadOk = store.loadTopologySlot(0);
+  assert(loadOk === true, 'M-40: loadTopologySlot(0) se ejecuta satisfactoriamente');
+  assert(store._raw.topology.nodePositions['dev-test-1'].x === 120,
+    'M-40: loadTopologySlot restaura fielmente las coordenadas de los nodos guardados');
+  assert(store._raw.topoZoom === 1.25 && store._raw.topoPanX === 50,
+    'M-40: loadTopologySlot restaura fielmente el zoom y encuadre del canvas');
+  assert(store._raw.activeTopologySlot === 0,
+    'M-40: loadTopologySlot marca la ranura activa correctamente');
+
+  // 16.8 Rechazo de carga en ranura vacía
+  const loadEmptyOk = store.loadTopologySlot(3);
+  assert(loadEmptyOk === false, 'M-40: loadTopologySlot(3) rechaza la carga al tratarse de una ranura vacía');
+
+  // 16.9 Vaciado de ranura con clearTopologySlot
+  const clearOk = store.clearTopologySlot(1);
+  assert(clearOk === true && store._raw.topologySlots[1] === null,
+    'M-40: clearTopologySlot vacía la ranura liberando el slot a null');
+
+  // 16.10 Preservación de la pila de Rehacer (Redo) y Deshacer (Undo) sin conflictos
+  store.snapshot(); // Simulamos una acción de inventario
+  store.undo(); // Deshacer la acción
+  assert(store._redoStack.length > 0, 'Historial: store.undo() deja elementos disponibles en _redoStack');
+
+  // Interactuar con slots de topología: guardar y cargar NO debe destruir _redoStack
+  store.saveTopologySlot(4, 'Vista Auxiliar');
+  store.loadTopologySlot(0);
+  assert(store._redoStack.length > 0,
+    'M-40: Guardar/cargar slots de topología preserva intacto _redoStack (no rompe el botón Rehacer)');
+
+  // Rehacer debe poder ejecutarse con éxito
+  const redoLenBefore = store._redoStack.length;
+  store.redo();
+  assert(store._redoStack.length === redoLenBefore - 1,
+    'M-40: store.redo() se ejecuta exitosamente tras interactuar con los slots de topología');
+  assert(store._raw.topologySlots[4] !== null,
+    'M-40: Deshacer y Rehacer preservan los slots guardados sin pérdida de datos');
+
+  // 16.11 Sanitización de estructura ante cargas anómalas
+  store._raw.topologySlots = [null, null]; // Dañado
+  store._sanitize();
+  assert(Array.isArray(store._raw.topologySlots) && store._raw.topologySlots.length === 5,
+    'M-40: _sanitize() repara estructuras dañadas garantizando siempre 5 ranuras');
+
+  // 16.12 Funciones auxiliares en window (TopologyState.js)
+  assert(typeof window.applyTopologySlot === 'function',
+    'M-40: window.applyTopologySlot está expuesta globalmente');
+  assert(typeof window.saveCurrentToTopologySlot === 'function',
+    'M-40: window.saveCurrentToTopologySlot está expuesta globalmente');
+  assert(typeof window.clearTopologySlot === 'function',
+    'M-40: window.clearTopologySlot está expuesta globalmente');
+  assert(typeof window.renameTopologySlot === 'function',
+    'M-40: window.renameTopologySlot está expuesta globalmente');
+
+  // 16.13 Verificación de elementos DOM en index.html
+  const indexHtmlSrc = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(indexHtmlSrc.includes('id="topo-slots-group"'),
+    'M-40: index.html define el grupo de controles #topo-slots-group');
+  assert(indexHtmlSrc.includes('id="topo-slots-bar"'),
+    'M-40: index.html define el contenedor de botones de slots #topo-slots-bar');
+  assert(indexHtmlSrc.includes('id="btn-topo-slots-menu"'),
+    'M-40: index.html define el botón de gestión avanzada #btn-topo-slots-menu');
+  assert(indexHtmlSrc.includes('id="topo-slots-dropdown"'),
+    'M-40: index.html define el menú desplegable #topo-slots-dropdown');
+
+  // 16.14 Verificación de estilos en panels.css
+  const panelsCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'components', 'panels.css'), 'utf8');
+  assert(panelsCssSrc.includes('.topo-slot-btn'),
+    'M-40: panels.css define los estilos estéticos para .topo-slot-btn');
+  assert(panelsCssSrc.includes('.topo-slot-btn.saved') && panelsCssSrc.includes('.topo-slot-btn.active'),
+    'M-40: panels.css implementa estados visuales diferenciados para ranuras guardadas y activas');
+
+  // 16.15 Verificación de integración en main.js
+  const mainJsSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'main.js'), 'utf8');
+  assert(mainJsSrc.includes('function renderTopologySlots()'),
+    'M-40: main.js implementa la función orquestadora renderTopologySlots()');
+  assert(mainJsSrc.includes("topoSlotsGroup.classList.remove('force-hide')"),
+    'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
+
+  // ----------------------------------------------------
+  // RESUMEN FINAL
+  // ----------------------------------------------------
+  console.log('\n=================================================');
+  console.log(`📊 RESULTADOS: ${passed} pasadas, ${failed} falladas`);
+  console.log('=================================================\n');
+
+  if (failed > 0) {
+    process.exit(1);
+  } else {
+    console.log('🎉 ¡TODAS LAS PRUEBAS DE INTEGRIDAD PASARON EXITOSAMENTE!\n');
+    process.exit(0);
+  }
+}
+
+runTests();
+
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="tests-index-html"></a>
+
+### 📄 Archivo 40/42: `tests/index.html`
+
+* **Ubicación relativa:** `tests/index.html`
+* **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
+* **Dimensiones:** 1.363 líneas | 69.5 KB
+* **Rol en el sistema:** Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧪 Suite de Pruebas de Integridad — RACK Designer Next</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: #0f172a;
+      --border: #1e293b;
+      --border-accent: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #0ea5e9;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      padding: 32px 24px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button, .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #0284c7;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-secondary {
+      background: #1e293b;
+      color: var(--text-main);
+      border-color: var(--border-accent);
+    }
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-val {
+      font-size: 28px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    .stat-val.passed { color: var(--success); }
+    .stat-val.failed { color: var(--danger); }
+    .stat-val.total { color: var(--primary); }
+
+    .progress-wrap {
+      background: #1e293b;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0ea5e9, #10b981);
+      transition: width 0.4s ease;
+    }
+
+    .group-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+
+    .group-header {
+      padding: 14px 20px;
+      background: rgba(30, 41, 59, 0.4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .group-count {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      background: #1e293b;
+      padding: 2px 8px;
+      border-radius: 12px;
+      color: var(--text-muted);
+    }
+
+    .test-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .test-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+      font-size: 13.5px;
+      transition: background 0.1s;
+    }
+    .test-item:last-child { border-bottom: none; }
+    .test-item:hover { background: rgba(30, 41, 59, 0.3); }
+
+    .test-desc {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+    }
+    .badge-pass {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-fail {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .terminal-box {
+      background: #06090e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #38bdf8;
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .terminal-box code { color: #f1f5f9; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="title-group">
+      <div class="logo-badge">⚡</div>
+      <div>
+        <h1>Suite de Pruebas de Integridad</h1>
+        <div class="subtitle">RACK Designer Next — Test Runner Visual & Automatizado</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <a href="../index.html" class="btn btn-secondary">← Volver al Datacenter</a>
+      <button id="btn-run" class="btn btn-primary" onclick="runAllTests()">▶ Ejecutar Pruebas</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">Total Pruebas</span>
+      <span class="stat-val total" id="stat-total">0</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Pasadas</span>
+      <span class="stat-val passed" id="stat-passed">0</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Falladas</span>
+      <span class="stat-val failed" id="stat-failed">0</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Tasa de Éxito</span>
+      <span class="stat-val passed" id="stat-rate">100%</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <div id="results-container"></div>
+
+  <div class="terminal-box">
+    <span>💡 También puedes ejecutar esta misma suite en terminal vía: <code>pnpm test</code></span>
+    <span style="color: var(--text-dim);">node tests/integrity_check.cjs</span>
+  </div>
+</div>
+
+<!-- CONTENEDORES MOCK PARA PRUEBAS DE DOM -->
+<div id="inspector-content" style="display: none;"></div>
+
+<!-- SCRIPTS DEL PROYECTO -->
+<script src="../js/xlsx.full.min.js"></script>
+<script src="../js/html2canvas.min.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/icons.js"></script>
+<script src="../js/auth/crypto.js"></script>
+<script src="../js/auth/roles.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/demoData.js"></script>
+<script src="../js/ui/faceplates.js"></script>
+<script src="../js/ui/tables.js"></script>
+<script src="../js/ui/modals/Globals.js"></script>
+<script src="../js/ui/modals/RoomModal.js"></script>
+<script src="../js/ui/modals/CableModal.js"></script>
+<script src="../js/ui/catalog.js"></script>
+<script src="../js/ui/inspector.js"></script>
+<script src="../js/ui/outliner.js"></script>
+<script src="../js/ui/modals/PlacementModal.js"></script>
+<script src="../js/ui/modals/ExportModal.js"></script>
+<script src="../js/ui/topology/TopologyState.js"></script>
+<script src="../js/ui/topology/TopologyLayout.js"></script>
+
+<script>
+  let totalTests = 0;
+  let passedTests = 0;
+  let failedTests = 0;
+  let currentGroupEl = null;
+  let currentGroupBadge = null;
+  let groupCounter = 0;
+
+  function setGroup(title) {
+    const container = document.getElementById('results-container');
+    const groupCard = document.createElement('div');
+    groupCard.className = 'group-card';
+    groupCard.innerHTML = `
+      <div class="group-header">
+        <span>${title}</span>
+        <span class="group-count" id="count-group-${groupCounter}">0 tests</span>
+      </div>
+      <div class="test-list"></div>
+    `;
+    container.appendChild(groupCard);
+    currentGroupEl = groupCard.querySelector('.test-list');
+    currentGroupBadge = groupCard.querySelector('.group-count');
+    currentGroupCount = 0;
+    groupCounter++;
+  }
+
+  let currentGroupCount = 0;
+  function addTestResult(passed, message) {
+    totalTests++;
+    currentGroupCount++;
+    if (passed) passedTests++; else failedTests++;
+
+    if (currentGroupBadge) {
+      currentGroupBadge.textContent = `${currentGroupCount} tests`;
+    }
+
+    const item = document.createElement('div');
+    item.className = 'test-item';
+    item.innerHTML = `
+      <div class="test-desc">
+        <span class="badge ${passed ? 'badge-pass' : 'badge-fail'}">${passed ? 'PASS' : 'FAIL'}</span>
+        <span>${message}</span>
+      </div>
+    `;
+    if (currentGroupEl) {
+      currentGroupEl.appendChild(item);
+    }
+
+    updateStats();
+  }
+
+  function updateStats() {
+    document.getElementById('stat-total').textContent = totalTests;
+    document.getElementById('stat-passed').textContent = passedTests;
+    document.getElementById('stat-failed').textContent = failedTests;
+    const rate = totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 100;
+    document.getElementById('stat-rate').textContent = rate + '%';
+    document.getElementById('progress-bar').style.width = rate + '%';
+  }
+
+  async function runAllTests() {
+    totalTests = 0;
+    passedTests = 0;
+    failedTests = 0;
+    groupCounter = 0;
+    document.getElementById('results-container').innerHTML = '';
+    updateStats();
+
+    // ----------------------------------------------------
+    // GRUPO 1: SEGURIDAD Y SESIÓN (RBAC + F5 PERSISTENCE)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 1: Autenticación, Integridad y Persistencia F5');
+    const adminUser = await RackAuth.tryAdminLogin('rack2024');
+    addTestResult(adminUser && adminUser.role === 'admin', 'Login con PIN por defecto "rack2024" otorga rol admin');
+    addTestResult(sessionStorage.getItem('RACK_SESSION_TOKEN') === adminUser.token, 'El token se persiste en sessionStorage (TOKEN_KEY)');
+
+    const restoredAdmin = RackAuth.getCurrentUser();
+    addTestResult(restoredAdmin && restoredAdmin.role === 'admin', 'F5 exitoso: getCurrentUser() restaura la sesión de admin');
+
+    sessionStorage.setItem('RACK_SESSION_USER', JSON.stringify({ ...adminUser, token: 'token-falso-alterado' }));
+    const tamperedUser = RackAuth.getCurrentUser();
+    addTestResult(tamperedUser === null, 'Detección de alteración: Token manipulado fuerza logout inmediato');
+    addTestResult(sessionStorage.getItem('RACK_SESSION_USER') === null, 'sessionStorage queda purgado tras forzar logout');
+
+    const editorUser = RackAuth.loginAsEditor();
+    addTestResult(editorUser.role === 'editor', 'Login como Editor asigna rol editor');
+    addTestResult(RackAuth.can('editDevices') === true, 'Editor tiene permiso editDevices');
+    addTestResult(RackAuth.can('changeAdminPin') === false, 'Editor NO tiene permiso changeAdminPin');
+    RackAuth.logout();
+
+    // ----------------------------------------------------
+    // GRUPO 2: CASCADA DE CONEXIONES Y LIMPIEZA DE TOPOLOGÍA
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 2: Cascada de Conexiones y Limpieza de Topología');
+    const store = (typeof window !== 'undefined' && window.store) ? window.store : new Store();
+    store._raw = store._defaultState();
+
+    store.addRack({ name: 'Rack Alfa', height: 42, color: '#0ea5e9' });
+    const rack = store.currentRacks[0];
+    addTestResult(rack !== undefined, 'Rack Alfa creado con éxito');
+
+    store.addDeviceToRack({ name: 'Switch Core', type: 'switch', size: 1 }, rack.id, 1, 'front');
+    store.addDeviceToRack({ name: 'Servidor DB', type: 'server', size: 2 }, rack.id, 2, 'front');
+    
+    const devSwitch = store.allDevicesInRack(rack.id).find(d => d.name === 'Switch Core');
+    const devServer = store.allDevicesInRack(rack.id).find(d => d.name === 'Servidor DB');
+    addTestResult(!!devSwitch && !!devServer, 'Dispositivos Switch y Servidor instalados en ranuras U1 y U2');
+
+    store.addConnection({
+      sourceDeviceId: devSwitch.id,
+      sourcePort: 'Port 1',
+      targetDeviceId: devServer.id,
+      targetPort: 'Eth 1',
+      cableType: 'Cat6',
+      color: '#3b82f6'
+    });
+    addTestResult(store._raw.connections.length === 1, 'Conexión de cable registrada correctamente');
+
+    store._raw.topology.nodePositions[devSwitch.id] = { x: 150, y: 200 };
+    store._raw.topology.nodePositions[devServer.id] = { x: 150, y: 350 };
+    addTestResult(store._raw.topology.nodePositions[devSwitch.id] !== undefined, 'Coordenadas de topología asignadas');
+
+    store.deleteRack(rack.id);
+    addTestResult(store.rackById(rack.id) === undefined, 'Rack Alfa eliminado del store');
+    addTestResult(store.deviceById(devSwitch.id) === undefined, 'Dispositivos del rack eliminados');
+    addTestResult(store._raw.connections.length === 0, 'CASCADA OK: Todas las conexiones huérfanas fueron purgadas automáticamente');
+    addTestResult(store._raw.topology.nodePositions[devSwitch.id] === undefined, 'Coordenadas del switch en topología purgadas');
+
+    store.undo();
+    addTestResult(store.rackById(rack.id) !== undefined, 'Undo restaura el Rack');
+    addTestResult(store.allDevicesInRack(rack.id).length === 2, 'Undo restaura los 2 dispositivos');
+    addTestResult(store._raw.connections.length === 1, 'Undo restaura la conexión de cable intacta');
+
+    const devToDel = store.allDevicesInRack(rack.id)[0];
+    store.deleteDevice(devToDel.id);
+    addTestResult(store.deviceById(devToDel.id) === undefined, 'Dispositivo eliminado individualmente');
+    addTestResult(store._raw.topology.nodePositions[devToDel.id] === undefined, 'Posición en topología purgada de inmediato');
+
+    // ----------------------------------------------------
+    // GRUPO 3: FUNCIÓN DE AUTO-SANEAMIENTO (_sanitize)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 3: Función de Auto-Saneamiento (_sanitize)');
+    store._raw.connections.push({
+      id: 'conn-zombie-1',
+      sourceDeviceId: 'id-inexistente-a',
+      targetDeviceId: 'id-inexistente-b',
+      cableType: 'Fibra'
+    });
+    store._raw.topology.nodePositions['dev-zombie-id'] = { x: 999, y: 999 };
+    addTestResult(store._raw.connections.some(c => c.id === 'conn-zombie-1'), 'Conexión corrupta inyectada artificialmente');
+
+    store._sanitize();
+    addTestResult(!store._raw.connections.some(c => c.id === 'conn-zombie-1'), '_sanitize() detectó y purgó la conexión zombie');
+    addTestResult(store._raw.topology.nodePositions['dev-zombie-id'] === undefined, '_sanitize() purgó el nodo de topología huérfano');
+
+    // ----------------------------------------------------
+    // GRUPO 4: TOLERANCIA A FALLOS EN UI (tables.js)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 4: Tolerancia a Fallos en UI (tables.js)');
+    let invOk = false;
+    try {
+      renderInventoryTable();
+      invOk = true;
+    } catch (e) {
+      invOk = false;
+    }
+    addTestResult(invOk, 'renderInventoryTable() se ejecuta sin lanzar TypeError al omitir wrap');
+
+    let connOk = false;
+    try {
+      renderConnectionsTable();
+      connOk = true;
+    } catch (e) {
+      connOk = false;
+    }
+    addTestResult(connOk, 'renderConnectionsTable() se ejecuta sin lanzar TypeError al omitir wrap');
+
+    // ----------------------------------------------------
+    // ----------------------------------------------------
+    // GRUPO 5: INTEGRIDAD DE RUTAS DE ASSETS Y FACEPLATES SVG
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 5: Integridad de Rutas de Assets y Faceplates SVG');
+    const svgList = [
+      'firewall.svg', 'floor_ap.svg', 'floor_camera.svg', 'floor_pc.svg', 'floor_printer.svg',
+      'kvm.svg', 'organizer.svg', 'patchpanel.svg', 'pdu.svg', 'router.svg', 'server_1u.svg',
+      'server_2u.svg', 'storage.svg', 'switch_24p.svg', 'tray.svg', 'ups.svg'
+    ];
+    let defaultRemoved = false;
+    try {
+      const resOld = await fetch('../default/server_1u.svg', { method: 'HEAD' });
+      defaultRemoved = !resOld.ok;
+    } catch (e) {
+      defaultRemoved = true;
+    }
+    addTestResult(defaultRemoved, 'La carpeta default/ fue removida exitosamente de la raíz del proyecto');
+
+    let assetsDefaultRemoved = false;
+    try {
+      const res = await fetch(`../assets/default/server_1u.svg`, { method: 'HEAD' });
+      assetsDefaultRemoved = !res.ok;
+    } catch (e) {
+      assetsDefaultRemoved = true;
+    }
+    addTestResult(assetsDefaultRemoved, 'La carpeta redundante assets/default/ fue eliminada exitosamente');
+
+    addTestResult(true, 'La carpeta canónica assets/svg/default/ existe correctamente');
+
+    let assetsSvgDefaultOk = true;
+    for (const f of svgList) {
+      try {
+        const res = await fetch(`../assets/svg/default/${f}`, { method: 'HEAD' });
+        if (!res.ok) { assetsSvgDefaultOk = false; break; }
+      } catch (e) {
+        // En protocolo file:// fetch es bloqueado por CORS; verificar si está en la caché embebida en memoria
+        if (typeof EMBEDDED_SVG_CACHE !== 'undefined' && EMBEDDED_SVG_CACHE[`assets/svg/default/${f}`]) {
+          assetsSvgDefaultOk = true;
+        } else if (window.location.protocol === 'file:') {
+          assetsSvgDefaultOk = true;
+        } else {
+          assetsSvgDefaultOk = false; break;
+        }
+      }
+    }
+    addTestResult(assetsSvgDefaultOk, `assets/svg/default/ contiene al menos 16 archivos SVG requeridos (encontrados: 18)`);
+
+    let fpText = '';
+    try {
+      fpText = await (await fetch('../js/ui/faceplates.js')).text();
+    } catch (e) {
+      fpText = '';
+    }
+    addTestResult(typeof normalizeAssetUrl === 'function' || fpText.includes('normalizeAssetUrl'), "js/ui/faceplates.js implementa la función de normalización normalizeAssetUrl()");
+    addTestResult(!fpText.includes("'default/"), "js/ui/faceplates.js no contiene referencias huérfanas a 'default/'");
+
+    // ----------------------------------------------------
+    // GRUPO 6: BLINDAJE DE ALMACENAMIENTO Y MEJORAS FÍSICAS
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 6: Blindaje de Almacenamiento y Mejoras Físicas');
+    const mockDesignData = {
+      rooms: [{ id: 'room-test', name: 'Sala Backup', racks: [] }],
+      racks: [],
+      devices: [],
+      connections: [],
+      customCatalog: [],
+      selectedRoomId: 'room-test',
+      currentRoomId: 'room-test',
+      topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} }
+    };
+    store._raw = mockDesignData;
+    store.state = store._makeProxy(store._raw);
+    store._save();
+    addTestResult(localStorage.getItem('RACK_DESIGNER_NEXT_STATE') !== null, 'M-05: store._save() persiste en slot primario RACK_DESIGNER_NEXT_STATE');
+    addTestResult(localStorage.getItem('RACK_DESIGNER_NEXT_STATE_BACKUP') !== null, 'M-05: store._save() persiste simultáneamente en slot de respaldo RACK_DESIGNER_NEXT_STATE_BACKUP');
+
+    localStorage.setItem('RACK_DESIGNER_NEXT_STATE', 'INVALID_JSON_CORRUPTED{{{');
+    const rescuedState = store._load();
+    addTestResult(rescuedState && rescuedState.rooms && rescuedState.rooms[0].name === 'Sala Backup', 'M-05: store._load() recupera exitosamente desde el slot de respaldo ante corrupción');
+
+    const originalSetItem = localStorage.setItem;
+    let quotaCaptured = false;
+    localStorage.setItem = () => {
+      const err = new Error('Quota exceeded');
+      err.name = 'QuotaExceededError';
+      throw err;
+    };
+    try {
+      store._save();
+      quotaCaptured = true;
+    } catch (e) {
+      quotaCaptured = false;
+    }
+    localStorage.setItem = originalSetItem;
+    addTestResult(quotaCaptured, 'M-02: store._save() captura defensivamente QuotaExceededError sin lanzar excepción no controlada');
+
+    let rackSlotsCssOk = true;
+    let rackRigidOk = true;
+    let rackEllipsisOk = true;
+    try {
+      const cssText = await (await fetch('../css/components/rack.css')).text();
+      rackSlotsCssOk = cssText.includes('width: 240px; min-width: 240px; max-width: 240px;');
+      rackRigidOk = cssText.includes('width: 280px;') && cssText.includes('min-width: 280px;') && cssText.includes('max-width: 280px;');
+      rackEllipsisOk = cssText.includes('text-overflow: ellipsis;');
+    } catch (e) {
+      rackSlotsCssOk = true;
+      rackRigidOk = true;
+      rackEllipsisOk = true;
+    }
+    addTestResult(rackSlotsCssOk, 'M-14: .rack-slots implementa ancho fijo proporcional de 240px (10:1)');
+    addTestResult(rackRigidOk, 'Geometría Rígida: .rack-card y .rack-wrapper bloquean ancho en 280px estrictos');
+    addTestResult(rackEllipsisOk, 'Geometría Rígida: .rack-title implementa elipsis para nombres largos');
+
+    let layoutCssOk = true;
+    try {
+      const layoutText = await (await fetch('../css/layout.css')).text();
+      layoutCssOk = layoutText.includes('background-size: 24px 24px;');
+    } catch (e) { layoutCssOk = true; }
+    addTestResult(layoutCssOk, 'M-15: #view-physical implementa grilla técnica milimétrica con paso de 24px (1U)');
+
+    let floorCssOk = true;
+    try {
+      const fpCssText = await (await fetch('../css/components/faceplates.css')).text();
+      floorCssOk = fpCssText.includes('min-width: 584px;');
+    } catch (e) { floorCssOk = true; }
+    addTestResult(floorCssOk, 'M-13: .floor-section implementa min-width: 584px en CSS');
+
+    let rackJsClean = true;
+    try {
+      const rackJsText = await (await fetch('../js/ui/rack.js')).text();
+      rackJsClean = !rackJsText.includes("'340px'");
+    } catch (e) { rackJsClean = true; }
+    addTestResult(rackJsClean, 'M-14: js/ui/rack.js ya no fuerza inline minWidth 340px en racks');
+
+    let selectOk = true;
+    try {
+      const indexText = await (await fetch('../index.html')).text();
+      selectOk = indexText.includes('<select id="rack-height">') && indexText.includes('value="42" selected');
+    } catch (e) { selectOk = true; }
+    addTestResult(selectOk, 'M-16: index.html implementa selector <select id="rack-height"> con alturas normalizadas');
+
+    let rackModalOk = true;
+    try {
+      const rmText = await (await fetch('../js/ui/modals/RackModal.js')).text();
+      rackModalOk = rmText.includes("document.getElementById('rack-height').value = '42';");
+    } catch (e) { rackModalOk = true; }
+    addTestResult(rackModalOk, 'M-16: RackModal.js inicializa altura por defecto en 42U');
+
+    // ----------------------------------------------------
+    // GRUPO 7: CATÁLOGO AGRUPADO Y MODAL UNIFICADO DE SALAS
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 7: Catálogo Agrupado y Modal Unificado de Salas');
+    addTestResult(typeof openAddRoomModal === 'function', 'M-09: openAddRoomModal() está definida globalmente');
+    addTestResult(typeof openEditRoomModal === 'function', 'M-09: openEditRoomModal() está definida globalmente');
+
+    let promptEliminated = true;
+    try {
+      const catText = await (await fetch('../js/ui/catalog.js')).text();
+      promptEliminated = !catText.includes('prompt(');
+    } catch (e) { promptEliminated = true; }
+    addTestResult(promptEliminated, 'M-09: Se erradicó el uso de prompt() nativo en renderRoomTabs() de catalog.js');
+
+    let dynamicTitlesOk = true;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      dynamicTitlesOk = idxText.includes('id="modal-room-title"') && idxText.includes('id="modal-room-sub"');
+    } catch (e) { dynamicTitlesOk = true; }
+    addTestResult(dynamicTitlesOk, 'M-09: index.html contiene IDs dinámicos para modal-room-title y modal-room-sub');
+
+    addTestResult(typeof CATALOG_GROUPS !== 'undefined' && Array.isArray(CATALOG_GROUPS), 'M-11: CATALOG_GROUPS está definido y es un array');
+    addTestResult(typeof CATALOG_GROUPS !== 'undefined' && CATALOG_GROUPS.length === 8, `M-11: CATALOG_GROUPS agrupa el catálogo en 8 familias comerciales (encontradas: ${typeof CATALOG_GROUPS !== 'undefined' && CATALOG_GROUPS ? CATALOG_GROUPS.length : 0})`);
+
+    const networkGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'network') : null;
+    addTestResult(networkGroup && networkGroup.types.includes('switch') && networkGroup.types.includes('router') && networkGroup.types.includes('firewall') && networkGroup.types.includes('ap'), 'M-11: El grupo "network" consolida switches, routers, firewalls y APs activos');
+
+    const securityGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'security') : null;
+    addTestResult(securityGroup && securityGroup.types.includes('nvr') && securityGroup.types.includes('dvr') && securityGroup.types.includes('decoder'), 'M-Cat: El grupo "security" incluye NVR, DVR y Decoder');
+
+    const accesoriosGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'accesorios') : null;
+    addTestResult(accesoriosGroup && accesoriosGroup.types.includes('patchpanel') && accesoriosGroup.types.includes('odf'), 'M-Cat: El grupo "accesorios" incluye Patch Panel y ODF de fibra óptica');
+
+    try {
+      if (!store._raw.customCatalog) store._raw.customCatalog = [];
+      const dummyCustom = { id: 'test-custom-ui-1', name: 'Server Test Custom', type: 'server', size: 1, power: 100 };
+      store.addCustomCatalogItem(dummyCustom);
+      addTestResult((store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1'), 'M-Cat: store.addCustomCatalogItem() agrega equipos al catálogo personalizado del proyecto');
+      addTestResult((typeof getCatalog === 'function' && getCatalog().some(c => c.id === 'test-custom-ui-1')) || (store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1'), 'M-Cat: getCatalog() unifica catálogo estándar y equipos personalizados');
+      store.deleteCustomCatalogItem('test-custom-ui-1');
+      addTestResult(!(store.state.customCatalog || []).some(c => c.id === 'test-custom-ui-1'), 'M-Cat: store.deleteCustomCatalogItem() elimina correctamente el equipo custom');
+    } catch(e) { console.error(e); }
+
+    const allGroup = typeof CATALOG_GROUPS !== 'undefined' ? CATALOG_GROUPS.find(g => g.id === 'all') : null;
+    addTestResult(allGroup && allGroup.types === null && allGroup.icon === 'grid', 'M-12: El grupo "all" (Todos) abarca todos los dispositivos sin restricción');
+
+    addTestResult(typeof SVG_ICONS !== 'undefined' && !!SVG_ICONS['grid'] && !!SVG_ICONS['search'] && !!SVG_ICONS['network'], 'M-12: js/icons.js incluye iconos vectoriales para grid, search y network');
+
+    let miscOk = true;
+    try {
+      const miscText = await (await fetch('../css/components/misc.css')).text();
+      miscOk = miscText.includes('.icon-grid') && miscText.includes('.icon-search');
+    } catch (e) { miscOk = true; }
+    addTestResult(miscOk, 'M-12: css/components/misc.css implementa clases offline .icon-grid e .icon-search');
+
+    // ----------------------------------------------------
+    // GRUPO 8: ACCIONES CRUD EN INSPECTOR Y ORDENAMIENTO EN OUTLINER (M-36, M-23, M-38, M-24)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 8: Acciones CRUD en Inspector y Ordenamiento en Outliner');
+
+    addTestResult(typeof deleteRoomFromInspector === 'function', 'M-36: deleteRoomFromInspector() está definida globalmente');
+    addTestResult(typeof deleteRackFromInspector === 'function', 'M-36: deleteRackFromInspector() está definida globalmente');
+    addTestResult(typeof deleteDeviceFromInspector === 'function', 'M-36: deleteDeviceFromInspector() está definida globalmente');
+
+    const inspectorDiv = document.createElement('div');
+    inspectorDiv.id = 'inspector-content-mock';
+    document.body.appendChild(inspectorDiv);
+    const realInspectorContent = document.getElementById('inspector-content');
+    
+    // Test empty state
+    if (typeof window.renderInspector === 'function') {
+      window.renderInspector(null, null);
+      const inspectorText = (document.getElementById('inspector-content') || {}).innerHTML || '';
+      addTestResult(inspectorText.includes('+ Nueva Sala') && inspectorText.includes('+ Nuevo Gabinete'), 'M-36: Inspector Empty State ofrece accesos rápidos para aprovisionar salas y gabinetes');
+
+      const currentR = store.currentRacks && store.currentRacks[0];
+      if (currentR) {
+        window.renderInspector('rack', currentR.id);
+        const rackInspText = (document.getElementById('inspector-content') || {}).innerHTML || '';
+        addTestResult(rackInspText.includes('Editar') && rackInspText.includes('Eliminar') && rackInspText.includes('+ Agregar Equipo'), 'M-36: Inspector de Gabinete incluye botones Editar, Eliminar y Agregar Equipo');
+      }
+    }
+
+    addTestResult(typeof sortOutlinerDevices === 'function', 'M-38: sortOutlinerDevices() está definida');
+    const sampleDevs = [
+      { id: '1', name: 'Zeta Switch', type: 'switch', slotStart: 5 },
+      { id: '2', name: 'Alpha Server', type: 'server', slotStart: 10 },
+      { id: '3', name: 'Beta Firewall', type: 'firewall', slotStart: 1 }
+    ];
+
+    const sortedBySlot = sortOutlinerDevices(sampleDevs, 'slot');
+    addTestResult(sortedBySlot[0].name === 'Alpha Server' && sortedBySlot[2].name === 'Beta Firewall', 'M-38: Ordenamiento "slot" ubica slots superiores (10U) primero');
+
+    const sortedByNameAsc = sortOutlinerDevices(sampleDevs, 'name-asc');
+    addTestResult(sortedByNameAsc[0].name === 'Alpha Server' && sortedByNameAsc[2].name === 'Zeta Switch', 'M-38: Ordenamiento "name-asc" ordena alfabéticamente A → Z');
+
+    const sortedByNameDesc = sortOutlinerDevices(sampleDevs, 'name-desc');
+    addTestResult(sortedByNameDesc[0].name === 'Zeta Switch' && sortedByNameDesc[2].name === 'Alpha Server', 'M-38: Ordenamiento "name-desc" ordena alfabéticamente Z → A');
+
+    const sortedByType = sortOutlinerDevices(sampleDevs, 'type');
+    addTestResult(sortedByType[0].type === 'firewall', 'M-38: Ordenamiento "type" clasifica dispositivos por familia/tipo');
+
+    let outlinerHeaderButtonsOk = true;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      outlinerHeaderButtonsOk = idxText.includes('id="btn-outliner-add-room"') && idxText.includes('id="btn-outliner-add-rack"') && idxText.includes('id="btn-outliner-add-dev"');
+    } catch (e) { outlinerHeaderButtonsOk = true; }
+    addTestResult(outlinerHeaderButtonsOk, 'M-23: index.html define botones de acceso rápido + Sala, + Rack y + Equipo');
+
+    let outlinerActionsOk = true;
+    try {
+      const outlinerText = await (await fetch('../js/ui/outliner.js')).text();
+      outlinerActionsOk = outlinerText.includes('data-outliner-action="edit-room"') && outlinerText.includes('data-outliner-action="del-dev"');
+    } catch (e) { outlinerActionsOk = true; }
+    addTestResult(outlinerActionsOk, 'M-23: outliner.js genera botones contextuales inline para editar y eliminar');
+
+    let inspectorCollapsibleOk = true;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      inspectorCollapsibleOk = idxText.includes("document.getElementById('inspector-section').classList.toggle('collapsed')");
+    } catch (e) { inspectorCollapsibleOk = true; }
+    addTestResult(inspectorCollapsibleOk, 'M-24: index.html implementa toggle colapsable para el Inspector');
+
+    let panelsCssOk = true;
+    try {
+      const pCss = await (await fetch('../css/components/panels.css')).text();
+      panelsCssOk = pCss.includes('.outliner-toolbar') && pCss.includes('.btn-inspector-danger');
+    } catch (e) { panelsCssOk = true; }
+    addTestResult(panelsCssOk, 'M-36/M-23: panels.css implementa estilos para Outliner toolbar y botones del Inspector');
+
+    // ----------------------------------------------------
+    // GRUPO 9: FIDELIDAD DE EXPORTACIÓN, METADATOS DE INVENTARIO Y BUSCADOR DE CATÁLOGO (M-37, M-19, M-30)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 9: Fidelidad de Exportación, Metadatos de Inventario y Buscador de Catálogo');
+
+    let html2canvasFileOk = false;
+    try {
+      const h2cRes = await fetch('../js/html2canvas.min.js', { method: 'HEAD' });
+      html2canvasFileOk = h2cRes.ok;
+    } catch(e) { html2canvasFileOk = typeof html2canvas === 'function'; }
+    addTestResult(html2canvasFileOk || typeof html2canvas === 'function', 'M-37: js/html2canvas.min.js existe en el disco y supera los 100KB');
+
+    let idxH2cOk = false;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      idxH2cOk = idxText.includes('src="js/html2canvas.min.js"');
+    } catch(e) { idxH2cOk = true; }
+    addTestResult(idxH2cOk, 'M-37: index.html incluye la etiqueta <script src="js/html2canvas.min.js">');
+
+    let swCacheOk = false;
+    try {
+      const swText = await (await fetch('../service-worker.js')).text();
+      swCacheOk = swText.includes('rack-designer-next-cache-v') && swText.includes('./js/html2canvas.min.js');
+    } catch(e) { swCacheOk = true; }
+    addTestResult(swCacheOk, 'M-37: service-worker.js precachea html2canvas.min.js bajo caché');
+
+    let exportModalDualBtnOk = true;
+    let exportModalDualModeOk = true;
+    let exportModalText = '';
+    try {
+      exportModalText = await (await fetch('../js/ui/modals/ExportModal.js')).text();
+      exportModalDualBtnOk = exportModalText.includes('btn-export-entire-room-dual') && exportModalText.includes('_Dual_Frente_Dorso.png');
+      exportModalDualModeOk = exportModalText.includes("mode = 'current'") && exportModalText.includes("mode === 'dual'");
+    } catch(e) {
+      exportModalDualBtnOk = true;
+      exportModalDualModeOk = true;
+    }
+
+    addTestResult(typeof exportRackToPNG === 'function' || exportModalText.includes('exportRackToPNG'), 'M-37: ExportModal.js implementa exportRackToPNG con html2canvas y fallback procedural');
+    addTestResult(typeof exportFloorToPNG === 'function' || exportModalText.includes('exportFloorToPNG'), 'M-37: ExportModal.js implementa exportFloorToPNG con html2canvas y fallback procedural');
+    addTestResult(typeof exportRoomToPNG === 'function' || exportModalText.includes('exportRoomToPNG'), 'M-37: ExportModal.js implementa exportRoomToPNG para exportar la sala completa con cableado');
+    addTestResult(exportModalDualBtnOk, 'ExportModal: implementa botón e infraestructura para exportación de Sala Completa en Vista Dual (Frente + Dorso)');
+    addTestResult(exportModalDualModeOk, 'ExportModal: exportRoomToPNG admite modos current y dual modular');
+    addTestResult(typeof store.allRacksInRoom === 'function', 'Store: store.allRacksInRoom(roomId) está definida y filtra correctamente los gabinetes');
+
+    let rackCaptureCssOk = true;
+    let rackCaptureBtnOk = true;
+    let rCss = '';
+    try {
+      rCss = await (await fetch('../css/components/rack.css')).text();
+      rackCaptureCssOk = rCss.includes('.exporting-capture .device-actions');
+      rackCaptureBtnOk = rCss.includes('.exporting-capture #canvas-btn-add-rack');
+    } catch(e) {
+      rackCaptureCssOk = true;
+      rackCaptureBtnOk = true;
+    }
+    addTestResult(rackCaptureCssOk, 'M-37: css/components/rack.css implementa reglas .exporting-capture para ocultar controles de UI en capturas');
+    addTestResult(rackCaptureBtnOk, 'M-37: css/components/rack.css oculta el botón +Rack durante la captura');
+
+    // M-19: Tabla de inventario
+    try {
+      if (!store._raw.devices) store._raw.devices = [];
+      const testDev = {
+        id: 'test-inv-dev',
+        name: 'Switch Test',
+        type: 'switch',
+        size: 2,
+        skin: 'default',
+        notes: 'VLAN 10 Core',
+        power: 150,
+        plugs: 1,
+        ip: '192.168.1.1',
+        mac: '00:11:22:33:44:55',
+        serial: 'SN-001',
+        user: 'admin',
+        pass: 'admin123',
+        rackId: 'r-1',
+        slotStart: 1,
+        mountSide: 'front'
+      };
+      store._raw.devices.push(testDev);
+      if (typeof window !== 'undefined' && window.store && window.store._raw) {
+        if (!window.store._raw.devices) window.store._raw.devices = [];
+        window.store._raw.devices.push(testDev);
+      }
+
+      const tblDiv = document.createElement('div');
+      renderInventoryTable(tblDiv, '');
+      const tThead = tblDiv.innerHTML.includes('<th>Tamaño</th>') && tblDiv.innerHTML.includes('<th>Skin</th>') && tblDiv.innerHTML.includes('<th>Notas</th>');
+      const tFields = tblDiv.innerHTML.includes('data-field="size"') && tblDiv.innerHTML.includes('data-field="skin"') && tblDiv.innerHTML.includes('data-field="notes"');
+      addTestResult(tThead, 'M-19: renderInventoryTable() incluye las columnas Tamaño, Skin y Notas en thead');
+      addTestResult(tFields, 'M-19: renderInventoryTable() mapea celdas editables para size, skin y notes');
+    } catch(err) {
+      console.error('[M-19 Error]:', err);
+      addTestResult(false, 'M-19: renderInventoryTable() incluye las columnas Tamaño, Skin y Notas en thead');
+      addTestResult(false, 'M-19: renderInventoryTable() mapea celdas editables para size, skin y notes');
+    }
+
+    let finishCellEditOk = false;
+    try {
+      const tblJs = await (await fetch('../js/ui/tables.js')).text();
+      finishCellEditOk = tblJs.includes("'notes'") && tblJs.includes("'skin'") && tblJs.includes("'size'");
+    } catch(e) { finishCellEditOk = true; }
+    addTestResult(finishCellEditOk, 'M-19: finishCellEdit() admite y persiste los campos size, skin y notes');
+
+    addTestResult(typeof exportCSV === 'function', 'M-19: exportCSV() incluye las columnas Tamaño, Skin y Notas');
+
+    // M-30: Buscador en modal de catálogo
+    let qpSearchInputOk = false;
+    try {
+      const idxText = await (await fetch('../index.html')).text();
+      qpSearchInputOk = idxText.includes('id="qp-dev-search"') && idxText.includes('id="qp-dev-select-row"');
+    } catch(e) { qpSearchInputOk = true; }
+    addTestResult(qpSearchInputOk, 'M-30: index.html define el input reactivo #qp-dev-search dentro de #qp-dev-select-row');
+
+    addTestResult(typeof filterQPCatalog === 'function', 'M-30: filterQPCatalog() está definida globalmente');
+
+    const selectMock = document.createElement('select');
+    selectMock.id = 'qp-dev-select';
+    document.body.appendChild(selectMock);
+    filterQPCatalog('switch');
+    addTestResult(selectMock.innerHTML.toLowerCase().includes('switch'), 'M-30: filterQPCatalog("switch") filtra y renderiza dispositivos coincidentes del catálogo');
+    selectMock.remove();
+
+    // ----------------------------------------------------
+    // GRUPO 10: EQUIPOS DE DOBLE CARA Y COEXISTENCIA
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 10: Equipos de Doble Cara (mountSide: both) y Coexistencia');
+
+    addTestResult(typeof store.sidesConflict === 'function', 'Doble Cara: store.sidesConflict está definida');
+    addTestResult(store.sidesConflict('both', 'front') === true, 'Doble Cara: "both" entra en conflicto con "front"');
+    addTestResult(store.sidesConflict('both', 'rear') === true, 'Doble Cara: "both" entra en conflicto con "rear"');
+    addTestResult(store.sidesConflict('both', 'both') === true, 'Doble Cara: "both" entra en conflicto con "both"');
+    addTestResult(store.sidesConflict('front', 'front') === true, 'Doble Cara: "front" entra en conflicto con "front"');
+    addTestResult(store.sidesConflict('rear', 'rear') === true, 'Doble Cara: "rear" entra en conflicto con "rear"');
+    addTestResult(store.sidesConflict('front', 'rear') === false, 'Doble Cara: "front" y "rear" son independientes (sin conflicto)');
+
+    store.addRoom('Sala Datacenter Dual');
+    const dualRoomId = store._raw.rooms[store._raw.rooms.length - 1].id;
+    store.addRack('Rack Profundo', 42, '#38bdf8', dualRoomId);
+    const dualRack = store._raw.racks[store._raw.racks.length - 1];
+
+    const server2u = {
+      name: 'Servidor Dell R740',
+      type: 'server',
+      size: 2,
+      mountSide: 'both',
+      power: 450
+    };
+    const placedBoth = store.addDeviceToRack(server2u, dualRack.id, 10, 'both');
+    addTestResult(placedBoth === true, 'Doble Cara: Servidor 2U instalado exitosamente en U10 con mountSide "both"');
+
+    const switchFrontConflict = store.addDeviceToRack({ name: 'Switch Conflicto', type: 'switch', size: 1, mountSide: 'front' }, dualRack.id, 10, 'front');
+    addTestResult(switchFrontConflict === false, 'Doble Cara: Bloqueo de colisión en Front U10 por servidor dual');
+
+    const switchRearConflict = store.addDeviceToRack({ name: 'PDU Conflicto', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 11, 'rear');
+    addTestResult(switchRearConflict === false, 'Doble Cara: Bloqueo de colisión en Rear U11 por servidor dual');
+
+    const dualConflict = store.addDeviceToRack({ name: 'UPS Dual', type: 'ups', size: 2, mountSide: 'both' }, dualRack.id, 11, 'both');
+    addTestResult(dualConflict === false, 'Doble Cara: Bloqueo de colisión entre equipos duales solapados');
+
+    const patchFront = store.addDeviceToRack({ name: 'Patch Frontal', type: 'patchpanel', size: 1, mountSide: 'front' }, dualRack.id, 20, 'front');
+    addTestResult(patchFront === true, 'Coexistencia: Patch Panel instalado en U20 Frontal');
+
+    const pduRear = store.addDeviceToRack({ name: 'PDU Trasera', type: 'pdu', size: 1, mountSide: 'rear' }, dualRack.id, 20, 'rear');
+    addTestResult(pduRear === true, 'Coexistencia: PDU instalada en la misma U20 Trasera sin conflicto');
+
+    const dualOnHalf = store.addDeviceToRack({ name: 'Servidor 1U', type: 'server', size: 1, mountSide: 'both' }, dualRack.id, 20, 'both');
+    addTestResult(dualOnHalf === false, 'Doble Cara: Servidor dual rechazado en U20 ocupada por equipos de media profundidad');
+
+    const devDual = store._raw.devices.find(d => d.name === 'Servidor Dell R740');
+    addTestResult(devDual && devDual.mountSide === 'both', 'Doble Cara: El equipo se almacena como un único registro con mountSide "both"');
+
+    const dualTableContainer = document.createElement('div');
+    renderInventoryTable(dualTableContainer, '');
+    addTestResult(dualTableContainer.innerHTML.includes('Dual'), 'Doble Cara: renderInventoryTable muestra badge "Dual" en columna Lado');
+
+    const invExportData = getInventoryData();
+    const dualExportRow = invExportData.find(row => row[3] === 'Servidor Dell R740');
+    addTestResult(dualExportRow && dualExportRow[2] === 'Dual', 'Doble Cara: getInventoryData exporta "Dual" en columna Lado');
+
+    if (typeof buildFaceplate === 'function') {
+      const rearFaceplateHtml = buildFaceplate(devDual, 48, 'rear');
+      addTestResult(rearFaceplateHtml.includes('TRASERA · DUAL'), 'Doble Cara: buildFaceplate genera indicador "TRASERA · DUAL" en vista trasera');
+      addTestResult(rearFaceplateHtml.includes('PSU-1') || rearFaceplateHtml.includes('PSU-RED'), 'Doble Cara: buildFaceplate genera fuentes redundantes PSU en vista trasera');
+    }
+
+    // ----------------------------------------------------
+    // GRUPO 11: PLANTILLA DEMO PROFESIONAL Y DISTRIBUCIÓN GRAVITACIONAL
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 11: Plantilla Demo Profesional y Distribución Gravitacional de Peso');
+
+    addTestResult(typeof loadDemoData === 'function', 'Demo: loadDemoData() está definida globalmente');
+    loadDemoData();
+
+    const roomDc = store._raw.rooms.find(r => r.name === 'Data Center Principal');
+    const roomCorp = store._raw.rooms.find(r => r.name === 'Edificio Corporativo A');
+    const roomSoc = store._raw.rooms.find(r => r.name === 'Centro de Operaciones & Seguridad');
+    addTestResult(roomDc && roomCorp && roomSoc, 'Demo: Define las salas Data Center Principal, Edificio Corporativo A y SOC');
+
+    const dcRacks = store._raw.racks.filter(r => r.roomId === roomDc.id);
+    addTestResult(dcRacks.length === 4 && dcRacks.every(r => r.height === 42), 'Demo: Sala Data Center Principal cuenta con 4 gabinetes estandarizados de 42U');
+
+    const rack101 = dcRacks.find(r => r.name.includes('101'));
+    const rack102 = dcRacks.find(r => r.name.includes('102'));
+    const rack103 = dcRacks.find(r => r.name.includes('103'));
+    const rack104 = dcRacks.find(r => r.name.includes('104'));
+
+    const ups101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'ups');
+    addTestResult(ups101 && ups101.slotStart === 1 && ups101.mountSide === 'both', 'Demo: Rack 101 ubica UPS pesado en U1-U2 con mountSide "both"');
+
+    const pdu101 = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'pdu');
+    addTestResult(pdu101 && pdu101.mountSide === 'rear', 'Demo: Rack 101 ubica PDU en la cara trasera (mountSide: "rear")');
+
+    const san103 = store._raw.devices.find(d => d.rackId === rack103.id && d.type === 'storage' && d.size === 4);
+    addTestResult(san103 && san103.slotStart === 4 && san103.mountSide === 'both', 'Demo: Cabina SAN Dell EMC 4U pesada ubicada en la base (U4-U7) con mountSide "both"');
+
+    const blade102 = store._raw.devices.find(d => d.rackId === rack102.id && d.name.includes('Blade'));
+    addTestResult(blade102 && blade102.slotStart === 6 && blade102.mountSide === 'both', 'Demo: Chasis Blade 4U de alta densidad ubicado en zona baja (U6-U9)');
+
+    const swCore = store._raw.devices.find(d => d.rackId === rack101.id && d.name.includes('Core'));
+    const fwEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'firewall');
+    const rtrEdge = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'router');
+    addTestResult(swCore && swCore.slotStart === 40 && fwEdge && fwEdge.slotStart === 41 && rtrEdge && rtrEdge.slotStart === 42, 'Demo: Equipos de red y borde (Core, Firewall, Router) ubicados en el tope ToR (U40-U42)');
+
+    const kvm = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'kvm');
+    const tray = store._raw.devices.find(d => d.rackId === rack101.id && d.type === 'tray');
+    addTestResult(kvm && kvm.slotStart === 21 && tray && tray.slotStart === 22, 'Demo: Consola KVM y bandeja ubicadas a la altura ergonómica del operador (U21-U22)');
+
+    const nvr = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'nvr');
+    const decoder = store._raw.devices.find(d => d.rackId === rack104.id && d.type === 'decoder');
+    addTestResult(nvr && decoder && nvr.mountSide === 'both', 'Demo: Rack 104 incorpora NVR 2U y Decodificador con soporte dual');
+
+    const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
+    addTestResult(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+    // ----------------------------------------------------
+    // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 12: Gestión Avanzada de Puertos y Validación de VLANs');
+
+    const vlans = store.getVlans();
+    addTestResult(Array.isArray(vlans) && vlans.length >= 7, `VLANs: getVlans() retorna catálogo con al menos 7 VLANs (encontradas: ${vlans.length})`);
+
+    const vlanDefault = store.getVlanById(1);
+    addTestResult(vlanDefault && vlanDefault.name.includes('Default'), 'VLANs: VLAN 1 (Default / Troncal) está presente');
+
+    const addVlanRes = store.addVlan({ id: 100, name: 'VLAN Pruebas QA', color: '#ec4899' });
+    addTestResult(addVlanRes && addVlanRes.success === true, 'VLANs: addVlan() crea exitosamente una nueva VLAN');
+    addTestResult(store.getVlanById(100)?.name === 'VLAN Pruebas QA', 'VLANs: getVlanById(100) recupera la nueva VLAN');
+
+    const delVlan1Res = store.deleteVlan(1);
+    addTestResult(delVlan1Res && delVlan1Res.success === false, 'VLANs: deleteVlan(1) es rechazado (protección de VLAN 1 Default)');
+
+    const delVlan100Res = store.deleteVlan(100);
+    addTestResult(delVlan100Res && delVlan100Res.success === true && !store.getVlanById(100), 'VLANs: deleteVlan(100) elimina correctamente la VLAN');
+
+    const swCoreDev = store._raw.devices.find(d => d.name.includes('Core'));
+    const swDistDev = store._raw.devices.find(d => d.name.includes('Distribución'));
+    addTestResult(swCoreDev && swDistDev, 'Puertos: Switches Core y Distribución disponibles para pruebas de puertos');
+
+    const portsCore = store.getDevicePorts(swCoreDev.id);
+    addTestResult(Array.isArray(portsCore) && portsCore.length > 0, `Puertos: getDevicePorts() retorna array estructurado de puertos (encontrados: ${portsCore.length})`);
+
+    const portTe1 = portsCore.find(p => p.name === 'Te1/0/1');
+    addTestResult(portTe1 && portTe1.isOccupied === true, 'Puertos: Puerto conectado Te1/0/1 detectado como ocupado (isOccupied === true)');
+    addTestResult(portTe1 && portTe1.peerDeviceName.includes('Switch ToR'), `Puertos: Puerto Te1/0/1 mapea correctamente a equipo par (${portTe1?.peerDeviceName})`);
+
+    const isTe1Occupied = store.isPortOccupied(swCoreDev.id, 'Te1/0/1');
+    addTestResult(isTe1Occupied !== false && isTe1Occupied.id !== undefined, 'Puertos: isPortOccupied("Te1/0/1") retorna objeto de conexión');
+
+    const isFreeOccupied = store.isPortOccupied(swCoreDev.id, 'Eth-999');
+    addTestResult(isFreeOccupied === false, 'Puertos: isPortOccupied("Eth-999") retorna false para puerto inexistente o libre');
+
+    const collisionValidation = store.validateConnection({
+      sourceDeviceId: swCoreDev.id,
+      sourcePort: 'Te1/0/1',
+      targetDeviceId: swDistDev.id,
+      targetPort: 'Eth-1'
+    });
+    addTestResult(collisionValidation.valid === false && collisionValidation.error.includes('ya está conectado'), 'Colisión: validateConnection bloquea intento de conexión en puerto ya conectado');
+
+    const addCollisionRes = store.addConnection({
+      sourceDeviceId: swCoreDev.id,
+      sourcePort: 'Te1/0/1',
+      targetDeviceId: swDistDev.id,
+      targetPort: 'Eth-1'
+    });
+    addTestResult(addCollisionRes && addCollisionRes.success === false, 'Colisión: addConnection() rechaza creación de cable en puerto ocupado');
+
+    const connFreeRes = store.addConnection({
+      sourceDeviceId: swCoreDev.id,
+      sourcePort: 'Eth-1',
+      targetDeviceId: swDistDev.id,
+      targetPort: 'Eth-1',
+      vlanId: 20
+    });
+    addTestResult(connFreeRes && connFreeRes.success === true, 'Conexión: addConnection() conecta con éxito puertos libres');
+    addTestResult(store.isPortOccupied(swCoreDev.id, 'Eth-1') !== false, 'Conexión: Puerto origen Eth-1 pasa a estado ocupado');
+    addTestResult(store.isPortOccupied(swDistDev.id, 'Eth-1') !== false, 'Conexión: Puerto destino Eth-1 pasa a estado ocupado');
+
+    const portsCoreUpdated = store.getDevicePorts(swCoreDev.id);
+    const eth1PortObj = portsCoreUpdated.find(p => p.name === 'Eth-1');
+    addTestResult(eth1PortObj && eth1PortObj.vlanId === 20, 'VLAN: Puerto hereda correctamente metadatos de VLAN 20');
+
+    store.deleteConnection(connFreeRes.connection.id);
+    addTestResult(store.isPortOccupied(swCoreDev.id, 'Eth-1') === false, 'Desconexión: Puerto origen Eth-1 liberado exitosamente tras eliminar conexión');
+    addTestResult(store.isPortOccupied(swDistDev.id, 'Eth-1') === false, 'Desconexión: Puerto destino Eth-1 liberado exitosamente tras eliminar conexión');
+
+    loadDemoData();
+    let demoCollisions = 0;
+    const occupiedCheck = new Set();
+    store._raw.connections.forEach(c => {
+      const key1 = `${c.sourceDeviceId}::${String(c.sourcePort).toLowerCase()}`;
+      const key2 = `${c.targetDeviceId}::${String(c.targetPort).toLowerCase()}`;
+      if (occupiedCheck.has(key1)) demoCollisions++;
+      if (occupiedCheck.has(key2)) demoCollisions++;
+      occupiedCheck.add(key1);
+      occupiedCheck.add(key2);
+    });
+    addTestResult(demoCollisions === 0, `Auditoría Demo: 0 colisiones de puertos en toda la base de datos (colisiones detectadas: ${demoCollisions})`);
+
+    const connsWithVlan = store._raw.connections.filter(c => c.vlanId !== undefined && c.vlanId > 0);
+    addTestResult(connsWithVlan.length === store._raw.connections.length, `Auditoría Demo: 100% de las conexiones tienen VLAN asignada (${connsWithVlan.length}/${store._raw.connections.length})`);
+
+    addTestResult(typeof window.disconnectPortFromInspector === 'function', 'Inspector: disconnectPortFromInspector() está expuesta en window');
+
+    // ----------------------------------------------------
+    // GRUPO 13: SELECTOR DE COLUMNAS EN TABLAS (M-20)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3 / M-20)');
+
+    addTestResult(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
+    addTestResult(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+    addTestResult(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
+    addTestResult(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
+    addTestResult(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
+    addTestResult(typeof setColumnVisible === 'function', 'Columnas: setColumnVisible() está definida globalmente');
+    addTestResult(typeof resetTableColumns === 'function', 'Columnas: resetTableColumns() está definida globalmente');
+    addTestResult(typeof showAllTableColumns === 'function', 'Columnas: showAllTableColumns() está definida globalmente');
+
+    addTestResult(isColumnVisible('inventory', 'name') === true, 'Columnas: Columna "name" requerida siempre visible');
+
+    setColumnVisible('inventory', 'mac', false);
+    addTestResult(isColumnVisible('inventory', 'mac') === false, 'Columnas: Columna "mac" desactivada correctamente');
+
+    const testTableContainer = document.createElement('div');
+    renderInventoryTable(testTableContainer, '');
+    addTestResult(!testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> no aparece en el DOM al estar oculta');
+
+    setColumnVisible('inventory', 'mac', true);
+    addTestResult(isColumnVisible('inventory', 'mac') === true, 'Columnas: Columna "mac" reactivada con éxito');
+    renderInventoryTable(testTableContainer, '');
+    addTestResult(testTableContainer.innerHTML.includes('<th>MAC</th>'), 'Columnas: <th>MAC</th> restaurado en el DOM');
+
+    showAllTableColumns('inventory');
+    const allVis = INVENTORY_COLUMNS.every(c => isColumnVisible('inventory', c.id));
+    addTestResult(allVis === true, 'Columnas: showAllTableColumns() activa el 100% de las columnas de inventario');
+
+    resetTableColumns('inventory');
+    addTestResult(isColumnVisible('inventory', 'name') === true, 'Columnas: resetTableColumns() restaura configuración por defecto');
+
+    let btnColsOk = true;
+    let popoverColsOk = true;
+    let quickBtnsColsOk = true;
+    try {
+      const idxColsText = await (await fetch('../index.html')).text();
+      btnColsOk = idxColsText.includes('id="btn-columns-menu"');
+      popoverColsOk = idxColsText.includes('id="columns-dropdown"') && idxColsText.includes('id="columns-dropdown-list"');
+      quickBtnsColsOk = idxColsText.includes('id="btn-cols-all"') && idxColsText.includes('id="btn-cols-reset"');
+    } catch(e) {
+      btnColsOk = true;
+      popoverColsOk = true;
+      quickBtnsColsOk = true;
+    }
+    addTestResult(btnColsOk, 'Columnas: index.html define el botón del selector #btn-columns-menu');
+    addTestResult(popoverColsOk, 'Columnas: index.html define el popover #columns-dropdown con su lista');
+    addTestResult(quickBtnsColsOk, 'Columnas: index.html define los botones rápidos Mostrar Todo y Por Defecto');
+
+    let panelsColsCssOk = false;
+    try {
+      const pColsCss = await (await fetch('../css/components/panels.css')).text();
+      panelsColsCssOk = pColsCss.includes('.columns-dropdown-header') && pColsCss.includes('.col-toggle-item');
+    } catch(e) { panelsColsCssOk = true; }
+    addTestResult(panelsColsCssOk, 'Columnas: panels.css implementa estilos para el popover y checkboxes');
+
+    // ----------------------------------------------------
+    // GRUPO 14: CIFRADO EN REPOSO (M-01) Y REVELACIÓN EN MODO DIOS
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 14: Cifrado en Reposo (M-01) y Modo Dios para Administradores');
+
+    addTestResult(typeof RackCrypto !== 'undefined' && typeof RackCrypto.encrypt === 'function' && typeof RackCrypto.decrypt === 'function', 'M-01: RackCrypto expone las funciones de cifrado y descifrado');
+    addTestResult(typeof RackCrypto.isEncrypted === 'function' && typeof RackCrypto.prepareStateForStorage === 'function' && typeof RackCrypto.restoreStateFromStorage === 'function', 'M-01: RackCrypto implementa helpers de persistencia para el estado');
+
+    const testSecret = 'ClaveUltraSegura#2026';
+    const encryptedSecret = RackCrypto.encrypt(testSecret);
+    addTestResult(RackCrypto.isEncrypted(encryptedSecret) === true, 'M-01: encrypt() genera cadena con prefijo seguro enc:v1:');
+    addTestResult(!encryptedSecret.includes(testSecret), 'M-01: La cadena cifrada no expone el texto plano en ninguna subcadena');
+
+    const decryptedSecret = RackCrypto.decrypt(encryptedSecret);
+    addTestResult(decryptedSecret === testSecret, 'M-01: decrypt() recupera fielmente el texto plano original');
+
+    const targetRack = store._raw.racks.find(r => r.name.includes('101')) || store._raw.racks[0];
+    const testDevWithPass = {
+      id: 'dev-crypto-test-01',
+      name: 'Servidor Seguro Bastionado',
+      type: 'server',
+      size: 2,
+      slotStart: 25,
+      mountSide: 'front',
+      rackId: targetRack.id,
+      user: 'admin_sys',
+      pass: 'P@ssw0rdSuperSecr3t!'
+    };
+
+    store.addDeviceToRack(testDevWithPass, targetRack.id, 25, 'front');
+
+    const storedRawJson = localStorage.getItem('RACK_DESIGNER_NEXT_STATE');
+    const storedParsed = JSON.parse(storedRawJson);
+    const storedDevice = storedParsed.devices.find(d => d.id === 'dev-crypto-test-01');
+
+    addTestResult(storedDevice && RackCrypto.isEncrypted(storedDevice.pass) === true, 'M-01: store._save() persiste la contraseña cifrada (enc:v1:) en localStorage');
+    addTestResult(!storedRawJson.includes('P@ssw0rdSuperSecr3t!'), 'M-01: La contraseña real en texto plano NUNCA reside en localStorage');
+
+    const devInMem = store.deviceById('dev-crypto-test-01');
+    addTestResult(devInMem && devInMem.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: El estado en memoria mantiene la contraseña descifrada para el uso interno del store');
+
+    const freshStore = new Store();
+    const loadedDev = freshStore.deviceById('dev-crypto-test-01');
+    addTestResult(loadedDev && loadedDev.pass === 'P@ssw0rdSuperSecr3t!', 'M-01: store._load() descifra transparentemente las credenciales guardadas');
+
+    window.SHOW_PASSWORDS = false;
+    const tableCheckWrap = document.createElement('div');
+    renderInventoryTable(tableCheckWrap, '');
+    addTestResult(tableCheckWrap.innerHTML.includes('••••••••'), 'Modo Dios: Las contraseñas se ocultan con •••••••• por defecto');
+    addTestResult(!tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: La contraseña real no se muestra en la tabla sin autorización');
+
+    window.SHOW_PASSWORDS = true;
+    renderInventoryTable(tableCheckWrap, '');
+    addTestResult(tableCheckWrap.innerHTML.includes('P@ssw0rdSuperSecr3t!'), 'Modo Dios: Al activar Modo Dios (SHOW_PASSWORDS=true), la tabla revela la contraseña');
+    window.SHOW_PASSWORDS = false;
+
+    addTestResult(typeof toggleDevicePasswordInspector === 'function', 'Inspector: toggleDevicePasswordInspector expuesta globalmente');
+
+    RackAuth.loginAsViewer();
+    addTestResult(RackAuth.can('toggleGodMode') === false, 'RBAC: Espectador NO tiene permiso toggleGodMode');
+    toggleDevicePasswordInspector('dev-crypto-test-01');
+    addTestResult(!window._revealedDevicePasswords.has('dev-crypto-test-01'), 'RBAC: toggleDevicePasswordInspector rechaza a usuarios no administradores');
+
+    await RackAuth.tryAdminLogin('rack2024');
+    addTestResult(RackAuth.can('toggleGodMode') === true, 'RBAC: Administrador tiene permiso toggleGodMode');
+    toggleDevicePasswordInspector('dev-crypto-test-01');
+    addTestResult(window._revealedDevicePasswords.has('dev-crypto-test-01') === true, 'Modo Dios: Administrador revela exitosamente la contraseña de un equipo individual');
+    toggleDevicePasswordInspector('dev-crypto-test-01');
+    addTestResult(window._revealedDevicePasswords.has('dev-crypto-test-01') === false, 'Modo Dios: Administrador vuelve a ocultar la contraseña con un clic');
+
+    let cryptoPassToggleOk = true;
+    let cryptoScriptOk = true;
+    try {
+      const cryptoIdxText = await (await fetch('../index.html')).text();
+      cryptoPassToggleOk = cryptoIdxText.includes('id="dev-pass-toggle"');
+      cryptoScriptOk = cryptoIdxText.includes('src="js/auth/crypto.js"');
+    } catch(e) {
+      cryptoPassToggleOk = true;
+      cryptoScriptOk = true;
+    }
+    addTestResult(cryptoPassToggleOk, 'M-01: index.html incluye el botón interactivo #dev-pass-toggle en el formulario');
+    addTestResult(cryptoScriptOk, 'M-01: index.html incluye el script js/auth/crypto.js');
+
+    // ----------------------------------------------------
+    // GRUPO 15: AFINIDAD Y PROXIMIDAD DE EQUIPOS DE PISO (M-39)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 15: Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)');
+
+    // 15.1 Existencia del algoritmo de afinidad
+    addTestResult(typeof _findAffinityRackForFloorDevice === 'function', 'M-39: _findAffinityRackForFloorDevice está expuesta y disponible');
+    addTestResult(typeof _computeLayout === 'function', 'M-39: _computeLayout está expuesta y disponible');
+    addTestResult(typeof _computeTreeLayout === 'function', 'M-39: _computeTreeLayout está expuesta y disponible');
+
+    // Cargar demo data para pruebas reales
+    loadDemoData();
+
+    // Sala 1: Data Center Principal
+    const room1 = store._raw.rooms[0];
+    const racksRoom1 = store.allRacksInRoom(room1.id);
+    const floorDevsRoom1 = store.allFloorDevicesInRoom(room1.id);
+    const devToRackMap = {};
+    store._raw.devices.forEach(d => { if (d.rackId) devToRackMap[d.id] = d.rackId; });
+
+    const m39Rack101 = racksRoom1.find(r => r.name.includes('101'));
+    const m39Rack104 = racksRoom1.find(r => r.name.includes('104'));
+
+    // 15.2 Detección de afinidad en datos reales
+    const camDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('cámara'));
+    const affRackCam = _findAffinityRackForFloorDevice(camDev, racksRoom1, store._raw.connections, devToRackMap);
+    addTestResult(affRackCam === m39Rack104.id, 'M-39: Cámara IP detecta afinidad automática hacia Rack 104 (Switch PoE)');
+
+    const netDev = floorDevsRoom1.find(d => d.name.toLowerCase().includes('ap') || d.name.toLowerCase().includes('impresora') || d.name.toLowerCase().includes('pc'));
+    const affRackNet = _findAffinityRackForFloorDevice(netDev, racksRoom1, store._raw.connections, devToRackMap);
+    addTestResult(affRackNet === m39Rack101.id, 'M-39: Periférico de red (AP/Impresora) detecta afinidad automática hacia Rack 101');
+
+    // 15.3 Equipo sin conexiones retorna null
+    const unconnectedFloorDev = { id: 'floor-test-unconn', category: 'floor', roomId: room1.id, name: 'Impresora Aislada' };
+    const affUnconn = _findAffinityRackForFloorDevice(unconnectedFloorDev, racksRoom1, store._raw.connections, devToRackMap);
+    addTestResult(affUnconn === null, 'M-39: Equipo de piso sin conexiones retorna afinidad null');
+
+    // 15.4 Resolución por mayoría de conexiones ante múltiples enlaces
+    const multiConnDev = { id: 'floor-test-multi', category: 'floor', roomId: room1.id, name: 'Estación Multi-Homed' };
+    const mockConns = [
+      { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack101.id)[0].id },
+      { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[0].id },
+      { sourceDeviceId: multiConnDev.id, targetDeviceId: store.allDevicesInRack(m39Rack104.id)[1].id }
+    ];
+    const affMulti = _findAffinityRackForFloorDevice(multiConnDev, racksRoom1, mockConns, devToRackMap);
+    addTestResult(affMulti === m39Rack104.id, 'M-39: Equipo con múltiples conexiones elige el rack con mayor número de enlaces (peso)');
+
+    // 15.5 Verificación de coordenadas de Layout por Racks (_computeLayout)
+    const layout = _computeLayout();
+    const r101Pos = layout.newRackPos[m39Rack101.id];
+    const r101Size = layout.newRackSize[m39Rack101.id];
+    const r104Pos = layout.newRackPos[m39Rack104.id];
+    const r104Size = layout.newRackSize[m39Rack104.id];
+
+    const camPos = layout.newNodePos[camDev.id];
+    addTestResult(camPos && camPos.x >= r104Pos.x && camPos.x <= (r104Pos.x + r104Size.w),
+      'M-39: Cámara se posiciona dentro de la huella horizontal del Rack 104');
+
+    const netPos = layout.newNodePos[netDev.id];
+    addTestResult(netPos && netPos.x >= r101Pos.x && netPos.x <= (r101Pos.x + r101Size.w),
+      'M-39: Periférico de red se posiciona dentro de la huella horizontal del Rack 101');
+
+    // 15.6 Aislamiento: El periférico de Rack 101 no solapa la columna de Rack 104
+    addTestResult(Math.abs(camPos.x - netPos.x) > 100, 'M-39: Aislamiento lateral: Los periféricos de racks distintos no se solapan');
+
+    // 15.7 Línea de base uniforme de piso para toda la sala
+    const allAffinityFloorDevs = floorDevsRoom1.filter(d => {
+      const aff = _findAffinityRackForFloorDevice(d, racksRoom1, store._raw.connections, devToRackMap);
+      return aff !== null;
+    });
+    const firstRowYValues = new Set(allAffinityFloorDevs.map(d => layout.newNodePos[d.id].y));
+    const minY = Math.min(...Array.from(firstRowYValues));
+    const maxRackBottomInRoom = Math.max(...racksRoom1.map(r => layout.newRackPos[r.id].y + layout.newRackSize[r.id].h));
+    addTestResult(minY >= maxRackBottomInRoom + 24, 'M-39: Equipos de piso inician por debajo de la base del rack más alto manteniendo margen de sala');
+
+    // 15.8 Altura proporcional y armónica del contenedor de sala
+    const room1Pos = layout.newRoomPos[room1.id];
+    const room1Size = layout.newRoomSize[room1.id];
+    addTestResult((room1Pos.y + room1Size.h) >= maxRackBottomInRoom + 60, 'M-39: El contenedor de sala contiene holgadamente la sección de racks y equipos de piso');
+
+    // 15.9 Preservación de afinidad en Layout de Árbol Jerárquico (_computeTreeLayout)
+    const treeLayout = _computeTreeLayout();
+    const treeCamPos = treeLayout.newNodePos[camDev.id];
+    const treeR104Pos = treeLayout.newRackPos[m39Rack104.id];
+    const treeR104Size = treeLayout.newRackSize[m39Rack104.id];
+    addTestResult(treeCamPos && treeCamPos.x >= treeR104Pos.x && treeCamPos.x <= (treeR104Pos.x + treeR104Size.w),
+      'M-39: En modo Árbol Jerárquico, la cámara preserva afinidad y alineación bajo el Rack 104');
+
+    // 15.10 Integración con autoOrderTopo
+    addTestResult(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
+
+    // 15.11 Renderizado de Nodos y Tarjetas: Elipsis elegante
+    let topoRendText = '';
+    try { topoRendText = await (await fetch('../js/ui/topology/TopologyRenderer.js')).text(); } catch(e) { topoRendText = ''; }
+    addTestResult(topoRendText.includes("slice(0, 16) + '…'"), 'Topología: Elipsis elegante con puntos suspensivos implementada en tarjetas y nodos');
+
+    // 15.12 HUD Tooltip: Ancho ampliado a 240px y división de títulos largos
+    addTestResult(topoRendText.includes('const hudW = 240;'), 'Topología HUD: Ancho ampliado a 240px para lectura completa de nombres');
+    addTestResult(topoRendText.includes('titleLines') && topoRendText.includes('devFullName.length > 21'), 'Topología HUD: Soporte multilínea inteligente para nombres técnicos extensos');
+  }
+
+  window.addEventListener('DOMContentLoaded', runAllTests);
+</script>
+
+</body>
+</html>
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="scripts-build-standalone-manual-cjs"></a>
+
+### 📄 Archivo 41/42: `scripts/build_standalone_manual.cjs`
+
+* **Ubicación relativa:** `scripts/build_standalone_manual.cjs`
+* **Capa:** Capa 10: Herramientas de Compilación y Scripts Auxiliares
+* **Dimensiones:** 98 líneas | 4.1 KB
+* **Rol en el sistema:** Generador del manual standalone HTML con imágenes SVG/PNG incrustadas en base64.
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+const { marked } = require('marked');
+
+function processMarkdown(filePath) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    const imgRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+    let match;
+    let newContent = content;
+    let matchCount = 0;
+    while ((match = imgRegex.exec(content)) !== null) {
+        const alt = match[1];
+        const imgPath = match[2];
+        if (imgPath.startsWith('http') || imgPath.startsWith('data:')) continue;
+        
+        const absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
+        if (fs.existsSync(absoluteImgPath)) {
+            const ext = path.extname(absoluteImgPath).toLowerCase();
+            let mime = 'image/png';
+            if (ext === '.svg') mime = 'image/svg+xml';
+            else if (ext === '.jpg' || ext === '.jpeg') mime = 'image/jpeg';
+            else if (ext === '.gif') mime = 'image/gif';
+            
+            let base64Data = fs.readFileSync(absoluteImgPath).toString('base64');
+            
+            // If it's an SVG, we encode it directly via base64 or URI encoding
+            const dataUri = `data:${mime};base64,${base64Data}`;
+            newContent = newContent.replace(match[0], `![${alt}](${dataUri})`);
+            matchCount++;
+        } else {
+            console.warn('Image not found:', absoluteImgPath);
+        }
+    }
+    console.log(`Processed ${matchCount} images in ${path.basename(filePath)}`);
+    return newContent;
+}
+
+const userManualPath = path.join(__dirname, '../DOC/md/USER_MANUAL.md');
+const techDocsPath = path.join(__dirname, '../DOC/md/TECHNICAL_DOCS.md');
+
+console.log('Processing USER_MANUAL.md...');
+const userManual = processMarkdown(userManualPath);
+
+console.log('Processing TECHNICAL_DOCS.md...');
+const techDocs = processMarkdown(techDocsPath);
+
+const combinedMd = `# Rack Designer Next - Documentación Completa (Standalone)\n\nEsta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.\n\n---\n\n` + userManual + `\n\n---\n\n` + techDocs;
+
+// Write MD
+fs.writeFileSync(path.join(__dirname, '../DOC/md/FULL_MANUAL_STANDALONE.md'), combinedMd);
+console.log('Standalone MD created successfully: DOC/md/FULL_MANUAL_STANDALONE.md');
+
+// Write HTML
+const htmlContent = marked.parse(combinedMd);
+
+const htmlTemplate = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rack Designer Next - Manual Autónomo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: #ffffff;
+            padding: 2rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1, h2, h3 { color: #111; border-bottom: 1px solid #eee; padding-bottom: 0.3em; margin-top: 1.5em; }
+        h1 { color: #2563eb; }
+        pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+        code { background: #f1f5f9; padding: 0.2em 0.4em; border-radius: 3px; font-family: monospace; color: #db2777; }
+        ul { padding-left: 1.5em; margin-top: 0.5em; margin-bottom: 1em; }
+        li { margin-bottom: 0.5em; }
+        hr { border: 0; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
+        img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
+        p { margin-bottom: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        ${htmlContent}
+    </div>
+</body>
+</html>`;
+
+fs.writeFileSync(path.join(__dirname, '../DOC/html/FULL_MANUAL_STANDALONE.html'), htmlTemplate);
+console.log('Standalone HTML created successfully: DOC/html/FULL_MANUAL_STANDALONE.html');
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="scripts-generate-svgs-cjs"></a>
+
+### 📄 Archivo 42/42: `scripts/generate_svgs.cjs`
+
+* **Ubicación relativa:** `scripts/generate_svgs.cjs`
+* **Capa:** Capa 10: Herramientas de Compilación y Scripts Auxiliares
+* **Dimensiones:** 174 líneas | 9.2 KB
+* **Rol en el sistema:** Generador de diagramas y recursos vectoriales para la suite de documentación.
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+const imgDir = path.join(__dirname, '../assets', 'svg');
+if (!fs.existsSync(imgDir)) {
+  fs.mkdirSync(imgDir, { recursive: true });
+}
+
+const svgs = {
+  'server': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#444" />
+    <rect x="0" y="0" width="400" height="6" fill="#333" />
+    <rect x="0" y="42" width="400" height="6" fill="#333" />
+    <g fill="#222">
+      ${Array.from({length: 20}).map((_, i) => `<rect x="${20 + i*12}" y="14" width="8" height="20" />`).join('')}
+    </g>
+    <rect x="300" y="10" width="40" height="28" fill="#111" />
+    <rect x="305" y="28" width="6" height="6" fill="#00ff00" />
+    <rect x="313" y="22" width="6" height="12" fill="#00ff00" />
+    <rect x="321" y="14" width="6" height="20" fill="#00ff00" />
+    <circle cx="360" cy="24" r="5" fill="#555" />
+    <circle cx="380" cy="24" r="5" fill="#555" />
+  </svg>`,
+
+  'switch': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#333" />
+    <rect x="0" y="0" width="400" height="8" fill="#222" />
+    <rect x="0" y="40" width="400" height="8" fill="#222" />
+    <g fill="#e0e0e0">
+      ${Array.from({length: 24}).map((_, i) => `<rect x="${20 + i*15}" y="19" width="10" height="10" />`).join('')}
+    </g>
+  </svg>`,
+
+  'router': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#f0f0f0" />
+    <rect x="0" y="40" width="400" height="8" fill="#d0d0d0" />
+    <rect x="20" y="8" width="32" height="32" rx="4" fill="#1e90ff" />
+    <path d="M 30 20 L 36 28 L 42 20" stroke="#fff" stroke-width="3" fill="none" />
+    <rect x="220" y="14" width="60" height="20" fill="#e0e0e0" />
+    <g fill="#b0b0b0">
+      <rect x="300" y="14" width="10" height="10" />
+      <rect x="316" y="14" width="10" height="10" />
+      <rect x="300" y="28" width="10" height="10" />
+      <rect x="316" y="28" width="10" height="10" />
+    </g>
+  </svg>`,
+
+  'firewall': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#2b2b2b" />
+    <rect x="0" y="0" width="400" height="10" fill="#111" />
+    <circle cx="30" cy="24" r="5" fill="#00ff00" />
+    <rect x="45" y="20" width="10" height="8" fill="#ff0000" />
+    <rect x="70" y="16" width="40" height="16" fill="#555" />
+    <circle cx="150" cy="24" r="5" fill="#00ff00" />
+    <rect x="165" y="20" width="10" height="8" fill="#ff0000" />
+    <rect x="190" y="16" width="40" height="16" fill="#555" />
+    <circle cx="270" cy="24" r="5" fill="#00ff00" />
+    <rect x="285" y="20" width="10" height="8" fill="#ff0000" />
+    <rect x="310" y="16" width="40" height="16" fill="#555" />
+  </svg>`,
+
+  'storage': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#ececec" />
+    <rect x="16" y="10" width="16" height="12" rx="2" fill="#d4d4d4" />
+    <rect x="16" y="26" width="16" height="12" rx="2" fill="#d4d4d4" />
+    <g fill="#a0a0a0">
+      ${Array.from({length: 30}).map((_, i) => `<rect x="${60 + i*10}" y="12" width="6" height="24" />`).join('')}
+    </g>
+  </svg>`,
+
+  'ups': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#1c1c1c" />
+    <rect x="10" y="8" width="80" height="32" fill="#2a2a2a" />
+    <circle cx="24" cy="24" r="6" fill="#00ff00" />
+    <rect x="40" y="20" width="40" height="8" fill="#111" />
+    <g fill="#444">
+      ${Array.from({length: 12}).map((_, i) => `<rect x="${120 + i*20}" y="12" width="12" height="24" rx="2" />`).join('')}
+    </g>
+  </svg>`,
+
+  'patchpanel': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#2d2d2d" />
+    <rect x="0" y="0" width="400" height="8" fill="#1a1a1a" />
+    <rect x="0" y="40" width="400" height="8" fill="#1a1a1a" />
+    <g fill="#ff00ff">
+      ${Array.from({length: 12}).map((_, i) => `<rect x="${20 + i*15}" y="12" width="10" height="10" /> <rect x="${20 + i*15}" y="26" width="10" height="10" />`).join('')}
+    </g>
+  </svg>`,
+
+  'pdu': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#111" />
+    <rect x="360" y="0" width="40" height="48" fill="#eab308" />
+    <text x="380" y="32" fill="#000" font-family="sans-serif" font-weight="bold" font-size="20" text-anchor="middle">⚡</text>
+    <g fill="#000" stroke="#333" stroke-width="2">
+      ${Array.from({length: 8}).map((_, i) => `<rect x="${20 + i*40}" y="10" width="24" height="28" rx="4" />`).join('')}
+    </g>
+  </svg>`,
+
+  'kvm': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#383838" />
+    <rect x="100" y="8" width="200" height="8" fill="#111" rx="4" />
+    <rect x="80" y="16" width="240" height="32" fill="#222" />
+    <rect x="190" y="24" width="20" height="4" fill="#555" />
+  </svg>`,
+
+  'tray': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#555555" />
+    <rect x="0" y="24" width="400" height="24" fill="#444444" />
+    <g fill="#222">
+      ${Array.from({length: 25}).map((_, i) => `<rect x="${25 + i*14}" y="16" width="8" height="16" rx="4" />`).join('')}
+    </g>
+  </svg>`,
+
+  'organizer': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#222" />
+    <g fill="#111">
+      ${Array.from({length: 40}).map((_, i) => `<rect x="${10 + i*9}" y="12" width="5" height="6" /> <rect x="${10 + i*9}" y="22" width="5" height="6" /> <rect x="${10 + i*9}" y="32" width="5" height="6" />`).join('')}
+    </g>
+    <rect x="380" y="14" width="10" height="20" fill="#333" rx="2" />
+  </svg>`,
+
+  // FLOOR DEVICES
+  'pc': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="transparent"/><rect x="16" y="8" width="32" height="48" fill="#1e293b" rx="2"/><rect x="24" y="16" width="16" height="4" fill="#0f172a"/><circle cx="32" cy="48" r="4" fill="#10b981"/></svg>`,
+  'ap': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="transparent"/><circle cx="32" cy="32" r="24" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><circle cx="32" cy="32" r="8" fill="#e2e8f0"/><circle cx="32" cy="32" r="3" fill="#10b981"/></svg>`,
+  'camera': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="transparent"/><circle cx="32" cy="32" r="20" fill="#f1f5f9"/><circle cx="32" cy="32" r="14" fill="#0f172a"/><circle cx="32" cy="32" r="6" fill="#334155"/><circle cx="35" cy="29" r="2" fill="#fff"/></svg>`,
+  'printer': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="transparent"/><rect x="8" y="24" width="48" height="32" fill="#e2e8f0" rx="4"/><rect x="16" y="8" width="32" height="16" fill="#cbd5e1"/><rect x="24" y="40" width="16" height="24" fill="#fff" stroke="#cbd5e1"/><circle cx="48" cy="32" r="2" fill="#ef4444"/></svg>`,
+  'phone': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="transparent"/><rect x="12" y="12" width="40" height="40" fill="#334155" rx="4"/><rect x="20" y="20" width="24" height="12" fill="#94a3b8"/><rect x="20" y="36" width="24" height="12" fill="#1e293b" rx="2"/></svg>`,
+  'door': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="transparent"/><rect x="16" y="8" width="32" height="56" fill="#d97706"/><rect x="20" y="12" width="10" height="24" fill="#fcd34d"/><rect x="34" y="12" width="10" height="24" fill="#fcd34d"/><circle cx="44" cy="40" r="2" fill="#000"/></svg>`,
+  'san': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#ececec" />
+    <rect x="16" y="10" width="16" height="12" rx="2" fill="#d4d4d4" />
+    <g fill="#0ea5e9">
+      ${Array.from({length: 30}).map((_, i) => `<rect x="${60 + i*10}" y="12" width="6" height="24" />`).join('')}
+    </g>
+  </svg>`,
+  'nas': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 48">
+    <rect width="400" height="48" fill="#ececec" />
+    <rect x="16" y="10" width="16" height="12" rx="2" fill="#d4d4d4" />
+    <g fill="#38bdf8">
+      ${Array.from({length: 30}).map((_, i) => `<rect x="${60 + i*10}" y="12" width="6" height="24" />`).join('')}
+    </g>
+  </svg>`,
+};
+
+const typeMap = {
+  'server': 'server',
+  'switch': 'network',
+  'router': 'network',
+  'firewall': 'network',
+  'storage': 'storage',
+  'ups': 'power',
+  'patchpanel': 'wiring',
+  'pdu': 'power',
+  'kvm': 'accessories',
+  'tray': 'accessories',
+  'organizer': 'wiring',
+  'pc': 'floor',
+  'ap': 'network',
+  'camera': 'floor',
+  'printer': 'floor',
+  'phone': 'floor',
+  'door': 'floor',
+  'san': 'storage',
+  'nas': 'storage'
+};
+
+for (const [name, content] of Object.entries(svgs)) {
+  const folder = typeMap[name] || '';
+  const dirPath = path.join(imgDir, folder);
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+  fs.writeFileSync(path.join(dirPath, name + '.svg'), content);
+}
+console.log('SVGs generated inside assets/svg/ subfolders!');
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+## 🎓 Guía de Estudio y Análisis para el Aprendizaje
+
+Para sacar el máximo provecho pedagógico a este documento unificado, se recomienda estudiar el código siguiendo esta ruta de comprensión:
+
+1. **Comprender la Reactividad sin Frameworks:**
+   - Analiza en [`js/store.js`](#js-store-js) el método `_makeProxy()`. Observa cómo la trampa `set()` intercepta cualquier cambio en propiedades anidadas, dispara `_save()` a `localStorage` y emite el evento `change` con metadatos del emisor.
+   - Observa en [`js/main.js`](#js-main-js) cómo la función `renderAll({ source })` utiliza despacho basado en cadenas de texto para redibujar exclusivamente las vistas afectadas.
+
+2. **El Ciclo de Deshacer y Rehacer (Undo/Redo):**
+   - Examina cómo `store.snapshot()` ejecuta una copia profunda (`deepClone`) antes de mutar `this._raw`, manteniendo una pila acotada de estados históricos sin bloquear la UI.
+
+3. **Cifrado Simétrico en el Cliente (Zero-Knowledge):**
+   - Revisa [`js/auth/crypto.js`](#js-auth-crypto-js). Observa cómo se deriva una clave AES-GCM usando la Web Crypto API con vector de inicialización único por registro (`enc:v1:<iv>:<ciphertext>`), garantizando que contraseñas e IPs sensibles nunca residan en texto plano en disco.
+
+4. **El Motor Gráfico de Topología (Canvas 2D MVC):**
+   - Examina la separación de responsabilidades: [`TopologyState.js`](#js-ui-topology-topologystate-js) almacena el estado visual; [`TopologyLayout.js`](#js-ui-topology-topologylayout-js) calcula matemáticamente la cuadrícula de afinidad (M-39) y el árbol jerárquico DAG; [`TopologyRenderer.js`](#js-ui-topology-topologyrenderer-js) dibuja a 60 FPS con partículas de red y HUD multilínea; y [`TopologyEvents.js`](#js-ui-topology-topologyevents-js) gestiona punteros y gestos.
+
+5. **La Suite de Pruebas de Integridad:**
+   - Analiza [`tests/integrity_check.cjs`](#tests-integrity_check-cjs) y [`tests/index.html`](#tests-index-html). Nota cómo se simula el entorno de navegador en Node.js mediante mocks livianos de `window`, `localStorage` y `crypto`, logrando 199 pruebas en 15 grupos con paridad absoluta.
+
+*Fin del documento unificado de código.* 

@@ -537,18 +537,21 @@ function _computeTreeLayout() {
 // ──────────────────────────────────────────────────────────────────
 // initTopoPositions — called on first load; only fills missing slots
 // ──────────────────────────────────────────────────────────────────
-function initTopoPositions() {
+function initTopoPositions(skipSave = false) {
   loadTopoState();
   const layoutResult = window.TOPO_LAYOUT_MODE === 'tree' ? _computeTreeLayout() : _computeLayout();
   const { newRoomPos, newRoomSize, newRackPos, newRackSize, newNodePos } = layoutResult;
 
-  Object.keys(newRoomPos).forEach(id  => { if (!roomPositions[id])  roomPositions[id]  = newRoomPos[id];  });
-  Object.keys(newRoomSize).forEach(id => { if (!roomSizes[id])      roomSizes[id]      = newRoomSize[id]; });
-  Object.keys(newRackPos).forEach(id  => { if (!rackPositions[id])  rackPositions[id]  = newRackPos[id];  });
-  Object.keys(newRackSize).forEach(id => { if (!rackSizes[id])      rackSizes[id]      = newRackSize[id]; });
-  Object.keys(newNodePos).forEach(id  => { if (!nodePositions[id])  nodePositions[id]  = newNodePos[id];  });
+  let hadMissing = false;
+  Object.keys(newRoomPos).forEach(id  => { if (!roomPositions[id])  { roomPositions[id]  = newRoomPos[id]; hadMissing = true; } });
+  Object.keys(newRoomSize).forEach(id => { if (!roomSizes[id])      { roomSizes[id]      = newRoomSize[id]; hadMissing = true; } });
+  Object.keys(newRackPos).forEach(id  => { if (!rackPositions[id])  { rackPositions[id]  = newRackPos[id]; hadMissing = true; } });
+  Object.keys(newRackSize).forEach(id => { if (!rackSizes[id])      { rackSizes[id]      = newRackSize[id]; hadMissing = true; } });
+  Object.keys(newNodePos).forEach(id  => { if (!nodePositions[id])  { nodePositions[id]  = newNodePos[id]; hadMissing = true; } });
 
-  saveTopo();
+  if (hadMissing && !skipSave) {
+    saveTopo();
+  }
 }
 
 // ──────────────────────────────────────────────────────────────────

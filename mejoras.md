@@ -274,6 +274,31 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
     *   **Lectura arquitectónica instantánea:** Los operadores identifican de un solo vistazo qué cámaras, puntos de acceso o estaciones de trabajo están alimentados por el Switch PoE de cada rack.
     *   **Geometría armónica:** El diagrama conserva su diseño ortogonal, proporciones matemáticas y simetría profesional sin romper las pautas estéticas ya consolidadas.
 
+### 💾 Guardado y Conmutación de Estados de Topología (5 Slots de Posiciones Personalizadas) (M-40) ✅ **[COMPLETADO 2026-10-02]**
+*   **Estado de Implementación:** Implementado al 100% y certificado con la suite de pruebas automatizadas en `tests/integrity_check.cjs` (**233 pruebas totales en 16 grupos pasando con 0 fallos**). Incluye:
+    *   **Arquitectura de Estado Aislada:** Gestión en `store.js` mediante `saveTopologySlot`, `loadTopologySlot`, `clearTopologySlot` y `renameTopologySlot` completamente desvinculada de `this.snapshot()` para no destruir la pila de Rehacer (`_redoStack`).
+    *   **Preservación en Undo/Redo:** `undo()` y `redo()` sanean atómicamente claves huérfanas y conservan intactos los `topologySlots` y `activeTopologySlot` sin pérdida de ranuras guardadas.
+    *   **Solución Híbrida de Ergonomía en la Barra de Topología:**
+        *   Sliders interactivos H y V reubicados dentro del popover `🎛️ Estilo` con indicadores de valor en píxeles en tiempo real (`28px`, `60px`).
+        *   Botonera compacta con icono intuitivo `👁️ [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ] [ 💾 ]` y botón sintético `⚡ Auto`.
+        *   Menú flotante de gestión de ranuras anclado con `right: 0 !important; left: auto !important;` previniendo cualquier desbordamiento o colisión con el panel del inspector.
+        *   Ancho total de la barra reducido de 854px a ~495px, garantizando un margen libre superior a 330px (más del 40% del área útil).
+*   **Problema / Limitación Previa:** Anteriormente, la Vista de Topología solo contaba con un único estado global de coordenadas (`nodePositions`, `rackPositions`, `roomPositions`, `zoom`, `pan`). Si el usuario organizaba manualmente la topología para un caso de uso específico y luego deseaba explorar otra disposición o reorganizar equipos para una presentación, perdía irrevocablemente la disposición anterior al mover los nodos o pulsar "Auto-Ordenar".
+*   **Propuesta de Mejora:** Implementar un sistema de **5 Ranuras de Memoria (Slots / Presets de Topología)** accesibles directamente desde la barra de herramientas de la Vista de Topología:
+    *   **Botonera Rápida de 5 Slots:** Controles táctiles compactos `[ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]` en la barra superior de topología con indicador visual de estado (vacío / guardado / activo).
+    *   **Guardado y Captura Integral:** Al guardar en un slot (mediante botón "Guardar en Slot", clic largo o menú contextual), se capturan en un snapshot atómico:
+        *   Coordenadas `(x, y)` individuales de todos los nodos (`nodePositions`).
+        *   Posiciones y dimensiones de gabinetes (`rackPositions`, `rackSizes`).
+        *   Posiciones y dimensiones de salas (`roomPositions`, `roomSizes`).
+        *   Parámetros de encuadre y visualización: nivel de zoom (`topoZoom`), desplazamiento (`topoPanX`, `topoPanY`), modo de estilo (`card` o `circle`), y espaciados interactivos horizontal y vertical (`topoSpacingX`, `topoSpacing`).
+    *   **Conmutación Reactiva Instantánea:** Al hacer clic en un slot guardado, la vista realiza una transición reactiva limpia en Canvas 2D, restaurando exactamente las posiciones, dimensiones y encuadre del estado seleccionado.
+    *   **Nombres y Metadatos Personalizados:** Cada slot puede ser renombrado por el operador para identificar su propósito (ej. *"1: Distribución Física"*, *"2: Flujo Core-Acceso"*, *"3: Red CCTV y Wi-Fi"*, *"4: Vista Ejecutiva"*, *"5: Auditoría"*).
+    *   **Persistencia Completa en Proyecto:** Los 5 slots se integran en el estado global dentro de `store.state.topologySlots`, guardándose en `localStorage` y exportándose fielmente dentro de los archivos `.rack` y `.json`, permitiendo compartir las diferentes perspectivas del datacenter con otros ingenieros.
+*   **Objetivo/Beneficio en Producción:**
+    *   **Versatilidad Multi-Perspectiva:** Permite documentar y alternar entre diferentes esquemas lógicos, físicos y funcionales del mismo centro de datos sin tener que rediseñar desde cero.
+    *   **Seguridad contra Pérdidas:** Protege horas de diseño manual contra reorganizaciones accidentales o pruebas automáticas de layout.
+    *   **Velocidad en Demostraciones y Auditorías:** Facilita cambiar de vista con un solo clic durante reuniones técnicas o revisiones de infraestructura.
+
 ### 🔌 Sistema de Cableado Mejorado (Frontal vs Trasero)
 *   **Problema:** El sistema de cableado actual no distingue entre los equipos montados en la parte frontal y los equipos montados en la parte trasera del rack.
 *   **Propuesta de Mejora:** Mejorar el motor de enrutamiento y la gestión de puertos para que reconozca y gestione conexiones diferenciando claramente si los equipos están en el panel frontal o trasero.
@@ -331,6 +356,7 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
 14. Layout en Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas y reubicación de dispositivos no conectados en la parte baja de racks y sala. *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO 2026-09-27]**
 15. Motor de temas y personalización visual en topología (transparencias, patrones de fondo, etiquetas duales IP/Nombre). *(→ Sección 6, 🎨)* ✅ **[COMPLETADO 2026-09-27]**
 16. Skins visuales personalizadas en topología (cards, imágenes personalizadas, estilos extendidos). *(→ Sección 6, 🖼️)*
+17. Guardado y conmutación de 5 estados (slots de posiciones) de topología (M-40). *(→ Sección 6, 💾)* ✅ **[COMPLETADO 2026-10-02]**
 
 ### Fase 4 — Exportación y Colaboración
 16. Plantilla completa de exportación con todos los campos. *(→ Sección 6, 📋)*

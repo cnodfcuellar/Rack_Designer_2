@@ -38,6 +38,8 @@ class Store {
       currentRoomId: roomId,
       selectedDeviceId: null,
       topology: { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} },
+      topologySlots: [null, null, null, null, null],
+      activeTopologySlot: null,
       topoZoom: 1, topoPanX: 0, topoPanY: 0,
       physZoom: 1, physPanX: 0, physPanY: 0
     };
@@ -53,6 +55,15 @@ class Store {
       this._raw.vlans = JSON.parse(JSON.stringify(DEFAULT_VLANS));
     }
     
+    // M-40: Garantizar estructura de 5 ranuras de memoria de topología
+    if (!Array.isArray(this._raw.topologySlots) || this._raw.topologySlots.length !== 5) {
+      const existing = Array.isArray(this._raw.topologySlots) ? this._raw.topologySlots : [];
+      this._raw.topologySlots = [0, 1, 2, 3, 4].map(i => existing[i] || null);
+    }
+    if (this._raw.activeTopologySlot === undefined) {
+      this._raw.activeTopologySlot = null;
+    }
+
     const validDeviceIds = new Set(this._raw.devices.map(d => d.id));
     
     // Purgar conexiones huérfanas
@@ -194,9 +205,24 @@ class Store {
     if (!this._undoStack.length) return;
     this._redoStack.push(deepClone(this._raw));
     const prev = this._undoStack.pop();
+
+    // Preservar slots de topología persistentes configurados por el usuario
+    const currentSlots = deepClone(this._raw.topologySlots || [null, null, null, null, null]);
+    const currentActiveSlot = this._raw.activeTopologySlot !== undefined ? this._raw.activeTopologySlot : null;
+
+    // Limpieza atómica de claves para evitar huérfanos
+    Object.keys(this._raw).forEach(k => {
+      if (!(k in prev)) delete this._raw[k];
+    });
     Object.assign(this._raw, prev);
+
+    if (Array.isArray(currentSlots) && currentSlots.length === 5) {
+      this._raw.topologySlots = currentSlots;
+      this._raw.activeTopologySlot = currentActiveSlot;
+    }
+
     this._save();
-    this._emit('change', { path: 'undo' });
+    this._emit('change', { path: 'undo', source: 'undo' });
     this._updateHistoryButtons();
   }
 
@@ -204,9 +230,24 @@ class Store {
     if (!this._redoStack.length) return;
     this._undoStack.push(deepClone(this._raw));
     const next = this._redoStack.pop();
+
+    // Preservar slots de topología persistentes configurados por el usuario
+    const currentSlots = deepClone(this._raw.topologySlots || [null, null, null, null, null]);
+    const currentActiveSlot = this._raw.activeTopologySlot !== undefined ? this._raw.activeTopologySlot : null;
+
+    // Limpieza atómica de claves para evitar huérfanos
+    Object.keys(this._raw).forEach(k => {
+      if (!(k in next)) delete this._raw[k];
+    });
     Object.assign(this._raw, next);
+
+    if (Array.isArray(currentSlots) && currentSlots.length === 5) {
+      this._raw.topologySlots = currentSlots;
+      this._raw.activeTopologySlot = currentActiveSlot;
+    }
+
     this._save();
-    this._emit('change', { path: 'redo' });
+    this._emit('change', { path: 'redo', source: 'redo' });
     this._updateHistoryButtons();
   }
 
@@ -785,6 +826,127 @@ class Store {
     Object.assign(this._raw.topology, data);
     this._save();
     this._emit('change', { source: 'saveTopology' });
+  }
+
+  // ──────────────────────────────────────────────────────────────────
+  // M-40: Gestión de Ranuras de Memoria de Topología (5 Slots)
+  // ──────────────────────────────────────────────────────────────────
+  saveTopologySlot(slotIndex, customName) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return null;
+
+    if (!Array.isArray(this._raw.topologySlots) || this._raw.topologySlots.length !== 5) {
+      this._raw.topologySlots = [null, null, null, null, null];
+    }
+
+    const currentTopo = this._raw.topology || {};
+    const defaultName = `Vista ${idx + 1}`;
+    const prevSlot = this._raw.topologySlots[idx];
+    const name = (customName && customName.trim()) ? customName.trim() : (prevSlot && prevSlot.name ? prevSlot.name : defaultName);
+
+    const slotData = {
+      id: idx + 1,
+      name,
+      savedAt: new Date().toISOString(),
+      nodePositions: JSON.parse(JSON.stringify(currentTopo.nodePositions || {})),
+      rackPositions: JSON.parse(JSON.stringify(currentTopo.rackPositions || {})),
+      rackSizes: JSON.parse(JSON.stringify(currentTopo.rackSizes || {})),
+      roomPositions: JSON.parse(JSON.stringify(currentTopo.roomPositions || {})),
+      roomSizes: JSON.parse(JSON.stringify(currentTopo.roomSizes || {})),
+      topoZoom: this._raw.topoZoom !== undefined ? this._raw.topoZoom : 1,
+      topoPanX: this._raw.topoPanX !== undefined ? this._raw.topoPanX : 0,
+      topoPanY: this._raw.topoPanY !== undefined ? this._raw.topoPanY : 0,
+      topoSpacing: currentTopo.topoSpacing !== undefined ? currentTopo.topoSpacing : (typeof window !== 'undefined' ? window.TOPO_SPACING || 60 : 60),
+      topoSpacingX: currentTopo.topoSpacingX !== undefined ? currentTopo.topoSpacingX : (typeof window !== 'undefined' ? window.TOPO_SPACING_X || 28 : 28),
+      bgPattern: currentTopo.bgPattern || (typeof window !== 'undefined' ? window.TOPO_BG_PATTERN || 'dots' : 'dots'),
+      inheritColors: currentTopo.inheritColors !== undefined ? currentTopo.inheritColors : (typeof window !== 'undefined' ? window.TOPO_INHERIT_COLORS !== false : true),
+      topoAlpha: currentTopo.topoAlpha !== undefined ? currentTopo.topoAlpha : (typeof window !== 'undefined' && window.TOPO_ALPHA !== undefined ? window.TOPO_ALPHA : 0.25),
+      style: currentTopo.style || (typeof window !== 'undefined' ? window.TOPOLOGY_STYLE || 'card' : 'card'),
+      layoutMode: currentTopo.layoutMode || (typeof window !== 'undefined' ? window.TOPO_LAYOUT_MODE || 'racks' : 'racks'),
+      labelPreset: currentTopo.labelPreset || (typeof window !== 'undefined' ? window.TOPO_LABEL_PRESET || 'separated' : 'separated'),
+      namePos: currentTopo.namePos || (typeof window !== 'undefined' ? window.TOPO_NAME_POS || 'bottom' : 'bottom'),
+      ipPos: currentTopo.ipPos || (typeof window !== 'undefined' ? window.TOPO_IP_POS || 'top' : 'top')
+    };
+
+    this._raw.topologySlots[idx] = slotData;
+    this._raw.activeTopologySlot = idx;
+    this._save();
+    this._emit('change', { source: 'saveTopologySlot', slotIndex: idx, slotData });
+    return slotData;
+  }
+
+  loadTopologySlot(slotIndex) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return false;
+    if (!this._raw.topologySlots || !this._raw.topologySlots[idx]) return false;
+
+    const slotData = this._raw.topologySlots[idx];
+
+    if (!this._raw.topology) {
+      this._raw.topology = {};
+    }
+
+    this._raw.topology.nodePositions = JSON.parse(JSON.stringify(slotData.nodePositions || {}));
+    this._raw.topology.rackPositions = JSON.parse(JSON.stringify(slotData.rackPositions || {}));
+    this._raw.topology.rackSizes = JSON.parse(JSON.stringify(slotData.rackSizes || {}));
+    this._raw.topology.roomPositions = JSON.parse(JSON.stringify(slotData.roomPositions || {}));
+    this._raw.topology.roomSizes = JSON.parse(JSON.stringify(slotData.roomSizes || {}));
+    
+    if (slotData.topoSpacing !== undefined) this._raw.topology.topoSpacing = slotData.topoSpacing;
+    if (slotData.topoSpacingX !== undefined) this._raw.topology.topoSpacingX = slotData.topoSpacingX;
+    if (slotData.bgPattern) this._raw.topology.bgPattern = slotData.bgPattern;
+    if (slotData.inheritColors !== undefined) this._raw.topology.inheritColors = slotData.inheritColors;
+    if (slotData.topoAlpha !== undefined) this._raw.topology.topoAlpha = slotData.topoAlpha;
+    if (slotData.style) this._raw.topology.style = slotData.style;
+    if (slotData.layoutMode) this._raw.topology.layoutMode = slotData.layoutMode;
+    if (slotData.labelPreset) this._raw.topology.labelPreset = slotData.labelPreset;
+    if (slotData.namePos) this._raw.topology.namePos = slotData.namePos;
+    if (slotData.ipPos) this._raw.topology.ipPos = slotData.ipPos;
+
+    if (slotData.topoZoom !== undefined) this._raw.topoZoom = slotData.topoZoom;
+    if (slotData.topoPanX !== undefined) this._raw.topoPanX = slotData.topoPanX;
+    if (slotData.topoPanY !== undefined) this._raw.topoPanY = slotData.topoPanY;
+
+    this._raw.activeTopologySlot = idx;
+    this._save();
+    this._emit('change', { source: 'loadTopologySlot', slotIndex: idx, slotData });
+    return true;
+  }
+
+  clearTopologySlot(slotIndex) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return false;
+
+    if (!Array.isArray(this._raw.topologySlots)) {
+      this._raw.topologySlots = [null, null, null, null, null];
+    }
+    this._raw.topologySlots[idx] = null;
+    if (this._raw.activeTopologySlot === idx) {
+      this._raw.activeTopologySlot = null;
+    }
+    this._save();
+    this._emit('change', { source: 'clearTopologySlot', slotIndex: idx });
+    return true;
+  }
+
+  renameTopologySlot(slotIndex, newName) {
+    const idx = parseInt(slotIndex, 10);
+    if (isNaN(idx) || idx < 0 || idx > 4) return false;
+    if (!this._raw.topologySlots || !this._raw.topologySlots[idx]) return false;
+
+    const cleanName = (newName && newName.trim()) ? newName.trim() : `Vista ${idx + 1}`;
+    this._raw.topologySlots[idx].name = cleanName;
+    this._save();
+    this._emit('change', { source: 'renameTopologySlot', slotIndex: idx, name: cleanName });
+    return true;
+  }
+
+  getTopologySlots() {
+    if (!Array.isArray(this._raw.topologySlots) || this._raw.topologySlots.length !== 5) {
+      const existing = Array.isArray(this._raw.topologySlots) ? this._raw.topologySlots : [];
+      this._raw.topologySlots = [0, 1, 2, 3, 4].map(i => existing[i] || null);
+    }
+    return this._raw.topologySlots;
   }
 
   loadData(data) {

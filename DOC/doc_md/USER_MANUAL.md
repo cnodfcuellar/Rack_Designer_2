@@ -211,20 +211,33 @@ La vista de topología es un diagrama de red interactivo donde puedes ver cómo 
 - Puedes alternar entre **Organización por Racks** (agrupa los nodos dentro de sus respectivos gabinetes) y **Árbol Jerárquico** (organización tipo Draw.io de arriba hacia abajo: Core → Distribución → Acceso, con cables ortogonales redondeados).
 
 ### Ajustar el espaciado (Control Dual H y V)
-- Usa los deslizadores en la barra superior:
-  - **Barra H (Horizontal):** Ajusta la distancia entre columnas de equipos y nodos hermanos.
-  - **Barra V (Vertical):** Ajusta la separación vertical entre niveles de red y slots.
+- Abre el menú desplegable **"🎛️ Estilo"** en la barra superior de topología:
+  - **Barra H (Horizontal):** Ajusta la distancia entre columnas de equipos y nodos hermanos (lectura interactiva en px).
+  - **Barra V (Vertical):** Ajusta la separación vertical entre niveles de red y slots (lectura interactiva en px).
+
+### 💾 Guardar y Alternar entre 5 Vistas de Topología (M-40)
+- En la barra superior dispones de la botonera compacta: `👁️ [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ] [ 💾 ]`.
+- **Guardar una vista:** Haz clic en cualquier botón de ranura vacía (con borde discontinuo) para guardar al instante las posiciones de los nodos, encuadre (zoom y pan), estilo y espaciados actuales.
+- **Alternar o cargar una vista:** Haz clic en cualquier número de ranura guardada para conmutar inmediatamente a ese estado sin recargar la página. La ranura activa se resalta con un brillo azul cian.
+- **Gestión avanzada:** Haz clic en el icono del disquete `[ 💾 ]` para abrir el menú de gestión:
+  - Puedes **Renombrar** cada vista con nombres descriptivos (ej. *"1: Red Core"*, *"2: Cámaras CCTV"*).
+  - Puedes **Sobrescribir** o **Vaciar** cualquier ranura con un clic.
+  - El sistema de deshacer/rehacer (`Ctrl+Z` / `Ctrl+Y`) funciona de forma totalmente independiente sin alterar tus ranuras guardadas.
 
 ### 📍 Afinidad Automática de Equipos de Piso por Gabinete (M-39)
 - Los equipos de piso (cámaras de seguridad CCTV, puntos de acceso Wi-Fi, estaciones de trabajo, impresoras de red) se ordenan de forma inteligente **directamente debajo del rack al que están conectados**.
 - Esto hace que los cables de red desciendan rectos y directos desde el switch ToR/distribución hasta sus periféricos, eliminando los molestos cruces de cables diagonales que antes atravesaban toda la sala.
 - Todos los racks conservan una **misma línea de base horizontal**, asegurando una cuadrícula simétrica, ordenada y elegante.
 
+### 🔍 HUD Tooltip Ergonómico y Nombres Técnicos
+- Al pasar el cursor sobre cualquier nodo en topología, se despliega una tarjeta HUD de **240px** con soporte multilínea para nombres extensos y credenciales protegidas.
+- Nombres de más de 17 caracteres en tarjetas y círculos se abrevian con una elipsis elegante (`…`), preservando las dimensiones estándar y la geometría intacta de los racks.
+
 ### Reordenar automáticamente
-- Haz clic en **"Auto-Ordenar"** para que la aplicación recalcule y alinee automáticamente todas las posiciones del diagrama respetando las dependencias de red y la afinidad de gabinetes.
+- Haz clic en **"Auto"** (o botón `⚡ Auto`) para que la aplicación recalcule y alinee automáticamente todas las posiciones del diagrama respetando las dependencias de red y la afinidad de gabinetes.
 
 ### Exportar como imagen
-- Desde el menú de exportación, selecciona **"Exportar Topología PNG"** para descargar una imagen de alta resolución del diagrama.
+- Desde el menú de exportación o el botón **"PNG"** de la barra, descarga una imagen de alta resolución del diagrama.
 
 ---
 
@@ -248,10 +261,12 @@ Desde el menú del proyecto o la barra inferior, puedes exportar tus datos en va
 - Ve al menú del proyecto (⋮) → **"Cambiar a Modo Claro"** o **"Cambiar a Modo Oscuro"**.
 - El tema se guarda en tu navegador y se recuerda en la siguiente visita.
 
-### Modo Dios (solo Admin)
-- Ve al menú del proyecto (⋮) → **"Modo Dios: Revelar Claves"**.
-- Muestra todas las contraseñas almacenadas en texto plano en la tabla, inspector y topología.
-- Solo los administradores pueden activar esta función.
+### Modo Dios y Cifrado en Reposo (M-01)
+- **Seguridad en Reposo:** Las contraseñas se almacenan cifradas con AES-GCM (`enc:v1:`) en tu navegador (`localStorage`) y en respaldos `.rack`. En reposo nunca reside texto plano.
+- En la interfaz, las contraseñas se enmascaran por defecto como `••••••••`.
+- **Revelación Táctil:** Los Administradores pueden hacer clic en el botón de ojo (`👁`) en el Inspector para revelar la contraseña de un equipo específico.
+- **Modo Dios Global:** Desde el menú del proyecto (⋮) → **"Modo Dios: Revelar Claves"**, el Administrador puede revelar simultáneamente todas las contraseñas en tablas e inspectores.
+- Solo los usuarios con rol Administrador tienen autorización para activar estas opciones.
 
 ### Pausar animaciones
 - Haz clic en el **punto verde** (status dot) de la barra superior para pausar/reanudar las animaciones de las partículas en la topología.

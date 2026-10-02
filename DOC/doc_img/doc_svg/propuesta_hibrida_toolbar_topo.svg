@@ -1,0 +1,263 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 980" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;display=swap');
+      text { font-family: 'Outfit', sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070a12"/>
+      <stop offset="100%" stop-color="#0d1322"/>
+    </linearGradient>
+    <linearGradient id="hybridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(56, 189, 248, 0.15)"/>
+      <stop offset="50%" stop-color="rgba(16, 185, 129, 0.10)"/>
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 0.95)"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#151d30"/>
+      <stop offset="100%" stop-color="#0f1626"/>
+    </linearGradient>
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- FONDO -->
+  <rect width="1100" height="980" rx="12" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- CABECERA -->
+  <rect x="0" y="0" width="1100" height="54" fill="#0f172a" rx="12" stroke="#1e293b" stroke-width="1"/>
+  <rect x="24" y="15" width="24" height="24" rx="6" fill="#10b981" opacity="0.2"/>
+  <text x="36" y="31" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">⚡</text>
+  <text x="58" y="33" fill="#f8fafc" font-size="15" font-weight="700">Solución Híbrida: Opción 1 + Opción 2 Combinadas (Diseño Óptimo)</text>
+  <text x="1070" y="33" text-anchor="end" fill="#94a3b8" font-size="12" class="mono">Espacio Disponible: 826px</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SECCIÓN SUPERIOR: LA BARRA RESULTANTE COMBINADA (1 + 2)       -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 70)">
+    <rect width="1040" height="340" rx="10" fill="url(#hybridGrad)" stroke="#10b981" stroke-width="2"/>
+    
+    <!-- Badge Destacado -->
+    <rect x="20" y="16" width="310" height="24" rx="5" fill="#10b981" opacity="0.25"/>
+    <text x="30" y="32" fill="#34d399" font-size="12" font-weight="700">★ FUSIÓN PERFECTA: OPCIÓN 1 + OPCIÓN 2</text>
+    <text x="345" y="32" fill="#94a3b8" font-size="12">Ancho consumido: <tspan fill="#34d399" font-weight="700">~495px</tspan> • <tspan fill="#38bdf8" font-weight="700">Margen libre: +331px (40% del área libre)</tspan></text>
+
+    <!-- Contenedor del canvas útil 826px -->
+    <rect x="20" y="52" width="826" height="52" rx="6" fill="#0b0f19" stroke="#10b981" stroke-width="1.2"/>
+    <line x1="846" y1="46" x2="846" y2="110" stroke="#334155" stroke-width="1" stroke-dasharray="4 2"/>
+    <text x="854" y="82" fill="#64748b" font-size="10" class="mono">Límite panel derecho (826px)</text>
+
+    <!-- BARRA HÍBRIDA EN ACCIÓN -->
+    <g transform="translate(28, 62)">
+      <!-- 1. Bloque Zoom Ultra Limpio (~145px) -->
+      <g>
+        <rect x="0" y="0" width="28" height="32" rx="4" fill="#1e293b" stroke="#334155"/>
+        <text x="14" y="20" text-anchor="middle" fill="#cbd5e1" font-size="14">-</text>
+        <text x="44" y="20" text-anchor="middle" fill="#94a3b8" font-size="11" class="mono">48%</text>
+        <rect x="60" y="0" width="28" height="32" rx="4" fill="#1e293b" stroke="#334155"/>
+        <text x="74" y="20" text-anchor="middle" fill="#cbd5e1" font-size="14">+</text>
+        <rect x="94" y="0" width="44" height="32" rx="4" fill="#1e293b" stroke="#334155"/>
+        <text x="116" y="20" text-anchor="middle" fill="#cbd5e1" font-size="11">⊙ 1:1</text>
+      </g>
+
+      <!-- 2. Botón Estilo con Indicador de Menú (~78px) -->
+      <g transform="translate(146, 0)">
+        <rect x="0" y="0" width="76" height="32" rx="4" fill="#0ea5e9" opacity="0.2" stroke="#38bdf8"/>
+        <text x="38" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">🎛️ Estilo ▾</text>
+      </g>
+
+      <!-- 3. Botón Auto Compacto (~75px) -->
+      <g transform="translate(230, 0)">
+        <rect x="0" y="0" width="72" height="32" rx="4" fill="#1e293b" stroke="#334155"/>
+        <text x="36" y="20" text-anchor="middle" fill="#cbd5e1" font-size="11">⚡ Auto</text>
+      </g>
+
+      <!-- 4. Grupo Vistas Compacto con Icono 👁️ (~195px) -->
+      <g transform="translate(310, 0)">
+        <rect x="0" y="0" width="194" height="32" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2"/>
+        <text x="14" y="20" text-anchor="middle" fill="#38bdf8" font-size="13" title="Vistas guardadas">👁️</text>
+        
+        <!-- Slot 1 Activo -->
+        <rect x="28" y="5" width="22" height="22" rx="3" fill="#0ea5e9" opacity="0.3" stroke="#38bdf8"/>
+        <text x="39" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700" class="mono">1</text>
+        <!-- Slot 2 Guardado -->
+        <rect x="54" y="5" width="22" height="22" rx="3" fill="#0f172a" stroke="#0ea5e9" opacity="0.7"/>
+        <circle cx="72" cy="9" r="2" fill="#38bdf8"/>
+        <text x="65" y="20" text-anchor="middle" fill="#f8fafc" font-size="11" class="mono">2</text>
+        <!-- Slot 3 Vacío -->
+        <rect x="80" y="5" width="22" height="22" rx="3" fill="#0f172a" stroke="#334155" stroke-dasharray="2 2"/>
+        <text x="91" y="20" text-anchor="middle" fill="#64748b" font-size="11" class="mono">3</text>
+        <!-- Slot 4 Vacío -->
+        <rect x="106" y="5" width="22" height="22" rx="3" fill="#0f172a" stroke="#334155" stroke-dasharray="2 2"/>
+        <text x="117" y="20" text-anchor="middle" fill="#64748b" font-size="11" class="mono">4</text>
+        <!-- Slot 5 Vacío -->
+        <rect x="132" y="5" width="22" height="22" rx="3" fill="#0f172a" stroke="#334155" stroke-dasharray="2 2"/>
+        <text x="143" y="20" text-anchor="middle" fill="#64748b" font-size="11" class="mono">5</text>
+
+        <!-- Divisor y Botón Menú / Guardar -->
+        <line x1="160" y1="7" x2="160" y2="25" stroke="#334155"/>
+        <rect x="166" y="5" width="22" height="22" rx="3" fill="#0f172a" stroke="#334155"/>
+        <text x="177" y="19" text-anchor="middle" fill="#38bdf8" font-size="11">💾</text>
+      </g>
+
+      <!-- Espacio libre sobrante (Garantía total) -->
+      <g transform="translate(514, 2)">
+        <rect width="320" height="28" rx="4" fill="rgba(16, 185, 129, 0.12)" stroke="#10b981" stroke-dasharray="4 3"/>
+        <text x="160" y="18" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">✓ 331px Libres • Cero Saturación • Responsive en 100% Pantallas</text>
+      </g>
+    </g>
+
+    <!-- DETALLE DE LAS DOS VENTANAS FLOTANTES QUE SE ABREN AL HACER CLIC -->
+    
+    <!-- 1. Menú Estilo (con Sliders H y V enriquecidos de Opción 1) -->
+    <g transform="translate(140, 120)">
+      <rect width="300" height="200" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" filter="url(#glowCyan)"/>
+      <rect x="0" y="0" width="300" height="30" fill="#1e293b" rx="8"/>
+      <text x="12" y="20" fill="#f8fafc" font-size="11" font-weight="700">🎛️ PERSONALIZACIÓN &amp; ESPACIADO</text>
+      <text x="282" y="20" fill="#64748b" font-size="12">✕</text>
+
+      <!-- Disposición -->
+      <text x="14" y="48" fill="#94a3b8" font-size="10">Disposición de Nodos:</text>
+      <rect x="14" y="54" width="130" height="24" rx="4" fill="#0ea5e9" opacity="0.3" stroke="#38bdf8"/>
+      <text x="79" y="70" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">Por Racks</text>
+      <rect x="150" y="54" width="136" height="24" rx="4" fill="#1e293b" stroke="#334155"/>
+      <text x="218" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">Árbol Jerárquico</text>
+
+      <!-- SECCIÓN INTEGRADA DE SLIDERS H Y V -->
+      <rect x="12" y="86" width="276" height="66" rx="6" fill="#182238" stroke="#334155"/>
+      <text x="20" y="102" fill="#34d399" font-size="10" font-weight="700" class="mono">ESPACIADO ENTRE NODOS Y RACKS</text>
+      
+      <!-- Slider H con lectura en PX -->
+      <text x="20" y="122" fill="#cbd5e1" font-size="10" font-weight="600" class="mono">H (Horizontal):</text>
+      <rect x="115" y="116" width="115" height="6" rx="3" fill="#334155"/>
+      <circle cx="150" cy="119" r="6" fill="#10b981"/>
+      <text x="245" y="123" fill="#10b981" font-size="10" font-weight="700" class="mono">28 px</text>
+
+      <!-- Slider V con lectura en PX -->
+      <text x="20" y="140" fill="#cbd5e1" font-size="10" font-weight="600" class="mono">V (Vertical):</text>
+      <rect x="115" y="134" width="115" height="6" rx="3" fill="#334155"/>
+      <circle cx="170" cy="137" r="6" fill="#10b981"/>
+      <text x="245" y="141" fill="#10b981" font-size="10" font-weight="700" class="mono">60 px</text>
+
+      <!-- Fondo y Estilo -->
+      <text x="14" y="172" fill="#94a3b8" font-size="10">Fondo: [ Cuadrícula ▾ ] • Opacidad: 25%</text>
+      <text x="14" y="188" fill="#64748b" font-size="9">✓ Ajuste fino interactivo con valores en vivo</text>
+    </g>
+
+    <!-- 2. Menú de Vistas (con Anclaje a la Derecha right: 0 de Opción 2) -->
+    <g transform="translate(480, 120)">
+      <rect width="320" height="200" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5" filter="url(#glowCyan)"/>
+      <rect x="0" y="0" width="320" height="30" fill="#1e293b" rx="8"/>
+      <text x="14" y="20" fill="#f8fafc" font-size="11" font-weight="700">👁️ GESTIÓN DE VISTAS (SLOTS)</text>
+      <text x="240" y="20" fill="#34d399" font-size="10" font-weight="700" class="mono">[right: 0]</text>
+      <text x="300" y="20" fill="#64748b" font-size="12">✕</text>
+
+      <!-- Tarjeta Slot 1 -->
+      <rect x="12" y="38" width="296" height="42" rx="4" fill="#152136" stroke="#38bdf8"/>
+      <text x="22" y="54" fill="#38bdf8" font-size="11" font-weight="700" class="mono">[1] Esquema Core &amp; Distribución</text>
+      <text x="22" y="70" fill="#64748b" font-size="9" class="mono">Guardado: 14:32 • 42 nodos</text>
+      <rect x="220" y="46" width="40" height="24" rx="3" fill="#0ea5e9" opacity="0.2" stroke="#38bdf8"/>
+      <text x="240" y="62" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">▶ Ver</text>
+      <rect x="265" y="46" width="35" height="24" rx="3" fill="#1e293b" stroke="#334155"/>
+      <text x="282" y="62" text-anchor="middle" fill="#94a3b8" font-size="10">✏️</text>
+
+      <!-- Tarjeta Slot 2 -->
+      <rect x="12" y="86" width="296" height="42" rx="4" fill="#182238" stroke="#334155"/>
+      <text x="22" y="102" fill="#f8fafc" font-size="11" font-weight="700" class="mono">[2] Vista Datacenter Sala 1</text>
+      <text x="22" y="118" fill="#64748b" font-size="9" class="mono">Guardado: 10:15 • 18 nodos</text>
+      <rect x="220" y="94" width="40" height="24" rx="3" fill="#1e293b" stroke="#334155"/>
+      <text x="240" y="110" text-anchor="middle" fill="#cbd5e1" font-size="10">▶ Ver</text>
+      <rect x="265" y="94" width="35" height="24" rx="3" fill="#1e293b" stroke="#334155"/>
+      <text x="282" y="110" text-anchor="middle" fill="#94a3b8" font-size="10">✏️</text>
+
+      <!-- Botón de guardado rápido inferior -->
+      <rect x="12" y="145" width="296" height="30" rx="4" fill="#10b981" opacity="0.25" stroke="#10b981"/>
+      <text x="160" y="164" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">💾 Guardar Estado Actual en Slot Libre</text>
+      <text x="160" y="190" text-anchor="middle" fill="#64748b" font-size="9">✓ El popover se despliega hacia la izquierda sin tocar el panel derecho</text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- TABLA COMPARATIVA: ¿QUÉ APORTA CADA OPCIÓN A LA FUSIÓN?       -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 430)">
+    <rect width="1040" height="520" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.2"/>
+    <text x="24" y="32" fill="#f8fafc" font-size="13" font-weight="700">TABLA DE ATRIBUTOS: CÓMO SE COMPLEMENTAN LA OPCIÓN 1 Y LA OPCIÓN 2</text>
+    
+    <!-- Encabezado de la tabla -->
+    <rect x="20" y="50" width="1000" height="32" rx="4" fill="#1e293b"/>
+    <text x="35" y="70" fill="#94a3b8" font-size="11" font-weight="700">COMPONENTE / CRITERIO</text>
+    <text x="320" y="70" fill="#ef4444" font-size="11" font-weight="700">ESTADO ACTUAL</text>
+    <text x="560" y="70" fill="#38bdf8" font-size="11" font-weight="700">APORTE DE OPCIÓN 1</text>
+    <text x="790" y="70" fill="#34d399" font-size="11" font-weight="700">RESULTADO FUSIÓN (1 + 2)</text>
+
+    <!-- Fila 1: Sliders H y V -->
+    <rect x="20" y="90" width="1000" height="54" rx="4" fill="#0b0f19" opacity="0.6"/>
+    <text x="35" y="112" fill="#f8fafc" font-size="11" font-weight="700">Sliders de Espaciado (H / V)</text>
+    <text x="35" y="128" fill="#64748b" font-size="10">Ubicación y tamaño</text>
+    <text x="320" y="112" fill="#ef4444" font-size="11">En la barra (220px fijos)</text>
+    <text x="320" y="128" fill="#ef4444" font-size="10">Saturan y empujan todo</text>
+    <text x="560" y="112" fill="#38bdf8" font-size="11">Se mueven a "Estilo"</text>
+    <text x="560" y="128" fill="#94a3b8" font-size="10">Ahorran 220px en la barra</text>
+    <text x="790" y="112" fill="#34d399" font-size="11" font-weight="700">En popover "Estilo" con lectura PX</text>
+    <text x="790" y="128" fill="#34d399" font-size="10">Libera barra + control preciso con valor</text>
+
+    <!-- Fila 2: Etiqueta Vistas -->
+    <rect x="20" y="152" width="1000" height="54" rx="4" fill="#0f1626" opacity="0.6"/>
+    <text x="35" y="174" fill="#f8fafc" font-size="11" font-weight="700">Etiqueta de Ranuras</text>
+    <text x="35" y="190" fill="#64748b" font-size="10">Identificador visual</text>
+    <text x="320" y="174" fill="#ef4444" font-size="11">Texto largo 'VISTAS:' (55px)</text>
+    <text x="320" y="190" fill="#ef4444" font-size="10">Consume espacio valioso</text>
+    <text x="560" y="174" fill="#94a3b8" font-size="11">Mantenía texto 'VISTAS:'</text>
+    <text x="560" y="190" fill="#94a3b8" font-size="10">Sin reducción de ancho</text>
+    <text x="790" y="174" fill="#34d399" font-size="11" font-weight="700">Icono sutil '👁️' (Ahorra 50px)</text>
+    <text x="790" y="190" fill="#34d399" font-size="10">Elegante, moderno y universal</text>
+
+    <!-- Fila 3: Botón Auto-Orden -->
+    <rect x="20" y="214" width="1000" height="54" rx="4" fill="#0b0f19" opacity="0.6"/>
+    <text x="35" y="236" fill="#f8fafc" font-size="11" font-weight="700">Botón Auto-Organización</text>
+    <text x="35" y="252" fill="#64748b" font-size="10">Comportamiento y texto</text>
+    <text x="320" y="236" fill="#ef4444" font-size="11">Texto largo 'Auto-Orden' (105px)</text>
+    <text x="320" y="252" fill="#ef4444" font-size="10">Ocupa espacio horizontal</text>
+    <text x="560" y="236" fill="#94a3b8" font-size="11">Sin cambios (105px)</text>
+    <text x="560" y="252" fill="#94a3b8" font-size="10">Mantenía tamaño completo</text>
+    <text x="790" y="236" fill="#34d399" font-size="11" font-weight="700">Compactado a '⚡ Auto' (72px)</text>
+    <text x="790" y="252" fill="#34d399" font-size="10">Ahorra 33px manteniendo total claridad</text>
+
+    <!-- Fila 4: Posicionamiento Popover Slots -->
+    <rect x="20" y="276" width="1000" height="54" rx="4" fill="#0f1626" opacity="0.6"/>
+    <text x="35" y="298" fill="#f8fafc" font-size="11" font-weight="700">Anclaje del Popover de Slots</text>
+    <text x="35" y="314" fill="#64748b" font-size="10">Despliegue del menú de gestión</text>
+    <text x="320" y="298" fill="#ef4444" font-size="11">left: 0 (Alineado a la izq.)</text>
+    <text x="320" y="314" fill="#ef4444" font-size="10">Colisiona contra panel derecho</text>
+    <text x="560" y="298" fill="#94a3b8" font-size="11">left: 0 (sin cambio)</text>
+    <text x="560" y="314" fill="#94a3b8" font-size="10">Riesgo en pantallas estrechas</text>
+    <text x="790" y="298" fill="#34d399" font-size="11" font-weight="700">right: 0 (Alineado a la der.)</text>
+    <text x="790" y="314" fill="#34d399" font-size="10">Se abre hacia el centro del canvas (0 colisión)</text>
+
+    <!-- Fila 5: Espacio Total y Margen Libre -->
+    <rect x="20" y="338" width="1000" height="54" rx="4" fill="rgba(16, 185, 129, 0.08)" stroke="#10b981" stroke-width="1"/>
+    <text x="35" y="360" fill="#34d399" font-size="11" font-weight="700">ANCHO TOTAL CONSUMIDO</text>
+    <text x="35" y="376" fill="#34d399" font-size="10">Margen libre en pantalla 1366px</text>
+    <text x="320" y="360" fill="#ef4444" font-size="12" font-weight="700">~854 px (-28px Desborde)</text>
+    <text x="320" y="376" fill="#ef4444" font-size="10">Se cortan botones 4, 5 y menú</text>
+    <text x="560" y="360" fill="#38bdf8" font-size="12" font-weight="700">~625 px (+201px Libres)</text>
+    <text x="560" y="376" fill="#38bdf8" font-size="10">Holgado y funcional</text>
+    <text x="790" y="360" fill="#34d399" font-size="13" font-weight="700">~495 px (+331px Libres)</text>
+    <text x="790" y="376" fill="#34d399" font-size="10">Máxima estética y ergonomía profesional</text>
+
+    <!-- Conclusión inferior -->
+    <g transform="translate(20, 410)">
+      <rect width="1000" height="90" rx="6" fill="#0b0f19" stroke="#10b981" stroke-width="1.2"/>
+      <circle cx="28" cy="28" r="10" fill="#10b981" opacity="0.2"/>
+      <text x="28" y="32" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">✓</text>
+      <text x="48" y="32" fill="#34d399" font-size="12" font-weight="700">BENEFICIO DE LA SOLUCIÓN HÍBRIDA:</text>
+      <text x="48" y="52" fill="#cbd5e1" font-size="11">1. Al mover los sliders a "Estilo" se elimina el bloque más pesado de la barra, y al compactar los botones (`👁️` y `⚡ Auto`) se reduce otro 20% adicional.</text>
+      <text x="48" y="70" fill="#cbd5e1" font-size="11">2. La barra queda con un diseño despejado y sofisticado (tipo Figma / Miro) que funciona de forma impecable en cualquier monitor o laptop sin desbordamientos.</text>
+    </g>
+  </g>
+</svg>

@@ -319,7 +319,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares (manifest.json)
 └── tests/
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (26 tests en Node.js)
+    ├── index.html                ← Runner web interactivo de pruebas en navegador
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (199 tests en 15 grupos al 100%)
 ```
 
 **Ver diagrama:** `doc/doc_img/doc_svg/architecture_overview.svg` (File Structure)
@@ -336,9 +337,9 @@ Este orden es **importante** porque CSS se resuelve en cascada. Si `misc.css` de
 
 Todos los `<script>` van al final del `<body>`, en orden:
 
-1. **Vendor:** `xlsx.full.min.js`, `mobile-drag-drop.min.js`, `mobile-drag-drop-scroll.min.js`
+1. **Vendor:** `xlsx.full.min.js`, `html2canvas.min.js`, `mobile-drag-drop.min.js`, `mobile-drag-drop-scroll.min.js`
 2. **Core:** `store.js`, `utils.js`, `icons.js`, `demoData.js`
-3. **Auth:** `auth/roles.js`
+3. **Auth & Cripto:** `auth/crypto.js`, `auth/roles.js`
 4. **UI:** `ui/catalog.js`, `ui/tables.js`, `ui/outliner.js`, `ui/inspector.js`
 5. **Modals:** `Globals.js`, `RackModal.js`, `DeviceModal.js`, `CableModal.js`, `RoomModal.js`, `ExportModal.js`, `PlacementModal.js`
 6. **Topology:** `TopologyState.js`, `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyEvents.js`, `TopologyOrchestrator.js`
@@ -940,7 +941,7 @@ El proyecto RACK Designer Next es una app web vanilla que:
 7. **Drag & drop** nativo para colocar equipos
 8. **3 roles** (Admin, Editor, Viewer) con SHA-256 + token de integridad
 9. **Exporta** a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado, Excel y JSON (.rack)
-10. **PWA** con Service Worker (`v12`) para uso offline
-11. **Suite de Integridad Automatizada** con 83 pruebas pasando al 100% (`tests/integrity_check.cjs`)
+10. **PWA** con Service Worker (`rack-designer-next-cache-v30`) para uso offline
+11. **Suite de Integridad Automatizada** con 199 pruebas en 15 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
 
 **La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.

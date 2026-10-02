@@ -178,10 +178,27 @@ La vista de topología ubica los equipos de piso (`floor_devices`) en el cuadran
 │   └────────────────────────┘                         │
 │               │ (cable)                              │
 │   ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  │ floorBaseY = maxRackH + 28px
-│               ▼                                      │
-│        ( Periférico A )                              │ dy = +44px
-│               ▼                                      │
-│        ( Periférico B )      ( Periférico Rack 2 )   │
-└──────────────────────────────────────────────────────┘
-```
+---
+
+## 9. Medidas y Ergonomía de la Barra de Herramientas de Topología (M-40)
+
+La barra de herramientas superior (`.main-toolbar`) de la vista de topología se diseñó con un enfoque híbrido ultra-compacto para garantizar cero desbordamientos en cualquier resolución de pantalla (especialmente en portátiles estándar de 1366×633 con espacio horizontal de `826px` entre paneles):
+
+*   **Ancho Total Consumido:** **`~495px`** (frente a los `854px` del diseño original).
+*   **Margen Libre Garantizado:** **`+331px`** (más del 40% de área libre para el canvas).
+*   **Distribución y Dimensiones de Controles:**
+    *   **Controles de Zoom:** `-` (28px), indicador `%` (30px), `+` (28px), `1:1` (44px) $\to$ Total `~145px`.
+    *   **Botón Menú Estilo (`#btn-topo-style`):** Ancho de **`76px`** con icono y chevron indicador `🎛️ Estilo ▾`.
+    *   **Botón Auto-Organización (`#btn-topo-autoorder`):** Ancho de **`72px`** con etiqueta sintética `⚡ Auto`.
+    *   **Botonera Compacta de Vistas (`#topo-slots-group`):** Ancho de **`~195px`** compuesto por:
+        *   Icono identificador de perspectiva: `👁️` (12px).
+        *   5 botones de ranuras de memoria (`.topo-slot-btn`): **`22px` × `22px`** cada uno con margen de `3px`.
+        *   Separador vertical de `1px` × `14px`.
+        *   Botón de gestión avanzada / guardado rápido (`#btn-topo-slots-menu`): **`22px` × `22px`**.
+    *   **Popover "Estilo" (`#topo-style-dropdown`):**
+        *   Ancho: **`240px`** con z-index de `1000`.
+        *   Aloja los deslizadores de calibración fina **H** (`#topo-spacing-x`, 15-150px) y **V** (`#topo-spacing`, 30-150px) con etiquetas numéricas en tiempo real (`28px`, `60px`).
+    *   **Popover de Vistas (`#topo-slots-dropdown`):**
+        *   Ancho: **`320px`** con anclaje estricto **`right: 0 !important; left: auto !important;`**, desplegándose hacia adentro del lienzo y previniendo colisiones contra el panel del inspector.
+
 

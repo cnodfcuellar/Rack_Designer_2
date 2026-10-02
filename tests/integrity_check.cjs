@@ -948,6 +948,152 @@ async function runTests() {
   assert(topoRendererSrc.includes('const hudW = 240;'), 'Topología HUD: Ancho ampliado a 240px para lectura completa de nombres');
   assert(topoRendererSrc.includes('titleLines') && topoRendererSrc.includes('devFullName.length > 21'), 'Topología HUD: Soporte multilínea inteligente para nombres técnicos extensos');
 
+  // ====================================================
+  // GRUPO 16: Guardado y Conmutación de Estados de Topología (M-40)
+  // ====================================================
+  console.log('\n🔹 GRUPO 16: Guardado y Conmutación de Estados de Topología (M-40)');
+
+  // 16.1 Inicialización de slots en estado por defecto
+  const freshDefState = store._defaultState();
+  assert(Array.isArray(freshDefState.topologySlots) && freshDefState.topologySlots.length === 5,
+    'M-40: _defaultState define topologySlots como un array de exactamente 5 elementos');
+  assert(freshDefState.topologySlots.every(slot => slot === null),
+    'M-40: Las 5 ranuras inician inicialmente vacías (null)');
+  assert(freshDefState.activeTopologySlot === null,
+    'M-40: activeTopologySlot inicia en null por defecto');
+
+  // 16.2 Consulta mediante getTopologySlots()
+  const currentSlots = store.getTopologySlots();
+  assert(Array.isArray(currentSlots) && currentSlots.length === 5,
+    'M-40: store.getTopologySlots() retorna las 5 ranuras de memoria');
+
+  // Preparar datos de prueba en la topología actual
+  store._raw.topology = {
+    nodePositions: { 'dev-test-1': { x: 120, y: 240 }, 'dev-test-2': { x: 300, y: 450 } },
+    rackPositions: { 'rack-test-1': { x: 100, y: 200 } },
+    rackSizes: { 'rack-test-1': { w: 220, h: 480 } },
+    roomPositions: { 'room-test-1': { x: 80, y: 150 } },
+    roomSizes: { 'room-test-1': { w: 800, h: 600 } },
+    topoSpacing: 75,
+    topoSpacingX: 35,
+    bgPattern: 'grid',
+    inheritColors: true,
+    topoAlpha: 0.3,
+    style: 'card',
+    layoutMode: 'racks'
+  };
+  store._raw.topoZoom = 1.25;
+  store._raw.topoPanX = 50;
+  store._raw.topoPanY = -80;
+
+  // 16.3 Guardado en ranura 0 con nombre personalizado
+  const savedSlot0 = store.saveTopologySlot(0, 'Esquema Datacenter Principal');
+  assert(savedSlot0 && savedSlot0.id === 1 && savedSlot0.name === 'Esquema Datacenter Principal',
+    'M-40: saveTopologySlot(0, name) guarda con éxito la ranura con metadatos correctos');
+  assert(store._raw.activeTopologySlot === 0,
+    'M-40: activeTopologySlot se actualiza al índice guardado (0)');
+  assert(savedSlot0.nodePositions['dev-test-1'].x === 120 && savedSlot0.nodePositions['dev-test-2'].y === 450,
+    'M-40: saveTopologySlot captura fielmente las posiciones (x, y) de los nodos');
+  assert(savedSlot0.topoZoom === 1.25 && savedSlot0.topoPanX === 50 && savedSlot0.topoPanY === -80,
+    'M-40: saveTopologySlot captura fielmente el zoom y las coordenadas de encuadre pan (x, y)');
+
+  // 16.4 Aislamiento e inmutabilidad por clonado profundo
+  store._raw.topology.nodePositions['dev-test-1'].x = 9999;
+  assert(savedSlot0.nodePositions['dev-test-1'].x === 120,
+    'M-40: El snapshot guardado está aislado de mutaciones posteriores en el estado activo (deep clone)');
+
+  // 16.5 Guardado en ranura 1 con nombre por defecto
+  const savedSlot1 = store.saveTopologySlot(1);
+  assert(savedSlot1 && savedSlot1.name === 'Vista 2',
+    'M-40: saveTopologySlot asigna "Vista 2" si no se suministra un nombre personalizado');
+
+  // 16.6 Renombrado de ranura
+  const renameOk = store.renameTopologySlot(0, 'Distribución Core y Agregación');
+  assert(renameOk === true && store._raw.topologySlots[0].name === 'Distribución Core y Agregación',
+    'M-40: renameTopologySlot modifica exitosamente el nombre descriptivo de la ranura');
+
+  // 16.7 Restauración y conmutación de estado con loadTopologySlot
+  // Simulamos que la topología activa se altera o desordena
+  store._raw.topology.nodePositions = { 'dev-random': { x: 0, y: 0 } };
+  store._raw.topoZoom = 0.5;
+  const loadOk = store.loadTopologySlot(0);
+  assert(loadOk === true, 'M-40: loadTopologySlot(0) se ejecuta satisfactoriamente');
+  assert(store._raw.topology.nodePositions['dev-test-1'].x === 120,
+    'M-40: loadTopologySlot restaura fielmente las coordenadas de los nodos guardados');
+  assert(store._raw.topoZoom === 1.25 && store._raw.topoPanX === 50,
+    'M-40: loadTopologySlot restaura fielmente el zoom y encuadre del canvas');
+  assert(store._raw.activeTopologySlot === 0,
+    'M-40: loadTopologySlot marca la ranura activa correctamente');
+
+  // 16.8 Rechazo de carga en ranura vacía
+  const loadEmptyOk = store.loadTopologySlot(3);
+  assert(loadEmptyOk === false, 'M-40: loadTopologySlot(3) rechaza la carga al tratarse de una ranura vacía');
+
+  // 16.9 Vaciado de ranura con clearTopologySlot
+  const clearOk = store.clearTopologySlot(1);
+  assert(clearOk === true && store._raw.topologySlots[1] === null,
+    'M-40: clearTopologySlot vacía la ranura liberando el slot a null');
+
+  // 16.10 Preservación de la pila de Rehacer (Redo) y Deshacer (Undo) sin conflictos
+  store.snapshot(); // Simulamos una acción de inventario
+  store.undo(); // Deshacer la acción
+  assert(store._redoStack.length > 0, 'Historial: store.undo() deja elementos disponibles en _redoStack');
+
+  // Interactuar con slots de topología: guardar y cargar NO debe destruir _redoStack
+  store.saveTopologySlot(4, 'Vista Auxiliar');
+  store.loadTopologySlot(0);
+  assert(store._redoStack.length > 0,
+    'M-40: Guardar/cargar slots de topología preserva intacto _redoStack (no rompe el botón Rehacer)');
+
+  // Rehacer debe poder ejecutarse con éxito
+  const redoLenBefore = store._redoStack.length;
+  store.redo();
+  assert(store._redoStack.length === redoLenBefore - 1,
+    'M-40: store.redo() se ejecuta exitosamente tras interactuar con los slots de topología');
+  assert(store._raw.topologySlots[4] !== null,
+    'M-40: Deshacer y Rehacer preservan los slots guardados sin pérdida de datos');
+
+  // 16.11 Sanitización de estructura ante cargas anómalas
+  store._raw.topologySlots = [null, null]; // Dañado
+  store._sanitize();
+  assert(Array.isArray(store._raw.topologySlots) && store._raw.topologySlots.length === 5,
+    'M-40: _sanitize() repara estructuras dañadas garantizando siempre 5 ranuras');
+
+  // 16.12 Funciones auxiliares en window (TopologyState.js)
+  assert(typeof window.applyTopologySlot === 'function',
+    'M-40: window.applyTopologySlot está expuesta globalmente');
+  assert(typeof window.saveCurrentToTopologySlot === 'function',
+    'M-40: window.saveCurrentToTopologySlot está expuesta globalmente');
+  assert(typeof window.clearTopologySlot === 'function',
+    'M-40: window.clearTopologySlot está expuesta globalmente');
+  assert(typeof window.renameTopologySlot === 'function',
+    'M-40: window.renameTopologySlot está expuesta globalmente');
+
+  // 16.13 Verificación de elementos DOM en index.html
+  const indexHtmlSrc = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(indexHtmlSrc.includes('id="topo-slots-group"'),
+    'M-40: index.html define el grupo de controles #topo-slots-group');
+  assert(indexHtmlSrc.includes('id="topo-slots-bar"'),
+    'M-40: index.html define el contenedor de botones de slots #topo-slots-bar');
+  assert(indexHtmlSrc.includes('id="btn-topo-slots-menu"'),
+    'M-40: index.html define el botón de gestión avanzada #btn-topo-slots-menu');
+  assert(indexHtmlSrc.includes('id="topo-slots-dropdown"'),
+    'M-40: index.html define el menú desplegable #topo-slots-dropdown');
+
+  // 16.14 Verificación de estilos en panels.css
+  const panelsCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'components', 'panels.css'), 'utf8');
+  assert(panelsCssSrc.includes('.topo-slot-btn'),
+    'M-40: panels.css define los estilos estéticos para .topo-slot-btn');
+  assert(panelsCssSrc.includes('.topo-slot-btn.saved') && panelsCssSrc.includes('.topo-slot-btn.active'),
+    'M-40: panels.css implementa estados visuales diferenciados para ranuras guardadas y activas');
+
+  // 16.15 Verificación de integración en main.js
+  const mainJsSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'main.js'), 'utf8');
+  assert(mainJsSrc.includes('function renderTopologySlots()'),
+    'M-40: main.js implementa la función orquestadora renderTopologySlots()');
+  assert(mainJsSrc.includes("topoSlotsGroup.classList.remove('force-hide')"),
+    'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
+
   // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
@@ -964,3 +1110,4 @@ async function runTests() {
 }
 
 runTests();
+

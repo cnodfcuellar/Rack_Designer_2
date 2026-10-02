@@ -17,6 +17,10 @@ function escapeHTML(str) {
     '"': '&quot;'
   }[tag] || tag));
 }
+const escapeHtml = escapeHTML;
+if (typeof window !== 'undefined') {
+  window.escapeHtml = escapeHTML;
+}
 
 function notify(msg, type = 'info', duration = 3000) {
   const el = document.createElement('div');

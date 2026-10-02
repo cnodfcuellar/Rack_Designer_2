@@ -99,18 +99,34 @@ Este documento detalla la planificación del desarrollo dividida por **áreas fu
 ### Fase 5.3: Distribución Automática y Espaciado
 - **Algoritmo**: Implementar la auto-distribución matemática de los nodos mediante fuerzas radiales (`radial recalculation`) y un control deslizante (slider) de espaciado interactivo para evitar el solapamiento visual.
 
-### Fase 5.4: Tooltips a Prueba de Fallos
-- **Seguridad**: Implementar el tooltip flotante dentro del canvas resguardado con `try-catch` y destructuración de datos seguros para soportar campos nulos o vacíos en el inventario.
+### Fase 5.4: HUD Tooltip Ergonómico y Elipsis Elegante
+- **HUD Tooltip**: Panel informativo flotante en Canvas 2D ampliado a `240px` con soporte multilínea inteligente para nombres técnicos extensos y colchón perimetral anti-desborde (`10px`).
+- **Elipsis en Nodos**: Truncamiento elegante (`…`) en tarjetas y círculos si el nombre supera 17 caracteres, protegiendo la cuadrícula y las dimensiones estándar de los racks.
+
+### Fase 5.5: Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)
+- **Afinidad por Dependencia**: Algoritmo `_findAffinityRackForFloorDevice` que mapea cada periférico a su rack anfitrión según la mayoría de enlaces directos.
+- **Cuadrante Inferior Alineado**: Distribución simétrica bajo la proyección horizontal del gabinete anfitrión sin desbordar hacia racks contiguos (`RACK_GAP = 32px`).
+- **Línea de Base Uniforme**: Eje vertical inicial compartido (`floorBaseY = rackTopY + maxRackH + 28px`) y soporte paritario en modo Árbol Jerárquico (`DAG`).
+
+### Fase 5.6: Guardado y Conmutación de Topología (M-40) y Barra Híbrida
+- **Ranuras de Memoria Lógicas**: 5 ranuras en `topologySlots` para almacenar y conmutar instantáneamente distribuciones (X, Y), niveles de zoom y coordenadas pan.
+- **Aislamiento de Historial**: Integración no intrusiva con el motor Undo/Redo (`_undoStack` / `_redoStack`), eliminando conflictos y preservando el botón Rehacer.
+- **Barra de Topología Híbrida**: Integración de sliders de espaciado dentro del popover Estilo, compactación de botones e iconografía, y anclaje seguro `right: 0` en el menú de vistas, reduciendo el ancho total a ~495px con cero desbordamiento en 1366px.
 
 ---
 
 ## ÁREA 6: Inventarios, Auditoría y Reportes (Auditing & Exports)
-*Desarrollar la capa de auditoría y generación de informes offline.*
+*Desarrollar la capa de auditoría, seguridad y generación de informes offline.*
 
-### Fase 6.1: Tablas de Inventario Dinámicas
+### Fase 6.1: Tablas de Inventario Dinámicas y Selector de Columnas (M-20)
 - **Implementación**: Crear el panel tabular inferior que muestra las tablas en tiempo real de Equipos, Gabinetes y Conexiones.
+- **Selector de Columnas**: Menú interactivo `#columns-dropdown` que permite activar/desactivar 18 columnas de inventario y 10 de conexiones con guardado persistente en `localStorage`.
 - **Reactividad**: Las tablas deben reconstruirse de forma eficiente al recibir el evento `store-updated`.
 
-### Fase 6.2: Exportaciones Locales (Cero Servidor)
-- **Fotografía de Rack**: Utilizar `html2canvas` para renderizar el DOM del rack físico y descargarlo como imagen PNG en el navegador.
+### Fase 6.2: Cifrado en Reposo y Modo Dios (M-01)
+- **Módulo `RackCrypto`**: Cifrado simétrico AES-GCM bajo prefijo `enc:v1:` para credenciales e IPs en `localStorage` y `.rack`.
+- **Gobernanza RBAC**: Enmascaramiento `••••••••`, botón de ojo interactivo en Inspector y Modo Dios global para administradores (`SHOW_PASSWORDS`).
+
+### Fase 6.3: Exportaciones Locales (Cero Servidor)
+- **Fotografía de Rack**: Utilizar `html2canvas.min.js` a escala Retina (2x) para renderizar el DOM del rack físico y descargarlo como imagen PNG en el navegador con soporte de exportación dual (Frontal + Trasera).
 - **Hojas de Cálculo**: Integrar **SheetJS** (`xlsx.full.min.js`) de forma puramente local para estructurar los datos del inventario y descargarlos instantáneamente como libros Excel (.xlsx) o archivos CSV planos.

@@ -39,7 +39,7 @@ La cabecera se divide horizontalmente en dos contenedores principales:
     *   **Botón de Menú Móvil (`#mobile-menu-btn`):** `display: none` en escritorio. Dimensiones normalizadas de `24px` × `24px`.
     *   **Imagen del Logo (`.logo-icon`):** Medida fija de `24px` × `24px` (`object-fit: contain`) con filtro de resplandor (`drop-shadow` de `8px var(--accent)`).
     *   **Texto Subtítulo (`.logo-sub` o `#project-filename`):** Tamaño de fuente `--text-xs` (`10px`), fuente monoespaciada y margen superior de `-4px`.
-    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Demos), Modo Dios/PIN, Suite de Tests (83 pruebas automatizadas) y Exportar/Importar Catálogo personalizado.
+    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Demos), Modo Dios/PIN, Suite de Tests (199 pruebas automatizadas en 15 grupos) y Exportar/Importar Catálogo personalizado.
 
 ### ⚙️ Área Principal (`.header-main-area`)
 *   **Ancho:** Flexible (`flex: 1`, `min-width: 0`).

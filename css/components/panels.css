@@ -476,5 +476,143 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   background: var(--accent-glow);
 }
 
+/* ============================================================
+   TOPOLOGY SLOTS (M-40)
+============================================================ */
+.topo-slots-group {
+  user-select: none;
+}
+
+#topo-slots-dropdown {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.topo-slot-btn {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+  line-height: 1;
+  position: relative;
+}
+
+.topo-slot-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.topo-slot-btn.empty {
+  opacity: 0.6;
+  border-style: dashed;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.topo-slot-btn.saved {
+  opacity: 1;
+  color: var(--text-primary);
+  border-color: rgba(56, 189, 248, 0.4);
+  background: var(--bg-card);
+}
+
+.topo-slot-btn.saved::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.topo-slot-btn.active {
+  background: rgba(56, 189, 248, 0.25) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.topo-slot-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease;
+}
+
+.topo-slot-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.topo-slot-card.active-slot {
+  border-color: var(--accent);
+  background: rgba(56, 189, 248, 0.06);
+}
+
+.topo-slot-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topo-slot-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.topo-slot-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topo-slot-action-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.topo-slot-action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.topo-slot-action-btn.btn-danger:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: rgba(239, 68, 68, 0.15);
+}
+
 
 

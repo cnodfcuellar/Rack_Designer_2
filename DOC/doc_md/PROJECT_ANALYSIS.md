@@ -156,7 +156,7 @@ Organización en cascada limpia sin dependencias externas:
 
 * **`scripts/`**: Herramientas en Node.js para tareas de mantenimiento y generación de documentación (ej. compilación del manual estático unificado con `marked`).
 * **`.py/`**: Scripts auxiliares en Python para análisis de datos, validación estática de modelos y manipulación masiva de datasets.
-* **`tests/`**: Suite de pruebas unitarias. *(Actualmente reservada para reactivación de cobertura automatizada en fases futuras)*.
+* **`tests/`**: Suite de pruebas unitarias y de integración. Incluye runner interactivo web en navegador (`tests/index.html`) y suite Node.js (`tests/integrity_check.cjs`) con 199 pruebas automáticas en 15 grupos al 100% de éxito.
 
 ---
 
@@ -173,13 +173,13 @@ El proyecto ha completado exitosamente su transición arquitectónica hacia un s
    * El botón de estado del sistema (`.status-dot`, tooltip "Sistema operativo") actúa como interruptor global del rendimiento.
    * Al alternar el modo, se conmuta la clase `body.no-animations`, pausando de manera instantánea y simultánea tanto las transiciones de la UI como todas las animaciones de LEDs y ventiladores en los árboles SVG inyectados mediante `animation-play-state: paused !important`.
 
-3. **PWA y Caché Offline v5**:
-   * Actualización del Service Worker a la versión `rack-designer-next-cache-v5`.
-   * Inclusión de todos los nuevos activos SVG y hojas de estilo en la lista de precaché.
+3. **PWA y Caché Offline v30**:
+   * Actualización del Service Worker a la versión `rack-designer-next-cache-v30`.
+   * Inclusión de todos los activos SVG, librerías vendor (`html2canvas.min.js`, `xlsx.full.min.js`) y módulos criptográficos en precaché.
    * Auto-actualización al cargar mediante `registration.update()` en `main.js`.
 
 4. **Consolidación Documental y Hoja de Ruta**:
-   * Publicación del plan maestro en `roadmap_mejoras.md` (37 propuestas estructuradas) y su correspondiente informe ejecutivo en `informe_mejoras_e_implementacion.md`.
+   * Publicación del plan maestro en `roadmap_mejoras.md` (40 propuestas estructuradas, 28 completadas) y su correspondiente informe ejecutivo en `informe_mejoras_e_implementacion.md`.
    * Sincronización completa con el sistema de memoria persistente `memory-bank/`.
 
 5. **Soporte de Doble Cara (Dual-Side Mounting)**:
@@ -192,6 +192,22 @@ El proyecto ha completado exitosamente su transición arquitectónica hacia un s
    
 7. **Selector Dinámico de Columnas en Tablas**:
    * Interfaz reactiva para personalizar las vistas del panel inferior, permitiendo a los operadores mostrar u ocultar columnas a discreción con guardado persistente en `localStorage`.
+
+8. **Cifrado Simétrico en Reposo y Modo Dios RBAC (M-01)**:
+   * Módulo `RackCrypto` (`js/auth/crypto.js`) con cifrado AES-GCM (`enc:v1:`) para credenciales en reposo (`localStorage` y backups `.rack`).
+   * Enmascaramiento por defecto (`••••••••`), botón interactivo de ojo y Modo Dios global para administradores (`SHOW_PASSWORDS`).
+
+9. **Topología Avanzada y Control Dual de Espaciado (H y V)**:
+   * Layout de Árbol Jerárquico ortogonal estilo Draw.io (`DAG`) con reubicación de equipos desconectados en la base de racks/sala.
+   * Control dual interactivo a 60 FPS con sliders independientes para espaciado horizontal (H) y vertical (V).
+
+10. **Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)**:
+    * Agrupación ponderada por rack anfitrión en el cuadrante inferior bajo la proyección horizontal del gabinete.
+    * Línea de base uniforme (`floorBaseY`) para toda la sala, contención reactiva de dimensiones y eliminación de cruces de cables tipo "spaghetti".
+
+11. **Refinamiento Ergonómico en Topología**:
+    * HUD Tooltip ampliado a `240px` con soporte multilínea inteligente para nombres técnicos extensos y colchón perimetral de seguridad anti-desborde (`10px`).
+    * Elipsis elegante (`…`) en tarjetas (`150px`) y nodos circulares previniendo roturas de cuadrícula.
 
 
 ---
@@ -249,7 +265,7 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
 
 * **Archivo:** [`tests/integrity_check.cjs`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs)
 * **Estado:** Totalmente operativa y ejecutable mediante `node tests/integrity_check.cjs`.
-* **Resultados de Validación:** **26 de 26 pruebas aprobadas (100% verde)**:
+* **Resultados de Validación:** **199 de 199 pruebas aprobadas (100% verde) en 15 grupos completos**:
   1. Autenticación RBAC, hashing SHA-256 y persistencia ante F5.
   2. Detección y bloqueo inmediato de manipulación de tokens en almacenamiento.
   3. Eliminación de gabinetes con purga en cascada de conexiones.
@@ -257,6 +273,15 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
   5. Eliminación individual de dispositivos con limpieza de topología.
   6. Auto-saneamiento `_sanitize()` eliminando conexiones zombi inyectadas artificialmente.
   7. Tolerancia a fallos en el renderizado de tablas ante omisión de contenedores.
+  8. Inspector y Outliner jerárquico con operaciones CRUD completas y ordenamiento dinámico.
+  9. Fidelidad visual de exportación 1:1 con `html2canvas.min.js` y exportación dual (Frontal + Trasera).
+  10. Motor visual SVG-First y animaciones GPU controladas por status-dot.
+  11. Plantilla demo profesional y distribución gravitacional de pesos.
+  12. Gestión avanzada de puertos, bloqueo de colisiones y validación de VLANs.
+  13. Selector dinámico de columnas en inventario y conexiones con persistencia en localStorage.
+  14. Cifrado simétrico en reposo (M-01), descifrado en memoria y gobernanza con Modo Dios.
+  15. Afinidad y proximidad de equipos de piso por gabinete (M-39), elipsis elegante y HUD de 240px.
+* **Runner Web Interactivo:** Paridad absoluta 1:1 verificada en `tests/index.html` ejecutando las mismas 199 pruebas en navegador sin dependencias externas.
 * **Archivos Huérfanos Eliminados:** Se purgó el archivo comentado e inservible `tests/Rack.test.js`.
 
 ---

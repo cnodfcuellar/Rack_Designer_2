@@ -4,8 +4,8 @@
 >
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
-> **Última actualización:** 2026-09-21
-> **Estado del sistema:** En producción
+> **Última actualización:** 2026-10-02
+> **Estado del sistema:** En producción (29 de 41 mejoras completadas, 70.7% del roadmap global)
 
 ---
 
@@ -68,9 +68,10 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-37 | ~~Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas)~~ | ✅ COMPLETADO |
 | M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
 | M-39 | ~~Afinidad y proximidad de equipos de piso por gabinete en topología~~ | ✅ COMPLETADO |
+| M-40 | ~~Guardado y conmutación de 5 estados (slots de posiciones) de topología~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **28 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-20]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓` y `[M-39]✓`. Total de tareas pendientes: **12** (total general: 40 mejoras). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (4 de 7 completadas). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (5 de 6 completadas).
+> **29 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-20]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` y `[M-40]✓`. Total de tareas pendientes: **12** (total general: 41 mejoras). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (4 de 7 completadas). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (6 de 7 completadas, 86%).
 
 ---
 
@@ -95,7 +96,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-05 | Anti-corrupción JSON | 🟠 3 | Implementar doble escritura (backup slot) y validación de integridad en `_load()`. |
 | M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Implementado `reg.update()` automático periódico e interceptación PWA offline en `service-worker.js` y `main.js`. |
 | M-07 | Conflictos multiusuario | ⚫ 5 | Requiere algoritmo de merge de objetos JSON profundos, UI de resolución de conflictos, y cambios extensos en `fileManager.js`. |
-| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Implementada suite de 83 pruebas automáticas de integridad y relaciones en Node.js vía `tests/integrity_check.cjs` y runner web `tests/index.html`. |
+| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Implementada suite de 199 pruebas automáticas de integridad y relaciones en 15 grupos en Node.js vía `tests/integrity_check.cjs` y runner web `tests/index.html` (100% éxito, paridad 1:1). |
 | M-09 | Modal edición de salas | 🟡 2 | Crear `RoomModal.js` completo (ya existe esqueleto de 1.3KB). Patrón idéntico a `RackModal.js`. |
 | M-10 | Borde racks más visible | 🟢 1 | Cambio CSS puro en `rack.css` (aumentar `border-width`). |
 | M-11 | Grupo "Network" en sidebar | 🟡 2 | Modificar la estructura de categorías en `catalog.js`. |
@@ -127,6 +128,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-37 | ~~Exportación fiel (html2canvas)~~ | ✅ COMPLETADO | Integrar script vendor `html2canvas.min.js` y refactorizar captura de DOM en `ExportModal.js`. |
 | M-38 | ~~Opciones de orden en Outliner~~ | ✅ COMPLETADO | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
 | M-39 | ~~Afinidad de equipos de piso en topología~~ | ✅ COMPLETADO | Agrupación ponderada por rack anfitrión en topología, cuadrante inferior alineado, línea de base uniforme y contención reactiva en `TopologyLayout.js`. |
+| M-40 | ~~5 Slots de estados de topología~~ | ✅ COMPLETADO | Modelo de datos de 5 ranuras en store con persistencia en localStorage, aislamiento total de undo/redo, solución híbrida de barra compacta (~495px) con sliders en popover Estilo y popover de vistas con anclaje right:0. |
 
 ### Resumen de Complejidad (Tareas Pendientes: 12)
 
@@ -138,7 +140,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | 🔴 Alta (4) | 4 | M-04, M-22, M-28, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(28 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-20, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39)*
+*(29 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-20, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40)*
 
 ---
 
@@ -163,7 +165,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-26 | Gestión avanzada puertos | 🔥 P2 | Funcionalidad core de un DCIM. Sin esto, las conexiones no son fiables. |
 | M-09 | Modal edición salas | 🔥 P2 | El `prompt()` nativo rompe la experiencia y bloquea el hilo. |
 | M-19 | ~~Props faltantes tabla~~ | ✅ COMPLETADO | Columnas tamaño, skin y notas agregadas con edición inline y exportación CSV. |
-| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | 26 pruebas automáticas pasando en Node.js garantizan integridad relacional. |
+| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | 199 pruebas automáticas pasando al 100% en 15 grupos en Node.js y navegador web garantizan paridad e integridad relacional. |
 | M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Resuelto con `reg.update()` automático e interceptación PWA offline. |
 | M-16 | Alturas rack estándar | ⚡ P3 | Previene errores de configuración de operadores. |
 | M-10 | Borde racks visible | ⚡ P3 | Mejora inmediata de legibilidad visual. |
@@ -181,6 +183,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-31 | ~~Separación etiquetas topología~~ | ✅ COMPLETADO | IP y nombre independientes con posiciones configurables (arriba/abajo/der/izq). |
 | M-32 | ~~Layout de árbol jerárquico~~ | ✅ COMPLETADO | Visualización clara de la jerarquía de red (Core, Distribución, Acceso) ortogonal y espaciado H/V. |
 | M-33 | Cableado frontal vs trasero | ⚡ P3 | Distingue puertos según la cara de montaje físico del equipo. |
+| M-40 | 5 Slots de topología | ⚡ P3 | Permite alternar entre diferentes esquemas lógicos y físicos sin perder diseños manuales. |
 | M-39 | ~~Afinidad equipos piso por rack~~ | ✅ COMPLETADO | Agrupa periféricos bajo el rack conectado eliminando cruces diagonales sin alterar la cuadrícula. |
 | M-38 | ~~Opciones de orden Outliner~~ | ✅ COMPLETADO | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
 | M-25A | Responsive Desktop / Laptops | 🔥 P2 | Adaptación fluida para laptops (1366x768) y pantallas de escritorio, colapso de paneles y grid fluido. |
@@ -253,7 +256,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 0.3 | M-01 | ~~Cifrado de credenciales~~ | `js/auth/crypto.js`, `store.js`, `DeviceModal.js`, `inspector.js`, `fileManager.js` | Cifrado simétrico AES-GCM (enc:v1:) + Modo Dios + Inspector táctil | ✅ COMPLETADO |
 
 > [!TIP]
-> 🎉 **¡Fase 0 completada al 100%!** `M-01`, `M-02` y `M-05` han sido implementados exitosamente con blindaje de producción y 182 pruebas de integridad pasando al 100%.
+> 🎉 **¡Fase 0 completada al 100%!** `M-01`, `M-02` y `M-05` han sido implementados exitosamente con blindaje de producción y 199 pruebas de integridad pasando al 100%.
 
 ---
 
@@ -324,6 +327,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 4.4 | M-32 | ~~Layout de árbol jerárquico y ortogonal~~ | `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyState.js` | ✅ COMPLETADO (DAG jerárquico + base de desconectados + ortogonal) |
 | 4.5 | M-29 | ~~Motor de temas y transparencias~~ | `TopologyRenderer.js` | ✅ COMPLETADO (patrones dots/grid/hex, fondos light/dark, canal alfa y herencia cromática) |
 | 4.6 | M-39 | ~~Afinidad y proximidad de equipos de piso por gabinete~~ | `TopologyLayout.js` | ✅ COMPLETADO (agrupación por cuadrante inferior de rack + base uniforme + 14 tests) |
+| 4.7 | M-40 | ~~Guardado y conmutación de 5 estados (slots de topología)~~ | `store.js`, `TopologyState.js`, `main.js`, `index.html`, `panels.css` | ✅ COMPLETADO (5 ranuras con botones táctiles [1..5], popover de gestión, aislamiento deepClone y 32 tests) |
 
 ---
 
@@ -335,7 +339,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 |---|---|---|---|---|
 | 5.1 | M-03 | Optimización deepClone / historial | `store.js` | Pendiente |
 | 5.2 | M-04 | Redibujado selectivo | `main.js`, todos los archivos `ui/` | Pendiente |
-| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs` | ✅ COMPLETADO (26/26 Node.js) |
+| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (231 pruebas en 16 grupos, CLI y Web) |
 | 5.4 | M-06 | ~~Actualización Service Worker~~ | `service-worker.js`, `main.js` | ✅ COMPLETADO (PWA Offline) |
 
 ---

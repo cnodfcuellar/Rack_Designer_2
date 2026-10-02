@@ -214,7 +214,7 @@
               </div>
             </div>
           </div>
-          <div style="margin-bottom:10px;">
+            <div style="margin-bottom:10px;">
             <label style="font-size:11px; color:var(--text-secondary); display:block; margin-bottom:4px;">Patrón de Fondo</label>
             <select id="topo-pattern-select" style="width:100%; font-size:11px; padding:5px 8px; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text-primary); outline:none;">
               <option value="dots">Puntos (Dots)</option>
@@ -230,20 +230,60 @@
             </label>
             <input type="range" id="topo-alpha-slider" min="10" max="80" value="25" style="width:100%; accent-color:var(--accent); cursor:pointer;">
           </div>
-          <div style="display:flex; align-items:center; gap:8px;">
+          <div style="margin-bottom:10px; display:flex; align-items:center; gap:8px;">
             <input type="checkbox" id="topo-inherit-colors" checked style="accent-color:var(--accent); width:14px; height:14px; cursor:pointer;">
             <label for="topo-inherit-colors" style="font-size:11px; color:var(--text-secondary); cursor:pointer;">Colores del inventario</label>
           </div>
+
+          <!-- Sliders de Espaciado integrados en el menú Estilo (Solución Híbrida M-40) -->
+          <div class="topo-spacing-group" id="topo-spacing-group" style="background:var(--bg-card2); padding:8px 10px; border-radius:var(--radius); border:1px solid var(--border);">
+            <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); font-family:var(--font-mono); margin-bottom:6px;">Espaciado del Canvas</div>
+            <div style="margin-bottom:6px;">
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-secondary); margin-bottom:2px; font-family:var(--font-mono);">
+                <label for="topo-spacing-x" style="cursor:pointer;" title="Espaciado Horizontal">H (Horizontal):</label>
+                <span id="topo-spacing-x-val" style="color:var(--accent); font-weight:700;">28px</span>
+              </div>
+              <input type="range" id="topo-spacing-x" min="15" max="150" value="28" class="topo-slider" title="Espaciado Horizontal" style="width:100%; accent-color:var(--accent); cursor:pointer;">
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-secondary); margin-bottom:2px; font-family:var(--font-mono);">
+                <label for="topo-spacing" style="cursor:pointer;" title="Espaciado Vertical">V (Vertical):</label>
+                <span id="topo-spacing-val" style="color:var(--accent); font-weight:700;">60px</span>
+              </div>
+              <input type="range" id="topo-spacing" min="30" max="150" value="60" class="topo-slider" title="Espaciado Vertical" style="width:100%; accent-color:var(--accent); cursor:pointer;">
+            </div>
+          </div>
         </div>
       </div>
-      <div class="topo-spacing-group force-hide" id="topo-spacing-group" style="display:flex; align-items:center; gap:8px; background:var(--bg-card2); padding:2px 8px; border-radius:var(--radius); border:1px solid var(--border);">
-        <label for="topo-spacing-x" style="font-size:10px; font-weight:700; color:var(--text-muted); font-family:var(--font-mono); cursor:pointer; user-select:none;" title="Espaciado Horizontal">H</label>
-        <input type="range" id="topo-spacing-x" min="15" max="150" value="28" class="topo-slider" title="Espaciado Horizontal (columnas y racks)" style="width:75px;">
-        <div style="width:1px; height:14px; background:var(--border);"></div>
-        <label for="topo-spacing" style="font-size:10px; font-weight:700; color:var(--text-muted); font-family:var(--font-mono); cursor:pointer; user-select:none;" title="Espaciado Vertical">V</label>
-        <input type="range" id="topo-spacing" min="30" max="150" value="60" class="topo-slider" title="Espaciado Vertical (filas y niveles)" style="width:75px;">
+      <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Auto</button>
+      
+      <!-- M-40: 5 Ranuras de Memoria / Slots de Topología Compactas -->
+      <div class="topo-slots-group force-hide" id="topo-slots-group" style="position:relative; display:flex; align-items:center; gap:3px; background:var(--bg-card2); padding:2px 6px; border-radius:var(--radius); border:1px solid var(--border);">
+        <span style="font-size:12px; cursor:help; user-select:none; margin-right:2px; display:inline-flex; align-items:center;" title="Ranuras de memoria para guardar y alternar perspectivas de topología">👁️</span>
+        <div id="topo-slots-bar" style="display:flex; gap:3px; align-items:center;">
+          <!-- 5 botones de slots renderizados con renderTopologySlots() -->
+        </div>
+        <div style="width:1px; height:14px; background:var(--border); margin:0 2px;"></div>
+        <button class="h-btn-icon" id="btn-topo-slots-menu" title="Gestionar vistas guardadas (Guardar, Renombrar, Vaciar)" style="background:transparent; border:none; color:var(--text-secondary); cursor:pointer; padding:3px 5px; border-radius:var(--radius); display:flex; align-items:center; font-size:11px;" aria-haspopup="true" aria-expanded="false">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+        </button>
+
+        <!-- Popover / Menú desplegable de gestión de slots con anclaje a la derecha para no desbordar -->
+        <div class="dropdown-menu hidden" id="topo-slots-dropdown" style="right:0; left:auto; top:calc(100% + 6px); width:320px; padding:12px; z-index:1000; box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:10px; font-family:var(--font-mono); display:flex; justify-content:space-between; align-items:center;">
+            <span>Vistas Guardadas (Topología M-40)</span>
+            <span id="btn-topo-slots-close" style="cursor:pointer; font-size:13px; color:var(--text-muted); padding:2px;">✕</span>
+          </div>
+          <div id="topo-slots-list" style="display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto;">
+            <!-- Renderizado dinámicamente -->
+          </div>
+          <div style="margin-top:10px; padding-top:8px; border-top:1px solid var(--border); display:flex; gap:6px;">
+            <button class="btn-primary" id="btn-topo-slots-quick-save" style="flex:1; justify-content:center; font-size:11px; padding:4px 8px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>Guardar en Primer Slot Libre
+            </button>
+          </div>
+        </div>
       </div>
-      <button class="h-btn force-hide" id="btn-topo-autoorder" title="Reorganizar automáticamente todos los nodos"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i>Auto-Orden</button>
       
       <div class="spacer"></div>
       

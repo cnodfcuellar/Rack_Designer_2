@@ -1,3 +1,124 @@
+## [2026-10-02] Optimización Híbrida de la Barra de Herramientas de Topología (Resolución de Desbordamiento)
+
+### Ergonomía y Maquetación Responsiva (`index.html`, `js/main.js`, `css/components/panels.css`, `js/ui/topology/TopologyState.js`)
+- **Integración de Sliders H y V en el Menú "Estilo" (Opción 1):**
+  - Se trasladaron los controles deslizantes `#topo-spacing-x` y `#topo-spacing` desde la barra principal al interior del popover `#topo-style-dropdown`.
+  - Se añadieron etiquetas dinámicas en tiempo real (`#topo-spacing-x-val` y `#topo-spacing-val`) con lecturas en píxeles (`28px`, `60px`), sincronizadas tanto al manipular los sliders como al arrancar la app (`loadTopoState()`).
+  - Esto liberó más de 200px de ancho en la barra superior.
+- **Botonera Compacta y Anclaje Inteligente (Opción 2):**
+  - Se reemplazó el texto largo `VISTAS:` por el icono intuitivo `👁️`, dejando la botonera compacta: `👁️ [1] [2] [3] [4] [5] [💾]`.
+  - Se abrevió el botón `#btn-topo-autoorder` a `Auto`.
+  - Se reconfiguró el menú de gestión `#topo-slots-dropdown` con `right: 0 !important; left: auto !important;`, garantizando que al abrirse se despliegue hacia adentro del canvas y nunca colisione ni se corte contra el panel del inspector.
+- **Métricas:**
+  - El ancho consumido en la barra se redujo de **~854px** a **~495px**, garantizando un margen libre superior a **+330px** (40% del área horizontal disponible) y eliminando al 100% el desbordamiento en monitores y portátiles de 1366px.
+  - Verificado visualmente en navegador con capturas y suite de pruebas de integridad pasando al 100% (233/233).
+
+---
+
+## [2026-10-02] Corrección Crítica del Historial (Undo / Redo) y Aislamiento de Ranuras de Topología
+
+### Corrección del Historial y Pila de Rehacer (`js/store.js`)
+- **Resolución de Destrucción de `_redoStack`:**
+  - Se eliminó la invocación destructiva de `this.snapshot()` dentro de `saveTopologySlot`, `loadTopologySlot`, `clearTopologySlot` y `renameTopologySlot`. Las ranuras de topología son configuraciones/presets de encuadre y perspectiva de vista, por lo que su gestión ya no vacía la pila de Rehacer.
+  - Al realizar un "Deshacer" (`undo()`), el botón "Rehacer" permanece 100% operativo incluso si el operador interactúa, guarda, renombra o cambia entre ranuras de topología.
+- **Saneamiento Atómico en `undo()` y `redo()`:**
+  - Se implementó la purga preventiva de claves huérfanas en `this._raw` antes de aplicar `Object.assign(this._raw, snapshot)`.
+  - Se añadió la preservación explícita de `topologySlots` y `activeTopologySlot` durante las operaciones de `undo()` y `redo()`, evitando que al deshacer una acción de infraestructura se pierdan o sobrescriban las ranuras guardadas por el operador.
+  - Se garantiza la emisión de `{ path: 'undo', source: 'undo' }` y `{ path: 'redo', source: 'redo' }` con actualización reactiva inmediata de los botones `#btn-undo` y `#btn-redo`.
+
+### Prevención de Sobrescritura en Vistas (`js/ui/topology/TopologyLayout.js`, `js/main.js`)
+- **Parámetro `skipSave` en `initTopoPositions(skipSave)`:**
+  - `initTopoPositions()` ya no invoca incondicionalmente a `saveTopo()`. Solo ejecuta el guardado si detectó elementos nuevos que carecían de coordenadas (`hadMissing === true`) y si `skipSave` es falso.
+  - En `main.js`, ante eventos `undo` o `redo`, la vista de topología sincroniza el estado con `loadTopoState()`, ejecuta `initTopoPositions(true)` (omitiendo guardado) y redibuja con `drawTopo()`, impidiendo que las posiciones recién revertidas sean sobreescritas.
+
+### Filtrado de Falsos Arrastres en Topología (`js/ui/topology/TopologyEvents.js`, `js/ui/topology/TopologyState.js`)
+- **Umbral de Arrastre Mínimo (> 3px):**
+  - Se introdujo `dragPointerStart` y se validó una distancia mínima euclidiana al arrastrar (`dx*dx + dy*dy >= 9`) antes de capturar `store.snapshot()`. Los clics estáticos sobre nodos, gabinetes o salas ya no toman snapshots accidentales ni destruyen el historial de rehacer.
+  - En `pointerup`, únicamente se persiste con `saveTopo()` si `dragSnapshotTaken === true`.
+
+### Suite de Integridad (`tests/integrity_check.cjs`)
+- **233 Pruebas de Integridad al 100%:**
+  - Se actualizó el Grupo 16 para validar la preservación de `_redoStack` tras guardar/cargar ranuras y la idempotencia de los slots ante `undo()` y `redo()`.
+
+---
+
+## [2026-10-02] Implementación Completa: Guardado y Conmutación de Estados de Topología (5 Slots de Memoria) (M-40)
+
+### Motor de Estado y Persistencia (`js/store.js`)
+- **Estructura Atómica de 5 Ranuras:**
+  - `_defaultState()` y `_sanitize()` inicializan y protegen `store.state.topologySlots` como un array de exactamente 5 ranuras (`[null, null, null, null, null]`) y `activeTopologySlot: null`.
+  - Persistencia total e instantánea en `localStorage` mediante el patrón Reactive Proxy, así como en archivos `.rack` y `.json`.
+- **Métodos Reactivos del Store:**
+  - `saveTopologySlot(slotIndex, customName)`: Clona profundamente (`deepClone`) las posiciones de nodos (`nodePositions`), gabinetes (`rackPositions`, `rackSizes`), salas (`roomPositions`, `roomSizes`), encuadre (`topoZoom`, `topoPanX`, `topoPanY`), espaciados interactivos H/V (`topoSpacingX`, `topoSpacing`), patrón de fondo, colores heredados, transparencia y estilos de nodos (`card`/`circle`), registrando marca de tiempo ISO (`savedAt`).
+  - `loadTopologySlot(slotIndex)`: Restaura instantáneamente todos los parámetros en `store._raw.topology`, emitiendo `loadTopologySlot` para redibujar el canvas 2D.
+  - `renameTopologySlot(slotIndex, newName)`: Permite al operador asignar nombres técnicos significativos (ej. *"1: Distribución Física"*, *"2: Flujo Core-Acceso"*).
+  - `clearTopologySlot(slotIndex)`: Libera la ranura individual volviendo a estado `null`.
+  - `getTopologySlots()`: Retorna el estado sanitizado de los 5 slots.
+  - **Soporte Transaccional Undo/Redo:** Cada acción de guardado, carga, vaciado o renombrado realiza `this.snapshot()`, permitiendo deshacer (`Ctrl+Z`) y rehacer (`Ctrl+Y`) cualquier mutación.
+
+### Interfaz Operativa y Experiencia de Usuario (`index.html`, `js/main.js`, `css/components/panels.css`, `js/ui/topology/TopologyState.js`)
+- **Botonera Táctil Rápida en Cabecera (`#topo-slots-group`):**
+  - Controles compactos numerados `[ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]` integrados en la barra de herramientas de topología, visibles exclusivamente en la vista de topología (`currentView === 'topology'`).
+  - Estados visuales diferenciados:
+    - **Vacío (`.empty`):** Estilo atenuado con borde punteado sutil; un clic guarda directamente el estado actual.
+    - **Guardado (`.saved`):** Contraste nítido con punto indicador cyan; un clic restaura y aplica la vista de inmediato.
+    - **Activo (`.active`):** Resaltado brillante con glow cyan (`0 0 8px var(--accent-glow)`) indicando la ranura actualmente en pantalla.
+- **Menú Popover Flotante de Gestión (`#topo-slots-dropdown`):**
+  - Desplegable elegante accesible mediante `#btn-topo-slots-menu` con vista detallada de las 5 ranuras:
+    - Tarjeta por ranura con nombre, hora de guardado (`HH:MM`) y botones de acción: `▶ Cargar`, `💾 Guardar`, `✏️ Renombrar` y `🗑️ Vaciar`.
+    - Botón de guardado rápido `💾 Guardar en Primer Slot Libre`.
+- **Helpers Globales Expuestos:**
+  - `window.applyTopologySlot(slotIndex)`
+  - `window.saveCurrentToTopologySlot(slotIndex, customName)`
+  - `window.clearTopologySlot(slotIndex)`
+  - `window.renameTopologySlot(slotIndex, newName)`
+  - `window.renderTopologySlots()`
+
+### Calidad y Automatización de Pruebas (`tests/integrity_check.cjs`)
+- **Incorporación del GRUPO 16 (16 Pruebas Automatizadas):**
+  - Verificación de inicialización por defecto (5 slots `null`).
+  - Captura y aislamiento de coordenadas de nodos, gabinetes, salas, zoom y pan.
+  - Inmutabilidad de snapshots (aislamiento deep clone frente a mutaciones vivas).
+  - Renombrado y carga reactiva de estado.
+  - Rechazo de carga en slots vacíos y vaciado controlado.
+  - Respaldo transaccional Undo/Redo en el Store.
+  - Blindaje de `_sanitize()` ante arrays truncados o corruptos.
+  - Comprobación de existencia de elementos DOM, estilos CSS y despacho reactivo en `main.js`.
+- **Métricas:** La suite de pruebas de integridad se incrementa de 199 a **231 pruebas pasadas, 0 falladas (100% de éxito en 16 grupos)**.
+
+---
+
+
+
+## [2026-10-01] Generación del Bundle Unificado de Código Fuente (`CODIGO_COMPLETO_PROYECTO.md`)
+
+### Herramientas y Aprendizaje Técnico (`scripts/generate_code_bundle.cjs`, `doc/doc_md/`)
+- **Compilador Autónomo de Código (`generate_code_bundle.cjs`):**
+  - Script en Node.js que recorre y empaqueta de forma determinista la totalidad de los 42 archivos de código fuente propios del proyecto.
+  - Genera automáticamente métricas, descripción técnica de cada archivo, índice navegable con enlaces ancla y bloques de código con resaltado de sintaxis nativo.
+- **Documento Técnico de Aprendizaje ([`CODIGO_COMPLETO_PROYECTO.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/CODIGO_COMPLETO_PROYECTO.md)):**
+  - **18.921 líneas totales** (18.129 líneas de código limpio + metadatos y guía de estudio) en un solo archivo Markdown de 837 KB.
+  - Clasificado en 11 capas arquitectónicas (PWA, HTML, CSS modular, Store/Proxy, Cripto/RBAC, UI, Modales, Topología Canvas 2D, Orquestador `main.js`, Suite de Pruebas y Scripts).
+  - Incluye guía pedagógica para estudiar la reactividad sin frameworks, Undo/Redo, cifrado cliente AES-GCM y motor de topología.
+
+---
+
+## [2026-10-01] Sincronización Integral de la Suite Documental (`doc/`): 199 Pruebas, M-39, M-01 y Topología
+
+### Documentación Técnica y Arquitectónica (`doc/doc_md/`, `doc/temp/`)
+- **Homologación de Métricas de Calidad y Testing:**
+  - Sincronizados todos los documentos maestros con la cifra real y canónica de **199 pruebas automatizadas en 15 grupos al 100% de éxito (0 fallos)** con paridad absoluta 1:1 entre Node.js (`tests/integrity_check.cjs`) y el runner web interactivo (`tests/index.html`).
+  - Actualizados `ARCHITECTURE_GUIDE.md`, `CODEBASE_ORIENTATION_MAP.md`, `PROJECT_ANALYSIS.md`, `roadmap_mejoras.md`, `informe_mejoras_e_implementacion.md` y `medidas_header.md`.
+- **Incorporación Documental de Hitos Recientes de Producción:**
+  - **M-39 (Afinidad y Proximidad de Equipos de Piso por Gabinete):** Documentada la lógica ponderada de anfitrión por enlaces, la alineación en cuadrante inferior bajo la huella del rack (`[rackX, rackX + rw]`), línea de base uniforme (`floorBaseY`) y contención reactiva en `PROJECT_ANALYSIS.md`, `USER_MANUAL.md`, `CODEBASE_ORIENTATION_MAP.md` y `development_phases.md`.
+  - **M-01 (Cifrado en Reposo y Modo Dios):** Documentado el módulo criptográfico `RackCrypto` (`js/auth/crypto.js`) con AES-GCM (`enc:v1:`), enmascaramiento por defecto (`••••••••`), toggle táctil individual en Inspector y Modo Dios para administradores (`SHOW_PASSWORDS`) en `USER_MANUAL.md`, `PROJECT_ANALYSIS.md` e `informe_mejoras_e_implementacion.md`.
+  - **Refinamiento de Topología:** Documentado el HUD Tooltip ergonómico de 240px (multilínea inteligente) y la elipsis elegante (`…`) en tarjetas y nodos circulares en `USER_MANUAL.md`, `PROJECT_ANALYSIS.md` y `development_phases.md`.
+  - **Service Worker v30:** Actualizadas todas las referencias de caché PWA a `rack-designer-next-cache-v30`.
+- **Hito de Roadmap:**
+  - 28 de 40 mejoras completadas (70% del roadmap global; Fase 0 y Fase 1 al 100%, Fase 4 al 83%).
+
+---
+
 ## [2026-09-30] Sincronización Total de la Suite Web Interactiva (`tests/index.html`): Paridad 1:1 a 199 Pruebas
 
 ### Automatización y Testing Web (`tests/index.html`, `tests/integrity_check.cjs`)

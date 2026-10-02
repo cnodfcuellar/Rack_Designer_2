@@ -168,7 +168,12 @@ function renderAll(event = {}) {
     renderPhysical();
     renderBottomPanel();
     updateZoomLabel();
-    if (currentView === 'topology') initTopoPositions();
+    if (currentView === 'topology') {
+      if (typeof loadTopoState === 'function') loadTopoState();
+      if (typeof initTopoPositions === 'function') initTopoPositions(true);
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
     return;
   }
 
@@ -210,6 +215,11 @@ function renderAll(event = {}) {
 
   if (source.includes('Catalog')) {
     renderCatalog();
+  }
+
+  if (source.includes('TopologySlot') || source === 'saveTopologySlot' || source === 'loadTopologySlot' || source === 'clearTopologySlot' || source === 'renameTopologySlot') {
+    if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    if (currentView === 'topology' && typeof drawTopo === 'function') drawTopo();
   }
 }
 
@@ -468,19 +478,25 @@ function initGlobalEvents() {
   }
 
   const spacingSlider = document.getElementById('topo-spacing');
+  const spacingVal = document.getElementById('topo-spacing-val');
   if (spacingSlider) {
     spacingSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (spacingVal) spacingVal.textContent = `${val}px`;
       if (typeof recalcTopoSpacing === 'function') {
-        recalcTopoSpacing(parseInt(e.target.value, 10));
+        recalcTopoSpacing(val);
       }
     });
   }
 
   const spacingSliderX = document.getElementById('topo-spacing-x');
+  const spacingXVal = document.getElementById('topo-spacing-x-val');
   if (spacingSliderX) {
     spacingSliderX.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (spacingXVal) spacingXVal.textContent = `${val}px`;
       if (typeof recalcTopoSpacingX === 'function') {
-        recalcTopoSpacingX(parseInt(e.target.value, 10));
+        recalcTopoSpacingX(val);
       }
     });
   }
@@ -489,6 +505,211 @@ function initGlobalEvents() {
   if (btnAutoOrder) {
     btnAutoOrder.addEventListener('click', () => {
       if (typeof autoOrderTopo === 'function') autoOrderTopo();
+    });
+  }
+
+  // ──────────────────────────────────────────────────────────────────
+  // M-40: Ranuras de Memoria de Topología (5 Slots de Posiciones)
+  // ──────────────────────────────────────────────────────────────────
+  const btnTopoSlotsMenu = document.getElementById('btn-topo-slots-menu');
+  const topoSlotsDropdown = document.getElementById('topo-slots-dropdown');
+  const btnTopoSlotsClose = document.getElementById('btn-topo-slots-close');
+  const btnTopoSlotsQuickSave = document.getElementById('btn-topo-slots-quick-save');
+  const topoSlotsBar = document.getElementById('topo-slots-bar');
+  const topoSlotsList = document.getElementById('topo-slots-list');
+
+  function renderTopologySlots() {
+    if (!topoSlotsBar) return;
+    const slots = (typeof store !== 'undefined' && typeof store.getTopologySlots === 'function')
+      ? store.getTopologySlots()
+      : [null, null, null, null, null];
+    const activeSlot = (typeof store !== 'undefined' && store._raw)
+      ? store._raw.activeTopologySlot
+      : null;
+
+    // 1. Renderizar los 5 botones compactos en la barra
+    topoSlotsBar.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const slot = slots[i];
+      const isSaved = !!slot;
+      const isActive = activeSlot === i;
+      const btn = document.createElement('button');
+      btn.className = `topo-slot-btn ${isSaved ? 'saved' : 'empty'} ${isActive ? 'active' : ''}`;
+      btn.setAttribute('data-slot', i);
+      btn.textContent = (i + 1);
+      const tipText = isSaved 
+        ? `Slot ${i + 1}: "${slot.name}" (Clic para cargar)` 
+        : `Slot ${i + 1}: Vacío (Clic para guardar posición actual)`;
+      btn.title = tipText;
+      btn.setAttribute('aria-label', tipText);
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isSaved) {
+          if (typeof window.applyTopologySlot === 'function') {
+            window.applyTopologySlot(i);
+          }
+        } else {
+          if (typeof window.saveCurrentToTopologySlot === 'function') {
+            window.saveCurrentToTopologySlot(i);
+          }
+        }
+      });
+      topoSlotsBar.appendChild(btn);
+    }
+
+    // 2. Renderizar lista detallada en el dropdown si existe
+    if (topoSlotsList) {
+      topoSlotsList.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const slot = slots[i];
+        const isSaved = !!slot;
+        const isActive = activeSlot === i;
+
+        const card = document.createElement('div');
+        card.className = `topo-slot-card ${isActive ? 'active-slot' : ''}`;
+
+        const header = document.createElement('div');
+        header.className = 'topo-slot-card-header';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'topo-slot-card-title';
+        titleDiv.innerHTML = `<span style="color:${isActive ? 'var(--accent)' : 'var(--text-muted)'}; font-family:var(--font-mono); font-weight:700;">[${i + 1}]</span> <span>${escapeHTML(isSaved ? slot.name : 'Ranura Vacía')}</span>`;
+
+        const timeSpan = document.createElement('span');
+        timeSpan.style.cssText = 'font-size:10px; color:var(--text-muted); font-family:var(--font-mono);';
+        if (isSaved && slot.savedAt) {
+          const d = new Date(slot.savedAt);
+          timeSpan.textContent = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+          timeSpan.title = `Guardado: ${d.toLocaleString()}`;
+        } else {
+          timeSpan.textContent = 'Libre';
+        }
+
+        header.appendChild(titleDiv);
+        header.appendChild(timeSpan);
+
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'topo-slot-card-actions';
+
+        if (isSaved) {
+          // Botón Cargar
+          const btnLoad = document.createElement('button');
+          btnLoad.className = 'topo-slot-action-btn';
+          btnLoad.innerHTML = '▶ Cargar';
+          btnLoad.title = 'Cargar este estado en la vista de topología';
+          btnLoad.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.applyTopologySlot === 'function') window.applyTopologySlot(i);
+          });
+          actionsDiv.appendChild(btnLoad);
+
+          // Botón Sobrescribir
+          const btnSave = document.createElement('button');
+          btnSave.className = 'topo-slot-action-btn';
+          btnSave.innerHTML = '💾 Guardar';
+          btnSave.title = 'Sobrescribir ranura con las posiciones actuales';
+          btnSave.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.saveCurrentToTopologySlot === 'function') window.saveCurrentToTopologySlot(i);
+          });
+          actionsDiv.appendChild(btnSave);
+
+          // Botón Renombrar
+          const btnRen = document.createElement('button');
+          btnRen.className = 'topo-slot-action-btn';
+          btnRen.innerHTML = '✏️';
+          btnRen.title = 'Renombrar esta vista';
+          btnRen.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const newName = prompt(`Nuevo nombre para la Vista ${i + 1}:`, slot.name);
+            if (newName && newName.trim() && typeof window.renameTopologySlot === 'function') {
+              window.renameTopologySlot(i, newName.trim());
+            }
+          });
+          actionsDiv.appendChild(btnRen);
+
+          // Botón Vaciar
+          const btnClr = document.createElement('button');
+          btnClr.className = 'topo-slot-action-btn btn-danger';
+          btnClr.innerHTML = '🗑️';
+          btnClr.title = 'Vaciar esta ranura de memoria';
+          btnClr.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`¿Vaciar la Ranura ${i + 1} ("${slot.name}")?`)) {
+              if (typeof window.clearTopologySlot === 'function') window.clearTopologySlot(i);
+            }
+          });
+          actionsDiv.appendChild(btnClr);
+        } else {
+          // Botón Guardar aquí
+          const btnSaveHere = document.createElement('button');
+          btnSaveHere.className = 'topo-slot-action-btn';
+          btnSaveHere.style.cssText = 'flex:1; justify-content:center;';
+          btnSaveHere.innerHTML = '💾 Guardar Posición Actual';
+          btnSaveHere.title = 'Guardar la topología actual en esta ranura vacía';
+          btnSaveHere.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.saveCurrentToTopologySlot === 'function') window.saveCurrentToTopologySlot(i);
+          });
+          actionsDiv.appendChild(btnSaveHere);
+        }
+
+        card.appendChild(header);
+        card.appendChild(actionsDiv);
+        topoSlotsList.appendChild(card);
+      }
+    }
+  }
+
+  window.renderTopologySlots = renderTopologySlots;
+
+  if (btnTopoSlotsMenu && topoSlotsDropdown) {
+    btnTopoSlotsMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = topoSlotsDropdown.classList.contains('hidden');
+      if (isHidden) {
+        renderTopologySlots();
+        topoSlotsDropdown.classList.remove('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'true');
+      } else {
+        topoSlotsDropdown.classList.add('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    if (btnTopoSlotsClose) {
+      btnTopoSlotsClose.addEventListener('click', () => {
+        topoSlotsDropdown.classList.add('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    topoSlotsDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!topoSlotsDropdown.contains(e.target) && !btnTopoSlotsMenu.contains(e.target)) {
+        topoSlotsDropdown.classList.add('hidden');
+        btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  if (btnTopoSlotsQuickSave) {
+    btnTopoSlotsQuickSave.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const slots = store.getTopologySlots();
+      let targetIdx = slots.findIndex(s => s === null);
+      if (targetIdx === -1) {
+        targetIdx = (store._raw.activeTopologySlot !== null && store._raw.activeTopologySlot !== undefined)
+          ? store._raw.activeTopologySlot
+          : 0;
+      }
+      if (typeof window.saveCurrentToTopologySlot === 'function') {
+        window.saveCurrentToTopologySlot(targetIdx);
+      }
     });
   }
 
@@ -540,15 +761,19 @@ function initGlobalEvents() {
       const spacingSlider = document.getElementById('topo-spacing');
       const btnAutoOrd = document.getElementById('btn-topo-autoorder');
       const btnCables = document.getElementById('btn-toggle-cables');
+      const topoSlotsGroup = document.getElementById('topo-slots-group');
+      const topoSlotsDropdown = document.getElementById('topo-slots-dropdown');
       if (currentView === 'physical') {
         phys.classList.remove('hidden');
         topo.style.display = 'none';
         const topoDropdown = document.getElementById('topo-style-dropdown');
         if (topoDropdown) topoDropdown.classList.add('hidden');
+        if (topoSlotsDropdown) topoSlotsDropdown.classList.add('hidden');
         if (btnStyle) btnStyle.classList.add('force-hide');
         if (spacingGroup) spacingGroup.classList.add('force-hide');
         if (spacingSlider) spacingSlider.classList.add('force-hide');
         if (btnAutoOrd) btnAutoOrd.classList.add('force-hide');
+        if (topoSlotsGroup) topoSlotsGroup.classList.add('force-hide');
         if (btnCables) btnCables.classList.remove('force-hide');
         stopTopo();
       } else {
@@ -558,7 +783,9 @@ function initGlobalEvents() {
         if (spacingGroup) spacingGroup.classList.remove('force-hide');
         if (spacingSlider) spacingSlider.classList.remove('force-hide');
         if (btnAutoOrd) btnAutoOrd.classList.remove('force-hide');
+        if (topoSlotsGroup) topoSlotsGroup.classList.remove('force-hide');
         if (btnCables) btnCables.classList.add('force-hide');
+        if (typeof renderTopologySlots === 'function') renderTopologySlots();
         startTopo();
       }
     });
@@ -923,7 +1150,7 @@ function init() {
   // Asegurar que canvas de topología empiece oculto
   const topoCanvas = document.getElementById('topology-canvas');
   if(topoCanvas) topoCanvas.style.display = 'none';
-  ['btn-topo-style', 'topo-spacing', 'topo-spacing-group', 'btn-topo-autoorder'].forEach(id => {
+  ['btn-topo-style', 'topo-spacing', 'topo-spacing-group', 'btn-topo-autoorder', 'topo-slots-group'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add('force-hide');
   });
