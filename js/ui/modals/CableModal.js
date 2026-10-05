@@ -86,6 +86,9 @@ function openCableModal(defaultSrcId = null, defaultSrcPort = null) {
   document.getElementById('cable-color').value = '#3b82f6';
   document.getElementById('cable-color-picker').value = '#3b82f6';
 
+  const orientEl = document.getElementById('cable-orientation');
+  if (orientEl) orientEl.value = 'top';
+
   checkCableCollision();
   document.getElementById('modal-cable').classList.remove('hidden');
 }
@@ -116,6 +119,9 @@ function openEditCableModal(connId) {
   document.getElementById('cable-type').value = conn.cableType;
   document.getElementById('cable-color').value = conn.color;
   document.getElementById('cable-color-picker').value = conn.color;
+
+  const orientEl = document.getElementById('cable-orientation');
+  if (orientEl) orientEl.value = conn.orientation || 'top';
   
   checkCableCollision();
   document.getElementById('modal-cable').classList.remove('hidden');
@@ -319,6 +325,41 @@ function initCableModal() {
     document.getElementById('cable-color').value = e.target.value;
   });
 
+  const swapBtn = document.getElementById('btn-cable-swap');
+  if (swapBtn) {
+    swapBtn.addEventListener('click', () => {
+      const srcSelect = document.getElementById('cable-src-dev');
+      const dstSelect = document.getElementById('cable-dst-dev');
+      if (!srcSelect || !dstSelect) return;
+
+      const oldSrcDev = srcSelect.value;
+      const oldDstDev = dstSelect.value;
+      const oldSrcPort = document.getElementById('cable-src-port')?.value || null;
+      const oldDstPort = document.getElementById('cable-dst-port')?.value || null;
+
+      // Intercambiar dispositivos seleccionados
+      srcSelect.value = oldDstDev;
+      dstSelect.value = oldSrcDev;
+
+      // Actualizar selectores y etiquetas con los puertos cruzados
+      updateCableLocationDisplay('src', oldDstPort);
+      updateCableLocationDisplay('dst', oldSrcPort);
+
+      // Recalcular validación de colisiones
+      checkCableCollision();
+
+      // Animación micro-interactiva del icono
+      const icon = swapBtn.querySelector('.icon-swap');
+      if (icon) {
+        icon.style.transform = 'scale(1.25) rotate(180deg)';
+        icon.style.transition = 'transform 0.25s ease';
+        setTimeout(() => {
+          icon.style.transform = 'none';
+        }, 250);
+      }
+    });
+  }
+
   document.getElementById('modal-cable-save').addEventListener('click', () => {
     const srcId   = document.getElementById('cable-src-dev').value;
     const dstId   = document.getElementById('cable-dst-dev').value;
@@ -329,6 +370,7 @@ function initCableModal() {
     const vlanId  = parseInt(document.getElementById('cable-vlan')?.value) || 1;
     const vlanOpt = document.getElementById('cable-vlan')?.selectedOptions[0];
     const vlanName = vlanOpt ? vlanOpt.textContent.split('·')[1]?.trim() || 'Default' : 'Default';
+    const orientation = document.getElementById('cable-orientation')?.value || 'top';
 
     if (!srcId || !dstId || srcId === dstId) {
       notify('Selecciona dos equipos distintos', 'error');
@@ -349,7 +391,8 @@ function initCableModal() {
         cableType: type,
         color,
         vlanId,
-        vlanName
+        vlanName,
+        orientation
       });
       if (res && res.success === false) {
         notify(res.error, 'error');
@@ -365,7 +408,8 @@ function initCableModal() {
         cableType: type,
         color,
         vlanId,
-        vlanName
+        vlanName,
+        orientation
       });
       if (res && res.success === false) {
         notify(res.error, 'error');

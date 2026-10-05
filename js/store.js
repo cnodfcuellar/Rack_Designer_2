@@ -750,7 +750,8 @@ class Store {
       color: conn.color || (vObj ? vObj.color : '#3b82f6'),
       vlanId: vId,
       vlanName: conn.vlanName || (vObj ? vObj.name : `VLAN ${vId}`),
-      notes: conn.notes || ''
+      notes: conn.notes || '',
+      orientation: conn.orientation === 'bottom' ? 'bottom' : 'top'
     };
     this._raw.connections.push(newConn);
     this._save(); 
@@ -787,6 +788,24 @@ class Store {
     this._save();
     this._emit('change', { source: 'updateConnection', connection: c });
     return { success: true, connection: c };
+  }
+
+  swapConnectionDirection(id) {
+    const c = this._raw.connections.find(conn => conn.id === id);
+    if (!c) return { success: false, error: 'Conexión no encontrada' };
+    return this.updateConnection(id, {
+      sourceDeviceId: c.targetDeviceId,
+      sourcePort: c.targetPort,
+      targetDeviceId: c.sourceDeviceId,
+      targetPort: c.sourcePort
+    });
+  }
+
+  toggleConnectionOrientation(id) {
+    const c = this._raw.connections.find(conn => conn.id === id);
+    if (!c) return { success: false, error: 'Conexión no encontrada' };
+    const newOrientation = c.orientation === 'bottom' ? 'top' : 'bottom';
+    return this.updateConnection(id, { orientation: newOrientation });
   }
 
   deleteConnection(id) {

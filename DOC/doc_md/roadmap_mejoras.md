@@ -5,7 +5,7 @@
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
 > **Última actualización:** 2026-10-02
-> **Estado del sistema:** En producción (29 de 41 mejoras completadas, 70.7% del roadmap global)
+> **Estado del sistema:** En producción (31 de 42 mejoras completadas, 73.8% del roadmap global)
 
 ---
 
@@ -45,7 +45,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-15 | ~~Grilla de fondo sutil en vista física~~ | ✅ COMPLETADO |
 | M-16 | ~~Alturas de rack estandarizadas (select + 42U default)~~ | ✅ COMPLETADO |
 | M-17 | ~~Documento de medidas de interfaz~~ | ✅ COMPLETADO |
-| M-18 | Tema Sepia + visibilidad del selector de temas | 🎨 UX |
+| M-18 | ~~Tema Sepia + visibilidad del selector de temas~~ | ✅ COMPLETADO |
 | M-19 | ~~Propiedades faltantes en tabla de inventario~~ | ✅ COMPLETADO |
 | M-20 | ~~Ocultar/mostrar columnas en tablas~~ | ✅ COMPLETADO |
 | M-21 | Plantilla completa de exportación CSV/Excel | 📋 Datos |
@@ -69,9 +69,10 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-38 | ~~Opciones de ordenamiento en el Outliner~~ | ✅ COMPLETADO |
 | M-39 | ~~Afinidad y proximidad de equipos de piso por gabinete en topología~~ | ✅ COMPLETADO |
 | M-40 | ~~Guardado y conmutación de 5 estados (slots de posiciones) de topología~~ | ✅ COMPLETADO |
+| M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **29 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-19]✓`, `[M-20]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` y `[M-40]✓`. Total de tareas pendientes: **12** (total general: 41 mejoras). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (4 de 7 completadas). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (6 de 7 completadas, 86%).
+> **30 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **11** (total general: 42 mejoras, 73.8% del roadmap global). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (5 de 8 completadas, 62.5%). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (6 de 7 completadas, 86%). Fase 6 en marcha.
 
 ---
 
@@ -129,18 +130,19 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-38 | ~~Opciones de orden en Outliner~~ | ✅ COMPLETADO | Controles de ordenación (nombre, tipo, posición U) en el árbol jerárquico de `outliner.js`. |
 | M-39 | ~~Afinidad de equipos de piso en topología~~ | ✅ COMPLETADO | Agrupación ponderada por rack anfitrión en topología, cuadrante inferior alineado, línea de base uniforme y contención reactiva en `TopologyLayout.js`. |
 | M-40 | ~~5 Slots de estados de topología~~ | ✅ COMPLETADO | Modelo de datos de 5 ranuras en store con persistencia en localStorage, aislamiento total de undo/redo, solución híbrida de barra compacta (~495px) con sliders en popover Estilo y popover de vistas con anclaje right:0. |
+| M-41 | ~~Invertir/Orientar conexiones~~ | ✅ COMPLETADO | Botón rápido de inversión (Swap) en CableModal y tabla, selector de canaleta superior/inferior y trazado físico SVG. |
 
-### Resumen de Complejidad (Tareas Pendientes: 12)
+### Resumen de Complejidad (Tareas Pendientes: 11)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
 | 🟡 Baja (2) | 0 | *(Todas completadas)* |
-| 🟠 Media (3) | 5 | M-03, M-18, M-21, M-25A, M-33 |
+| 🟠 Media (3) | 4 | M-03, M-21, M-25A, M-33 |
 | 🔴 Alta (4) | 4 | M-04, M-22, M-28, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(29 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-19, M-20, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40)*
+*(30 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
 
 ---
 
@@ -184,6 +186,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-32 | ~~Layout de árbol jerárquico~~ | ✅ COMPLETADO | Visualización clara de la jerarquía de red (Core, Distribución, Acceso) ortogonal y espaciado H/V. |
 | M-33 | Cableado frontal vs trasero | ⚡ P3 | Distingue puertos según la cara de montaje físico del equipo. |
 | M-40 | 5 Slots de topología | ⚡ P3 | Permite alternar entre diferentes esquemas lógicos y físicos sin perder diseños manuales. |
+| M-41 | ~~Invertir/Orientar conexiones~~ | ✅ COMPLETADO | Resuelto con botón Swap en modal y tabla, selector de canaleta e integración en trazado físico. |
 | M-39 | ~~Afinidad equipos piso por rack~~ | ✅ COMPLETADO | Agrupa periféricos bajo el rack conectado eliminando cruces diagonales sin alterar la cuadrícula. |
 | M-38 | ~~Opciones de orden Outliner~~ | ✅ COMPLETADO | Facilita clasificar la jerarquía por nombre, tipo o posición U. |
 | M-25A | Responsive Desktop / Laptops | 🔥 P2 | Adaptación fluida para laptops (1366x768) y pantallas de escritorio, colapso de paneles y grid fluido. |
@@ -215,10 +218,10 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
   Alta     │          │  M-19   │  M-36   │  M-26   │          │
            │          │  M-37   │         │  M-34   │          │
            ├──────────┼─────────┼─────────┼─────────┼──────────┤
-  P3 ⚡    │  M-13    │ [M-06]✓ │  M-18   │ [M-08]✓ │          │
+  P3 ⚡    │  M-13    │ [M-06]✓ │ [M-18]✓ │ [M-08]✓ │          │
   Media    │  M-14    │  M-11   │  M-20   │         │          │
            │  M-15    │  M-12   │  M-21   │         │          │
-           │          │  M-16   │  M-23   │         │          │
+           │ [M-41]✓  │  M-16   │  M-23   │         │          │
            │          │  M-24   │ [M-27]✓ │         │          │
            │          │  M-30   │  M-32   │         │          │
            │          │  M-31   │  M-33   │         │          │
@@ -231,10 +234,10 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 ```
 
 > [!NOTE]
-> **Items completados:** `[M-06]✓`, `[M-08]✓`, `[M-17]✓` (Doc) y `[M-27]✓`.
+> **Items completados:** `[M-06]✓`, `[M-08]✓`, `[M-17]✓` (Doc), `[M-18]✓`, `[M-27]✓` y `[M-41]✓`.
 
 > [!TIP]
-> **Zona de Quick Wins (arriba-izquierda):** M-02, M-10, M-09, M-19, M-37 — Máximo impacto con mínimo esfuerzo. Empezar aquí.
+> **Zona de Quick Wins (arriba-izquierda):** M-02, M-10, M-09, M-19, M-37, M-41 — Máximo impacto con mínimo esfuerzo. Empezar aquí.
 >
 > **Zona de Proyectos Estratégicos (arriba-derecha):** M-01, M-04, M-26, M-34 — Alto impacto pero requieren planificación y sprints dedicados.
 >
@@ -293,6 +296,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 2.5 | M-21 | Plantilla completa de exportación | `ExportModal.js` | Pendiente |
 | 2.6 | M-37 | ~~Exportación fiel 1:1 (html2canvas)~~ | `index.html`, `ExportModal.js`, `rack.css` | ✅ COMPLETADO (captura Retina 1:1 DOM + fallback procedimental) |
 | 2.7 | M-22 | Importación masiva CSV/Excel | `fileManager.js`, nuevo `ImportModal.js` | Pendiente |
+| 2.8 | M-41 | ~~Botón para cambiar orientación e invertir conexiones~~ | `CableModal.js`, `index.html`, `rack.js`, `tables.js` | ✅ COMPLETADO (Botón Swap ⇄ en modal y tabla, selector de canaleta superior/inferior y trazado físico SVG) |
 
 ---
 
@@ -350,7 +354,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
-| 6.1 | M-18 | Tema Sepia + selector visible | `variables.css`, `layout.css`, `main.js` | Pendiente |
+| 6.1 | M-18 | ~~Tema Sepia + selector visible~~ | `variables.css`, `layout.css`, `main.js`, `index.html` | ✅ COMPLETADO |
 | 6.2 | M-25B | Modo móvil y tablet (Standby / Baja prioridad) | Todos los CSS, `main.js`, nuevo `mobile.js` | ⏸️ Standby |
 | 6.3 | M-35 | Sin restricciones de ubicación (Rack vs Piso/Frente) | `store.js`, `rack.js`, `PlacementModal.js` | Pendiente |
 | 6.4 | M-07 | Resolución de conflictos multiusuario | `fileManager.js`, nuevo `MergeModal.js` | Pendiente |
@@ -493,6 +497,7 @@ graph LR
         M21["M-21 Plantilla export"]
         M37["M-37 html2canvas 1:1"]
         M22["M-22 Import masivo"]
+        M41["M-41 Invertir/Orientar"]
     end
 
     subgraph "Fase 3 - Navegación & CRUD"
@@ -519,6 +524,7 @@ graph LR
     M05 --> M26
     M26 --> M33
     M26 --> M34
+    M26 --> M41
     M26 --> M19
     M26 --> M21
     M21 --> M22
@@ -550,7 +556,7 @@ graph LR
 |---|---|---|---|
 | **Fase 0** — Blindaje | 1 semana | Semana 1 | M-02, M-05, M-01 |
 | **Fase 1** — Quick Wins | 2-3 días | Semana 2 | M-10, M-13, M-14, M-15, M-09, M-16 |
-| **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22 |
+| **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22, M-41 |
 | **Fase 3** — Navegación & CRUD | 1-2 semanas | Semana 5-6 | M-11, M-12, M-30, M-23, M-38, M-24, M-36, M-20 |
 | **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | M-28 *(M-27, M-29, M-31, M-32, M-39 completados)* |
 | **Fase 5** — Rendimiento & Calidad | 1-2 semanas | Semana 9-10 | M-03, M-04 *(M-08 y M-06 completados)* |

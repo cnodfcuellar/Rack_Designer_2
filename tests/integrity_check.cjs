@@ -34,10 +34,19 @@ global.TextEncoder = require('util').TextEncoder;
 
 // Mock de DOM básico
 global.document = {
+  documentElement: {
+    attrs: {},
+    getAttribute(name) { return this.attrs[name] || null; },
+    setAttribute(name, val) { this.attrs[name] = String(val); },
+    removeAttribute(name) { delete this.attrs[name]; }
+  },
   addEventListener: () => {},
   removeEventListener: () => {},
   body: { appendChild: () => {}, removeChild: () => {} },
   getElementById: (id) => {
+    if (id === 'theme-toggle-icon' || id === 'theme-toggle-label' || id === 'btn-theme-toggle' || id === 'menu-theme') {
+      return { className: '', textContent: '', innerHTML: '', setAttribute: () => {}, getAttribute: () => null, addEventListener: () => {} };
+    }
     if (id === 'bottom-table-wrap' || id === 'toast-container' || id === 'outliner-tree' || id === 'inspector-content' || id === 'outliner-sort-select' || id === 'btn-outliner-add-room' || id === 'btn-outliner-add-rack' || id === 'btn-outliner-add-dev') {
       return { innerHTML: '', value: '', appendChild: () => {}, removeChild: () => {}, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} };
     }
@@ -717,7 +726,7 @@ async function runTests() {
   console.log('\n🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3)');
 
   assert(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
-  assert(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+  assert(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 11, `Columnas: CONNECTIONS_COLUMNS define 11 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
   assert(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
   assert(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
   assert(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
@@ -1093,6 +1102,184 @@ async function runTests() {
     'M-40: main.js implementa la función orquestadora renderTopologySlots()');
   assert(mainJsSrc.includes("topoSlotsGroup.classList.remove('force-hide')"),
     'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
+
+  // ----------------------------------------------------
+  // GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)');
+
+  // 17.1 Verificación de variables en variables.css
+  const varsCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'variables.css'), 'utf8');
+  assert(varsCssSrc.includes('[data-theme="sepia"]'),
+    'M-18: variables.css define el bloque [data-theme="sepia"]');
+  assert(varsCssSrc.includes('--bg-main:       #f4ecd8;') || varsCssSrc.includes('--bg-main: #f4ecd8;'),
+    'M-18: variables.css define el fondo cálido pergamino (#f4ecd8) para sepia');
+  assert(varsCssSrc.includes('--text-primary:  #332517;') || varsCssSrc.includes('--text-primary: #332517;'),
+    'M-18: variables.css define el texto primario café oscuro (#332517) con alto contraste');
+  assert(varsCssSrc.includes('--accent:        #b45309;') || varsCssSrc.includes('--accent: #b45309;'),
+    'M-18: variables.css define el acento cálido ámbar/bronce (#b45309)');
+
+  // 17.2 Verificación de layout.css y misc.css
+  const layoutCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'layout.css'), 'utf8');
+  assert(layoutCssSrc.includes('[data-theme="sepia"] #view-physical'),
+    'M-18: layout.css define la cuadrícula física adaptada para [data-theme="sepia"]');
+
+  const miscCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'components', 'misc.css'), 'utf8');
+  assert(miscCssSrc.includes('.icon-coffee'),
+    'M-18: misc.css define la máscara vectorial del icono .icon-coffee');
+
+  // 17.3 Verificación de elementos en index.html
+  assert(indexHtmlSrc.includes('id="btn-theme-toggle"'),
+    'M-18: index.html define el botón interactivo de tema en la cabecera #btn-theme-toggle');
+  assert(indexHtmlSrc.includes('id="theme-toggle-icon"'),
+    'M-18: index.html define el icono dinámico #theme-toggle-icon');
+  assert(indexHtmlSrc.includes('id="theme-toggle-label"'),
+    'M-18: index.html define la etiqueta de texto #theme-toggle-label');
+  assert(indexHtmlSrc.includes("savedTheme === 'sepia'"),
+    'M-18: index.html previene FOUC en el <head> al cargar el tema sepia guardado');
+
+  // 17.4 Verificación de funciones en main.js
+  assert(mainJsSrc.includes('window.applyTheme = function'),
+    'M-18: main.js expone window.applyTheme para conmutación programática');
+  assert(mainJsSrc.includes('window.toggleThemeCycle = function'),
+    'M-18: main.js expone window.toggleThemeCycle para ciclado accesible');
+  assert(mainJsSrc.includes('window.getCurrentTheme = function'),
+    'M-18: main.js expone window.getCurrentTheme para lectura del tema activo');
+
+  // 17.5 Ejecución de ciclo de temas en memoria
+  const themeModule = `
+    const THEMES = [
+      { id: 'dark',  name: 'Oscuro', icon: 'icon-moon',   dataTheme: null },
+      { id: 'light', name: 'Claro',  icon: 'icon-sun',    dataTheme: 'light' },
+      { id: 'sepia', name: 'Sepia',  icon: 'icon-coffee', dataTheme: 'sepia' }
+    ];
+    window.getCurrentTheme = function() {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'sepia') return 'sepia';
+      if (attr === 'light') return 'light';
+      return 'dark';
+    };
+    window.applyTheme = function(themeId, notifyUser = false) {
+      const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+      if (theme.dataTheme) {
+        document.documentElement.setAttribute('data-theme', theme.dataTheme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('theme', theme.id);
+      return theme.id;
+    };
+    window.toggleThemeCycle = function(notifyUser = true) {
+      const current = window.getCurrentTheme();
+      const currentIndex = THEMES.findIndex(t => t.id === current);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      return window.applyTheme(THEMES[nextIndex].id, notifyUser);
+    };
+  `;
+  vm.runInThisContext(themeModule);
+
+  window.applyTheme('dark');
+  assert(document.documentElement.getAttribute('data-theme') === null && localStorage.getItem('theme') === 'dark',
+    'M-18: applyTheme("dark") remueve data-theme y fija "dark" en localStorage');
+
+  window.applyTheme('light');
+  assert(document.documentElement.getAttribute('data-theme') === 'light' && localStorage.getItem('theme') === 'light',
+    'M-18: applyTheme("light") asigna data-theme="light" y fija "light" en localStorage');
+
+  window.applyTheme('sepia');
+  assert(document.documentElement.getAttribute('data-theme') === 'sepia' && localStorage.getItem('theme') === 'sepia',
+    'M-18: applyTheme("sepia") asigna data-theme="sepia" y fija "sepia" en localStorage');
+
+  const nextFromSepia = window.toggleThemeCycle(false);
+  assert(nextFromSepia === 'dark' && window.getCurrentTheme() === 'dark',
+    'M-18: toggleThemeCycle() conmuta correctamente de Sepia a Oscuro');
+
+  const nextFromDark = window.toggleThemeCycle(false);
+  assert(nextFromDark === 'light' && window.getCurrentTheme() === 'light',
+    'M-18: toggleThemeCycle() conmuta correctamente de Oscuro a Claro');
+
+  const nextFromLight = window.toggleThemeCycle(false);
+  assert(nextFromLight === 'sepia' && window.getCurrentTheme() === 'sepia',
+    'M-18: toggleThemeCycle() conmuta correctamente de Claro a Sepia');
+
+  // 17.6 Verificación de soporte en TopologyRenderer y ExportModal
+  const topoRendererThemeSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'topology', 'TopologyRenderer.js'), 'utf8');
+  assert(topoRendererThemeSrc.includes("activeTheme === 'sepia'") && topoRendererThemeSrc.includes('#f5eee1'),
+    'M-18: TopologyRenderer.js reconoce el tema Sepia y aplica fondo cálido (#f5eee1) en Canvas 2D');
+
+  // ----------------------------------------------------
+  // GRUPO 18: Botón de Inversión y Orientación de Conexiones (M-41)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 18: Botón de Inversión y Orientación de Conexiones (M-41)');
+
+  // 18.1 Ícono Vectorial y Estilos en misc.css
+  const miscIconSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'components', 'misc.css'), 'utf8');
+  assert(miscIconSrc.includes('.icon-swap') && miscIconSrc.includes('mask-image'),
+    'M-41: misc.css define la máscara vectorial del icono .icon-swap');
+
+  // 18.2 Controles en index.html
+  assert(indexHtmlSrc.includes('id="btn-cable-swap"') && indexHtmlSrc.includes('icon-swap'),
+    'M-41: index.html define el botón interactivo de intercambio #btn-cable-swap');
+  assert(indexHtmlSrc.includes('id="cable-orientation"') && indexHtmlSrc.includes('value="bottom"'),
+    'M-41: index.html define el selector de orientación #cable-orientation (top / bottom)');
+
+  // 18.3 Lógica en CableModal.js
+  const cableModalSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'modals', 'CableModal.js'), 'utf8');
+  assert(cableModalSrc.includes('btn-cable-swap') && cableModalSrc.includes('cable-orientation'),
+    'M-41: CableModal.js vincula el evento de swap y sincroniza el selector de orientación');
+
+  // 18.4 Métodos en store.js
+  assert(typeof store.swapConnectionDirection === 'function',
+    'M-41: store.swapConnectionDirection está expuesto en store.js');
+  assert(typeof store.toggleConnectionOrientation === 'function',
+    'M-41: store.toggleConnectionOrientation está expuesto en store.js');
+
+  // Crear conexión de prueba para validar store
+  const allDevices = store.state.devices;
+  if (allDevices.length >= 2) {
+    const dev1 = allDevices[0];
+    const dev2 = allDevices[1];
+    const addRes = store.addConnection({
+      sourceDeviceId: dev1.id,
+      sourcePort: 'Eth0/99',
+      targetDeviceId: dev2.id,
+      targetPort: 'Eth0/100',
+      cableType: 'Fibra SM',
+      color: '#3b82f6',
+      orientation: 'top'
+    });
+    assert(addRes.success && addRes.connection && addRes.connection.orientation === 'top',
+      'M-41: store.addConnection persiste connection.orientation = "top" por defecto');
+
+    const connTestId = addRes.connection.id;
+
+    // Test de Swap de dirección
+    const swapRes = store.swapConnectionDirection(connTestId);
+    assert(swapRes.success && swapRes.connection.sourceDeviceId === dev2.id && swapRes.connection.targetDeviceId === dev1.id && swapRes.connection.sourcePort === 'Eth0/100' && swapRes.connection.targetPort === 'Eth0/99',
+      'M-41: store.swapConnectionDirection invierte fielmente dispositivos y puertos de origen y destino');
+
+    // Test de Toggle de orientación
+    const toggleRes1 = store.toggleConnectionOrientation(connTestId);
+    assert(toggleRes1.success && toggleRes1.connection.orientation === 'bottom',
+      'M-41: store.toggleConnectionOrientation conmuta de "top" a "bottom"');
+
+    const toggleRes2 = store.toggleConnectionOrientation(connTestId);
+    assert(toggleRes2.success && toggleRes2.connection.orientation === 'top',
+      'M-41: store.toggleConnectionOrientation conmuta nuevamente de "bottom" a "top"');
+
+    // Limpieza de prueba
+    store.deleteConnection(connTestId);
+  }
+
+  // 18.5 Tabla de Conexiones (tables.js)
+  const tablesSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'tables.js'), 'utf8');
+  assert(tablesSrc.includes("id: 'orientation'") && tablesSrc.includes('data-swap-conn') && tablesSrc.includes('data-toggle-orient'),
+    'M-41: tables.js incluye columna de canaleta y botones rápidos para swap y alternar orientación');
+
+  // 18.6 Motor de Enrutamiento Físico (rack.js)
+  const rackDrawSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'rack.js'), 'utf8');
+  assert(rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom'),
+    'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

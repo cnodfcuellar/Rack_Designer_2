@@ -257,9 +257,14 @@ Desde el menú del proyecto o la barra inferior, puedes exportar tus datos en va
 
 ## 🎨 Parte 8: Temas y Personalización
 
-### Tema claro / oscuro
-- Ve al menú del proyecto (⋮) → **"Cambiar a Modo Claro"** o **"Cambiar a Modo Oscuro"**.
-- El tema se guarda en tu navegador y se recuerda en la siguiente visita.
+### Selector de Temas Visible (M-18)
+En la barra superior (cabecera), junto a los botones de Deshacer y Rehacer, dispones del botón directo de tema con icono dinámico y etiqueta:
+- **Modo Oscuro (🌙):** Tema por defecto de alto contraste para entornos oscuros y reducción de consumo energético.
+- **Modo Claro (☀️):** Fondo claro de alta luminosidad para oficinas bien iluminadas o presentaciones.
+- **Modo Sepia (☕):** Paleta cálida relajante (tonos pergamino, texto café y acentos ámbar) diseñada específicamente para cuartos de control y largas jornadas de monitoreo sin fatiga ocular.
+
+> [!TIP]
+> **Cambio rápido con un solo clic:** Haz clic sobre el botón en la cabecera para ciclar instantáneamente: **Oscuro** ➔ **Claro** ➔ **Sepia** ➔ **Oscuro**. Tu preferencia se guarda automáticamente en el navegador y se recuerda en tus próximas sesiones. También puedes alternar el tema desde el menú principal del proyecto (⋮).
 
 ### Modo Dios y Cifrado en Reposo (M-01)
 - **Seguridad en Reposo:** Las contraseñas se almacenan cifradas con AES-GCM (`enc:v1:`) en tu navegador (`localStorage`) y en respaldos `.rack`. En reposo nunca reside texto plano.

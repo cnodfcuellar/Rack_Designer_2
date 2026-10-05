@@ -1,7 +1,25 @@
 # Active Context
 
 ## Current Work Focus
-El proyecto ha completado con éxito la **Modernización Integral de la Vista de Topología** (Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas, reubicación de equipos desconectados en la base de racks/sala, personalización completa de ubicación de Nombre/IP en nodos y control dual de espaciado Horizontal/Vertical), la **Navegación y Enfoque reactivo desde el Outliner**, el **Selector Dinámico de Columnas en Tablas de Datos** con persistencia, y la **Protección visual de la cabecera**.
+El proyecto ha completado con éxito la **Inversión y Orientación Bicanal de Conexiones Físicas (M-41)**, el **Soporte para Tema Sepia y Selector Global de Temas (M-18)**, el **Guardado y Conmutación de Estados de Topología (M-40 con 5 slots de memoria y preservación de Undo/Redo)**, y la **Sincronización Total de la Suite de Pruebas (265 pruebas en 18 grupos al 100% de éxito en Node y Web)**. El avance global del roadmap de mejoras alcanza el **73.8% (31 de 42 tareas completadas)**.
+
+## Recent Changes (Octubre 2026)
+- **[2026-10-04] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**
+  - Incorporados Grupos 16, 17 y 18 en `tests/index.html` alcanzando **265 pruebas en 18 grupos al 100% de éxito**, logrando paridad 1:1 total con `tests/integrity_check.cjs`.
+- **[2026-10-03] Implementación de M-41: Botón para Invertir y Cambiar Orientación de Conexiones:**
+  - **Inversión de Sentido Lógico (Swap Origen ⇄ Destino):** Botón interactivo `#btn-cable-swap` en `CableModal.js` con microanimación de giro a 180° e icono vectorial monocromático `.icon-swap` que transpone de inmediato equipos y puertos con recálculo dinámico de colisiones.
+  - **Acción Rápida en Tabla (`tables.js`):** Botón `data-swap-conn` en la columna de Acciones de la tabla de conexiones para invertir cualquier enlace con un solo clic.
+  - **Orientación de Canaleta Física (Superior / Inferior):** Selector `#cable-orientation` en el modal de cables y toggle interactivo de 1 clic en la columna de la tabla (`⬆️ Techo` ⇄ `⬇️ Piso`). Persistencia en el modelo reactivo (`orientation: 'top' | 'bottom'`).
+  - **Enrutamiento Segregado en Vista Física (`rack.js`):** El motor SVG de `drawPhysicalCables` desciende los cables con orientación inferior hacia la canaleta de piso técnico (`maxRackBottom + 14 + offset`), separando limpiamente el cableado bajo piso del aéreo.
+- **[2026-10-02] Implementación de M-18: Soporte para Tema Sepia y Selector Global de Temas:**
+  - **Diseño Ergonómico Relajante:** Paleta cálida pergamino (`--bg-main: #f4ecd8`, `--text-primary: #332517`, `--accent: #b45309`) en `variables.css`.
+  - **Botón Dinámico en Cabecera (`#btn-theme-toggle`):** Ciclo continuo y accesible (Oscuro ⇄ Claro ⇄ Sepia) con icono dinámico (`.icon-moon`, `.icon-sun`, `.icon-coffee`).
+  - **Adaptación en Grilla CAD y Topología:** Ajuste de cuadrícula en `layout.css` y fondo cálido (`#f5eee1`) en Canvas 2D (`TopologyRenderer.js`).
+- **[2026-10-02] Implementación de M-40: Guardado y Conmutación de Estados de Topología (Slots):**
+  - **Sistema de 5 Ranuras:** Gestión de 5 estados independientes (`topologySlots`) con clonado profundo en `store.js` que capturan posiciones de nodos, racks, salas, encuadre pan y nivel de zoom.
+  - **Barra de Acceso Rápido y Menú Desplegable:** `#topo-slots-bar` en la barra de herramientas y menú `#topo-slots-dropdown` para guardar, cargar, renombrar y vaciar ranuras.
+  - **Preservación de Undo/Redo:** La alternancia entre ranuras no destruye `_redoStack`, permitiendo rehacer sin inconsistencias.
+  - **Normalización de Iconografía:** Estandarización del icono de vistas a `.icon-eye` monocromático alineado estrictamente con `DESIGN.md`.
 
 ## Recent Changes (Septiembre 2026)
 - **[2026-09-30] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**

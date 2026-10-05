@@ -1,3 +1,75 @@
+## [2026-10-04] Sincronización Total de Suite Web Interactiva (`tests/index.html`) y Actualización Integral de Documentación
+
+### Suite de Pruebas Web Interactiva (`tests/index.html`)
+- **Paridad 1:1 con `tests/integrity_check.cjs`:**
+  - Incorporados **Grupo 16** (Guardado y Conmutación de Estados de Topología - M-40, 34 pruebas), **Grupo 17** (Soporte para Tema Sepia y Selector de Temas - M-18, 20 pruebas) y **Grupo 18** (Botón de Inversión y Orientación de Conexiones - M-41, 12 pruebas).
+  - La suite en navegador ahora ejecuta exactamente **265 pruebas en 18 grupos con 100% de éxito**.
+
+### Memory Bank y Documentación Técnica
+- Sincronizados `memory-bank/activeContext.md`, `memory-bank/progress.md` y `memory-bank/systemPatterns.md` con los avances de M-40, M-18 y M-41.
+
+---
+
+## [2026-10-02] Implementación Completa: Botón para Invertir Sentido y Cambiar Orientación de Conexiones (M-41)
+
+### Modal de Conexión de Cables (`index.html`, `js/ui/modals/CableModal.js`, `css/components/misc.css`)
+- **Botón Interactivo de Inversión (`#btn-cable-swap`):**
+  - Incorporado un botón centrado entre los bloques de *Equipo Origen* y *Equipo Destino* con icono vectorial SVG `.icon-swap` (`⇄`).
+  - Al pulsar con un solo clic, conmuta instantáneamente los equipos seleccionados y sus respectivos puertos (`src` ⇄ `dst`), rellenando dinámicamente las listas de puertos libres y recalculando la detección de colisiones en tiempo real.
+  - Microanimación sutil de rotación a 180° en el icono para feedback táctil instantáneo.
+- **Selector Simple de Orientación de Canaleta (`#cable-orientation`):**
+  - Selector conmutador de 2 opciones: **Canaleta Superior (Techo / Bandeja Aérea)** (`top`) y **Canaleta Inferior (Piso Técnico / Fondo)** (`bottom`).
+  - Persistencia reactiva del atributo `orientation` en el modelo de datos de la conexión dentro de `store.js` (`addConnection`, `updateConnection`).
+
+### Tabla de Conexiones (`js/ui/tables.js`)
+- **Columna "Canaleta":** Nueva columna interactiva en `CONNECTIONS_COLUMNS` con botón toggle que permite alternar la orientación de la canaleta (`⬆️ Techo` ⇄ `⬇️ Piso`) con un solo clic sin abrir modales.
+- **Acción Rápida de Inversión por Fila (`data-swap-conn`):** Botón con icono SVG `.icon-swap` en la columna de Acciones para invertir la dirección de cualquier conexión existente de manera inmediata.
+
+### Enrutamiento Físico de Cables (`js/ui/rack.js`)
+- **Trazado SVG Bicanal:** `drawPhysicalCables` calcula dinámicamente la trayectoria ortogonal con curvas Bézier para conexiones entre gabinetes (*inter-rack*). Si `orientation === 'bottom'`, el cable desciende por el lateral hacia la canaleta inferior bajo los racks (`maxRackBottom + 14`) y asciende hacia el puerto destino, respetando la segregación física entre cableado aéreo y bajo piso técnico.
+
+### Métodos del Store (`js/store.js`)
+- `store.swapConnectionDirection(id)`: Invierte atómicamente los extremos de la conexión emitiendo eventos reactivos de cambio.
+- `store.toggleConnectionOrientation(id)`: Conmuta alternativamente la orientación entre `'top'` y `'bottom'`.
+
+### Automatización y Calidad (`tests/integrity_check.cjs`)
+- **Grupo 18 Agregado (265 pruebas pasando al 100%):** 11 nuevas aserciones verificando máscara vectorial `.icon-swap`, elementos en `index.html`, listeners en `CableModal.js`, métodos en `store.js`, columna y botones en `tables.js` y algoritmo en `rack.js`.
+
+---
+
+## [2026-10-02] Implementación Completa: Tema Sepia y Selector Visible de Temas en Cabecera (M-18)
+
+### Selector Visible y Accesible en Cabecera (`index.html`, `js/main.js`, `css/layout.css`)
+- **Control Directo en `#header` (`#btn-theme-toggle`):**
+  - Se incorporó un botón interactivo compacto en la barra de herramientas superior, ubicado junto al grupo de Deshacer/Rehacer.
+  - Cuenta con un icono vectorial dinámico (`#theme-toggle-icon`) y etiqueta de texto (`#theme-toggle-label`), indicando el tema activo y ciclando con un solo clic: **Oscuro** ➔ **Claro** ➔ **Sepia** ➔ **Oscuro**.
+  - Sincronización bidireccional con la opción `#menu-theme` del menú del proyecto.
+  - Prevención de FOUC (*Flash of Unstyled Content*) en el `<head>` mediante carga temprana de tema desde `localStorage`.
+
+### Corrección de Iconografía Técnica Conforme a DESIGN.md (`index.html`)
+- **Sustitución de Emoji Nativo por SVG Vectorial:**
+  - Se eliminó el emoji `👁️` del contenedor `#topo-slots-group` y se reemplazó por el icono SVG monocromático `<i class="svg-icon icon-eye"></i>`, dando estricto cumplimiento a la directriz de `.agents/DESIGN.md` que prohíbe el uso de emojis del sistema operativo y exige iconografía técnica escalable y monocromática.
+
+### Paleta Cálida para Modo Sepia (`css/variables.css`, `css/layout.css`, `css/components/misc.css`)
+- **Variables de Design System (`[data-theme="sepia"]`):**
+  - Fondo pergamino cálido (`--bg-main: #f4ecd8`), paneles crema (`--bg-panel: #ebe1c7cc`) y tarjetas limpias (`--bg-card: #fffdfa`).
+  - Tipografía de alta legibilidad en café oscuro (`--text-primary: #332517`) y bordes ocre suave (`--border: #d9cbb0`).
+  - Acentos ámbar/bronce cálido (`--accent: #b45309`) y estados visuales verde bosque (`#15803d`) y rojo ladrillo (`#b91c1c`).
+  - Cuadrícula de vista física adaptada (`[data-theme="sepia"] #view-physical`) con gradiente sutil tono ocre/tostado.
+  - Nuevo icono vectorial `.icon-coffee` en `css/components/misc.css` para representar el tema cálido.
+
+### Adaptación en Topología y Exportación (`js/ui/topology/TopologyRenderer.js`, `js/ui/modals/ExportModal.js`)
+- **Canvas 2D de Topología:**
+  - El fondo dinámico adopta automáticamente `#f5eee1` en modo Sepia y los patrones de puntos, cuadrícula y hexágonos usan tonalidades café sutiles (`rgba(90, 65, 35, ...)`).
+- **Exportación HiDPI:**
+  - Función `getActiveThemeBg()` y fallbacks procedimentales actualizados para devolver `#f4ecd8` ante `data-theme="sepia"`.
+
+### Suite de Integridad (`tests/integrity_check.cjs`)
+- **Grupo 17 Agregado (254 pruebas pasando al 100%):**
+  - 21 nuevas pruebas unitarias e integradas que verifican tokens de color sepia, máscaras SVG, botones en DOM, API de conmutación (`applyTheme`, `toggleThemeCycle`, `getCurrentTheme`), persistencia en `localStorage` y adaptación en topología y exportaciones.
+
+---
+
 ## [2026-10-02] Optimización Híbrida de la Barra de Herramientas de Topología (Resolución de Desbordamiento)
 
 ### Ergonomía y Maquetación Responsiva (`index.html`, `js/main.js`, `css/components/panels.css`, `js/ui/topology/TopologyState.js`)

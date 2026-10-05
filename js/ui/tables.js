@@ -35,6 +35,7 @@ const CONNECTIONS_COLUMNS = [
   { id: 'targetPort', label: 'Puerto Destino', category: 'Destino', default: true },
   { id: 'vlan', label: 'VLAN', category: 'Red', default: true },
   { id: 'cableType', label: 'Tipo Cable', category: 'Físico', default: true },
+  { id: 'orientation', label: 'Canaleta', category: 'Físico', default: true },
   { id: 'color', label: 'Color', category: 'Físico', default: true },
   { id: 'actions', label: 'Acciones', category: 'Control', default: true, required: true }
 ];
@@ -417,6 +418,18 @@ function renderConnectionsTable(wrap, query) {
       th: '<th>Tipo Cable</th>',
       td: (c) => `<td>${escapeHTML(c.cableType)}</td>`
     },
+    orientation: {
+      th: '<th>Canaleta</th>',
+      td: (c) => {
+        const isBottom = c.orientation === 'bottom';
+        const label = isBottom ? 'Piso' : 'Techo';
+        return `<td>
+          <button class="tbl-action" data-toggle-orient="${escapeHTML(c.id)}" style="padding:2px 8px; font-size:11px; display:inline-flex; align-items:center; gap:4px; border-color:var(--border);" title="Alternar canaleta (Superior ⇄ Inferior)">
+            <span>${isBottom ? '⬇️' : '⬆️'} ${label}</span>
+          </button>
+        </td>`;
+      }
+    },
     color: {
       th: '<th>Color</th>',
       td: (c) => `<td><span class="cable-dot" style="background:${escapeHTML(c.color)};box-shadow:0 0 4px ${escapeHTML(c.color)}"></span> ${escapeHTML(c.color)}</td>`
@@ -424,6 +437,7 @@ function renderConnectionsTable(wrap, query) {
     actions: {
       th: '<th>Acciones</th>',
       td: (c) => `<td style="white-space:nowrap;">
+        <button class="tbl-action" data-swap-conn="${escapeHTML(c.id)}" style="border-color:var(--border);padding:4px 8px" title="Invertir dirección (Origen ⇄ Destino)"><i class="svg-icon icon-swap" style="width:12px; height:12px;"></i></button>
         <button class="tbl-action" data-edit-conn="${escapeHTML(c.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
         <button class="tbl-action" data-del-conn="${escapeHTML(c.id)}" style="padding:4px 8px" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
       </td>`
@@ -443,6 +457,24 @@ function renderConnectionsTable(wrap, query) {
     ${tbodyHtml}
   </table>`;
 
+  wrap.querySelectorAll('[data-swap-conn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const res = store.swapConnectionDirection(btn.dataset.swapConn);
+      if (res && res.success) {
+        notify('Dirección invertida (Origen ⇄ Destino)', 'info');
+      } else if (res && res.error) {
+        notify(res.error, 'error');
+      }
+    });
+  });
+  wrap.querySelectorAll('[data-toggle-orient]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const res = store.toggleConnectionOrientation(btn.dataset.toggleOrient);
+      if (res && res.success) {
+        notify(`Canaleta cambiada a ${res.connection.orientation === 'bottom' ? 'Inferior (Piso)' : 'Superior (Techo)'}`, 'info');
+      }
+    });
+  });
   wrap.querySelectorAll('[data-del-conn]').forEach(btn => {
     btn.addEventListener('click', () => {
       store.deleteConnection(btn.dataset.delConn);

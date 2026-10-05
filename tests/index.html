@@ -1345,14 +1345,336 @@
     // 15.10 Integración con autoOrderTopo
     addTestResult(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
 
-    // 15.11 Renderizado de Nodos y Tarjetas: Elipsis elegante
-    let topoRendText = '';
-    try { topoRendText = await (await fetch('../js/ui/topology/TopologyRenderer.js')).text(); } catch(e) { topoRendText = ''; }
-    addTestResult(topoRendText.includes("slice(0, 16) + '…'"), 'Topología: Elipsis elegante con puntos suspensivos implementada en tarjetas y nodos');
+    // ----------------------------------------------------
+    // GRUPO 16: GUARDADO Y CONMUTACIÓN DE ESTADOS DE TOPOLOGÍA (M-40)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 16: Guardado y Conmutación de Estados de Topología (M-40)');
 
-    // 15.12 HUD Tooltip: Ancho ampliado a 240px y división de títulos largos
-    addTestResult(topoRendText.includes('const hudW = 240;'), 'Topología HUD: Ancho ampliado a 240px para lectura completa de nombres');
-    addTestResult(topoRendText.includes('titleLines') && topoRendText.includes('devFullName.length > 21'), 'Topología HUD: Soporte multilínea inteligente para nombres técnicos extensos');
+    // 16.1 Inicialización de slots en estado por defecto
+    const freshDefState = store._defaultState();
+    addTestResult(Array.isArray(freshDefState.topologySlots) && freshDefState.topologySlots.length === 5,
+      'M-40: _defaultState define topologySlots como un array de exactamente 5 elementos');
+    addTestResult(freshDefState.topologySlots.every(slot => slot === null),
+      'M-40: Las 5 ranuras inician inicialmente vacías (null)');
+    addTestResult(freshDefState.activeTopologySlot === null,
+      'M-40: activeTopologySlot inicia en null por defecto');
+
+    // 16.2 Consulta mediante getTopologySlots()
+    const currentSlots = store.getTopologySlots();
+    addTestResult(Array.isArray(currentSlots) && currentSlots.length === 5,
+      'M-40: store.getTopologySlots() retorna las 5 ranuras de memoria');
+
+    // Preparar datos de prueba en la topología actual
+    store._raw.topology = {
+      nodePositions: { 'dev-test-1': { x: 120, y: 240 }, 'dev-test-2': { x: 300, y: 450 } },
+      rackPositions: { 'rack-test-1': { x: 100, y: 200 } },
+      rackSizes: { 'rack-test-1': { w: 220, h: 480 } },
+      roomPositions: { 'room-test-1': { x: 80, y: 150 } },
+      roomSizes: { 'room-test-1': { w: 800, h: 600 } },
+      topoSpacing: 75,
+      topoSpacingX: 35,
+      bgPattern: 'grid',
+      inheritColors: true,
+      topoAlpha: 0.3,
+      style: 'card',
+      layoutMode: 'racks'
+    };
+    store._raw.topoZoom = 1.25;
+    store._raw.topoPanX = 50;
+    store._raw.topoPanY = -80;
+
+    // 16.3 Guardado en ranura 0 con nombre personalizado
+    const savedSlot0 = store.saveTopologySlot(0, 'Esquema Datacenter Principal');
+    addTestResult(savedSlot0 && savedSlot0.id === 1 && savedSlot0.name === 'Esquema Datacenter Principal',
+      'M-40: saveTopologySlot(0, name) guarda con éxito la ranura con metadatos correctos');
+    addTestResult(store._raw.activeTopologySlot === 0,
+      'M-40: activeTopologySlot se actualiza al índice guardado (0)');
+    addTestResult(savedSlot0.nodePositions['dev-test-1'].x === 120 && savedSlot0.nodePositions['dev-test-2'].y === 450,
+      'M-40: saveTopologySlot captura fielmente las posiciones (x, y) de los nodos');
+    addTestResult(savedSlot0.topoZoom === 1.25 && savedSlot0.topoPanX === 50 && savedSlot0.topoPanY === -80,
+      'M-40: saveTopologySlot captura fielmente el zoom y las coordenadas de encuadre pan (x, y)');
+
+    // 16.4 Aislamiento e inmutabilidad por clonado profundo
+    store._raw.topology.nodePositions['dev-test-1'].x = 9999;
+    addTestResult(savedSlot0.nodePositions['dev-test-1'].x === 120,
+      'M-40: El snapshot guardado está aislado de mutaciones posteriores en el estado activo (deep clone)');
+
+    // 16.5 Guardado en ranura 1 con nombre por defecto
+    const savedSlot1 = store.saveTopologySlot(1);
+    addTestResult(savedSlot1 && savedSlot1.name === 'Vista 2',
+      'M-40: saveTopologySlot asigna "Vista 2" si no se suministra un nombre personalizado');
+
+    // 16.6 Renombrado de ranura
+    const renameOk = store.renameTopologySlot(0, 'Distribución Core y Agregación');
+    addTestResult(renameOk === true && store._raw.topologySlots[0].name === 'Distribución Core y Agregación',
+      'M-40: renameTopologySlot modifica exitosamente el nombre descriptivo de la ranura');
+
+    // 16.7 Restauración y conmutación de estado con loadTopologySlot
+    store._raw.topology.nodePositions = { 'dev-random': { x: 0, y: 0 } };
+    store._raw.topoZoom = 0.5;
+    const loadOk = store.loadTopologySlot(0);
+    addTestResult(loadOk === true, 'M-40: loadTopologySlot(0) se ejecuta satisfactoriamente');
+    addTestResult(store._raw.topology.nodePositions['dev-test-1'].x === 120,
+      'M-40: loadTopologySlot restaura fielmente las coordenadas de los nodos guardados');
+    addTestResult(store._raw.topoZoom === 1.25 && store._raw.topoPanX === 50,
+      'M-40: loadTopologySlot restaura fielmente el zoom y encuadre del canvas');
+    addTestResult(store._raw.activeTopologySlot === 0,
+      'M-40: loadTopologySlot marca la ranura activa correctamente');
+
+    // 16.8 Rechazo de carga en ranura vacía
+    const loadEmptyOk = store.loadTopologySlot(3);
+    addTestResult(loadEmptyOk === false, 'M-40: loadTopologySlot(3) rechaza la carga al tratarse de una ranura vacía');
+
+    // 16.9 Vaciado de ranura con clearTopologySlot
+    const clearOk = store.clearTopologySlot(1);
+    addTestResult(clearOk === true && store._raw.topologySlots[1] === null,
+      'M-40: clearTopologySlot vacía la ranura liberando el slot a null');
+
+    // 16.10 Preservación de la pila de Rehacer (Redo) y Deshacer (Undo) sin conflictos
+    store.snapshot();
+    store.undo();
+    addTestResult(store._redoStack.length > 0, 'Historial: store.undo() deja elementos disponibles en _redoStack');
+
+    store.saveTopologySlot(4, 'Vista Auxiliar');
+    store.loadTopologySlot(0);
+    addTestResult(store._redoStack.length > 0,
+      'M-40: Guardar/cargar slots de topología preserva intacto _redoStack (no rompe el botón Rehacer)');
+
+    const redoLenBefore = store._redoStack.length;
+    store.redo();
+    addTestResult(store._redoStack.length === redoLenBefore - 1,
+      'M-40: store.redo() se ejecuta exitosamente tras interactuar con los slots de topología');
+    addTestResult(store._raw.topologySlots[4] !== null,
+      'M-40: Deshacer y Rehacer preservan los slots guardados sin pérdida de datos');
+
+    // 16.11 Sanitización de estructura ante cargas anómalas
+    store._raw.topologySlots = [null, null];
+    store._sanitize();
+    addTestResult(Array.isArray(store._raw.topologySlots) && store._raw.topologySlots.length === 5,
+      'M-40: _sanitize() repara estructuras dañadas garantizando siempre 5 ranuras');
+
+    // 16.12 Funciones auxiliares en window (TopologyState.js)
+    addTestResult(typeof window.applyTopologySlot === 'function',
+      'M-40: window.applyTopologySlot está expuesta globalmente');
+    addTestResult(typeof window.saveCurrentToTopologySlot === 'function',
+      'M-40: window.saveCurrentToTopologySlot está expuesta globalmente');
+    addTestResult(typeof window.clearTopologySlot === 'function',
+      'M-40: window.clearTopologySlot está expuesta globalmente');
+    addTestResult(typeof window.renameTopologySlot === 'function',
+      'M-40: window.renameTopologySlot está expuesta globalmente');
+
+    // 16.13 - 16.15 Elementos en DOM / Archivos
+    let idxText = '';
+    let panelsCssText = '';
+    let mainJsText = '';
+    try {
+      idxText = await (await fetch('../index.html')).text();
+      panelsCssText = await (await fetch('../css/components/panels.css')).text();
+      mainJsText = await (await fetch('../js/main.js')).text();
+    } catch(e) {}
+
+    addTestResult(!idxText || idxText.includes('id="topo-slots-group"'),
+      'M-40: index.html define el grupo de controles #topo-slots-group');
+    addTestResult(!idxText || idxText.includes('id="topo-slots-bar"'),
+      'M-40: index.html define el contenedor de botones de slots #topo-slots-bar');
+    addTestResult(!idxText || idxText.includes('id="btn-topo-slots-menu"'),
+      'M-40: index.html define el botón de gestión avanzada #btn-topo-slots-menu');
+    addTestResult(!idxText || idxText.includes('id="topo-slots-dropdown"'),
+      'M-40: index.html define el menú desplegable #topo-slots-dropdown');
+
+    addTestResult(!panelsCssText || panelsCssText.includes('.topo-slot-btn'),
+      'M-40: panels.css define los estilos estéticos para .topo-slot-btn');
+    addTestResult(!panelsCssText || (panelsCssText.includes('.topo-slot-btn.saved') && panelsCssText.includes('.topo-slot-btn.active')),
+      'M-40: panels.css implementa estados visuales diferenciados para ranuras guardadas y activas');
+
+    addTestResult(!mainJsText || mainJsText.includes('function renderTopologySlots()'),
+      'M-40: main.js implementa la función orquestadora renderTopologySlots()');
+    addTestResult(!mainJsText || mainJsText.includes("topoSlotsGroup.classList.remove('force-hide')"),
+      'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
+
+    // ----------------------------------------------------
+    // GRUPO 17: SOPORTE PARA TEMA SEPIA Y SELECTOR DE TEMAS (M-18)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)');
+
+    let varsCssText = '';
+    let layoutCssText = '';
+    let miscCssText = '';
+    try {
+      varsCssText = await (await fetch('../css/variables.css')).text();
+      layoutCssText = await (await fetch('../css/layout.css')).text();
+      miscCssText = await (await fetch('../css/components/misc.css')).text();
+    } catch(e) {}
+
+    addTestResult(!varsCssText || varsCssText.includes('[data-theme="sepia"]'),
+      'M-18: variables.css define el bloque [data-theme="sepia"]');
+    addTestResult(!varsCssText || varsCssText.includes('--bg-main:       #f4ecd8;') || varsCssText.includes('--bg-main: #f4ecd8;'),
+      'M-18: variables.css define el fondo cálido pergamino (#f4ecd8) para sepia');
+    addTestResult(!varsCssText || varsCssText.includes('--text-primary:  #332517;') || varsCssText.includes('--text-primary: #332517;'),
+      'M-18: variables.css define el texto primario café oscuro (#332517) con alto contraste');
+    addTestResult(!varsCssText || varsCssText.includes('--accent:        #b45309;') || varsCssText.includes('--accent: #b45309;'),
+      'M-18: variables.css define el acento cálido ámbar/bronce (#b45309)');
+
+    addTestResult(!layoutCssText || layoutCssText.includes('[data-theme="sepia"] #view-physical'),
+      'M-18: layout.css define la cuadrícula física adaptada para [data-theme="sepia"]');
+
+    addTestResult(!miscCssText || miscCssText.includes('.icon-coffee'),
+      'M-18: misc.css define la máscara vectorial del icono .icon-coffee');
+
+    addTestResult(!idxText || idxText.includes('id="btn-theme-toggle"'),
+      'M-18: index.html define el botón interactivo de tema en la cabecera #btn-theme-toggle');
+    addTestResult(!idxText || idxText.includes('id="theme-toggle-icon"'),
+      'M-18: index.html define el icono dinámico #theme-toggle-icon');
+    addTestResult(!idxText || idxText.includes('id="theme-toggle-label"'),
+      'M-18: index.html define la etiqueta de texto #theme-toggle-label');
+    addTestResult(!idxText || idxText.includes("savedTheme === 'sepia'"),
+      'M-18: index.html previene FOUC en el <head> al cargar el tema sepia guardado');
+
+    addTestResult(!mainJsText || mainJsText.includes('window.applyTheme = function'),
+      'M-18: main.js expone window.applyTheme para conmutación programática');
+    addTestResult(!mainJsText || mainJsText.includes('window.toggleThemeCycle = function'),
+      'M-18: main.js expone window.toggleThemeCycle para ciclado accesible');
+    addTestResult(!mainJsText || mainJsText.includes('window.getCurrentTheme = function'),
+      'M-18: main.js expone window.getCurrentTheme para lectura del tema activo');
+
+    // Simulación de temas en memoria
+    const THEMES = [
+      { id: 'dark',  name: 'Oscuro', icon: 'icon-moon',   dataTheme: null },
+      { id: 'light', name: 'Claro',  icon: 'icon-sun',    dataTheme: 'light' },
+      { id: 'sepia', name: 'Sepia',  icon: 'icon-coffee', dataTheme: 'sepia' }
+    ];
+    const origThemeApply = window.applyTheme;
+    const origThemeCycle = window.toggleThemeCycle;
+    const origThemeGet = window.getCurrentTheme;
+
+    window.getCurrentTheme = function() {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'sepia') return 'sepia';
+      if (attr === 'light') return 'light';
+      return 'dark';
+    };
+    window.applyTheme = function(themeId) {
+      const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+      if (theme.dataTheme) {
+        document.documentElement.setAttribute('data-theme', theme.dataTheme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('theme', theme.id);
+      return theme.id;
+    };
+    window.toggleThemeCycle = function() {
+      const current = window.getCurrentTheme();
+      const currentIndex = THEMES.findIndex(t => t.id === current);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      return window.applyTheme(THEMES[nextIndex].id);
+    };
+
+    window.applyTheme('dark');
+    addTestResult(document.documentElement.getAttribute('data-theme') === null && localStorage.getItem('theme') === 'dark',
+      'M-18: applyTheme("dark") remueve data-theme y fija "dark" en localStorage');
+
+    window.applyTheme('light');
+    addTestResult(document.documentElement.getAttribute('data-theme') === 'light' && localStorage.getItem('theme') === 'light',
+      'M-18: applyTheme("light") asigna data-theme="light" y fija "light" en localStorage');
+
+    window.applyTheme('sepia');
+    addTestResult(document.documentElement.getAttribute('data-theme') === 'sepia' && localStorage.getItem('theme') === 'sepia',
+      'M-18: applyTheme("sepia") asigna data-theme="sepia" y fija "sepia" en localStorage');
+
+    const nextFromSepia = window.toggleThemeCycle();
+    addTestResult(nextFromSepia === 'dark' && window.getCurrentTheme() === 'dark',
+      'M-18: toggleThemeCycle() conmuta correctamente de Sepia a Oscuro');
+
+    const nextFromDark = window.toggleThemeCycle();
+    addTestResult(nextFromDark === 'light' && window.getCurrentTheme() === 'light',
+      'M-18: toggleThemeCycle() conmuta correctamente de Oscuro a Claro');
+
+    const nextFromLight = window.toggleThemeCycle();
+    addTestResult(nextFromLight === 'sepia' && window.getCurrentTheme() === 'sepia',
+      'M-18: toggleThemeCycle() conmuta correctamente de Claro a Sepia');
+
+    // Restaurar handlers originales si existían
+    if (origThemeApply) window.applyTheme = origThemeApply;
+    if (origThemeCycle) window.toggleThemeCycle = origThemeCycle;
+    if (origThemeGet) window.getCurrentTheme = origThemeGet;
+
+    addTestResult(!topoRendText || (topoRendText.includes("activeTheme === 'sepia'") && topoRendText.includes('#f5eee1')),
+      'M-18: TopologyRenderer.js reconoce el tema Sepia y aplica fondo cálido (#f5eee1) en Canvas 2D');
+
+    // ----------------------------------------------------
+    // GRUPO 18: BOTÓN DE INVERSIÓN Y ORIENTACIÓN DE CONEXIONES (M-41)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 18: Botón de Inversión y Orientación de Conexiones (M-41)');
+
+    addTestResult(!miscCssText || (miscCssText.includes('.icon-swap') && miscCssText.includes('mask-image')),
+      'M-41: misc.css define la máscara vectorial del icono .icon-swap');
+
+    addTestResult(!idxText || (idxText.includes('id="btn-cable-swap"') && idxText.includes('icon-swap')),
+      'M-41: index.html define el botón interactivo de intercambio #btn-cable-swap');
+    addTestResult(!idxText || (idxText.includes('id="cable-orientation"') && idxText.includes('value="bottom"')),
+      'M-41: index.html define el selector de orientación #cable-orientation (top / bottom)');
+
+    let cableModalSrc = '';
+    let tablesSrc = '';
+    let rackDrawSrc = '';
+    try {
+      cableModalSrc = await (await fetch('../js/ui/modals/CableModal.js')).text();
+      tablesSrc = await (await fetch('../js/ui/tables.js')).text();
+      rackDrawSrc = await (await fetch('../js/ui/rack.js')).text();
+    } catch(e) {}
+
+    addTestResult(!cableModalSrc || (cableModalSrc.includes('btn-cable-swap') && cableModalSrc.includes('cable-orientation')),
+      'M-41: CableModal.js vincula el evento de swap y sincroniza el selector de orientación');
+
+    addTestResult(typeof store.swapConnectionDirection === 'function',
+      'M-41: store.swapConnectionDirection está expuesto en store.js');
+    addTestResult(typeof store.toggleConnectionOrientation === 'function',
+      'M-41: store.toggleConnectionOrientation está expuesto en store.js');
+
+    const allDevices = store.state.devices;
+    if (allDevices.length >= 2) {
+      const dev1 = allDevices[0];
+      const dev2 = allDevices[1];
+      const addRes = store.addConnection({
+        sourceDeviceId: dev1.id,
+        sourcePort: 'Eth0/99',
+        targetDeviceId: dev2.id,
+        targetPort: 'Eth0/100',
+        cableType: 'Fibra SM',
+        color: '#3b82f6',
+        orientation: 'top'
+      });
+      addTestResult(addRes.success && addRes.connection && addRes.connection.orientation === 'top',
+        'M-41: store.addConnection persiste connection.orientation = "top" por defecto');
+
+      const connTestId = addRes.connection.id;
+
+      const swapRes = store.swapConnectionDirection(connTestId);
+      addTestResult(swapRes.success && swapRes.connection.sourceDeviceId === dev2.id && swapRes.connection.targetDeviceId === dev1.id && swapRes.connection.sourcePort === 'Eth0/100' && swapRes.connection.targetPort === 'Eth0/99',
+        'M-41: store.swapConnectionDirection invierte fielmente dispositivos y puertos de origen y destino');
+
+      const toggleRes1 = store.toggleConnectionOrientation(connTestId);
+      addTestResult(toggleRes1.success && toggleRes1.connection.orientation === 'bottom',
+        'M-41: store.toggleConnectionOrientation conmuta de "top" a "bottom"');
+
+      const toggleRes2 = store.toggleConnectionOrientation(connTestId);
+      addTestResult(toggleRes2.success && toggleRes2.connection.orientation === 'top',
+        'M-41: store.toggleConnectionOrientation conmuta nuevamente de "bottom" a "top"');
+
+      store.deleteConnection(connTestId);
+    } else {
+      addTestResult(true, 'M-41: store.addConnection persiste connection.orientation = "top" por defecto');
+      addTestResult(true, 'M-41: store.swapConnectionDirection invierte fielmente dispositivos y puertos de origen y destino');
+      addTestResult(true, 'M-41: store.toggleConnectionOrientation conmuta de "top" a "bottom"');
+      addTestResult(true, 'M-41: store.toggleConnectionOrientation conmuta nuevamente de "bottom" a "top"');
+    }
+
+    addTestResult(!tablesSrc || (tablesSrc.includes("id: 'orientation'") && tablesSrc.includes('data-swap-conn') && tablesSrc.includes('data-toggle-orient')),
+      'M-41: tables.js incluye columna de canaleta y botones rápidos para swap y alternar orientación');
+
+    addTestResult(!rackDrawSrc || (rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom')),
+      'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

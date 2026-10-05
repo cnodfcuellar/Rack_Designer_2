@@ -17,29 +17,34 @@
 - **Auth/RBAC:** 3 roles (Admin/Editor/Viewer), PIN con SHA-256 (con fallback puro JS para file:// y LAN), sesión persistente a recargas F5 mediante `sessionStorage`.
 - **PWA:** Service Worker con precaché offline (`rack-designer-next-cache-v10`), inclusión de `html2canvas.min.js` y actualización automática mediante `reg.update()`.
 - **Blindaje Criptográfico en Reposo y Modo Dios (M-01):** Cifrado simétrico de credenciales y campos sensibles (`pass`) con prefijo `enc:v1:<iv>:<ciphertext>` en `localStorage` y backups `.rack` mediante `RackCrypto`. Descifrado transparente en memoria, enmascaramiento por defecto con `••••••••`, toggle individual interactivo en Inspector (`toggleDevicePasswordInspector`) y Modo Dios global para administradores (`SHOW_PASSWORDS`), con botón interactivo de ojo `#dev-pass-toggle` en modales.
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con 199 pruebas automáticas en 15 grupos (100% éxito, 0 fallas) en perfecta paridad 1:1.
-- **Documentación Completa:** README, ARCHITECTURE_GUIDE, CODEBASE_ORIENTATION_MAP, USER_MANUAL, ROADMAP_MEJORAS, INFORME_MEJORAS, CHANGELOG detallado.
+- **Guardado y Conmutación de Estados de Topología (M-40):** 5 slots de memoria independientes (`topologySlots`) con clonado profundo en `store.js` que capturan posiciones de nodos, racks, salas, encuadre pan y nivel de zoom. Barra de acceso rápido `#topo-slots-bar` y menú desplegable `#topo-slots-dropdown`. Preservación estricta del historial de rehacer (`_redoStack`) y normalización del icono de vistas a `.icon-eye` conforme a `DESIGN.md`.
+- **Soporte para Tema Sepia y Selector Global de Temas (M-18):** Tema cálido pergamino (`[data-theme="sepia"]`, `--bg-main: #f4ecd8`, `--text-primary: #332517`, `--accent: #b45309`) en `variables.css`. Selector cíclico en cabecera `#btn-theme-toggle` (Oscuro ⇄ Claro ⇄ Sepia) con iconografía dinámica (`.icon-moon`, `.icon-sun`, `.icon-coffee`). Adaptación en grilla CAD y fondo cálido (`#f5eee1`) en topología Canvas 2D.
+- **Inversión y Orientación Bicanal de Conexiones (M-41):** Botón Swap `#btn-cable-swap` en el modal de cables con icono SVG monocromático `.icon-swap` y microanimación de giro a 180° que intercambia instantáneamente equipos y puertos origen/destino con recálculo dinámico de colisiones. Selector de canaleta Superior (Techo) e Inferior (Piso) en el modal y trazado segregado en `rack.js` (`drawPhysicalCables`). Columna de canaleta con toggle de 1 clic y botón de inversión por fila en la tabla de conexiones (`tables.js`).
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **265 pruebas automáticas en 18 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
 
 ## Current Issues & Technical Debt
 - **Cableado frontal vs trasero:** Actualmente las conexiones no diferencian si un puerto está en la cara frontal o trasera de un equipo dual/profundo (`M-33`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 12 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (28 completadas de 40 totales, **¡Fase 0 y Fase 1 al 100%!**):
+Total de 11 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (31 completadas de 42 totales, 73.8% global, **¡Fase 0 y Fase 1 al 100%!**):
 
 ### Fase 2 — Core de Datos y Puertos
 - Separación de cableado frontal vs. trasero (`M-33`).
+- Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
 - Plantilla completa de exportación CSV/Excel (`M-21`).
 - Importación masiva desde CSV/Excel (`M-22`).
 
 ### Fase 3 — Ergonomía y Layout
 - Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).
 
-### Fase 4 — Vista Física Interactiva y Topología
-- Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
+### Fase 4 — Topología
 - Skins visuales en topología con imágenes personalizadas (`M-28`).
 
+### Fase 5 — Rendimiento y Calidad
+- Optimización de deepClone / limitación de historial (`M-03`).
+- Redibujado selectivo renderAll (`M-04`).
+
 ### Fase 6 — Experiencia Premium
-- Tema Sepia + selector visible (`M-18`).
 - Modo móvil y tablet — *Standby / Baja prioridad* (`M-25B`).
 - Flexibilidad de ubicación sin restricciones arbitrarias (`M-35`).
 - Resolución de conflictos multiusuario (`M-07`).
@@ -57,3 +62,6 @@ Total de 12 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 - **Sep 2026 (Sprint 5):** Topología avanzada: Layout en árbol jerárquico ortogonal con desconectados al pie (`M-32`), separación de cabeceras de sala/rack, control dual de espaciado interactivo a 60 FPS (H y V) y posicionamiento granular de etiquetas de nodos IP/Nombre (`M-31`).
 - **Sep 2026 (Sprint 6):** Blindaje de Producción al 100% (Fase 0): Módulo de cifrado simétrico en reposo (`RackCrypto`, `M-01`), enmascaramiento y revelación granular de contraseñas por rol Admin con **Modo Dios** (`SHOW_PASSWORDS`) y toggles táctiles en Inspector y modal de equipos. 182 pruebas automáticas en 14 grupos al 100%.
 - **Sep 2026 (Sprint 7):** Topología Inteligente y Afinidad de Gabinete (M-39): Algoritmo de proximidad por rack anfitrión en `TopologyLayout.js` (`_findAffinityRackForFloorDevice`), cuadrante inferior alineado, línea de base uniforme y 196 pruebas automáticas en 15 grupos al 100%. Fase 4 avanzada a 5 de 6 mejoras completadas (83%).
+- **Oct 2026 (Sprint 8):** Conmutación de 5 estados de topología (M-40) y optimización híbrida de la barra superior (~495px) con anclaje inteligente y aislamiento de Undo/Redo. 233 pruebas al 100%.
+- **Oct 2026 (Sprint 9):** Implementación de Tema Sepia y Selector Visible en Cabecera (M-18), paleta cálida completa, icono SVG café, soporte en Canvas 2D y exportaciones. Corrección de iconografía técnica según DESIGN.md (icono SVG monocromático icon-eye). Suite ampliada a 254 pruebas en 17 grupos al 100%.
+- **Oct 2026 (Sprint 10):** Implementación completa de M-41: Botón Swap `#btn-cable-swap` (Origen ⇄ Destino) en modal y tabla, selector de canaleta Superior (Techo) e Inferior (Piso) en conexiones y trazado físico en `rack.js`. 265 pruebas en 18 grupos al 100%. 31 mejoras completadas (73.8%).

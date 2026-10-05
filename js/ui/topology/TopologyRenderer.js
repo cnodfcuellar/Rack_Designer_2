@@ -42,15 +42,17 @@ function drawTopo() {
   ctx.clearRect(0, 0, W, H);
   
   // Fondo global dinámico según tema
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
-  const bgColor = isLight ? '#f8fafc' : '#0a0f1d';
+  const activeTheme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = activeTheme === 'light';
+  const isSepia = activeTheme === 'sepia';
+  const bgColor = isSepia ? '#f5eee1' : (isLight ? '#f8fafc' : '#0a0f1d');
   ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, W, H);
   
   // Patrón de fondo configurable
   const pattern = window.TOPO_BG_PATTERN || 'dots';
   if (pattern === 'dots') {
-    ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.14)';
+    ctx.fillStyle = isSepia ? 'rgba(90, 65, 35, 0.14)' : (isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.14)');
     for (let x = 0; x < W; x += 36) {
       for (let y = 0; y < H; y += 36) {
         ctx.beginPath();
@@ -59,7 +61,7 @@ function drawTopo() {
       }
     }
   } else if (pattern === 'grid') {
-    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.07)';
+    ctx.strokeStyle = isSepia ? 'rgba(90, 65, 35, 0.11)' : (isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.07)');
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let x = 0; x < W; x += 40) {
@@ -70,7 +72,7 @@ function drawTopo() {
     }
     ctx.stroke();
   } else if (pattern === 'hexagon') {
-    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)';
+    ctx.strokeStyle = isSepia ? 'rgba(90, 65, 35, 0.09)' : (isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)');
     ctx.lineWidth = 1;
     const hr = 24;
     const ha = (2 * Math.PI) / 6;

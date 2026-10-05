@@ -1,9 +1,12 @@
 function getActiveThemeBg() {
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const theme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = theme === 'light';
+  const isSepia = theme === 'sepia';
   if (typeof window !== 'undefined' && typeof window.getComputedStyle === 'function') {
     const bg = window.getComputedStyle(document.documentElement).getPropertyValue('--bg-main').trim();
     if (bg) return bg;
   }
+  if (isSepia) return '#f4ecd8';
   return isLight ? '#f0f4f8' : '#0b0f19';
 }
 
@@ -374,10 +377,12 @@ function _fallbackExportRackToPNG(rack, side) {
   const rearDevices  = devices.filter(d => d.mountSide === 'rear');
   const hasRear = rearDevices.length > 0;
 
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const activeTheme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = activeTheme === 'light';
+  const isSepia = activeTheme === 'sepia';
   const themeBg = getActiveThemeBg();
-  const railBg = isLight ? '#e2e8f0' : '#1a2035';
-  const textMuted = isLight ? '#64748b' : '#4a5a78';
+  const railBg = isSepia ? '#dfd1b8' : (isLight ? '#e2e8f0' : '#1a2035');
+  const textMuted = isSepia ? '#857057' : (isLight ? '#64748b' : '#4a5a78');
 
   const W = 280, UNIT = 24, GAP = 40;
   const H = rack.height * UNIT + 60;
@@ -1442,10 +1447,12 @@ async function exportRoomToPNG(roomId, mode = 'current') {
 }
 
 function _fallbackExportRoomToPNG(room, racks, floorDevices, mode = 'current') {
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const activeTheme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = activeTheme === 'light';
+  const isSepia = activeTheme === 'sepia';
   const themeBg = getActiveThemeBg();
-  const railBg = isLight ? '#e2e8f0' : '#1a2035';
-  const textMuted = isLight ? '#64748b' : '#4a5a78';
+  const railBg = isSepia ? '#dfd1b8' : (isLight ? '#e2e8f0' : '#1a2035');
+  const textMuted = isSepia ? '#857057' : (isLight ? '#64748b' : '#4a5a78');
 
   const W = 280, UNIT = 24;
 

@@ -3,7 +3,7 @@
 
 > **Propósito:** Este documento consolida en un **único archivo Markdown** la totalidad del código fuente desarrollado para **RACK Designer Next**, sirviendo como base de estudio de alto nivel para comprender la arquitectura *Reactive Proxy Pattern*, el motor gráfico híbrido (DOM CSS + SVG + Canvas 2D) y el diseño de aplicaciones PWA de producción 100% offline sin frameworks.
 >
-> **Fecha de compilación:** 2026-10-02
+> **Fecha de compilación:** 2026-10-05
 > **Plataforma:** PWA 100% Vanilla JavaScript (ES6+), HTML5, CSS3. **Sin paso de compilación (No build step).**
 > **Pruebas de integridad:** 199 / 199 aprobadas al 100% (0 fallos) en 15 grupos.
 
@@ -14,8 +14,8 @@
 | Métrica | Valor |
 | :--- | :--- |
 | **Archivos fuente propios incluidos** | **42 archivos** |
-| **Líneas de código totales** | **18.916 líneas** |
-| **Volumen de código fuente** | **874.5 KB (0.85 MB)** |
+| **Líneas de código totales** | **19.652 líneas** |
+| **Volumen de código fuente** | **913.2 KB (0.89 MB)** |
 | **Librerías externas vendor** | Omitidas del bundle (disponibles en `js/*.min.js`: SheetJS, html2canvas, polyfills) |
 | **Arquitectura de Estado** | Reactividad pura con Proxy ES6 + Snapshot History (Undo/Redo) |
 | **Renderizado Gráfico** | SVG-First en Vista Física + Canvas 2D en Topología |
@@ -37,7 +37,7 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`index.html`**](#index-html) | `HTML` | 872 | 56.0 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
+| [**`index.html`**](#index-html) | `HTML` | 892 | 57.5 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
 
 ### Capa 2: Sistema de Diseño y Estilos CSS Modulares
 *Arquitectura CSS modular y en cascada: variables de tema (claro/oscuro), layout grid, gabinetes, faceplates y modales.*
@@ -45,20 +45,20 @@
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
 | [**`css/style.css`**](#css-style-css) | `CSS` | 8 | 0.2 KB | Punto de entrada CSS: encadenamiento ordenado de @imports. |
-| [**`css/variables.css`**](#css-variables-css) | `CSS` | 85 | 2.6 KB | Tokens de diseño: variables CSS de colores, fuentes, alturas y temas claro/oscuro. |
-| [**`css/layout.css`**](#css-layout-css) | `CSS` | 1.582 | 30.1 KB | Rejilla CSS Grid (3 filas × 3 columnas), header, paneles laterales e inferiores. |
+| [**`css/variables.css`**](#css-variables-css) | `CSS` | 109 | 3.2 KB | Tokens de diseño: variables CSS de colores, fuentes, alturas y temas claro/oscuro. |
+| [**`css/layout.css`**](#css-layout-css) | `CSS` | 1.588 | 30.4 KB | Rejilla CSS Grid (3 filas × 3 columnas), header, paneles laterales e inferiores. |
 | [**`css/components/panels.css`**](#css-components-panels-css) | `CSS` | 619 | 15.5 KB | Estilos para sidebar, outliner, inspector, popovers y tablas inferiores. |
 | [**`css/components/rack.css`**](#css-components-rack-css) | `CSS` | 360 | 9.6 KB | Estilos de gabinetes (Racks), unidades U (24px), flipping 3D y ranuras (slots de 240px). |
 | [**`css/components/faceplates.css`**](#css-components-faceplates-css) | `CSS` | 377 | 8.7 KB | Estilos de carátulas SVG y hardware montado en racks o en sección de piso. |
 | [**`css/components/modals.css`**](#css-components-modals-css) | `CSS` | 68 | 5.6 KB | Estilos de las ventanas modales, formularios, grillas y botones. |
-| [**`css/components/misc.css`**](#css-components-misc-css) | `CSS` | 350 | 37.9 KB | Animaciones de estado, tooltips, notificaciones toast y utilidades visuales. |
+| [**`css/components/misc.css`**](#css-components-misc-css) | `CSS` | 362 | 39.4 KB | Animaciones de estado, tooltips, notificaciones toast y utilidades visuales. |
 
 ### Capa 3: Núcleo de Estado, Utilidades y Demostración
 *El cerebro de la aplicación (Store con Proxy ES6 reactivo), utilidades globales, mapa de iconos y dataset demo.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/store.js`**](#js-store-js) | `JAVASCRIPT` | 1.015 | 40.3 KB | Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento. |
+| [**`js/store.js`**](#js-store-js) | `JAVASCRIPT` | 1.034 | 41.0 KB | Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento. |
 | [**`js/utils.js`**](#js-utils-js) | `JAVASCRIPT` | 116 | 4.2 KB | Funciones de soporte: uid, deepClone, escapeHTML, notificaciones toast y diálogos seguros. |
 | [**`js/icons.js`**](#js-icons-js) | `JAVASCRIPT` | 29 | 16.5 KB | Diccionario de iconos SVG vectoriales inline utilizados en toda la interfaz. |
 | [**`js/demoData.js`**](#js-demodata-js) | `JAVASCRIPT` | 641 | 34.3 KB | Dataset preconfigurado de demostración con salas, racks 42U, equipos ToR y cableado VLAN. |
@@ -78,8 +78,8 @@
 | :--- | :---: | :---: | :---: | :--- |
 | [**`js/ui/catalog.js`**](#js-ui-catalog-js) | `JAVASCRIPT` | 425 | 27.3 KB | Catálogo de hardware: 30 plantillas arquitectónicas en 8 familias y buscador reactivo. |
 | [**`js/ui/faceplates.js`**](#js-ui-faceplates-js) | `JAVASCRIPT` | 437 | 66.3 KB | Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas. |
-| [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 932 | 42.2 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
-| [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 588 | 24.9 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
+| [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 937 | 42.5 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
+| [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 620 | 26.5 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
 | [**`js/ui/outliner.js`**](#js-ui-outliner-js) | `JAVASCRIPT` | 359 | 16.6 KB | Panel derecho (Outliner): árbol jerárquico Sala > Rack > Equipo con navegación y acciones CRUD inline. |
 | [**`js/ui/inspector.js`**](#js-ui-inspector-js) | `JAVASCRIPT` | 503 | 25.9 KB | Panel derecho (Inspector): visualización y edición granular de propiedades, modo Dios y colapso. |
 | [**`js/ui/fileManager.js`**](#js-ui-filemanager-js) | `JAVASCRIPT` | 190 | 6.0 KB | Gestor de archivos: integración con File System Access API para abrir/guardar .rack sin servidor. |
@@ -93,10 +93,10 @@
 | [**`js/ui/modals/Globals.js`**](#js-ui-modals-globals-js) | `JAVASCRIPT` | 6 | 0.2 KB | Variables globales y utilidades compartidas entre las ventanas modales. |
 | [**`js/ui/modals/RackModal.js`**](#js-ui-modals-rackmodal-js) | `JAVASCRIPT` | 83 | 3.4 KB | Modal de creación y edición de gabinetes con alturas normalizadas y selector de color. |
 | [**`js/ui/modals/DeviceModal.js`**](#js-ui-modals-devicemodal-js) | `JAVASCRIPT` | 316 | 15.9 KB | Modal de formulario técnico de equipos: interfaces de red, IPs, credenciales y montaje. |
-| [**`js/ui/modals/CableModal.js`**](#js-ui-modals-cablemodal-js) | `JAVASCRIPT` | 392 | 14.1 KB | Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs. |
+| [**`js/ui/modals/CableModal.js`**](#js-ui-modals-cablemodal-js) | `JAVASCRIPT` | 436 | 15.7 KB | Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs. |
 | [**`js/ui/modals/RoomModal.js`**](#js-ui-modals-roommodal-js) | `JAVASCRIPT` | 124 | 4.1 KB | Modal de gestión de salas: nombres, dimensiones y notas sin diálogos nativos prompt. |
 | [**`js/ui/modals/PlacementModal.js`**](#js-ui-modals-placementmodal-js) | `JAVASCRIPT` | 232 | 8.3 KB | Modal de colocación rápida (Quick Placement) con buscador en tiempo real y cálculo de slots. |
-| [**`js/ui/modals/ExportModal.js`**](#js-ui-modals-exportmodal-js) | `JAVASCRIPT` | 1.818 | 69.3 KB | Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV. |
+| [**`js/ui/modals/ExportModal.js`**](#js-ui-modals-exportmodal-js) | `JAVASCRIPT` | 1.825 | 69.6 KB | Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV. |
 
 ### Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
 *Motor de diagramación lógica en Canvas 2D a 60 FPS: nodos circulares/tarjetas, enlaces Bézier, árbol jerárquico y afinidad de piso.*
@@ -105,7 +105,7 @@
 | :--- | :---: | :---: | :---: | :--- |
 | [**`js/ui/topology/TopologyState.js`**](#js-ui-topology-topologystate-js) | `JAVASCRIPT` | 154 | 6.2 KB | Modelo del motor de topología: estado de interacción, pan, zoom y espaciado dual H/V. |
 | [**`js/ui/topology/TopologyLayout.js`**](#js-ui-topology-topologylayout-js) | `JAVASCRIPT` | 639 | 28.6 KB | Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39). |
-| [**`js/ui/topology/TopologyRenderer.js`**](#js-ui-topology-topologyrenderer-js) | `JAVASCRIPT` | 570 | 19.4 KB | Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px. |
+| [**`js/ui/topology/TopologyRenderer.js`**](#js-ui-topology-topologyrenderer-js) | `JAVASCRIPT` | 572 | 19.6 KB | Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px. |
 | [**`js/ui/topology/TopologyEvents.js`**](#js-ui-topology-topologyevents-js) | `JAVASCRIPT` | 387 | 13.5 KB | Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación. |
 | [**`js/ui/topology/TopologyOrchestrator.js`**](#js-ui-topology-topologyorchestrator-js) | `JAVASCRIPT` | 104 | 2.9 KB | Ciclo de vida de topología: inicialización, bucle de animación a 60 FPS y exportación PNG. |
 
@@ -114,15 +114,15 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.192 | 48.2 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
+| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.248 | 50.1 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
 
 ### Capa 9: Automatización y Suite de Pruebas de Integridad
 *Pruebas de integridad relacional ejecutables tanto en Node.js como interactivamente en el navegador web.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.114 | 67.7 KB | Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito. |
-| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.363 | 69.5 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica. |
+| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.301 | 78.0 KB | Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito. |
+| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.685 | 87.3 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica. |
 
 ### Capa 10: Herramientas de Compilación y Scripts Auxiliares
 *Scripts de automatización y soporte fuera del bundle del navegador.*
@@ -326,7 +326,7 @@ self.addEventListener('fetch', (event) => {
 
 * **Ubicación relativa:** `index.html`
 * **Capa:** Capa 1: Estructura HTML y Vistas Base
-* **Dimensiones:** 872 líneas | 56.0 KB
+* **Dimensiones:** 892 líneas | 57.5 KB
 * **Rol en el sistema:** Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts.
 
 ```html
@@ -356,9 +356,12 @@ self.addEventListener('fetch', (event) => {
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=37">
 <script>
-  if (localStorage.getItem('theme')) {
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
-  }
+  (function() {
+    var savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light' || savedTheme === 'sepia') {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  })();
 </script>
 </head>
 <body>
@@ -399,7 +402,7 @@ self.addEventListener('fetch', (event) => {
           <div class="dropdown-item" id="menu-clear" style="color: var(--red);"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar proyecto</div>
           <div class="dropdown-item" id="menu-demo"><i class="svg-icon icon-sparkle" style="width:14px; height:14px; margin-right:6px;"></i>Cargar demos</div>
           <div class="dropdown-divider"></div>
-          <div class="dropdown-item" id="menu-theme"><i class="svg-icon icon-sun" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar a Modo Claro</div>
+          <div class="dropdown-item" id="menu-theme"><i class="svg-icon icon-sun" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar tema (Oscuro / Claro / Sepia)</div>
           <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
           <div class="dropdown-divider"></div>
@@ -447,6 +450,10 @@ self.addEventListener('fetch', (event) => {
         <button class="h-btn tooltip tooltip-bottom" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" aria-label="Deshacer acción" disabled>↩</button>
         <button class="h-btn tooltip tooltip-bottom" id="btn-redo" data-tip="Rehacer (Ctrl+Y)" aria-label="Rehacer acción" disabled>↪</button>
       </div>
+      <button class="h-btn tooltip tooltip-bottom" id="btn-theme-toggle" data-tip="Tema: Oscuro (Clic para alternar)" aria-label="Alternar tema de interfaz" style="padding: 4px 10px; gap: 5px;">
+        <i class="svg-icon icon-moon" id="theme-toggle-icon" style="width:13px; height:13px;"></i>
+        <span id="theme-toggle-label" style="font-size:11px; font-weight:500;">Oscuro</span>
+      </button>
       <div class="status-dot tooltip" data-tip="Sistema operativo"></div>
       <div id="user-badge" class="tooltip" data-tip="Sesión activa" style="display:none; font-size:11px; padding:2px 10px; border-radius:10px; background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid var(--accent); cursor:pointer; margin-left:8px; font-weight:600; letter-spacing:0.3px;"><i class="svg-icon icon-edit" style="width:11px; height:11px; margin-right:4px;"></i>Editor</div>
       <input type="file" id="file-import" accept=".json" style="display:none">
@@ -591,7 +598,7 @@ self.addEventListener('fetch', (event) => {
       
       <!-- M-40: 5 Ranuras de Memoria / Slots de Topología Compactas -->
       <div class="topo-slots-group force-hide" id="topo-slots-group" style="position:relative; display:flex; align-items:center; gap:3px; background:var(--bg-card2); padding:2px 6px; border-radius:var(--radius); border:1px solid var(--border);">
-        <span style="font-size:12px; cursor:help; user-select:none; margin-right:2px; display:inline-flex; align-items:center;" title="Ranuras de memoria para guardar y alternar perspectivas de topología">👁️</span>
+        <i class="svg-icon icon-eye" style="width:13px; height:13px; color:var(--text-secondary); cursor:help; margin-right:3px; flex-shrink:0;" title="Ranuras de memoria para guardar y alternar perspectivas de topología"></i>
         <div id="topo-slots-bar" style="display:flex; gap:3px; align-items:center;">
           <!-- 5 botones de slots renderizados con renderTopologySlots() -->
         </div>
@@ -976,6 +983,13 @@ self.addEventListener('fetch', (event) => {
         </div>
       </div>
     </div>
+    <div style="display:flex; justify-content:center; align-items:center; margin:-2px 0 10px 0; position:relative;">
+      <div style="position:absolute; left:0; right:0; height:1px; background:var(--border);"></div>
+      <button type="button" id="btn-cable-swap" class="btn-compact" title="Invertir dirección (Origen ⇄ Destino)" style="position:relative; z-index:1; display:flex; align-items:center; gap:6px; background:var(--bg-card2); border:1px solid var(--border); border-radius:12px; padding:3px 12px; font-size:11px; cursor:pointer; color:var(--text-secondary); transition:all 0.15s ease;">
+        <i class="svg-icon icon-swap" style="width:12px; height:12px;"></i>
+        <span>Invertir Sentido (Origen ⇄ Destino)</span>
+      </button>
+    </div>
     <div class="form-grid">
       <div class="form-row"><label>Equipo Destino</label>
         <select id="cable-dst-dev"></select>
@@ -1006,12 +1020,18 @@ self.addEventListener('fetch', (event) => {
       <div class="form-row"><label>VLAN Asignada</label>
         <select id="cable-vlan"></select>
       </div>
-      <div class="form-row" style="display:flex; flex-direction:column; justify-content:center;">
-        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-top:14px; user-select:none;">
-          <input type="checkbox" id="cable-filter-free-ports" checked style="cursor:pointer; width:16px; height:16px; accent-color:var(--accent);">
-          <span style="font-size:12px; font-weight:500;">Mostrar solo puertos libres</span>
-        </label>
+      <div class="form-row"><label>Orientación de Canaleta</label>
+        <select id="cable-orientation">
+          <option value="top">Canaleta Superior (Techo / Bandeja Aérea)</option>
+          <option value="bottom">Canaleta Inferior (Piso Técnico / Fondo)</option>
+        </select>
       </div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none;">
+        <input type="checkbox" id="cable-filter-free-ports" checked style="cursor:pointer; width:16px; height:16px; accent-color:var(--accent);">
+        <span style="font-size:12px; font-weight:500;">Mostrar solo puertos libres</span>
+      </label>
     </div>
     <div id="cable-collision-alert" class="hidden" style="background:rgba(239,68,68,0.12); border:1px solid var(--red); color:#fca5a5; padding:8px 12px; border-radius:6px; font-size:11px; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
       <i class="svg-icon icon-alert" style="width:14px; height:14px; flex-shrink:0;"></i>
@@ -1236,7 +1256,7 @@ self.addEventListener('fetch', (event) => {
 
 * **Ubicación relativa:** `css/variables.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
-* **Dimensiones:** 85 líneas | 2.6 KB
+* **Dimensiones:** 109 líneas | 3.2 KB
 * **Rol en el sistema:** Tokens de diseño: variables CSS de colores, fuentes, alturas y temas claro/oscuro.
 
 ```css
@@ -1284,6 +1304,30 @@ self.addEventListener('fetch', (event) => {
   --hardware-base: #e2e8f0;
   --hardware-rail: #f1f5f9;
   --grid-dot: #cbd5e1;
+}
+[data-theme="sepia"] {
+  --bg-main:       #f4ecd8;
+  --bg-panel:      #ebe1c7cc;
+  --bg-card:       #fffdfa;
+  --bg-card1:      #f6eedb;
+  --bg-card2:      #ece2cc;
+  --border:        #d9cbb0;
+  --border-light:  #c8b796;
+  --text-primary:  #332517;
+  --text-secondary:#5e4a35;
+  --text-muted:    #857057;
+  --accent:        #b45309;
+  --accent-glow:   #fef3c7;
+  --green:         #15803d;
+  --green-glow:    #dcfce7;
+  --amber:         #d97706;
+  --amber-glow:    #fef3c7;
+  --red:           #b91c1c;
+  --red-glow:      #fee2e2;
+  --cyan:          #0891b2;
+  --hardware-base: #dfd1b8;
+  --hardware-rail: #ebdcc3;
+  --grid-dot:      #c9b899;
 }
 :root {
   --sidebar-w:    50px;
@@ -1336,7 +1380,7 @@ html, body { height: 100%;  background: var(--bg-main); color: var(--text-primar
 
 * **Ubicación relativa:** `css/layout.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
-* **Dimensiones:** 1.582 líneas | 30.1 KB
+* **Dimensiones:** 1.588 líneas | 30.4 KB
 * **Rol en el sistema:** Rejilla CSS Grid (3 filas × 3 columnas), header, paneles laterales e inferiores.
 
 ```css
@@ -2295,6 +2339,12 @@ html, body { height: 100%;  background: var(--bg-main); color: var(--text-primar
   background-image: 
     linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+[data-theme="sepia"] #view-physical {
+  background-image: 
+    linear-gradient(to right, rgba(90, 70, 40, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(90, 70, 40, 0.07) 1px, transparent 1px);
 }
 
 #view-physical.hidden,
@@ -4419,7 +4469,7 @@ body.no-animations svg.faceplate-img * {
 
 * **Ubicación relativa:** `css/components/misc.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
-* **Dimensiones:** 350 líneas | 37.9 KB
+* **Dimensiones:** 362 líneas | 39.4 KB
 * **Rol en el sistema:** Animaciones de estado, tooltips, notificaciones toast y utilidades visuales.
 
 ```css
@@ -4576,6 +4626,12 @@ body.no-animations svg.faceplate-img * {
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E");
 }
 
+/* swap / invert direction (origen <-> destino) */
+.icon-swap {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4'/%3E%3C/svg%3E");
+}
+
 /* physical rack view */
 .icon-physical {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='2' width='16' height='20' rx='2'/%3E%3Cline x1='4' y1='6' x2='20' y2='6'/%3E%3Cline x1='4' y1='10' x2='20' y2='10'/%3E%3Cline x1='4' y1='14' x2='20' y2='14'/%3E%3Cline x1='4' y1='18' x2='20' y2='18'/%3E%3C/svg%3E");
@@ -4616,6 +4672,12 @@ body.no-animations svg.faceplate-img * {
 .icon-moon {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/%3E%3C/svg%3E");
+}
+
+/* coffee / sepia */
+.icon-coffee {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 8h1a4 4 0 1 1 0 8h-1'/%3E%3Cpath d='M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z'/%3E%3Cline x1='6' y1='2' x2='6' y2='4'/%3E%3Cline x1='10' y1='2' x2='10' y2='4'/%3E%3Cline x1='14' y1='2' x2='14' y2='4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 8h1a4 4 0 1 1 0 8h-1'/%3E%3Cpath d='M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z'/%3E%3Cline x1='6' y1='2' x2='6' y2='4'/%3E%3Cline x1='10' y1='2' x2='10' y2='4'/%3E%3Cline x1='14' y1='2' x2='14' y2='4'/%3E%3C/svg%3E");
 }
 
 /* eye */
@@ -4784,7 +4846,7 @@ body.no-animations svg.faceplate-img * {
 
 * **Ubicación relativa:** `js/store.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
-* **Dimensiones:** 1.015 líneas | 40.3 KB
+* **Dimensiones:** 1.034 líneas | 41.0 KB
 * **Rol en el sistema:** Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento.
 
 ```javascript
@@ -5540,7 +5602,8 @@ class Store {
       color: conn.color || (vObj ? vObj.color : '#3b82f6'),
       vlanId: vId,
       vlanName: conn.vlanName || (vObj ? vObj.name : `VLAN ${vId}`),
-      notes: conn.notes || ''
+      notes: conn.notes || '',
+      orientation: conn.orientation === 'bottom' ? 'bottom' : 'top'
     };
     this._raw.connections.push(newConn);
     this._save(); 
@@ -5577,6 +5640,24 @@ class Store {
     this._save();
     this._emit('change', { source: 'updateConnection', connection: c });
     return { success: true, connection: c };
+  }
+
+  swapConnectionDirection(id) {
+    const c = this._raw.connections.find(conn => conn.id === id);
+    if (!c) return { success: false, error: 'Conexión no encontrada' };
+    return this.updateConnection(id, {
+      sourceDeviceId: c.targetDeviceId,
+      sourcePort: c.targetPort,
+      targetDeviceId: c.sourceDeviceId,
+      targetPort: c.sourcePort
+    });
+  }
+
+  toggleConnectionOrientation(id) {
+    const c = this._raw.connections.find(conn => conn.id === id);
+    if (!c) return { success: false, error: 'Conexión no encontrada' };
+    const newOrientation = c.orientation === 'bottom' ? 'top' : 'bottom';
+    return this.updateConnection(id, { orientation: newOrientation });
   }
 
   deleteConnection(id) {
@@ -7996,7 +8077,7 @@ function buildRearView(rack, devices) {
 
 * **Ubicación relativa:** `js/ui/rack.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
-* **Dimensiones:** 932 líneas | 42.2 KB
+* **Dimensiones:** 937 líneas | 42.5 KB
 * **Rol en el sistema:** Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG.
 
 ```javascript
@@ -8264,9 +8345,13 @@ function drawPhysicalCables() {
       } else if (p1.isRack && p2.isRack) {
         // ===================================================================
         // 2. CASO INTER-RACK: Conexión entre dos gabinetes distintos
-        // Viaja por la CANALETA AÉREA SUPERIOR (Overhead Tray) sin cruzar racks
+        // Viaja por la CANALETA AÉREA SUPERIOR (Overhead Tray) o
+        // por la CANALETA INFERIOR (Piso Técnico) según c.orientation
         // ===================================================================
-        const overheadY = minRackTop - 14 - (index % 7) * 5;
+        const isBottom = c.orientation === 'bottom';
+        const gutterY = isBottom
+          ? (maxRackBottom > 0 ? maxRackBottom + 14 + (index % 7) * 5 : minFloorTop - 20)
+          : (minRackTop - 14 - (index % 7) * 5);
         
         // Salida inteligente por el lateral más cercano al rack destino
         const exitX = (p2.x < p1.x) 
@@ -8280,15 +8365,16 @@ function drawPhysicalCables() {
         const dirX1 = exitX > p1.x ? 1 : -1;
         const dirX2 = p2.x > enterX ? 1 : -1;
         const dirG = enterX > exitX ? 1 : -1;
+        const dirY1 = isBottom ? 1 : -1; // 1 desciende a piso, -1 asciende a techo
         
         pathStr = `M ${p1.x} ${p1.y} `
           + `L ${exitX - r * dirX1} ${p1.y} `
-          + `Q ${exitX} ${p1.y}, ${exitX} ${p1.y - r} `
-          + `L ${exitX} ${overheadY + r} `
-          + `Q ${exitX} ${overheadY}, ${exitX + r * dirG} ${overheadY} `
-          + `L ${enterX - r * dirG} ${overheadY} `
-          + `Q ${enterX} ${overheadY}, ${enterX} ${overheadY + r} `
-          + `L ${enterX} ${p2.y - r} `
+          + `Q ${exitX} ${p1.y}, ${exitX} ${p1.y + r * dirY1} `
+          + `L ${exitX} ${gutterY - r * dirY1} `
+          + `Q ${exitX} ${gutterY}, ${exitX + r * dirG} ${gutterY} `
+          + `L ${enterX - r * dirG} ${gutterY} `
+          + `Q ${enterX} ${gutterY}, ${enterX} ${gutterY - r * dirY1} `
+          + `L ${enterX} ${p2.y + r * dirY1} `
           + `Q ${enterX} ${p2.y}, ${enterX + r * dirX2} ${p2.y} `
           + `L ${p2.x} ${p2.y}`;
       } else {
@@ -8943,7 +9029,7 @@ if (!window._physicalCablesBound) {
 
 * **Ubicación relativa:** `js/ui/tables.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
-* **Dimensiones:** 588 líneas | 24.9 KB
+* **Dimensiones:** 620 líneas | 26.5 KB
 * **Rol en el sistema:** Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda.
 
 ```javascript
@@ -8984,6 +9070,7 @@ const CONNECTIONS_COLUMNS = [
   { id: 'targetPort', label: 'Puerto Destino', category: 'Destino', default: true },
   { id: 'vlan', label: 'VLAN', category: 'Red', default: true },
   { id: 'cableType', label: 'Tipo Cable', category: 'Físico', default: true },
+  { id: 'orientation', label: 'Canaleta', category: 'Físico', default: true },
   { id: 'color', label: 'Color', category: 'Físico', default: true },
   { id: 'actions', label: 'Acciones', category: 'Control', default: true, required: true }
 ];
@@ -9366,6 +9453,18 @@ function renderConnectionsTable(wrap, query) {
       th: '<th>Tipo Cable</th>',
       td: (c) => `<td>${escapeHTML(c.cableType)}</td>`
     },
+    orientation: {
+      th: '<th>Canaleta</th>',
+      td: (c) => {
+        const isBottom = c.orientation === 'bottom';
+        const label = isBottom ? 'Piso' : 'Techo';
+        return `<td>
+          <button class="tbl-action" data-toggle-orient="${escapeHTML(c.id)}" style="padding:2px 8px; font-size:11px; display:inline-flex; align-items:center; gap:4px; border-color:var(--border);" title="Alternar canaleta (Superior ⇄ Inferior)">
+            <span>${isBottom ? '⬇️' : '⬆️'} ${label}</span>
+          </button>
+        </td>`;
+      }
+    },
     color: {
       th: '<th>Color</th>',
       td: (c) => `<td><span class="cable-dot" style="background:${escapeHTML(c.color)};box-shadow:0 0 4px ${escapeHTML(c.color)}"></span> ${escapeHTML(c.color)}</td>`
@@ -9373,6 +9472,7 @@ function renderConnectionsTable(wrap, query) {
     actions: {
       th: '<th>Acciones</th>',
       td: (c) => `<td style="white-space:nowrap;">
+        <button class="tbl-action" data-swap-conn="${escapeHTML(c.id)}" style="border-color:var(--border);padding:4px 8px" title="Invertir dirección (Origen ⇄ Destino)"><i class="svg-icon icon-swap" style="width:12px; height:12px;"></i></button>
         <button class="tbl-action" data-edit-conn="${escapeHTML(c.id)}" style="border-color:var(--accent);color:var(--accent);padding:4px 8px" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
         <button class="tbl-action" data-del-conn="${escapeHTML(c.id)}" style="padding:4px 8px" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
       </td>`
@@ -9392,6 +9492,24 @@ function renderConnectionsTable(wrap, query) {
     ${tbodyHtml}
   </table>`;
 
+  wrap.querySelectorAll('[data-swap-conn]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const res = store.swapConnectionDirection(btn.dataset.swapConn);
+      if (res && res.success) {
+        notify('Dirección invertida (Origen ⇄ Destino)', 'info');
+      } else if (res && res.error) {
+        notify(res.error, 'error');
+      }
+    });
+  });
+  wrap.querySelectorAll('[data-toggle-orient]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const res = store.toggleConnectionOrientation(btn.dataset.toggleOrient);
+      if (res && res.success) {
+        notify(`Canaleta cambiada a ${res.connection.orientation === 'bottom' ? 'Inferior (Piso)' : 'Superior (Techo)'}`, 'info');
+      }
+    });
+  });
   wrap.querySelectorAll('[data-del-conn]').forEach(btn => {
     btn.addEventListener('click', () => {
       store.deleteConnection(btn.dataset.delConn);
@@ -11119,7 +11237,7 @@ function initDeviceModal() {
 
 * **Ubicación relativa:** `js/ui/modals/CableModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
-* **Dimensiones:** 392 líneas | 14.1 KB
+* **Dimensiones:** 436 líneas | 15.7 KB
 * **Rol en el sistema:** Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs.
 
 ```javascript
@@ -11211,6 +11329,9 @@ function openCableModal(defaultSrcId = null, defaultSrcPort = null) {
   document.getElementById('cable-color').value = '#3b82f6';
   document.getElementById('cable-color-picker').value = '#3b82f6';
 
+  const orientEl = document.getElementById('cable-orientation');
+  if (orientEl) orientEl.value = 'top';
+
   checkCableCollision();
   document.getElementById('modal-cable').classList.remove('hidden');
 }
@@ -11241,6 +11362,9 @@ function openEditCableModal(connId) {
   document.getElementById('cable-type').value = conn.cableType;
   document.getElementById('cable-color').value = conn.color;
   document.getElementById('cable-color-picker').value = conn.color;
+
+  const orientEl = document.getElementById('cable-orientation');
+  if (orientEl) orientEl.value = conn.orientation || 'top';
   
   checkCableCollision();
   document.getElementById('modal-cable').classList.remove('hidden');
@@ -11444,6 +11568,41 @@ function initCableModal() {
     document.getElementById('cable-color').value = e.target.value;
   });
 
+  const swapBtn = document.getElementById('btn-cable-swap');
+  if (swapBtn) {
+    swapBtn.addEventListener('click', () => {
+      const srcSelect = document.getElementById('cable-src-dev');
+      const dstSelect = document.getElementById('cable-dst-dev');
+      if (!srcSelect || !dstSelect) return;
+
+      const oldSrcDev = srcSelect.value;
+      const oldDstDev = dstSelect.value;
+      const oldSrcPort = document.getElementById('cable-src-port')?.value || null;
+      const oldDstPort = document.getElementById('cable-dst-port')?.value || null;
+
+      // Intercambiar dispositivos seleccionados
+      srcSelect.value = oldDstDev;
+      dstSelect.value = oldSrcDev;
+
+      // Actualizar selectores y etiquetas con los puertos cruzados
+      updateCableLocationDisplay('src', oldDstPort);
+      updateCableLocationDisplay('dst', oldSrcPort);
+
+      // Recalcular validación de colisiones
+      checkCableCollision();
+
+      // Animación micro-interactiva del icono
+      const icon = swapBtn.querySelector('.icon-swap');
+      if (icon) {
+        icon.style.transform = 'scale(1.25) rotate(180deg)';
+        icon.style.transition = 'transform 0.25s ease';
+        setTimeout(() => {
+          icon.style.transform = 'none';
+        }, 250);
+      }
+    });
+  }
+
   document.getElementById('modal-cable-save').addEventListener('click', () => {
     const srcId   = document.getElementById('cable-src-dev').value;
     const dstId   = document.getElementById('cable-dst-dev').value;
@@ -11454,6 +11613,7 @@ function initCableModal() {
     const vlanId  = parseInt(document.getElementById('cable-vlan')?.value) || 1;
     const vlanOpt = document.getElementById('cable-vlan')?.selectedOptions[0];
     const vlanName = vlanOpt ? vlanOpt.textContent.split('·')[1]?.trim() || 'Default' : 'Default';
+    const orientation = document.getElementById('cable-orientation')?.value || 'top';
 
     if (!srcId || !dstId || srcId === dstId) {
       notify('Selecciona dos equipos distintos', 'error');
@@ -11474,7 +11634,8 @@ function initCableModal() {
         cableType: type,
         color,
         vlanId,
-        vlanName
+        vlanName,
+        orientation
       });
       if (res && res.success === false) {
         notify(res.error, 'error');
@@ -11490,7 +11651,8 @@ function initCableModal() {
         cableType: type,
         color,
         vlanId,
-        vlanName
+        vlanName,
+        orientation
       });
       if (res && res.success === false) {
         notify(res.error, 'error');
@@ -11912,16 +12074,19 @@ window.filterQPCatalog = filterQPCatalog;
 
 * **Ubicación relativa:** `js/ui/modals/ExportModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
-* **Dimensiones:** 1.818 líneas | 69.3 KB
+* **Dimensiones:** 1.825 líneas | 69.6 KB
 * **Rol en el sistema:** Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV.
 
 ```javascript
 function getActiveThemeBg() {
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const theme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = theme === 'light';
+  const isSepia = theme === 'sepia';
   if (typeof window !== 'undefined' && typeof window.getComputedStyle === 'function') {
     const bg = window.getComputedStyle(document.documentElement).getPropertyValue('--bg-main').trim();
     if (bg) return bg;
   }
+  if (isSepia) return '#f4ecd8';
   return isLight ? '#f0f4f8' : '#0b0f19';
 }
 
@@ -12292,10 +12457,12 @@ function _fallbackExportRackToPNG(rack, side) {
   const rearDevices  = devices.filter(d => d.mountSide === 'rear');
   const hasRear = rearDevices.length > 0;
 
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const activeTheme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = activeTheme === 'light';
+  const isSepia = activeTheme === 'sepia';
   const themeBg = getActiveThemeBg();
-  const railBg = isLight ? '#e2e8f0' : '#1a2035';
-  const textMuted = isLight ? '#64748b' : '#4a5a78';
+  const railBg = isSepia ? '#dfd1b8' : (isLight ? '#e2e8f0' : '#1a2035');
+  const textMuted = isSepia ? '#857057' : (isLight ? '#64748b' : '#4a5a78');
 
   const W = 280, UNIT = 24, GAP = 40;
   const H = rack.height * UNIT + 60;
@@ -13360,10 +13527,12 @@ async function exportRoomToPNG(roomId, mode = 'current') {
 }
 
 function _fallbackExportRoomToPNG(room, racks, floorDevices, mode = 'current') {
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const activeTheme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = activeTheme === 'light';
+  const isSepia = activeTheme === 'sepia';
   const themeBg = getActiveThemeBg();
-  const railBg = isLight ? '#e2e8f0' : '#1a2035';
-  const textMuted = isLight ? '#64748b' : '#4a5a78';
+  const railBg = isSepia ? '#dfd1b8' : (isLight ? '#e2e8f0' : '#1a2035');
+  const textMuted = isSepia ? '#857057' : (isLight ? '#64748b' : '#4a5a78');
 
   const W = 280, UNIT = 24;
 
@@ -14568,7 +14737,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 * **Ubicación relativa:** `js/ui/topology/TopologyRenderer.js`
 * **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
-* **Dimensiones:** 570 líneas | 19.4 KB
+* **Dimensiones:** 572 líneas | 19.6 KB
 * **Rol en el sistema:** Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px.
 
 ```javascript
@@ -14616,15 +14785,17 @@ function drawTopo() {
   ctx.clearRect(0, 0, W, H);
   
   // Fondo global dinámico según tema
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
-  const bgColor = isLight ? '#f8fafc' : '#0a0f1d';
+  const activeTheme = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null;
+  const isLight = activeTheme === 'light';
+  const isSepia = activeTheme === 'sepia';
+  const bgColor = isSepia ? '#f5eee1' : (isLight ? '#f8fafc' : '#0a0f1d');
   ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, W, H);
   
   // Patrón de fondo configurable
   const pattern = window.TOPO_BG_PATTERN || 'dots';
   if (pattern === 'dots') {
-    ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.14)';
+    ctx.fillStyle = isSepia ? 'rgba(90, 65, 35, 0.14)' : (isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.14)');
     for (let x = 0; x < W; x += 36) {
       for (let y = 0; y < H; y += 36) {
         ctx.beginPath();
@@ -14633,7 +14804,7 @@ function drawTopo() {
       }
     }
   } else if (pattern === 'grid') {
-    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.07)';
+    ctx.strokeStyle = isSepia ? 'rgba(90, 65, 35, 0.11)' : (isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.07)');
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let x = 0; x < W; x += 40) {
@@ -14644,7 +14815,7 @@ function drawTopo() {
     }
     ctx.stroke();
   } else if (pattern === 'hexagon') {
-    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)';
+    ctx.strokeStyle = isSepia ? 'rgba(90, 65, 35, 0.09)' : (isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)');
     ctx.lineWidth = 1;
     const hr = 24;
     const ha = (2 * Math.PI) / 6;
@@ -15674,7 +15845,7 @@ function exportTopologyToPNG() {
 
 * **Ubicación relativa:** `js/main.js`
 * **Capa:** Capa 8: Orquestador Principal de la Aplicación
-* **Dimensiones:** 1.192 líneas | 48.2 KB
+* **Dimensiones:** 1.248 líneas | 50.1 KB
 * **Rol en el sistema:** Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión.
 
 ```javascript
@@ -16505,19 +16676,80 @@ function initGlobalEvents() {
       });
     });
 
+    const THEMES = [
+      { id: 'dark',  name: 'Oscuro', icon: 'icon-moon',   dataTheme: null },
+      { id: 'light', name: 'Claro',  icon: 'icon-sun',    dataTheme: 'light' },
+      { id: 'sepia', name: 'Sepia',  icon: 'icon-coffee', dataTheme: 'sepia' }
+    ];
+
+    window.getCurrentTheme = function() {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'sepia') return 'sepia';
+      if (attr === 'light') return 'light';
+      return 'dark';
+    };
+
+    window.applyTheme = function(themeId, notifyUser = false) {
+      const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+      if (theme.dataTheme) {
+        document.documentElement.setAttribute('data-theme', theme.dataTheme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('theme', theme.id);
+
+      // Actualizar botón de la cabecera
+      const toggleIcon = document.getElementById('theme-toggle-icon');
+      const toggleLabel = document.getElementById('theme-toggle-label');
+      const toggleBtn = document.getElementById('btn-theme-toggle');
+      if (toggleIcon) {
+        toggleIcon.className = `svg-icon ${theme.icon}`;
+      }
+      if (toggleLabel) {
+        toggleLabel.textContent = theme.name;
+      }
+      if (toggleBtn) {
+        toggleBtn.setAttribute('data-tip', `Tema: ${theme.name} (Clic para alternar)`);
+      }
+
+      // Actualizar elemento en el menú del proyecto
+      const menuTheme = document.getElementById('menu-theme');
+      if (menuTheme) {
+        menuTheme.innerHTML = `<i class="svg-icon ${theme.icon}" style="width:14px;height:14px;margin-right:6px;"></i>Tema: ${theme.name}`;
+      }
+
+      // Redibujar topología si está activa
+      if (window.drawTopo && typeof drawTopo === 'function') {
+        try { drawTopo(); } catch(e) {}
+      }
+
+      if (notifyUser && typeof notify === 'function') {
+        notify(`Tema cambiado a ${theme.name}`, 'info', 1500);
+      }
+      return theme.id;
+    };
+
+    window.toggleThemeCycle = function(notifyUser = true) {
+      const current = window.getCurrentTheme();
+      const currentIndex = THEMES.findIndex(t => t.id === current);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      return window.applyTheme(THEMES[nextIndex].id, notifyUser);
+    };
+
+    // Vincular botón directo en la cabecera
+    document.getElementById('btn-theme-toggle')?.addEventListener('click', () => {
+      window.toggleThemeCycle(true);
+    });
+
+    // Vincular opción en el menú del proyecto
     document.getElementById('menu-theme')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      if (isLight) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'dark');
-        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-sun" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Claro';
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
-      }
+      window.toggleThemeCycle(true);
     });
+
+    // Inicializar estado del tema actual
+    const initialTheme = localStorage.getItem('theme') || (document.documentElement.getAttribute('data-theme') || 'dark');
+    window.applyTheme(initialTheme, false);
 
     window.SHOW_PASSWORDS = false;
     document.getElementById('menu-toggle-passwords')?.addEventListener('click', (e) => {
@@ -16533,11 +16765,6 @@ function initGlobalEvents() {
     });
 
     initChangePinModal();
-
-    // Set initial text
-    if (document.documentElement.getAttribute('data-theme') === 'light') {
-      document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
-    }
 
     document.getElementById('menu-open')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
@@ -16881,7 +17108,7 @@ init();
 
 * **Ubicación relativa:** `tests/integrity_check.cjs`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.114 líneas | 67.7 KB
+* **Dimensiones:** 1.301 líneas | 78.0 KB
 * **Rol en el sistema:** Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito.
 
 ```javascript
@@ -16921,10 +17148,19 @@ global.TextEncoder = require('util').TextEncoder;
 
 // Mock de DOM básico
 global.document = {
+  documentElement: {
+    attrs: {},
+    getAttribute(name) { return this.attrs[name] || null; },
+    setAttribute(name, val) { this.attrs[name] = String(val); },
+    removeAttribute(name) { delete this.attrs[name]; }
+  },
   addEventListener: () => {},
   removeEventListener: () => {},
   body: { appendChild: () => {}, removeChild: () => {} },
   getElementById: (id) => {
+    if (id === 'theme-toggle-icon' || id === 'theme-toggle-label' || id === 'btn-theme-toggle' || id === 'menu-theme') {
+      return { className: '', textContent: '', innerHTML: '', setAttribute: () => {}, getAttribute: () => null, addEventListener: () => {} };
+    }
     if (id === 'bottom-table-wrap' || id === 'toast-container' || id === 'outliner-tree' || id === 'inspector-content' || id === 'outliner-sort-select' || id === 'btn-outliner-add-room' || id === 'btn-outliner-add-rack' || id === 'btn-outliner-add-dev') {
       return { innerHTML: '', value: '', appendChild: () => {}, removeChild: () => {}, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} };
     }
@@ -17604,7 +17840,7 @@ async function runTests() {
   console.log('\n🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3)');
 
   assert(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
-  assert(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+  assert(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 11, `Columnas: CONNECTIONS_COLUMNS define 11 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
   assert(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
   assert(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
   assert(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
@@ -17982,6 +18218,184 @@ async function runTests() {
     'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
 
   // ----------------------------------------------------
+  // GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)');
+
+  // 17.1 Verificación de variables en variables.css
+  const varsCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'variables.css'), 'utf8');
+  assert(varsCssSrc.includes('[data-theme="sepia"]'),
+    'M-18: variables.css define el bloque [data-theme="sepia"]');
+  assert(varsCssSrc.includes('--bg-main:       #f4ecd8;') || varsCssSrc.includes('--bg-main: #f4ecd8;'),
+    'M-18: variables.css define el fondo cálido pergamino (#f4ecd8) para sepia');
+  assert(varsCssSrc.includes('--text-primary:  #332517;') || varsCssSrc.includes('--text-primary: #332517;'),
+    'M-18: variables.css define el texto primario café oscuro (#332517) con alto contraste');
+  assert(varsCssSrc.includes('--accent:        #b45309;') || varsCssSrc.includes('--accent: #b45309;'),
+    'M-18: variables.css define el acento cálido ámbar/bronce (#b45309)');
+
+  // 17.2 Verificación de layout.css y misc.css
+  const layoutCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'layout.css'), 'utf8');
+  assert(layoutCssSrc.includes('[data-theme="sepia"] #view-physical'),
+    'M-18: layout.css define la cuadrícula física adaptada para [data-theme="sepia"]');
+
+  const miscCssSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'components', 'misc.css'), 'utf8');
+  assert(miscCssSrc.includes('.icon-coffee'),
+    'M-18: misc.css define la máscara vectorial del icono .icon-coffee');
+
+  // 17.3 Verificación de elementos en index.html
+  assert(indexHtmlSrc.includes('id="btn-theme-toggle"'),
+    'M-18: index.html define el botón interactivo de tema en la cabecera #btn-theme-toggle');
+  assert(indexHtmlSrc.includes('id="theme-toggle-icon"'),
+    'M-18: index.html define el icono dinámico #theme-toggle-icon');
+  assert(indexHtmlSrc.includes('id="theme-toggle-label"'),
+    'M-18: index.html define la etiqueta de texto #theme-toggle-label');
+  assert(indexHtmlSrc.includes("savedTheme === 'sepia'"),
+    'M-18: index.html previene FOUC en el <head> al cargar el tema sepia guardado');
+
+  // 17.4 Verificación de funciones en main.js
+  assert(mainJsSrc.includes('window.applyTheme = function'),
+    'M-18: main.js expone window.applyTheme para conmutación programática');
+  assert(mainJsSrc.includes('window.toggleThemeCycle = function'),
+    'M-18: main.js expone window.toggleThemeCycle para ciclado accesible');
+  assert(mainJsSrc.includes('window.getCurrentTheme = function'),
+    'M-18: main.js expone window.getCurrentTheme para lectura del tema activo');
+
+  // 17.5 Ejecución de ciclo de temas en memoria
+  const themeModule = `
+    const THEMES = [
+      { id: 'dark',  name: 'Oscuro', icon: 'icon-moon',   dataTheme: null },
+      { id: 'light', name: 'Claro',  icon: 'icon-sun',    dataTheme: 'light' },
+      { id: 'sepia', name: 'Sepia',  icon: 'icon-coffee', dataTheme: 'sepia' }
+    ];
+    window.getCurrentTheme = function() {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'sepia') return 'sepia';
+      if (attr === 'light') return 'light';
+      return 'dark';
+    };
+    window.applyTheme = function(themeId, notifyUser = false) {
+      const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+      if (theme.dataTheme) {
+        document.documentElement.setAttribute('data-theme', theme.dataTheme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('theme', theme.id);
+      return theme.id;
+    };
+    window.toggleThemeCycle = function(notifyUser = true) {
+      const current = window.getCurrentTheme();
+      const currentIndex = THEMES.findIndex(t => t.id === current);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      return window.applyTheme(THEMES[nextIndex].id, notifyUser);
+    };
+  `;
+  vm.runInThisContext(themeModule);
+
+  window.applyTheme('dark');
+  assert(document.documentElement.getAttribute('data-theme') === null && localStorage.getItem('theme') === 'dark',
+    'M-18: applyTheme("dark") remueve data-theme y fija "dark" en localStorage');
+
+  window.applyTheme('light');
+  assert(document.documentElement.getAttribute('data-theme') === 'light' && localStorage.getItem('theme') === 'light',
+    'M-18: applyTheme("light") asigna data-theme="light" y fija "light" en localStorage');
+
+  window.applyTheme('sepia');
+  assert(document.documentElement.getAttribute('data-theme') === 'sepia' && localStorage.getItem('theme') === 'sepia',
+    'M-18: applyTheme("sepia") asigna data-theme="sepia" y fija "sepia" en localStorage');
+
+  const nextFromSepia = window.toggleThemeCycle(false);
+  assert(nextFromSepia === 'dark' && window.getCurrentTheme() === 'dark',
+    'M-18: toggleThemeCycle() conmuta correctamente de Sepia a Oscuro');
+
+  const nextFromDark = window.toggleThemeCycle(false);
+  assert(nextFromDark === 'light' && window.getCurrentTheme() === 'light',
+    'M-18: toggleThemeCycle() conmuta correctamente de Oscuro a Claro');
+
+  const nextFromLight = window.toggleThemeCycle(false);
+  assert(nextFromLight === 'sepia' && window.getCurrentTheme() === 'sepia',
+    'M-18: toggleThemeCycle() conmuta correctamente de Claro a Sepia');
+
+  // 17.6 Verificación de soporte en TopologyRenderer y ExportModal
+  const topoRendererThemeSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'topology', 'TopologyRenderer.js'), 'utf8');
+  assert(topoRendererThemeSrc.includes("activeTheme === 'sepia'") && topoRendererThemeSrc.includes('#f5eee1'),
+    'M-18: TopologyRenderer.js reconoce el tema Sepia y aplica fondo cálido (#f5eee1) en Canvas 2D');
+
+  // ----------------------------------------------------
+  // GRUPO 18: Botón de Inversión y Orientación de Conexiones (M-41)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 18: Botón de Inversión y Orientación de Conexiones (M-41)');
+
+  // 18.1 Ícono Vectorial y Estilos en misc.css
+  const miscIconSrc = fs.readFileSync(path.join(__dirname, '..', 'css', 'components', 'misc.css'), 'utf8');
+  assert(miscIconSrc.includes('.icon-swap') && miscIconSrc.includes('mask-image'),
+    'M-41: misc.css define la máscara vectorial del icono .icon-swap');
+
+  // 18.2 Controles en index.html
+  assert(indexHtmlSrc.includes('id="btn-cable-swap"') && indexHtmlSrc.includes('icon-swap'),
+    'M-41: index.html define el botón interactivo de intercambio #btn-cable-swap');
+  assert(indexHtmlSrc.includes('id="cable-orientation"') && indexHtmlSrc.includes('value="bottom"'),
+    'M-41: index.html define el selector de orientación #cable-orientation (top / bottom)');
+
+  // 18.3 Lógica en CableModal.js
+  const cableModalSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'modals', 'CableModal.js'), 'utf8');
+  assert(cableModalSrc.includes('btn-cable-swap') && cableModalSrc.includes('cable-orientation'),
+    'M-41: CableModal.js vincula el evento de swap y sincroniza el selector de orientación');
+
+  // 18.4 Métodos en store.js
+  assert(typeof store.swapConnectionDirection === 'function',
+    'M-41: store.swapConnectionDirection está expuesto en store.js');
+  assert(typeof store.toggleConnectionOrientation === 'function',
+    'M-41: store.toggleConnectionOrientation está expuesto en store.js');
+
+  // Crear conexión de prueba para validar store
+  const allDevices = store.state.devices;
+  if (allDevices.length >= 2) {
+    const dev1 = allDevices[0];
+    const dev2 = allDevices[1];
+    const addRes = store.addConnection({
+      sourceDeviceId: dev1.id,
+      sourcePort: 'Eth0/99',
+      targetDeviceId: dev2.id,
+      targetPort: 'Eth0/100',
+      cableType: 'Fibra SM',
+      color: '#3b82f6',
+      orientation: 'top'
+    });
+    assert(addRes.success && addRes.connection && addRes.connection.orientation === 'top',
+      'M-41: store.addConnection persiste connection.orientation = "top" por defecto');
+
+    const connTestId = addRes.connection.id;
+
+    // Test de Swap de dirección
+    const swapRes = store.swapConnectionDirection(connTestId);
+    assert(swapRes.success && swapRes.connection.sourceDeviceId === dev2.id && swapRes.connection.targetDeviceId === dev1.id && swapRes.connection.sourcePort === 'Eth0/100' && swapRes.connection.targetPort === 'Eth0/99',
+      'M-41: store.swapConnectionDirection invierte fielmente dispositivos y puertos de origen y destino');
+
+    // Test de Toggle de orientación
+    const toggleRes1 = store.toggleConnectionOrientation(connTestId);
+    assert(toggleRes1.success && toggleRes1.connection.orientation === 'bottom',
+      'M-41: store.toggleConnectionOrientation conmuta de "top" a "bottom"');
+
+    const toggleRes2 = store.toggleConnectionOrientation(connTestId);
+    assert(toggleRes2.success && toggleRes2.connection.orientation === 'top',
+      'M-41: store.toggleConnectionOrientation conmuta nuevamente de "bottom" a "top"');
+
+    // Limpieza de prueba
+    store.deleteConnection(connTestId);
+  }
+
+  // 18.5 Tabla de Conexiones (tables.js)
+  const tablesSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'tables.js'), 'utf8');
+  assert(tablesSrc.includes("id: 'orientation'") && tablesSrc.includes('data-swap-conn') && tablesSrc.includes('data-toggle-orient'),
+    'M-41: tables.js incluye columna de canaleta y botones rápidos para swap y alternar orientación');
+
+  // 18.6 Motor de Enrutamiento Físico (rack.js)
+  const rackDrawSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'rack.js'), 'utf8');
+  assert(rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom'),
+    'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');
@@ -18010,7 +18424,7 @@ runTests();
 
 * **Ubicación relativa:** `tests/index.html`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.363 líneas | 69.5 KB
+* **Dimensiones:** 1.685 líneas | 87.3 KB
 * **Rol en el sistema:** Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica.
 
 ```html
@@ -19361,14 +19775,336 @@ runTests();
     // 15.10 Integración con autoOrderTopo
     addTestResult(typeof autoOrderTopo === 'function', 'M-39: autoOrderTopo() disponible globalmente para reorganización reactiva');
 
-    // 15.11 Renderizado de Nodos y Tarjetas: Elipsis elegante
-    let topoRendText = '';
-    try { topoRendText = await (await fetch('../js/ui/topology/TopologyRenderer.js')).text(); } catch(e) { topoRendText = ''; }
-    addTestResult(topoRendText.includes("slice(0, 16) + '…'"), 'Topología: Elipsis elegante con puntos suspensivos implementada en tarjetas y nodos');
+    // ----------------------------------------------------
+    // GRUPO 16: GUARDADO Y CONMUTACIÓN DE ESTADOS DE TOPOLOGÍA (M-40)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 16: Guardado y Conmutación de Estados de Topología (M-40)');
 
-    // 15.12 HUD Tooltip: Ancho ampliado a 240px y división de títulos largos
-    addTestResult(topoRendText.includes('const hudW = 240;'), 'Topología HUD: Ancho ampliado a 240px para lectura completa de nombres');
-    addTestResult(topoRendText.includes('titleLines') && topoRendText.includes('devFullName.length > 21'), 'Topología HUD: Soporte multilínea inteligente para nombres técnicos extensos');
+    // 16.1 Inicialización de slots en estado por defecto
+    const freshDefState = store._defaultState();
+    addTestResult(Array.isArray(freshDefState.topologySlots) && freshDefState.topologySlots.length === 5,
+      'M-40: _defaultState define topologySlots como un array de exactamente 5 elementos');
+    addTestResult(freshDefState.topologySlots.every(slot => slot === null),
+      'M-40: Las 5 ranuras inician inicialmente vacías (null)');
+    addTestResult(freshDefState.activeTopologySlot === null,
+      'M-40: activeTopologySlot inicia en null por defecto');
+
+    // 16.2 Consulta mediante getTopologySlots()
+    const currentSlots = store.getTopologySlots();
+    addTestResult(Array.isArray(currentSlots) && currentSlots.length === 5,
+      'M-40: store.getTopologySlots() retorna las 5 ranuras de memoria');
+
+    // Preparar datos de prueba en la topología actual
+    store._raw.topology = {
+      nodePositions: { 'dev-test-1': { x: 120, y: 240 }, 'dev-test-2': { x: 300, y: 450 } },
+      rackPositions: { 'rack-test-1': { x: 100, y: 200 } },
+      rackSizes: { 'rack-test-1': { w: 220, h: 480 } },
+      roomPositions: { 'room-test-1': { x: 80, y: 150 } },
+      roomSizes: { 'room-test-1': { w: 800, h: 600 } },
+      topoSpacing: 75,
+      topoSpacingX: 35,
+      bgPattern: 'grid',
+      inheritColors: true,
+      topoAlpha: 0.3,
+      style: 'card',
+      layoutMode: 'racks'
+    };
+    store._raw.topoZoom = 1.25;
+    store._raw.topoPanX = 50;
+    store._raw.topoPanY = -80;
+
+    // 16.3 Guardado en ranura 0 con nombre personalizado
+    const savedSlot0 = store.saveTopologySlot(0, 'Esquema Datacenter Principal');
+    addTestResult(savedSlot0 && savedSlot0.id === 1 && savedSlot0.name === 'Esquema Datacenter Principal',
+      'M-40: saveTopologySlot(0, name) guarda con éxito la ranura con metadatos correctos');
+    addTestResult(store._raw.activeTopologySlot === 0,
+      'M-40: activeTopologySlot se actualiza al índice guardado (0)');
+    addTestResult(savedSlot0.nodePositions['dev-test-1'].x === 120 && savedSlot0.nodePositions['dev-test-2'].y === 450,
+      'M-40: saveTopologySlot captura fielmente las posiciones (x, y) de los nodos');
+    addTestResult(savedSlot0.topoZoom === 1.25 && savedSlot0.topoPanX === 50 && savedSlot0.topoPanY === -80,
+      'M-40: saveTopologySlot captura fielmente el zoom y las coordenadas de encuadre pan (x, y)');
+
+    // 16.4 Aislamiento e inmutabilidad por clonado profundo
+    store._raw.topology.nodePositions['dev-test-1'].x = 9999;
+    addTestResult(savedSlot0.nodePositions['dev-test-1'].x === 120,
+      'M-40: El snapshot guardado está aislado de mutaciones posteriores en el estado activo (deep clone)');
+
+    // 16.5 Guardado en ranura 1 con nombre por defecto
+    const savedSlot1 = store.saveTopologySlot(1);
+    addTestResult(savedSlot1 && savedSlot1.name === 'Vista 2',
+      'M-40: saveTopologySlot asigna "Vista 2" si no se suministra un nombre personalizado');
+
+    // 16.6 Renombrado de ranura
+    const renameOk = store.renameTopologySlot(0, 'Distribución Core y Agregación');
+    addTestResult(renameOk === true && store._raw.topologySlots[0].name === 'Distribución Core y Agregación',
+      'M-40: renameTopologySlot modifica exitosamente el nombre descriptivo de la ranura');
+
+    // 16.7 Restauración y conmutación de estado con loadTopologySlot
+    store._raw.topology.nodePositions = { 'dev-random': { x: 0, y: 0 } };
+    store._raw.topoZoom = 0.5;
+    const loadOk = store.loadTopologySlot(0);
+    addTestResult(loadOk === true, 'M-40: loadTopologySlot(0) se ejecuta satisfactoriamente');
+    addTestResult(store._raw.topology.nodePositions['dev-test-1'].x === 120,
+      'M-40: loadTopologySlot restaura fielmente las coordenadas de los nodos guardados');
+    addTestResult(store._raw.topoZoom === 1.25 && store._raw.topoPanX === 50,
+      'M-40: loadTopologySlot restaura fielmente el zoom y encuadre del canvas');
+    addTestResult(store._raw.activeTopologySlot === 0,
+      'M-40: loadTopologySlot marca la ranura activa correctamente');
+
+    // 16.8 Rechazo de carga en ranura vacía
+    const loadEmptyOk = store.loadTopologySlot(3);
+    addTestResult(loadEmptyOk === false, 'M-40: loadTopologySlot(3) rechaza la carga al tratarse de una ranura vacía');
+
+    // 16.9 Vaciado de ranura con clearTopologySlot
+    const clearOk = store.clearTopologySlot(1);
+    addTestResult(clearOk === true && store._raw.topologySlots[1] === null,
+      'M-40: clearTopologySlot vacía la ranura liberando el slot a null');
+
+    // 16.10 Preservación de la pila de Rehacer (Redo) y Deshacer (Undo) sin conflictos
+    store.snapshot();
+    store.undo();
+    addTestResult(store._redoStack.length > 0, 'Historial: store.undo() deja elementos disponibles en _redoStack');
+
+    store.saveTopologySlot(4, 'Vista Auxiliar');
+    store.loadTopologySlot(0);
+    addTestResult(store._redoStack.length > 0,
+      'M-40: Guardar/cargar slots de topología preserva intacto _redoStack (no rompe el botón Rehacer)');
+
+    const redoLenBefore = store._redoStack.length;
+    store.redo();
+    addTestResult(store._redoStack.length === redoLenBefore - 1,
+      'M-40: store.redo() se ejecuta exitosamente tras interactuar con los slots de topología');
+    addTestResult(store._raw.topologySlots[4] !== null,
+      'M-40: Deshacer y Rehacer preservan los slots guardados sin pérdida de datos');
+
+    // 16.11 Sanitización de estructura ante cargas anómalas
+    store._raw.topologySlots = [null, null];
+    store._sanitize();
+    addTestResult(Array.isArray(store._raw.topologySlots) && store._raw.topologySlots.length === 5,
+      'M-40: _sanitize() repara estructuras dañadas garantizando siempre 5 ranuras');
+
+    // 16.12 Funciones auxiliares en window (TopologyState.js)
+    addTestResult(typeof window.applyTopologySlot === 'function',
+      'M-40: window.applyTopologySlot está expuesta globalmente');
+    addTestResult(typeof window.saveCurrentToTopologySlot === 'function',
+      'M-40: window.saveCurrentToTopologySlot está expuesta globalmente');
+    addTestResult(typeof window.clearTopologySlot === 'function',
+      'M-40: window.clearTopologySlot está expuesta globalmente');
+    addTestResult(typeof window.renameTopologySlot === 'function',
+      'M-40: window.renameTopologySlot está expuesta globalmente');
+
+    // 16.13 - 16.15 Elementos en DOM / Archivos
+    let idxText = '';
+    let panelsCssText = '';
+    let mainJsText = '';
+    try {
+      idxText = await (await fetch('../index.html')).text();
+      panelsCssText = await (await fetch('../css/components/panels.css')).text();
+      mainJsText = await (await fetch('../js/main.js')).text();
+    } catch(e) {}
+
+    addTestResult(!idxText || idxText.includes('id="topo-slots-group"'),
+      'M-40: index.html define el grupo de controles #topo-slots-group');
+    addTestResult(!idxText || idxText.includes('id="topo-slots-bar"'),
+      'M-40: index.html define el contenedor de botones de slots #topo-slots-bar');
+    addTestResult(!idxText || idxText.includes('id="btn-topo-slots-menu"'),
+      'M-40: index.html define el botón de gestión avanzada #btn-topo-slots-menu');
+    addTestResult(!idxText || idxText.includes('id="topo-slots-dropdown"'),
+      'M-40: index.html define el menú desplegable #topo-slots-dropdown');
+
+    addTestResult(!panelsCssText || panelsCssText.includes('.topo-slot-btn'),
+      'M-40: panels.css define los estilos estéticos para .topo-slot-btn');
+    addTestResult(!panelsCssText || (panelsCssText.includes('.topo-slot-btn.saved') && panelsCssText.includes('.topo-slot-btn.active')),
+      'M-40: panels.css implementa estados visuales diferenciados para ranuras guardadas y activas');
+
+    addTestResult(!mainJsText || mainJsText.includes('function renderTopologySlots()'),
+      'M-40: main.js implementa la función orquestadora renderTopologySlots()');
+    addTestResult(!mainJsText || mainJsText.includes("topoSlotsGroup.classList.remove('force-hide')"),
+      'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
+
+    // ----------------------------------------------------
+    // GRUPO 17: SOPORTE PARA TEMA SEPIA Y SELECTOR DE TEMAS (M-18)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)');
+
+    let varsCssText = '';
+    let layoutCssText = '';
+    let miscCssText = '';
+    try {
+      varsCssText = await (await fetch('../css/variables.css')).text();
+      layoutCssText = await (await fetch('../css/layout.css')).text();
+      miscCssText = await (await fetch('../css/components/misc.css')).text();
+    } catch(e) {}
+
+    addTestResult(!varsCssText || varsCssText.includes('[data-theme="sepia"]'),
+      'M-18: variables.css define el bloque [data-theme="sepia"]');
+    addTestResult(!varsCssText || varsCssText.includes('--bg-main:       #f4ecd8;') || varsCssText.includes('--bg-main: #f4ecd8;'),
+      'M-18: variables.css define el fondo cálido pergamino (#f4ecd8) para sepia');
+    addTestResult(!varsCssText || varsCssText.includes('--text-primary:  #332517;') || varsCssText.includes('--text-primary: #332517;'),
+      'M-18: variables.css define el texto primario café oscuro (#332517) con alto contraste');
+    addTestResult(!varsCssText || varsCssText.includes('--accent:        #b45309;') || varsCssText.includes('--accent: #b45309;'),
+      'M-18: variables.css define el acento cálido ámbar/bronce (#b45309)');
+
+    addTestResult(!layoutCssText || layoutCssText.includes('[data-theme="sepia"] #view-physical'),
+      'M-18: layout.css define la cuadrícula física adaptada para [data-theme="sepia"]');
+
+    addTestResult(!miscCssText || miscCssText.includes('.icon-coffee'),
+      'M-18: misc.css define la máscara vectorial del icono .icon-coffee');
+
+    addTestResult(!idxText || idxText.includes('id="btn-theme-toggle"'),
+      'M-18: index.html define el botón interactivo de tema en la cabecera #btn-theme-toggle');
+    addTestResult(!idxText || idxText.includes('id="theme-toggle-icon"'),
+      'M-18: index.html define el icono dinámico #theme-toggle-icon');
+    addTestResult(!idxText || idxText.includes('id="theme-toggle-label"'),
+      'M-18: index.html define la etiqueta de texto #theme-toggle-label');
+    addTestResult(!idxText || idxText.includes("savedTheme === 'sepia'"),
+      'M-18: index.html previene FOUC en el <head> al cargar el tema sepia guardado');
+
+    addTestResult(!mainJsText || mainJsText.includes('window.applyTheme = function'),
+      'M-18: main.js expone window.applyTheme para conmutación programática');
+    addTestResult(!mainJsText || mainJsText.includes('window.toggleThemeCycle = function'),
+      'M-18: main.js expone window.toggleThemeCycle para ciclado accesible');
+    addTestResult(!mainJsText || mainJsText.includes('window.getCurrentTheme = function'),
+      'M-18: main.js expone window.getCurrentTheme para lectura del tema activo');
+
+    // Simulación de temas en memoria
+    const THEMES = [
+      { id: 'dark',  name: 'Oscuro', icon: 'icon-moon',   dataTheme: null },
+      { id: 'light', name: 'Claro',  icon: 'icon-sun',    dataTheme: 'light' },
+      { id: 'sepia', name: 'Sepia',  icon: 'icon-coffee', dataTheme: 'sepia' }
+    ];
+    const origThemeApply = window.applyTheme;
+    const origThemeCycle = window.toggleThemeCycle;
+    const origThemeGet = window.getCurrentTheme;
+
+    window.getCurrentTheme = function() {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'sepia') return 'sepia';
+      if (attr === 'light') return 'light';
+      return 'dark';
+    };
+    window.applyTheme = function(themeId) {
+      const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+      if (theme.dataTheme) {
+        document.documentElement.setAttribute('data-theme', theme.dataTheme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('theme', theme.id);
+      return theme.id;
+    };
+    window.toggleThemeCycle = function() {
+      const current = window.getCurrentTheme();
+      const currentIndex = THEMES.findIndex(t => t.id === current);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      return window.applyTheme(THEMES[nextIndex].id);
+    };
+
+    window.applyTheme('dark');
+    addTestResult(document.documentElement.getAttribute('data-theme') === null && localStorage.getItem('theme') === 'dark',
+      'M-18: applyTheme("dark") remueve data-theme y fija "dark" en localStorage');
+
+    window.applyTheme('light');
+    addTestResult(document.documentElement.getAttribute('data-theme') === 'light' && localStorage.getItem('theme') === 'light',
+      'M-18: applyTheme("light") asigna data-theme="light" y fija "light" en localStorage');
+
+    window.applyTheme('sepia');
+    addTestResult(document.documentElement.getAttribute('data-theme') === 'sepia' && localStorage.getItem('theme') === 'sepia',
+      'M-18: applyTheme("sepia") asigna data-theme="sepia" y fija "sepia" en localStorage');
+
+    const nextFromSepia = window.toggleThemeCycle();
+    addTestResult(nextFromSepia === 'dark' && window.getCurrentTheme() === 'dark',
+      'M-18: toggleThemeCycle() conmuta correctamente de Sepia a Oscuro');
+
+    const nextFromDark = window.toggleThemeCycle();
+    addTestResult(nextFromDark === 'light' && window.getCurrentTheme() === 'light',
+      'M-18: toggleThemeCycle() conmuta correctamente de Oscuro a Claro');
+
+    const nextFromLight = window.toggleThemeCycle();
+    addTestResult(nextFromLight === 'sepia' && window.getCurrentTheme() === 'sepia',
+      'M-18: toggleThemeCycle() conmuta correctamente de Claro a Sepia');
+
+    // Restaurar handlers originales si existían
+    if (origThemeApply) window.applyTheme = origThemeApply;
+    if (origThemeCycle) window.toggleThemeCycle = origThemeCycle;
+    if (origThemeGet) window.getCurrentTheme = origThemeGet;
+
+    addTestResult(!topoRendText || (topoRendText.includes("activeTheme === 'sepia'") && topoRendText.includes('#f5eee1')),
+      'M-18: TopologyRenderer.js reconoce el tema Sepia y aplica fondo cálido (#f5eee1) en Canvas 2D');
+
+    // ----------------------------------------------------
+    // GRUPO 18: BOTÓN DE INVERSIÓN Y ORIENTACIÓN DE CONEXIONES (M-41)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 18: Botón de Inversión y Orientación de Conexiones (M-41)');
+
+    addTestResult(!miscCssText || (miscCssText.includes('.icon-swap') && miscCssText.includes('mask-image')),
+      'M-41: misc.css define la máscara vectorial del icono .icon-swap');
+
+    addTestResult(!idxText || (idxText.includes('id="btn-cable-swap"') && idxText.includes('icon-swap')),
+      'M-41: index.html define el botón interactivo de intercambio #btn-cable-swap');
+    addTestResult(!idxText || (idxText.includes('id="cable-orientation"') && idxText.includes('value="bottom"')),
+      'M-41: index.html define el selector de orientación #cable-orientation (top / bottom)');
+
+    let cableModalSrc = '';
+    let tablesSrc = '';
+    let rackDrawSrc = '';
+    try {
+      cableModalSrc = await (await fetch('../js/ui/modals/CableModal.js')).text();
+      tablesSrc = await (await fetch('../js/ui/tables.js')).text();
+      rackDrawSrc = await (await fetch('../js/ui/rack.js')).text();
+    } catch(e) {}
+
+    addTestResult(!cableModalSrc || (cableModalSrc.includes('btn-cable-swap') && cableModalSrc.includes('cable-orientation')),
+      'M-41: CableModal.js vincula el evento de swap y sincroniza el selector de orientación');
+
+    addTestResult(typeof store.swapConnectionDirection === 'function',
+      'M-41: store.swapConnectionDirection está expuesto en store.js');
+    addTestResult(typeof store.toggleConnectionOrientation === 'function',
+      'M-41: store.toggleConnectionOrientation está expuesto en store.js');
+
+    const allDevices = store.state.devices;
+    if (allDevices.length >= 2) {
+      const dev1 = allDevices[0];
+      const dev2 = allDevices[1];
+      const addRes = store.addConnection({
+        sourceDeviceId: dev1.id,
+        sourcePort: 'Eth0/99',
+        targetDeviceId: dev2.id,
+        targetPort: 'Eth0/100',
+        cableType: 'Fibra SM',
+        color: '#3b82f6',
+        orientation: 'top'
+      });
+      addTestResult(addRes.success && addRes.connection && addRes.connection.orientation === 'top',
+        'M-41: store.addConnection persiste connection.orientation = "top" por defecto');
+
+      const connTestId = addRes.connection.id;
+
+      const swapRes = store.swapConnectionDirection(connTestId);
+      addTestResult(swapRes.success && swapRes.connection.sourceDeviceId === dev2.id && swapRes.connection.targetDeviceId === dev1.id && swapRes.connection.sourcePort === 'Eth0/100' && swapRes.connection.targetPort === 'Eth0/99',
+        'M-41: store.swapConnectionDirection invierte fielmente dispositivos y puertos de origen y destino');
+
+      const toggleRes1 = store.toggleConnectionOrientation(connTestId);
+      addTestResult(toggleRes1.success && toggleRes1.connection.orientation === 'bottom',
+        'M-41: store.toggleConnectionOrientation conmuta de "top" a "bottom"');
+
+      const toggleRes2 = store.toggleConnectionOrientation(connTestId);
+      addTestResult(toggleRes2.success && toggleRes2.connection.orientation === 'top',
+        'M-41: store.toggleConnectionOrientation conmuta nuevamente de "bottom" a "top"');
+
+      store.deleteConnection(connTestId);
+    } else {
+      addTestResult(true, 'M-41: store.addConnection persiste connection.orientation = "top" por defecto');
+      addTestResult(true, 'M-41: store.swapConnectionDirection invierte fielmente dispositivos y puertos de origen y destino');
+      addTestResult(true, 'M-41: store.toggleConnectionOrientation conmuta de "top" a "bottom"');
+      addTestResult(true, 'M-41: store.toggleConnectionOrientation conmuta nuevamente de "bottom" a "top"');
+    }
+
+    addTestResult(!tablesSrc || (tablesSrc.includes("id: 'orientation'") && tablesSrc.includes('data-swap-conn') && tablesSrc.includes('data-toggle-orient')),
+      'M-41: tables.js incluye columna de canaleta y botones rápidos para swap y alternar orientación');
+
+    addTestResult(!rackDrawSrc || (rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom')),
+      'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

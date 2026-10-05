@@ -825,19 +825,80 @@ function initGlobalEvents() {
       });
     });
 
+    const THEMES = [
+      { id: 'dark',  name: 'Oscuro', icon: 'icon-moon',   dataTheme: null },
+      { id: 'light', name: 'Claro',  icon: 'icon-sun',    dataTheme: 'light' },
+      { id: 'sepia', name: 'Sepia',  icon: 'icon-coffee', dataTheme: 'sepia' }
+    ];
+
+    window.getCurrentTheme = function() {
+      const attr = document.documentElement.getAttribute('data-theme');
+      if (attr === 'sepia') return 'sepia';
+      if (attr === 'light') return 'light';
+      return 'dark';
+    };
+
+    window.applyTheme = function(themeId, notifyUser = false) {
+      const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+      if (theme.dataTheme) {
+        document.documentElement.setAttribute('data-theme', theme.dataTheme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('theme', theme.id);
+
+      // Actualizar botón de la cabecera
+      const toggleIcon = document.getElementById('theme-toggle-icon');
+      const toggleLabel = document.getElementById('theme-toggle-label');
+      const toggleBtn = document.getElementById('btn-theme-toggle');
+      if (toggleIcon) {
+        toggleIcon.className = `svg-icon ${theme.icon}`;
+      }
+      if (toggleLabel) {
+        toggleLabel.textContent = theme.name;
+      }
+      if (toggleBtn) {
+        toggleBtn.setAttribute('data-tip', `Tema: ${theme.name} (Clic para alternar)`);
+      }
+
+      // Actualizar elemento en el menú del proyecto
+      const menuTheme = document.getElementById('menu-theme');
+      if (menuTheme) {
+        menuTheme.innerHTML = `<i class="svg-icon ${theme.icon}" style="width:14px;height:14px;margin-right:6px;"></i>Tema: ${theme.name}`;
+      }
+
+      // Redibujar topología si está activa
+      if (window.drawTopo && typeof drawTopo === 'function') {
+        try { drawTopo(); } catch(e) {}
+      }
+
+      if (notifyUser && typeof notify === 'function') {
+        notify(`Tema cambiado a ${theme.name}`, 'info', 1500);
+      }
+      return theme.id;
+    };
+
+    window.toggleThemeCycle = function(notifyUser = true) {
+      const current = window.getCurrentTheme();
+      const currentIndex = THEMES.findIndex(t => t.id === current);
+      const nextIndex = (currentIndex + 1) % THEMES.length;
+      return window.applyTheme(THEMES[nextIndex].id, notifyUser);
+    };
+
+    // Vincular botón directo en la cabecera
+    document.getElementById('btn-theme-toggle')?.addEventListener('click', () => {
+      window.toggleThemeCycle(true);
+    });
+
+    // Vincular opción en el menú del proyecto
     document.getElementById('menu-theme')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      if (isLight) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'dark');
-        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-sun" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Claro';
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
-      }
+      window.toggleThemeCycle(true);
     });
+
+    // Inicializar estado del tema actual
+    const initialTheme = localStorage.getItem('theme') || (document.documentElement.getAttribute('data-theme') || 'dark');
+    window.applyTheme(initialTheme, false);
 
     window.SHOW_PASSWORDS = false;
     document.getElementById('menu-toggle-passwords')?.addEventListener('click', (e) => {
@@ -853,11 +914,6 @@ function initGlobalEvents() {
     });
 
     initChangePinModal();
-
-    // Set initial text
-    if (document.documentElement.getAttribute('data-theme') === 'light') {
-      document.getElementById('menu-theme').innerHTML = '<i class="svg-icon icon-moon" style="width:14px;height:14px;margin-right:6px;"></i>Cambiar a Modo Oscuro';
-    }
 
     document.getElementById('menu-open')?.addEventListener('click', () => {
       dropdown.classList.add('hidden');

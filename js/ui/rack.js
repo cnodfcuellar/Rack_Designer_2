@@ -262,9 +262,13 @@ function drawPhysicalCables() {
       } else if (p1.isRack && p2.isRack) {
         // ===================================================================
         // 2. CASO INTER-RACK: Conexión entre dos gabinetes distintos
-        // Viaja por la CANALETA AÉREA SUPERIOR (Overhead Tray) sin cruzar racks
+        // Viaja por la CANALETA AÉREA SUPERIOR (Overhead Tray) o
+        // por la CANALETA INFERIOR (Piso Técnico) según c.orientation
         // ===================================================================
-        const overheadY = minRackTop - 14 - (index % 7) * 5;
+        const isBottom = c.orientation === 'bottom';
+        const gutterY = isBottom
+          ? (maxRackBottom > 0 ? maxRackBottom + 14 + (index % 7) * 5 : minFloorTop - 20)
+          : (minRackTop - 14 - (index % 7) * 5);
         
         // Salida inteligente por el lateral más cercano al rack destino
         const exitX = (p2.x < p1.x) 
@@ -278,15 +282,16 @@ function drawPhysicalCables() {
         const dirX1 = exitX > p1.x ? 1 : -1;
         const dirX2 = p2.x > enterX ? 1 : -1;
         const dirG = enterX > exitX ? 1 : -1;
+        const dirY1 = isBottom ? 1 : -1; // 1 desciende a piso, -1 asciende a techo
         
         pathStr = `M ${p1.x} ${p1.y} `
           + `L ${exitX - r * dirX1} ${p1.y} `
-          + `Q ${exitX} ${p1.y}, ${exitX} ${p1.y - r} `
-          + `L ${exitX} ${overheadY + r} `
-          + `Q ${exitX} ${overheadY}, ${exitX + r * dirG} ${overheadY} `
-          + `L ${enterX - r * dirG} ${overheadY} `
-          + `Q ${enterX} ${overheadY}, ${enterX} ${overheadY + r} `
-          + `L ${enterX} ${p2.y - r} `
+          + `Q ${exitX} ${p1.y}, ${exitX} ${p1.y + r * dirY1} `
+          + `L ${exitX} ${gutterY - r * dirY1} `
+          + `Q ${exitX} ${gutterY}, ${exitX + r * dirG} ${gutterY} `
+          + `L ${enterX - r * dirG} ${gutterY} `
+          + `Q ${enterX} ${gutterY}, ${enterX} ${gutterY - r * dirY1} `
+          + `L ${enterX} ${p2.y + r * dirY1} `
           + `Q ${enterX} ${p2.y}, ${enterX + r * dirX2} ${p2.y} `
           + `L ${p2.x} ${p2.y}`;
       } else {

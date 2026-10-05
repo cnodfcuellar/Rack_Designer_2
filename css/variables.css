@@ -43,6 +43,30 @@
   --hardware-rail: #f1f5f9;
   --grid-dot: #cbd5e1;
 }
+[data-theme="sepia"] {
+  --bg-main:       #f4ecd8;
+  --bg-panel:      #ebe1c7cc;
+  --bg-card:       #fffdfa;
+  --bg-card1:      #f6eedb;
+  --bg-card2:      #ece2cc;
+  --border:        #d9cbb0;
+  --border-light:  #c8b796;
+  --text-primary:  #332517;
+  --text-secondary:#5e4a35;
+  --text-muted:    #857057;
+  --accent:        #b45309;
+  --accent-glow:   #fef3c7;
+  --green:         #15803d;
+  --green-glow:    #dcfce7;
+  --amber:         #d97706;
+  --amber-glow:    #fef3c7;
+  --red:           #b91c1c;
+  --red-glow:      #fee2e2;
+  --cyan:          #0891b2;
+  --hardware-base: #dfd1b8;
+  --hardware-rail: #ebdcc3;
+  --grid-dot:      #c9b899;
+}
 :root {
   --sidebar-w:    50px;
   --right-panel-w: 300px;

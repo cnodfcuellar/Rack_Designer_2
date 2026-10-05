@@ -97,9 +97,12 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 *   **Objetivo/Beneficio en Producción:** Proporcionar una guía rápida de referencia para el equipo de desarrollo que permita mantener la consistencia del diseño y del layout general al implementar nuevos paneles o funcionalidades visuales, sin tener que inspeccionar los archivos CSS en cada ocasión.
 
 ### 🎨 Visibilidad de Selector y Soporte para Tema Sepia
-*   **Propuesta de Mejora:**
-    *   Hacer plenamente visible y accesible el botón de cambio de tema (Theme Toggler) en la cabecera principal.
-    *   Agregar un nuevo tema visual tipo **"Sepia"** con una paleta cálida (cremas, ocres y cafés suaves) en el CSS del proyecto, actualizando el Design System para que soporte la conmutación entre Claro, Oscuro y Sepia.
+*   **Estado:** Completado.
+*   **Implementación:**
+    *   Botón interactivo directo `#btn-theme-toggle` añadido en la cabecera superior con icono dinámico (`icon-moon`, `icon-sun`, `icon-coffee`) y etiqueta de texto para conmutar con un solo clic: **Oscuro** ➔ **Claro** ➔ **Sepia** ➔ **Oscuro**.
+    *   Paleta cálida completa implementada en `css/variables.css` bajo el selector `[data-theme="sepia"]` con fondos pergamino (`#f4ecd8`), textos café oscuro (`#332517`) y acentos ámbar (`#b45309`).
+    *   Adaptación de la grilla de vista física en `css/layout.css` y renderizado de fondo y patrones en Canvas 2D en `TopologyRenderer.js`.
+    *   Persistencia en `localStorage` y prevención de FOUC al arrancar la app.
 *   **Objetivo/Beneficio en Producción:** Ofrecer una alternativa estética de lectura relajada que reduzca la fatiga ocular de los operadores en entornos de trabajo con iluminación media o prolongada exposición a pantallas, asegurando que la opción sea intuitiva y fácil de activar.
 
 
@@ -318,6 +321,28 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
     *   **Finalización Inmediata y Ajuste Rápido:** Al soltar o confirmar el puerto destino, la conexión se registra de inmediato en `store.js` y se re-enruta ortogonalmente por las canaletas físicas. Aparece una pastilla flotante temporal para seleccionar tipo de cable (Cat6, Fibra, DAC) o color con un clic. Presionar `Esc` cancela el tendido en cualquier instante.
 *   **Objetivo/Beneficio en Producción:** Transformar una tarea tediosa de ingreso de datos en una interacción visual intuitiva y natural, acelerando drásticamente el diseño de cableado de red y eliminando errores por selección incorrecta de IDs en listas desplegables.
 
+### 🔌 [COMPLETADO] Botón para Invertir y Cambiar Orientación de Conexiones (M-41)
+*   **Estado:** Completado. Implementado al 100% y validado con pruebas de integridad (265 pruebas con 0 fallos) e interacción en navegador:
+    *   **Botón Swap en Modal de Conexiones (`CableModal.js`):** Botón compacto `#btn-cable-swap` con icono vectorial SVG `.icon-swap` que intercambia instantáneamente equipos y puertos origen/destino recalculando puertos y colisiones sin cerrar el modal.
+    *   **Selector de Orientación (`#cable-orientation`):** Selector de canaleta Superior (Techo) e Inferior (Piso) en el modal, persistido en el modelo (`orientation: 'top' | 'bottom'`).
+    *   **Trazado Físico en `rack.js`:** Las conexiones inter-rack con orientación inferior descienden a la canaleta de piso técnico y ascienden limpiamente hacia el destino.
+    *   **Acciones en Tabla de Conexiones (`tables.js`):** Columna interactiva de Canaleta con toggle de 1 clic y botón de inversión de sentido directo por fila (`data-swap-conn`).
+*   **Problema / Necesidad:** Al documentar o modificar conexiones en el centro de datos, los operadores frecuentemente experimentaban dos fricciones comunes:
+    1. **Inversión de Sentido en el Formulario:** Si se seleccionan los equipos o puertos en orden inverso (por ejemplo, switch como origen y patch panel como destino, en lugar de patch panel hacia switch), el usuario debe reiniciar y reconfigurar manualmente los 4 selectores (`Equipo Origen`, `Puerto Origen`, `Equipo Destino`, `Puerto Destino`).
+    2. **Orientación de Canaleta Fija en Vista Física:** Actualmente, las conexiones entre gabinetes se trazan obligatoriamente por la bandeja aérea superior (*overhead tray*), sin permitir que cables específicos (como alimentación, tierra o cableado troncal bajo piso) se enruten por la canaleta inferior de piso técnico.
+*   **Propuesta de Mejora (Solución Simple y Sencilla):**
+    *   **Botón Rápido de Inversión (Swap Origen ⇄ Destino) en Modal de Cables (`CableModal.js`):**
+        *   Incorporar un botón compacto y accesible con icono vectorial SVG `icon-swap` (`⇄` o `⇅`) situado justo entre el bloque de *Equipo/Puerto Origen* y *Equipo/Puerto Destino*.
+        *   Con un solo clic, intercambia los valores de origen por los de destino y viceversa (`src` ⇄ `dst`), rellenando automáticamente las listas de puertos correspondientes y recalculando la validación de colisiones sin pérdida de datos.
+    *   **Selector Simple de Orientación de Canaleta (Superior / Inferior):**
+        *   Un control conmutador sencillo de 2 estados en el formulario de conexión:
+            *   ⬆️ **Canaleta Superior (Techo / Bandeja Aérea)**: El cable viaja por la parte superior de los gabinetes.
+            *   ⬇️ **Canaleta Inferior (Piso Técnico / Fondo)**: El cable desciende y viaja por el zócalo o pasillo inferior entre racks.
+        *   La propiedad se guarda en el modelo de conexión (`orientation: 'top' | 'bottom'`, por defecto `'top'`) y es respetada inmediatamente por el algoritmo de trazado SVG en `rack.js` (`drawPhysicalCables`).
+*   **Objetivo/Beneficio en Producción:**
+    *   **Máxima Simplicidad y Cero Fricción:** Ahorra decenas de clics al corregir o invertir la dirección lógica de enlaces de red con una interacción inmediata y directa.
+    *   **Fidelidad Física:** Permite representar fielmente instalaciones donde conviven canalizaciones aéreas de fibra óptica con canalizaciones bajo piso técnico para cobre o energía.
+
 ### 🔄 Eliminación de Restricciones de Ubicación (Rack vs Piso/Frente)
 *   **Problema:** El sistema actual impone restricciones estrictas de tipología entre equipos diseñados para rack y equipos de piso o de frente, limitando la flexibilidad del diseño.
 *   **Propuesta de Mejora:** Cambios profundos en la arquitectura para eliminar estas restricciones. No debe haber ninguna restricción respecto a dónde se puede colocar un equipo (cualquier equipo debería poder montarse en rack, piso o frente). Esto requerirá reescribir fuertemente muchos menús, validaciones de arrastrar y soltar (drag & drop) y subsistemas de la aplicación.
@@ -350,6 +375,7 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
 10. Inspector colapsable, opciones de ordenamiento en Outliner. *(→ Sección 6, 🗂️ y 🔄)*
 11. Creación, edición y eliminación de salas y racks desde el Inspector. *(→ Sección 6, 🛠️)*
 12. Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect). *(→ Sección 6, 🪢)*
+13. Botón para cambiar orientación e invertir conexiones en CableModal y vista física (M-41). *(→ Sección 6, 🔌)* ✅ **[COMPLETADO 2026-10-02]**
 
 ### Fase 3 — Topología Avanzada
 13. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO]**
