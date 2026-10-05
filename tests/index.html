@@ -326,6 +326,7 @@
 <script src="../js/ui/outliner.js"></script>
 <script src="../js/ui/modals/PlacementModal.js"></script>
 <script src="../js/ui/modals/ExportModal.js"></script>
+<script src="../js/ui/modals/ImportModal.js"></script>
 <script src="../js/ui/topology/TopologyState.js"></script>
 <script src="../js/ui/topology/TopologyLayout.js"></script>
 
@@ -1118,7 +1119,7 @@
     setGroup('🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3 / M-20)');
 
     addTestResult(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
-    addTestResult(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+    addTestResult(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 11, `Columnas: CONNECTIONS_COLUMNS define 11 columnas con canaleta (encontradas: ${CONNECTIONS_COLUMNS.length})`);
     addTestResult(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
     addTestResult(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
     addTestResult(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
@@ -1500,10 +1501,16 @@
     let varsCssText = '';
     let layoutCssText = '';
     let miscCssText = '';
+    let mainJsText = '';
+    let idxText = '';
+    let topoRendText = '';
     try {
       varsCssText = await (await fetch('../css/variables.css')).text();
       layoutCssText = await (await fetch('../css/layout.css')).text();
       miscCssText = await (await fetch('../css/components/misc.css')).text();
+      mainJsText = await (await fetch('../js/main.js')).text();
+      idxText = await (await fetch('../index.html')).text();
+      topoRendText = await (await fetch('../js/ui/topology/TopologyRenderer.js')).text();
     } catch(e) {}
 
     addTestResult(!varsCssText || varsCssText.includes('[data-theme="sepia"]'),
@@ -1675,6 +1682,119 @@
 
     addTestResult(!rackDrawSrc || (rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom')),
       'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
+
+    // ----------------------------------------------------
+    // GRUPO 19: PLANTILLA DE EXPORTACIÓN E IMPORTACIÓN MASIVA (M-21 y M-22)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 19: Plantilla de Exportación e Importación Masiva (M-21 y M-22)');
+
+    addTestResult(Array.isArray(TEMPLATE_COLUMNS) && TEMPLATE_COLUMNS.length === 21,
+      'M-21: TEMPLATE_COLUMNS define exactamente 21 campos del modelo de datos de equipos');
+
+    addTestResult(TEMPLATE_COLUMNS.includes('Sala') && TEMPLATE_COLUMNS.includes('Rack') && TEMPLATE_COLUMNS.includes('Unidad_U') && TEMPLATE_COLUMNS.includes('Skin') && TEMPLATE_COLUMNS.includes('Notas'),
+      'M-21: TEMPLATE_COLUMNS incluye Sala, Rack, Unidad_U, Skin y Notas');
+
+    addTestResult(VALID_DEVICE_TYPES.includes('server') && VALID_DEVICE_TYPES.includes('switch') && VALID_DEVICE_TYPES.includes('camera'),
+      'M-21: VALID_DEVICE_TYPES contiene los tipos estándar de datacenter (server, switch, camera, etc.)');
+
+    const sampleAOA = getDeviceTemplateAOA(false);
+    addTestResult(sampleAOA.length === 4,
+      'M-21: getDeviceTemplateAOA(false) genera encabezados y 3 filas ilustrativas de ejemplo');
+    addTestResult(sampleAOA[0].length === 21,
+      'M-21: La fila de encabezados coincide con las 21 columnas del modelo');
+
+    const currentDevsCount = store.state.devices.length;
+    const currentAOA = getDeviceTemplateAOA(true);
+    addTestResult(currentAOA.length === currentDevsCount + 1,
+      'M-21: getDeviceTemplateAOA(true) exporta fielmente el total de equipos del inventario actual');
+
+    addTestResult(normalizeHeaderKey('Dirección IP') === 'ip' && normalizeHeaderKey('IP Address') === 'ip',
+      'M-21: normalizeHeaderKey resuelve sinónimos de IP ("Dirección IP", "IP Address")');
+    addTestResult(normalizeHeaderKey('Unidad U') === 'slotStart' && normalizeHeaderKey('Slot_U') === 'slotStart',
+      'M-21: normalizeHeaderKey resuelve sinónimos de Slot U ("Unidad U", "Slot_U")');
+    addTestResult(normalizeHeaderKey('Lado de Montaje') === 'mountSide' && normalizeHeaderKey('Mount Side') === 'mountSide',
+      'M-21: normalizeHeaderKey resuelve sinónimos de Lado de Montaje');
+    addTestResult(normalizeHeaderKey('Nombre del Equipo') === 'name' && normalizeHeaderKey('Device Name') === 'name',
+      'M-21: normalizeHeaderKey resuelve sinónimos de Nombre');
+
+    const roomDemoWeb = store.state.rooms[0] || { name: 'Sala Principal', id: 'room-1' };
+    const rackDemoWeb = store.state.racks[0] || { name: 'Rack A1', id: 'rack-1', height: 42 };
+
+    const validRowWeb = parseAndValidateDeviceRow({
+      'Sala': roomDemoWeb.name,
+      'Rack': rackDemoWeb.name,
+      'Unidad_U': 20,
+      'Lado_Montaje': 'Frontal',
+      'Nombre': 'Servidor Test Unitario 1U',
+      'Tipo': 'server',
+      'Tamano_U': 1,
+      'IP': '10.50.1.10',
+      'MAC': '00:11:22:33:44:55',
+      'Consumo_W': 250,
+      'Notas': 'Prueba M-22'
+    }, 0, { defaultRackId: rackDemoWeb.id, autoCreateRacks: false });
+
+    addTestResult(validRowWeb.isValid && validRowWeb.item.name === 'Servidor Test Unitario 1U' && validRowWeb.item.slotStart === 20 && validRowWeb.item.mountSide === 'front',
+      'M-22: parseAndValidateDeviceRow valida con éxito un equipo de rack con todos sus atributos');
+
+    const namelessRowWeb = parseAndValidateDeviceRow({
+      'Rack': rackDemoWeb.name,
+      'Unidad_U': 22,
+      'Nombre': ''
+    }, 1);
+    addTestResult(!namelessRowWeb.isValid && namelessRowWeb.issues.errors.length > 0,
+      'M-22: parseAndValidateDeviceRow rechaza un equipo sin nombre obligatorio');
+
+    const overflowRowWeb = parseAndValidateDeviceRow({
+      'Rack': rackDemoWeb.name,
+      'Unidad_U': rackDemoWeb.height,
+      'Tamano_U': 4,
+      'Nombre': 'Servidor Gigante Desbordante'
+    }, 2, { defaultRackId: rackDemoWeb.id });
+    addTestResult(!overflowRowWeb.isValid && overflowRowWeb.issues.errors.some(e => e.includes('desborda')),
+      'M-22: parseAndValidateDeviceRow rechaza un equipo que desborda la altura del gabinete');
+
+    const floorRowWeb = parseAndValidateDeviceRow({
+      'Sala': roomDemoWeb.name,
+      'Rack': 'PISO',
+      'Nombre': 'Cámara IP Hall Principal',
+      'Tipo': 'camera',
+      'IP': '10.50.4.15'
+    }, 3);
+    addTestResult(floorRowWeb.isValid && floorRowWeb.item.category === 'floor' && floorRowWeb.item.rackId === null,
+      'M-22: parseAndValidateDeviceRow reconoce y configura equipos de piso (category: "floor")');
+
+    const batchWithCollisionWeb = [
+      { 'Rack': rackDemoWeb.name, 'Unidad_U': 25, 'Tamano_U': 2, 'Nombre': 'Equipo A', 'Tipo': 'server', 'Lado_Montaje': 'Frontal' },
+      { 'Rack': rackDemoWeb.name, 'Unidad_U': 26, 'Tamano_U': 1, 'Nombre': 'Equipo B', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal' }
+    ];
+    const analyzedBatchWeb = analyzeImportBatch(batchWithCollisionWeb, { defaultRackId: rackDemoWeb.id });
+    addTestResult(analyzedBatchWeb.validRows.length === 1 && analyzedBatchWeb.invalidRows.length === 1 && analyzedBatchWeb.errorsCount >= 1,
+      'M-22: analyzeImportBatch detecta colisiones internas entre filas del mismo archivo');
+
+    const initialDevCountWeb = store.state.devices.length;
+    const importRowsWeb = [
+      { 'Sala': roomDemoWeb.name, 'Rack': rackDemoWeb.name, 'Unidad_U': 30, 'Tamano_U': 1, 'Nombre': 'Equipo Batch 01', 'Tipo': 'server', 'Lado_Montaje': 'Trasera', 'IP': '10.80.1.1' },
+      { 'Sala': roomDemoWeb.name, 'Rack': 'Rack Nuevo Auto-Generado', 'Unidad_U': 1, 'Tamano_U': 2, 'Nombre': 'Equipo Batch 02', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal', 'IP': '10.80.1.2' }
+    ];
+    const planWeb = analyzeImportBatch(importRowsWeb, { autoCreateRacks: true, targetRoomId: roomDemoWeb.id });
+    const execResultWeb = executeDeviceImport(planWeb, { autoCreateRacks: true, conflictStrategy: 'rename', targetRoomId: roomDemoWeb.id });
+
+    addTestResult(execResultWeb.success && execResultWeb.importedCount === 2 && execResultWeb.racksCreatedCount === 1,
+      'M-22: executeDeviceImport importa con éxito los equipos y crea gabinetes automáticos solicitados');
+    addTestResult(store.state.devices.length === initialDevCountWeb + 2,
+      'M-22: El estado de dispositivos en store.state se incrementa fielmente en 2');
+
+    store.undo();
+    addTestResult(store.state.devices.length === initialDevCountWeb,
+      'M-22: store.undo() revierte atómicamente la importación masiva completa sin dejar registros huérfanos');
+
+    addTestResult(!idxText || (idxText.includes('id="btn-table-import-modal"') && idxText.includes('id="menu-import-devices"')),
+      'M-22: index.html define los puntos de acceso interactivos #btn-table-import-modal y #menu-import-devices');
+    addTestResult(!idxText || (idxText.includes('id="modal-import-devices"') && idxText.includes('id="import-drop-zone"') && idxText.includes('id="btn-import-confirm"')),
+      'M-22: index.html define la estructura completa de #modal-import-devices con drop-zone y botón de confirmación');
+    addTestResult(!idxText || (idxText.includes('src="js/ui/modals/ImportModal.js"')),
+      'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

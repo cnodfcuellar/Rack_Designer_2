@@ -35,20 +35,24 @@ function processMarkdown(filePath) {
     return newContent;
 }
 
-const userManualPath = path.join(__dirname, '../DOC/md/USER_MANUAL.md');
-const techDocsPath = path.join(__dirname, '../DOC/md/TECHNICAL_DOCS.md');
+const userManualPath = path.join(__dirname, '../doc/doc_md/USER_MANUAL.md');
+const techDocsPath = path.join(__dirname, '../doc/doc_md/ARCHITECTURE_GUIDE.md');
 
 console.log('Processing USER_MANUAL.md...');
-const userManual = processMarkdown(userManualPath);
+const userManual = fs.existsSync(userManualPath) ? processMarkdown(userManualPath) : '';
 
-console.log('Processing TECHNICAL_DOCS.md...');
-const techDocs = processMarkdown(techDocsPath);
+console.log('Processing ARCHITECTURE_GUIDE.md...');
+const techDocs = fs.existsSync(techDocsPath) ? processMarkdown(techDocsPath) : '';
 
 const combinedMd = `# Rack Designer Next - Documentación Completa (Standalone)\n\nEsta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.\n\n---\n\n` + userManual + `\n\n---\n\n` + techDocs;
 
+// Ensure output dirs exist
+const outMdDir = path.join(__dirname, '../doc/doc_md');
+if (!fs.existsSync(outMdDir)) fs.mkdirSync(outMdDir, { recursive: true });
+
 // Write MD
-fs.writeFileSync(path.join(__dirname, '../DOC/md/FULL_MANUAL_STANDALONE.md'), combinedMd);
-console.log('Standalone MD created successfully: DOC/md/FULL_MANUAL_STANDALONE.md');
+fs.writeFileSync(path.join(outMdDir, 'FULL_MANUAL_STANDALONE.md'), combinedMd);
+console.log('Standalone MD created successfully: doc/doc_md/FULL_MANUAL_STANDALONE.md');
 
 // Write HTML
 const htmlContent = marked.parse(combinedMd);
@@ -93,5 +97,5 @@ const htmlTemplate = `<!DOCTYPE html>
 </body>
 </html>`;
 
-fs.writeFileSync(path.join(__dirname, '../DOC/html/FULL_MANUAL_STANDALONE.html'), htmlTemplate);
-console.log('Standalone HTML created successfully: DOC/html/FULL_MANUAL_STANDALONE.html');
+fs.writeFileSync(path.join(outMdDir, 'FULL_MANUAL_STANDALONE.html'), htmlTemplate);
+console.log('Standalone HTML created successfully: doc/doc_md/FULL_MANUAL_STANDALONE.html');

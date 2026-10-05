@@ -20,19 +20,19 @@
 - **Guardado y Conmutación de Estados de Topología (M-40):** 5 slots de memoria independientes (`topologySlots`) con clonado profundo en `store.js` que capturan posiciones de nodos, racks, salas, encuadre pan y nivel de zoom. Barra de acceso rápido `#topo-slots-bar` y menú desplegable `#topo-slots-dropdown`. Preservación estricta del historial de rehacer (`_redoStack`) y normalización del icono de vistas a `.icon-eye` conforme a `DESIGN.md`.
 - **Soporte para Tema Sepia y Selector Global de Temas (M-18):** Tema cálido pergamino (`[data-theme="sepia"]`, `--bg-main: #f4ecd8`, `--text-primary: #332517`, `--accent: #b45309`) en `variables.css`. Selector cíclico en cabecera `#btn-theme-toggle` (Oscuro ⇄ Claro ⇄ Sepia) con iconografía dinámica (`.icon-moon`, `.icon-sun`, `.icon-coffee`). Adaptación en grilla CAD y fondo cálido (`#f5eee1`) en topología Canvas 2D.
 - **Inversión y Orientación Bicanal de Conexiones (M-41):** Botón Swap `#btn-cable-swap` en el modal de cables con icono SVG monocromático `.icon-swap` y microanimación de giro a 180° que intercambia instantáneamente equipos y puertos origen/destino con recálculo dinámico de colisiones. Selector de canaleta Superior (Techo) e Inferior (Piso) en el modal y trazado segregado en `rack.js` (`drawPhysicalCables`). Columna de canaleta con toggle de 1 clic y botón de inversión por fila en la tabla de conexiones (`tables.js`).
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **265 pruebas automáticas en 18 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
+- **Plantilla Estructurada de Exportación (M-21):** Generación de plantillas completas en Excel `.xlsx` y `.csv` desde `ImportModal.js` (`downloadDeviceTemplate`), incluyendo los 21 campos del modelo de equipos y hoja de ayuda interactiva `"Guia_Valores"` con tipos estándar de datacenter, lados de montaje y recomendaciones operativas de formato.
+- **Importación Masiva de Equipos (M-22):** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, normalización heurística de encabezados (`normalizeHeaderKey`), análisis reactivo en tiempo real (`analyzeImportBatch`) con detección de colisiones de slots físicos y desbordes de altura, políticas de duplicados (omitir/renombrar/sobrescribir), auto-creación de gabinetes y rollback atómico completo mediante Undo/Redo (`store.undo()`).
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **286 pruebas automáticas en 19 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
 
 ## Current Issues & Technical Debt
 - **Cableado frontal vs trasero:** Actualmente las conexiones no diferencian si un puerto está en la cara frontal o trasera de un equipo dual/profundo (`M-33`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 11 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (31 completadas de 42 totales, 73.8% global, **¡Fase 0 y Fase 1 al 100%!**):
+Total de 10 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (32 completadas de 42 totales, 76.2% global, **¡Fase 0 y Fase 1 al 100%, Fase 2 al 87.5%!**):
 
 ### Fase 2 — Core de Datos y Puertos
 - Separación de cableado frontal vs. trasero (`M-33`).
 - Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
-- Plantilla completa de exportación CSV/Excel (`M-21`).
-- Importación masiva desde CSV/Excel (`M-22`).
 
 ### Fase 3 — Ergonomía y Layout
 - Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).

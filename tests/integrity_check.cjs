@@ -71,6 +71,15 @@ function loadScript(relPath) {
   vm.runInThisContext(transformed, { filename: relPath });
 }
 
+// Cargar XLSX en Node para soporte de plantillas y pruebas
+if (typeof global.XLSX === 'undefined') {
+  const xlsxCode = fs.readFileSync(path.join(__dirname, '../js/xlsx.full.min.js'), 'utf8');
+  const xlsxExp = {};
+  const fn = new Function('exports', 'module', xlsxCode);
+  fn(xlsxExp, { exports: xlsxExp });
+  global.XLSX = xlsxExp;
+}
+
 loadScript('../js/utils.js');
 loadScript('../js/icons.js');
 loadScript('../js/auth/crypto.js');
@@ -85,6 +94,7 @@ loadScript('../js/ui/inspector.js');
 loadScript('../js/ui/outliner.js');
 loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
+loadScript('../js/ui/modals/ImportModal.js');
 loadScript('../js/ui/faceplates.js');
 loadScript('../js/ui/topology/TopologyState.js');
 loadScript('../js/ui/topology/TopologyLayout.js');
@@ -1280,6 +1290,128 @@ async function runTests() {
   const rackDrawSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'ui', 'rack.js'), 'utf8');
   assert(rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom'),
     'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
+
+  // ----------------------------------------------------
+  // GRUPO 19: Plantilla Completa de Exportación (M-21) e Importación Masiva (M-22)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 19: Plantilla de Exportación e Importación Masiva (M-21 y M-22)');
+
+  // 19.1 Constantes y Funciones Base de M-21
+  assert(Array.isArray(TEMPLATE_COLUMNS) && TEMPLATE_COLUMNS.length === 21,
+    'M-21: TEMPLATE_COLUMNS define exactamente 21 campos del modelo de datos de equipos');
+  assert(TEMPLATE_COLUMNS.includes('Sala') && TEMPLATE_COLUMNS.includes('Rack') && TEMPLATE_COLUMNS.includes('Unidad_U') && TEMPLATE_COLUMNS.includes('Skin') && TEMPLATE_COLUMNS.includes('Notas'),
+    'M-21: TEMPLATE_COLUMNS incluye Sala, Rack, Unidad_U, Skin y Notas');
+  assert(Array.isArray(VALID_DEVICE_TYPES) && VALID_DEVICE_TYPES.includes('server') && VALID_DEVICE_TYPES.includes('switch') && VALID_DEVICE_TYPES.includes('camera'),
+    'M-21: VALID_DEVICE_TYPES contiene los tipos estándar de datacenter (server, switch, camera, etc.)');
+
+  // 19.2 Generación de Matriz AOA de Plantilla
+  const emptyTemplateAoa = getDeviceTemplateAOA(false);
+  assert(Array.isArray(emptyTemplateAoa) && emptyTemplateAoa.length >= 4,
+    'M-21: getDeviceTemplateAOA(false) genera encabezados y 3 filas ilustrativas de ejemplo');
+  assert(emptyTemplateAoa[0].length === 21,
+    'M-21: La fila de encabezados coincide con las 21 columnas del modelo');
+
+  const filledTemplateAoa = getDeviceTemplateAOA(true);
+  assert(Array.isArray(filledTemplateAoa) && filledTemplateAoa.length === (store._raw.devices.length + 1),
+    'M-21: getDeviceTemplateAOA(true) exporta fielmente el total de equipos del inventario actual');
+
+  // 19.3 Normalización de Encabezados (normalizeHeaderKey)
+  assert(normalizeHeaderKey('Dirección IP') === 'ip' && normalizeHeaderKey('IP Address') === 'ip',
+    'M-21: normalizeHeaderKey resuelve sinónimos de IP ("Dirección IP", "IP Address")');
+  assert(normalizeHeaderKey('Unidad U') === 'slotStart' && normalizeHeaderKey('Slot_U') === 'slotStart',
+    'M-21: normalizeHeaderKey resuelve sinónimos de Slot U ("Unidad U", "Slot_U")');
+  assert(normalizeHeaderKey('Lado de Montaje') === 'mountSide' && normalizeHeaderKey('Mount Side') === 'mountSide',
+    'M-21: normalizeHeaderKey resuelve sinónimos de Lado de Montaje');
+  assert(normalizeHeaderKey('Nombre del Equipo') === 'name' && normalizeHeaderKey('Device Name') === 'name',
+    'M-21: normalizeHeaderKey resuelve sinónimos de Nombre');
+
+  // 19.4 Validación Unitaria de Filas (parseAndValidateDeviceRow)
+  const roomDemo = store._raw.rooms[0];
+  const rackDemo = store._raw.racks[0];
+
+  const validRow = parseAndValidateDeviceRow({
+    'Sala': roomDemo.name,
+    'Rack': rackDemo.name,
+    'Unidad_U': 20,
+    'Lado_Montaje': 'Frontal',
+    'Nombre': 'Servidor Test Unitario 1U',
+    'Tipo': 'server',
+    'Tamano_U': 1,
+    'IP': '10.50.1.10',
+    'MAC': '00:11:22:33:44:55',
+    'Consumo_W': 250,
+    'Notas': 'Prueba M-22'
+  }, 0, { defaultRackId: rackDemo.id, autoCreateRacks: false });
+
+  assert(validRow.isValid && validRow.item.name === 'Servidor Test Unitario 1U' && validRow.item.slotStart === 20 && validRow.item.mountSide === 'front',
+    'M-22: parseAndValidateDeviceRow valida con éxito un equipo de rack con todos sus atributos');
+
+  // Fila inválida: Sin nombre
+  const namelessRow = parseAndValidateDeviceRow({
+    'Rack': rackDemo.name,
+    'Unidad_U': 22,
+    'Nombre': ''
+  }, 1);
+  assert(!namelessRow.isValid && namelessRow.issues.errors.length > 0,
+    'M-22: parseAndValidateDeviceRow rechaza un equipo sin nombre obligatorio');
+
+  // Fila inválida: Desborde de altura
+  const overflowRow = parseAndValidateDeviceRow({
+    'Rack': rackDemo.name,
+    'Unidad_U': rackDemo.height,
+    'Tamano_U': 4,
+    'Nombre': 'Servidor Gigante Desbordante'
+  }, 2, { defaultRackId: rackDemo.id });
+  assert(!overflowRow.isValid && overflowRow.issues.errors.some(e => e.includes('desborda')),
+    'M-22: parseAndValidateDeviceRow rechaza un equipo que desborda la altura del gabinete');
+
+  // Fila de equipo de piso
+  const floorRow = parseAndValidateDeviceRow({
+    'Sala': roomDemo.name,
+    'Rack': 'PISO',
+    'Nombre': 'Cámara IP Hall Principal',
+    'Tipo': 'camera',
+    'IP': '10.50.4.15'
+  }, 3);
+  assert(floorRow.isValid && floorRow.item.category === 'floor' && floorRow.item.rackId === null,
+    'M-22: parseAndValidateDeviceRow reconoce y configura equipos de piso (category: "floor")');
+
+  // 19.5 Análisis de Lote y Colisiones Internas (analyzeImportBatch)
+  const batchWithCollision = [
+    { 'Rack': rackDemo.name, 'Unidad_U': 25, 'Tamano_U': 2, 'Nombre': 'Equipo A', 'Tipo': 'server', 'Lado_Montaje': 'Frontal' },
+    { 'Rack': rackDemo.name, 'Unidad_U': 26, 'Tamano_U': 1, 'Nombre': 'Equipo B', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal' }
+  ];
+  const analyzedBatch = analyzeImportBatch(batchWithCollision, { defaultRackId: rackDemo.id });
+  assert(analyzedBatch.validRows.length === 1 && analyzedBatch.invalidRows.length === 1 && analyzedBatch.errorsCount >= 1,
+    'M-22: analyzeImportBatch detecta colisiones internas entre filas del mismo archivo');
+
+  // 19.6 Ejecución de Importación y Resolución de Conflictos (executeDeviceImport)
+  const initialDevCount = store._raw.devices.length;
+  const importRows = [
+    { 'Sala': roomDemo.name, 'Rack': rackDemo.name, 'Unidad_U': 30, 'Tamano_U': 1, 'Nombre': 'Equipo Batch 01', 'Tipo': 'server', 'Lado_Montaje': 'Trasera', 'IP': '10.80.1.1' },
+    { 'Sala': roomDemo.name, 'Rack': 'Rack Nuevo Auto-Generado', 'Unidad_U': 1, 'Tamano_U': 2, 'Nombre': 'Equipo Batch 02', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal', 'IP': '10.80.1.2' }
+  ];
+  const plan = analyzeImportBatch(importRows, { autoCreateRacks: true, targetRoomId: roomDemo.id });
+  const execResult = executeDeviceImport(plan, { autoCreateRacks: true, conflictStrategy: 'rename', targetRoomId: roomDemo.id });
+
+  assert(execResult.success && execResult.importedCount === 2 && execResult.racksCreatedCount === 1,
+    'M-22: executeDeviceImport importa con éxito los equipos y crea gabinetes automáticos solicitados');
+  assert(store._raw.devices.length === initialDevCount + 2,
+    'M-22: El estado de dispositivos en store._raw se incrementa fielmente en 2');
+
+  // 19.7 Deshacer Atómico (Undo) de la Importación Masiva
+  store.undo();
+  assert(store._raw.devices.length === initialDevCount,
+    'M-22: store.undo() revierte atómicamente la importación masiva completa sin dejar registros huérfanos');
+
+  // 19.8 Verificaciones en index.html y UI
+  const finalHtmlCheck = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(finalHtmlCheck.includes('id="btn-table-import-modal"') && finalHtmlCheck.includes('id="menu-import-devices"'),
+    'M-22: index.html define los puntos de acceso interactivos #btn-table-import-modal y #menu-import-devices');
+  assert(finalHtmlCheck.includes('id="modal-import-devices"') && finalHtmlCheck.includes('id="import-drop-zone"') && finalHtmlCheck.includes('id="btn-import-confirm"'),
+    'M-22: index.html define la estructura completa de #modal-import-devices con drop-zone y botón de confirmación');
+  assert(finalHtmlCheck.includes('src="js/ui/modals/ImportModal.js"'),
+    'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

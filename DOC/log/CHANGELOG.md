@@ -1,3 +1,38 @@
+## [2026-10-04] Implementación Completa: Plantilla Estructurada de Exportación (M-21) e Importación Masiva (CSV / Excel) (M-22)
+
+### Componente Modular de Importación Masiva (`js/ui/modals/ImportModal.js`)
+- **Generación y Descarga de Plantillas (M-21):**
+  - Implementada `downloadDeviceTemplate(format, withCurrentData)` soportando formatos Excel `.xlsx` y `.csv`.
+  - Definidas estrictamente las 21 columnas del modelo de equipos: `Sala`, `Rack`, `Unidad_U`, `Lado_Montaje`, `Nombre`, `Tipo`, `Marca`, `Modelo`, `Tamano_U`, `IP`, `MAC`, `Serie`, `Consumo_W`, `Tomas_Entrada`, `Tomas_Salida`, `Usuario`, `Contrasena`, `Skin`, `Puertos_Ethernet`, `Puertos_Fibra` y `Notas`.
+  - Incorporada hoja auxiliar en libros Excel (`"Guia_Valores"`) con valores permitidos, tipos estándar de hardware y recomendaciones operativas de formato.
+  - Soporte de descarga tanto en blanco con 3 filas de ejemplo ilustrativo como con precarga completa del 100% del inventario actual.
+- **Normalización Inteligente de Encabezados:**
+  - Función `normalizeHeaderKey(key)` que procesa encabezados en español e inglés, ignora mayúsculas/minúsculas, tildes y caracteres especiales, mapeando variaciones como `"Dirección IP"` o `"IP Address"` ➔ `ip`, `"Lado de Montaje"` ➔ `mountSide`, `"Nombre del Equipo"` ➔ `name`, etc.
+- **Motor de Validación en Tiempo Real y Colisiones (M-22):**
+  - `parseAndValidateDeviceRow()`: Valida tipos, rangos numéricos de potencia y puertos, integridad de nombres, desbordes de altura y clasifica equipos de rack vs equipos de piso (`category: 'floor'`).
+  - `analyzeImportBatch()`: Detecta colisiones físicas de slots entre filas del mismo lote y contra equipos ya instalados en el datacenter, reportando contadores de válidas, advertencias y errores en badges interactivos.
+- **Políticas de Duplicados y Autocreación de Racks:**
+  - Soporte para políticas de conflicto: Omitir duplicados (`skip`), Renombrar con sufijo correlativo (`rename`) o Sobrescribir datos del equipo existente (`overwrite`).
+  - Opción de autocreación de racks para aquellos gabinetes nombrados en el archivo que aún no existen en la sala seleccionada.
+- **Ejecución y Rollback Atómico con Undo/Redo:**
+  - `executeDeviceImport()` ejecuta la inserción con `store.snapshot()`, permitiendo revertir el 100% de los racks y equipos importados en un único clic en Deshacer (`store.undo()`).
+
+### Interfaz de Usuario y Estilos (`index.html`, `css/components/modals.css`, `js/ui/tables.js`, `js/main.js`)
+- **Modal Interactivo `#modal-import-devices`:**
+  - Zona de arrastre táctil y accesible `#import-drop-zone` con soporte drag & drop, botón de selección de archivos y estados visuales `.drag-over` y `.has-file`.
+  - Selectores dinámicos de sala objetivo, rack por defecto, política de duplicados y checkbox de creación automática de racks.
+  - Tabla previa `#import-preview-table` con filas codificadas cromáticamente según su estado (válida, advertencia, error) y badges informativos.
+- **Puntos de Acceso:**
+  - Botón `#btn-table-import-modal` en la barra de herramientas de la tabla de Equipos.
+  - Opciones `#btn-table-template-excel` y `#btn-table-template-csv` en el menú desplegable de exportación de tablas `#export-dropdown`.
+  - Opción `#menu-import-devices` en el menú del proyecto en la cabecera.
+
+### Suite de Pruebas Automatizada (`tests/integrity_check.cjs`, `tests/index.html`)
+- **Grupo 19 Incorporado (286 pruebas pasando al 100% en Node y Web):**
+  - 21 nuevas aserciones que validan la estructura de `TEMPLATE_COLUMNS`, generación de matrices de plantilla, normalización de encabezados, rechazo de filas inválidas o desbordadas, colisiones de slots, importación masiva, creación de racks automáticos y deshacer atómico.
+
+---
+
 ## [2026-10-04] Sincronización Total de Suite Web Interactiva (`tests/index.html`) y Actualización Integral de Documentación
 
 ### Suite de Pruebas Web Interactiva (`tests/index.html`)
@@ -5,7 +40,8 @@
   - Incorporados **Grupo 16** (Guardado y Conmutación de Estados de Topología - M-40, 34 pruebas), **Grupo 17** (Soporte para Tema Sepia y Selector de Temas - M-18, 20 pruebas) y **Grupo 18** (Botón de Inversión y Orientación de Conexiones - M-41, 12 pruebas).
   - La suite en navegador ahora ejecuta exactamente **265 pruebas en 18 grupos con 100% de éxito**.
 
-### Memory Bank y Documentación Técnica
+### Mapa de Orientación y Memory Bank (`DOC/doc_md/CODEBASE_ORIENTATION_MAP.md`)
+- **Actualización al 100% del Mapa de Orientación:** Sincronizadas todas las secciones (estructura, tabla de archivos, esquema y métodos del Store con 7 nuevas funciones, ciclo de renderizado, design tokens CSS de sepia, 3 recetas prácticas de onboarding y catálogo de 46 diagramas SVG).
 - Sincronizados `memory-bank/activeContext.md`, `memory-bank/progress.md` y `memory-bank/systemPatterns.md` con los avances de M-40, M-18 y M-41.
 
 ---

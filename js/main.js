@@ -1021,6 +1021,12 @@ function initGlobalEvents() {
       dropdown.classList.add('hidden');
       alert('Funcionalidad de importar catálogo (Próximamente)');
     });
+    document.getElementById('menu-import-devices')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (typeof openImportModal === 'function') {
+        openImportModal();
+      }
+    });
 
     const importFile = document.getElementById('import-file');
     if (importFile) {

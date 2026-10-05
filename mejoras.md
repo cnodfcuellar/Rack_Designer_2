@@ -121,20 +121,25 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     *   Persistencia de la configuración de visibilidad en el almacenamiento del navegador (`localStorage`) para mantener la preferencia del usuario entre recargas.
 *   **Objetivo/Beneficio en Producción:** Evitar el desplazamiento horizontal excesivo y la sobrecarga cognitiva en pantallas de baja resolución, permitiendo a los operadores enfocar su vista únicamente en los datos críticos de su flujo de trabajo actual (como direcciones IP y MAC para redes, o racks y slots para instalación física).
 
-### 📋 Plantilla Completa de Exportación para Importación Masiva
-*   **Propuesta de Mejora:** Al exportar la tabla (CSV/Excel), se debe generar una plantilla de exportación estructurada que muestre absolutamente todos los campos del modelo de datos de los equipos, sirviendo como base para importar grupos de equipos de forma masiva en el futuro.
-*   **Detalles del Comportamiento:**
-    *   **Inclusión Total de Campos:** La plantilla debe mostrar todos los campos configurables (incluidos campos como `notes`, `skin`, `size`, etc.), asegurando que no se pierdan atributos al exportar/importar.
-    *   **Representación de Campos Tipo Lista:** Para aquellos campos que contienen listas de selección o arrays (por ejemplo, tipos de equipos, lados de montaje o conjuntos de puertos), la tabla o plantilla debe presentarlos como listas o con un formato de enumeración consistente (ej. dropdowns de Excel o celdas con valores formateados en lista) para facilitar su edición estructurada antes de la importación.
+### 📋 [COMPLETADO] Plantilla Completa de Exportación para Importación Masiva (M-21)
+*   **Estado:** Completado.
+*   **Implementación:**
+    *   Generación de plantillas exhaustivas en Excel (.xlsx) y CSV a través de `ImportModal.js` (`downloadDeviceTemplate`) accesibles desde el menú de exportación de tablas (`#export-dropdown`) y desde el modal de importación masiva.
+    *   Inclusión estricta de los 21 campos del modelo de equipos: `Sala`, `Rack`, `Unidad_U`, `Lado_Montaje`, `Nombre`, `Tipo`, `Marca`, `Modelo`, `Tamano_U`, `IP`, `MAC`, `Serie`, `Consumo_W`, `Tomas_Entrada`, `Tomas_Salida`, `Usuario`, `Contrasena`, `Skin`, `Puertos_Ethernet`, `Puertos_Fibra` y `Notas`.
+    *   Generación de hoja de ayuda secundaria `"Guia_Valores"` en el libro Excel con explicaciones detalladas y listas de valores válidos para tipos, lados de montaje (`front`, `rear`, `both`) y buenas prácticas de formato.
+    *   Soporte para descargar plantilla en blanco con filas de ejemplo o precargada con el 100% de los datos actuales del inventario.
 *   **Objetivo/Beneficio en Producción:** Agilizar el aprovisionamiento y la edición en masa de inventarios de red offline, permitiendo preparar plantillas de carga válidas con todas las propiedades de hardware mapeadas sin requerir entradas manuales complejas.
 
-### 📥 Importación Masiva de Equipos desde Plantilla (CSV/Excel)
-*   **Propuesta de Mejora:** Diseñar e implementar un sistema de importación masiva que procese una plantilla de datos (CSV/Excel) completada por el usuario para cargar grupos de equipos directamente en el estado global.
-*   **Detalles del Comportamiento:**
-    *   **Procesamiento del Archivo:** Añadir una opción de "Importar Equipos" que lea archivos usando `FileReader` y la librería `XLSX` (ya presente).
-    *   **Validación y Mapeo:** Validar tipos de datos de entrada (IPs, MACs, rango de slots del rack seleccionado) antes de mutar el estado, mostrando un resumen de errores en caso de detectar datos no válidos.
-    *   **Resolución de Conflictos:** Ofrecer reglas claras en caso de que existan colisiones de nombres o IPs (ej. omitir, renombrar con sufijo o sobrescribir).
-*   **Objetivo/Beneficio en Producción:** Reducir drásticamente el esfuerzo manual necesario para inicializar centros de datos grandes, permitiendo a los operadores cargar cientos de equipos preconfigurados en un solo clic.
+### 📥 [COMPLETADO] Importación Masiva de Equipos desde Plantilla (CSV/Excel) (M-22)
+*   **Estado:** Completado.
+*   **Implementación:**
+    *   Modal interactivo `#modal-import-devices` con zona de arrastre (drag & drop), botón para examinar archivos locales (`.xlsx`, `.xls`, `.csv`) y parsing automático mediante `FileReader` y la librería vendor `XLSX`.
+    *   Normalizador inteligente de encabezados (`normalizeHeaderKey`) que reconoce sinónimos en español e inglés sin distinción de mayúsculas/minúsculas ni tildes.
+    *   Motor de validación en tiempo real (`analyzeImportBatch`) con detección de colisiones de slots físicos, desbordes de altura de rack, verificación de nombres obligatorios y reporte granular de filas válidas, advertencias y errores.
+    *   Políticas avanzadas de resolución de duplicados (`skip`, `rename`, `overwrite`) y soporte para auto-creación de racks faltantes según el nombre del gabinete en la sala especificada.
+    *   Ejecución atómica y segura con `store.snapshot()` que permite revertir el 100% de la importación masiva con un único clic en Deshacer (`store.undo()`).
+    *   Puntos de acceso en la barra de herramientas de tablas (`#btn-table-import-modal`) y en el menú del proyecto en la cabecera (`#menu-import-devices`).
+*   **Objetivo/Beneficio en Producción:** Reducir drásticamente el esfuerzo manual necesario para inicializar centros de datos grandes, permitiendo a los operadores cargar cientos de equipos preconfigurados en un solo clic con garantía de consistencia física y rollback instantáneo.
 
 ### 📸 Fidelidad Visual 1:1 en Exportación de Imágenes (PNG de Racks, Piso y Cables)
 *   **Problema / Discrepancia Actual:** Las imágenes descargadas al exportar un Rack (`exportRackToPNG`) o Equipos de Piso (`exportFloorToPNG`) en `ExportModal.js` no coinciden con la apariencia real del sistema. Actualmente se generan mediante un Canvas 2D secundario con primitivas sintéticas (rectángulos planos monocromáticos, texto plano y un círculo verde como pseudo-LED), omitiendo por completo:

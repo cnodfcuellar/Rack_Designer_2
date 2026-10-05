@@ -74,7 +74,8 @@
           <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
           <div class="dropdown-divider"></div>
-          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (83 pruebas)</a>
+          <div class="dropdown-item" id="menu-import-devices"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Importación masiva (CSV/Excel)</div>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (265 pruebas)</a>
           <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
@@ -408,11 +409,15 @@
           </div>
         </div>
       </div>
+      <button class="h-btn" id="btn-table-import-modal" style="margin-right: 8px;"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:4px;"></i>⬆ Importar</button>
       <div class="dropdown-wrap" id="export-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
         <button class="h-btn" id="btn-export-menu" aria-haspopup="true">⬇ Exportar ▼</button>
-        <div class="dropdown-menu hidden" id="export-dropdown" style="top: 100%; bottom: auto; right: 0; margin-top: 8px; width: 180px; z-index: 9999;">
+        <div class="dropdown-menu hidden" id="export-dropdown" style="top: 100%; bottom: auto; right: 0; margin-top: 8px; width: 230px; z-index: 9999;">
           <div class="dropdown-item" id="btn-table-csv"><i class="svg-icon icon-file" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a CSV</div>
           <div class="dropdown-item" id="btn-table-excel"><i class="svg-icon icon-chart" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a Excel</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="btn-table-template-excel"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Descargar Plantilla (Excel)</div>
+          <div class="dropdown-item" id="btn-table-template-csv"><i class="svg-icon icon-file" style="width:14px; height:14px; margin-right:6px;"></i>Descargar Plantilla (CSV)</div>
         </div>
       </div>
       <button class="h-btn" id="btn-expand-bottom"><i class="svg-icon icon-maximize" style="width:14px; height:14px; margin-right:4px;"></i>Expandir</button>
@@ -772,6 +777,123 @@
   </div>
 </div>
 
+<!-- ============================
+     MODAL DE IMPORTACIÓN MASIVA (M-22)
+============================= -->
+<div class="modal-overlay hidden" id="modal-import-devices">
+  <div class="modal" style="max-width: 680px; width: 95%;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 4px;">
+      <div class="modal-title" style="margin-bottom:0;">
+        <i class="svg-icon icon-upload" style="width:18px; height:18px; margin-right:8px; color:var(--accent);"></i>
+        <span>Importación Masiva de Equipos</span>
+      </div>
+      <button type="button" id="modal-import-close" title="Cerrar modal" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:16px; padding:2px 6px; line-height:1;">✕</button>
+    </div>
+    <div class="modal-sub" style="margin-bottom:14px;">
+      Aprovisiona múltiples servidores, switches y periféricos en bloque mediante archivos Excel (.xlsx) o CSV.
+    </div>
+
+    <!-- Zona de Carga / Drag & Drop -->
+    <div id="import-drop-zone" style="border: 2px dashed var(--border); border-radius: var(--radius); padding: 18px; text-align: center; background: var(--bg-card1); cursor: pointer; transition: all 0.2s ease; margin-bottom: 12px;">
+      <input type="file" id="import-file-input" accept=".xlsx,.xls,.csv" style="display:none;">
+      <i class="svg-icon icon-file" style="width: 26px; height: 26px; margin: 0 auto 6px auto; opacity: 0.7; color: var(--accent); display: block;"></i>
+      <div id="import-file-name-label" style="font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+        Haz clic o arrastra aquí tu archivo .xlsx o .csv
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">
+        Compatible con hojas de cálculo Excel y archivos CSV delimitados por comas
+      </div>
+    </div>
+
+    <!-- Descarga rápida de plantillas -->
+    <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); padding:8px 12px; margin-bottom:12px;">
+      <div style="font-size:11px; color:var(--text-secondary); display:flex; align-items:center; gap:6px;">
+        <i class="svg-icon icon-download" style="width:13px; height:13px; color:var(--accent);"></i>
+        <span>¿No tienes la plantilla? Descarga un ejemplo estructurado:</span>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button type="button" id="btn-modal-dl-template-xlsx" class="btn-cancel" style="font-size:11px; padding:2px 8px; height:22px !important;" title="Descargar plantilla Excel con hojas de referencia">
+          <i class="svg-icon icon-chart" style="width:11px; height:11px;"></i> Plantilla Excel
+        </button>
+        <button type="button" id="btn-modal-dl-template-csv" class="btn-cancel" style="font-size:11px; padding:2px 8px; height:22px !important;" title="Descargar plantilla CSV">
+          <i class="svg-icon icon-file" style="width:11px; height:11px;"></i> Plantilla CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Configuración de Importación -->
+    <div class="form-grid" style="margin-bottom:10px;">
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Sala de Destino (Predeterminada)</label>
+        <select id="import-room-select"></select>
+      </div>
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Resolución de Duplicados</label>
+        <select id="import-conflict-strategy">
+          <option value="rename" selected>Renombrar con sufijo (ej: Equipo (1))</option>
+          <option value="overwrite">Sobrescribir propiedades existentes</option>
+          <option value="skip">Omitir equipos duplicados</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+      <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; font-size:12px; color:var(--text-secondary);">
+        <input type="checkbox" id="import-auto-create-racks" checked style="cursor:pointer; width:15px; height:15px; accent-color:var(--accent);">
+        <span>Crear gabinetes (racks) automáticamente de 42U si se menciona un nombre no existente</span>
+      </label>
+    </div>
+
+    <!-- Vista previa y resumen (oculto hasta cargar archivo) -->
+    <div id="import-preview-container" class="hidden" style="margin-bottom:12px; border-top:1px solid var(--border); padding-top:10px;">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-bottom:10px;">
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-family:var(--font-mono);">Total Filas</div>
+          <div id="import-count-total" style="font-size:15px; font-weight:700; color:var(--text-primary); font-family:var(--font-mono);">0</div>
+        </div>
+        <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:#10b981; text-transform:uppercase; font-family:var(--font-mono);">Listos / Válidos</div>
+          <div id="import-count-valid" style="font-size:15px; font-weight:700; color:#10b981; font-family:var(--font-mono);">0</div>
+        </div>
+        <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:#f59e0b; text-transform:uppercase; font-family:var(--font-mono);">Avisos</div>
+          <div id="import-count-warnings" style="font-size:15px; font-weight:700; color:#f59e0b; font-family:var(--font-mono);">0</div>
+        </div>
+        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:#ef4444; text-transform:uppercase; font-family:var(--font-mono);">Errores</div>
+          <div id="import-count-errors" style="font-size:15px; font-weight:700; color:#ef4444; font-family:var(--font-mono);">0</div>
+        </div>
+      </div>
+
+      <div style="max-height:160px; overflow-y:auto; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-card1);">
+        <table style="width:100%; border-collapse:collapse; text-align:left;">
+          <thead style="position:sticky; top:0; background:var(--bg-panel); border-bottom:1px solid var(--border); font-size:10px; text-transform:uppercase; font-family:var(--font-mono); color:var(--text-muted); z-index:2;">
+            <tr>
+              <th style="padding:6px 8px; width:35px; text-align:center;">#</th>
+              <th style="padding:6px 8px; width:70px;">Estado</th>
+              <th style="padding:6px 8px;">Equipo</th>
+              <th style="padding:6px 8px;">Gabinete</th>
+              <th style="padding:6px 8px; width:45px;">Slot</th>
+              <th style="padding:6px 8px; width:85px;">IP</th>
+              <th style="padding:6px 8px;">Diagnóstico</th>
+            </tr>
+          </thead>
+          <tbody id="import-preview-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pie del Modal -->
+    <div class="modal-footer" style="margin-top:12px;">
+      <button type="button" class="btn-cancel" id="modal-import-cancel">Cancelar</button>
+      <button type="button" class="btn-confirm" id="btn-import-confirm" disabled>
+        <i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>
+        Importar Equipos
+      </button>
+    </div>
+  </div>
+</div>
+
   <div id="device-tooltip"></div>
   <input type="file" id="import-file" accept=".rack,.json" class="hidden" style="display:none !important;">
   
@@ -800,6 +922,7 @@
   <script src="js/ui/modals/RoomModal.js"></script>
   <script src="js/ui/modals/ExportModal.js"></script>
   <script src="js/ui/modals/PlacementModal.js"></script>
+  <script src="js/ui/modals/ImportModal.js"></script>
   <script src="js/ui/modals.js"></script>
   <script src="js/ui/rack.js"></script>
   <script src="js/ui/topology/TopologyState.js"></script>

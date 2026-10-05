@@ -265,7 +265,8 @@ Rack_Designer_2/
 │   ├── demoData.js               ← Carga datos de ejemplo (lazy load)
 │   │
 │   ├── auth/
-│   │   └── roles.js              ← RBAC (Admin/Editor/Viewer) con SHA-256
+│   │   ├── roles.js              ← RBAC (Admin/Editor/Viewer) con SHA-256
+│   │   └── crypto.js             ← Cifrado simétrico AES-GCM (enc:v1:) para credenciales
 │   │
 │   ├── ui/
 │   │   ├── catalog.js            ← Sidebar flyout: catálogo + categorías + filtros
@@ -281,15 +282,16 @@ Rack_Designer_2/
 │   │   │   ├── Globals.js        ← Variables globales de modales
 │   │   │   ├── RackModal.js      ← Modal de crear/editar rack
 │   │   │   ├── DeviceModal.js    ← Modal de crear/editar equipo (acordeones)
-│   │   │   ├── CableModal.js     ← Modal de crear/editar cable
+│   │   │   ├── CableModal.js     ← Modal de crear/editar cable (swap e inversión de canaleta M-41)
 │   │   │   ├── RoomModal.js      ← Modal de crear sala
-│   │   │   ├── ExportModal.js    ← Modal de exportar PNG/CSV/Excel/Topología
+│   │   │   ├── ExportModal.js    ← Modal de exportar PNG/CSV/Excel/Topología (M-37)
+│   │   │   ├── ImportModal.js    ← Modal de importación masiva CSV/Excel y plantillas de 21 campos (M-21 y M-22)
 │   │   │   └── PlacementModal.js ← Modal de colocación rápida
 │   │   │
 │   │   └── topology/
-│   │       ├── TopologyState.js      ← Estado del canvas (hover, dragging, etc.)
-│   │       ├── TopologyLayout.js     ← Algoritmo de layout automático
-│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle)
+│   │       ├── TopologyState.js      ← Estado del canvas (hover, dragging, 5 slots M-40)
+│   │       ├── TopologyLayout.js     ← Algoritmo de layout automático y afinidad piso M-39
+│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle, temas dark/light/sepia M-18)
 │   │       ├── TopologyEvents.js     ← Interacciones (drag, zoom, click, resize)
 │   │       └── TopologyOrchestrator.js ← Lifecycle + exportación PNG
 │   │
@@ -319,8 +321,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares (manifest.json)
 └── tests/
-    ├── index.html                ← Runner web interactivo de pruebas en navegador
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (199 tests en 15 grupos al 100%)
+    ├── index.html                ← Runner web interactivo de pruebas en navegador (286 tests en 19 grupos al 100%)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (286 tests en 19 grupos al 100%)
 ```
 
 **Ver diagrama:** `doc/doc_img/doc_svg/architecture_overview.svg` (File Structure)

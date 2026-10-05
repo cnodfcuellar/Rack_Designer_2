@@ -65,3 +65,14 @@
   to { transform: scale(1); opacity: 1; }
 }
 
+/* Modal de Importación Masiva (M-22) */
+#import-drop-zone.drag-over {
+  border-color: var(--accent) !important;
+  background: var(--accent-glow) !important;
+}
+#import-drop-zone.has-file {
+  border-color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+}
+
+

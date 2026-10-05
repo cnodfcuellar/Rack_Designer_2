@@ -14,8 +14,8 @@
 | Métrica | Valor |
 | :--- | :--- |
 | **Archivos fuente propios incluidos** | **42 archivos** |
-| **Líneas de código totales** | **19.652 líneas** |
-| **Volumen de código fuente** | **913.2 KB (0.89 MB)** |
+| **Líneas de código totales** | **20.082 líneas** |
+| **Volumen de código fuente** | **938.9 KB (0.92 MB)** |
 | **Librerías externas vendor** | Omitidas del bundle (disponibles en `js/*.min.js`: SheetJS, html2canvas, polyfills) |
 | **Arquitectura de Estado** | Reactividad pura con Proxy ES6 + Snapshot History (Undo/Redo) |
 | **Renderizado Gráfico** | SVG-First en Vista Física + Canvas 2D en Topología |
@@ -37,7 +37,7 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`index.html`**](#index-html) | `HTML` | 892 | 57.5 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
+| [**`index.html`**](#index-html) | `HTML` | 1.015 | 66.2 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
 
 ### Capa 2: Sistema de Diseño y Estilos CSS Modulares
 *Arquitectura CSS modular y en cascada: variables de tema (claro/oscuro), layout grid, gabinetes, faceplates y modales.*
@@ -50,7 +50,7 @@
 | [**`css/components/panels.css`**](#css-components-panels-css) | `CSS` | 619 | 15.5 KB | Estilos para sidebar, outliner, inspector, popovers y tablas inferiores. |
 | [**`css/components/rack.css`**](#css-components-rack-css) | `CSS` | 360 | 9.6 KB | Estilos de gabinetes (Racks), unidades U (24px), flipping 3D y ranuras (slots de 240px). |
 | [**`css/components/faceplates.css`**](#css-components-faceplates-css) | `CSS` | 377 | 8.7 KB | Estilos de carátulas SVG y hardware montado en racks o en sección de piso. |
-| [**`css/components/modals.css`**](#css-components-modals-css) | `CSS` | 68 | 5.6 KB | Estilos de las ventanas modales, formularios, grillas y botones. |
+| [**`css/components/modals.css`**](#css-components-modals-css) | `CSS` | 79 | 5.9 KB | Estilos de las ventanas modales, formularios, grillas y botones. |
 | [**`css/components/misc.css`**](#css-components-misc-css) | `CSS` | 362 | 39.4 KB | Animaciones de estado, tooltips, notificaciones toast y utilidades visuales. |
 
 ### Capa 3: Núcleo de Estado, Utilidades y Demostración
@@ -79,7 +79,7 @@
 | [**`js/ui/catalog.js`**](#js-ui-catalog-js) | `JAVASCRIPT` | 425 | 27.3 KB | Catálogo de hardware: 30 plantillas arquitectónicas en 8 familias y buscador reactivo. |
 | [**`js/ui/faceplates.js`**](#js-ui-faceplates-js) | `JAVASCRIPT` | 437 | 66.3 KB | Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas. |
 | [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 937 | 42.5 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
-| [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 620 | 26.5 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
+| [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 654 | 27.7 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
 | [**`js/ui/outliner.js`**](#js-ui-outliner-js) | `JAVASCRIPT` | 359 | 16.6 KB | Panel derecho (Outliner): árbol jerárquico Sala > Rack > Equipo con navegación y acciones CRUD inline. |
 | [**`js/ui/inspector.js`**](#js-ui-inspector-js) | `JAVASCRIPT` | 503 | 25.9 KB | Panel derecho (Inspector): visualización y edición granular de propiedades, modo Dios y colapso. |
 | [**`js/ui/fileManager.js`**](#js-ui-filemanager-js) | `JAVASCRIPT` | 190 | 6.0 KB | Gestor de archivos: integración con File System Access API para abrir/guardar .rack sin servidor. |
@@ -114,22 +114,22 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.248 | 50.1 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
+| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.254 | 50.3 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
 
 ### Capa 9: Automatización y Suite de Pruebas de Integridad
 *Pruebas de integridad relacional ejecutables tanto en Node.js como interactivamente en el navegador web.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.301 | 78.0 KB | Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito. |
-| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.685 | 87.3 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica. |
+| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.433 | 85.7 KB | Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito. |
+| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.805 | 94.7 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica. |
 
 ### Capa 10: Herramientas de Compilación y Scripts Auxiliares
 *Scripts de automatización y soporte fuera del bundle del navegador.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`scripts/build_standalone_manual.cjs`**](#scripts-build-standalone-manual-cjs) | `JAVASCRIPT` | 98 | 4.1 KB | Generador del manual standalone HTML con imágenes SVG/PNG incrustadas en base64. |
+| [**`scripts/build_standalone_manual.cjs`**](#scripts-build-standalone-manual-cjs) | `JAVASCRIPT` | 102 | 4.3 KB | Generador del manual standalone HTML con imágenes SVG/PNG incrustadas en base64. |
 | [**`scripts/generate_svgs.cjs`**](#scripts-generate-svgs-cjs) | `JAVASCRIPT` | 174 | 9.2 KB | Generador de diagramas y recursos vectoriales para la suite de documentación. |
 
 ---
@@ -326,7 +326,7 @@ self.addEventListener('fetch', (event) => {
 
 * **Ubicación relativa:** `index.html`
 * **Capa:** Capa 1: Estructura HTML y Vistas Base
-* **Dimensiones:** 892 líneas | 57.5 KB
+* **Dimensiones:** 1.015 líneas | 66.2 KB
 * **Rol en el sistema:** Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts.
 
 ```html
@@ -406,7 +406,8 @@ self.addEventListener('fetch', (event) => {
           <div class="dropdown-item" id="menu-toggle-passwords" style="display:none;"><i class="svg-icon icon-eye" style="width:14px; height:14px; margin-right:6px;"></i>Modo Dios: Revelar Claves</div>
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
           <div class="dropdown-divider"></div>
-          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (83 pruebas)</a>
+          <div class="dropdown-item" id="menu-import-devices"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Importación masiva (CSV/Excel)</div>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (265 pruebas)</a>
           <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
@@ -740,11 +741,15 @@ self.addEventListener('fetch', (event) => {
           </div>
         </div>
       </div>
+      <button class="h-btn" id="btn-table-import-modal" style="margin-right: 8px;"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:4px;"></i>⬆ Importar</button>
       <div class="dropdown-wrap" id="export-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
         <button class="h-btn" id="btn-export-menu" aria-haspopup="true">⬇ Exportar ▼</button>
-        <div class="dropdown-menu hidden" id="export-dropdown" style="top: 100%; bottom: auto; right: 0; margin-top: 8px; width: 180px; z-index: 9999;">
+        <div class="dropdown-menu hidden" id="export-dropdown" style="top: 100%; bottom: auto; right: 0; margin-top: 8px; width: 230px; z-index: 9999;">
           <div class="dropdown-item" id="btn-table-csv"><i class="svg-icon icon-file" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a CSV</div>
           <div class="dropdown-item" id="btn-table-excel"><i class="svg-icon icon-chart" style="width:14px; height:14px; margin-right:6px;"></i>Exportar a Excel</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="btn-table-template-excel"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Descargar Plantilla (Excel)</div>
+          <div class="dropdown-item" id="btn-table-template-csv"><i class="svg-icon icon-file" style="width:14px; height:14px; margin-right:6px;"></i>Descargar Plantilla (CSV)</div>
         </div>
       </div>
       <button class="h-btn" id="btn-expand-bottom"><i class="svg-icon icon-maximize" style="width:14px; height:14px; margin-right:4px;"></i>Expandir</button>
@@ -1104,6 +1109,123 @@ self.addEventListener('fetch', (event) => {
   </div>
 </div>
 
+<!-- ============================
+     MODAL DE IMPORTACIÓN MASIVA (M-22)
+============================= -->
+<div class="modal-overlay hidden" id="modal-import-devices">
+  <div class="modal" style="max-width: 680px; width: 95%;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 4px;">
+      <div class="modal-title" style="margin-bottom:0;">
+        <i class="svg-icon icon-upload" style="width:18px; height:18px; margin-right:8px; color:var(--accent);"></i>
+        <span>Importación Masiva de Equipos</span>
+      </div>
+      <button type="button" id="modal-import-close" title="Cerrar modal" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:16px; padding:2px 6px; line-height:1;">✕</button>
+    </div>
+    <div class="modal-sub" style="margin-bottom:14px;">
+      Aprovisiona múltiples servidores, switches y periféricos en bloque mediante archivos Excel (.xlsx) o CSV.
+    </div>
+
+    <!-- Zona de Carga / Drag & Drop -->
+    <div id="import-drop-zone" style="border: 2px dashed var(--border); border-radius: var(--radius); padding: 18px; text-align: center; background: var(--bg-card1); cursor: pointer; transition: all 0.2s ease; margin-bottom: 12px;">
+      <input type="file" id="import-file-input" accept=".xlsx,.xls,.csv" style="display:none;">
+      <i class="svg-icon icon-file" style="width: 26px; height: 26px; margin: 0 auto 6px auto; opacity: 0.7; color: var(--accent); display: block;"></i>
+      <div id="import-file-name-label" style="font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">
+        Haz clic o arrastra aquí tu archivo .xlsx o .csv
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">
+        Compatible con hojas de cálculo Excel y archivos CSV delimitados por comas
+      </div>
+    </div>
+
+    <!-- Descarga rápida de plantillas -->
+    <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); padding:8px 12px; margin-bottom:12px;">
+      <div style="font-size:11px; color:var(--text-secondary); display:flex; align-items:center; gap:6px;">
+        <i class="svg-icon icon-download" style="width:13px; height:13px; color:var(--accent);"></i>
+        <span>¿No tienes la plantilla? Descarga un ejemplo estructurado:</span>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button type="button" id="btn-modal-dl-template-xlsx" class="btn-cancel" style="font-size:11px; padding:2px 8px; height:22px !important;" title="Descargar plantilla Excel con hojas de referencia">
+          <i class="svg-icon icon-chart" style="width:11px; height:11px;"></i> Plantilla Excel
+        </button>
+        <button type="button" id="btn-modal-dl-template-csv" class="btn-cancel" style="font-size:11px; padding:2px 8px; height:22px !important;" title="Descargar plantilla CSV">
+          <i class="svg-icon icon-file" style="width:11px; height:11px;"></i> Plantilla CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Configuración de Importación -->
+    <div class="form-grid" style="margin-bottom:10px;">
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Sala de Destino (Predeterminada)</label>
+        <select id="import-room-select"></select>
+      </div>
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Resolución de Duplicados</label>
+        <select id="import-conflict-strategy">
+          <option value="rename" selected>Renombrar con sufijo (ej: Equipo (1))</option>
+          <option value="overwrite">Sobrescribir propiedades existentes</option>
+          <option value="skip">Omitir equipos duplicados</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+      <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; font-size:12px; color:var(--text-secondary);">
+        <input type="checkbox" id="import-auto-create-racks" checked style="cursor:pointer; width:15px; height:15px; accent-color:var(--accent);">
+        <span>Crear gabinetes (racks) automáticamente de 42U si se menciona un nombre no existente</span>
+      </label>
+    </div>
+
+    <!-- Vista previa y resumen (oculto hasta cargar archivo) -->
+    <div id="import-preview-container" class="hidden" style="margin-bottom:12px; border-top:1px solid var(--border); padding-top:10px;">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-bottom:10px;">
+        <div style="background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-family:var(--font-mono);">Total Filas</div>
+          <div id="import-count-total" style="font-size:15px; font-weight:700; color:var(--text-primary); font-family:var(--font-mono);">0</div>
+        </div>
+        <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:#10b981; text-transform:uppercase; font-family:var(--font-mono);">Listos / Válidos</div>
+          <div id="import-count-valid" style="font-size:15px; font-weight:700; color:#10b981; font-family:var(--font-mono);">0</div>
+        </div>
+        <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:#f59e0b; text-transform:uppercase; font-family:var(--font-mono);">Avisos</div>
+          <div id="import-count-warnings" style="font-size:15px; font-weight:700; color:#f59e0b; font-family:var(--font-mono);">0</div>
+        </div>
+        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:var(--radius); padding:6px 8px; text-align:center;">
+          <div style="font-size:10px; color:#ef4444; text-transform:uppercase; font-family:var(--font-mono);">Errores</div>
+          <div id="import-count-errors" style="font-size:15px; font-weight:700; color:#ef4444; font-family:var(--font-mono);">0</div>
+        </div>
+      </div>
+
+      <div style="max-height:160px; overflow-y:auto; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-card1);">
+        <table style="width:100%; border-collapse:collapse; text-align:left;">
+          <thead style="position:sticky; top:0; background:var(--bg-panel); border-bottom:1px solid var(--border); font-size:10px; text-transform:uppercase; font-family:var(--font-mono); color:var(--text-muted); z-index:2;">
+            <tr>
+              <th style="padding:6px 8px; width:35px; text-align:center;">#</th>
+              <th style="padding:6px 8px; width:70px;">Estado</th>
+              <th style="padding:6px 8px;">Equipo</th>
+              <th style="padding:6px 8px;">Gabinete</th>
+              <th style="padding:6px 8px; width:45px;">Slot</th>
+              <th style="padding:6px 8px; width:85px;">IP</th>
+              <th style="padding:6px 8px;">Diagnóstico</th>
+            </tr>
+          </thead>
+          <tbody id="import-preview-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pie del Modal -->
+    <div class="modal-footer" style="margin-top:12px;">
+      <button type="button" class="btn-cancel" id="modal-import-cancel">Cancelar</button>
+      <button type="button" class="btn-confirm" id="btn-import-confirm" disabled>
+        <i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>
+        Importar Equipos
+      </button>
+    </div>
+  </div>
+</div>
+
   <div id="device-tooltip"></div>
   <input type="file" id="import-file" accept=".rack,.json" class="hidden" style="display:none !important;">
   
@@ -1132,6 +1254,7 @@ self.addEventListener('fetch', (event) => {
   <script src="js/ui/modals/RoomModal.js"></script>
   <script src="js/ui/modals/ExportModal.js"></script>
   <script src="js/ui/modals/PlacementModal.js"></script>
+  <script src="js/ui/modals/ImportModal.js"></script>
   <script src="js/ui/modals.js"></script>
   <script src="js/ui/rack.js"></script>
   <script src="js/ui/topology/TopologyState.js"></script>
@@ -4386,7 +4509,7 @@ body.no-animations svg.faceplate-img * {
 
 * **Ubicación relativa:** `css/components/modals.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
-* **Dimensiones:** 68 líneas | 5.6 KB
+* **Dimensiones:** 79 líneas | 5.9 KB
 * **Rol en el sistema:** Estilos de las ventanas modales, formularios, grillas y botones.
 
 ```css
@@ -4456,6 +4579,17 @@ body.no-animations svg.faceplate-img * {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Modal de Importación Masiva (M-22) */
+#import-drop-zone.drag-over {
+  border-color: var(--accent) !important;
+  background: var(--accent-glow) !important;
+}
+#import-drop-zone.has-file {
+  border-color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+}
+
 
 ```
 
@@ -9029,7 +9163,7 @@ if (!window._physicalCablesBound) {
 
 * **Ubicación relativa:** `js/ui/tables.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
-* **Dimensiones:** 620 líneas | 26.5 KB
+* **Dimensiones:** 654 líneas | 27.7 KB
 * **Rol en el sistema:** Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda.
 
 ```javascript
@@ -9611,6 +9745,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (btnCsv) {
     btnCsv.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
       let data, filename;
       if (activeTab === 'inventory') {
         data = getInventoryData();
@@ -9632,6 +9767,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnExcel) {
     btnExcel.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
       if (typeof XLSX === 'undefined') {
         notify('Librería Excel no cargada. Actualiza la página o revisa la red.', 'error');
         return;
@@ -9649,8 +9785,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // M-21: Descarga de plantillas desde el menú de exportación
+  const btnTemplateExcel = document.getElementById('btn-table-template-excel');
+  if (btnTemplateExcel) {
+    btnTemplateExcel.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
+      if (typeof downloadDeviceTemplate === 'function') {
+        downloadDeviceTemplate('xlsx', false);
+      }
+    });
+  }
+
+  const btnTemplateCsv = document.getElementById('btn-table-template-csv');
+  if (btnTemplateCsv) {
+    btnTemplateCsv.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
+      if (typeof downloadDeviceTemplate === 'function') {
+        downloadDeviceTemplate('csv', false);
+      }
+    });
+  }
+
+  // M-22: Botón de importación masiva en la barra de tablas
+  const btnTableImport = document.getElementById('btn-table-import-modal');
+  if (btnTableImport) {
+    btnTableImport.addEventListener('click', () => {
+      if (typeof openImportModal === 'function') {
+        openImportModal();
+      }
+    });
+  }
+
   updateColumnsBadge();
 });
+
 
 ```
 
@@ -15845,7 +16013,7 @@ function exportTopologyToPNG() {
 
 * **Ubicación relativa:** `js/main.js`
 * **Capa:** Capa 8: Orquestador Principal de la Aplicación
-* **Dimensiones:** 1.248 líneas | 50.1 KB
+* **Dimensiones:** 1.254 líneas | 50.3 KB
 * **Rol en el sistema:** Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión.
 
 ```javascript
@@ -16872,6 +17040,12 @@ function initGlobalEvents() {
       dropdown.classList.add('hidden');
       alert('Funcionalidad de importar catálogo (Próximamente)');
     });
+    document.getElementById('menu-import-devices')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      if (typeof openImportModal === 'function') {
+        openImportModal();
+      }
+    });
 
     const importFile = document.getElementById('import-file');
     if (importFile) {
@@ -17108,7 +17282,7 @@ init();
 
 * **Ubicación relativa:** `tests/integrity_check.cjs`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.301 líneas | 78.0 KB
+* **Dimensiones:** 1.433 líneas | 85.7 KB
 * **Rol en el sistema:** Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito.
 
 ```javascript
@@ -17185,6 +17359,15 @@ function loadScript(relPath) {
   vm.runInThisContext(transformed, { filename: relPath });
 }
 
+// Cargar XLSX en Node para soporte de plantillas y pruebas
+if (typeof global.XLSX === 'undefined') {
+  const xlsxCode = fs.readFileSync(path.join(__dirname, '../js/xlsx.full.min.js'), 'utf8');
+  const xlsxExp = {};
+  const fn = new Function('exports', 'module', xlsxCode);
+  fn(xlsxExp, { exports: xlsxExp });
+  global.XLSX = xlsxExp;
+}
+
 loadScript('../js/utils.js');
 loadScript('../js/icons.js');
 loadScript('../js/auth/crypto.js');
@@ -17199,6 +17382,7 @@ loadScript('../js/ui/inspector.js');
 loadScript('../js/ui/outliner.js');
 loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
+loadScript('../js/ui/modals/ImportModal.js');
 loadScript('../js/ui/faceplates.js');
 loadScript('../js/ui/topology/TopologyState.js');
 loadScript('../js/ui/topology/TopologyLayout.js');
@@ -18396,6 +18580,128 @@ async function runTests() {
     'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
 
   // ----------------------------------------------------
+  // GRUPO 19: Plantilla Completa de Exportación (M-21) e Importación Masiva (M-22)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 19: Plantilla de Exportación e Importación Masiva (M-21 y M-22)');
+
+  // 19.1 Constantes y Funciones Base de M-21
+  assert(Array.isArray(TEMPLATE_COLUMNS) && TEMPLATE_COLUMNS.length === 21,
+    'M-21: TEMPLATE_COLUMNS define exactamente 21 campos del modelo de datos de equipos');
+  assert(TEMPLATE_COLUMNS.includes('Sala') && TEMPLATE_COLUMNS.includes('Rack') && TEMPLATE_COLUMNS.includes('Unidad_U') && TEMPLATE_COLUMNS.includes('Skin') && TEMPLATE_COLUMNS.includes('Notas'),
+    'M-21: TEMPLATE_COLUMNS incluye Sala, Rack, Unidad_U, Skin y Notas');
+  assert(Array.isArray(VALID_DEVICE_TYPES) && VALID_DEVICE_TYPES.includes('server') && VALID_DEVICE_TYPES.includes('switch') && VALID_DEVICE_TYPES.includes('camera'),
+    'M-21: VALID_DEVICE_TYPES contiene los tipos estándar de datacenter (server, switch, camera, etc.)');
+
+  // 19.2 Generación de Matriz AOA de Plantilla
+  const emptyTemplateAoa = getDeviceTemplateAOA(false);
+  assert(Array.isArray(emptyTemplateAoa) && emptyTemplateAoa.length >= 4,
+    'M-21: getDeviceTemplateAOA(false) genera encabezados y 3 filas ilustrativas de ejemplo');
+  assert(emptyTemplateAoa[0].length === 21,
+    'M-21: La fila de encabezados coincide con las 21 columnas del modelo');
+
+  const filledTemplateAoa = getDeviceTemplateAOA(true);
+  assert(Array.isArray(filledTemplateAoa) && filledTemplateAoa.length === (store._raw.devices.length + 1),
+    'M-21: getDeviceTemplateAOA(true) exporta fielmente el total de equipos del inventario actual');
+
+  // 19.3 Normalización de Encabezados (normalizeHeaderKey)
+  assert(normalizeHeaderKey('Dirección IP') === 'ip' && normalizeHeaderKey('IP Address') === 'ip',
+    'M-21: normalizeHeaderKey resuelve sinónimos de IP ("Dirección IP", "IP Address")');
+  assert(normalizeHeaderKey('Unidad U') === 'slotStart' && normalizeHeaderKey('Slot_U') === 'slotStart',
+    'M-21: normalizeHeaderKey resuelve sinónimos de Slot U ("Unidad U", "Slot_U")');
+  assert(normalizeHeaderKey('Lado de Montaje') === 'mountSide' && normalizeHeaderKey('Mount Side') === 'mountSide',
+    'M-21: normalizeHeaderKey resuelve sinónimos de Lado de Montaje');
+  assert(normalizeHeaderKey('Nombre del Equipo') === 'name' && normalizeHeaderKey('Device Name') === 'name',
+    'M-21: normalizeHeaderKey resuelve sinónimos de Nombre');
+
+  // 19.4 Validación Unitaria de Filas (parseAndValidateDeviceRow)
+  const roomDemo = store._raw.rooms[0];
+  const rackDemo = store._raw.racks[0];
+
+  const validRow = parseAndValidateDeviceRow({
+    'Sala': roomDemo.name,
+    'Rack': rackDemo.name,
+    'Unidad_U': 20,
+    'Lado_Montaje': 'Frontal',
+    'Nombre': 'Servidor Test Unitario 1U',
+    'Tipo': 'server',
+    'Tamano_U': 1,
+    'IP': '10.50.1.10',
+    'MAC': '00:11:22:33:44:55',
+    'Consumo_W': 250,
+    'Notas': 'Prueba M-22'
+  }, 0, { defaultRackId: rackDemo.id, autoCreateRacks: false });
+
+  assert(validRow.isValid && validRow.item.name === 'Servidor Test Unitario 1U' && validRow.item.slotStart === 20 && validRow.item.mountSide === 'front',
+    'M-22: parseAndValidateDeviceRow valida con éxito un equipo de rack con todos sus atributos');
+
+  // Fila inválida: Sin nombre
+  const namelessRow = parseAndValidateDeviceRow({
+    'Rack': rackDemo.name,
+    'Unidad_U': 22,
+    'Nombre': ''
+  }, 1);
+  assert(!namelessRow.isValid && namelessRow.issues.errors.length > 0,
+    'M-22: parseAndValidateDeviceRow rechaza un equipo sin nombre obligatorio');
+
+  // Fila inválida: Desborde de altura
+  const overflowRow = parseAndValidateDeviceRow({
+    'Rack': rackDemo.name,
+    'Unidad_U': rackDemo.height,
+    'Tamano_U': 4,
+    'Nombre': 'Servidor Gigante Desbordante'
+  }, 2, { defaultRackId: rackDemo.id });
+  assert(!overflowRow.isValid && overflowRow.issues.errors.some(e => e.includes('desborda')),
+    'M-22: parseAndValidateDeviceRow rechaza un equipo que desborda la altura del gabinete');
+
+  // Fila de equipo de piso
+  const floorRow = parseAndValidateDeviceRow({
+    'Sala': roomDemo.name,
+    'Rack': 'PISO',
+    'Nombre': 'Cámara IP Hall Principal',
+    'Tipo': 'camera',
+    'IP': '10.50.4.15'
+  }, 3);
+  assert(floorRow.isValid && floorRow.item.category === 'floor' && floorRow.item.rackId === null,
+    'M-22: parseAndValidateDeviceRow reconoce y configura equipos de piso (category: "floor")');
+
+  // 19.5 Análisis de Lote y Colisiones Internas (analyzeImportBatch)
+  const batchWithCollision = [
+    { 'Rack': rackDemo.name, 'Unidad_U': 25, 'Tamano_U': 2, 'Nombre': 'Equipo A', 'Tipo': 'server', 'Lado_Montaje': 'Frontal' },
+    { 'Rack': rackDemo.name, 'Unidad_U': 26, 'Tamano_U': 1, 'Nombre': 'Equipo B', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal' }
+  ];
+  const analyzedBatch = analyzeImportBatch(batchWithCollision, { defaultRackId: rackDemo.id });
+  assert(analyzedBatch.validRows.length === 1 && analyzedBatch.invalidRows.length === 1 && analyzedBatch.errorsCount >= 1,
+    'M-22: analyzeImportBatch detecta colisiones internas entre filas del mismo archivo');
+
+  // 19.6 Ejecución de Importación y Resolución de Conflictos (executeDeviceImport)
+  const initialDevCount = store._raw.devices.length;
+  const importRows = [
+    { 'Sala': roomDemo.name, 'Rack': rackDemo.name, 'Unidad_U': 30, 'Tamano_U': 1, 'Nombre': 'Equipo Batch 01', 'Tipo': 'server', 'Lado_Montaje': 'Trasera', 'IP': '10.80.1.1' },
+    { 'Sala': roomDemo.name, 'Rack': 'Rack Nuevo Auto-Generado', 'Unidad_U': 1, 'Tamano_U': 2, 'Nombre': 'Equipo Batch 02', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal', 'IP': '10.80.1.2' }
+  ];
+  const plan = analyzeImportBatch(importRows, { autoCreateRacks: true, targetRoomId: roomDemo.id });
+  const execResult = executeDeviceImport(plan, { autoCreateRacks: true, conflictStrategy: 'rename', targetRoomId: roomDemo.id });
+
+  assert(execResult.success && execResult.importedCount === 2 && execResult.racksCreatedCount === 1,
+    'M-22: executeDeviceImport importa con éxito los equipos y crea gabinetes automáticos solicitados');
+  assert(store._raw.devices.length === initialDevCount + 2,
+    'M-22: El estado de dispositivos en store._raw se incrementa fielmente en 2');
+
+  // 19.7 Deshacer Atómico (Undo) de la Importación Masiva
+  store.undo();
+  assert(store._raw.devices.length === initialDevCount,
+    'M-22: store.undo() revierte atómicamente la importación masiva completa sin dejar registros huérfanos');
+
+  // 19.8 Verificaciones en index.html y UI
+  const finalHtmlCheck = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(finalHtmlCheck.includes('id="btn-table-import-modal"') && finalHtmlCheck.includes('id="menu-import-devices"'),
+    'M-22: index.html define los puntos de acceso interactivos #btn-table-import-modal y #menu-import-devices');
+  assert(finalHtmlCheck.includes('id="modal-import-devices"') && finalHtmlCheck.includes('id="import-drop-zone"') && finalHtmlCheck.includes('id="btn-import-confirm"'),
+    'M-22: index.html define la estructura completa de #modal-import-devices con drop-zone y botón de confirmación');
+  assert(finalHtmlCheck.includes('src="js/ui/modals/ImportModal.js"'),
+    'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');
@@ -18424,7 +18730,7 @@ runTests();
 
 * **Ubicación relativa:** `tests/index.html`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.685 líneas | 87.3 KB
+* **Dimensiones:** 1.805 líneas | 94.7 KB
 * **Rol en el sistema:** Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica.
 
 ```html
@@ -18756,6 +19062,7 @@ runTests();
 <script src="../js/ui/outliner.js"></script>
 <script src="../js/ui/modals/PlacementModal.js"></script>
 <script src="../js/ui/modals/ExportModal.js"></script>
+<script src="../js/ui/modals/ImportModal.js"></script>
 <script src="../js/ui/topology/TopologyState.js"></script>
 <script src="../js/ui/topology/TopologyLayout.js"></script>
 
@@ -19548,7 +19855,7 @@ runTests();
     setGroup('🔹 GRUPO 13: Selector de Columnas en Tablas (Propuesta 3 / M-20)');
 
     addTestResult(Array.isArray(INVENTORY_COLUMNS) && INVENTORY_COLUMNS.length === 18, `Columnas: INVENTORY_COLUMNS define 18 columnas (encontradas: ${INVENTORY_COLUMNS.length})`);
-    addTestResult(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 10, `Columnas: CONNECTIONS_COLUMNS define 10 columnas (encontradas: ${CONNECTIONS_COLUMNS.length})`);
+    addTestResult(Array.isArray(CONNECTIONS_COLUMNS) && CONNECTIONS_COLUMNS.length === 11, `Columnas: CONNECTIONS_COLUMNS define 11 columnas con canaleta (encontradas: ${CONNECTIONS_COLUMNS.length})`);
     addTestResult(typeof getTableColumnsConfig === 'function', 'Columnas: getTableColumnsConfig() está definida globalmente');
     addTestResult(typeof saveTableColumnsConfig === 'function', 'Columnas: saveTableColumnsConfig() está definida globalmente');
     addTestResult(typeof isColumnVisible === 'function', 'Columnas: isColumnVisible() está definida globalmente');
@@ -19930,10 +20237,16 @@ runTests();
     let varsCssText = '';
     let layoutCssText = '';
     let miscCssText = '';
+    let mainJsText = '';
+    let idxText = '';
+    let topoRendText = '';
     try {
       varsCssText = await (await fetch('../css/variables.css')).text();
       layoutCssText = await (await fetch('../css/layout.css')).text();
       miscCssText = await (await fetch('../css/components/misc.css')).text();
+      mainJsText = await (await fetch('../js/main.js')).text();
+      idxText = await (await fetch('../index.html')).text();
+      topoRendText = await (await fetch('../js/ui/topology/TopologyRenderer.js')).text();
     } catch(e) {}
 
     addTestResult(!varsCssText || varsCssText.includes('[data-theme="sepia"]'),
@@ -20105,6 +20418,119 @@ runTests();
 
     addTestResult(!rackDrawSrc || (rackDrawSrc.includes("c.orientation === 'bottom'") && rackDrawSrc.includes('maxRackBottom')),
       'M-41: rack.js enruta por canaleta inferior de piso técnico ante orientation === "bottom"');
+
+    // ----------------------------------------------------
+    // GRUPO 19: PLANTILLA DE EXPORTACIÓN E IMPORTACIÓN MASIVA (M-21 y M-22)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 19: Plantilla de Exportación e Importación Masiva (M-21 y M-22)');
+
+    addTestResult(Array.isArray(TEMPLATE_COLUMNS) && TEMPLATE_COLUMNS.length === 21,
+      'M-21: TEMPLATE_COLUMNS define exactamente 21 campos del modelo de datos de equipos');
+
+    addTestResult(TEMPLATE_COLUMNS.includes('Sala') && TEMPLATE_COLUMNS.includes('Rack') && TEMPLATE_COLUMNS.includes('Unidad_U') && TEMPLATE_COLUMNS.includes('Skin') && TEMPLATE_COLUMNS.includes('Notas'),
+      'M-21: TEMPLATE_COLUMNS incluye Sala, Rack, Unidad_U, Skin y Notas');
+
+    addTestResult(VALID_DEVICE_TYPES.includes('server') && VALID_DEVICE_TYPES.includes('switch') && VALID_DEVICE_TYPES.includes('camera'),
+      'M-21: VALID_DEVICE_TYPES contiene los tipos estándar de datacenter (server, switch, camera, etc.)');
+
+    const sampleAOA = getDeviceTemplateAOA(false);
+    addTestResult(sampleAOA.length === 4,
+      'M-21: getDeviceTemplateAOA(false) genera encabezados y 3 filas ilustrativas de ejemplo');
+    addTestResult(sampleAOA[0].length === 21,
+      'M-21: La fila de encabezados coincide con las 21 columnas del modelo');
+
+    const currentDevsCount = store.state.devices.length;
+    const currentAOA = getDeviceTemplateAOA(true);
+    addTestResult(currentAOA.length === currentDevsCount + 1,
+      'M-21: getDeviceTemplateAOA(true) exporta fielmente el total de equipos del inventario actual');
+
+    addTestResult(normalizeHeaderKey('Dirección IP') === 'ip' && normalizeHeaderKey('IP Address') === 'ip',
+      'M-21: normalizeHeaderKey resuelve sinónimos de IP ("Dirección IP", "IP Address")');
+    addTestResult(normalizeHeaderKey('Unidad U') === 'slotStart' && normalizeHeaderKey('Slot_U') === 'slotStart',
+      'M-21: normalizeHeaderKey resuelve sinónimos de Slot U ("Unidad U", "Slot_U")');
+    addTestResult(normalizeHeaderKey('Lado de Montaje') === 'mountSide' && normalizeHeaderKey('Mount Side') === 'mountSide',
+      'M-21: normalizeHeaderKey resuelve sinónimos de Lado de Montaje');
+    addTestResult(normalizeHeaderKey('Nombre del Equipo') === 'name' && normalizeHeaderKey('Device Name') === 'name',
+      'M-21: normalizeHeaderKey resuelve sinónimos de Nombre');
+
+    const roomDemoWeb = store.state.rooms[0] || { name: 'Sala Principal', id: 'room-1' };
+    const rackDemoWeb = store.state.racks[0] || { name: 'Rack A1', id: 'rack-1', height: 42 };
+
+    const validRowWeb = parseAndValidateDeviceRow({
+      'Sala': roomDemoWeb.name,
+      'Rack': rackDemoWeb.name,
+      'Unidad_U': 20,
+      'Lado_Montaje': 'Frontal',
+      'Nombre': 'Servidor Test Unitario 1U',
+      'Tipo': 'server',
+      'Tamano_U': 1,
+      'IP': '10.50.1.10',
+      'MAC': '00:11:22:33:44:55',
+      'Consumo_W': 250,
+      'Notas': 'Prueba M-22'
+    }, 0, { defaultRackId: rackDemoWeb.id, autoCreateRacks: false });
+
+    addTestResult(validRowWeb.isValid && validRowWeb.item.name === 'Servidor Test Unitario 1U' && validRowWeb.item.slotStart === 20 && validRowWeb.item.mountSide === 'front',
+      'M-22: parseAndValidateDeviceRow valida con éxito un equipo de rack con todos sus atributos');
+
+    const namelessRowWeb = parseAndValidateDeviceRow({
+      'Rack': rackDemoWeb.name,
+      'Unidad_U': 22,
+      'Nombre': ''
+    }, 1);
+    addTestResult(!namelessRowWeb.isValid && namelessRowWeb.issues.errors.length > 0,
+      'M-22: parseAndValidateDeviceRow rechaza un equipo sin nombre obligatorio');
+
+    const overflowRowWeb = parseAndValidateDeviceRow({
+      'Rack': rackDemoWeb.name,
+      'Unidad_U': rackDemoWeb.height,
+      'Tamano_U': 4,
+      'Nombre': 'Servidor Gigante Desbordante'
+    }, 2, { defaultRackId: rackDemoWeb.id });
+    addTestResult(!overflowRowWeb.isValid && overflowRowWeb.issues.errors.some(e => e.includes('desborda')),
+      'M-22: parseAndValidateDeviceRow rechaza un equipo que desborda la altura del gabinete');
+
+    const floorRowWeb = parseAndValidateDeviceRow({
+      'Sala': roomDemoWeb.name,
+      'Rack': 'PISO',
+      'Nombre': 'Cámara IP Hall Principal',
+      'Tipo': 'camera',
+      'IP': '10.50.4.15'
+    }, 3);
+    addTestResult(floorRowWeb.isValid && floorRowWeb.item.category === 'floor' && floorRowWeb.item.rackId === null,
+      'M-22: parseAndValidateDeviceRow reconoce y configura equipos de piso (category: "floor")');
+
+    const batchWithCollisionWeb = [
+      { 'Rack': rackDemoWeb.name, 'Unidad_U': 25, 'Tamano_U': 2, 'Nombre': 'Equipo A', 'Tipo': 'server', 'Lado_Montaje': 'Frontal' },
+      { 'Rack': rackDemoWeb.name, 'Unidad_U': 26, 'Tamano_U': 1, 'Nombre': 'Equipo B', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal' }
+    ];
+    const analyzedBatchWeb = analyzeImportBatch(batchWithCollisionWeb, { defaultRackId: rackDemoWeb.id });
+    addTestResult(analyzedBatchWeb.validRows.length === 1 && analyzedBatchWeb.invalidRows.length === 1 && analyzedBatchWeb.errorsCount >= 1,
+      'M-22: analyzeImportBatch detecta colisiones internas entre filas del mismo archivo');
+
+    const initialDevCountWeb = store.state.devices.length;
+    const importRowsWeb = [
+      { 'Sala': roomDemoWeb.name, 'Rack': rackDemoWeb.name, 'Unidad_U': 30, 'Tamano_U': 1, 'Nombre': 'Equipo Batch 01', 'Tipo': 'server', 'Lado_Montaje': 'Trasera', 'IP': '10.80.1.1' },
+      { 'Sala': roomDemoWeb.name, 'Rack': 'Rack Nuevo Auto-Generado', 'Unidad_U': 1, 'Tamano_U': 2, 'Nombre': 'Equipo Batch 02', 'Tipo': 'switch', 'Lado_Montaje': 'Frontal', 'IP': '10.80.1.2' }
+    ];
+    const planWeb = analyzeImportBatch(importRowsWeb, { autoCreateRacks: true, targetRoomId: roomDemoWeb.id });
+    const execResultWeb = executeDeviceImport(planWeb, { autoCreateRacks: true, conflictStrategy: 'rename', targetRoomId: roomDemoWeb.id });
+
+    addTestResult(execResultWeb.success && execResultWeb.importedCount === 2 && execResultWeb.racksCreatedCount === 1,
+      'M-22: executeDeviceImport importa con éxito los equipos y crea gabinetes automáticos solicitados');
+    addTestResult(store.state.devices.length === initialDevCountWeb + 2,
+      'M-22: El estado de dispositivos en store.state se incrementa fielmente en 2');
+
+    store.undo();
+    addTestResult(store.state.devices.length === initialDevCountWeb,
+      'M-22: store.undo() revierte atómicamente la importación masiva completa sin dejar registros huérfanos');
+
+    addTestResult(!idxText || (idxText.includes('id="btn-table-import-modal"') && idxText.includes('id="menu-import-devices"')),
+      'M-22: index.html define los puntos de acceso interactivos #btn-table-import-modal y #menu-import-devices');
+    addTestResult(!idxText || (idxText.includes('id="modal-import-devices"') && idxText.includes('id="import-drop-zone"') && idxText.includes('id="btn-import-confirm"')),
+      'M-22: index.html define la estructura completa de #modal-import-devices con drop-zone y botón de confirmación');
+    addTestResult(!idxText || (idxText.includes('src="js/ui/modals/ImportModal.js"')),
+      'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);
@@ -20124,7 +20550,7 @@ runTests();
 
 * **Ubicación relativa:** `scripts/build_standalone_manual.cjs`
 * **Capa:** Capa 10: Herramientas de Compilación y Scripts Auxiliares
-* **Dimensiones:** 98 líneas | 4.1 KB
+* **Dimensiones:** 102 líneas | 4.3 KB
 * **Rol en el sistema:** Generador del manual standalone HTML con imágenes SVG/PNG incrustadas en base64.
 
 ```javascript
@@ -20165,20 +20591,24 @@ function processMarkdown(filePath) {
     return newContent;
 }
 
-const userManualPath = path.join(__dirname, '../DOC/md/USER_MANUAL.md');
-const techDocsPath = path.join(__dirname, '../DOC/md/TECHNICAL_DOCS.md');
+const userManualPath = path.join(__dirname, '../doc/doc_md/USER_MANUAL.md');
+const techDocsPath = path.join(__dirname, '../doc/doc_md/ARCHITECTURE_GUIDE.md');
 
 console.log('Processing USER_MANUAL.md...');
-const userManual = processMarkdown(userManualPath);
+const userManual = fs.existsSync(userManualPath) ? processMarkdown(userManualPath) : '';
 
-console.log('Processing TECHNICAL_DOCS.md...');
-const techDocs = processMarkdown(techDocsPath);
+console.log('Processing ARCHITECTURE_GUIDE.md...');
+const techDocs = fs.existsSync(techDocsPath) ? processMarkdown(techDocsPath) : '';
 
 const combinedMd = `# Rack Designer Next - Documentación Completa (Standalone)\n\nEsta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.\n\n---\n\n` + userManual + `\n\n---\n\n` + techDocs;
 
+// Ensure output dirs exist
+const outMdDir = path.join(__dirname, '../doc/doc_md');
+if (!fs.existsSync(outMdDir)) fs.mkdirSync(outMdDir, { recursive: true });
+
 // Write MD
-fs.writeFileSync(path.join(__dirname, '../DOC/md/FULL_MANUAL_STANDALONE.md'), combinedMd);
-console.log('Standalone MD created successfully: DOC/md/FULL_MANUAL_STANDALONE.md');
+fs.writeFileSync(path.join(outMdDir, 'FULL_MANUAL_STANDALONE.md'), combinedMd);
+console.log('Standalone MD created successfully: doc/doc_md/FULL_MANUAL_STANDALONE.md');
 
 // Write HTML
 const htmlContent = marked.parse(combinedMd);
@@ -20223,8 +20653,8 @@ const htmlTemplate = `<!DOCTYPE html>
 </body>
 </html>`;
 
-fs.writeFileSync(path.join(__dirname, '../DOC/html/FULL_MANUAL_STANDALONE.html'), htmlTemplate);
-console.log('Standalone HTML created successfully: DOC/html/FULL_MANUAL_STANDALONE.html');
+fs.writeFileSync(path.join(outMdDir, 'FULL_MANUAL_STANDALONE.html'), htmlTemplate);
+console.log('Standalone HTML created successfully: doc/doc_md/FULL_MANUAL_STANDALONE.html');
 ```
 
 [⬆ Volver al Índice General](#índice-general-del-código-fuente)

@@ -1,11 +1,18 @@
 # Active Context
 
 ## Current Work Focus
-El proyecto ha completado con éxito la **Inversión y Orientación Bicanal de Conexiones Físicas (M-41)**, el **Soporte para Tema Sepia y Selector Global de Temas (M-18)**, el **Guardado y Conmutación de Estados de Topología (M-40 con 5 slots de memoria y preservación de Undo/Redo)**, y la **Sincronización Total de la Suite de Pruebas (265 pruebas en 18 grupos al 100% de éxito en Node y Web)**. El avance global del roadmap de mejoras alcanza el **73.8% (31 de 42 tareas completadas)**.
+El proyecto ha completado con éxito la **Plantilla Completa de Exportación (M-21)** y la **Importación Masiva desde CSV / Excel (M-22)**, junto con la **Inversión y Orientación Bicanal de Conexiones Físicas (M-41)**, el **Soporte para Tema Sepia y Selector Global de Temas (M-18)**, el **Guardado y Conmutación de Estados de Topología (M-40 con 5 slots de memoria y preservación de Undo/Redo)**, y la **Suite de Pruebas Automatizada (286 pruebas en 19 grupos al 100% de éxito en Node y Web)**. El avance global del roadmap de mejoras alcanza el **76.2% (32 de 42 tareas completadas)**, con la Fase 0 y Fase 1 al 100%, y la Fase 2 al 87.5% (7 de 8 completadas).
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-04] Implementación de M-21 y M-22: Plantilla Completa de Exportación e Importación Masiva (CSV / Excel):**
+  - **Componente Modular `ImportModal.js`:** Generación y descarga de plantillas en Excel (.xlsx) y CSV con los 21 campos del modelo de equipos y hoja de ayuda `"Guia_Valores"` para valores válidos (M-21).
+  - **Motor de Validación Reactiva y Detección de Colisiones:** `analyzeImportBatch` analiza en tiempo real colisiones físicas de slots, desbordes de altura, verificación de nombres y separa equipos de rack vs piso (M-22).
+  - **Políticas de Duplicados y Auto-creación de Racks:** Modos Omitir (`skip`), Renombrar (`rename`) y Sobrescribir (`overwrite`) con soporte opcional para autogenerar gabinetes ausentes.
+  - **Rollback Atómico con Undo/Redo:** La importación ejecuta un `store.snapshot()`, permitiendo revertir el 100% del lote en un único clic en Deshacer (`store.undo()`).
+  - **Integración en UI:** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, botón de acceso `#btn-table-import-modal` en la barra de herramientas de tablas y `#menu-import-devices` en la cabecera. Opciones de descarga de plantillas en `#export-dropdown`.
+  - **Testing Automatizado:** Grupo 19 agregado a `tests/integrity_check.cjs` y `tests/index.html` con 21 nuevas pruebas (286 pruebas en 19 grupos pasando al 100% en Node y Web).
 - **[2026-10-04] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**
-  - Incorporados Grupos 16, 17 y 18 en `tests/index.html` alcanzando **265 pruebas en 18 grupos al 100% de éxito**, logrando paridad 1:1 total con `tests/integrity_check.cjs`.
+  - Incorporados Grupos 16, 17, 18 y 19 en `tests/index.html` alcanzando **286 pruebas en 19 grupos al 100% de éxito**, logrando paridad 1:1 total con `tests/integrity_check.cjs`.
 - **[2026-10-03] Implementación de M-41: Botón para Invertir y Cambiar Orientación de Conexiones:**
   - **Inversión de Sentido Lógico (Swap Origen ⇄ Destino):** Botón interactivo `#btn-cable-swap` en `CableModal.js` con microanimación de giro a 180° e icono vectorial monocromático `.icon-swap` que transpone de inmediato equipos y puertos con recálculo dinámico de colisiones.
   - **Acción Rápida en Tabla (`tables.js`):** Botón `data-swap-conn` en la columna de Acciones de la tabla de conexiones para invertir cualquier enlace con un solo clic.

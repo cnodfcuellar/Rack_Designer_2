@@ -13,15 +13,16 @@
 - **Equipos (Devices):** 21 plantillas en 7 categorías. Soporte detallado de hardware: credenciales, consumo energético (W), direcciones IP/MAC validadas y carga de *skins* personalizadas.
 
 ### 🔌 Conexiones y Vistas (Rendering)
-- **Vista Física (DOM + SVG):** Renderizado de chasis y faceplates en CSS puro, superpuesto con una capa interactiva vectorial para el enrutamiento inteligente de cables ortogonales.
-- **Vista Topológica (Canvas 2D):** Diagrama de red con motor de físicas (*auto-order*), nodos arrastrables, animaciones de partículas fluyendo por los enlaces, *Pan* y *Zoom* infinito.
-- **Tipos de Cables:** Soporte para Cobre, Fibra (SM/MM) y DAC, con selector de colores personalizados y asignación gráfica de puertos en los *switches*.
+- **Vista Física (DOM + SVG):** Renderizado de chasis y faceplates en CSS puro, superpuesto con una capa interactiva vectorial para el enrutamiento inteligente de cables ortogonales segregados (bandeja aérea superior o canaleta bajo piso técnico, M-41).
+- **Vista Topológica (Canvas 2D):** Diagrama de red con motor de físicas (*auto-order*), nodos arrastrables, layouts por racks y árbol jerárquico DAG, control dual interactivo de espaciado H/V, afinidad automática de equipos de piso por gabinete (M-39), 5 ranuras de memoria de vistas (M-40) y temas adaptativos (Oscuro, Claro y Sepia, M-18).
+- **Tipos de Cables y Gestión de Enlaces:** Soporte para Cobre, Fibra (SM/MM) y DAC, selector de colores, asignación gráfica de puertos, selector de orientación de canaleta y botón rápido Swap de inversión de sentido (M-41).
 
 ### 🗃️ Interacción y Flujos de Datos
 - **Drag & Drop Inteligente:** Inserción de catálogo a rack, movimiento de equipos entre gabinetes, y despliegue de equipos de piso (*Floor Devices*).
 - **Deshacer / Rehacer (Undo/Redo):** Máquina del tiempo reactiva con hasta 30 instantáneas aisladas (`deepClone`).
-- **Exportación Masiva:** Imágenes PNG (Racks y Topología), hojas de cálculo Excel/CSV (Inventario y Conexiones vía SheetJS), y la API moderna de File System para backups JSON (`.rack`).
-- **Motor de Búsqueda:** Búsqueda global superior (IP/MAC/Nombre), filtros tabulados en el catálogo y atenuación visual de componentes que no coincidan.
+- **Exportación e Importación Masiva:** Imágenes PNG a escala Retina 1:1 (`html2canvas`), hojas de cálculo Excel/CSV (Inventario y Conexiones vía SheetJS), plantillas estructuradas de 21 campos con hoja de ayuda (M-21), importación masiva de equipos con detección de colisiones de slots y rollback atómico (M-22), y File System Access API para backups JSON cifrados (`.rack`).
+- **Seguridad en Reposo y Modo Dios (M-01):** Cifrado simétrico AES-GCM (`enc:v1:`) en `localStorage` y `.rack`, enmascaramiento por defecto y revelación autorizada bajo rol Admin.
+- **Motor de Búsqueda:** Búsqueda global superior (IP/MAC/Nombre), buscador en tiempo real en catálogo y en colocación asistida.
 
 ---
 
@@ -43,10 +44,11 @@ El proyecto emula un comportamiento estilo *React/Redux* utilizando un **Proxy E
 
 ### 3. Características Core del Sistema
 - **Vista Física (2D):** Racks y `faceplates` renderizados vía DOM. Incorpora enrutamiento inteligente de cables 2D superponiendo lienzos `<svg>` dinámicos (`js/ui/rack.js`).
-- **Vista Topológica (Lógica):** Motor de dibujo basado en HTML5 `<canvas>` (`js/ui/topology/`), con soporte para zoom, paneo, nodos móviles, enrutamiento de enlaces y físicas de distribución.
+- **Vista Topológica (Lógica):** Motor de dibujo basado en HTML5 `<canvas>` (`js/ui/topology/`), con soporte para zoom, paneo, nodos móviles, 5 slots de guardado, enrutamiento de enlaces y físicas de distribución.
 - **Control de Acceso Basado en Roles (RBAC):** Autenticación local mediante `js/auth/roles.js` usando encriptación `SHA-256`. Roles soportados: Admin, Editor, Viewer.
-- **Exportación:** Soporte completo para exportar configuraciones a JSON (para compartir), listas de inventario a Excel/CSV (usando SheetJS), y renderizado de Racks a imagen PNG (usando html2canvas).
+- **Exportación e Importación:** Soporte completo para exportar configuraciones a JSON (para compartir), listas de inventario a Excel/CSV, importación masiva reactiva (`ImportModal.js`) y renderizado de Racks a imagen PNG fiel 1:1 (`html2canvas`).
 - **Soporte PWA:** Funciona offline como Progressive Web App mediante su `service-worker.js`.
+- **Suite de Pruebas:** 286 pruebas automáticas de integridad pasando al 100% en Node.js (`tests/integrity_check.cjs`) y en navegador web (`tests/index.html`).
 
 ### 4. Mapa de Directorios (Separación de Preocupaciones)
 * `js/store.js`: **Estado y Persistencia.** Define la mutación, maneja Undo/Redo y persistencia.
@@ -55,8 +57,9 @@ El proyecto emula un comportamiento estilo *React/Redux* utilizando un **Proxy E
   * `rack.js`: Controlador del entorno físico y capas vectoriales de conexión.
   * `faceplates.js`: Plantillas DOM y anclajes lógicos (`data-port`) de los equipos.
   * `topology/`: Motor MVC de red en Canvas 2D.
-* `js/auth/`: **Seguridad.** Módulo de control de acceso.
-* `css/`: **Estilizado Modular.** Dividido en variables, componentes (modales, paneles, forms) y utilidades.
+  * `modals/`: Modales modulares de edición, colocación asistida, exportación e importación masiva (`ImportModal.js`).
+* `js/auth/`: **Seguridad.** Módulo de control de acceso (`roles.js`) y cifrado (`crypto.js`).
+* `css/`: **Estilizado Modular.** Dividido en variables (temas oscuro, claro, sepia), componentes y utilidades.
 * `assets/`: Vectores (`/svg`) e iconos emmascarables estáticos.
 * `doc/`: **Centro de Conocimiento.** Documentos de arquitectura, manuales y changelogs.
 * `.agents/`: Reglas e instrucciones rígidas para IAs (ej. `AGENTS.md`).

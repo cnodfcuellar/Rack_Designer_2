@@ -576,6 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (btnCsv) {
     btnCsv.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
       let data, filename;
       if (activeTab === 'inventory') {
         data = getInventoryData();
@@ -597,6 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnExcel) {
     btnExcel.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
       if (typeof XLSX === 'undefined') {
         notify('Librería Excel no cargada. Actualiza la página o revisa la red.', 'error');
         return;
@@ -614,6 +616,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // M-21: Descarga de plantillas desde el menú de exportación
+  const btnTemplateExcel = document.getElementById('btn-table-template-excel');
+  if (btnTemplateExcel) {
+    btnTemplateExcel.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
+      if (typeof downloadDeviceTemplate === 'function') {
+        downloadDeviceTemplate('xlsx', false);
+      }
+    });
+  }
+
+  const btnTemplateCsv = document.getElementById('btn-table-template-csv');
+  if (btnTemplateCsv) {
+    btnTemplateCsv.addEventListener('click', () => {
+      if (exportDropdown) exportDropdown.classList.add('hidden');
+      if (typeof downloadDeviceTemplate === 'function') {
+        downloadDeviceTemplate('csv', false);
+      }
+    });
+  }
+
+  // M-22: Botón de importación masiva en la barra de tablas
+  const btnTableImport = document.getElementById('btn-table-import-modal');
+  if (btnTableImport) {
+    btnTableImport.addEventListener('click', () => {
+      if (typeof openImportModal === 'function') {
+        openImportModal();
+      }
+    });
+  }
+
   updateColumnsBadge();
 });
+
 

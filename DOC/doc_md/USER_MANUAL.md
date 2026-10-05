@@ -173,13 +173,17 @@ Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos 
 2. Se abrirá el modal de **"Nueva Conexión"**.
 3. Selecciona el equipo de origen, el equipo de destino y los puertos. 
    - *Tip:* Marca la casilla **"Mostrar solo puertos libres"** para ocultar los puertos que ya están ocupados y evitar errores.
+   - **Botón Swap de Inversión (⇄, M-41):** Usa el botón central de intercambio `#btn-cable-swap` para alternar instantáneamente el origen y el destino con un solo clic.
+   - **Orientación de Canaleta (M-41):** Elige entre **Canaleta Superior (Techo / Bandeja Aérea)** o **Canaleta Inferior (Piso Técnico / Fondo)** para segregar las rutas físicas del cableado.
 4. Asigna una **VLAN** (ej. VLAN 10 Gestión, VLAN 20 Datos). El sistema sugerirá automáticamente un color de cable basado en la VLAN seleccionada.
 5. Haz clic en **"Conectar"**. El sistema verificará que no haya colisiones antes de enlazar los puertos.
 
 ### Ver cables en la vista física
 1. Ve a la **Vista Física** (botón superior central).
 2. Haz clic en el interruptor deslizable **"Cables"** de la barra de herramientas.
-3. Verás que se dibujan automáticamente los cables desde los puertos, organizados ortogonalmente y agrupándose en los bordes del rack.
+3. Verás que se dibujan automáticamente los cables desde los puertos, organizados ortogonalmente:
+   - Los cables con orientación **Superior** suben por las bandejas aéreas por encima de los gabinetes.
+   - Los cables con orientación **Inferior** descienden por debajo de los racks a través de las canaletas del piso técnico.
 4. Usa el botón rotar del rack para ver la parte trasera (Rear View) desde donde nacen las conexiones.
 
 ### Ver cables en la vista topológica
@@ -241,17 +245,31 @@ La vista de topología es un diagrama de red interactivo donde puedes ver cómo 
 
 ---
 
-## 📊 Parte 7: Exportación de Datos
+## 📊 Parte 7: Exportación e Importación de Datos
 
-Desde el menú del proyecto o la barra inferior, puedes exportar tus datos en varios formatos:
+Desde el menú del proyecto o la barra inferior, puedes exportar e importar datos con herramientas profesionales:
 
 | Formato | Contenido | Cómo |
 |---|---|---|
-| **PNG (Racks)** | Imagen de la vista física de cada rack | Exportar → Rack a PNG |
-| **PNG (Topología)** | Imagen del diagrama de red completo | Exportar → Topología PNG |
+| **PNG (Racks)** | Imagen de la vista física de cada rack a escala Retina 1:1 (`html2canvas`) | Exportar → Rack a PNG |
+| **PNG (Topología)** | Imagen del diagrama de red completo en Canvas 2D | Exportar → Topología PNG |
 | **CSV** | Tabla de inventario de equipos | Botón CSV en la tabla inferior |
 | **Excel (.xlsx)** | Inventario + conexiones en hojas separadas | Botón Excel en la tabla inferior |
-| **JSON (.rack)** | Proyecto completo (datos + catálogo) | Guardar / Guardar como |
+| **Plantilla Equipos (Excel / CSV, M-21)** | Plantilla estructurada con 21 campos y hoja `"Guia_Valores"` | Exportar → Plantilla Equipos |
+| **Importación Masiva (CSV / Excel, M-22)** | Carga masiva de equipos con detección de colisiones y auto-racks | Tablas → Botón "Importar..." o Menú Proyecto |
+| **JSON (.rack)** | Proyecto completo (datos + catálogo + cifrado en reposo) | Guardar / Guardar como |
+
+### 📥 Cómo usar la Importación Masiva (M-22):
+1. Descarga la plantilla desde el menú **Exportar** → **Plantilla Equipos (Excel .xlsx)**.
+2. Completa los datos de tus equipos siguiendo la hoja de ayuda integrada `"Guia_Valores"`.
+3. En la pestaña Tablas, haz clic en el botón **"Importar..."** (o desde el Menú del Proyecto → **"Importar Equipos (CSV/Excel)"**).
+4. Arrastra tu archivo `.xlsx` o `.csv` a la zona de carga.
+5. El sistema analizará instantáneamente las filas:
+   - Valida formatos de IP, MAC y altura en U.
+   - Detecta colisiones físicas de slots en los racks.
+   - Te permite elegir cómo resolver nombres duplicados (Omitir, Renombrar o Sobrescribir).
+   - Crea automáticamente los racks que no existan si marcas la opción correspondiente.
+6. Haz clic en **"Confirmar e Importar"**. Si cometes un error, puedes presionar **Ctrl+Z** para deshacer toda la importación de un solo golpe.
 
 ---
 

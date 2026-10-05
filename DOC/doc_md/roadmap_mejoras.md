@@ -48,8 +48,8 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-18 | ~~Tema Sepia + visibilidad del selector de temas~~ | ✅ COMPLETADO |
 | M-19 | ~~Propiedades faltantes en tabla de inventario~~ | ✅ COMPLETADO |
 | M-20 | ~~Ocultar/mostrar columnas en tablas~~ | ✅ COMPLETADO |
-| M-21 | Plantilla completa de exportación CSV/Excel | 📋 Datos |
-| M-22 | Importación masiva desde CSV/Excel | 📥 Datos |
+| M-21 | ~~Plantilla completa de exportación CSV/Excel~~ | ✅ COMPLETADO |
+| M-22 | ~~Importación masiva desde CSV/Excel~~ | ✅ COMPLETADO |
 | M-23 | ~~Controles de edición/creación en el Outliner~~ | ✅ COMPLETADO |
 | M-24 | ~~Inspector colapsable en panel derecho~~ | ✅ COMPLETADO |
 | M-25A | Diseño adaptativo y responsive en modo Desktop y Laptops | 🖥️ UX / Layout |
@@ -72,7 +72,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **30 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **11** (total general: 42 mejoras, 73.8% del roadmap global). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (5 de 8 completadas, 62.5%). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (6 de 7 completadas, 86%). Fase 6 en marcha.
+> **32 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **10** (total general: 42 mejoras, 76.2% del roadmap global). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (7 de 8 completadas, 87.5%). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (6 de 7 completadas, 86%). Fase 6 en marcha.
 
 ---
 
@@ -109,8 +109,8 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-18 | Tema Sepia + selector visible | 🟠 3 | Nuevo conjunto de variables CSS, lógica de toggle en header, persistencia de preferencia. |
 | M-19 | Props faltantes en tabla | 🟡 2 | Agregar columnas `notes`, `size`, `skin` en `tables.js`. |
 | M-20 | Ocultar columnas en tablas | 🟠 3 | Crear UI de checkboxes, lógica de filtrado de columnas, persistencia en localStorage. |
-| M-21 | Plantilla exportación completa | 🟠 3 | Ampliar `ExportModal.js` para incluir todos los campos del modelo, serializar listas. |
-| M-22 | Importación masiva CSV/Excel | 🔴 4 | Parsear archivos con XLSX, validar datos, mapear a esquema interno, UI de errores y conflictos. |
+| M-21 | ~~Plantilla exportación completa~~ | ✅ COMPLETADO | Plantilla de 21 columnas en Excel/CSV + hoja Guia_Valores + datos actuales o de ejemplo. |
+| M-22 | ~~Importación masiva CSV/Excel~~ | ✅ COMPLETADO | Parser XLSX/CSV, validación reactiva, detección de colisiones, auto-racks, rename/skip/overwrite y Undo atómico. |
 | M-23 | Controles en Outliner | 🟠 3 | Añadir botones inline por nodo + íconos de creación en header de `outliner.js`. |
 | M-24 | ~~Inspector colapsable~~ | ✅ COMPLETADO | Toggle CSS + estado en `inspector.js`, redistribuir espacio vertical del panel derecho. |
 | M-25A | Responsive Desktop / Laptops | 🟠 3 | Breakpoints CSS, variables fluidas clamp, auto-wrap y drawer/toggle para paneles laterales en pantallas compactas/laptops. |
@@ -132,17 +132,17 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-40 | ~~5 Slots de estados de topología~~ | ✅ COMPLETADO | Modelo de datos de 5 ranuras en store con persistencia en localStorage, aislamiento total de undo/redo, solución híbrida de barra compacta (~495px) con sliders en popover Estilo y popover de vistas con anclaje right:0. |
 | M-41 | ~~Invertir/Orientar conexiones~~ | ✅ COMPLETADO | Botón rápido de inversión (Swap) en CableModal y tabla, selector de canaleta superior/inferior y trazado físico SVG. |
 
-### Resumen de Complejidad (Tareas Pendientes: 11)
+### Resumen de Complejidad (Tareas Pendientes: 10)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
 | 🟡 Baja (2) | 0 | *(Todas completadas)* |
-| 🟠 Media (3) | 4 | M-03, M-21, M-25A, M-33 |
-| 🔴 Alta (4) | 4 | M-04, M-22, M-28, M-34 |
+| 🟠 Media (3) | 3 | M-03, M-25A, M-33 |
+| 🔴 Alta (4) | 4 | M-04, M-28, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(30 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
+*(32 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-21, M-22, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
 
 ---
 
@@ -293,9 +293,9 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 2.2 | M-33 | Cableado frontal vs trasero | `store.js`, `CableModal.js`, `rack.js` | Pendiente |
 | 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` | Pendiente |
 | 2.4 | M-19 | ~~Propiedades faltantes en tabla inventario~~ | `tables.js`, `ExportModal.js` | ✅ COMPLETADO (columnas tamaño/skin/notas + inline edit + exportación) |
-| 2.5 | M-21 | Plantilla completa de exportación | `ExportModal.js` | Pendiente |
+| 2.5 | M-21 | ~~Plantilla completa de exportación~~ | `ImportModal.js`, `index.html`, `tables.js` | ✅ COMPLETADO (21 campos + hoja Guia_Valores + datos ejemplo/actuales) |
 | 2.6 | M-37 | ~~Exportación fiel 1:1 (html2canvas)~~ | `index.html`, `ExportModal.js`, `rack.css` | ✅ COMPLETADO (captura Retina 1:1 DOM + fallback procedimental) |
-| 2.7 | M-22 | Importación masiva CSV/Excel | `fileManager.js`, nuevo `ImportModal.js` | Pendiente |
+| 2.7 | M-22 | ~~Importación masiva CSV/Excel~~ | `ImportModal.js`, `index.html`, `tables.js`, `main.js` | ✅ COMPLETADO (Drag & Drop, validación colisiones slots, auto-racks, resolver conflictos y Undo atómico) |
 | 2.8 | M-41 | ~~Botón para cambiar orientación e invertir conexiones~~ | `CableModal.js`, `index.html`, `rack.js`, `tables.js` | ✅ COMPLETADO (Botón Swap ⇄ en modal y tabla, selector de canaleta superior/inferior y trazado físico SVG) |
 
 ---

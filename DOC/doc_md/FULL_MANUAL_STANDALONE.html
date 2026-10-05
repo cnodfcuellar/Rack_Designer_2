@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rack Designer Next - Manual Autónomo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: #ffffff;
+            padding: 2rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1, h2, h3 { color: #111; border-bottom: 1px solid #eee; padding-bottom: 0.3em; margin-top: 1.5em; }
+        h1 { color: #2563eb; }
+        pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+        code { background: #f1f5f9; padding: 0.2em 0.4em; border-radius: 3px; font-family: monospace; color: #db2777; }
+        ul { padding-left: 1.5em; margin-top: 0.5em; margin-bottom: 1em; }
+        li { margin-bottom: 0.5em; }
+        hr { border: 0; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
+        img { max-width: 100%; height: auto; display: block; margin: 1rem auto; }
+        p { margin-bottom: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rack Designer Next - Documentación Completa (Standalone)</h1>
+<p>Esta es una versión combinada y autónoma de la documentación, con todas las imágenes incrustadas internamente, lo que permite mover este archivo sin que se rompan los enlaces.</p>
+<hr>
+<h1>RACK Designer Next — Manual de Usuario Definitivo</h1>
+<p>Bienvenido al manual paso a paso de <strong>RACK Designer Next</strong>, tu herramienta definitiva para gestionar salas, racks, equipos de telecomunicaciones y conexiones. Este manual está diseñado asumiendo que <strong>no tienes experiencia previa</strong> con la aplicación, por lo que te guiaremos desde lo más básico hasta que seas capaz de mapear un centro de datos completo.</p>
+<hr>
+<h2>📖 Parte 1: Conceptos Básicos (Para Principiantes)</h2>
+<p>Antes de hacer clic en cualquier botón, es vital entender qué estamos construyendo.</p>
+<h3>¿Qué es un Datacenter o Sala de Equipos?</h3>
+<p>Es simplemente una habitación física donde se guardan las computadoras centrales (servidores), los aparatos que reparten internet (switches, routers) y los sistemas de energía (baterías, aires acondicionados). En nuestra aplicación, todo empieza por crear una <strong>Sala</strong>.</p>
+<h3>¿Qué es un &quot;Rack&quot; o &quot;Gabinete&quot;?</h3>
+<p>Imagina un estante metálico, como un librero muy alto y estandarizado. Su propósito es apilar equipos uno encima del otro para ahorrar espacio. 
+En nuestra aplicación, los Racks van <strong>adentro de las Salas</strong>.</p>
+<h3>¿Qué es una Unidad &quot;U&quot;?</h3>
+<p>Como los estantes del &quot;Rack&quot; están vacíos, necesitamos medir la altura de los equipos para saber cuántos caben. Para ello usamos la medida <strong>&quot;U&quot;</strong>.</p>
+<ul>
+<li>Un Rack de tamaño completo suele tener <strong>42U</strong> de espacio de arriba a abajo.</li>
+<li>Un equipo pequeño ocupa <strong>1U</strong>. Un servidor más grande puede ocupar <strong>2U</strong> o <strong>4U</strong>.</li>
+</ul>
+<blockquote>
+<p>[!TIP]
+<strong>Vistas de un Rack (Frente y Atrás)</strong>
+Los Racks tienen dos puertas. Por delante (Front) sueles ver los botones de encendido y discos duros. Por detrás (Rear) sueles ver los cables de poder y puertos de red. ¡La aplicación te permite girar el Rack para trabajar por ambas caras!</p>
+</blockquote>
+<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcwMCIgZmlsbD0ibm9uZSI+DQogIDxkZWZzPg0KICAgIDxzdHlsZT4NCiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PU91dGZpdDp3Z2h0QDMwMDs0MDA7NTAwOzYwMDs3MDA7ODAwJmFtcDtkaXNwbGF5PXN3YXAnKTsNCiAgICAgIHRleHQgeyBmb250LWZhbWlseTogJ091dGZpdCcsIHNhbnMtc2VyaWY7IH0NCiAgICAgIC50aXRsZSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZpbGw6ICMzOGJkZjg7IGZvbnQtc2l6ZTogMjRweDsgfQ0KICAgICAgLmRlc2MgeyBmb250LXdlaWdodDogNDAwOyBmaWxsOiAjOTRhM2I4OyBmb250LXNpemU6IDE0cHg7IH0NCiAgICAgIC5sYWJlbC1obCB7IGZvbnQtd2VpZ2h0OiA3MDA7IGZpbGw6ICMxMGI5ODE7IGZvbnQtc2l6ZTogMTZweDsgfQ0KICAgIDwvc3R5bGU+DQogIDwvZGVmcz4NCg0KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MDAiIGZpbGw9IiMwYjBmMTkiIHJ4PSIxNiIvPg0KDQogIDx0ZXh0IHg9IjQwIiB5PSI1MCIgY2xhc3M9InRpdGxlIj7Cv1FVw4kgRVMgVU4gUkFDSyBZIFVOQSBVTklEQUQgIlUiPzwvdGV4dD4NCiAgPHRleHQgeD0iNDAiIHk9Ijc1IiBjbGFzcz0iZGVzYyI+RW50aWVuZGUgbGEgYW5hdG9tw61hIGLDoXNpY2EgZGVsIGFsbWFjZW5hbWllbnRvIGVuIHVuIERhdGFjZW50ZXI8L3RleHQ+DQoNCiAgPCEtLSBSYWNrIERpYWdyYW0gLS0+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1MCwgMTUwKSI+DQogICAgPCEtLSBSYWNrIEZyYW1lIC0tPg0KICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjMTUxYzJlIiBzdHJva2U9IiMyZTNkNWEiIHN0cm9rZS13aWR0aD0iNCIgcng9IjQiLz4NCiAgICANCiAgICA8IS0tIFUgc2xvdHMgLS0+DQogICAgPGcgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjMjUzMDRiIiBzdHJva2Utd2lkdGg9IjEiPg0KICAgICAgPHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjMwIiAvPg0KICAgICAgPHRleHQgeD0iMTQ1IiB5PSIzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzQ3NTU2OSI+VTQyIChWYWPDrW8pPC90ZXh0Pg0KICAgICAgPHJlY3QgeD0iMTAiIHk9IjQ1IiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjMwIiAvPg0KICAgICAgPHRleHQgeD0iMTQ1IiB5PSI2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzQ3NTU2OSI+VTQxIChWYWPDrW8pPC90ZXh0Pg0KICAgICAgPCEtLSAuLi4gc2tpcCAuLi4gLS0+DQogICAgICA8cmVjdCB4PSIxMCIgeT0iMTUwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjMwIiAvPg0KICAgICAgPHRleHQgeD0iMTQ1IiB5PSIxNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0NzU1NjkiPlUzMCAoVmFjw61vKTwvdGV4dD4NCiAgICA8L2c+DQoNCiAgICA8IS0tIDJVIFNlcnZlciAtLT4NCiAgICA8cmVjdCB4PSI4IiB5PSIxODUiIHdpZHRoPSIyODQiIGhlaWdodD0iNjUiIGZpbGw9IiMwNjRlM2IiIHN0cm9rZT0iIzEwYjk4MSIgc3Ryb2tlLXdpZHRoPSIyIiByeD0iMiIvPg0KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMjE1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTBiOTgxIj5TZXJ2aWRvciBEZWxsIChPY3VwYSAyVSk8L3RleHQ+DQogICAgPHRleHQgeD0iMTUwIiB5PSIyMzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzNGQzOTkiPkluc3RhbGFkbyBlbiBVMjggeSBVMjk8L3RleHQ+DQoNCiAgICA8ZyBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMyNTMwNGIiIHN0cm9rZS13aWR0aD0iMSI+DQogICAgICA8cmVjdCB4PSIxMCIgeT0iMjU1IiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjMwIiAvPg0KICAgICAgPHRleHQgeD0iMTQ1IiB5PSIyNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0NzU1NjkiPlUyNyAoVmFjw61vKTwvdGV4dD4NCiAgICA8L2c+DQoNCiAgICA8dGV4dCB4PSIxNTAiIHk9IjQzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk0YTNiOCI+R2FiaW5ldGUgRXN0w6FuZGFyIChFajogNDJVKTwvdGV4dD4NCiAgPC9nPg0KDQogIDwhLS0gRXhwbGFuYXRpb25zIC0tPg0KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1NTAsIDE1MCkiPg0KICAgIDx0ZXh0IHg9IjAiIHk9IjIwIiBjbGFzcz0ibGFiZWwtaGwiIGZpbGw9IiMzOGJkZjgiPjEuIMK/UXXDqSBlcyB1biBSYWNrIChHYWJpbmV0ZSk/PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjAiIHk9IjQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4IiB3aWR0aD0iNDAwIj5FcyB1biBhcm1hcmlvIG1ldMOhbGljbyBkaXNlw7FhZG8gcGFyYSBhcGlsYXI8L3RleHQ+DQogICAgPHRleHQgeD0iMCIgeT0iNjUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiIHdpZHRoPSI0MDAiPmVxdWlwb3MgZGUgZm9ybWEgdmVydGljYWwsIGFob3JyYW5kbyBlc3BhY2lvLjwvdGV4dD4NCg0KICAgIDx0ZXh0IHg9IjAiIHk9IjEyMCIgY2xhc3M9ImxhYmVsLWhsIiBmaWxsPSIjMTBiOTgxIj4yLiDCv1F1w6kgZXMgdW5hICJVIj88L3RleHQ+DQogICAgPHRleHQgeD0iMCIgeT0iMTQ1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4IiB3aWR0aD0iNDAwIj5MYSAiVSIgKFVuaWRhZCBSYWNrKSBlcyBsYSBtZWRpZGEgZGUgYWx0dXJhIGVzdMOhbmRhci48L3RleHQ+DQogICAgPHRleHQgeD0iMCIgeT0iMTY1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4IiB3aWR0aD0iNDAwIj4xVSA9IDEuNzUgcHVsZ2FkYXMgKDQuNDQgY20pLjwvdGV4dD4NCiAgICA8dGV4dCB4PSIwIiB5PSIxODUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiIHdpZHRoPSI0MDAiPlVuIHNlcnZpZG9yIHB1ZWRlIG9jdXBhciAxVSwgMlUgbyBtw6FzLjwvdGV4dD4NCg0KICAgIDx0ZXh0IHg9IjAiIHk9IjI0MCIgY2xhc3M9ImxhYmVsLWhsIiBmaWxsPSIjZjU5ZTBiIj4zLiBWaXN0YXM6IEZyb250YWwgeSBUcmFzZXJhPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjAiIHk9IjI2NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk0YTNiOCIgd2lkdGg9IjQwMCI+TG9zIFJhY2tzIHRpZW5lbiBkb3MgImNhcmFzIi4gTG9zIGVxdWlwb3Mgc2UgbW9udGFuPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjAiIHk9IjI4NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk0YTNiOCIgd2lkdGg9IjQwMCI+cG9yIGRlbGFudGUgKEZyZW50ZSksIHBlcm8gbG9zIGNhYmxlcyB5IHB1ZXJ0b3M8L3RleHQ+DQogICAgPHRleHQgeD0iMCIgeT0iMzA1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4IiB3aWR0aD0iNDAwIj5kZSByZWQgYSBtZW51ZG8gc2UgY29uZWN0YW4gcG9yIGRldHLDoXMgKEF0csOhcykuPC90ZXh0Pg0KICAgIA0KICAgIDx0ZXh0IHg9IjAiIHk9IjMyNSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzM4YmRmOCIgd2lkdGg9IjQwMCI+RW4gbGEgYXBsaWNhY2nDs24gcHVlZGVzIGFsdGVybmFyIGVudHJlIGFtYmFzIGNhcmFzLjwvdGV4dD4NCiAgPC9nPg0KPC9zdmc+DQo=" alt="Anatomía de un Rack"></p>
+<hr>
+<h2>🗺️ Parte 2: Conociendo la Interfaz</h2>
+<p>Al abrir RACK Designer Next, verás tu área de trabajo dividida en <strong>5 paneles principales</strong>. </p>
+<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDg1MCIgZmlsbD0ibm9uZSI+DQogIDxkZWZzPg0KICAgIDxzdHlsZT4NCiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PU91dGZpdDp3Z2h0QDMwMDs0MDA7NTAwOzYwMDs3MDA7ODAwJmFtcDtkaXNwbGF5PXN3YXAnKTsNCiAgICAgIHRleHQgeyBmb250LWZhbWlseTogJ091dGZpdCcsIHNhbnMtc2VyaWY7IH0NCiAgICAgIC50aXRsZSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZpbGw6ICMzOGJkZjg7IGZvbnQtc2l6ZTogMjRweDsgfQ0KICAgICAgLmRlc2MgeyBmb250LXdlaWdodDogNDAwOyBmaWxsOiAjOTRhM2I4OyBmb250LXNpemU6IDE0cHg7IH0NCiAgICAgIC5iYWRnZSB7IGZpbGw6ICNmNTllMGI7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMjBweDsgdGV4dC1hbmNob3I6IG1pZGRsZTsgfQ0KICAgICAgLnBhbmVsLWxhYmVsIHsgZm9udC13ZWlnaHQ6IDcwMDsgZmlsbDogI2YwZjRmZjsgZm9udC1zaXplOiAxNnB4OyB9DQogICAgICAucGFuZWwtc3ViIHsgZm9udC13ZWlnaHQ6IDQwMDsgZmlsbDogIzk0YTNiODsgZm9udC1zaXplOiAxMnB4OyB9DQogICAgPC9zdHlsZT4NCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0xMCUiIHk9Ii0xMCUiIHdpZHRoPSIxMjAlIiBoZWlnaHQ9IjEyMCUiPg0KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNiIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuNCIvPg0KICAgIDwvZmlsdGVyPg0KICA8L2RlZnM+DQoNCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODUwIiBmaWxsPSIjMGIwZjE5IiByeD0iMTYiLz4NCg0KICA8IS0tIFRpdGxlIC0tPg0KICA8dGV4dCB4PSI0MCIgeT0iNTAiIGNsYXNzPSJ0aXRsZSI+TUFQQSBERSBMQSBJTlRFUkZBWiBQUklOQ0lQQUw8L3RleHQ+DQogIDx0ZXh0IHg9IjQwIiB5PSI3NSIgY2xhc3M9ImRlc2MiPkNvbm9jZSBsYXMgNSDDoXJlYXMgY2xhdmUgZGUgUkFDSyBEZXNpZ25lciBOZXh0PC90ZXh0Pg0KDQogIDwhLS0gQVBQIFdJTkRPVyBNT0NLVVAgLS0+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwLCAxMDApIiBmaWx0ZXI9InVybCgjc2hhZG93KSI+DQogICAgPCEtLSBNYWluIFdpbmRvdyBCYWNrZ3JvdW5kIC0tPg0KICAgIDxyZWN0IHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjYwMCIgcng9IjgiIGZpbGw9IiMxNTFjMmUiIHN0cm9rZT0iIzJlM2Q1YSIgc3Ryb2tlLXdpZHRoPSIyIi8+DQogICAgDQogICAgPCEtLSAxLiBIRUFERVIgLS0+DQogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjExMjAiIGhlaWdodD0iNjAiIGZpbGw9IiMwZjE3MmEiIHJ4PSI4IiBzdHJva2U9IiMyZTNkNWEiIHN0cm9rZS13aWR0aD0iMSIvPg0KICAgIDxjaXJjbGUgY3g9IjU2MCIgY3k9IjMwIiByPSIxNiIgZmlsbD0iI2Y1OWUwYiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSI1NjAiIHk9IjM3IiBjbGFzcz0iYmFkZ2UiIGZpbGw9IiMwMDAiPjE8L3RleHQ+DQogICAgPHRleHQgeD0iNDAiIHk9IjM1IiBjbGFzcz0icGFuZWwtbGFiZWwiPkJBUlJBIFNVUEVSSU9SIChSb2xlcywgR3VhcmRhciwgRXhwb3J0YXIpPC90ZXh0Pg0KDQogICAgPCEtLSAyLiBMRUZUIFNJREVCQVIgKENBVEFMT0cpIC0tPg0KICAgIDxyZWN0IHg9IjAiIHk9IjYwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjM4MCIgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjMmUzZDVhIiBzdHJva2Utd2lkdGg9IjEiLz4NCiAgICA8Y2lyY2xlIGN4PSIxMjUiIGN5PSIyMzAiIHI9IjE2IiBmaWxsPSIjZjU5ZTBiIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPg0KICAgIDx0ZXh0IHg9IjEyNSIgeT0iMjM3IiBjbGFzcz0iYmFkZ2UiIGZpbGw9IiMwMDAiPjI8L3RleHQ+DQogICAgPHRleHQgeD0iMTI1IiB5PSIyNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+Q0FUw4FMT0dPPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEyNSIgeT0iMjkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtc3ViIj5BcnJhc3RyYSBlcXVpcG9zIGRlc2RlIGFxdcOtPC90ZXh0Pg0KDQogICAgPCEtLSAzLiBNQUlOIFdPUktTUEFDRSAtLT4NCiAgICA8cmVjdCB4PSIyNTAiIHk9IjYwIiB3aWR0aD0iNjIwIiBoZWlnaHQ9IjM4MCIgZmlsbD0iIzFlMjkzYiIgc3Ryb2tlPSIjMmUzZDVhIiBzdHJva2Utd2lkdGg9IjEiLz4NCiAgICA8Y2lyY2xlIGN4PSI1NjAiIGN5PSIyNTAiIHI9IjE2IiBmaWxsPSIjZjU5ZTBiIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPg0KICAgIDx0ZXh0IHg9IjU2MCIgeT0iMjU3IiBjbGFzcz0iYmFkZ2UiIGZpbGw9IiMwMDAiPjM8L3RleHQ+DQogICAgPHRleHQgeD0iNTYwIiB5PSIyOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+w4FSRUEgREUgVFJBQkFKTyAoTElFTlpPKTwvdGV4dD4NCiAgICA8dGV4dCB4PSI1NjAiIHk9IjMxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InBhbmVsLXN1YiI+VmlzdGEgRsOtc2ljYSBkZSBSYWNrcyB5IFRvcG9sb2fDrWEgZGUgU2FsYXM8L3RleHQ+DQoNCiAgICA8IS0tIDQuIFJJR0hUIFNJREVCQVIgKElOU1BFQ1RPUikgLS0+DQogICAgPHJlY3QgeD0iODcwIiB5PSI2MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIzODAiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzJlM2Q1YSIgc3Ryb2tlLXdpZHRoPSIxIi8+DQogICAgPGNpcmNsZSBjeD0iOTk1IiBjeT0iMjMwIiByPSIxNiIgZmlsbD0iI2Y1OWUwYiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSI5OTUiIHk9IjIzNyIgY2xhc3M9ImJhZGdlIiBmaWxsPSIjMDAwIj40PC90ZXh0Pg0KICAgIDx0ZXh0IHg9Ijk5NSIgeT0iMjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtbGFiZWwiPklOU1BFQ1RPUiAmYW1wOyDDgVJCT0w8L3RleHQ+DQogICAgPHRleHQgeD0iOTk1IiB5PSIyOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1zdWIiPkVkaXRhIG5vbWJyZXMsIElQcyB5IHByb3BpZWRhZGVzPC90ZXh0Pg0KDQogICAgPCEtLSA1LiBCT1RUT00gUEFORUwgKFRBQkxFUykgLS0+DQogICAgPHJlY3QgeD0iMCIgeT0iNDQwIiB3aWR0aD0iMTEyMCIgaGVpZ2h0PSIxNjAiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzJlM2Q1YSIgc3Ryb2tlLXdpZHRoPSIxIi8+DQogICAgPGNpcmNsZSBjeD0iNTYwIiBjeT0iNTIwIiByPSIxNiIgZmlsbD0iI2Y1OWUwYiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSI1NjAiIHk9IjUyNyIgY2xhc3M9ImJhZGdlIiBmaWxsPSIjMDAwIj41PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjU2MCIgeT0iNTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtbGFiZWwiPklOVkVOVEFSSU8gWSBDT05FWElPTkVTPC90ZXh0Pg0KICA8L2c+DQoNCiAgPCEtLSBMRUdFTkQgLS0+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwLCA3MzApIj4NCiAgICA8dGV4dCB4PSIwIiB5PSIxNSIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2Y1OWUwYiI+MTwvdGV4dD4NCiAgICA8dGV4dCB4PSIyNSIgeT0iMTUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPkJhcnJhIFN1cGVyaW9yOjwvdGV4dD4NCiAgICA8dGV4dCB4PSIxMzUiIHk9IjE1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4Ij5DYW1iaWEgdHUgcm9sLCBndWFyZGEgZWwgcHJveWVjdG8gbyBleHBvcnRhIGEgRXhjZWwvUGxhbm8uPC90ZXh0Pg0KDQogICAgPHRleHQgeD0iMCIgeT0iNDAiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmNTllMGIiPjI8L3RleHQ+DQogICAgPHRleHQgeD0iMjUiIHk9IjQwIiBmb250LXNpemU9IjE0IiBmaWxsPSIjZjBmNGZmIj5DYXTDoWxvZ286PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEzNSIgeT0iNDAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiPkxpc3RhIGRlIGVxdWlwb3MgZGlzcG9uaWJsZXMuIFNlbGVjY2lvbmEsIG1hbnTDqW4gcHJlc2lvbmFkbyB5IGFycmFzdHJhIGFsIGNlbnRyby48L3RleHQ+DQoNCiAgICA8dGV4dCB4PSIwIiB5PSI2NSIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2Y1OWUwYiI+MzwvdGV4dD4NCiAgICA8dGV4dCB4PSIyNSIgeT0iNjUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPsOBcmVhIENlbnRyYWw6PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEzNSIgeT0iNjUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiPkFxdcOtIGRpc2XDsWFzLiBQdWVkZXMgdmVyIGPDs21vIGx1Y2VuIGxvcyBSYWNrcyBkZSBmcmVudGUgbyB2ZXIgbGFzIHNhbGFzIGRlc2RlIGFycmliYS48L3RleHQ+DQoNCiAgICA8dGV4dCB4PSIwIiB5PSI5MCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2Y1OWUwYiI+NDwvdGV4dD4NCiAgICA8dGV4dCB4PSIyNSIgeT0iOTAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPkluc3BlY3Rvcjo8L3RleHQ+DQogICAgPHRleHQgeD0iMTM1IiB5PSI5MCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk0YTNiOCI+QWwgdG9jYXIgY3VhbHF1aWVyIGVxdWlwbywgYXF1w60gcG9kcsOhcyBlZGl0YXIgc3Ugbm9tYnJlLCBJUCwgbyB2ZXIgZW4gcXXDqSBVIGVzdMOhIGluc3RhbGFkby48L3RleHQ+DQoNCiAgICA8dGV4dCB4PSI1ODAiIHk9IjE1IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZjU5ZTBiIj41PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjYwNSIgeT0iMTUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPkludmVudGFyaW86PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjY5MCIgeT0iMTUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiPlRhYmxhIHF1ZSByZXN1bWUgdG9kbyBlbCBoYXJkd2FyZSB5IGxvcyBjYWJsZXMgY29uZWN0YWRvcy48L3RleHQ+DQogIDwvZz4NCjwvc3ZnPg0K" alt="Mapa de la Interfaz"></p>
+<ol>
+<li><strong>Barra Superior (Header):</strong> Aquí administras tu &quot;Rol&quot; (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a PNG (a escala Retina 1:1 sobre fondo de datacenter <code>#090d17</code>), CSV o Excel, y el botón para Guardar el archivo en tu computadora. También encontrarás los <strong>tabs de vista</strong> (Física / Topología), los controles de zoom, el interruptor para ocultar/mostrar cables, y los botones de Deshacer/Rehacer.</li>
+<li><strong>Catálogo (Izquierda):</strong> Es tu &quot;tienda&quot; de equipos con <strong>30 plantillas arquitectónicas profesionales</strong> organizadas en 8 familias comerciales: Redes (<code>network</code>), Cómputo (<code>computing</code>), Almacenamiento (<code>storage</code>), <strong>Seguridad y CCTV (<code>security</code>)</strong>, Energía (<code>power</code>), KVM (<code>kvm</code>), Accesorios y Cableado (<code>accesorios</code>) y Equipos de Piso (<code>floor</code>). Además incluye una pestaña superior <strong>&quot;Todos&quot;</strong> con buscador reactivo. Al hacer <strong>clic en un icono</strong>, se despliega el flyout donde puedes buscar, arrastrar equipos o crear <strong>Equipos Personalizados por Proyecto</strong> (<code>+ Equipo</code>) que se identifican con un distintivo <code>PROYECTO</code>.</li>
+<li><strong>Área de Trabajo (Centro):</strong> El lienzo principal. Aquí es donde los Racks cobran vida. En la parte superior de esta área (Cabecera), encontrarás los menús desplegables para seleccionar y crear Salas (&quot;Data Center&quot;) y Racks, junto con las pestañas unificadas para cambiar entre <strong>Vista Física</strong> y <strong>Topología</strong>.<ul>
+<li>En la <strong>Vista Física</strong>, cada equipo se representa con carátulas vectoriales SVG de alta definición (servidores en rack 1U/2U/4U, switches de 24/48 puertos con actividad LED animada, routers, almacenamiento NAS/SAN con discos parpadeantes, grabadores NVR/DVR, UPS y PDUs), garantizando una escala visual 1:1 nítida en cualquier nivel de zoom. Los gabinetes cuentan con una separación técnica espaciosa de <strong><code>72px</code></strong> (3U).</li>
+<li><strong>Enrutamiento Segregado de Cables:</strong> Los cables se enrutan automáticamente en 3 zonas libres: <strong>Canastillo Aéreo Superior</strong> (entre gabinetes distintos, por encima del techo), <strong>Canaleta Media</strong> (para equipos de piso y periféricos hacia los racks) y <strong>Organizador Lateral de Gabinete</strong> (para enlaces internos del mismo rack), garantizando cero cruces sobre equipos o servidores.</li>
+</ul>
+</li>
+<li><strong>Inspector y Árbol (Derecha):</strong> Cuando seleccionas un Rack o un servidor, en este panel verás sus propiedades completas. Se divide en tres secciones:<ul>
+<li><strong>Outliner:</strong> Un árbol jerárquico (Salas → Racks → Equipos) con barra de herramientas (<code>+ Sala</code>, <code>+ Rack</code>, <code>+ Equipo</code>), selector de 4 modos de ordenación (por posición U, alfabético A-Z / Z-A y por tipo) y botones de acción rápida inline (<code>✏️</code> para editar y <code>🗑️</code> para eliminar con confirmación). Al hacer <strong>clic en cualquier elemento del árbol</strong>, la vista física saltará de sala automáticamente y hará un scroll suave para resaltarlo en pantalla.</li>
+<li><strong>Inspector:</strong> Panel de propiedades del elemento seleccionado, ahora <strong>colapsable</strong> para dar más espacio al árbol. Incluye <strong>gestión activa (CRUD)</strong> con botones rápidos para crear salas y gabinetes en estado vacío, y botones contextuales para editar o eliminar salas, racks y equipos de forma directa.</li>
+<li><strong>Estadísticas:</strong> Contadores globales (salas, racks, equipos en rack, equipos de piso, conexiones y balance de energía en Watts).</li>
+</ul>
+</li>
+<li><strong>Inventario (Abajo):</strong> Una gran tabla tipo Excel con 18 columnas de metadatos (incluyendo Tamaño, Skin y Notas). <ul>
+<li><strong>Gestión de Columnas:</strong> Usa el botón <code>⚙ Columnas</code> para abrir un menú desplegable y seleccionar exactamente qué columnas deseas ver (Ubicación, Red, Energía, etc.). Tus preferencias se guardan automáticamente.</li>
+<li><strong>Edición Rápida:</strong> Permite <strong>edición rápida en celda mediante doble clic</strong> (<code>dblclick</code>) para modificar tamaño en U, apariencia o anotaciones sin abrir modales.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>🔐 Parte 2.5: Roles y Permisos</h2>
+<p>Al abrir la aplicación por primera vez, verás un modal de inicio de sesión con tres opciones:</p>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Acceso</th>
+<th>PIN Requerido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Administrador</strong></td>
+<td>Acceso total: editar, borrar, cambiar PIN, ver contraseñas</td>
+<td>Sí (<code>rack2024</code> por defecto)</td>
+</tr>
+<tr>
+<td><strong>Editor</strong></td>
+<td>Editar equipos, racks, conexiones, guardar</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Espectador</strong></td>
+<td>Solo ver datos, sin poder editar</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!IMPORTANT]
+<strong>El PIN de Admin por defecto es <code>rack2024</code>.</strong> Puedes cambiarlo desde el menú del proyecto → &quot;Cambiar PIN Admin&quot;. El PIN se almacena como hash SHA-256 en tu navegador.</p>
+<p><strong>Persistencia de Sesión:</strong> Si recargas la página (F5), tu sesión como Administrador o Editor se mantendrá activa automáticamente sin pedirte el PIN nuevamente. Sin embargo, por seguridad, al cerrar la pestaña o el navegador, la sesión se destruye (<code>SESSION_EXPIRATION = VOLATILE</code>), requiriendo identificarse de nuevo en la siguiente visita.</p>
+</blockquote>
+<hr>
+<h2>⚡ Parte 3: Flujo de Trabajo y Operaciones Comunes</h2>
+<p>La aplicación fue diseñada para ser tan fácil como un juego de &quot;arrastrar y soltar&quot;.</p>
+<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQwMCIgZmlsbD0ibm9uZSI+DQogIDxkZWZzPg0KICAgIDxzdHlsZT4NCiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PU91dGZpdDp3Z2h0QDMwMDs0MDA7NTAwOzYwMDs3MDA7ODAwJmFtcDtkaXNwbGF5PXN3YXAnKTsNCiAgICAgIHRleHQgeyBmb250LWZhbWlseTogJ091dGZpdCcsIHNhbnMtc2VyaWY7IH0NCiAgICAgIC5zdGVwLXRpdGxlIHsgZm9udC13ZWlnaHQ6IDcwMDsgZmlsbDogIzM4YmRmODsgZm9udC1zaXplOiAxOHB4OyB9DQogICAgICAuc3RlcC1kZXNjIHsgZm9udC13ZWlnaHQ6IDQwMDsgZmlsbDogIzk0YTNiODsgZm9udC1zaXplOiAxM3B4OyB9DQogICAgPC9zdHlsZT4NCiAgICA8bWFya2VyIGlkPSJhcnJvdyIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSIxMCIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvLXN0YXJ0LWF1dG8iPg0KICAgICAgPHBhdGggZD0iTSAwIDAgTCAxMCA1IEwgMCAxMCB6IiBmaWxsPSIjNDc1NTY5Ii8+DQogICAgPC9tYXJrZXI+DQogIDwvZGVmcz4NCg0KICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMwYjBmMTkiIHJ4PSIxNiIvPg0KICA8dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiMzOGJkZjgiIGZvbnQtc2l6ZT0iMjAiPkZMVUpPIERFIFRSQUJBSk8gQsOBU0lDTyBFTiAzIFBBU09TPC90ZXh0Pg0KDQogIDwhLS0gU3RlcCAxIC0tPg0KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MCwgMTIwKSI+DQogICAgPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiMwZjE3MmEiIHJ4PSIxMiIgc3Ryb2tlPSIjMjUzMDRiIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iMjUiIGZpbGw9IiMxNTFjMmUiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIyIi8+DQogICAgPHRleHQgeD0iMTAwIiB5PSI1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIyNCI+8J+Wse+4jzwvdGV4dD4NCiAgICA8dGV4dCB4PSIxMDAiIHk9IjEwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InN0ZXAtdGl0bGUiPjEuIFNFTEVDQ0lPTkE8L3RleHQ+DQogICAgPHRleHQgeD0iMTAwIiB5PSIxMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJzdGVwLWRlc2MiPkVsaWdlIHVuIGVxdWlwbyBkZWwgQ2F0w6Fsb2dvPC90ZXh0Pg0KICA8L2c+DQoNCiAgPCEtLSBBcnJvdyAtLT4NCiAgPHBhdGggZD0iTSAyNzUgMTk1IEwgMzY1IDE5NSIgc3Ryb2tlPSIjNDc1NTY5IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1kYXNoYXJyYXk9IjYsNCIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz4NCg0KICA8IS0tIFN0ZXAgMiAtLT4NCiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzgwLCAxMjApIj4NCiAgICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzBmMTcyYSIgcng9IjEyIiBzdHJva2U9IiMyNTMwNGIiIHN0cm9rZS13aWR0aD0iMiIvPg0KICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjUwIiByPSIyNSIgZmlsbD0iIzE1MWMyZSIgc3Ryb2tlPSIjMTBiOTgxIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSIxMDAiIHk9IjU4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjI0Ij7wn6SaPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEwMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0ic3RlcC10aXRsZSIgZmlsbD0iIzEwYjk4MSI+Mi4gQVJSQVNUUkE8L3RleHQ+DQogICAgPHRleHQgeD0iMTAwIiB5PSIxMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJzdGVwLWRlc2MiPlN1w6lsdGFsbyBlbiB1biBSYWNrIHZhY8OtbzwvdGV4dD4NCiAgPC9nPg0KDQogIDwhLS0gQXJyb3cgLS0+DQogIDxwYXRoIGQ9Ik0gNTk1IDE5NSBMIDY4NSAxOTUiIHN0cm9rZT0iIzQ3NTU2OSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSI2LDQiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+DQoNCiAgPCEtLSBTdGVwIDMgLS0+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcwMCwgMTIwKSI+DQogICAgPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiMwZjE3MmEiIHJ4PSIxMiIgc3Ryb2tlPSIjMjUzMDRiIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iMjUiIGZpbGw9IiMxNTFjMmUiIHN0cm9rZT0iI2Y1OWUwYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQogICAgPHRleHQgeD0iMTAwIiB5PSI1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIyNCI+4pyP77iPPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEwMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0ic3RlcC10aXRsZSIgZmlsbD0iI2Y1OWUwYiI+My4gRURJVEE8L3RleHQ+DQogICAgPHRleHQgeD0iMTAwIiB5PSIxMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJzdGVwLWRlc2MiPlBvbmxlIG5vbWJyZSBlbiBlbCBJbnNwZWN0b3I8L3RleHQ+DQogIDwvZz4NCg0KPC9zdmc+DQo=" alt="Flujo de Trabajo Básico"></p>
+<h3>Cómo moverse y seleccionar</h3>
+<ul>
+<li><strong>Clic Izquierdo:</strong> Selecciona un objeto (Rack, servidor, etc.). Al seleccionarlo, se iluminará y sus datos aparecerán en el panel de la derecha (Inspector).</li>
+<li><strong>Clic en el Outliner:</strong> Selecciona elementos desde el árbol jerárquico y muestra sus propiedades.</li>
+<li><strong>Doble Clic en el Outliner:</strong> Abre el modal de edición del elemento.</li>
+<li><strong>Rueda del Ratón:</strong> Haz scroll para hacer acercar (Zoom In) o alejar (Zoom Out).</li>
+<li><strong>Arrastrar (Drag &amp; Drop):</strong> Haz clic sostenido en un equipo del catálogo izquierdo, muévelo hasta un hueco vacío en tu Rack, y suelta el botón.</li>
+<li><strong>Colocación Rápida Asistida:</strong> En el menú inferior o contextual, usa &quot;Colocación Rápida&quot;. Incluye un buscador reactivo para filtrar equipos y autocalcula los slots libres disponibles.</li>
+<li><strong>Arrastrar el fondo (Vista Física o Topología):</strong> Mueve la vista completa (Pan).</li>
+<li><strong>Alternar Cables:</strong> Activa o desactiva la visualización de cables en la vista física con el interruptor en la barra superior.</li>
+</ul>
+<h3>Guardar y Cargar</h3>
+<p>La aplicación guarda <strong>automáticamente</strong> los cambios en la memoria temporal de tu navegador cada vez que haces un movimiento. Además, si tienes un archivo <code>.rack</code> abierto, se <strong>autoguarda en disco</strong> cada 3 segundos después del último cambio.</p>
+<p><strong>Guardar manualmente:</strong></p>
+<ol>
+<li>Ve a la <strong>Barra Superior</strong> → Menú del proyecto (⋮).</li>
+<li>Haz clic en <strong>&quot;Guardar&quot;</strong> (guarda en el archivo actual) o <strong>&quot;Guardar como...&quot;</strong> (elige un nuevo archivo).</li>
+<li>Se guardará un archivo con extensión <code>.rack</code>. ¡Ese es tu proyecto!</li>
+</ol>
+<p><strong>Abrir un proyecto existente:</strong></p>
+<ol>
+<li>Ve a la <strong>Barra Superior</strong> → Menú del proyecto (⋮).</li>
+<li>Haz clic en <strong>&quot;Abrir&quot;</strong> y selecciona tu archivo <code>.rack</code> o <code>.json</code>.</li>
+</ol>
+<h3>Deshacer y Rehacer</h3>
+<ul>
+<li><strong>Ctrl+Z</strong> o botón ↩ en el header: Deshace la última acción (hasta 30 pasos)</li>
+<li><strong>Ctrl+Y</strong> o botón ↪ en el header: Rehace la acción deshecha</li>
+</ul>
+<hr>
+<h2>🎓 Parte 4: Tutoriales Prácticos Paso a Paso</h2>
+<p>¡Hora de la práctica! Vamos a crear tres salas distintas desde cero.</p>
+<h3>Escenario 1: Datacenter Híbrido (Racks y Piso)</h3>
+<p>Vamos a crear una sala normal, que contiene 2 Racks con servidores, y adicionalmente un equipo pesado (Aire Acondicionado) que va en el piso, fuera de los racks.</p>
+<p><strong>Paso 1: Crear la Sala y los Racks</strong></p>
+<ol>
+<li>En la <strong>Barra Superior (Cabecera)</strong>, verás un menú desplegable que dice &quot;Data Center&quot; y a su lado un botón <strong>&quot;+&quot;</strong> (o en el Inspector con <code>+ Nueva Sala</code>).</li>
+<li>Haz clic en el menú o selecciona la sala existente. En el panel Derecho (Inspector), cámbiale el nombre a <code>Mi Datacenter Híbrido</code>.</li>
+<li>En la misma barra superior, junto al menú desplegable de &quot;Racks&quot;, haz clic en el botón <strong>&quot;+&quot;</strong> para agregar un Rack (o usa <code>+ Nuevo Gabinete</code> en el Inspector). Aparecerá un cajón negro en el lienzo central con altura estándar (42U por defecto).</li>
+<li>En el panel Derecho, ponle nombre a ese rack: <code>RACK-01</code>.</li>
+<li>Repite el paso 3 y 4 para crear otro rack llamado <code>RACK-02</code>. Ambos gabinetes se ordenarán con una separación espaciosa de 72px.</li>
+</ol>
+<p><strong>Paso 2: Llenar el RACK-01</strong></p>
+<ol>
+<li>Ve al panel Izquierdo (Catálogo) y haz clic en el icono de <strong>Cómputo / Servidores</strong> para desplegar el flyout.</li>
+<li>Haz clic sostenido sobre un &quot;Servidor Rack 2U&quot; y arrástralo hacia el <code>RACK-01</code> en el lienzo central. Suéltalo en un hueco vacío.</li>
+<li>Haz clic en el icono de <strong>Redes</strong> en la barra de categorías. Arrastra un &quot;Switch Acceso 24P (1U)&quot; y suéltalo justo arriba del servidor.</li>
+</ol>
+<p><strong>Paso 3: Añadir el equipo de piso</strong></p>
+<ol>
+<li>En el Catálogo, busca la categoría <strong>Floor / Piso</strong> (iconos de PC, cámara, etc.).</li>
+<li>Arrastra una &quot;Unidad InRow (Aire Acondicionado)&quot;. Notarás que el sistema <em>no te deja</em> meterlo dentro del Rack. </li>
+<li><strong>¿Cómo lo coloco en el piso?</strong> Muy simple: En la parte inferior del Rack, verás una zona punteada llamada <strong>&quot;Floor Equip (Exterior)&quot;</strong> alineada con un ancho mínimo de 584px. Suelta el equipo ahí.</li>
+<li>Haz clic en el aire acondicionado recién colocado y, en el panel Derecho, llámalo <code>Aire-Principal</code>. ¡Felicidades, completaste el escenario 1!</li>
+</ol>
+<hr>
+<h3>Escenario 2: Sala de Telecomunicaciones (Solo Racks)</h3>
+<p>Este cuarto más pequeño no tiene equipos en el piso, solo equipos de red y parcheo.</p>
+<p><strong>Paso 1: Crear una Sala nueva</strong></p>
+<ol>
+<li>Ve a la <strong>Barra Superior (Cabecera)</strong> y haz clic en el botón <strong>&quot;+&quot;</strong> que está al lado del selector de Salas (&quot;Data Center&quot;).</li>
+<li>En el panel Derecho, llámala <code>Cuarto de Telecomunicaciones</code>. Notarás que el lienzo central se vacía (porque entraste a tu nueva sala vacía).</li>
+</ol>
+<p><strong>Paso 2: Montar el Gabinete de Red</strong></p>
+<ol>
+<li>En la Barra Superior, haz clic en el botón <strong>&quot;+&quot;</strong> junto al selector de Racks y llámalo <code>RACK-TELCO</code> en el panel derecho.</li>
+<li>Ve al Catálogo → Categoría <strong>Network</strong> (icono de switch).</li>
+<li>Arrastra un &quot;Patch Panel (1U)&quot; a la parte más alta del rack.</li>
+<li>Arrastra un &quot;Router Core (4U)&quot; debajo del patch panel.</li>
+<li>Ve al panel Derecho y en las propiedades del Router escribe en la IP: <code>192.168.1.1</code>.</li>
+</ol>
+<blockquote>
+<p>[!NOTE]
+En este escenario no usamos equipos de piso. Tu vista principal (Topológica o Frontal) mostrará el cuarto ordenado y exclusivamente dedicado a equipos montados.</p>
+</blockquote>
+<hr>
+<h3>Escenario 3: Sala de Fuerza / Energía (Solo Equipos de Piso)</h3>
+<p>En el sótano del edificio, tenemos una sala de baterías gigantes y generadores que no caben en ningún rack.</p>
+<p><strong>Paso 1: Crear la Sala de Energía</strong></p>
+<ol>
+<li>En la Barra Superior, haz clic en el botón <strong>&quot;+&quot;</strong> junto al selector de Salas.</li>
+<li>En el panel Derecho, nómbrala <code>Cuarto de Baterías</code>.</li>
+</ol>
+<p><strong>Paso 2: Llenar el cuarto sin usar Racks</strong>
+Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos de manera independiente.</p>
+<ol>
+<li><strong>NO</strong> hagas clic en el botón &quot;+&quot; de Racks.</li>
+<li>Ve directamente al Catálogo → Categoría <strong>Floor / Piso</strong>.</li>
+<li>Arrastra un &quot;Standalone UPS&quot; hacia el lienzo vacío central.</li>
+<li>Como no hay un Rack, la aplicación creará automáticamente una zona invisible (un chasis contenedor de piso) para alojarlo.</li>
+<li>Arrastra un &quot;Desk / Escritorio&quot; al lienzo.</li>
+<li>En el panel Derecho, renombra los equipos a <code>Batería-Principal</code> y <code>Mesa Operador</code>.</li>
+</ol>
+<hr>
+<h2>🔌 Parte 5: Visualización de Conexiones Físicas</h2>
+<p>¡Ahora también puedes visualizar cómo están conectados los cables en la vida real!</p>
+<h3>Crear una conexión</h3>
+<ol>
+<li>Haz <strong>doble clic</strong> en un equipo (en la vista Topología o desde la tabla inferior).</li>
+<li>Se abrirá el modal de <strong>&quot;Nueva Conexión&quot;</strong>.</li>
+<li>Selecciona el equipo de origen, el equipo de destino y los puertos. <ul>
+<li><em>Tip:</em> Marca la casilla <strong>&quot;Mostrar solo puertos libres&quot;</strong> para ocultar los puertos que ya están ocupados y evitar errores.</li>
+<li><strong>Botón Swap de Inversión (⇄, M-41):</strong> Usa el botón central de intercambio <code>#btn-cable-swap</code> para alternar instantáneamente el origen y el destino con un solo clic.</li>
+<li><strong>Orientación de Canaleta (M-41):</strong> Elige entre <strong>Canaleta Superior (Techo / Bandeja Aérea)</strong> o <strong>Canaleta Inferior (Piso Técnico / Fondo)</strong> para segregar las rutas físicas del cableado.</li>
+</ul>
+</li>
+<li>Asigna una <strong>VLAN</strong> (ej. VLAN 10 Gestión, VLAN 20 Datos). El sistema sugerirá automáticamente un color de cable basado en la VLAN seleccionada.</li>
+<li>Haz clic en <strong>&quot;Conectar&quot;</strong>. El sistema verificará que no haya colisiones antes de enlazar los puertos.</li>
+</ol>
+<h3>Ver cables en la vista física</h3>
+<ol>
+<li>Ve a la <strong>Vista Física</strong> (botón superior central).</li>
+<li>Haz clic en el interruptor deslizable <strong>&quot;Cables&quot;</strong> de la barra de herramientas.</li>
+<li>Verás que se dibujan automáticamente los cables desde los puertos, organizados ortogonalmente:<ul>
+<li>Los cables con orientación <strong>Superior</strong> suben por las bandejas aéreas por encima de los gabinetes.</li>
+<li>Los cables con orientación <strong>Inferior</strong> descienden por debajo de los racks a través de las canaletas del piso técnico.</li>
+</ul>
+</li>
+<li>Usa el botón rotar del rack para ver la parte trasera (Rear View) desde donde nacen las conexiones.</li>
+</ol>
+<h3>Ver cables en la vista topológica</h3>
+<ol>
+<li>Cambia a la <strong>Vista Topología</strong> (botón superior central).</li>
+<li>Las conexiones se muestran como curvas animadas con partículas de flujo.</li>
+<li><strong>Pasa el mouse</strong> sobre un nodo para resaltar solo sus conexiones directas.</li>
+</ol>
+<hr>
+<h2>🌐 Parte 6: Vista de Topología</h2>
+<p>La vista de topología es un diagrama de red interactivo donde puedes ver cómo están conectados todos tus equipos.</p>
+<h3>Controles</h3>
+<ul>
+<li><strong>Arrastrar nodo:</strong> Mueve un equipo individual dentro de su rack o sala.</li>
+<li><strong>Arrastrar barra de rack (verde):</strong> Mueve el rack completo con todos sus equipos.</li>
+<li><strong>Arrastrar barra de sala (naranja):</strong> Mueve la sala completa.</li>
+<li><strong>Esquina inferior-derecha de sala/rack:</strong> Cambia el tamaño (resize).</li>
+<li><strong>Rueda del mouse:</strong> Zoom in/out.</li>
+<li><strong>Arrastrar el fondo:</strong> Pan (mueve toda la vista).</li>
+<li><strong>Doble clic en un nodo:</strong> Abre modal para crear una conexión.</li>
+<li><strong>Doble clic en un cable:</strong> Abre modal para editar esa conexión.</li>
+</ul>
+<h3>Cambiar estilo y posición de etiquetas de nodos</h3>
+<ul>
+<li>Haz clic en el botón <strong>&quot;Estilo&quot;</strong> del header → alterna entre <strong>Card</strong> (tarjetas rectangulares con nombre e IP) y <strong>Circle</strong> (círculos con icono, nombre e IP configurables).</li>
+<li>En modo Circle, puedes abrir el menú desplegable para elegir presets de etiquetas (Separados IP Arriba / Nombre Abajo, Juntos, Izquierda, Derecha o Personalizado).</li>
+</ul>
+<h3>Modo de Layout (Por Racks vs Árbol Jerárquico)</h3>
+<ul>
+<li>Puedes alternar entre <strong>Organización por Racks</strong> (agrupa los nodos dentro de sus respectivos gabinetes) y <strong>Árbol Jerárquico</strong> (organización tipo Draw.io de arriba hacia abajo: Core → Distribución → Acceso, con cables ortogonales redondeados).</li>
+</ul>
+<h3>Ajustar el espaciado (Control Dual H y V)</h3>
+<ul>
+<li>Abre el menú desplegable <strong>&quot;🎛️ Estilo&quot;</strong> en la barra superior de topología:<ul>
+<li><strong>Barra H (Horizontal):</strong> Ajusta la distancia entre columnas de equipos y nodos hermanos (lectura interactiva en px).</li>
+<li><strong>Barra V (Vertical):</strong> Ajusta la separación vertical entre niveles de red y slots (lectura interactiva en px).</li>
+</ul>
+</li>
+</ul>
+<h3>💾 Guardar y Alternar entre 5 Vistas de Topología (M-40)</h3>
+<ul>
+<li>En la barra superior dispones de la botonera compacta: <code>👁️ [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ] [ 💾 ]</code>.</li>
+<li><strong>Guardar una vista:</strong> Haz clic en cualquier botón de ranura vacía (con borde discontinuo) para guardar al instante las posiciones de los nodos, encuadre (zoom y pan), estilo y espaciados actuales.</li>
+<li><strong>Alternar o cargar una vista:</strong> Haz clic en cualquier número de ranura guardada para conmutar inmediatamente a ese estado sin recargar la página. La ranura activa se resalta con un brillo azul cian.</li>
+<li><strong>Gestión avanzada:</strong> Haz clic en el icono del disquete <code>[ 💾 ]</code> para abrir el menú de gestión:<ul>
+<li>Puedes <strong>Renombrar</strong> cada vista con nombres descriptivos (ej. <em>&quot;1: Red Core&quot;</em>, <em>&quot;2: Cámaras CCTV&quot;</em>).</li>
+<li>Puedes <strong>Sobrescribir</strong> o <strong>Vaciar</strong> cualquier ranura con un clic.</li>
+<li>El sistema de deshacer/rehacer (<code>Ctrl+Z</code> / <code>Ctrl+Y</code>) funciona de forma totalmente independiente sin alterar tus ranuras guardadas.</li>
+</ul>
+</li>
+</ul>
+<h3>📍 Afinidad Automática de Equipos de Piso por Gabinete (M-39)</h3>
+<ul>
+<li>Los equipos de piso (cámaras de seguridad CCTV, puntos de acceso Wi-Fi, estaciones de trabajo, impresoras de red) se ordenan de forma inteligente <strong>directamente debajo del rack al que están conectados</strong>.</li>
+<li>Esto hace que los cables de red desciendan rectos y directos desde el switch ToR/distribución hasta sus periféricos, eliminando los molestos cruces de cables diagonales que antes atravesaban toda la sala.</li>
+<li>Todos los racks conservan una <strong>misma línea de base horizontal</strong>, asegurando una cuadrícula simétrica, ordenada y elegante.</li>
+</ul>
+<h3>🔍 HUD Tooltip Ergonómico y Nombres Técnicos</h3>
+<ul>
+<li>Al pasar el cursor sobre cualquier nodo en topología, se despliega una tarjeta HUD de <strong>240px</strong> con soporte multilínea para nombres extensos y credenciales protegidas.</li>
+<li>Nombres de más de 17 caracteres en tarjetas y círculos se abrevian con una elipsis elegante (<code>…</code>), preservando las dimensiones estándar y la geometría intacta de los racks.</li>
+</ul>
+<h3>Reordenar automáticamente</h3>
+<ul>
+<li>Haz clic en <strong>&quot;Auto&quot;</strong> (o botón <code>⚡ Auto</code>) para que la aplicación recalcule y alinee automáticamente todas las posiciones del diagrama respetando las dependencias de red y la afinidad de gabinetes.</li>
+</ul>
+<h3>Exportar como imagen</h3>
+<ul>
+<li>Desde el menú de exportación o el botón <strong>&quot;PNG&quot;</strong> de la barra, descarga una imagen de alta resolución del diagrama.</li>
+</ul>
+<hr>
+<h2>📊 Parte 7: Exportación e Importación de Datos</h2>
+<p>Desde el menú del proyecto o la barra inferior, puedes exportar e importar datos con herramientas profesionales:</p>
+<table>
+<thead>
+<tr>
+<th>Formato</th>
+<th>Contenido</th>
+<th>Cómo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PNG (Racks)</strong></td>
+<td>Imagen de la vista física de cada rack a escala Retina 1:1 (<code>html2canvas</code>)</td>
+<td>Exportar → Rack a PNG</td>
+</tr>
+<tr>
+<td><strong>PNG (Topología)</strong></td>
+<td>Imagen del diagrama de red completo en Canvas 2D</td>
+<td>Exportar → Topología PNG</td>
+</tr>
+<tr>
+<td><strong>CSV</strong></td>
+<td>Tabla de inventario de equipos</td>
+<td>Botón CSV en la tabla inferior</td>
+</tr>
+<tr>
+<td><strong>Excel (.xlsx)</strong></td>
+<td>Inventario + conexiones en hojas separadas</td>
+<td>Botón Excel en la tabla inferior</td>
+</tr>
+<tr>
+<td><strong>Plantilla Equipos (Excel / CSV, M-21)</strong></td>
+<td>Plantilla estructurada con 21 campos y hoja <code>&quot;Guia_Valores&quot;</code></td>
+<td>Exportar → Plantilla Equipos</td>
+</tr>
+<tr>
+<td><strong>Importación Masiva (CSV / Excel, M-22)</strong></td>
+<td>Carga masiva de equipos con detección de colisiones y auto-racks</td>
+<td>Tablas → Botón &quot;Importar...&quot; o Menú Proyecto</td>
+</tr>
+<tr>
+<td><strong>JSON (.rack)</strong></td>
+<td>Proyecto completo (datos + catálogo + cifrado en reposo)</td>
+<td>Guardar / Guardar como</td>
+</tr>
+</tbody></table>
+<h3>📥 Cómo usar la Importación Masiva (M-22):</h3>
+<ol>
+<li>Descarga la plantilla desde el menú <strong>Exportar</strong> → <strong>Plantilla Equipos (Excel .xlsx)</strong>.</li>
+<li>Completa los datos de tus equipos siguiendo la hoja de ayuda integrada <code>&quot;Guia_Valores&quot;</code>.</li>
+<li>En la pestaña Tablas, haz clic en el botón <strong>&quot;Importar...&quot;</strong> (o desde el Menú del Proyecto → <strong>&quot;Importar Equipos (CSV/Excel)&quot;</strong>).</li>
+<li>Arrastra tu archivo <code>.xlsx</code> o <code>.csv</code> a la zona de carga.</li>
+<li>El sistema analizará instantáneamente las filas:<ul>
+<li>Valida formatos de IP, MAC y altura en U.</li>
+<li>Detecta colisiones físicas de slots en los racks.</li>
+<li>Te permite elegir cómo resolver nombres duplicados (Omitir, Renombrar o Sobrescribir).</li>
+<li>Crea automáticamente los racks que no existan si marcas la opción correspondiente.</li>
+</ul>
+</li>
+<li>Haz clic en <strong>&quot;Confirmar e Importar&quot;</strong>. Si cometes un error, puedes presionar <strong>Ctrl+Z</strong> para deshacer toda la importación de un solo golpe.</li>
+</ol>
+<hr>
+<h2>🎨 Parte 8: Temas y Personalización</h2>
+<h3>Selector de Temas Visible (M-18)</h3>
+<p>En la barra superior (cabecera), junto a los botones de Deshacer y Rehacer, dispones del botón directo de tema con icono dinámico y etiqueta:</p>
+<ul>
+<li><strong>Modo Oscuro (🌙):</strong> Tema por defecto de alto contraste para entornos oscuros y reducción de consumo energético.</li>
+<li><strong>Modo Claro (☀️):</strong> Fondo claro de alta luminosidad para oficinas bien iluminadas o presentaciones.</li>
+<li><strong>Modo Sepia (☕):</strong> Paleta cálida relajante (tonos pergamino, texto café y acentos ámbar) diseñada específicamente para cuartos de control y largas jornadas de monitoreo sin fatiga ocular.</li>
+</ul>
+<blockquote>
+<p>[!TIP]
+<strong>Cambio rápido con un solo clic:</strong> Haz clic sobre el botón en la cabecera para ciclar instantáneamente: <strong>Oscuro</strong> ➔ <strong>Claro</strong> ➔ <strong>Sepia</strong> ➔ <strong>Oscuro</strong>. Tu preferencia se guarda automáticamente en el navegador y se recuerda en tus próximas sesiones. También puedes alternar el tema desde el menú principal del proyecto (⋮).</p>
+</blockquote>
+<h3>Modo Dios y Cifrado en Reposo (M-01)</h3>
+<ul>
+<li><strong>Seguridad en Reposo:</strong> Las contraseñas se almacenan cifradas con AES-GCM (<code>enc:v1:</code>) en tu navegador (<code>localStorage</code>) y en respaldos <code>.rack</code>. En reposo nunca reside texto plano.</li>
+<li>En la interfaz, las contraseñas se enmascaran por defecto como <code>••••••••</code>.</li>
+<li><strong>Revelación Táctil:</strong> Los Administradores pueden hacer clic en el botón de ojo (<code>👁</code>) en el Inspector para revelar la contraseña de un equipo específico.</li>
+<li><strong>Modo Dios Global:</strong> Desde el menú del proyecto (⋮) → <strong>&quot;Modo Dios: Revelar Claves&quot;</strong>, el Administrador puede revelar simultáneamente todas las contraseñas en tablas e inspectores.</li>
+<li>Solo los usuarios con rol Administrador tienen autorización para activar estas opciones.</li>
+</ul>
+<h3>Pausar animaciones</h3>
+<ul>
+<li>Haz clic en el <strong>punto verde</strong> (status dot) de la barra superior para pausar/reanudar las animaciones de las partículas en la topología.</li>
+</ul>
+<hr>
+<p>¡Has completado tu capacitación básica! Ahora sabes cómo navegar por la aplicación, qué significan los conceptos, cómo arrastrar componentes y cómo estructurar cuartos enteros según tus necesidades del mundo real. </p>
+<p>Si te equivocas, recuerda usar la opción de <strong>Deshacer (Undo)</strong> con Ctrl+Z o simplemente seleccionar el equipo mal colocado y presionar el botón <strong>Eliminar (Trash/Basurero)</strong> en el Inspector (Panel Derecho).</p>
+<hr>
+<h1>RACK Designer Next — Guía Técnica Completa</h1>
+<blockquote>
+<p>Explicación técnica para recrear el proyecto desde cero, con diagramas y conceptos explicados paso a paso.
+<strong>Última actualización sincronizada con el código fuente.</strong></p>
+</blockquote>
+<hr>
+<h2>Tabla de Contenidos</h2>
+<ol>
+<li><a href="#1-qu%C3%A9-es-este-proyecto">Qué es este proyecto?</a></li>
+<li><a href="#2-stack-tecnol%C3%B3gico">Stack Tecnológico (qué usamos y por qué)</a></li>
+<li><a href="#3-arquitectura-general">Arquitectura General</a></li>
+<li><a href="#4-el-patr%C3%B3n-reactivo">El Patrón Reactivo (Proxy ES6)</a></li>
+<li><a href="#5-estructura-de-archivos">Estructura de Archivos</a></li>
+<li><a href="#6-el-layout-de-la-interfaz">El Layout de la Interfaz (CSS Grid)</a></li>
+<li><a href="#7-cada-%C3%A1rea-de-la-ui">Cada Área de la UI explicada</a></li>
+<li><a href="#8-el-topology-view">El Topology View (Canvas 2D)</a></li>
+<li><a href="#9-renderizado-de-cableado-f%C3%ADsico">Renderizado de Cableado Físico (SVG)</a></li>
+<li><a href="#10-sistema-de-autenticaci%C3%B3n">Sistema de Autenticación (RBAC)</a></li>
+<li><a href="#11-gesti%C3%B3n-de-archivos">Gestión de Archivos (File System Access API)</a></li>
+<li><a href="#12-flujo-de-datos-completo">Flujo de Datos Completo</a></li>
+<li><a href="#13-c%C3%B3mo-recrear-desde-cero">Cómo recrear desde cero</a></li>
+<li><a href="#14-diagramas-svg">Diagramas SVG del Proyecto</a></li>
+<li><a href="#15-roadmap-de-mejoras">Roadmap de Mejoras</a></li>
+</ol>
+<hr>
+<h2>1. Qué es este proyecto?</h2>
+<p><strong>RACK Designer Next</strong> es una aplicación web (PWA) que sirve para diseñar y administrar centros de datos. Permite:</p>
+<ul>
+<li>Crear <strong>salas</strong> (rooms) que representan habitaciones de un datacenter</li>
+<li>Crear <strong>gabinetes</strong> (racks) dentro de esas salas con alturas configurables (4U–48U)</li>
+<li>Colocar <strong>equipos</strong> (servidores, switches, routers, firewalls, UPS, etc.) dentro de los gabinetes o como equipos de piso</li>
+<li>Conectar los equipos entre sí con <strong>cables</strong> (cobre, fibra óptica, DAC)</li>
+<li>Ver todo en dos vistas: <strong>Vista Física</strong> (cómo se ve el rack, con cables SVG) y <strong>Vista Topología</strong> (diagrama de red en Canvas 2D)</li>
+<li><strong>Exportar</strong> a PNG, CSV, Excel y guardar/cargar proyectos como archivos <code>.rack</code></li>
+<li>Sistema de <strong>roles</strong> (Admin, Editor, Viewer) con PIN y SHA-256</li>
+</ul>
+<p><strong>Lo más importante:</strong> Es una PWA (Progressive Web App) que funciona sin servidor backend. Todos los datos se guardan en el navegador del usuario (<code>localStorage</code>) o en archivos locales (File System Access API). <strong>No hay backend ni base de datos remota.</strong></p>
+<h3>Ejecutar el proyecto</h3>
+<pre><code># Opción 1: Live Server en VS Code
+# Click derecho en index.html → &quot;Open with Live Server&quot;
+
+# Opción 2: Cualquier servidor estático
+npx serve .
+python -m http.server 8000
+</code></pre>
+<p><strong>No necesitas</strong> <code>npm start</code>, <code>webpack</code>, <code>vite</code> ni nada para compilar. Solo abre el <code>index.html</code>.</p>
+<hr>
+<h2>2. Stack Tecnológico</h2>
+<h3>Qué usamos</h3>
+<table>
+<thead>
+<tr>
+<th>Tecnología</th>
+<th>Para qué sirve</th>
+<th>Por qué la elegimos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>JavaScript ES6+</strong></td>
+<td>Toda la lógica</td>
+<td>Sin frameworks, vanilla puro</td>
+</tr>
+<tr>
+<td><strong>HTML5</strong></td>
+<td>Estructura de la app</td>
+<td>Semánticos, modals, canvas</td>
+</tr>
+<tr>
+<td><strong>CSS3</strong></td>
+<td>Estilos y layout</td>
+<td>Grid, Flexbox, variables CSS, temas</td>
+</tr>
+<tr>
+<td><strong>Canvas 2D</strong></td>
+<td>Vista de topología</td>
+<td>Animaciones y dibujo de red</td>
+</tr>
+<tr>
+<td><strong>SVG inline</strong></td>
+<td>Cables en vista física</td>
+<td>Trazado reactivo de rutas ortogonales</td>
+</tr>
+<tr>
+<td><strong>Proxy ES6</strong></td>
+<td>Estado reactivo</td>
+<td>Reemplaza a Redux/useState</td>
+</tr>
+<tr>
+<td><strong>localStorage</strong></td>
+<td>Guardar datos</td>
+<td>Persistencia sin servidor</td>
+</tr>
+<tr>
+<td><strong>sessionStorage</strong></td>
+<td>Sesiones de auth</td>
+<td>Se borra al cerrar pestaña</td>
+</tr>
+<tr>
+<td><strong>SHA-256</strong></td>
+<td>Hasheo de PIN</td>
+<td>Seguridad básica de admin (Web Crypto API + fallback)</td>
+</tr>
+<tr>
+<td><strong>File System Access API</strong></td>
+<td>Abrir/guardar archivos</td>
+<td>Sin necesidad de upload, con autoguardado</td>
+</tr>
+<tr>
+<td><strong>SheetJS</strong></td>
+<td>Exportar a Excel</td>
+<td>Dependencia vendor (<code>xlsx.full.min.js</code>)</td>
+</tr>
+<tr>
+<td><strong>html2canvas</strong></td>
+<td>Captura DOM Retina 1:1 a PNG</td>
+<td>Dependencia vendor (<code>html2canvas.min.js</code>) con fallback Canvas 2D</td>
+</tr>
+<tr>
+<td><strong>mobile-drag-drop</strong></td>
+<td>Polyfill touch drag</td>
+<td>Soporte táctil para drag &amp; drop</td>
+</tr>
+</tbody></table>
+<h3>Qué NO usamos (y por qué)</h3>
+<table>
+<thead>
+<tr>
+<th>No usamos</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>React/Vue/Angular</td>
+<td>El proyecto es vanilla, sin build step</td>
+</tr>
+<tr>
+<td>Webpack/Vite</td>
+<td>No hay paso de compilación</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td>Vanilla JS puro</td>
+</tr>
+<tr>
+<td>Backend/API</td>
+<td>Todo es local en el navegador</td>
+</tr>
+<tr>
+<td>Base de datos</td>
+<td>localStorage es suficiente</td>
+</tr>
+<tr>
+<td>npm/yarn</td>
+<td>Solo <strong>pnpm</strong> para gestionar <code>marked</code> (build scripts)</td>
+</tr>
+</tbody></table>
+<h3>Diagrama de tecnologías</h3>
+<p>Ver: <code>doc/doc_img/doc_svg/architecture_overview.svg</code> (sección Tech Stack)</p>
+<hr>
+<h2>3. Arquitectura General</h2>
+<p>El proyecto sigue un patrón llamado <strong>&quot;Reactive Proxy Pattern&quot;</strong>. Esto significa que:</p>
+<ol>
+<li><strong>Toda la información vive en un solo lugar</strong> (el <code>store</code>)</li>
+<li><strong>Cuando algo cambia</strong>, el Proxy lo detecta automáticamente</li>
+<li><strong>Se guarda</strong> en el navegador (localStorage)</li>
+<li><strong>Se notifica</strong> a la interfaz que hay datos nuevos</li>
+<li><strong>La interfaz se redibuja</strong> con los datos actualizados</li>
+</ol>
+<pre><code>USUARIO hace algo
+    ↓
+EVENT HANDLER ejecuta una función
+    ↓
+STORE METHOD modifica los datos
+    ↓
+snapshot() → crea copia profunda para Undo/Redo
+    ↓
+MUTACIÓN en this._raw (push, assign, splice)
+    ↓
+PROXY SET TRAP detecta el cambio
+    ↓
+_save() → localStorage.setItem(&#39;RACK_DESIGNER_NEXT_STATE&#39;, ...)
+    ↓
+_emit(&#39;change&#39;, { source: &#39;addDeviceToRack&#39; })
+    ↓
+main.js escucha el evento → renderAll({ source })
+    ↓
+Se redibujan SOLO las vistas afectadas según el &quot;source&quot;
+</code></pre>
+<p><strong>Ver diagrama completo:</strong> <code>doc/doc_img/doc_svg/project_flow.svg</code> (Flow 2)</p>
+<h3>Por qué es importante esto?</h3>
+<p>Porque si intentas modificar el HTML directamente (por ejemplo, <code>document.getElementById(&#39;algo&#39;).innerHTML = &#39;...&#39;</code>), el proyecto se rompe. <strong>Siempre</strong> debes modificar el <code>store</code> y dejar que la interfaz se actualice sola.</p>
+<hr>
+<h2>4. El Patrón Reactivo</h2>
+<h3>Cómo funciona el Proxy ES6</h3>
+<pre><code class="language-javascript">// El store crea un Proxy sobre el estado
+this._raw = { rooms: [], racks: [], devices: [], ... };
+this.state = this._makeProxy(this._raw);
+
+// El Proxy intercepta CADA escritura en el estado:
+_makeProxy(obj, path = &#39;&#39;) {
+  if (typeof obj !== &#39;object&#39; || obj === null) return obj;
+  if (this._proxyCache.has(obj)) return this._proxyCache.get(obj); // Cache con WeakMap
+
+  const proxy = new Proxy(obj, {
+    set: (target, key, value) =&gt; {
+      if ([&#39;__proto__&#39;, &#39;constructor&#39;, &#39;prototype&#39;].includes(key)) return true; // Seguridad
+      target[key] = value;       // 1. Aplica el cambio
+      this._save();              // 2. Guarda en localStorage
+      this._emit(&#39;change&#39;, {     // 3. Notifica a todos los listeners
+        path: `${path}.${key}`, key, value
+      });
+      return true;
+    },
+    get: (target, key) =&gt; {
+      const val = target[key];
+      if (typeof val === &#39;function&#39;) return val.bind(target);
+      // Si el valor es un objeto, lo envuelve en otro Proxy (recursivo)
+      if (typeof val === &#39;object&#39; &amp;&amp; val !== null &amp;&amp; !Array.isArray(val))
+        return this._makeProxy(val, `${path}.${key}`);
+      return val;
+    }
+  });
+  this._proxyCache.set(obj, proxy);
+  return proxy;
+}
+</code></pre>
+<blockquote>
+<p><strong>Nota importante:</strong> El <code>get</code> trap solo envuelve sub-objetos (no arrays). Esto significa que mutaciones en arrays (como <code>push</code>, <code>splice</code>) <strong>no disparan el Proxy automáticamente</strong>. Por eso cada método del store llama manualmente a <code>this._save()</code> y <code>this._emit()</code> después de mutar arrays.</p>
+</blockquote>
+<h3>El flujo en código</h3>
+<pre><code>Usuario arrastra un equipo al rack
+    ↓
+onSlotDrop() detecta el drop
+    ↓
+store.addDeviceToRack(template, rackId, slotU, side)
+    ↓
+store.snapshot() → guarda estado actual para undo
+    ↓
+this._raw.devices.push(nuevoEquipo) → muta los datos
+    ↓
+this._save() + this._emit(&#39;change&#39;, { source: &#39;addDeviceToRack&#39; })
+    ↓
+renderAll({ source: &#39;addDeviceToRack&#39; })
+    ↓
+renderPhysical() → nuevo faceplate aparece
+renderStats() → estadísticas se actualizan
+renderOutliner() → árbol se actualiza
+renderBottomPanel() → tabla se actualiza
+</code></pre>
+<p><strong>Ver diagrama:</strong> <code>doc/doc_img/doc_svg/project_flow.svg</code> (Flow 3a)</p>
+<h3>Undo/Redo</h3>
+<p>Cada vez que mutas el store, <code>snapshot()</code> guarda una copia del estado anterior (máximo 30). Cuando el usuario presiona Ctrl+Z:</p>
+<ol>
+<li>Se toma el estado actual y se guarda en <code>_redoStack</code></li>
+<li>Se saca el estado anterior de <code>_undoStack</code></li>
+<li>Se sobreescribe <code>_raw</code> con ese estado</li>
+<li>Se redibuja todo</li>
+</ol>
+<p><strong>Ver diagrama:</strong> <code>doc/doc_img/doc_svg/project_flow.svg</code> (Flow 4)</p>
+<h3>Optimización: Debounce para Zoom/Pan</h3>
+<p>Los métodos <code>setZoom()</code> y <code>setPan()</code> usan <code>_saveDebounced()</code> en lugar de <code>_save()</code>:</p>
+<pre><code class="language-javascript">_saveDebounced() {
+  if (this._saveTimer) cancelAnimationFrame(this._saveTimer);
+  this._saveTimer = requestAnimationFrame(() =&gt; {
+    this._saveTimer = null;
+    this._save();
+  });
+}
+</code></pre>
+<p>Esto agrupa ~60 escrituras/seg (durante zoom/pan con la rueda del ratón) en 1 escritura por frame, evitando saturar localStorage.</p>
+<h3>Integridad Relacional en Cascada y Auto-Saneamiento (<code>_sanitize()</code>)</h3>
+<p>Para garantizar que el modelo de datos nunca acumule referencias rotas ni elementos huérfanos:</p>
+<ol>
+<li><strong>Cascada en <code>deleteRack(id)</code>:</strong> Al eliminar un gabinete, se buscan todos los dispositivos contenidos en él y se filtran automáticamente de <code>this._raw.connections</code> todas las conexiones que partían o llegaban a ellos.</li>
+<li><strong>Limpieza en <code>deleteDevice(id)</code>:</strong> Al eliminar un equipo individual, se purgan sus conexiones y se eliminan sus coordenadas en <code>topology.nodePositions</code>.</li>
+<li><strong>Motor <code>_sanitize()</code>:</strong> Al iniciar la aplicación (<code>_load()</code>) o importar un proyecto (<code>loadData()</code>), el Store ejecuta un saneamiento exhaustivo que elimina cables zombis y nodos huérfanos de proyectos antiguos o manipulados.</li>
+<li><strong>Exposición Global:</strong> <code>window.store = store;</code> expuesto para interoperabilidad y depuración.</li>
+</ol>
+<hr>
+<h2>5. Estructura de Archivos</h2>
+<h3>Árbol del proyecto</h3>
+<pre><code>Rack_Designer_2/
+├── index.html                    ← Archivo principal (HTML + modals)
+├── service-worker.js             ← PWA offline (el que se registra)
+├── package.json                  ← Solo pnpm. Dependencia: &quot;marked&quot;
+├── mejoras.md                    ← Roadmap de mejoras (Source of Truth)
+│
+├── css/
+│   ├── style.css                 ← Importa todos los CSS (@imports)
+│   ├── variables.css             ← Variables CSS (colores, fuentes, tamaños, temas)
+│   ├── layout.css                ← Grid layout, header, sidebar, panels
+│   ├── mobile-drag-drop.css      ← Estilos del polyfill drag-and-drop
+│   └── components/
+│       ├── panels.css            ← Bottom panel, tablas, badges
+│       ├── rack.css              ← Tarjetas de rack, flip 3D
+│       ├── faceplates.css        ← Faceplates de dispositivos, LEDs
+│       ├── modals.css            ← Modales, formularios, acordeón
+│       └── misc.css              ← Iconos SVG, tooltips, drag ghost, scrollbar
+│
+├── js/
+│   ├── store.js                  ← ESTADO CENTRAL (Proxy ES6 + WeakMap cache)
+│   ├── main.js                   ← Orquestador (init, eventos, renderAll)
+│   ├── utils.js                  ← Funciones auxiliares (uid, deepClone, notify, etc.)
+│   ├── icons.js                  ← SVG inline de todos los dispositivos
+│   ├── demoData.js               ← Carga datos de ejemplo (lazy load)
+│   │
+│   ├── auth/
+│   │   ├── roles.js              ← RBAC (Admin/Editor/Viewer) con SHA-256
+│   │   └── crypto.js             ← Cifrado simétrico AES-GCM (enc:v1:) para credenciales
+│   │
+│   ├── ui/
+│   │   ├── catalog.js            ← Sidebar flyout: catálogo + categorías + filtros
+│   │   ├── rack.js               ← Renderizado físico de racks + cables SVG
+│   │   ├── faceplates.js         ← HTML de faceplates por tipo
+│   │   ├── tables.js             ← Tabla de inventario/conexiones
+│   │   ├── outliner.js           ← Árbol jerárquico (sala→rack→equipo)
+│   │   ├── inspector.js          ← Panel de propiedades
+│   │   ├── fileManager.js        ← File System Access API + autoguardado
+│   │   ├── modals.js             ← Orquestador de modales
+│   │   │
+│   │   ├── modals/
+│   │   │   ├── Globals.js        ← Variables globales de modales
+│   │   │   ├── RackModal.js      ← Modal de crear/editar rack
+│   │   │   ├── DeviceModal.js    ← Modal de crear/editar equipo (acordeones)
+│   │   │   ├── CableModal.js     ← Modal de crear/editar cable (swap e inversión de canaleta M-41)
+│   │   │   ├── RoomModal.js      ← Modal de crear sala
+│   │   │   ├── ExportModal.js    ← Modal de exportar PNG/CSV/Excel/Topología (M-37)
+│   │   │   ├── ImportModal.js    ← Modal de importación masiva CSV/Excel y plantillas de 21 campos (M-21 y M-22)
+│   │   │   └── PlacementModal.js ← Modal de colocación rápida
+│   │   │
+│   │   └── topology/
+│   │       ├── TopologyState.js      ← Estado del canvas (hover, dragging, 5 slots M-40)
+│   │       ├── TopologyLayout.js     ← Algoritmo de layout automático y afinidad piso M-39
+│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle, temas dark/light/sepia M-18)
+│   │       ├── TopologyEvents.js     ← Interacciones (drag, zoom, click, resize)
+│   │       └── TopologyOrchestrator.js ← Lifecycle + exportación PNG
+│   │
+│   ├── xlsx.full.min.js          ← SheetJS (exportar Excel)
+│   ├── mobile-drag-drop.min.js   ← Polyfill touch drag
+│   └── mobile-drag-drop-scroll.min.js
+│
+├── assets/
+│   ├── default/                  ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS integradas
+│   ├── icons/                    ← Iconos SVG monocromáticos por categoría
+│   ├── img/                      ← Imágenes estáticas (logos, fondos, skins personalizadas)
+│   └── svg/
+│       └── default/              ← Repositorio vectorial organizado por familias
+│
+├── doc/
+│   ├── doc_md/                   ← Documentación técnica en Markdown
+│   ├── doc_img/doc_svg/          ← 33 diagramas SVG del proyecto
+│   ├── log/                      ← CHANGELOG.md (diario de cambios)
+│   └── temp/                     ← Archivos temporales
+│
+├── scripts/                      ← Scripts Node.js para compilación
+│   ├── build_standalone_manual.cjs
+│   └── generate_svgs.cjs
+│
+├── .agents/                      ← Instrucciones para agentes IA
+├── .py/                          ← Scripts Python utilitarios
+├── memory-bank/                  ← Contexto persistente para agentes IA
+├── json/                         ← Archivos JSON auxiliares (manifest.json)
+└── tests/
+    ├── index.html                ← Runner web interactivo de pruebas en navegador (286 tests en 19 grupos al 100%)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (286 tests en 19 grupos al 100%)
+</code></pre>
+<p><strong>Ver diagrama:</strong> <code>doc/doc_img/doc_svg/architecture_overview.svg</code> (File Structure)</p>
+<h3>Orden de carga de CSS</h3>
+<pre><code>variables.css → layout.css → panels.css → rack.css → faceplates.css → modals.css → misc.css
+</code></pre>
+<p>Este orden es <strong>importante</strong> porque CSS se resuelve en cascada. Si <code>misc.css</code> define algo que <code>layout.css</code> también define, gana <code>misc.css</code> (se carga después).</p>
+<h3>Scripts en index.html</h3>
+<p>Todos los <code>&lt;script&gt;</code> van al final del <code>&lt;body&gt;</code>, en orden:</p>
+<ol>
+<li><strong>Vendor:</strong> <code>xlsx.full.min.js</code>, <code>html2canvas.min.js</code>, <code>mobile-drag-drop.min.js</code>, <code>mobile-drag-drop-scroll.min.js</code></li>
+<li><strong>Core:</strong> <code>store.js</code>, <code>utils.js</code>, <code>icons.js</code>, <code>demoData.js</code></li>
+<li><strong>Auth &amp; Cripto:</strong> <code>auth/crypto.js</code>, <code>auth/roles.js</code></li>
+<li><strong>UI:</strong> <code>ui/catalog.js</code>, <code>ui/tables.js</code>, <code>ui/outliner.js</code>, <code>ui/inspector.js</code></li>
+<li><strong>Modals:</strong> <code>Globals.js</code>, <code>RackModal.js</code>, <code>DeviceModal.js</code>, <code>CableModal.js</code>, <code>RoomModal.js</code>, <code>ExportModal.js</code>, <code>PlacementModal.js</code></li>
+<li><strong>Topology:</strong> <code>TopologyState.js</code>, <code>TopologyLayout.js</code>, <code>TopologyRenderer.js</code>, <code>TopologyEvents.js</code>, <code>TopologyOrchestrator.js</code></li>
+<li><strong>Orchestration:</strong> <code>ui/modals.js</code>, <code>ui/fileManager.js</code></li>
+<li><strong>Init:</strong> <code>main.js</code> (último, porque depende de todo lo demás)</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>NO</strong> son módulos ES. Todos cargan en scope global. Si añades un archivo JS nuevo, debes agregar una etiqueta <code>&lt;script&gt;</code> en <code>index.html</code>.</p>
+</blockquote>
+<hr>
+<h2>6. El Layout de la Interfaz (CSS Grid)</h2>
+<p>La app usa <strong>CSS Grid</strong> para dividir la pantalla en 5 áreas fijas:</p>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│                    HEADER (56px)                     │
+├──────────┬──────────────────────┬────────────────────┤
+│          │                      │                    │
+│ SIDEBAR  │       MAIN CANVAS    │    RIGHT PANEL     │
+│ (50px/   │        (1fr)         │     (300px)        │
+│  260px)  │                      │                    │
+├──────────┴──────────────────────┴────────────────────┤
+│                  BOTTOM PANEL (220px)                 │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<h3>CSS que define esto</h3>
+<pre><code class="language-css">#app {
+  display: grid;
+  grid-template-rows: var(--header-h) 1fr var(--bottom-h);
+  grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w);
+  grid-template-areas:
+    &quot;header  header        header&quot;
+    &quot;sidebar main          right-panel&quot;
+    &quot;bottom  bottom        bottom&quot;;
+  height: 100vh;
+  overflow: hidden;
+}
+</code></pre>
+<h3>Sidebar dinámico (flyout)</h3>
+<p>El sidebar tiene dos estados controlados por CSS:</p>
+<ul>
+<li><strong>Colapsado</strong> (<code>--sidebar-w: 50px</code>): Solo muestra iconos de categorías</li>
+<li><strong>Expandido</strong> (<code>--sidebar-w: 260px</code>): Muestra el flyout con la lista de equipos del catálogo</li>
+</ul>
+<p>La función <code>openFlyout(category)</code> en <code>catalog.js</code> actualiza la variable CSS dinámicamente:</p>
+<pre><code class="language-javascript">document.documentElement.style.setProperty(&#39;--sidebar-w&#39;, &#39;260px&#39;);
+</code></pre>
+<h3>Variables CSS importantes</h3>
+<pre><code class="language-css">:root {
+  /* Dimensiones */
+  --sidebar-w: 50px;          /* Colapsado por defecto */
+  --right-panel-w: 300px;
+  --header-h: 56px;
+  --bottom-h: 220px;
+  --rack-unit-h: 24px;        /* 1U = 24px */
+
+  /* Colores oscuros (tema por defecto) */
+  --bg-main: #0b0f19;
+  --bg-card: #151c2e;
+  --border: #25304b;
+  --accent: #0ea5e9;
+
+  /* Fuentes */
+  --font-ui: &#39;Outfit&#39;, sans-serif;
+  --font-mono: &#39;JetBrains Mono&#39;, monospace;
+}
+
+/* Tema claro */
+[data-theme=&quot;light&quot;] {
+  --bg-main: #f0f4f8;
+  --bg-card: #ffffff;
+  --accent: #0284c7;
+  /* ... */
+}
+</code></pre>
+<p><strong>Ver diagramas:</strong> <code>doc/doc_img/doc_svg/layout_header.svg</code>, <code>layout_sidebar.svg</code>, etc.</p>
+<hr>
+<h2>7. Cada Área de la UI explicada</h2>
+<h3>Header (56px)</h3>
+<p><strong>Archivo:</strong> <code>index.html</code> (sección <code>#header</code>), estilos en <code>css/layout.css</code></p>
+<p>Contiene:</p>
+<ul>
+<li>Logo + nombre del proyecto (<code>#project-filename</code>)</li>
+<li>Menú del proyecto (dropdown con Abrir, Guardar, Guardar como, Demo, Tema, Modo Dios, Cambiar PIN, Limpiar proyecto)</li>
+<li>Dropdown de salas (selector de sala activa + botón &quot;+&quot; para nueva sala)</li>
+<li>Dropdown de racks (navegación rápida + scroll al rack)</li>
+<li>Tabs de vista (<code>Vista Física</code> / <code>Topología</code>)</li>
+<li>Controles de topología (estilo card/circle, slider espaciado, auto-ordenar)</li>
+<li>Toggle de cables SVG (solo en vista física)</li>
+<li>Buscador global</li>
+<li>Botones Undo/Redo</li>
+<li>Badge de usuario (rol actual: Admin/Editor/Espectador)</li>
+</ul>
+<p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_header.svg</code></p>
+<h3>Sidebar (50px colapsado / 260px expandido)</h3>
+<p><strong>Archivo:</strong> <code>index.html</code> (sección <code>#sidebar</code>), renderizado por <code>js/ui/catalog.js</code></p>
+<p>Contiene:</p>
+<ul>
+<li><strong>Barra de iconos de categorías</strong> (<code>#sidebar-category-icons</code>): Iconos por familia de hardware (redes, cómputo, almacenamiento, seguridad/CCTV, energía, KVM, accesorios/cableado, periféricos de piso, más pestaña global &quot;Todos&quot; con buscador)</li>
+<li><strong>Flyout</strong> (<code>#catalog-flyout</code>): Se despliega al hacer clic en una categoría<ul>
+<li>Título de la categoría activa</li>
+<li>Buscador del catálogo (<code>#catalog-search</code>)</li>
+<li>Botones de acción rápida: <code>+ Rack</code> y <code>+ Equipo</code></li>
+<li>Botón cerrar flyout</li>
+<li>Lista de dispositivos del catálogo filtrados por categoría</li>
+</ul>
+</li>
+<li><strong>30 plantillas arquitectónicas estandarizadas</strong> en el array <code>CATALOG</code> organizadas en 8 familias comerciales (<code>CATALOG_GROUPS</code>): servidores 1U/2U/4U/blade, switches 24P/48P/Core, routers de borde, firewalls UTM, APs, storage NAS/SAN/JBOD, seguridad CCTV (NVR 1U/2U, DVR 1U, decodificador 1U), UPS online 1500/3000VA, PDUs, patch panels Cat6A, bandeja ODF fibra óptica 24P, organizadores, bandejas, KVMs y equipos de piso.</li>
+<li><strong>Equipos personalizados por proyecto (<code>store.state.customCatalog</code>):</strong> Creación de plantillas custom con badge distintivo <code>PROYECTO</code>, persistencia en el archivo <code>.rack</code> y reset limpio en nuevo proyecto.</li>
+<li>Cada item es arrastrable al rack (drag &amp; drop)</li>
+<li>Menú contextual por item (⋮): Ubicación rápida, Editar plantilla, Eliminar plantilla</li>
+</ul>
+<p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_sidebar.svg</code></p>
+<h3>Main Canvas (1fr)</h3>
+<p><strong>Archivo:</strong> <code>index.html</code> (sección <code>#main</code>), renderizado por <code>js/ui/rack.js</code> y <code>js/ui/topology/</code></p>
+<p>Contiene dos vistas (se alternan con tabs en el header):</p>
+<ul>
+<li><p><strong>Vista Física</strong> (<code>#view-physical</code>):</p>
+<ul>
+<li>Tarjetas de rack con slots numerados (1U = 24px) y ancho fijo proporcional de 240px (10:1)</li>
+<li>Espaciado técnico entre gabinetes ampliado a <strong><code>gap: 72px</code></strong> (3U) para legibilidad y pasillos</li>
+<li>Grilla técnica milimétrica de fondo (CAD) con paso de 24px</li>
+<li><strong>Motor Visual SVG-First (<code>faceplates.js</code>):</strong> Cada dispositivo carga un SVG vectorial de alta fidelidad desde <code>assets/svg/default/</code> con animaciones CSS <code>@keyframes</code> integradas en el propio SVG (LEDs intermitentes de red, actividad de discos, barras de carga y puertos).</li>
+<li>Overlay de información con nombre de equipo e IP nítida sobre la carátula.</li>
+<li>Vista frontal/trasera (flip 3D por rack)</li>
+<li>Drag &amp; drop para colocar/mover equipos</li>
+<li>Equipos de piso alineados en sección inferior con <code>min-width: 584px</code></li>
+<li><strong>Cables Físicos Segregados</strong> (<code>#physical-cables-svg</code>): Enrutamiento ortogonal en 3 zonas libres (Canastillo Aéreo Superior, Canaleta Media libre y Organizador Lateral de gabinete), erradicando colisiones sobre racks o periféricos</li>
+<li>Zoom/Pan con controles del header</li>
+</ul>
+</li>
+<li><p><strong>Vista Topología</strong> (<code>#topology-canvas</code>):</p>
+<ul>
+<li>Canvas 2D animado a 60fps</li>
+<li>Nodos en estilo Card (150×50) o Circle (radio 22)</li>
+<li>Salas como rectángulos naranjas, racks como rectángulos verdes</li>
+<li>Conexiones con curvas Bézier cúbicas y partículas animadas</li>
+<li>Drag &amp; drop de nodos, racks y salas</li>
+<li>Resize handles en salas y racks</li>
+<li>HUD tooltip al hover sobre nodos</li>
+<li>Búsqueda global para destacar nodos</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_main_canvas.svg</code></p>
+<h3>Right Panel (300px)</h3>
+<p><strong>Archivo:</strong> <code>index.html</code> (sección <code>#right-panel</code>), orquestado por <code>js/ui/outliner.js</code> e <code>js/ui/inspector.js</code></p>
+<p>Tres secciones:</p>
+<ol>
+<li><strong>Outliner</strong> (<code>#outliner-tree</code>): Árbol jerárquico (Sala → Rack → Equipo) con toolbar superior (<code>+ Sala</code>, <code>+ Rack</code>, <code>+ Equipo</code>), selector de 4 modos de ordenación (<code>#outliner-sort-select</code>: slot, name-asc, name-desc, type) y botones de acción rápida inline (<code>✏️</code> y <code>🗑️</code>).<ul>
+<li>Click: Selecciona y muestra en Inspector</li>
+<li>Doble clic: Abre modal de edición</li>
+<li>Hover: Resaltado visual</li>
+</ul>
+</li>
+<li><strong>Inspector</strong> (<code>#inspector-section</code>): Tarjeta de propiedades del elemento seleccionado con soporte <strong>colapsable</strong> interactivo para expandir el Outliner. Incluye <strong>CRUD activo</strong> con Empty State (<code>+ Nueva Sala</code>, <code>+ Nuevo Gabinete</code>), y botones contextuales de eliminación segura (<code>deleteRoomFromInspector</code>, <code>deleteRackFromInspector</code>, <code>deleteDeviceFromInspector</code>).</li>
+<li><strong>Estadísticas</strong> (<code>#stat-*</code>): Métricas globales (salas, racks, equipos en rack, equipos de piso, conexiones, potencia en Watts).</li>
+</ol>
+<p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_right_panel.svg</code></p>
+<h3>Bottom Panel (220px)</h3>
+<p><strong>Archivo:</strong> <code>index.html</code> (sección <code>#bottom</code>), renderizado por <code>js/ui/tables.js</code></p>
+<p>Contiene:</p>
+<ul>
+<li>Tabs: Inventario / Conexiones</li>
+<li>Tabla de Inventario de 18 columnas con metadatos completos: Rack, U, Lado, Nombre, Marca, Modelo, Tipo, <strong>Tamaño</strong>, IP, MAC, Serie, Usuario, Contraseña, Consumo (W), Tomas, <strong>Skin</strong>, <strong>Notas</strong>, Acciones.</li>
+<li><strong>Selector Dinámico de Columnas:</strong> Menú flotante (<code>#columns-dropdown</code>) accesible desde el botón <code>⚙ Columnas</code> que permite alternar la visibilidad de cualquier columna. El estado se persiste de forma local mediante <code>localStorage</code> (clave <code>RACK_DESIGNER_TABLE_COLUMNS</code>).</li>
+<li>Edición inline interactiva por doble clic (<code>finishCellEdit()</code>) que persiste cambios numéricos de tamaño, skin y notas directamente al store.</li>
+<li>Botones: Agregar equipo, Colocación rápida (con buscador reactivo <code>#qp-dev-search</code>), Nueva conexión.</li>
+<li>Menú de exportación con soporte a PNG 1:1 Retina (<code>html2canvas.min.js</code>), CSV estructurado y Excel (<code>xlsx.full.min.js</code>).</li>
+<li>Botón expandir/contraer.</li>
+</ul>
+<p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_bottom_panel.svg</code></p>
+<hr>
+<h2>8. El Topology View (Canvas 2D)</h2>
+<p>La vista de topología es un <strong>lienzo HTML5 Canvas</strong> dividido en 5 módulos:</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Responsabilidad</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TopologyState.js</code></td>
+<td>Variables de estado del canvas (hover, dragging, posiciones)</td>
+</tr>
+<tr>
+<td><code>TopologyLayout.js</code></td>
+<td>Algoritmo de distribución automática</td>
+</tr>
+<tr>
+<td><code>TopologyRenderer.js</code></td>
+<td>Dibujado Canvas 2D (nodos, enlaces, partículas)</td>
+</tr>
+<tr>
+<td><code>TopologyEvents.js</code></td>
+<td>Interacciones (drag, zoom, pan, dblclick, resize)</td>
+</tr>
+<tr>
+<td><code>TopologyOrchestrator.js</code></td>
+<td>Lifecycle (init, start, stop) + export PNG</td>
+</tr>
+</tbody></table>
+<h3>Colores oficiales del canvas</h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Color</th>
+<th>Código</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fondo</td>
+<td>Azul</td>
+<td><code>#2255aa</code></td>
+</tr>
+<tr>
+<td>Grid puntos</td>
+<td>Blanco 13% opacity</td>
+<td><code>#ffffff22</code></td>
+</tr>
+<tr>
+<td>Salas</td>
+<td>Naranja</td>
+<td><code>#f97316</code></td>
+</tr>
+<tr>
+<td>Bordes sala activa</td>
+<td>Blanco 4px</td>
+<td><code>#ffffff</code></td>
+</tr>
+<tr>
+<td>Bordes sala inactiva</td>
+<td>Naranja oscuro 3px</td>
+<td><code>#c2410c</code></td>
+</tr>
+<tr>
+<td>Racks</td>
+<td>Verde</td>
+<td><code>#65a30d</code></td>
+</tr>
+<tr>
+<td>Nodos (card/circle)</td>
+<td>Navaja oscuro</td>
+<td><code>#0f172a</code></td>
+</tr>
+<tr>
+<td>Borde nodo</td>
+<td>Color del tipo</td>
+<td><code>TYPE_COLORS[dev.type]</code></td>
+</tr>
+<tr>
+<td>Conexiones</td>
+<td>Color del cable</td>
+<td><code>conn.color</code></td>
+</tr>
+<tr>
+<td>Partículas</td>
+<td>Blanco + glow</td>
+<td><code>#ffffff</code> + shadow</td>
+</tr>
+</tbody></table>
+<h3>Estilos de nodos</h3>
+<p>La variable <code>window.TOPOLOGY_STYLE</code> controla el estilo de renderizado:</p>
+<ul>
+<li><strong><code>&#39;card&#39;</code></strong> (por defecto): Rectángulos de 150×50 px con icono, nombre e IP</li>
+<li><strong><code>&#39;circle&#39;</code></strong>: Círculos de radio 22 px con icono centrado, nombre arriba, IP con badge</li>
+</ul>
+<p>El botón <code>#btn-topo-style</code> alterna entre ambos estilos.</p>
+<h3>Cómo se dibuja</h3>
+<pre><code>drawTopo() se ejecuta 60 veces por segundo (requestAnimationFrame)
+    ↓
+1. Limpia el canvas (fillRect azul #2255aa)
+    ↓
+2. Dibuja grid de puntos (40px spacing)
+    ↓
+3. Aplica transformación zoom + pan (ctx.translate + ctx.scale)
+    ↓
+4. Dibuja salas (roundRect naranja con resize handle)
+    ↓
+5. Dibuja racks dentro de salas (roundRect verde con resize handle)
+    ↓
+6. Dibuja conexiones (curvas Bézier cúbicas con 4 partículas animadas)
+    ↓
+7. Dibuja nodos de dispositivos (card o circle según TOPOLOGY_STYLE)
+    ↓
+8. Dibuja HUD tooltip al hover (nombre, tipo, IP, usuario, contraseña)
+    ↓
+9. Solicita siguiente frame → loop continuo
+</code></pre>
+<h3>Layout automático</h3>
+<p>El motor en <code>TopologyLayout.js</code> implementa dos modos de distribución y algoritmos de contención armónica:</p>
+<ol>
+<li><strong>Salas (Rooms):</strong> Distribuidas horizontalmente con 60px de separación entre ellas y padding perimetral de 80px (<code>ROOM_MARGIN</code>).</li>
+<li><strong>Racks (Gabinetes):</strong> Distribuidos horizontalmente en cada sala con <code>RACK_GAP = 32px</code> y padding interno de 16px.</li>
+<li><strong>Equipos montados en rack:</strong> Apilados verticalmente dentro de las cotas de su rack con espaciado vertical adaptable.</li>
+<li><strong>Equipos de piso (Floor Devices - M-39):</strong><ul>
+<li>Agrupación por <strong>afinidad ponderada al rack anfitrión</strong> (<code>_findAffinityRackForFloorDevice()</code>): Se conectan y alinean automáticamente justo debajo del gabinete con el que tienen mayor cableado o enlace directo.</li>
+<li><strong>Línea de base uniforme:</strong> Se sitúan a <code>floorBaseY = rackTopY + maxRackH + 28px</code>, garantizando armonía estética entre racks de alturas desiguales en la misma sala.</li>
+<li><strong>Centrado y escalonamiento:</strong> Centrados en el eje X del rack anfitrión con apilamiento vertical ordenado (<code>+44px</code> por periférico adicional) sin solapar racks contiguos (<code>RACK_GAP = 32px</code>).</li>
+<li>Periféricos huérfanos o sin conexiones directas se distribuyen de forma equitativa bajo el primer rack disponible de la sala.</li>
+</ul>
+</li>
+<li><strong>Layout en Árbol Jerárquico (M-32):</strong> Algoritmo de árbol genealógico DAG (Core → Distribution → Access → Floor/Leaf) con trazado de cableado ortogonal/manhattan y base inferior para nodos desconectados.</li>
+</ol>
+<p>Los sliders <code>#topo-spacing-h</code> y <code>#topo-spacing-v</code> controlan independientemente el espaciado horizontal y vertical en tiempo real a 60 FPS con presets (&#39;compact&#39;, &#39;normal&#39;, &#39;wide&#39;).</p>
+<h3>Persistencia de posiciones</h3>
+<p>Las posiciones de nodos, racks y salas en la topología se guardan en <code>store._raw.topology</code> mediante <code>saveTopo()</code>. Al reabrir, <code>loadTopoState()</code> restaura las posiciones manuales.</p>
+<h3>Interacciones</h3>
+<ul>
+<li><strong>Arrastrar nodo:</strong> Mueve el equipo en el diagrama (confinado dentro de su rack/sala)</li>
+<li><strong>Arrastrar rack (barra superior):</strong> Mueve todo el rack con sus equipos (confinado en su sala)</li>
+<li><strong>Arrastrar sala (barra superior):</strong> Mueve la sala completa con todo su contenido</li>
+<li><strong>Resize handle (esquina inferior-derecha):</strong> Cambia el tamaño de sala/rack (respeta contenido mínimo)</li>
+<li><strong>Rueda del mouse:</strong> Zoom in/out (0.1x – 3x)</li>
+<li><strong>Click + arrastrar fondo:</strong> Pan (mover vista)</li>
+<li><strong>Doble click nodo:</strong> Abre modal de crear cable (<code>openCableModal</code>)</li>
+<li><strong>Doble click cable:</strong> Abre modal de editar cable (<code>openEditCableModal</code>)</li>
+</ul>
+<h3>Exportación PNG</h3>
+<p><code>exportTopologyToPNG()</code> en <code>TopologyOrchestrator.js</code> crea un canvas offscreen a 2x resolución, renderiza un frame estático sin hover, y descarga como PNG.</p>
+<p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_topology.svg</code></p>
+<hr>
+<h2>9. Renderizado de Cableado Físico (SVG)</h2>
+<p>A diferencia de la topología (Canvas 2D), el cableado físico se resuelve inyectando dinámicamente un lienzo vectorial <code>&lt;svg id=&quot;physical-cables-svg&quot;&gt;</code> posicionado de forma absoluta dentro de <code>#view-physical-content</code>.</p>
+<h3>Arquitectura de Enrutamiento Segregado en 3 Zonas Libres:</h3>
+<p>Para erradicar colisiones de cables sobre servidores o periféricos de piso, el motor <code>drawPhysicalCables()</code> en <code>js/ui/rack.js</code> segrega las trayectorias en 3 zonas exclusivas:</p>
+<ol>
+<li><strong>Canastillo Aéreo Superior (Conexiones Inter-Rack):</strong><ul>
+<li>Los cables que viajan entre gabinetes distintos se elevan hacia la zona aérea por encima de la cabecera del rack más alto (<code>overheadY = minRackTop - 14px - (index % 7) * 5</code>).</li>
+<li>Salida y entrada inteligente por el lateral más cercano al rack de destino, evitando cruzar frontalmente los servidores intermedios.</li>
+</ul>
+</li>
+<li><strong>Canaleta Media Segregada (Equipos de Piso ↔ Racks / Piso ↔ Piso):</strong><ul>
+<li>Los periféricos de piso viajan por la canaleta horizontal intermedia situada entre los racks y la sección de piso (<code>middleGutterY = maxRackBottom + 18px + (index % 6) * 4</code>).</li>
+<li>Ascienden verticalmente por el pasillo lateral de 72px del gabinete de destino. Se eliminó al 100% el cruce sobre las tarjetas de piso.</li>
+</ul>
+</li>
+<li><strong>Organizador Lateral de Gabinete (Conexiones Intra-Rack):</strong><ul>
+<li>Los enlaces entre switches y servidores alojados en el mismo gabinete se confinan estrictamente al organizador vertical derecho (<code>gutterX = p1.rightEdgeX + 8px + (index % 5) * 4</code>), sin salir del perímetro del rack.</li>
+</ul>
+</li>
+<li><strong>Propiedades Geométricas:</strong><ul>
+<li>Curvaturas ortogonales con radio suave <code>r = 6px</code> y arcos cuadráticos Bézier (<code>Q</code>).</li>
+<li>Switch interactivo <code>#checkbox-toggle-cables</code> en la barra de herramientas para ocultar/mostrar cables al instante.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Ver Diagramas:</strong></p>
+<ul>
+<li><code>doc/doc_img/doc_svg/enrutamiento_equipos_piso_y_racks.svg</code> (Doble canaleta y zonas segregadas)</li>
+<li><code>doc/doc_img/doc_svg/propuesta_1_canastillo_aereo.svg</code> (Canastillo aéreo superior)</li>
+</ul>
+<hr>
+<h2>10. Sistema de Autenticación y Criptografía</h2>
+<p><strong>Archivos:</strong> <code>js/auth/roles.js</code> (expuesto como <code>window.RackAuth</code>) y <code>js/auth/crypto.js</code> (expuesto como <code>window.RackCrypto</code>).</p>
+<h3>Roles y permisos (RBAC)</h3>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Descripción</th>
+<th>Permisos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Admin</strong></td>
+<td>Acceso completo</td>
+<td>Todo + Modo Dios + Revelar Contraseñas + Cambiar PIN</td>
+</tr>
+<tr>
+<td><strong>Editor</strong></td>
+<td>Edición sin PIN</td>
+<td>Todo excepto cambiar PIN y Modo Dios</td>
+</tr>
+<tr>
+<td><strong>Viewer</strong></td>
+<td>Solo lectura</td>
+<td>Solo ver datos, sin editar</td>
+</tr>
+</tbody></table>
+<h3>Permisos detallados</h3>
+<table>
+<thead>
+<tr>
+<th>Permiso</th>
+<th>Admin</th>
+<th>Editor</th>
+<th>Viewer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>toggleGodMode</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>editDevices</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>addRacks</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>deleteRacks</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>addConnections</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>clearProject</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>changeAdminPin</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>viewData</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<h3>Implementación de Roles</h3>
+<ul>
+<li><strong>PIN por defecto:</strong> <code>rack2024</code> (hash SHA-256: <code>392bd907...</code>)</li>
+<li><strong>Hasheo:</strong> Web Crypto API (<code>crypto.subtle.digest</code>) con fallback JS puro (<code>sha256_fallback</code>)</li>
+<li><strong>Sesión:</strong> <code>sessionStorage</code> bajo la clave <code>RACK_SESSION_USER</code> (se destruye al cerrar la pestaña)</li>
+<li><strong>Integridad y Persistencia F5:</strong> Los administradores tienen un token criptográfico persistido en <code>sessionStorage</code> bajo <code>RACK_SESSION_TOKEN</code> (<code>TOKEN_KEY</code>). Si un usuario altera manualmente los valores sin coincidir con el token, se fuerza logout de inmediato.</li>
+<li><strong>Verificar permisos:</strong> <code>RackAuth.can(&#39;toggleGodMode&#39;)</code> retorna boolean.</li>
+</ul>
+<h3>Blindaje Criptográfico en Reposo (<code>RackCrypto</code>, M-01)</h3>
+<ul>
+<li><strong>Cifrado Simétrico:</strong> Módulo <code>RackCrypto</code> implementa cifrado de 256 bits bajo el estándar <code>enc:v1:&lt;iv&gt;:&lt;ciphertext&gt;</code>. Genera un vector de inicialización (IV) de 12 bytes único por cada registro.</li>
+<li><strong>Persistencia Segura:</strong> <code>store._save()</code> cifra automáticamente los campos sensibles de los equipos (<code>pass</code>) antes de guardarlos en <code>localStorage</code> (tanto en el slot principal como en el slot redundante de respaldo).</li>
+<li><strong>Descifrado Transparente:</strong> <code>store._load()</code> y <code>store.loadData()</code> descifran las credenciales al instanciar el estado en memoria, permitiendo que la UI y las operaciones funcionen en texto plano sin penalizar la velocidad.</li>
+<li><strong>Exportación Segura:</strong> <code>fileManager.writeToFile</code> y <code>downloadFallback</code> cifran las credenciales al generar archivos <code>.rack</code> o <code>.json</code>.</li>
+<li><strong>Modo Dios y Revelación Táctil:</strong><ul>
+<li>Las contraseñas se renderizan por defecto con <code>••••••••</code> en tablas e Inspector.</li>
+<li>Los administradores pueden activar el <strong>Modo Dios</strong> (<code>SHOW_PASSWORDS = true</code>) para auditar todas las contraseñas a la vez.</li>
+<li>En el Inspector, el botón de ojo táctil (<code>toggleDevicePasswordInspector(devId)</code>) permite a los administradores alternar la visualización de la contraseña de un equipo individual. Espectadores y Editores son bloqueados por RBAC.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>11. Gestión de Archivos</h2>
+<p><strong>Archivo:</strong> <code>js/ui/fileManager.js</code></p>
+<h3>File System Access API</h3>
+<ul>
+<li><strong>Abrir:</strong> <code>showOpenFilePicker()</code> con filtro <code>.rack</code> / <code>.json</code></li>
+<li><strong>Guardar:</strong> <code>showSaveFilePicker()</code> con extensión <code>.rack</code></li>
+<li><strong>Autoguardado:</strong> Debounce de 3 segundos después del último cambio, solo si hay un <code>fileHandle</code> abierto y permisos concedidos</li>
+</ul>
+<h3>Fallback</h3>
+<p>En navegadores que no soportan File System Access API (Firefox, Safari), se usa:</p>
+<ul>
+<li><strong>Abrir:</strong> <code>&lt;input type=&quot;file&quot;&gt;</code> tradicional</li>
+<li><strong>Guardar:</strong> <code>downloadJSON()</code> que crea un Blob y genera un link de descarga</li>
+</ul>
+<h3>Formato de archivo</h3>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;project&quot;: { /* todo el estado de store._raw */ },
+  &quot;catalog&quot;: [ /* array CATALOG con las 21+ plantillas */ ]
+}
+</code></pre>
+<hr>
+<h2>12. Flujo de Datos Completo</h2>
+<h3>Crear un dispositivo (Drag &amp; Drop)</h3>
+<pre><code>1. Usuario arrastra item del catálogo
+2. onCatalogDragStart() guarda el template
+3. Usuario suelta en un slot del rack
+4. onSlotDrop() obtiene el template
+5. store.addDeviceToRack() es llamado
+6. snapshot() guarda estado para undo
+7. Se crea el objeto device con uid()
+8. Se valida colisiones en el slot/lado
+9. Se hace push a this._raw.devices
+10. this._save() guarda en localStorage
+11. this._emit(&#39;change&#39;, { source: &#39;addDeviceToRack&#39; })
+12. renderAll() redibuja:
+    - renderStats() → estadísticas se actualizan
+    - renderOutliner() → árbol se actualiza
+    - renderPhysical() → nuevo faceplate aparece
+    - renderBottomPanel() → tabla se actualiza
+13. fileManager.autoSave() → si hay archivo abierto (3s debounce)
+
+### Validación y Creación de Conexiones (VLANs)
+</code></pre>
+<ol>
+<li>Usuario abre modal de &quot;Nueva Conexión&quot;</li>
+<li>Selecciona origen, destino y puertos</li>
+<li>El modal filtra puertos (opcionalmente) ocultando los que <code>store.isPortOccupied()</code> reporta en uso</li>
+<li>Usuario selecciona una VLAN del catálogo (<code>store.getVlans()</code>)</li>
+<li>store.addConnection() es llamado</li>
+<li>store.validateConnection() bloquea la acción si detecta colisión de puertos</li>
+<li>snapshot() guarda estado</li>
+<li>this._raw.connections.push(newConn)</li>
+<li>this._save() + this._emit(&#39;change&#39;, { source: &#39;Connection&#39; })</li>
+<li>renderAll() redibuja vistas afectadas (Inspector, tablas, cables)</li>
+</ol>
+<pre><code>
+</code></pre>
+<h3>renderAll Source Dispatch</h3>
+<p>La función <code>renderAll()</code> en <code>main.js</code> usa el string <code>source</code> del evento para decidir qué vistas redibujar:</p>
+<table>
+<thead>
+<tr>
+<th>Valor de <code>source</code></th>
+<th>Vistas que se redibujan</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;&quot;</code> (vacío), <code>loadData</code>, <code>undo</code>, <code>redo</code></td>
+<td><strong>TODAS</strong> las vistas (redibujado completo)</td>
+</tr>
+<tr>
+<td>Contiene <code>Room</code>, o es <code>room-rename</code> / <code>changeRoom</code></td>
+<td>Room tabs, rack selector, stats, vista física, topología</td>
+</tr>
+<tr>
+<td>Contiene <code>Rack</code></td>
+<td>Rack selector, stats, outliner, vista física</td>
+</tr>
+<tr>
+<td>Contiene <code>Device</code>, <code>addFloorDevice</code>, <code>moveDevice</code>, <code>deleteDevice</code>, <code>updateDevice</code>, <code>addDeviceToRack</code></td>
+<td>Stats, outliner, vista física, panel inferior</td>
+</tr>
+<tr>
+<td>Contiene <code>Connection</code></td>
+<td>Stats, outliner, panel inferior</td>
+</tr>
+<tr>
+<td>Contiene <code>Zoom</code> o <code>Pan</code></td>
+<td>Solo actualiza la etiqueta de zoom</td>
+</tr>
+</tbody></table>
+<h3>Guardar / Cargar proyecto</h3>
+<pre><code>Guardar:
+1. fileManager.saveProject() / saveProjectAs()
+2. Verifica File System API disponible
+3. Si SÍ: writeToFile(handle) → JSON.stringify → writable.write()
+4. Si NO: downloadFallback() → crea blob → descarga
+
+Cargar:
+1. fileManager.openProject()
+2. Si SÍ API: showOpenFilePicker() → getFile() → text()
+3. Si NO: &lt;input type=&quot;file&quot;&gt; → FileReader
+4. loadDataFromString(text) → JSON.parse
+5. store.loadData(data.project) → sobreescribe estado
+6. Undo/redo se limpian
+7. renderAll() → redibuja todo
+</code></pre>
+<hr>
+<h2>13. Cómo recrear desde cero</h2>
+<p>Si quieres construir algo similar paso a paso:</p>
+<h3>Paso 1: Crear la estructura básica</h3>
+<pre><code class="language-bash">mkdir rack-designer &amp;&amp; cd rack-designer
+touch index.html css/style.css js/store.js js/main.js
+</code></pre>
+<h3>Paso 2: Definir el layout CSS (variables + grid)</h3>
+<h3>Paso 3: Crear el store reactivo (Proxy ES6 + localStorage + Undo/Redo)</h3>
+<h3>Paso 4: Crear el orquestador (main.js con renderAll + source dispatch)</h3>
+<h3>Paso 5: Crear los componentes UI</h3>
+<ul>
+<li><code>catalog.js</code> → Lista de dispositivos arrastrables con flyout</li>
+<li><code>rack.js</code> → Renderizado de racks con drag &amp; drop + cables SVG</li>
+<li><code>faceplates.js</code> → HTML de cada tipo de dispositivo</li>
+<li><code>tables.js</code> → Tabla de inventario con edición inline</li>
+<li><code>outliner.js</code> → Árbol jerárquico</li>
+<li><code>inspector.js</code> → Panel de propiedades</li>
+</ul>
+<h3>Paso 6: Crear los modales (Device, Rack, Cable, Room, Placement, Export)</h3>
+<h3>Paso 7: Agregar Canvas 2D (Topología con MVC)</h3>
+<h3>Paso 8: Agregar autenticación (RBAC con SHA-256 + sessionStorage)</h3>
+<h3>Paso 9: Agregar gestión de archivos (File System Access API + fallback)</h3>
+<h3>Paso 10: Agregar PWA (<code>service-worker.js</code> + <code>manifest.json</code>)</h3>
+<hr>
+<h2>14. Diagramas SVG del Proyecto</h2>
+<p>Todos los diagramas están en <code>doc/doc_img/doc_svg/</code> (33 archivos):</p>
+<h3>Diagramas de Layout</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Dimensiones</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>layout_header.svg</code></td>
+<td>1100×140</td>
+<td>Layout detallado del header</td>
+</tr>
+<tr>
+<td><code>layout_sidebar.svg</code></td>
+<td>360×780</td>
+<td>Sidebar con catálogo de equipos</td>
+</tr>
+<tr>
+<td><code>layout_main_canvas.svg</code></td>
+<td>720×580</td>
+<td>Área principal con racks</td>
+</tr>
+<tr>
+<td><code>layout_right_panel.svg</code></td>
+<td>340×680</td>
+<td>Panel derecho (outliner/inspector/stats)</td>
+</tr>
+<tr>
+<td><code>layout_bottom_panel.svg</code></td>
+<td>1100×360</td>
+<td>Panel inferior con tabla</td>
+</tr>
+<tr>
+<td><code>layout_topology.svg</code></td>
+<td>1400×700</td>
+<td>Vista de topología (Canvas 2D)</td>
+</tr>
+<tr>
+<td><code>ui_layout_map.svg</code></td>
+<td>—</td>
+<td>Mapa completo del layout UI</td>
+</tr>
+</tbody></table>
+<h3>Diagramas de Arquitectura</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>architecture_overview.svg</code></td>
+<td>Arquitectura completa del proyecto (2400×2800)</td>
+</tr>
+<tr>
+<td><code>architecture_current.svg</code></td>
+<td>Arquitectura actual con flujos reactivos, RBAC y fallbacks</td>
+</tr>
+<tr>
+<td><code>project_flow.svg</code></td>
+<td>Flujo de datos completo (2000×2600)</td>
+</tr>
+<tr>
+<td><code>file_communication_flow.svg</code></td>
+<td>Comunicación y llamadas inter-módulo</td>
+</tr>
+<tr>
+<td><code>store_reactivity.svg</code></td>
+<td>Detalle del patrón reactivo del Store</td>
+</tr>
+<tr>
+<td><code>module_dependencies.svg</code></td>
+<td>Dependencias entre módulos JS</td>
+</tr>
+<tr>
+<td><code>dependencies_map.svg</code></td>
+<td>Mapa de dependencias completo</td>
+</tr>
+</tbody></table>
+<h3>Diagramas de Funcionalidades</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>drag_drop_flow.svg</code></td>
+<td>Flujo de drag &amp; drop</td>
+</tr>
+<tr>
+<td><code>topology_engine.svg</code></td>
+<td>Motor de topología Canvas 2D</td>
+</tr>
+<tr>
+<td><code>modals_accordions.svg</code></td>
+<td>Sistema de modales con acordeones</td>
+</tr>
+<tr>
+<td><code>roles_permissions.svg</code></td>
+<td>Matriz de roles y permisos</td>
+</tr>
+<tr>
+<td><code>security_rbac_crypto.svg</code></td>
+<td>Seguridad: RBAC + SHA-256</td>
+</tr>
+<tr>
+<td><code>file_manager_api.svg</code></td>
+<td>File System Access API</td>
+</tr>
+<tr>
+<td><code>autosave_history.svg</code></td>
+<td>Autoguardado e historial</td>
+</tr>
+<tr>
+<td><code>export_system.svg</code></td>
+<td>Sistema de exportación</td>
+</tr>
+<tr>
+<td><code>pwa_service_worker.svg</code></td>
+<td>Service Worker y PWA</td>
+</tr>
+<tr>
+<td><code>theme_switcher.svg</code></td>
+<td>Sistema de temas claro/oscuro</td>
+</tr>
+<tr>
+<td><code>hybrid_network_ports.svg</code></td>
+<td>Puertos de red híbridos</td>
+</tr>
+</tbody></table>
+<h3>Diagramas del Manual de Usuario</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>manual_rack_anatomy.svg</code></td>
+<td>Anatomía de un rack</td>
+</tr>
+<tr>
+<td><code>manual_ui_overview.svg</code></td>
+<td>Mapa de la interfaz para usuarios</td>
+</tr>
+<tr>
+<td><code>manual_action_flow.svg</code></td>
+<td>Flujo de acciones comunes</td>
+</tr>
+</tbody></table>
+<h3>Diagramas de Mejoras</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mejoras_architecture_final.svg</code></td>
+<td>Arquitectura final propuesta</td>
+</tr>
+<tr>
+<td><code>mejoras_device_skins_fallback.svg</code></td>
+<td>Sistema de skins con fallback</td>
+</tr>
+</tbody></table>
+<h3>Cableado Físico y Vistas</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>enrutamiento_equipos_piso_y_racks.svg</code></td>
+<td>Arquitectura de doble canaleta (Aérea vs Piso)</td>
+</tr>
+<tr>
+<td><code>propuesta_1_canastillo_aereo.svg</code></td>
+<td>Canastillo superior aéreo inter-rack</td>
+</tr>
+<tr>
+<td><code>propuesta_2_fila_continua_nowrap.svg</code></td>
+<td>Disposición en fila continua de racks</td>
+</tr>
+<tr>
+<td><code>propuesta_3_cables_interactivos_hover.svg</code></td>
+<td>Modo interactivo Smart Focus</td>
+</tr>
+</tbody></table>
+<h3>Otros</h3>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>directory_structure.svg</code></td>
+<td>Estructura de directorios</td>
+</tr>
+<tr>
+<td><code>project_areas.svg</code></td>
+<td>Áreas del proyecto</td>
+</tr>
+<tr>
+<td><code>user_personas.svg</code></td>
+<td>Perfiles de usuario</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>15. Roadmap de Mejoras</h2>
+<p>El documento <code>mejoras.md</code> en la raíz del proyecto es el <strong>Source of Truth</strong> para todas las mejoras planificadas. Contiene un análisis detallado de:</p>
+<ul>
+<li>Problemas críticos de seguridad e integridad</li>
+<li>Límites de rendimiento y escalabilidad</li>
+<li>Robustez y ciclo de vida PWA</li>
+<li>Deuda técnica y calidad</li>
+<li>Problemas de UX y consistencia</li>
+<li>Fases del roadmap de implementación (1–5)</li>
+<li>Mejoras específicas planificadas para la topología (separación de etiquetas, layout de árbol genealógico)</li>
+</ul>
+<hr>
+<h2>Resumen Final</h2>
+<p>El proyecto RACK Designer Next es una app web vanilla que:</p>
+<ol>
+<li><strong>No necesita build step</strong> → Solo abre index.html</li>
+<li><strong>Usa Proxy ES6</strong> para estado reactivo (como Redux pero nativo, con cache WeakMap)</li>
+<li><strong>Guarda todo en localStorage</strong> (sin backend) + autoguardado en disco con File System Access API</li>
+<li><strong>Tiene 5 áreas fijas</strong> en CSS Grid (header, sidebar flyout, main, right, bottom)</li>
+<li><strong>Canvas 2D</strong> para la vista de topología (2 estilos: card/circle)</li>
+<li><strong>SVG inline</strong> para cables en la vista física</li>
+<li><strong>Drag &amp; drop</strong> nativo para colocar equipos</li>
+<li><strong>3 roles</strong> (Admin, Editor, Viewer) con SHA-256 + token de integridad</li>
+<li><strong>Exporta</strong> a PNG 1:1 Retina (<code>html2canvas.min.js</code>), CSV estructurado, Excel y JSON (.rack)</li>
+<li><strong>PWA</strong> con Service Worker (<code>rack-designer-next-cache-v30</code>) para uso offline</li>
+<li><strong>Suite de Integridad Automatizada</strong> con 199 pruebas en 15 grupos pasando al 100% en Node.js (<code>tests/integrity_check.cjs</code>) y navegador web (<code>tests/index.html</code>)</li>
+</ol>
+<p><strong>La regla más importante:</strong> Nunca mutar el DOM directamente. Siempre actualizar el <code>store</code> y dejar que <code>renderAll()</code> se encargue de redibujar.</p>
+
+    </div>
+</body>
+</html>
