@@ -1,3 +1,11 @@
+function _hitNode(pos, mx, my) {
+  if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.isPointInNode === 'function') {
+    return TopologySkins.isPointInNode(pos, mx, my, window.TOPOLOGY_STYLE);
+  }
+  const dx = mx - pos.x, dy = my - pos.y;
+  return (dx * dx + dy * dy <= 24 * 24);
+}
+
 function initTopology() {
   canvas = document.getElementById('topology-canvas');
   if(!canvas) return;
@@ -38,8 +46,7 @@ function initTopology() {
       if (['accesorios'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
-      const dx = mx - pos.x, dy = my - pos.y;
-      if (dx*dx + dy*dy <= 24*24) {
+      if (_hitNode(pos, mx, my)) {
         draggingNode = dev.id;
         nodeOrig = { x: pos.x - mx, y: pos.y - my };
         return;
@@ -154,16 +161,20 @@ function initTopology() {
       const dev = store._raw.devices.find(d => d.id === draggingNode);
       let nx = mx + nodeOrig.x;
       let ny = my + nodeOrig.y;
-      const r = 24;
+      const nodeDim = (typeof TopologySkins !== 'undefined' && typeof TopologySkins.getNodeDimensions === 'function')
+        ? TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE)
+        : { width: 44, height: 44 };
+      const rx = (nodeDim.width || 44) / 2;
+      const ry = (nodeDim.height || 44) / 2;
 
       // 1. Restringir a Rack si es un equipo montado en rack
       const rackPos = rackPositions[dev.rackId];
       const rackSize = rackSizes[dev.rackId];
       if (rackPos && rackSize) {
-        if (nx - r < rackPos.x) nx = rackPos.x + r;
-        if (nx + r > rackPos.x + rackSize.w) nx = rackPos.x + rackSize.w - r;
-        if (ny - r < rackPos.y + 40) ny = rackPos.y + 40 + r;
-        if (ny + r > rackPos.y + rackSize.h) ny = rackPos.y + rackSize.h - r;
+        if (nx - rx < rackPos.x) nx = rackPos.x + rx;
+        if (nx + rx > rackPos.x + rackSize.w) nx = rackPos.x + rackSize.w - rx;
+        if (ny - ry < rackPos.y + 40) ny = rackPos.y + 40 + ry;
+        if (ny + ry > rackPos.y + rackSize.h) ny = rackPos.y + rackSize.h - ry;
       }
 
       // 2. Restringir a la Sala para que no pueda salir del recuadro
@@ -254,8 +265,7 @@ function initTopology() {
       if (['accesorios'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
-      const dx = mx - pos.x, dy = my - pos.y;
-      if (dx*dx + dy*dy <= 24*24) {
+      if (_hitNode(pos, mx, my)) {
         hoveredNode = dev.id;
         newCursor = 'grab';
         break;
@@ -325,8 +335,7 @@ function initTopology() {
       if (['accesorios'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
-      const dx = mx - pos.x, dy = my - pos.y;
-      if (dx*dx + dy*dy <= 24*24) {
+      if (_hitNode(pos, mx, my)) {
         openCableModal(dev.id);
         return;
       }

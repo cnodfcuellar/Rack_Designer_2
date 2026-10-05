@@ -13,9 +13,9 @@
 
 | Métrica | Valor |
 | :--- | :--- |
-| **Archivos fuente propios incluidos** | **42 archivos** |
-| **Líneas de código totales** | **20.082 líneas** |
-| **Volumen de código fuente** | **938.9 KB (0.92 MB)** |
+| **Archivos fuente propios incluidos** | **44 archivos** |
+| **Líneas de código totales** | **21.862 líneas** |
+| **Volumen de código fuente** | **1013.8 KB (0.99 MB)** |
 | **Librerías externas vendor** | Omitidas del bundle (disponibles en `js/*.min.js`: SheetJS, html2canvas, polyfills) |
 | **Arquitectura de Estado** | Reactividad pura con Proxy ES6 + Snapshot History (Undo/Redo) |
 | **Renderizado Gráfico** | SVG-First en Vista Física + Canvas 2D en Topología |
@@ -37,7 +37,7 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`index.html`**](#index-html) | `HTML` | 1.015 | 66.2 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
+| [**`index.html`**](#index-html) | `HTML` | 1.050 | 68.8 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
 
 ### Capa 2: Sistema de Diseño y Estilos CSS Modulares
 *Arquitectura CSS modular y en cascada: variables de tema (claro/oscuro), layout grid, gabinetes, faceplates y modales.*
@@ -77,7 +77,7 @@
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
 | [**`js/ui/catalog.js`**](#js-ui-catalog-js) | `JAVASCRIPT` | 425 | 27.3 KB | Catálogo de hardware: 30 plantillas arquitectónicas en 8 familias y buscador reactivo. |
-| [**`js/ui/faceplates.js`**](#js-ui-faceplates-js) | `JAVASCRIPT` | 437 | 66.3 KB | Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas. |
+| [**`js/ui/faceplates.js`**](#js-ui-faceplates-js) | `JAVASCRIPT` | 439 | 67.7 KB | Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas. |
 | [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 937 | 42.5 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
 | [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 654 | 27.7 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
 | [**`js/ui/outliner.js`**](#js-ui-outliner-js) | `JAVASCRIPT` | 359 | 16.6 KB | Panel derecho (Outliner): árbol jerárquico Sala > Rack > Equipo con navegación y acciones CRUD inline. |
@@ -92,21 +92,23 @@
 | :--- | :---: | :---: | :---: | :--- |
 | [**`js/ui/modals/Globals.js`**](#js-ui-modals-globals-js) | `JAVASCRIPT` | 6 | 0.2 KB | Variables globales y utilidades compartidas entre las ventanas modales. |
 | [**`js/ui/modals/RackModal.js`**](#js-ui-modals-rackmodal-js) | `JAVASCRIPT` | 83 | 3.4 KB | Modal de creación y edición de gabinetes con alturas normalizadas y selector de color. |
-| [**`js/ui/modals/DeviceModal.js`**](#js-ui-modals-devicemodal-js) | `JAVASCRIPT` | 316 | 15.9 KB | Modal de formulario técnico de equipos: interfaces de red, IPs, credenciales y montaje. |
+| [**`js/ui/modals/DeviceModal.js`**](#js-ui-modals-devicemodal-js) | `JAVASCRIPT` | 367 | 18.4 KB | Modal de formulario técnico de equipos: interfaces de red, IPs, credenciales y montaje. |
 | [**`js/ui/modals/CableModal.js`**](#js-ui-modals-cablemodal-js) | `JAVASCRIPT` | 436 | 15.7 KB | Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs. |
 | [**`js/ui/modals/RoomModal.js`**](#js-ui-modals-roommodal-js) | `JAVASCRIPT` | 124 | 4.1 KB | Modal de gestión de salas: nombres, dimensiones y notas sin diálogos nativos prompt. |
 | [**`js/ui/modals/PlacementModal.js`**](#js-ui-modals-placementmodal-js) | `JAVASCRIPT` | 232 | 8.3 KB | Modal de colocación rápida (Quick Placement) con buscador en tiempo real y cálculo de slots. |
 | [**`js/ui/modals/ExportModal.js`**](#js-ui-modals-exportmodal-js) | `JAVASCRIPT` | 1.825 | 69.6 KB | Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV. |
+| [**`js/ui/modals/ImportModal.js`**](#js-ui-modals-importmodal-js) | `JAVASCRIPT` | 1.059 | 39.8 KB | Modal de importación masiva de equipos desde Excel/CSV con detección reactiva de colisiones y plantilla de 21 campos (M-21 y M-22). |
 
 ### Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
-*Motor de diagramación lógica en Canvas 2D a 60 FPS: nodos circulares/tarjetas, enlaces Bézier, árbol jerárquico y afinidad de piso.*
+*Motor de diagramación lógica en Canvas 2D a 60 FPS: nodos circulares/tarjetas/hardware skins, enlaces Bézier, árbol jerárquico y afinidad de piso.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/ui/topology/TopologyState.js`**](#js-ui-topology-topologystate-js) | `JAVASCRIPT` | 154 | 6.2 KB | Modelo del motor de topología: estado de interacción, pan, zoom y espaciado dual H/V. |
-| [**`js/ui/topology/TopologyLayout.js`**](#js-ui-topology-topologylayout-js) | `JAVASCRIPT` | 639 | 28.6 KB | Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39). |
-| [**`js/ui/topology/TopologyRenderer.js`**](#js-ui-topology-topologyrenderer-js) | `JAVASCRIPT` | 572 | 19.6 KB | Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px. |
-| [**`js/ui/topology/TopologyEvents.js`**](#js-ui-topology-topologyevents-js) | `JAVASCRIPT` | 387 | 13.5 KB | Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación. |
+| [**`js/ui/topology/TopologySkins.js`**](#js-ui-topology-topologyskins-js) | `JAVASCRIPT` | 387 | 12.9 KB | Motor modular de skins: 3 modos (circle/card/image), 18 presets offline, imágenes custom base64 y hit-testing M-28. |
+| [**`js/ui/topology/TopologyState.js`**](#js-ui-topology-topologystate-js) | `JAVASCRIPT` | 154 | 6.2 KB | Modelo del motor de topología: estado de interacción, pan, zoom, espaciado dual H/V y 5 slots de memoria (M-40). |
+| [**`js/ui/topology/TopologyLayout.js`**](#js-ui-topology-topologylayout-js) | `JAVASCRIPT` | 650 | 29.0 KB | Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39). |
+| [**`js/ui/topology/TopologyRenderer.js`**](#js-ui-topology-topologyrenderer-js) | `JAVASCRIPT` | 577 | 19.9 KB | Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px. |
+| [**`js/ui/topology/TopologyEvents.js`**](#js-ui-topology-topologyevents-js) | `JAVASCRIPT` | 396 | 13.9 KB | Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación. |
 | [**`js/ui/topology/TopologyOrchestrator.js`**](#js-ui-topology-topologyorchestrator-js) | `JAVASCRIPT` | 104 | 2.9 KB | Ciclo de vida de topología: inicialización, bucle de animación a 60 FPS y exportación PNG. |
 
 ### Capa 8: Orquestador Principal de la Aplicación
@@ -114,15 +116,15 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.254 | 50.3 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
+| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.266 | 50.5 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
 
 ### Capa 9: Automatización y Suite de Pruebas de Integridad
 *Pruebas de integridad relacional ejecutables tanto en Node.js como interactivamente en el navegador web.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.433 | 85.7 KB | Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito. |
-| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.805 | 94.7 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica. |
+| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.542 | 92.9 KB | Suite de pruebas de integridad para Node.js: 316 aserciones en 20 grupos al 100% de éxito. |
+| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.905 | 101.7 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 316 pruebas en interfaz gráfica. |
 
 ### Capa 10: Herramientas de Compilación y Scripts Auxiliares
 *Scripts de automatización y soporte fuera del bundle del navegador.*
@@ -138,7 +140,7 @@
 
 <a id="json-manifest-json"></a>
 
-### 📄 Archivo 1/42: `json/manifest.json`
+### 📄 Archivo 1/44: `json/manifest.json`
 
 * **Ubicación relativa:** `json/manifest.json`
 * **Capa:** Capa 0: Manifiesto PWA y Service Worker Offline
@@ -181,7 +183,7 @@
 
 <a id="service-worker-js"></a>
 
-### 📄 Archivo 2/42: `service-worker.js`
+### 📄 Archivo 2/44: `service-worker.js`
 
 * **Ubicación relativa:** `service-worker.js`
 * **Capa:** Capa 0: Manifiesto PWA y Service Worker Offline
@@ -322,11 +324,11 @@ self.addEventListener('fetch', (event) => {
 
 <a id="index-html"></a>
 
-### 📄 Archivo 3/42: `index.html`
+### 📄 Archivo 3/44: `index.html`
 
 * **Ubicación relativa:** `index.html`
 * **Capa:** Capa 1: Estructura HTML y Vistas Base
-* **Dimensiones:** 1.015 líneas | 66.2 KB
+* **Dimensiones:** 1.050 líneas | 68.8 KB
 * **Rol en el sistema:** Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts.
 
 ```html
@@ -518,6 +520,7 @@ self.addEventListener('fetch', (event) => {
             <div style="display:flex; gap:6px;">
               <button class="btn-secondary" id="topo-opt-card" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Tarjetas</button>
               <button class="btn-secondary" id="topo-opt-circle" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Nodos</button>
+              <button class="btn-secondary" id="topo-opt-image" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Hardware</button>
             </div>
           </div>
           <div style="margin-bottom:10px;" id="topo-labels-section">
@@ -856,10 +859,43 @@ self.addEventListener('fetch', (event) => {
     </div>
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-skin" class="module-toggle" title="Habilitar Skin Personalizado">
-      <div class="module-header"><label for="dev-has-skin"><i class="svg-icon icon-image" style="width:11px; height:11px; margin-right:6px;"></i> Skin / Apariencia</label></div>
+      <div class="module-header"><label for="dev-has-skin"><i class="svg-icon icon-image" style="width:11px; height:11px; margin-right:6px;"></i> Skin y Hardware Visual (Topología / Rack)</label></div>
       <div class="module-content">
-        <div class="form-grid">
-          <div class="form-row" style="margin-bottom:0;"><label>Nombre del archivo en assets/img/</label><input type="text" id="dev-skin" placeholder="mi_servidor.png"></div>
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 8px;">
+          <div class="form-row" style="margin-bottom:0;"><label>Preset de Hardware</label>
+            <select id="dev-preset-select">
+              <option value="auto">Automático según tipo</option>
+              <option value="server_1u">Servidor 1U (Dell R640)</option>
+              <option value="server_2u">Servidor 2U (HP DL380)</option>
+              <option value="server_4u">Servidor 4U (Blade Modular)</option>
+              <option value="switch">Switch 24P Gigabit</option>
+              <option value="router">Router SFP+ Óptico</option>
+              <option value="firewall">Firewall FortiGate 100F</option>
+              <option value="storage">Storage SAN 10 Bahías</option>
+              <option value="ups">UPS Smart 3000VA</option>
+              <option value="pdu">PDU 8 Tomas IEC</option>
+              <option value="patchpanel">Patch Panel 24P RJ45</option>
+              <option value="organizer">Organizador Horizontal</option>
+              <option value="kvm">Consola KVM 1U</option>
+              <option value="pc">PC / Workstation</option>
+              <option value="ap">Access Point Wi-Fi 6</option>
+              <option value="camera">Cámara IP CCTV</option>
+              <option value="printer">Impresora Corporativa</option>
+            </select>
+          </div>
+          <div class="form-row" style="margin-bottom:0;"><label>Archivo Skin (assets/img/)</label><input type="text" id="dev-skin" placeholder="mi_servidor.png"></div>
+        </div>
+        <div class="form-row" style="margin-bottom:0;">
+          <label>Imagen Personalizada (.png, .jpg, .svg)</label>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="file" id="dev-image-file" accept="image/*" style="display:none;">
+            <button type="button" class="btn-cancel" id="btn-dev-upload-image" style="font-size:11px; padding:4px 8px;"><i class="svg-icon icon-upload" style="width:12px; height:12px; margin-right:4px;"></i>Cargar Imagen...</button>
+            <div id="dev-image-preview-wrap" style="display:none; align-items:center; gap:6px;">
+              <img id="dev-image-preview" src="" alt="preview" style="width:36px; height:20px; object-fit:contain; border:1px solid var(--border); border-radius:3px; background:#000;">
+              <button type="button" id="btn-dev-clear-image" title="Eliminar imagen personalizada" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:12px;">✕</button>
+            </div>
+            <input type="hidden" id="dev-custom-image">
+          </div>
         </div>
       </div>
     </div>
@@ -1257,6 +1293,7 @@ self.addEventListener('fetch', (event) => {
   <script src="js/ui/modals/ImportModal.js"></script>
   <script src="js/ui/modals.js"></script>
   <script src="js/ui/rack.js"></script>
+  <script src="js/ui/topology/TopologySkins.js"></script>
   <script src="js/ui/topology/TopologyState.js"></script>
   <script src="js/ui/topology/TopologyEvents.js"></script>
   <script src="js/ui/topology/TopologyLayout.js"></script>
@@ -1352,7 +1389,7 @@ self.addEventListener('fetch', (event) => {
 
 <a id="css-style-css"></a>
 
-### 📄 Archivo 4/42: `css/style.css`
+### 📄 Archivo 4/44: `css/style.css`
 
 * **Ubicación relativa:** `css/style.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -1375,7 +1412,7 @@ self.addEventListener('fetch', (event) => {
 
 <a id="css-variables-css"></a>
 
-### 📄 Archivo 5/42: `css/variables.css`
+### 📄 Archivo 5/44: `css/variables.css`
 
 * **Ubicación relativa:** `css/variables.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -1499,7 +1536,7 @@ html, body { height: 100%;  background: var(--bg-main); color: var(--text-primar
 
 <a id="css-layout-css"></a>
 
-### 📄 Archivo 6/42: `css/layout.css`
+### 📄 Archivo 6/44: `css/layout.css`
 
 * **Ubicación relativa:** `css/layout.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -3103,7 +3140,7 @@ details[open]>.outliner-summary::before {
 
 <a id="css-components-panels-css"></a>
 
-### 📄 Archivo 7/42: `css/components/panels.css`
+### 📄 Archivo 7/44: `css/components/panels.css`
 
 * **Ubicación relativa:** `css/components/panels.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -3737,7 +3774,7 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 
 <a id="css-components-rack-css"></a>
 
-### 📄 Archivo 8/42: `css/components/rack.css`
+### 📄 Archivo 8/44: `css/components/rack.css`
 
 * **Ubicación relativa:** `css/components/rack.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -4112,7 +4149,7 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
 
 <a id="css-components-faceplates-css"></a>
 
-### 📄 Archivo 9/42: `css/components/faceplates.css`
+### 📄 Archivo 9/44: `css/components/faceplates.css`
 
 * **Ubicación relativa:** `css/components/faceplates.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -4505,7 +4542,7 @@ body.no-animations svg.faceplate-img * {
 
 <a id="css-components-modals-css"></a>
 
-### 📄 Archivo 10/42: `css/components/modals.css`
+### 📄 Archivo 10/44: `css/components/modals.css`
 
 * **Ubicación relativa:** `css/components/modals.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -4599,7 +4636,7 @@ body.no-animations svg.faceplate-img * {
 
 <a id="css-components-misc-css"></a>
 
-### 📄 Archivo 11/42: `css/components/misc.css`
+### 📄 Archivo 11/44: `css/components/misc.css`
 
 * **Ubicación relativa:** `css/components/misc.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
@@ -4976,7 +5013,7 @@ body.no-animations svg.faceplate-img * {
 
 <a id="js-store-js"></a>
 
-### 📄 Archivo 12/42: `js/store.js`
+### 📄 Archivo 12/44: `js/store.js`
 
 * **Ubicación relativa:** `js/store.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
@@ -6025,7 +6062,7 @@ if (typeof window !== 'undefined') {
 
 <a id="js-utils-js"></a>
 
-### 📄 Archivo 13/42: `js/utils.js`
+### 📄 Archivo 13/44: `js/utils.js`
 
 * **Ubicación relativa:** `js/utils.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
@@ -6156,7 +6193,7 @@ function customConfirm(title, message) {
 
 <a id="js-icons-js"></a>
 
-### 📄 Archivo 14/42: `js/icons.js`
+### 📄 Archivo 14/44: `js/icons.js`
 
 * **Ubicación relativa:** `js/icons.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
@@ -6200,7 +6237,7 @@ const SVG_ICONS = {
 
 <a id="js-demodata-js"></a>
 
-### 📄 Archivo 15/42: `js/demoData.js`
+### 📄 Archivo 15/44: `js/demoData.js`
 
 * **Ubicación relativa:** `js/demoData.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
@@ -6856,7 +6893,7 @@ if (typeof window !== 'undefined') {
 
 <a id="js-auth-roles-js"></a>
 
-### 📄 Archivo 16/42: `js/auth/roles.js`
+### 📄 Archivo 16/44: `js/auth/roles.js`
 
 * **Ubicación relativa:** `js/auth/roles.js`
 * **Capa:** Capa 4: Seguridad, Criptografía y Control de Acceso (RBAC)
@@ -7071,7 +7108,7 @@ if (typeof window !== 'undefined') {
 
 <a id="js-auth-crypto-js"></a>
 
-### 📄 Archivo 17/42: `js/auth/crypto.js`
+### 📄 Archivo 17/44: `js/auth/crypto.js`
 
 * **Ubicación relativa:** `js/auth/crypto.js`
 * **Capa:** Capa 4: Seguridad, Criptografía y Control de Acceso (RBAC)
@@ -7315,7 +7352,7 @@ if (typeof window !== 'undefined') {
 
 <a id="js-ui-catalog-js"></a>
 
-### 📄 Archivo 18/42: `js/ui/catalog.js`
+### 📄 Archivo 18/44: `js/ui/catalog.js`
 
 * **Ubicación relativa:** `js/ui/catalog.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -7755,11 +7792,11 @@ function renderStats() {
 
 <a id="js-ui-faceplates-js"></a>
 
-### 📄 Archivo 19/42: `js/ui/faceplates.js`
+### 📄 Archivo 19/44: `js/ui/faceplates.js`
 
 * **Ubicación relativa:** `js/ui/faceplates.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
-* **Dimensiones:** 437 líneas | 66.3 KB
+* **Dimensiones:** 439 líneas | 67.7 KB
 * **Rol en el sistema:** Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas.
 
 ```javascript
@@ -7793,6 +7830,8 @@ const EMBEDDED_SVG_CACHE = {
   "assets/svg/default/floor_camera.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#8b5cf6\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#8b5cf6\"/>\n  <!-- Icono Cámara -->\n  <path d=\"M 12 24 L 26 24 L 32 18 L 32 36 L 26 30 L 12 30 Z\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Cámara IP</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">CCTV-DC01</text>\n</svg>",
   "assets/svg/default/floor_pc.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#0ea5e9\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#0ea5e9\"/>\n  <!-- Icono PC -->\n  <rect x=\"12\" y=\"14\" width=\"24\" height=\"18\" rx=\"2\" fill=\"none\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/>\n  <line x1=\"24\" y1=\"32\" x2=\"24\" y2=\"38\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/>\n  <line x1=\"16\" y1=\"38\" x2=\"32\" y2=\"38\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Workstation</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">PC-CL101</text>\n</svg>",
   "assets/svg/default/floor_printer.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#06b6d4\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#06b6d4\"/>\n  <rect x=\"14\" y=\"22\" width=\"20\" height=\"14\" rx=\"1\" fill=\"none\" stroke=\"#06b6d4\" stroke-width=\"1.8\"/>\n  <line x1=\"18\" y1=\"18\" x2=\"30\" y2=\"18\" stroke=\"#06b6d4\" stroke-width=\"1.8\"/>\n  <line x1=\"18\" y1=\"40\" x2=\"30\" y2=\"40\" stroke=\"#06b6d4\" stroke-width=\"1.8\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Impresora</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">PRINT-CORP</text>\n</svg>",
+  "assets/svg/default/floor_door.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#f59e0b\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#f59e0b\"/>\n  <rect x=\"14\" y=\"16\" width=\"18\" height=\"28\" rx=\"1\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"1.8\"/>\n  <circle cx=\"28\" cy=\"30\" r=\"1.5\" fill=\"#f59e0b\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Ctrl Puerta</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">DOOR-SEC01</text>\n</svg>",
+  "assets/svg/default/floor_phone.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\">\n  <rect x=\"0\" y=\"0\" width=\"120\" height=\"60\" rx=\"4\" fill=\"#0c1420\" stroke=\"#38bdf8\" stroke-width=\"1.5\"/>\n  <rect x=\"0\" y=\"0\" width=\"4\" height=\"60\" fill=\"#38bdf8\"/>\n  <circle cx=\"24\" cy=\"30\" r=\"8\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"1.6\"/>\n  <text x=\"44\" y=\"26\" font-family=\"sans-serif\" font-size=\"10\" font-weight=\"bold\" fill=\"#f8fafc\">Teléfono VoIP</text>\n  <text x=\"44\" y=\"38\" font-family=\"'Consolas', monospace\" font-size=\"8\" fill=\"#94a3b8\">VOIP-EXT100</text>\n</svg>",
   "assets/svg/default/kvm.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"#171e2b\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#243044\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#243044\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Tirador frontal -->\n  <rect x=\"60\" y=\"9\" width=\"120\" height=\"6\" rx=\"2\" fill=\"#334155\" stroke=\"#64748b\" stroke-width=\"0.8\"/>\n  <circle cx=\"50\" cy=\"12\" r=\"2.5\" fill=\"#0a0f18\" stroke=\"#475569\"/>\n  <circle cx=\"190\" cy=\"12\" r=\"2.5\" fill=\"#0a0f18\" stroke=\"#475569\"/>\n  <!-- Pantalla estado -->\n  <rect x=\"18\" y=\"7\" width=\"24\" height=\"10\" rx=\"1\" fill=\"#040810\" stroke=\"#0284c7\" stroke-width=\"0.5\"/>\n  <text x=\"30\" y=\"14\" font-family=\"sans-serif\" font-size=\"5\" fill=\"#38bdf8\" text-anchor=\"middle\">KVM-17</text>\n</svg>",
   "assets/svg/default/organizer.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <defs>\n    <linearGradient id=\"orgChassis\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#1e293b\"/>\n      <stop offset=\"100%\" stop-color=\"#0f172a\"/>\n    </linearGradient>\n  </defs>\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"url(#orgChassis)\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#334155\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#334155\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Ranuras / Dedos del organizador -->\n  <g fill=\"#080c14\" stroke=\"#475569\" stroke-width=\"0.5\">\n    <rect x=\"16\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"20\" y1=\"4\" x2=\"20\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"29\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"33\" y1=\"4\" x2=\"33\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"42\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"46\" y1=\"4\" x2=\"46\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"55\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"59\" y1=\"4\" x2=\"59\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"68\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"72\" y1=\"4\" x2=\"72\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"81\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"85\" y1=\"4\" x2=\"85\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"94\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"98\" y1=\"4\" x2=\"98\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"107\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"111\" y1=\"4\" x2=\"111\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"120\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"124\" y1=\"4\" x2=\"124\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"133\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"137\" y1=\"4\" x2=\"137\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"146\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"150\" y1=\"4\" x2=\"150\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"159\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"163\" y1=\"4\" x2=\"163\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"172\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"176\" y1=\"4\" x2=\"176\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"185\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"189\" y1=\"4\" x2=\"189\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"198\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"202\" y1=\"4\" x2=\"202\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n    <rect x=\"211\" y=\"4\" width=\"8\" height=\"16\" rx=\"2\"/>\n    <line x1=\"215\" y1=\"4\" x2=\"215\" y2=\"20\" stroke=\"#1e293b\" stroke-width=\"1\"/>\n  </g>\n</svg>",
   "assets/svg/default/patchpanel.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"24\" viewBox=\"0 0 240 24\">\n  <rect x=\"0\" y=\"0\" width=\"240\" height=\"24\" rx=\"2\" fill=\"#181e29\" stroke=\"#334155\" stroke-width=\"1\"/>\n  <!-- Orejas -->\n  <rect x=\"0\" y=\"0\" width=\"10\" height=\"24\" fill=\"#273244\"/><circle cx=\"5\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <rect x=\"230\" y=\"0\" width=\"10\" height=\"24\" fill=\"#273244\"/><circle cx=\"235\" cy=\"12\" r=\"2\" fill=\"#000\"/>\n  <!-- Franja Blanca para Rotulación -->\n  <rect x=\"14\" y=\"3\" width=\"212\" height=\"4\" rx=\"0.5\" fill=\"#e2e8f0\"/>\n  <!-- 24 Keystones RJ45 agrupados de a 6 -->\n  <g fill=\"#000000\" stroke=\"#64748b\" stroke-width=\"0.6\">\n    <rect x=\"15\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"23\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"31\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"39\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"47\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"55\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"69\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"77\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"85\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"93\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"101\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"109\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"123\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"131\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"139\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"147\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"155\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"163\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"177\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"185\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"193\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"201\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"209\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n    <rect x=\"217\" y=\"9\" width=\"6.5\" height=\"11\" rx=\"0.8\"/>\n  </g>\n</svg>",
@@ -8207,7 +8246,7 @@ function buildRearView(rack, devices) {
 
 <a id="js-ui-rack-js"></a>
 
-### 📄 Archivo 20/42: `js/ui/rack.js`
+### 📄 Archivo 20/44: `js/ui/rack.js`
 
 * **Ubicación relativa:** `js/ui/rack.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -9159,7 +9198,7 @@ if (!window._physicalCablesBound) {
 
 <a id="js-ui-tables-js"></a>
 
-### 📄 Archivo 21/42: `js/ui/tables.js`
+### 📄 Archivo 21/44: `js/ui/tables.js`
 
 * **Ubicación relativa:** `js/ui/tables.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -9828,7 +9867,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <a id="js-ui-outliner-js"></a>
 
-### 📄 Archivo 22/42: `js/ui/outliner.js`
+### 📄 Archivo 22/44: `js/ui/outliner.js`
 
 * **Ubicación relativa:** `js/ui/outliner.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -10202,7 +10241,7 @@ function renderOutliner() {
 
 <a id="js-ui-inspector-js"></a>
 
-### 📄 Archivo 23/42: `js/ui/inspector.js`
+### 📄 Archivo 23/44: `js/ui/inspector.js`
 
 * **Ubicación relativa:** `js/ui/inspector.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -10720,7 +10759,7 @@ window.toggleDevicePasswordInspector = toggleDevicePasswordInspector;
 
 <a id="js-ui-filemanager-js"></a>
 
-### 📄 Archivo 24/42: `js/ui/fileManager.js`
+### 📄 Archivo 24/44: `js/ui/fileManager.js`
 
 * **Ubicación relativa:** `js/ui/fileManager.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -10925,7 +10964,7 @@ const fileManager = {
 
 <a id="js-ui-modals-js"></a>
 
-### 📄 Archivo 25/42: `js/ui/modals.js`
+### 📄 Archivo 25/44: `js/ui/modals.js`
 
 * **Ubicación relativa:** `js/ui/modals.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
@@ -10951,7 +10990,7 @@ function initModals() {
 
 <a id="js-ui-modals-globals-js"></a>
 
-### 📄 Archivo 26/42: `js/ui/modals/Globals.js`
+### 📄 Archivo 26/44: `js/ui/modals/Globals.js`
 
 * **Ubicación relativa:** `js/ui/modals/Globals.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
@@ -10972,7 +11011,7 @@ const FLOOR_TYPES = new Set(['pc', 'camera', 'ap', 'door', 'printer', 'phone']);
 
 <a id="js-ui-modals-rackmodal-js"></a>
 
-### 📄 Archivo 27/42: `js/ui/modals/RackModal.js`
+### 📄 Archivo 27/44: `js/ui/modals/RackModal.js`
 
 * **Ubicación relativa:** `js/ui/modals/RackModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
@@ -11070,14 +11109,23 @@ function initRackModal() {
 
 <a id="js-ui-modals-devicemodal-js"></a>
 
-### 📄 Archivo 28/42: `js/ui/modals/DeviceModal.js`
+### 📄 Archivo 28/44: `js/ui/modals/DeviceModal.js`
 
 * **Ubicación relativa:** `js/ui/modals/DeviceModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
-* **Dimensiones:** 316 líneas | 15.9 KB
+* **Dimensiones:** 367 líneas | 18.4 KB
 * **Rol en el sistema:** Modal de formulario técnico de equipos: interfaces de red, IPs, credenciales y montaje.
 
 ```javascript
+function _setDeviceImagePreview(dataUrl) {
+  const previewWrap = document.getElementById('dev-image-preview-wrap');
+  const previewImg = document.getElementById('dev-image-preview');
+  const hiddenInput = document.getElementById('dev-custom-image');
+  if (hiddenInput) hiddenInput.value = dataUrl || '';
+  if (previewImg) previewImg.src = dataUrl || '';
+  if (previewWrap) previewWrap.style.display = dataUrl ? 'inline-flex' : 'none';
+}
+
 function openAddDeviceModal() {
   if (window.closeMobileSidebar) window.closeMobileSidebar();
   editingDeviceId = null;
@@ -11088,6 +11136,9 @@ function openAddDeviceModal() {
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
+  _setDeviceImagePreview('');
+  const presetSel = document.getElementById('dev-preset-select');
+  if (presetSel) presetSel.value = 'auto';
   const devStatus = document.getElementById('dev-status');
   if (devStatus) devStatus.value = 'active';
   document.getElementById('dev-has-brand').checked = false;
@@ -11154,6 +11205,9 @@ function openEditCatalogModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
   document.getElementById('dev-skin').value = dev.skin || '';
+  _setDeviceImagePreview(dev.customTopoImage || '');
+  const presetSel = document.getElementById('dev-preset-select');
+  if (presetSel) presetSel.value = dev.preset || 'auto';
 
   if (dev.ports) {
     document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
@@ -11170,7 +11224,7 @@ function openEditCatalogModal(id) {
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
   document.getElementById('dev-has-notes').checked = !!(dev.notes);
-  document.getElementById('dev-has-skin').checked = !!(dev.skin);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin || dev.customTopoImage || (dev.preset && dev.preset !== 'auto'));
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -11210,6 +11264,9 @@ function openEditDeviceModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
   document.getElementById('dev-skin').value = dev.skin || '';
+  _setDeviceImagePreview(dev.customTopoImage || '');
+  const devPresetSel = document.getElementById('dev-preset-select');
+  if (devPresetSel) devPresetSel.value = dev.preset || 'auto';
 
   if (dev.ports) {
     document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
@@ -11226,7 +11283,7 @@ function openEditDeviceModal(id) {
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
   document.getElementById('dev-has-notes').checked = !!(dev.notes);
-  document.getElementById('dev-has-skin').checked = !!(dev.skin);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin || dev.customTopoImage || (dev.preset && dev.preset !== 'auto'));
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -11299,7 +11356,9 @@ function initDeviceModal() {
       user: hasAuth ? document.getElementById('dev-user').value.trim() : '',
       pass: hasAuth ? document.getElementById('dev-pass').value : '',
       notes: hasNotes ? document.getElementById('dev-notes').value.trim() : '',
-      skin: hasSkin ? document.getElementById('dev-skin').value.trim() : ''
+      skin: hasSkin ? document.getElementById('dev-skin').value.trim() : '',
+      preset: hasSkin && document.getElementById('dev-preset-select') && document.getElementById('dev-preset-select').value !== 'auto' ? document.getElementById('dev-preset-select').value : '',
+      customTopoImage: hasSkin && document.getElementById('dev-custom-image') ? document.getElementById('dev-custom-image').value : ''
     };
     if (ports) props.ports = ports;
 
@@ -11392,6 +11451,37 @@ function initDeviceModal() {
         : '<i class="svg-icon icon-eye" style="width:14px; height:14px;"></i>';
     });
   }
+
+  // M-28: Manejadores para carga de imagen personalizada
+  const btnUploadImg = document.getElementById('btn-dev-upload-image');
+  const fileImgInput = document.getElementById('dev-image-file');
+  const btnClearImg = document.getElementById('btn-dev-clear-image');
+
+  if (btnUploadImg && fileImgInput) {
+    btnUploadImg.addEventListener('click', () => fileImgInput.click());
+    fileImgInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        if (typeof notify === 'function') notify('Selecciona un archivo de imagen válido (.png, .jpg, .svg)', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        _setDeviceImagePreview(ev.target.result);
+        const skinModuleToggle = document.getElementById('dev-has-skin');
+        if (skinModuleToggle) skinModuleToggle.checked = true;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (btnClearImg) {
+    btnClearImg.addEventListener('click', () => {
+      _setDeviceImagePreview('');
+      if (fileImgInput) fileImgInput.value = '';
+    });
+  }
 }
 ```
 
@@ -11401,7 +11491,7 @@ function initDeviceModal() {
 
 <a id="js-ui-modals-cablemodal-js"></a>
 
-### 📄 Archivo 29/42: `js/ui/modals/CableModal.js`
+### 📄 Archivo 29/44: `js/ui/modals/CableModal.js`
 
 * **Ubicación relativa:** `js/ui/modals/CableModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
@@ -11852,7 +11942,7 @@ if (typeof window !== 'undefined') {
 
 <a id="js-ui-modals-roommodal-js"></a>
 
-### 📄 Archivo 30/42: `js/ui/modals/RoomModal.js`
+### 📄 Archivo 30/44: `js/ui/modals/RoomModal.js`
 
 * **Ubicación relativa:** `js/ui/modals/RoomModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
@@ -11991,7 +12081,7 @@ if (typeof window !== 'undefined') {
 
 <a id="js-ui-modals-placementmodal-js"></a>
 
-### 📄 Archivo 31/42: `js/ui/modals/PlacementModal.js`
+### 📄 Archivo 31/44: `js/ui/modals/PlacementModal.js`
 
 * **Ubicación relativa:** `js/ui/modals/PlacementModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
@@ -12238,7 +12328,7 @@ window.filterQPCatalog = filterQPCatalog;
 
 <a id="js-ui-modals-exportmodal-js"></a>
 
-### 📄 Archivo 32/42: `js/ui/modals/ExportModal.js`
+### 📄 Archivo 32/44: `js/ui/modals/ExportModal.js`
 
 * **Ubicación relativa:** `js/ui/modals/ExportModal.js`
 * **Capa:** Capa 6: Diálogos Modales Especializados
@@ -14076,14 +14166,1490 @@ window.exportCSV = exportCSV;
 
 ---
 
+<a id="js-ui-modals-importmodal-js"></a>
+
+### 📄 Archivo 33/44: `js/ui/modals/ImportModal.js`
+
+* **Ubicación relativa:** `js/ui/modals/ImportModal.js`
+* **Capa:** Capa 6: Diálogos Modales Especializados
+* **Dimensiones:** 1.059 líneas | 39.8 KB
+* **Rol en el sistema:** Modal de importación masiva de equipos desde Excel/CSV con detección reactiva de colisiones y plantilla de 21 campos (M-21 y M-22).
+
+```javascript
+/**
+ * ImportModal.js — M-21 y M-22: Plantilla Completa de Exportación e Importación Masiva (CSV / Excel)
+ * RACK Designer Next
+ * 
+ * Permite:
+ * 1. M-21: Generar plantillas completas y estructuradas (Excel y CSV) con todos los campos configurables
+ *    del modelo de equipos y hojas de ayuda con valores permitidos.
+ * 2. M-22: Importación masiva de equipos desde archivos .xlsx / .csv con validación reactiva en tiempo real,
+ *    detección de colisiones de slots, políticas de duplicados y soporte atómico para Deshacer/Rehacer.
+ */
+
+// Lista exhaustiva de tipos de equipos reconocidos por el sistema
+const VALID_DEVICE_TYPES = [
+  'server', 'switch', 'router', 'firewall', 'storage', 'ups', 'pdu',
+  'patchpanel', 'camera', 'ap', 'decoder', 'nvr', 'dvr', 'kvm',
+  'tray', 'organizer', 'printer', 'phone'
+];
+
+// Nombres descriptivos de tipos para la hoja de ayuda
+const DEVICE_TYPE_LABELS = {
+  'server': 'Servidor Rack (Cómputo / Virtualización)',
+  'switch': 'Switch de Red (Acceso / Core / ToR)',
+  'router': 'Router / Enrutador de Borde WAN',
+  'firewall': 'Firewall UTM / Seguridad Perimetral',
+  'storage': 'Storage SAN / NAS / JBOD',
+  'ups': 'Sistema de Alimentación Ininterrumpida (UPS)',
+  'pdu': 'Unidad de Distribución de Energía (PDU)',
+  'patchpanel': 'Panel de Parcheo (Patch Panel / ODF)',
+  'camera': 'Cámara IP / Vigilancia (Piso / Pared)',
+  'ap': 'Punto de Acceso Wi-Fi (AP)',
+  'decoder': 'Decodificador de Video / Matriz Wall',
+  'nvr': 'Grabador NVR para Cámaras IP',
+  'dvr': 'Grabador DVR Híbrido CCTV',
+  'kvm': 'Consola KVM con Pantalla y Teclado',
+  'tray': 'Bandeja Porta-equipos / Estante',
+  'organizer': 'Organizador Horizontal de Cables',
+  'printer': 'Impresora de Red / Periférico de Piso',
+  'phone': 'Teléfono IP / Comunicaciones Unificadas'
+};
+
+// Columnas estándar de la plantilla completa
+const TEMPLATE_COLUMNS = [
+  'Sala',
+  'Rack',
+  'Unidad_U',
+  'Lado_Montaje',
+  'Nombre',
+  'Tipo',
+  'Marca',
+  'Modelo',
+  'Tamano_U',
+  'IP',
+  'MAC',
+  'Serie',
+  'Consumo_W',
+  'Tomas_Entrada',
+  'Tomas_Salida',
+  'Usuario',
+  'Contrasena',
+  'Skin',
+  'Puertos_Ethernet',
+  'Puertos_Fibra',
+  'Notas'
+];
+
+/**
+ * Normaliza cualquier clave o encabezado a un identificador interno estándar
+ */
+function normalizeHeaderKey(key) {
+  if (!key) return '';
+  const clean = String(key).trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Quita tildes
+    .replace(/[^a-z0-9]/g, '_')
+    .replace(/^_+|_+$/g, '');
+
+  if (clean.includes('sala') || clean.includes('room')) return 'roomName';
+  if (clean.includes('rack') || clean.includes('gabinete') || clean.includes('ubicacion') || clean.includes('location')) return 'rackName';
+  if (clean.includes('slot') || clean.includes('unidad_u') || clean.includes('posicion_u') || clean === 'u') return 'slotStart';
+  if (clean.includes('lado') || clean.includes('mount') || clean.includes('cara') || clean === 'side') return 'mountSide';
+  if (clean.includes('nombre') || clean.includes('device') || clean === 'name' || clean === 'equipo') return 'name';
+  if (clean.includes('tipo') || clean.includes('type') || clean.includes('categoria') || clean.includes('category')) return 'type';
+  if (clean.includes('marca') || clean.includes('brand') || clean.includes('fabricante') || clean.includes('vendor')) return 'brand';
+  if (clean.includes('modelo') || clean.includes('model')) return 'model';
+  if (clean.includes('tamano') || clean.includes('size') || clean.includes('altura')) return 'size';
+  if (clean.includes('mac')) return 'mac';
+  if (clean.includes('ip')) return 'ip';
+  if (clean.includes('serie') || clean.includes('serial')) return 'serial';
+  if (clean.includes('consumo') || clean.includes('power') || clean.includes('potencia') || clean.includes('watt')) return 'power';
+  if (clean.includes('tomas_salida') || clean.includes('plugs_out') || clean.includes('plugsout')) return 'plugsOut';
+  if (clean.includes('tomas') || clean.includes('plugs')) return 'plugs';
+  if (clean.includes('usuario') || clean.includes('username') || clean === 'user') return 'user';
+  if (clean.includes('contrasena') || clean.includes('password') || clean.includes('pass') || clean.includes('clave')) return 'pass';
+  if (clean.includes('skin') || clean.includes('faceplate') || clean.includes('apariencia')) return 'skin';
+  if (clean.includes('fibra') || clean.includes('fiber') || clean.includes('sfp')) return 'portsFiber';
+  if (clean.includes('eth') || clean.includes('rj45') || clean.includes('ethernet')) return 'portsEth';
+  if (clean.includes('nota') || clean.includes('note') || clean.includes('comentario') || clean.includes('descripcion') || clean.includes('detalle')) return 'notes';
+
+  return clean;
+}
+
+/**
+ * M-21: Genera los datos crudos para la plantilla (matriz de arrays)
+ * Si withCurrentData es true, rellena con todos los dispositivos del proyecto.
+ * Si es false, crea filas de ejemplo documentadas.
+ */
+function getDeviceTemplateAOA(withCurrentData = false) {
+  const aoa = [TEMPLATE_COLUMNS];
+
+  if (withCurrentData && typeof store !== 'undefined' && store._raw && Array.isArray(store._raw.devices)) {
+    store._raw.devices.forEach(d => {
+      const isFloor = d.category === 'floor';
+      const rack = !isFloor ? store.rackById(d.rackId) : null;
+      const room = isFloor ? store._raw.rooms.find(r => r.id === d.roomId) : (rack ? store._raw.rooms.find(r => r.id === rack.roomId) : null);
+      
+      const sideText = isFloor ? '-' : (d.mountSide === 'both' ? 'Ambas Caras' : (d.mountSide === 'rear' ? 'Trasera' : 'Frontal'));
+      const passText = d.pass ? (window.SHOW_PASSWORDS ? d.pass : '••••••••') : '';
+      const ethPorts = d.ports && d.ports.ethernet !== undefined ? d.ports.ethernet : '';
+      const fiberPorts = d.ports && d.ports.fiber !== undefined ? d.ports.fiber : '';
+
+      aoa.push([
+        room ? room.name : '',
+        isFloor ? 'PISO' : (rack ? rack.name : ''),
+        isFloor ? '-' : (d.slotStart || 1),
+        sideText,
+        d.name || '',
+        d.type || 'server',
+        d.brand || '',
+        d.model || '',
+        d.size || 1,
+        d.ip || '',
+        d.mac || '',
+        d.serial || '',
+        d.power || 0,
+        d.plugs !== undefined ? d.plugs : 1,
+        d.plugsOut !== undefined ? d.plugsOut : 0,
+        d.user || 'admin',
+        passText,
+        d.skin || 'default',
+        ethPorts,
+        fiberPorts,
+        d.notes || ''
+      ]);
+    });
+  } else {
+    // Filas ilustrativas de ejemplo guiadas
+    const currentRoom = typeof store !== 'undefined' && store.currentRoom ? store.currentRoom.name : 'Data Center Principal';
+    const firstRack = typeof store !== 'undefined' && store.currentRacks && store.currentRacks[0] ? store.currentRacks[0].name : 'Rack 101 · Borde & Redes';
+
+    aoa.push([
+      currentRoom,
+      firstRack,
+      1,
+      'Ambas Caras',
+      'Servidor Virtualizacion Node-01',
+      'server',
+      'Dell',
+      'PowerEdge R750',
+      2,
+      '10.10.10.15',
+      '00:1A:2B:3C:4D:5E',
+      'SRV-DELL-750-01',
+      750,
+      2,
+      0,
+      'admin',
+      'ServPass2026!',
+      'server',
+      4,
+      2,
+      'Cluster Proxmox - Nodo Primario Línea A'
+    ]);
+
+    aoa.push([
+      currentRoom,
+      firstRack,
+      40,
+      'Frontal',
+      'Switch Acceso ToR 48P',
+      'switch',
+      'Cisco',
+      'Catalyst 9300-48P',
+      1,
+      '10.10.10.2',
+      '00:1A:2B:3C:4D:60',
+      'CSCO-CAT-9300-A',
+      350,
+      2,
+      0,
+      'admin',
+      'CiscoPass#1',
+      'switch',
+      48,
+      4,
+      'Switch Top of Rack - Distribución de VLANs'
+    ]);
+
+    aoa.push([
+      currentRoom,
+      'PISO',
+      '-',
+      '-',
+      'Camara Domo Pasillo Central',
+      'camera',
+      'Hikvision',
+      'DS-2CD2143G2-I',
+      1,
+      '10.10.40.101',
+      '00:1A:2B:3C:4D:77',
+      'HIK-CAM-4K-01',
+      12,
+      1,
+      0,
+      'admin',
+      'CamPass#2026',
+      'default',
+      1,
+      0,
+      'Cámara IP PoE conectada a Switch Rack 104'
+    ]);
+  }
+
+  return aoa;
+}
+
+/**
+ * M-21: Descarga la plantilla estructurada de importación en formato Excel (.xlsx) o CSV (.csv)
+ */
+function downloadDeviceTemplate(format = 'xlsx', withCurrentData = false) {
+  const aoa = getDeviceTemplateAOA(withCurrentData);
+  const baseFilename = withCurrentData ? 'Inventario_Completo_Centro_Datos' : 'Plantilla_Importacion_Equipos';
+
+  if (format === 'csv') {
+    // Generar CSV con BOM UTF-8 (\uFEFF) para visualización correcta de tildes en Excel
+    const csvRows = aoa.map(row => 
+      row.map(cell => {
+        const val = cell === null || cell === undefined ? '' : String(cell);
+        return `"${val.replace(/"/g, '""')}"`;
+      }).join(',')
+    );
+    const csvContent = '\uFEFF' + csvRows.join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${baseFilename}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    if (typeof notify === 'function') {
+      notify(`Plantilla CSV ${withCurrentData ? 'con datos ' : ''}descargada`, 'success');
+    }
+    return;
+  }
+
+  // Generar archivo Excel (.xlsx) con SheetJS
+  if (typeof XLSX === 'undefined') {
+    if (typeof notify === 'function') {
+      notify('Librería Excel no disponible en memoria. Descargando en CSV...', 'warn');
+    }
+    return downloadDeviceTemplate('csv', withCurrentData);
+  }
+
+  const wb = XLSX.utils.book_new();
+
+  // Hoja 1: Plantilla de Equipos
+  const wsTemplate = XLSX.utils.aoa_to_sheet(aoa);
+  
+  // Establecer anchos de columna visuales cómodos
+  wsTemplate['!cols'] = [
+    { wch: 22 }, // Sala
+    { wch: 26 }, // Rack
+    { wch: 10 }, // Unidad_U
+    { wch: 14 }, // Lado_Montaje
+    { wch: 30 }, // Nombre
+    { wch: 14 }, // Tipo
+    { wch: 16 }, // Marca
+    { wch: 20 }, // Modelo
+    { wch: 10 }, // Tamano_U
+    { wch: 16 }, // IP
+    { wch: 20 }, // MAC
+    { wch: 18 }, // Serie
+    { wch: 12 }, // Consumo_W
+    { wch: 14 }, // Tomas_Entrada
+    { wch: 14 }, // Tomas_Salida
+    { wch: 14 }, // Usuario
+    { wch: 16 }, // Contrasena
+    { wch: 14 }, // Skin
+    { wch: 16 }, // Puertos_Ethernet
+    { wch: 16 }, // Puertos_Fibra
+    { wch: 38 }  // Notas
+  ];
+
+  XLSX.utils.book_append_sheet(wb, wsTemplate, 'Plantilla_Equipos');
+
+  // Hoja 2: Valores Permitidos y Referencia de la Infraestructura
+  const refAoa = [
+    ['CAMPO', 'VALORES VÁLIDOS', 'DESCRIPCIÓN Y NOTAS'],
+    ['Tipo (Equipo)', VALID_DEVICE_TYPES.join(', '), 'Categoría del hardware. Ver lista detallada abajo.'],
+    ['Lado_Montaje', 'Frontal, Trasera, Ambas Caras (o front, rear, both)', 'Indica la cara del rack donde se monta el equipo.'],
+    ['Rack', 'Nombre del gabinete, o "PISO" / "FLOOR"', 'Si se indica "PISO", el equipo se ubica como periférico de sala.'],
+    ['Unidad_U', '1 a N (Altura máxima del rack)', 'Ranura física donde empieza el equipo (de abajo hacia arriba).'],
+    ['Tamano_U', '1, 2, 3, 4, etc.', 'Número entero de unidades de rack (U) que ocupa el equipo.'],
+    ['IP', 'IPv4 Válida (ej: 192.168.1.10)', 'Opcional. Formato estándar x.x.x.x.'],
+    ['MAC', 'Formato XX:XX:XX:XX:XX:XX o XX-XX-XX-XX-XX-XX', 'Opcional. Formato hexadecimal de 6 octetos.'],
+    [''],
+    ['--- TIPOS DE EQUIPOS SOPORTADOS ---', '', ''],
+    ...VALID_DEVICE_TYPES.map(t => [t, DEVICE_TYPE_LABELS[t] || t, '']),
+    [''],
+    ['--- SALAS EXISTENTES EN ESTE PROYECTO ---', '', ''],
+    ...(typeof store !== 'undefined' && store._raw && store._raw.rooms ? store._raw.rooms.map(r => [r.name, `ID: ${r.id}`, '']) : []),
+    [''],
+    ['--- GABINETES (RACKS) EXISTENTES ---', 'SALA', 'ALTURA'],
+    ...(typeof store !== 'undefined' && store._raw && store._raw.racks ? store._raw.racks.map(r => {
+      const room = store._raw.rooms.find(rm => rm.id === r.roomId);
+      return [r.name, room ? room.name : '', `${r.height}U`];
+    }) : [])
+  ];
+
+  const wsRef = XLSX.utils.aoa_to_sheet(refAoa);
+  wsRef['!cols'] = [{ wch: 34 }, { wch: 30 }, { wch: 45 }];
+  XLSX.utils.book_append_sheet(wb, wsRef, 'Valores_Permitidos');
+
+  XLSX.writeFile(wb, `${baseFilename}.xlsx`);
+  if (typeof notify === 'function') {
+    notify(`Plantilla Excel ${withCurrentData ? 'con datos ' : ''}descargada exitosamente`, 'success');
+  }
+}
+
+/**
+ * M-22: Analiza y valida una fila individual cruda
+ */
+function parseAndValidateDeviceRow(rawRow, index, options = {}) {
+  const currentRoomId = options.targetRoomId || (typeof store !== 'undefined' ? store._raw.currentRoomId : null);
+  const autoCreateRacks = !!options.autoCreateRacks;
+  
+  // Normalizar propiedades del objeto
+  const item = {};
+  for (const [k, v] of Object.entries(rawRow)) {
+    const normKey = normalizeHeaderKey(k);
+    if (normKey) {
+      item[normKey] = typeof v === 'string' ? v.trim() : v;
+    }
+  }
+
+  const rowNum = index + 2; // Considerando fila 1 de encabezados
+  const issues = { errors: [], warnings: [] };
+
+  // 1. Validación de Nombre
+  if (!item.name || String(item.name).trim() === '') {
+    issues.errors.push(`Fila ${rowNum}: El nombre del equipo es obligatorio.`);
+    return { isValid: false, issues, item, rowNum };
+  }
+
+  // 2. Validación y normalización de Tipo
+  let type = String(item.type || 'server').trim().toLowerCase();
+  if (!VALID_DEVICE_TYPES.includes(type)) {
+    // Mapeo flexible
+    if (type.includes('serv') || type.includes('srv')) type = 'server';
+    else if (type.includes('switch') || type.includes('sw')) type = 'switch';
+    else if (type.includes('rout') || type.includes('rtr')) type = 'router';
+    else if (type.includes('firewall') || type.includes('fw')) type = 'firewall';
+    else if (type.includes('stor') || type.includes('nas') || type.includes('san')) type = 'storage';
+    else if (type.includes('cam')) type = 'camera';
+    else if (type.includes('wifi') || type.includes('ap')) type = 'ap';
+    else {
+      issues.warnings.push(`Fila ${rowNum}: Tipo "${item.type}" no reconocido; se asignó "server" por defecto.`);
+      type = 'server';
+    }
+  }
+  item.type = type;
+
+  // 3. Tamaño en U
+  let size = parseInt(item.size, 10);
+  if (isNaN(size) || size < 1) size = 1;
+  item.size = size;
+
+  // 4. Ubicación: ¿Es equipo de piso o de rack?
+  const rackRaw = String(item.rackName || '').trim();
+  const isFloor = rackRaw.toUpperCase() === 'PISO' || rackRaw.toUpperCase() === 'FLOOR' || rackRaw === '-' || (rackRaw === '' && ['camera', 'ap', 'printer', 'phone'].includes(type));
+
+  item.category = isFloor ? 'floor' : undefined;
+
+  // 5. Resolución de Sala
+  let targetRoom = null;
+  if (typeof store !== 'undefined' && store._raw && store._raw.rooms) {
+    if (item.roomName) {
+      targetRoom = store._raw.rooms.find(r => r.name.toLowerCase() === item.roomName.toLowerCase()) || null;
+    }
+    if (!targetRoom && currentRoomId) {
+      targetRoom = store._raw.rooms.find(r => r.id === currentRoomId) || store._raw.rooms[0] || null;
+    }
+  }
+  item.roomId = targetRoom ? targetRoom.id : currentRoomId;
+  item.resolvedRoomName = targetRoom ? targetRoom.name : (item.roomName || 'Sala Actual');
+
+  // 6. Validación de Gabinete (Rack) y Slots si es de Rack
+  let targetRack = null;
+  if (!isFloor) {
+    if (!rackRaw && !options.defaultRackId) {
+      issues.errors.push(`Fila ${rowNum}: No se especificó el gabinete (Rack) para el equipo "${item.name}".`);
+    } else {
+      if (typeof store !== 'undefined' && store._raw && store._raw.racks) {
+        if (rackRaw) {
+          // Buscar rack por nombre dentro de la sala resuelta
+          targetRack = store._raw.racks.find(r => 
+            r.name.toLowerCase() === rackRaw.toLowerCase() && 
+            (!item.roomId || r.roomId === item.roomId)
+          );
+          // Si no está en esa sala, buscar globalmente por nombre
+          if (!targetRack) {
+            targetRack = store._raw.racks.find(r => r.name.toLowerCase() === rackRaw.toLowerCase());
+          }
+        }
+        if (!targetRack && options.defaultRackId) {
+          targetRack = store.rackById(options.defaultRackId);
+        }
+      }
+
+      if (!targetRack) {
+        if (autoCreateRacks && rackRaw) {
+          issues.warnings.push(`Fila ${rowNum}: El rack "${rackRaw}" no existe y será creado automáticamente (42U).`);
+          item.willCreateRack = true;
+          item.rackName = rackRaw;
+        } else {
+          issues.errors.push(`Fila ${rowNum}: El gabinete "${rackRaw}" no fue encontrado en el proyecto.`);
+        }
+      } else {
+        item.rackId = targetRack.id;
+        item.resolvedRackName = targetRack.name;
+        item.rackHeight = targetRack.height;
+      }
+
+      // Validar Unidad U
+      let slotStart = parseInt(item.slotStart, 10);
+      if (isNaN(slotStart) || slotStart < 1) {
+        issues.errors.push(`Fila ${rowNum}: Unidad U inválida ("${item.slotStart}"). Debe ser un número mayor o igual a 1.`);
+      } else {
+        const rackH = targetRack ? targetRack.height : 42;
+        if (slotStart + size - 1 > rackH) {
+          issues.errors.push(`Fila ${rowNum}: El equipo "${item.name}" (${size}U en U${slotStart}) desborda la altura del rack (${rackH}U).`);
+        }
+        item.slotStart = slotStart;
+      }
+
+      // Validar Lado de Montaje
+      let side = String(item.mountSide || 'front').trim().toLowerCase();
+      if (side.includes('ambas') || side.includes('both') || side.includes('dual')) {
+        side = 'both';
+      } else if (side.includes('tras') || side.includes('rear') || side.includes('atras')) {
+        side = 'rear';
+      } else {
+        side = 'front';
+      }
+      item.mountSide = side;
+
+      // Validar colisiones físicas con equipos ya existentes en el rack
+      if (targetRack && typeof store !== 'undefined' && item.slotStart) {
+        const conflictFn = typeof store.sidesConflict === 'function' 
+          ? store.sidesConflict.bind(store) 
+          : (s1, s2) => (s1 === 'both' || s2 === 'both' || s1 === s2);
+        
+        const existingInRack = store.allDevicesInRack(targetRack.id).filter(d => conflictFn(d.mountSide, item.mountSide));
+        const myStart = item.slotStart;
+        const myEnd = item.slotStart + size - 1;
+
+        for (const dev of existingInRack) {
+          const dStart = dev.slotStart;
+          const dEnd = dev.slotStart + dev.size - 1;
+          if (!(myEnd < dStart || myStart > dEnd)) {
+            issues.errors.push(`Fila ${rowNum}: Colisión física en U${myStart}-U${myEnd} con el equipo existente "${dev.name}".`);
+            break;
+          }
+        }
+      }
+    }
+  } else {
+    item.rackId = null;
+    item.resolvedRackName = 'PISO';
+    item.slotStart = '-';
+    item.mountSide = '-';
+  }
+
+  // 7. Validaciones sintácticas de red
+  if (item.ip && String(item.ip).trim() !== '') {
+    const ipStr = String(item.ip).trim();
+    const ipv4Regex = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
+    if (!ipv4Regex.test(ipStr)) {
+      issues.warnings.push(`Fila ${rowNum}: Formato de IP "${ipStr}" no cumple con estándar IPv4.`);
+    }
+  }
+
+  if (item.mac && String(item.mac).trim() !== '') {
+    const macStr = String(item.mac).trim();
+    const macRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+    if (!macRegex.test(macStr)) {
+      issues.warnings.push(`Fila ${rowNum}: Formato de MAC "${macStr}" no coincide con patrón estándar (XX:XX:XX:XX:XX:XX).`);
+    }
+  }
+
+  // 8. Normalización de campos numéricos y auxiliares
+  item.power = parseInt(item.power, 10) || 0;
+  item.plugs = parseInt(item.plugs, 10) || 1;
+  item.plugsOut = parseInt(item.plugsOut, 10) || 0;
+  item.brand = item.brand || '';
+  item.model = item.model || '';
+  item.serial = item.serial || '';
+  item.user = item.user || 'admin';
+  item.pass = item.pass ? String(item.pass) : '';
+  item.notes = item.notes || '';
+  item.skin = item.skin || 'default';
+
+  // Configurar puertos estructurados si están presentes
+  const portsEth = parseInt(item.portsEth, 10);
+  const portsFiber = parseInt(item.portsFiber, 10);
+  if (!isNaN(portsEth) || !isNaN(portsFiber)) {
+    item.ports = {
+      ethernet: !isNaN(portsEth) ? portsEth : 0,
+      fiber: !isNaN(portsFiber) ? portsFiber : 0
+    };
+  }
+
+  const isValid = issues.errors.length === 0;
+  return { isValid, issues, item, rowNum };
+}
+
+/**
+ * M-22: Procesa una lista completa de filas crudas y devuelve el plan de importación
+ */
+function analyzeImportBatch(rawRows, options = {}) {
+  const results = {
+    total: rawRows.length,
+    validRows: [],
+    invalidRows: [],
+    allIssues: [],
+    warningsCount: 0,
+    errorsCount: 0,
+    racksToCreate: new Set()
+  };
+
+  // Mapa para detectar colisiones internas en el mismo lote
+  const internalRackSlots = new Map(); // key: `rackId_side` -> Array<{ start, end, name, rowNum }>
+
+  rawRows.forEach((row, idx) => {
+    // Ignorar filas totalmente vacías
+    if (!row || Object.values(row).every(v => v === null || v === undefined || String(v).trim() === '')) {
+      return;
+    }
+
+    const validated = parseAndValidateDeviceRow(row, idx, options);
+
+    if (validated.isValid && !validated.item.isFloor && validated.item.rackId && validated.item.slotStart) {
+      const rackKey = `${validated.item.rackId}_${validated.item.mountSide}`;
+      const myStart = validated.item.slotStart;
+      const myEnd = validated.item.slotStart + validated.item.size - 1;
+
+      if (!internalRackSlots.has(rackKey)) {
+        internalRackSlots.set(rackKey, []);
+      }
+      const existingInBatch = internalRackSlots.get(rackKey);
+
+      for (const item of existingInBatch) {
+        if (!(myEnd < item.start || myStart > item.end)) {
+          validated.isValid = false;
+          validated.issues.errors.push(`Fila ${validated.rowNum}: Colisión interna en el archivo con el equipo "${item.name}" (Fila ${item.rowNum}) en el mismo gabinete.`);
+          break;
+        }
+      }
+
+      if (validated.isValid) {
+        existingInBatch.push({ start: myStart, end: myEnd, name: validated.item.name, rowNum: validated.rowNum });
+      }
+    }
+
+    if (validated.item.willCreateRack && validated.item.rackName) {
+      results.racksToCreate.add(validated.item.rackName);
+    }
+
+    results.warningsCount += validated.issues.warnings.length;
+    results.errorsCount += validated.issues.errors.length;
+
+    if (validated.isValid) {
+      results.validRows.push(validated);
+    } else {
+      results.invalidRows.push(validated);
+    }
+
+    results.allIssues.push(...validated.issues.errors.map(msg => ({ type: 'error', msg, rowNum: validated.rowNum })));
+    results.allIssues.push(...validated.issues.warnings.map(msg => ({ type: 'warning', msg, rowNum: validated.rowNum })));
+  });
+
+  return results;
+}
+
+/**
+ * M-22: Ejecuta la importación masiva atómicamente en store._raw
+ */
+function executeDeviceImport(importPlan, options = {}) {
+  if (typeof store === 'undefined' || !store._raw) {
+    throw new Error('El Store no está inicializado.');
+  }
+
+  if (typeof RackAuth !== 'undefined' && typeof RackAuth.can === 'function' && !RackAuth.can('editDevices')) {
+    throw new Error('Permisos insuficientes: Se requiere rol Editor o Administrador para importar equipos.');
+  }
+
+  const conflictStrategy = options.conflictStrategy || 'rename'; // 'skip' | 'rename' | 'overwrite'
+  const validItems = importPlan.validRows.map(r => r.item);
+
+  if (validItems.length === 0) {
+    return { success: false, importedCount: 0, message: 'No hay equipos válidos para importar.' };
+  }
+
+  // 1. Snapshot atómico para soportar Deshacer / Rehacer
+  if (typeof store.snapshot === 'function') {
+    store.snapshot();
+  }
+
+  // 2. Creación automática de gabinetes si se solicitaron
+  const createdRacksMap = new Map();
+  if (importPlan.racksToCreate && importPlan.racksToCreate.size > 0 && options.autoCreateRacks) {
+    for (const rackName of importPlan.racksToCreate) {
+      const newRackId = typeof uid === 'function' ? uid() : ('rack_' + Math.random().toString(36).substr(2, 9));
+      const targetRoomId = options.targetRoomId || store._raw.currentRoomId;
+      const newRack = {
+        id: newRackId,
+        roomId: targetRoomId,
+        name: rackName,
+        height: 42,
+        color: '#0ea5e9',
+        devices: []
+      };
+      store._raw.racks.push(newRack);
+      createdRacksMap.set(rackName.toLowerCase(), newRackId);
+    }
+  }
+
+  let importedCount = 0;
+  let updatedCount = 0;
+  let skippedCount = 0;
+
+  for (const item of validItems) {
+    // Si el rack fue creado dinámicamente en este lote, asociar su nuevo ID
+    if (item.willCreateRack && item.rackName) {
+      const createdId = createdRacksMap.get(item.rackName.toLowerCase());
+      if (createdId) {
+        item.rackId = createdId;
+      }
+    }
+
+    // Comprobar existencia previa de equipo por nombre en la misma sala o rack
+    let existing = null;
+    if (item.category === 'floor') {
+      existing = store._raw.devices.find(d => d.category === 'floor' && d.roomId === item.roomId && d.name.toLowerCase() === item.name.toLowerCase());
+    } else if (item.rackId) {
+      existing = store._raw.devices.find(d => d.rackId === item.rackId && d.name.toLowerCase() === item.name.toLowerCase());
+    }
+
+    if (existing) {
+      if (conflictStrategy === 'skip') {
+        skippedCount++;
+        continue;
+      } else if (conflictStrategy === 'rename') {
+        let counter = 1;
+        let newName = `${item.name} (${counter})`;
+        while (store._raw.devices.some(d => d.name.toLowerCase() === newName.toLowerCase())) {
+          counter++;
+          newName = `${item.name} (${counter})`;
+        }
+        item.name = newName;
+      } else if (conflictStrategy === 'overwrite') {
+        // Actualizar propiedades del equipo existente
+        Object.assign(existing, {
+          brand: item.brand,
+          model: item.model,
+          ip: item.ip,
+          mac: item.mac,
+          serial: item.serial,
+          power: item.power,
+          plugs: item.plugs,
+          plugsOut: item.plugsOut,
+          user: item.user,
+          pass: item.pass,
+          notes: item.notes,
+          skin: item.skin
+        });
+        if (item.ports) existing.ports = item.ports;
+        updatedCount++;
+        continue;
+      }
+    }
+
+    // Crear nuevo objeto de dispositivo
+    const deviceId = typeof uid === 'function' ? uid() : ('dev_' + Math.random().toString(36).substr(2, 9));
+    const newDevice = {
+      id: deviceId,
+      rackId: item.category === 'floor' ? null : item.rackId,
+      roomId: item.category === 'floor' ? item.roomId : undefined,
+      category: item.category,
+      name: item.name,
+      type: item.type,
+      brand: item.brand,
+      model: item.model,
+      size: item.size,
+      ip: item.ip,
+      mac: item.mac,
+      serial: item.serial,
+      power: item.power,
+      plugs: item.plugs,
+      plugsOut: item.plugsOut,
+      user: item.user,
+      pass: item.pass,
+      notes: item.notes,
+      skin: item.skin
+    };
+
+    if (item.category !== 'floor') {
+      newDevice.slotStart = item.slotStart;
+      newDevice.mountSide = item.mountSide;
+    }
+    if (item.ports) {
+      newDevice.ports = item.ports;
+    }
+
+    store._raw.devices.push(newDevice);
+    importedCount++;
+  }
+
+  // 3. Persistir y emitir cambio reactivo
+  if (typeof store._save === 'function') {
+    store._save();
+  }
+
+  if (typeof store._emit === 'function') {
+    store._emit('change', { source: 'importDevices' });
+  }
+
+  return {
+    success: true,
+    importedCount,
+    updatedCount,
+    skippedCount,
+    racksCreatedCount: createdRacksMap.size
+  };
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Control del Modal de Importación Masiva en Interfaz de Usuario
+// ──────────────────────────────────────────────────────────────────
+
+let currentParsedRows = null;
+let currentImportPlan = null;
+
+/**
+ * Abre el modal interactivo de importación
+ */
+function openImportModal() {
+  const modal = document.getElementById('modal-import-devices');
+  if (!modal) return;
+
+  currentParsedRows = null;
+  currentImportPlan = null;
+
+  // Rellenar selector de salas
+  const roomSelect = document.getElementById('import-room-select');
+  if (roomSelect && typeof store !== 'undefined' && store._raw && store._raw.rooms) {
+    roomSelect.innerHTML = store._raw.rooms.map(r => 
+      `<option value="${r.id}" ${r.id === store._raw.currentRoomId ? 'selected' : ''}>${escapeHTML(r.name)}</option>`
+    ).join('');
+  }
+
+  // Resetear estados visuales
+  const fileInput = document.getElementById('import-file-input');
+  if (fileInput) fileInput.value = '';
+
+  const dropZone = document.getElementById('import-drop-zone');
+  if (dropZone) {
+    dropZone.classList.remove('has-file');
+    const label = document.getElementById('import-file-name-label');
+    if (label) label.textContent = 'Haz clic o arrastra aquí tu archivo .xlsx o .csv';
+  }
+
+  const previewContainer = document.getElementById('import-preview-container');
+  if (previewContainer) previewContainer.classList.add('hidden');
+
+  const btnConfirm = document.getElementById('btn-import-confirm');
+  if (btnConfirm) {
+    btnConfirm.disabled = true;
+    btnConfirm.innerHTML = '<i class="svg-icon icon-upload" style="width:14px;height:14px;margin-right:6px;"></i>Importar Equipos';
+  }
+
+  modal.classList.remove('hidden');
+}
+
+/**
+ * Cierra el modal de importación
+ */
+function closeImportModal() {
+  const modal = document.getElementById('modal-import-devices');
+  if (modal) modal.classList.add('hidden');
+  currentParsedRows = null;
+  currentImportPlan = null;
+}
+
+/**
+ * Procesa un archivo subido por el usuario (Excel o CSV)
+ */
+function handleImportFile(file) {
+  if (!file) return;
+
+  const dropZoneLabel = document.getElementById('import-file-name-label');
+  if (dropZoneLabel) {
+    dropZoneLabel.textContent = `Analizando: ${file.name} (${(file.size / 1024).toFixed(1)} KB)...`;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      if (typeof XLSX === 'undefined') {
+        throw new Error('Librería SheetJS no encontrada.');
+      }
+
+      const workbook = XLSX.read(data, { type: 'array' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+
+      const rawRows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+      if (!rawRows || rawRows.length === 0) {
+        if (typeof notify === 'function') {
+          notify('El archivo seleccionado no contiene filas de datos.', 'warn');
+        }
+        if (dropZoneLabel) dropZoneLabel.textContent = 'El archivo está vacío.';
+        return;
+      }
+
+      currentParsedRows = rawRows;
+      updateImportPreviewUI();
+
+      if (dropZoneLabel) {
+        dropZoneLabel.textContent = `Archivo cargado: ${file.name} (${rawRows.length} registros)`;
+      }
+      const dropZone = document.getElementById('import-drop-zone');
+      if (dropZone) dropZone.classList.add('has-file');
+
+    } catch (err) {
+      console.error('[ImportModal] Error al procesar archivo:', err);
+      if (typeof notify === 'function') {
+        notify('Error al leer el archivo. Comprueba que sea un Excel o CSV válido.', 'error');
+      }
+      if (dropZoneLabel) dropZoneLabel.textContent = 'Error al leer el archivo.';
+    }
+  };
+
+  reader.onerror = function() {
+    if (typeof notify === 'function') {
+      notify('Fallo en la lectura del archivo.', 'error');
+    }
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+/**
+ * Actualiza la vista previa del plan de importación en el modal
+ */
+function updateImportPreviewUI() {
+  if (!currentParsedRows) return;
+
+  const roomSelect = document.getElementById('import-room-select');
+  const targetRoomId = roomSelect ? roomSelect.value : null;
+
+  const autoCreateCheck = document.getElementById('import-auto-create-racks');
+  const autoCreateRacks = autoCreateCheck ? autoCreateCheck.checked : true;
+
+  const conflictSelect = document.getElementById('import-conflict-strategy');
+  const conflictStrategy = conflictSelect ? conflictSelect.value : 'rename';
+
+  currentImportPlan = analyzeImportBatch(currentParsedRows, {
+    targetRoomId,
+    autoCreateRacks,
+    conflictStrategy
+  });
+
+  const previewContainer = document.getElementById('import-preview-container');
+  if (previewContainer) previewContainer.classList.remove('hidden');
+
+  // Actualizar contadores
+  const countTotal = document.getElementById('import-count-total');
+  const countValid = document.getElementById('import-count-valid');
+  const countWarnings = document.getElementById('import-count-warnings');
+  const countErrors = document.getElementById('import-count-errors');
+
+  if (countTotal) countTotal.textContent = currentImportPlan.total;
+  if (countValid) countValid.textContent = currentImportPlan.validRows.length;
+  if (countWarnings) countWarnings.textContent = currentImportPlan.warningsCount;
+  if (countErrors) countErrors.textContent = currentImportPlan.errorsCount;
+
+  // Renderizar tabla previa (primeras 20 filas)
+  const tbody = document.getElementById('import-preview-tbody');
+  if (tbody) {
+    const allCombined = [...currentImportPlan.validRows, ...currentImportPlan.invalidRows]
+      .sort((a, b) => a.rowNum - b.rowNum);
+
+    tbody.innerHTML = allCombined.slice(0, 30).map(rowObj => {
+      const isOk = rowObj.isValid;
+      const statusBadge = isOk 
+        ? `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(16,185,129,0.15);color:#10b981;"><i class="svg-icon icon-check" style="width:10px;height:10px;"></i> Válido</span>`
+        : `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(239,68,68,0.15);color:#ef4444;"><i class="svg-icon icon-x" style="width:10px;height:10px;"></i> Error</span>`;
+
+      const msg = rowObj.issues.errors[0] || rowObj.issues.warnings[0] || (rowObj.item.willCreateRack ? 'Rack nuevo a crear' : 'Listo para importar');
+      const msgColor = rowObj.issues.errors.length ? '#ef4444' : (rowObj.issues.warnings.length ? '#f59e0b' : 'var(--text-muted)');
+
+      return `
+        <tr style="border-bottom: 1px solid var(--border); font-size: 11px;">
+          <td style="padding: 6px 8px; font-family:var(--font-mono); text-align:center;">${rowObj.rowNum}</td>
+          <td style="padding: 6px 8px;">${statusBadge}</td>
+          <td style="padding: 6px 8px; font-weight:600; color:var(--text-primary);">${escapeHTML(rowObj.item.name || '-')}</td>
+          <td style="padding: 6px 8px; color:var(--text-secondary);">${escapeHTML(rowObj.item.resolvedRackName || '-')}</td>
+          <td style="padding: 6px 8px; font-family:var(--font-mono);">${rowObj.item.slotStart !== undefined ? escapeHTML(String(rowObj.item.slotStart)) : '-'}</td>
+          <td style="padding: 6px 8px; font-family:var(--font-mono);">${escapeHTML(rowObj.item.ip || '-')}</td>
+          <td style="padding: 6px 8px; color:${msgColor}; max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHTML(msg)}">${escapeHTML(msg)}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Activar o desactivar botón de confirmación
+  const btnConfirm = document.getElementById('btn-import-confirm');
+  if (btnConfirm) {
+    const validCount = currentImportPlan.validRows.length;
+    btnConfirm.disabled = validCount === 0;
+    btnConfirm.innerHTML = `<i class="svg-icon icon-upload" style="width:14px;height:14px;margin-right:6px;"></i>Confirmar e Importar (${validCount} Equipos)`;
+  }
+}
+
+/**
+ * Inicializa los eventos del DOM para el modal de importación
+ */
+function initImportModalEvents() {
+  const modal = document.getElementById('modal-import-devices');
+  if (!modal) return;
+
+  const btnClose = document.getElementById('modal-import-close');
+  const btnCancel = document.getElementById('modal-import-cancel');
+  if (btnClose) btnClose.addEventListener('click', closeImportModal);
+  if (btnCancel) btnCancel.addEventListener('click', closeImportModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeImportModal();
+  });
+
+  // Selector de archivos y Drag & Drop
+  const fileInput = document.getElementById('import-file-input');
+  const dropZone = document.getElementById('import-drop-zone');
+
+  if (dropZone && fileInput) {
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleImportFile(e.target.files[0]);
+      }
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('drag-over');
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleImportFile(e.dataTransfer.files[0]);
+      }
+    });
+  }
+
+  // Descargas de plantillas desde el modal
+  const btnDlXlsx = document.getElementById('btn-modal-dl-template-xlsx');
+  const btnDlCsv = document.getElementById('btn-modal-dl-template-csv');
+  if (btnDlXlsx) btnDlXlsx.addEventListener('click', () => downloadDeviceTemplate('xlsx', false));
+  if (btnDlCsv) btnDlCsv.addEventListener('click', () => downloadDeviceTemplate('csv', false));
+
+  // Cambios en opciones de configuración
+  const roomSelect = document.getElementById('import-room-select');
+  const autoCreateCheck = document.getElementById('import-auto-create-racks');
+  const conflictSelect = document.getElementById('import-conflict-strategy');
+
+  if (roomSelect) roomSelect.addEventListener('change', updateImportPreviewUI);
+  if (autoCreateCheck) autoCreateCheck.addEventListener('change', updateImportPreviewUI);
+  if (conflictSelect) conflictSelect.addEventListener('change', updateImportPreviewUI);
+
+  // Botón Confirmar Importación
+  const btnConfirm = document.getElementById('btn-import-confirm');
+  if (btnConfirm) {
+    btnConfirm.addEventListener('click', () => {
+      if (!currentImportPlan || currentImportPlan.validRows.length === 0) return;
+
+      const roomSelectVal = document.getElementById('import-room-select')?.value;
+      const autoCreateVal = document.getElementById('import-auto-create-racks')?.checked;
+      const conflictVal = document.getElementById('import-conflict-strategy')?.value;
+
+      try {
+        const result = executeDeviceImport(currentImportPlan, {
+          targetRoomId: roomSelectVal,
+          autoCreateRacks: autoCreateVal,
+          conflictStrategy: conflictVal
+        });
+
+        if (result.success) {
+          const detail = [];
+          if (result.importedCount > 0) detail.push(`${result.importedCount} creados`);
+          if (result.updatedCount > 0) detail.push(`${result.updatedCount} actualizados`);
+          if (result.skippedCount > 0) detail.push(`${result.skippedCount} omitidos`);
+          if (result.racksCreatedCount > 0) detail.push(`${result.racksCreatedCount} racks creados`);
+
+          if (typeof notify === 'function') {
+            notify(`Importación completada: ${detail.join(', ')}`, 'success', 4000);
+          }
+          closeImportModal();
+        } else {
+          if (typeof notify === 'function') {
+            notify(result.message || 'Error en la importación', 'error');
+          }
+        }
+      } catch (err) {
+        console.error('[ImportModal] Error al ejecutar importación:', err);
+        if (typeof notify === 'function') {
+          notify(`Error: ${err.message}`, 'error', 4000);
+        }
+      }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initImportModalEvents);
+
+// Exportación global en window para consumo desde UI y pruebas automatizadas
+if (typeof window !== 'undefined') {
+  window.downloadDeviceTemplate = downloadDeviceTemplate;
+  window.openImportModal = openImportModal;
+  window.closeImportModal = closeImportModal;
+  window.parseAndValidateDeviceRow = parseAndValidateDeviceRow;
+  window.analyzeImportBatch = analyzeImportBatch;
+  window.executeDeviceImport = executeDeviceImport;
+  window.normalizeHeaderKey = normalizeHeaderKey;
+  window.VALID_DEVICE_TYPES = VALID_DEVICE_TYPES;
+  window.TEMPLATE_COLUMNS = TEMPLATE_COLUMNS;
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
+<a id="js-ui-topology-topologyskins-js"></a>
+
+### 📄 Archivo 34/44: `js/ui/topology/TopologySkins.js`
+
+* **Ubicación relativa:** `js/ui/topology/TopologySkins.js`
+* **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
+* **Dimensiones:** 387 líneas | 12.9 KB
+* **Rol en el sistema:** Motor modular de skins: 3 modos (circle/card/image), 18 presets offline, imágenes custom base64 y hit-testing M-28.
+
+```javascript
+/**
+ * TopologySkins.js — Sistema Avanzado de Skins Visuales en Topología (M-28)
+ * RACK Designer Next
+ * 
+ * Gestiona los 3 modos de representación visual en Canvas 2D:
+ * 1. 'circle' (Nodos): Modo minimalista circular con icono central y etiquetas independientes.
+ * 2. 'card' (Tarjetas): Modo rectangular tradicional (150×50) con datos de equipo e IP.
+ * 3. 'image' (Hardware / Imágenes): Modo arquitectónico/fotorrealista (140×50) con
+ *    chasis de hardware procedimental, orejas de montaje en rack, frontal de equipo
+ *    basado en EMBEDDED_SVG_CACHE y soporte para imágenes personalizadas (.png, .jpg, .svg).
+ */
+
+const TopologySkins = (function() {
+  const MODES = {
+    CIRCLE: 'circle',
+    CARD: 'card',
+    IMAGE: 'image'
+  };
+
+  // Dimensiones canónicas y límites de espaciado para layout y colisiones
+  const DIMENSIONS = {
+    circle: {
+      width: 44,
+      height: 44,
+      radius: 22,
+      boundW: 66,
+      boundH: 66
+    },
+    card: {
+      width: 150,
+      height: 50,
+      radius: 8,
+      boundW: 160,
+      boundH: 60
+    },
+    image: {
+      width: 140,
+      height: 50,
+      radius: 4,
+      boundW: 150,
+      boundH: 60
+    }
+  };
+
+  // Presets de hardware predefinidos vinculados con los SVGs de EMBEDDED_SVG_CACHE
+  const HARDWARE_PRESETS = {
+    'server_1u': 'assets/svg/default/server_1u.svg',
+    'server_2u': 'assets/svg/default/server_2u.svg',
+    'server_4u': 'assets/svg/default/server_4u.svg',
+    'switch': 'assets/svg/default/switch_24p.svg',
+    'router': 'assets/svg/default/router.svg',
+    'firewall': 'assets/svg/default/firewall.svg',
+    'storage': 'assets/svg/default/storage.svg',
+    'ups': 'assets/svg/default/ups.svg',
+    'pdu': 'assets/svg/default/pdu.svg',
+    'patchpanel': 'assets/svg/default/patchpanel.svg',
+    'organizer': 'assets/svg/default/organizer.svg',
+    'kvm': 'assets/svg/default/kvm.svg',
+    'tray': 'assets/svg/default/tray.svg',
+    'pc': 'assets/svg/default/floor_pc.svg',
+    'ap': 'assets/svg/default/floor_ap.svg',
+    'camera': 'assets/svg/default/floor_camera.svg',
+    'printer': 'assets/svg/default/floor_printer.svg',
+    'door': 'assets/svg/default/floor_door.svg',
+    'phone': 'assets/svg/default/floor_phone.svg'
+  };
+
+  // Mapeo automático de tipo y tamaño de equipo al preset de hardware idóneo
+  function getPresetForDevice(dev) {
+    if (!dev) return 'server_2u';
+    if (dev.preset && HARDWARE_PRESETS[dev.preset]) return dev.preset;
+    
+    const type = (dev.type || 'server').toLowerCase();
+    const size = parseInt(dev.size) || 1;
+
+    if (type === 'server') {
+      if (size >= 4) return 'server_4u';
+      if (size === 2 || size === 3) return 'server_2u';
+      return 'server_1u';
+    }
+    if (type === 'switch') return 'switch';
+    if (type === 'router') return 'router';
+    if (type === 'firewall') return 'firewall';
+    if (type === 'storage' || type === 'nas' || type === 'san') return 'storage';
+    if (type === 'ups' || type === 'energia') return 'ups';
+    if (type === 'pdu') return 'pdu';
+    if (type === 'patchpanel' || type === 'odf') return 'patchpanel';
+    if (type === 'organizer') return 'organizer';
+    if (type === 'kvm') return 'kvm';
+    if (type === 'tray') return 'tray';
+    if (type === 'pc' || type === 'workstation') return 'pc';
+    if (type === 'ap' || type === 'wifi') return 'ap';
+    if (type === 'camera' || type === 'nvr' || type === 'dvr' || type === 'decoder') return 'camera';
+    if (type === 'printer') return 'printer';
+    if (type === 'door') return 'door';
+    if (type === 'phone' || type === 'voip') return 'phone';
+    
+    return 'server_1u';
+  }
+
+  // Caché de elementos Image para Canvas 2D
+  const imageCache = {};
+
+  /**
+   * Obtiene o genera el objeto Image() para renderizar el equipo en Canvas 2D.
+   * Soporta fotos/imágenes del usuario (DataURL base64), skins personalizados
+   * y SVGs vectoriales de EMBEDDED_SVG_CACHE.
+   */
+  function getHardwareImage(dev) {
+    if (!dev) return null;
+    const cacheKey = dev.customTopoImage || dev.skin || (dev.id ? `${dev.id}_${getPresetForDevice(dev)}` : getPresetForDevice(dev));
+    if (imageCache[cacheKey]) return imageCache[cacheKey];
+
+    // 1. Imagen personalizada del usuario (DataURL base64 o URL directa)
+    if (dev.customTopoImage && typeof Image !== 'undefined') {
+      const img = new Image();
+      img.src = dev.customTopoImage;
+      imageCache[cacheKey] = img;
+      return img;
+    }
+
+    // 2. Skin personalizado especificado en dev.skin
+    let svgKey = null;
+    if (dev.skin && typeof EMBEDDED_SVG_CACHE !== 'undefined') {
+      const normalized = typeof normalizeAssetUrl === 'function' ? normalizeAssetUrl(dev.skin) : dev.skin;
+      if (EMBEDDED_SVG_CACHE[normalized]) {
+        svgKey = normalized;
+      } else if (EMBEDDED_SVG_CACHE['assets/svg/default/' + dev.skin]) {
+        svgKey = 'assets/svg/default/' + dev.skin;
+      }
+    }
+
+    // 3. Preset por defecto según tipo y tamaño de equipo
+    if (!svgKey) {
+      const preset = getPresetForDevice(dev);
+      svgKey = HARDWARE_PRESETS[preset];
+    }
+
+    if (svgKey && typeof EMBEDDED_SVG_CACHE !== 'undefined' && EMBEDDED_SVG_CACHE[svgKey] && typeof Image !== 'undefined') {
+      try {
+        const svgContent = EMBEDDED_SVG_CACHE[svgKey];
+        const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.src = url;
+        imageCache[cacheKey] = img;
+        return img;
+      } catch (e) {
+        // En entornos sin Blob/URL (Node.js tests) retornamos null
+        return null;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Obtiene las dimensiones de geometría de un modo de skin dado.
+   */
+  function getNodeDimensions(mode) {
+    const m = mode || (typeof window !== 'undefined' ? window.TOPOLOGY_STYLE : 'card') || 'card';
+    return DIMENSIONS[m] || DIMENSIONS.card;
+  }
+
+  /**
+   * Comprueba si las coordenadas (mx, my) están dentro del área interactiva del nodo.
+   * Unifica el hit-testing para arrastre, hover y doble clic en los 3 modos.
+   */
+  function isPointInNode(pos, mx, my, mode) {
+    if (!pos || typeof mx !== 'number' || typeof my !== 'number') return false;
+    const m = mode || (typeof window !== 'undefined' ? window.TOPOLOGY_STYLE : 'card') || 'card';
+
+    if (m === 'circle') {
+      const dx = mx - pos.x;
+      const dy = my - pos.y;
+      return (dx * dx + dy * dy) <= (24 * 24);
+    }
+
+    if (m === 'image') {
+      const dim = DIMENSIONS.image;
+      const halfW = dim.width / 2;
+      const halfH = dim.height / 2;
+      return mx >= (pos.x - halfW) && mx <= (pos.x + halfW) &&
+             my >= (pos.y - halfH) && my <= (pos.y + halfH);
+    }
+
+    // Modo 'card' (por defecto)
+    const dim = DIMENSIONS.card;
+    const halfW = dim.width / 2;
+    const halfH = dim.height / 2;
+    return mx >= (pos.x - halfW) && mx <= (pos.x + halfW) &&
+           my >= (pos.y - halfH) && my <= (pos.y + halfH);
+  }
+
+  /**
+   * Renderiza un equipo en modo Hardware / Imagen en el Canvas 2D.
+   * Dibuja orejas de montaje en rack, frontal metálico o imagen fotorrealista,
+   * y una banda de datos nítida con Nombre, Tipo, LED y dirección IP.
+   */
+  function renderHardwareNode(ctx, dev, pos, isHoverTarget, isActive, TYPE_COLORS) {
+    if (!ctx || !dev || !pos) return;
+
+    const dim = DIMENSIONS.image;
+    const cardW = dim.width;
+    const cardH = dim.height;
+    const cx = pos.x - cardW / 2;
+    const cy = pos.y - cardH / 2;
+    const col = (TYPE_COLORS && TYPE_COLORS[dev.type]) || '#38bdf8';
+    const isFloor = dev.category === 'floor' || (typeof FLOOR_TYPES !== 'undefined' && FLOOR_TYPES.has(dev.type));
+
+    // 1. Resplandor / Halo de selección / hover
+    if (isHoverTarget) {
+      ctx.save();
+      ctx.beginPath();
+      if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(cx - 4, cy - 4, cardW + 8, cardH + 8, 8);
+      } else {
+        ctx.rect(cx - 4, cy - 4, cardW + 8, cardH + 8);
+      }
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // 2. Chasis del equipo
+    ctx.save();
+    ctx.beginPath();
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(cx, cy, cardW, cardH, 5);
+    } else {
+      ctx.rect(cx, cy, cardW, cardH);
+    }
+    // Gradiente metálico oscuro para el chasis
+    try {
+      const grad = ctx.createLinearGradient(cx, cy, cx, cy + cardH);
+      grad.addColorStop(0, '#1e293b');
+      grad.addColorStop(1, '#090d16');
+      ctx.fillStyle = grad;
+    } catch (e) {
+      ctx.fillStyle = '#0f172a';
+    }
+    ctx.fill();
+    ctx.strokeStyle = isHoverTarget ? '#ffffff' : col;
+    ctx.lineWidth = isHoverTarget ? 2 : 1.5;
+    ctx.stroke();
+
+    // 3. Orejas de montaje de Rack (si es equipo en rack)
+    if (!isFloor) {
+      const earW = 8;
+      // Oreja izquierda
+      ctx.fillStyle = '#263449';
+      ctx.fillRect(cx, cy, earW, cardH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(cx, cy, earW, cardH);
+      // Tornillos oreja izquierda
+      ctx.fillStyle = '#0a0e17';
+      ctx.beginPath();
+      ctx.arc(cx + 4, cy + 10, 1.8, 0, Math.PI * 2);
+      ctx.arc(cx + 4, cy + cardH - 10, 1.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Oreja derecha
+      ctx.fillStyle = '#263449';
+      ctx.fillRect(cx + cardW - earW, cy, earW, cardH);
+      ctx.strokeRect(cx + cardW - earW, cy, earW, cardH);
+      // Tornillos oreja derecha
+      ctx.fillStyle = '#0a0e17';
+      ctx.beginPath();
+      ctx.arc(cx + cardW - 4, cy + 10, 1.8, 0, Math.PI * 2);
+      ctx.arc(cx + cardW - 4, cy + cardH - 10, 1.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // 4. Carátula / Gráfico vectorial del equipo o frontal procedural
+    const img = getHardwareImage(dev);
+    const contentX = !isFloor ? cx + 9 : cx + 4;
+    const contentW = !isFloor ? cardW - 18 : cardW - 8;
+    const faceplateH = 24;
+
+    if (img && img.complete && img.naturalWidth > 0) {
+      try {
+        ctx.save();
+        // Recorte redondeado para no desbordar
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(contentX, cy + 2, contentW, faceplateH, 3);
+        } else {
+          ctx.rect(contentX, cy + 2, contentW, faceplateH);
+        }
+        ctx.clip();
+        ctx.drawImage(img, contentX, cy + 2, contentW, faceplateH);
+        ctx.restore();
+      } catch (err) {
+        // Fallback procedural
+      }
+    } else {
+      // Frontal procedimental estilizado si la imagen aún no está cargada
+      ctx.save();
+      ctx.fillStyle = '#0a0f1d';
+      ctx.fillRect(contentX, cy + 2, contentW, faceplateH);
+      // Rejilla de puertos o ventilación procedimental
+      ctx.fillStyle = col;
+      ctx.globalAlpha = 0.4;
+      for (let vx = contentX + 6; vx < contentX + contentW - 12; vx += 8) {
+        ctx.fillRect(vx, cy + 6, 5, 8);
+      }
+      ctx.restore();
+    }
+
+    // 5. Franja técnica inferior con fondo de alto contraste
+    const bottomH = 20;
+    const bottomY = cy + cardH - bottomH;
+    ctx.fillStyle = 'rgba(10, 15, 26, 0.92)';
+    ctx.fillRect(cx + 1, bottomY, cardW - 2, bottomH - 1);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx + 1, bottomY);
+    ctx.lineTo(cx + cardW - 1, bottomY);
+    ctx.stroke();
+
+    // LED de Estado del Dispositivo (verde: activo, amarillo: mantenimiento, rojo/apagado)
+    let ledColor = '#10b981';
+    if (dev.status === 'maintenance') ledColor = '#f59e0b';
+    else if (dev.status === 'offline') ledColor = '#ef4444';
+
+    ctx.beginPath();
+    ctx.arc(cx + 12, bottomY + 10, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = ledColor;
+    ctx.shadowColor = ledColor;
+    ctx.shadowBlur = 4;
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+
+    // Nombre del Dispositivo (Truncado si es largo)
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.font = 'bold 10px "Space Grotesk", sans-serif';
+    ctx.fillStyle = '#f8fafc';
+    const rawDevName = dev.name || 'Sin Nombre';
+    const maxTextW = dev.ip ? 58 : 108;
+    let devName = rawDevName;
+    if (ctx.measureText(devName).width > maxTextW) {
+      while (devName.length > 3 && ctx.measureText(devName + '…').width > maxTextW) {
+        devName = devName.slice(0, -1);
+      }
+      devName += '…';
+    }
+    ctx.fillText(devName, cx + 18, bottomY + 10);
+
+    // Dirección IP (si existe)
+    if (dev.ip) {
+      ctx.textAlign = 'right';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#38bdf8';
+      let devIp = dev.ip;
+      if (ctx.measureText(devIp).width > 56) {
+        devIp = devIp.split('.').slice(-2).join('.'); // Muestra los últimos octetos si es muy larga
+      }
+      ctx.fillText(devIp, cx + cardW - 8, bottomY + 10);
+    }
+
+    ctx.restore();
+  }
+
+  return {
+    MODES,
+    HARDWARE_PRESETS,
+    DIMENSIONS,
+    getPresetForDevice,
+    getHardwareImage,
+    getNodeDimensions,
+    isPointInNode,
+    renderHardwareNode
+  };
+})();
+
+if (typeof window !== 'undefined') {
+  window.TopologySkins = TopologySkins;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { TopologySkins };
+}
+```
+
+[⬆ Volver al Índice General](#índice-general-del-código-fuente)
+
+---
+
 <a id="js-ui-topology-topologystate-js"></a>
 
-### 📄 Archivo 33/42: `js/ui/topology/TopologyState.js`
+### 📄 Archivo 35/44: `js/ui/topology/TopologyState.js`
 
 * **Ubicación relativa:** `js/ui/topology/TopologyState.js`
 * **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
 * **Dimensiones:** 154 líneas | 6.2 KB
-* **Rol en el sistema:** Modelo del motor de topología: estado de interacción, pan, zoom y espaciado dual H/V.
+* **Rol en el sistema:** Modelo del motor de topología: estado de interacción, pan, zoom, espaciado dual H/V y 5 slots de memoria (M-40).
 
 ```javascript
 let canvas, ctx;
@@ -14247,11 +15813,11 @@ if (typeof window !== 'undefined') {
 
 <a id="js-ui-topology-topologylayout-js"></a>
 
-### 📄 Archivo 34/42: `js/ui/topology/TopologyLayout.js`
+### 📄 Archivo 36/44: `js/ui/topology/TopologyLayout.js`
 
 * **Ubicación relativa:** `js/ui/topology/TopologyLayout.js`
 * **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
-* **Dimensiones:** 639 líneas | 28.6 KB
+* **Dimensiones:** 650 líneas | 29.0 KB
 * **Rol en el sistema:** Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39).
 
 ```javascript
@@ -14274,8 +15840,19 @@ const RACK_GAP      = 32;   // horizontal gap between racks
 const ROOM_GAP      = 60;   // horizontal gap between rooms
 const RACK_HEADER_H = 52;   // space for rack label at top and top node IP badge
 
-function _nodeW() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_W; }
-function _nodeH() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_H; }
+function _nodeW() {
+  if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.getNodeDimensions === 'function') {
+    return TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE).boundW;
+  }
+  return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_W;
+}
+
+function _nodeH() {
+  if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.getNodeDimensions === 'function') {
+    return TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE).boundH;
+  }
+  return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_H;
+}
 
 // ──────────────────────────────────────────────────────────────────
 // Shared layout computation (returns rooms/racks/nodes/positions)
@@ -14901,11 +16478,11 @@ if (typeof module !== 'undefined' && module.exports) {
 
 <a id="js-ui-topology-topologyrenderer-js"></a>
 
-### 📄 Archivo 35/42: `js/ui/topology/TopologyRenderer.js`
+### 📄 Archivo 37/44: `js/ui/topology/TopologyRenderer.js`
 
 * **Ubicación relativa:** `js/ui/topology/TopologyRenderer.js`
 * **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
-* **Dimensiones:** 572 líneas | 19.6 KB
+* **Dimensiones:** 577 líneas | 19.9 KB
 * **Rol en el sistema:** Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px.
 
 ```javascript
@@ -15333,6 +16910,11 @@ function drawTopo() {
           drawNodeIp(pos.x - r - 10, pos.y, 'right');
         }
       }
+    } else if (window.TOPOLOGY_STYLE === 'image') {
+      // HARDWARE / IMAGE STYLE (M-28)
+      if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.renderHardwareNode === 'function') {
+        TopologySkins.renderHardwareNode(ctx, dev, pos, isHoverTarget, isActive, TYPE_COLORS);
+      }
     } else {
       // CARD STYLE
       const cardW = 150;
@@ -15488,14 +17070,22 @@ function orthogonalPoint(x1, y1, x2, y2, t) {
 
 <a id="js-ui-topology-topologyevents-js"></a>
 
-### 📄 Archivo 36/42: `js/ui/topology/TopologyEvents.js`
+### 📄 Archivo 38/44: `js/ui/topology/TopologyEvents.js`
 
 * **Ubicación relativa:** `js/ui/topology/TopologyEvents.js`
 * **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
-* **Dimensiones:** 387 líneas | 13.5 KB
+* **Dimensiones:** 396 líneas | 13.9 KB
 * **Rol en el sistema:** Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación.
 
 ```javascript
+function _hitNode(pos, mx, my) {
+  if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.isPointInNode === 'function') {
+    return TopologySkins.isPointInNode(pos, mx, my, window.TOPOLOGY_STYLE);
+  }
+  const dx = mx - pos.x, dy = my - pos.y;
+  return (dx * dx + dy * dy <= 24 * 24);
+}
+
 function initTopology() {
   canvas = document.getElementById('topology-canvas');
   if(!canvas) return;
@@ -15536,8 +17126,7 @@ function initTopology() {
       if (['accesorios'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
-      const dx = mx - pos.x, dy = my - pos.y;
-      if (dx*dx + dy*dy <= 24*24) {
+      if (_hitNode(pos, mx, my)) {
         draggingNode = dev.id;
         nodeOrig = { x: pos.x - mx, y: pos.y - my };
         return;
@@ -15652,16 +17241,20 @@ function initTopology() {
       const dev = store._raw.devices.find(d => d.id === draggingNode);
       let nx = mx + nodeOrig.x;
       let ny = my + nodeOrig.y;
-      const r = 24;
+      const nodeDim = (typeof TopologySkins !== 'undefined' && typeof TopologySkins.getNodeDimensions === 'function')
+        ? TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE)
+        : { width: 44, height: 44 };
+      const rx = (nodeDim.width || 44) / 2;
+      const ry = (nodeDim.height || 44) / 2;
 
       // 1. Restringir a Rack si es un equipo montado en rack
       const rackPos = rackPositions[dev.rackId];
       const rackSize = rackSizes[dev.rackId];
       if (rackPos && rackSize) {
-        if (nx - r < rackPos.x) nx = rackPos.x + r;
-        if (nx + r > rackPos.x + rackSize.w) nx = rackPos.x + rackSize.w - r;
-        if (ny - r < rackPos.y + 40) ny = rackPos.y + 40 + r;
-        if (ny + r > rackPos.y + rackSize.h) ny = rackPos.y + rackSize.h - r;
+        if (nx - rx < rackPos.x) nx = rackPos.x + rx;
+        if (nx + rx > rackPos.x + rackSize.w) nx = rackPos.x + rackSize.w - rx;
+        if (ny - ry < rackPos.y + 40) ny = rackPos.y + 40 + ry;
+        if (ny + ry > rackPos.y + rackSize.h) ny = rackPos.y + rackSize.h - ry;
       }
 
       // 2. Restringir a la Sala para que no pueda salir del recuadro
@@ -15752,8 +17345,7 @@ function initTopology() {
       if (['accesorios'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
-      const dx = mx - pos.x, dy = my - pos.y;
-      if (dx*dx + dy*dy <= 24*24) {
+      if (_hitNode(pos, mx, my)) {
         hoveredNode = dev.id;
         newCursor = 'grab';
         break;
@@ -15823,8 +17415,7 @@ function initTopology() {
       if (['accesorios'].includes(dev.type)) continue;
       const pos = nodePositions[dev.id];
       if (!pos) continue;
-      const dx = mx - pos.x, dy = my - pos.y;
-      if (dx*dx + dy*dy <= 24*24) {
+      if (_hitNode(pos, mx, my)) {
         openCableModal(dev.id);
         return;
       }
@@ -15890,7 +17481,7 @@ function initTopology() {
 
 <a id="js-ui-topology-topologyorchestrator-js"></a>
 
-### 📄 Archivo 37/42: `js/ui/topology/TopologyOrchestrator.js`
+### 📄 Archivo 39/44: `js/ui/topology/TopologyOrchestrator.js`
 
 * **Ubicación relativa:** `js/ui/topology/TopologyOrchestrator.js`
 * **Capa:** Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)
@@ -16009,11 +17600,11 @@ function exportTopologyToPNG() {
 
 <a id="js-main-js"></a>
 
-### 📄 Archivo 38/42: `js/main.js`
+### 📄 Archivo 40/44: `js/main.js`
 
 * **Ubicación relativa:** `js/main.js`
 * **Capa:** Capa 8: Orquestador Principal de la Aplicación
-* **Dimensiones:** 1.254 líneas | 50.3 KB
+* **Dimensiones:** 1.266 líneas | 50.5 KB
 * **Rol en el sistema:** Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión.
 
 ```javascript
@@ -16278,6 +17869,7 @@ function initGlobalEvents() {
   const btnLayoutTree = document.getElementById('topo-layout-tree');
   const btnOptCard = document.getElementById('topo-opt-card');
   const btnOptCircle = document.getElementById('topo-opt-circle');
+  const btnOptImage = document.getElementById('topo-opt-image');
   const topoPatternSelect = document.getElementById('topo-pattern-select');
   const topoAlphaSlider = document.getElementById('topo-alpha-slider');
   const topoAlphaVal = document.getElementById('topo-alpha-val');
@@ -16307,26 +17899,28 @@ function initGlobalEvents() {
       }
     }
 
-    const isCard = (window.TOPOLOGY_STYLE || 'card') === 'card';
-    if (btnOptCard && btnOptCircle) {
-      if (isCard) {
-        btnOptCard.style.borderColor = 'var(--accent)';
-        btnOptCard.style.color = 'var(--accent)';
-        btnOptCard.style.background = 'rgba(56, 189, 248, 0.15)';
-        btnOptCircle.style.borderColor = '';
-        btnOptCircle.style.color = '';
-        btnOptCircle.style.background = '';
+    const activeStyle = window.TOPOLOGY_STYLE || 'card';
+    const styleBtns = [
+      { btn: btnOptCard, style: 'card' },
+      { btn: btnOptCircle, style: 'circle' },
+      { btn: btnOptImage, style: 'image' }
+    ];
+
+    styleBtns.forEach(({ btn, style }) => {
+      if (!btn) return;
+      if (activeStyle === style) {
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.color = 'var(--accent)';
+        btn.style.background = 'rgba(56, 189, 248, 0.15)';
       } else {
-        btnOptCircle.style.borderColor = 'var(--accent)';
-        btnOptCircle.style.color = 'var(--accent)';
-        btnOptCircle.style.background = 'rgba(56, 189, 248, 0.15)';
-        btnOptCard.style.borderColor = '';
-        btnOptCard.style.color = '';
-        btnOptCard.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        btn.style.background = '';
       }
-    }
+    });
+
     if (topoLabelsSection) {
-      topoLabelsSection.style.display = isCard ? 'none' : 'block';
+      topoLabelsSection.style.display = (activeStyle === 'circle') ? 'block' : 'none';
     }
     if (topoLabelPreset) {
       topoLabelPreset.value = window.TOPO_LABEL_PRESET || 'separated';
@@ -16464,6 +18058,15 @@ function initGlobalEvents() {
   if (btnOptCircle) {
     btnOptCircle.addEventListener('click', () => {
       window.TOPOLOGY_STYLE = 'circle';
+      syncTopoStyleUI();
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (btnOptImage) {
+    btnOptImage.addEventListener('click', () => {
+      window.TOPOLOGY_STYLE = 'image';
       syncTopoStyleUI();
       if (typeof saveTopo === 'function') saveTopo();
       if (typeof drawTopo === 'function') drawTopo();
@@ -17278,12 +18881,12 @@ init();
 
 <a id="tests-integrity-check-cjs"></a>
 
-### 📄 Archivo 39/42: `tests/integrity_check.cjs`
+### 📄 Archivo 41/44: `tests/integrity_check.cjs`
 
 * **Ubicación relativa:** `tests/integrity_check.cjs`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.433 líneas | 85.7 KB
-* **Rol en el sistema:** Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito.
+* **Dimensiones:** 1.542 líneas | 92.9 KB
+* **Rol en el sistema:** Suite de pruebas de integridad para Node.js: 316 aserciones en 20 grupos al 100% de éxito.
 
 ```javascript
 /**
@@ -17384,6 +18987,7 @@ loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
 loadScript('../js/ui/modals/ImportModal.js');
 loadScript('../js/ui/faceplates.js');
+loadScript('../js/ui/topology/TopologySkins.js');
 loadScript('../js/ui/topology/TopologyState.js');
 loadScript('../js/ui/topology/TopologyLayout.js');
 loadScript('../js/demoData.js');
@@ -18702,6 +20306,114 @@ async function runTests() {
     'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
 
   // ----------------------------------------------------
+  // GRUPO 20: Sistema Avanzado de Skins Visuales en Topología (M-28)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 20: Sistema Avanzado de Skins Visuales en Topología (M-28)');
+
+  // 20.1 Disponibilidad y Estructura de TopologySkins
+  assert(typeof TopologySkins === 'object' && TopologySkins !== null,
+    'M-28: TopologySkins está expuesto globalmente como módulo');
+  assert(TopologySkins.MODES && TopologySkins.MODES.CIRCLE === 'circle' && TopologySkins.MODES.CARD === 'card' && TopologySkins.MODES.IMAGE === 'image',
+    'M-28: TopologySkins.MODES define los 3 modos canónicos: circle, card e image');
+
+  // 20.2 Geometría y Dimensiones de Nodos
+  const dimCircle = TopologySkins.getNodeDimensions('circle');
+  assert(dimCircle.width === 44 && dimCircle.height === 44 && dimCircle.radius === 22 && dimCircle.boundW === 66,
+    'M-28: getNodeDimensions("circle") retorna geometría circular (radio 22, boundW 66)');
+  const dimCard = TopologySkins.getNodeDimensions('card');
+  assert(dimCard.width === 150 && dimCard.height === 50 && dimCard.boundW === 160 && dimCard.boundH === 60,
+    'M-28: getNodeDimensions("card") retorna dimensiones de tarjeta (150x50, boundW 160)');
+  const dimImage = TopologySkins.getNodeDimensions('image');
+  assert(dimImage.width === 140 && dimImage.height === 50 && dimImage.boundW === 150 && dimImage.boundH === 60,
+    'M-28: getNodeDimensions("image") retorna proporciones de chasis hardware (140x50, boundW 150)');
+
+  // 20.3 Hit-Testing Unificado (isPointInNode)
+  const nodeCenter = { x: 200, y: 150 };
+  assert(TopologySkins.isPointInNode(nodeCenter, 200, 150, 'circle') &&
+         TopologySkins.isPointInNode(nodeCenter, 215, 160, 'circle') &&
+         !TopologySkins.isPointInNode(nodeCenter, 230, 150, 'circle'),
+    'M-28: isPointInNode en modo circle valida puntos estrictamente dentro del radio de 24px');
+  assert(TopologySkins.isPointInNode(nodeCenter, 200, 150, 'card') &&
+         TopologySkins.isPointInNode(nodeCenter, 270, 170, 'card') &&
+         !TopologySkins.isPointInNode(nodeCenter, 280, 150, 'card'),
+    'M-28: isPointInNode en modo card valida puntos dentro del rectángulo de 150x50');
+  assert(TopologySkins.isPointInNode(nodeCenter, 200, 150, 'image') &&
+         TopologySkins.isPointInNode(nodeCenter, 265, 170, 'image') &&
+         !TopologySkins.isPointInNode(nodeCenter, 275, 150, 'image'),
+    'M-28: isPointInNode en modo image valida puntos dentro del chasis de hardware de 140x50');
+
+  // 20.4 Presets de Hardware y Resolución de SVG
+  assert(TopologySkins.getPresetForDevice({ type: 'server', size: 1 }) === 'server_1u',
+    'M-28: getPresetForDevice asigna "server_1u" para servidores 1U');
+  assert(TopologySkins.getPresetForDevice({ type: 'server', size: 2 }) === 'server_2u',
+    'M-28: getPresetForDevice asigna "server_2u" para servidores 2U');
+  assert(TopologySkins.getPresetForDevice({ type: 'server', size: 4 }) === 'server_4u',
+    'M-28: getPresetForDevice asigna "server_4u" para servidores modulares/blade 4U');
+  assert(TopologySkins.getPresetForDevice({ type: 'switch' }) === 'switch',
+    'M-28: getPresetForDevice asigna "switch" para conmutadores de red');
+  assert(TopologySkins.getPresetForDevice({ type: 'router' }) === 'router',
+    'M-28: getPresetForDevice asigna "router" para enrutadores SFP+');
+  assert(TopologySkins.getPresetForDevice({ type: 'firewall' }) === 'firewall',
+    'M-28: getPresetForDevice asigna "firewall" para firewalls UTM');
+  assert(TopologySkins.getPresetForDevice({ type: 'storage' }) === 'storage',
+    'M-28: getPresetForDevice asigna "storage" para cabinas SAN/NAS');
+  assert(TopologySkins.getPresetForDevice({ type: 'camera' }) === 'camera',
+    'M-28: getPresetForDevice asigna "camera" para dispositivos de video CCTV');
+  assert(TopologySkins.getPresetForDevice({ type: 'ap' }) === 'ap',
+    'M-28: getPresetForDevice asigna "ap" para puntos de acceso Wi-Fi');
+  assert(TopologySkins.getPresetForDevice({ type: 'server', preset: 'firewall' }) === 'firewall',
+    'M-28: getPresetForDevice respeta el preset manual configurado en el dispositivo');
+  assert(Object.values(TopologySkins.HARDWARE_PRESETS).every(p => typeof EMBEDDED_SVG_CACHE[p] === 'string'),
+    'M-28: Todos los presets de hardware enlazan a gráficos vectoriales existentes en EMBEDDED_SVG_CACHE');
+
+  // 20.5 Integración con TopologyLayout.js
+  window.TOPOLOGY_STYLE = 'image';
+  assert(_nodeW() === 150 && _nodeH() === 60,
+    'M-28: TopologyLayout._nodeW/H retorna dimensiones de hardware (150x60) en modo image');
+  window.TOPOLOGY_STYLE = 'circle';
+  assert(_nodeW() === 66 && _nodeH() === 66,
+    'M-28: TopologyLayout._nodeW/H retorna dimensiones de nodo (66x66) en modo circle');
+  window.TOPOLOGY_STYLE = 'card';
+  assert(_nodeW() === 160 && _nodeH() === 60,
+    'M-28: TopologyLayout._nodeW/H retorna dimensiones de tarjeta (160x60) en modo card');
+
+  // 20.6 Persistencia y Conmutación en TopologyState y Slots (M-40)
+  window.TOPOLOGY_STYLE = 'image';
+  saveTopo();
+  assert(store._raw.topology.style === 'image',
+    'M-28: saveTopo persiste fielmente style: "image" en el estado global del almacén');
+  window.TOPOLOGY_STYLE = 'circle';
+  loadTopoState();
+  assert(window.TOPOLOGY_STYLE === 'image',
+    'M-28: loadTopoState restaura fielmente el estilo visual "image" guardado');
+
+  // Guardar en ranura de memoria y verificar restauración del estilo
+  window.TOPOLOGY_STYLE = 'image';
+  saveCurrentToTopologySlot(4, 'Vista Arquitectura Hardware');
+  window.TOPOLOGY_STYLE = 'card';
+  saveTopo();
+  applyTopologySlot(4);
+  assert(window.TOPOLOGY_STYLE === 'image',
+    'M-28: Los slots de memoria de topología (M-40) capturan y conmutan el modo visual "image"');
+
+  // 20.7 Comprobaciones de Archivos y DOM
+  const skinsHtmlCheck = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(skinsHtmlCheck.includes('id="topo-opt-image"'),
+    'M-28: index.html define el botón interactivo #topo-opt-image en el menú de estilos de topología');
+  assert(skinsHtmlCheck.indexOf('js/ui/topology/TopologySkins.js') < skinsHtmlCheck.indexOf('js/ui/topology/TopologyState.js'),
+    'M-28: index.html carga js/ui/topology/TopologySkins.js antes de TopologyState.js');
+  assert(skinsHtmlCheck.includes('id="dev-preset-select"') && skinsHtmlCheck.includes('id="dev-custom-image"') && skinsHtmlCheck.includes('id="btn-dev-upload-image"'),
+    'M-28: index.html define los controles de presets de hardware y carga de imágenes en #modal-device');
+
+  const rendererCodeCheck = fs.readFileSync(path.join(__dirname, '../js/ui/topology/TopologyRenderer.js'), 'utf8');
+  assert(rendererCodeCheck.includes("window.TOPOLOGY_STYLE === 'image'") && rendererCodeCheck.includes("TopologySkins.renderHardwareNode"),
+    'M-28: TopologyRenderer.js implementa el flujo de dibujo para modo image delegando a TopologySkins');
+
+  const eventsCodeCheck = fs.readFileSync(path.join(__dirname, '../js/ui/topology/TopologyEvents.js'), 'utf8');
+  assert(eventsCodeCheck.includes("TopologySkins.isPointInNode"),
+    'M-28: TopologyEvents.js delega la detección geométrica de colisión a TopologySkins.isPointInNode');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');
@@ -18726,12 +20438,12 @@ runTests();
 
 <a id="tests-index-html"></a>
 
-### 📄 Archivo 40/42: `tests/index.html`
+### 📄 Archivo 42/44: `tests/index.html`
 
 * **Ubicación relativa:** `tests/index.html`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.805 líneas | 94.7 KB
-* **Rol en el sistema:** Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica.
+* **Dimensiones:** 1.905 líneas | 101.7 KB
+* **Rol en el sistema:** Runner web interactivo de pruebas en navegador: paridad 1:1 con 316 pruebas en interfaz gráfica.
 
 ```html
 <!DOCTYPE html>
@@ -19063,6 +20775,7 @@ runTests();
 <script src="../js/ui/modals/PlacementModal.js"></script>
 <script src="../js/ui/modals/ExportModal.js"></script>
 <script src="../js/ui/modals/ImportModal.js"></script>
+<script src="../js/ui/topology/TopologySkins.js"></script>
 <script src="../js/ui/topology/TopologyState.js"></script>
 <script src="../js/ui/topology/TopologyLayout.js"></script>
 
@@ -20531,6 +22244,105 @@ runTests();
       'M-22: index.html define la estructura completa de #modal-import-devices con drop-zone y botón de confirmación');
     addTestResult(!idxText || (idxText.includes('src="js/ui/modals/ImportModal.js"')),
       'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
+
+    // ----------------------------------------------------
+    // GRUPO 20: SISTEMA AVANZADO DE SKINS VISUALES EN TOPOLOGÍA (M-28)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 20: Sistema Avanzado de Skins Visuales en Topología (M-28)');
+
+    // 20.1 Disponibilidad y Estructura de TopologySkins
+    addTestResult(typeof TopologySkins === 'object' && TopologySkins !== null,
+      'M-28: TopologySkins está expuesto globalmente como módulo');
+    addTestResult(TopologySkins.MODES && TopologySkins.MODES.CIRCLE === 'circle' && TopologySkins.MODES.CARD === 'card' && TopologySkins.MODES.IMAGE === 'image',
+      'M-28: TopologySkins.MODES define los 3 modos canónicos: circle, card e image');
+
+    // 20.2 Geometría y Dimensiones de Nodos
+    const dimCircleWeb = TopologySkins.getNodeDimensions('circle');
+    addTestResult(dimCircleWeb.width === 44 && dimCircleWeb.height === 44 && dimCircleWeb.radius === 22 && dimCircleWeb.boundW === 66,
+      'M-28: getNodeDimensions("circle") retorna geometría circular (radio 22, boundW 66)');
+    const dimCardWeb = TopologySkins.getNodeDimensions('card');
+    addTestResult(dimCardWeb.width === 150 && dimCardWeb.height === 50 && dimCardWeb.boundW === 160 && dimCardWeb.boundH === 60,
+      'M-28: getNodeDimensions("card") retorna dimensiones de tarjeta (150x50, boundW 160)');
+    const dimImageWeb = TopologySkins.getNodeDimensions('image');
+    addTestResult(dimImageWeb.width === 140 && dimImageWeb.height === 50 && dimImageWeb.boundW === 150 && dimImageWeb.boundH === 60,
+      'M-28: getNodeDimensions("image") retorna proporciones de chasis hardware (140x50, boundW 150)');
+
+    // 20.3 Hit-Testing Unificado (isPointInNode)
+    const nodeCenterWeb = { x: 200, y: 150 };
+    addTestResult(TopologySkins.isPointInNode(nodeCenterWeb, 200, 150, 'circle') &&
+                  TopologySkins.isPointInNode(nodeCenterWeb, 215, 160, 'circle') &&
+                  !TopologySkins.isPointInNode(nodeCenterWeb, 230, 150, 'circle'),
+      'M-28: isPointInNode en modo circle valida puntos estrictamente dentro del radio de 24px');
+    addTestResult(TopologySkins.isPointInNode(nodeCenterWeb, 200, 150, 'card') &&
+                  TopologySkins.isPointInNode(nodeCenterWeb, 270, 170, 'card') &&
+                  !TopologySkins.isPointInNode(nodeCenterWeb, 280, 150, 'card'),
+      'M-28: isPointInNode en modo card valida puntos dentro del rectángulo de 150x50');
+    addTestResult(TopologySkins.isPointInNode(nodeCenterWeb, 200, 150, 'image') &&
+                  TopologySkins.isPointInNode(nodeCenterWeb, 265, 170, 'image') &&
+                  !TopologySkins.isPointInNode(nodeCenterWeb, 275, 150, 'image'),
+      'M-28: isPointInNode en modo image valida puntos dentro del chasis de hardware de 140x50');
+
+    // 20.4 Presets de Hardware y Resolución de SVG
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'server', size: 1 }) === 'server_1u',
+      'M-28: getPresetForDevice asigna "server_1u" para servidores 1U');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'server', size: 2 }) === 'server_2u',
+      'M-28: getPresetForDevice asigna "server_2u" para servidores 2U');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'server', size: 4 }) === 'server_4u',
+      'M-28: getPresetForDevice asigna "server_4u" para servidores modulares/blade 4U');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'switch' }) === 'switch',
+      'M-28: getPresetForDevice asigna "switch" para conmutadores de red');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'router' }) === 'router',
+      'M-28: getPresetForDevice asigna "router" para enrutadores SFP+');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'firewall' }) === 'firewall',
+      'M-28: getPresetForDevice asigna "firewall" para firewalls UTM');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'storage' }) === 'storage',
+      'M-28: getPresetForDevice asigna "storage" para cabinas SAN/NAS');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'camera' }) === 'camera',
+      'M-28: getPresetForDevice asigna "camera" para dispositivos de video CCTV');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'ap' }) === 'ap',
+      'M-28: getPresetForDevice asigna "ap" para puntos de acceso Wi-Fi');
+    addTestResult(TopologySkins.getPresetForDevice({ type: 'server', preset: 'firewall' }) === 'firewall',
+      'M-28: getPresetForDevice respeta el preset manual configurado en el dispositivo');
+    addTestResult(Object.values(TopologySkins.HARDWARE_PRESETS).every(p => typeof EMBEDDED_SVG_CACHE[p] === 'string'),
+      'M-28: Todos los presets de hardware enlazan a gráficos vectoriales existentes en EMBEDDED_SVG_CACHE');
+
+    // 20.5 Integración con TopologyLayout.js
+    window.TOPOLOGY_STYLE = 'image';
+    addTestResult(_nodeW() === 150 && _nodeH() === 60,
+      'M-28: TopologyLayout._nodeW/H retorna dimensiones de hardware (150x60) en modo image');
+    window.TOPOLOGY_STYLE = 'circle';
+    addTestResult(_nodeW() === 66 && _nodeH() === 66,
+      'M-28: TopologyLayout._nodeW/H retorna dimensiones de nodo (66x66) en modo circle');
+    window.TOPOLOGY_STYLE = 'card';
+    addTestResult(_nodeW() === 160 && _nodeH() === 60,
+      'M-28: TopologyLayout._nodeW/H retorna dimensiones de tarjeta (160x60) en modo card');
+
+    // 20.6 Persistencia y Conmutación en TopologyState y Slots (M-40)
+    window.TOPOLOGY_STYLE = 'image';
+    saveTopo();
+    addTestResult(store._raw.topology.style === 'image',
+      'M-28: saveTopo persiste fielmente style: "image" en el estado global del almacén');
+    window.TOPOLOGY_STYLE = 'circle';
+    loadTopoState();
+    addTestResult(window.TOPOLOGY_STYLE === 'image',
+      'M-28: loadTopoState restaura fielmente el estilo visual "image" guardado');
+
+    // Guardar en ranura de memoria y verificar restauración del estilo
+    window.TOPOLOGY_STYLE = 'image';
+    saveCurrentToTopologySlot(4, 'Vista Arquitectura Hardware Web');
+    window.TOPOLOGY_STYLE = 'card';
+    saveTopo();
+    applyTopologySlot(4);
+    addTestResult(window.TOPOLOGY_STYLE === 'image',
+      'M-28: Los slots de memoria de topología (M-40) capturan y conmutan el modo visual "image"');
+
+    // 20.7 Comprobaciones de Archivos y DOM
+    addTestResult(!idxText || idxText.includes('id="topo-opt-image"'),
+      'M-28: index.html define el botón interactivo #topo-opt-image en el menú de estilos de topología');
+    addTestResult(!idxText || (idxText.indexOf('js/ui/topology/TopologySkins.js') < idxText.indexOf('js/ui/topology/TopologyState.js')),
+      'M-28: index.html carga js/ui/topology/TopologySkins.js antes de TopologyState.js');
+    addTestResult(!idxText || (idxText.includes('id="dev-preset-select"') && idxText.includes('id="dev-custom-image"') && idxText.includes('id="btn-dev-upload-image"')),
+      'M-28: index.html define los controles de presets de hardware y carga de imágenes en #modal-device');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);
@@ -20546,7 +22358,7 @@ runTests();
 
 <a id="scripts-build-standalone-manual-cjs"></a>
 
-### 📄 Archivo 41/42: `scripts/build_standalone_manual.cjs`
+### 📄 Archivo 43/44: `scripts/build_standalone_manual.cjs`
 
 * **Ubicación relativa:** `scripts/build_standalone_manual.cjs`
 * **Capa:** Capa 10: Herramientas de Compilación y Scripts Auxiliares
@@ -20663,7 +22475,7 @@ console.log('Standalone HTML created successfully: doc/doc_md/FULL_MANUAL_STANDA
 
 <a id="scripts-generate-svgs-cjs"></a>
 
-### 📄 Archivo 42/42: `scripts/generate_svgs.cjs`
+### 📄 Archivo 44/44: `scripts/generate_svgs.cjs`
 
 * **Ubicación relativa:** `scripts/generate_svgs.cjs`
 * **Capa:** Capa 10: Herramientas de Compilación y Scripts Auxiliares

@@ -258,10 +258,26 @@ Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos 
 <li><strong>Doble clic en un nodo:</strong> Abre modal para crear una conexión.</li>
 <li><strong>Doble clic en un cable:</strong> Abre modal para editar esa conexión.</li>
 </ul>
-<h3>Cambiar estilo y posición de etiquetas de nodos</h3>
+<h3>Cambiar estilo y representación visual de nodos (Skins Visuales M-28)</h3>
 <ul>
-<li>Haz clic en el botón <strong>&quot;Estilo&quot;</strong> del header → alterna entre <strong>Card</strong> (tarjetas rectangulares con nombre e IP) y <strong>Circle</strong> (círculos con icono, nombre e IP configurables).</li>
-<li>En modo Circle, puedes abrir el menú desplegable para elegir presets de etiquetas (Separados IP Arriba / Nombre Abajo, Juntos, Izquierda, Derecha o Personalizado).</li>
+<li>Abre el menú desplegable <strong>&quot;🎛️ Estilo&quot;</strong> en la barra superior de topología para elegir entre tres modos de renderizado:<ul>
+<li><strong>Cards (Tarjetas):</strong> Rectángulos técnicos de 150×50 px con icono, nombre e IP enfocado en lectura rápida de metadatos.</li>
+<li><strong>Nodos (Círculos):</strong> Círculos minimalistas de radio 22 px con icono centrado y etiquetas de nombre e IP configurables (Arriba, Abajo, Izquierda, Derecha o Juntos).</li>
+<li><strong>Hardware (Skins Fotorrealistas):</strong> Chasis arquitectónico de 140×50 px con bisel metálico, orejas laterales de montaje en rack, perforaciones de tornillos, carátula vectorial fotorrealista basada en 18 presets offline de fabricantes (Cisco, Dell, Fortinet, etc.) o fotos personalizadas en base64, badge de altura U y LED de estado operativo.</li>
+</ul>
+</li>
+<li>Tu selección de estilo se guarda en el proyecto y puede conmutarse independientemente en cualquiera de los 5 slots de memoria (M-40).</li>
+</ul>
+<h3>Carga de Fotos e Imágenes Personalizadas de Equipos (M-28)</h3>
+<ul>
+<li>Puedes personalizar la apariencia visual de cualquier equipo en el diagrama de topología:<ol>
+<li>Haz doble clic en el equipo o selecciónalo y pulsa &quot;Editar&quot; en el Inspector.</li>
+<li>En el formulario técnico del equipo, abre el bloque <strong>&quot;Personalización Visual&quot;</strong>.</li>
+<li>Puedes seleccionar un <strong>Preset de Fabricante</strong> predefinido (Servidor 1U/2U/4U, Switch ToR/Core, Router, Firewall UTM, Cabina Storage, Cámara CCTV, Punto de Acceso Wi-Fi, etc.).</li>
+<li>O bien, pulsa el botón <strong>&quot;Subir Imagen...&quot;</strong> para cargar una imagen propia (<code>.png</code>, <code>.jpg</code>, <code>.svg</code>). La imagen se optimiza y se almacena directamente en tu archivo de proyecto <code>.rack</code> codificada en base64 sin requerir servidores ni conexión a internet.</li>
+<li>Para remover una imagen personalizada y volver al gráfico vectorial de fábrica, basta con hacer clic en la miniatura interactiva de previsualización.</li>
+</ol>
+</li>
 </ul>
 <h3>Modo de Layout (Por Racks vs Árbol Jerárquico)</h3>
 <ul>
@@ -728,9 +744,10 @@ renderBottomPanel() → tabla se actualiza
 │   │   │   └── PlacementModal.js ← Modal de colocación rápida
 │   │   │
 │   │   └── topology/
+│   │       ├── TopologySkins.js      ← Skins modulares: 3 modos (circle/card/image), 18 presets offline, imágenes custom e hit-testing M-28
 │   │       ├── TopologyState.js      ← Estado del canvas (hover, dragging, 5 slots M-40)
 │   │       ├── TopologyLayout.js     ← Algoritmo de layout automático y afinidad piso M-39
-│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle, temas dark/light/sepia M-18)
+│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle/image, temas dark/light/sepia M-18)
 │   │       ├── TopologyEvents.js     ← Interacciones (drag, zoom, click, resize)
 │   │       └── TopologyOrchestrator.js ← Lifecycle + exportación PNG
 │   │
@@ -946,7 +963,7 @@ renderBottomPanel() → tabla se actualiza
 <p><strong>Ver:</strong> <code>doc/doc_img/doc_svg/layout_bottom_panel.svg</code></p>
 <hr>
 <h2>8. El Topology View (Canvas 2D)</h2>
-<p>La vista de topología es un <strong>lienzo HTML5 Canvas</strong> dividido en 5 módulos:</p>
+<p>La vista de topología es un <strong>lienzo HTML5 Canvas</strong> dividido en 6 módulos:</p>
 <table>
 <thead>
 <tr>
@@ -955,20 +972,24 @@ renderBottomPanel() → tabla se actualiza
 </tr>
 </thead>
 <tbody><tr>
+<td><code>TopologySkins.js</code></td>
+<td>Motor modular de skins (cards, circle, hardware skins), 18 presets offline, imágenes custom base64 e hit-testing unificado (M-28)</td>
+</tr>
+<tr>
 <td><code>TopologyState.js</code></td>
-<td>Variables de estado del canvas (hover, dragging, posiciones)</td>
+<td>Variables de estado del canvas (hover, dragging, posiciones, 5 slots de memoria M-40)</td>
 </tr>
 <tr>
 <td><code>TopologyLayout.js</code></td>
-<td>Algoritmo de distribución automática</td>
+<td>Algoritmo de distribución automática y afinidad de piso (M-39)</td>
 </tr>
 <tr>
 <td><code>TopologyRenderer.js</code></td>
-<td>Dibujado Canvas 2D (nodos, enlaces, partículas)</td>
+<td>Dibujado Canvas 2D (nodos, enlaces, partículas, temas M-18)</td>
 </tr>
 <tr>
 <td><code>TopologyEvents.js</code></td>
-<td>Interacciones (drag, zoom, pan, dblclick, resize)</td>
+<td>Interacciones (drag, zoom, pan, dblclick, resize) con detección de colisión matemática</td>
 </tr>
 <tr>
 <td><code>TopologyOrchestrator.js</code></td>
@@ -1015,7 +1036,7 @@ renderBottomPanel() → tabla se actualiza
 <td><code>#65a30d</code></td>
 </tr>
 <tr>
-<td>Nodos (card/circle)</td>
+<td>Nodos (card/circle/image)</td>
 <td>Navaja oscuro</td>
 <td><code>#0f172a</code></td>
 </tr>
@@ -1035,13 +1056,14 @@ renderBottomPanel() → tabla se actualiza
 <td><code>#ffffff</code> + shadow</td>
 </tr>
 </tbody></table>
-<h3>Estilos de nodos</h3>
-<p>La variable <code>window.TOPOLOGY_STYLE</code> controla el estilo de renderizado:</p>
+<h3>Estilos de nodos (Skins Visuales M-28)</h3>
+<p>La variable <code>window.TOPOLOGY_STYLE</code> controla el modo de renderizado activo:</p>
 <ul>
-<li><strong><code>&#39;card&#39;</code></strong> (por defecto): Rectángulos de 150×50 px con icono, nombre e IP</li>
-<li><strong><code>&#39;circle&#39;</code></strong>: Círculos de radio 22 px con icono centrado, nombre arriba, IP con badge</li>
+<li><strong><code>&#39;circle&#39;</code></strong> (Nodos): Círculos de radio 22 px con icono SVG centrado, nombre arriba y badge IP personalizable.</li>
+<li><strong><code>&#39;card&#39;</code></strong> (Tarjetas): Rectángulos de 150×50 px con icono, nombre e IP enfocado en lectura rápida de metadatos.</li>
+<li><strong><code>&#39;image&#39;</code></strong> (Hardware Skins): Chasis fotorrealista de 140×50 px con orejas metálicas de montaje en rack, carátula vectorial basada en <code>EMBEDDED_SVG_CACHE</code> (18 presets de fábrica 100% offline) o imagen personalizada subida por el usuario en base64 DataURL, con etiqueta U y LED de estado operativo.</li>
 </ul>
-<p>El botón <code>#btn-topo-style</code> alterna entre ambos estilos.</p>
+<p>El menú desplegable <code>#topo-style-dropdown</code> permite alternar instantáneamente entre los 3 modos (<strong>Cards</strong>, <strong>Nodos</strong> y <strong>Hardware</strong>) y persiste en el proyecto y en los 5 slots de memoria (M-40).</p>
 <h3>Cómo se dibuja</h3>
 <pre><code>drawTopo() se ejecuta 60 veces por segundo (requestAnimationFrame)
     ↓

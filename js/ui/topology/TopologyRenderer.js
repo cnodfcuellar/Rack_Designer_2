@@ -422,6 +422,11 @@ function drawTopo() {
           drawNodeIp(pos.x - r - 10, pos.y, 'right');
         }
       }
+    } else if (window.TOPOLOGY_STYLE === 'image') {
+      // HARDWARE / IMAGE STYLE (M-28)
+      if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.renderHardwareNode === 'function') {
+        TopologySkins.renderHardwareNode(ctx, dev, pos, isHoverTarget, isActive, TYPE_COLORS);
+      }
     } else {
       // CARD STYLE
       const cardW = 150;

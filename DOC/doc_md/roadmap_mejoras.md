@@ -4,8 +4,8 @@
 >
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
-> **Última actualización:** 2026-10-02
-> **Estado del sistema:** En producción (31 de 42 mejoras completadas, 73.8% del roadmap global)
+> **Última actualización:** 2026-10-05
+> **Estado del sistema:** En producción (33 de 42 mejoras completadas, 78.6% del roadmap global)
 
 ---
 
@@ -56,7 +56,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-25B | Modo móvil y tablet (Estudio de factibilidad y paridad funcional 100%) | 📱 UX |
 | M-26 | ~~Gestión avanzada de puertos y validaciones~~ | ✅ COMPLETADO |
 | M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
-| M-28 | Sistema de skins visuales en topología | 🖼️ Topología |
+| M-28 | ~~Sistema de skins visuales en topología~~ | ✅ COMPLETADO |
 | M-29 | ~~Motor de temas y transparencias en topología~~ | ✅ COMPLETADO |
 | M-30 | ~~Buscador en catálogo de añadir equipos~~ | ✅ COMPLETADO |
 | M-31 | ~~Separación y posicionamiento de etiquetas en topología~~ | ✅ COMPLETADO |
@@ -72,7 +72,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **32 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **10** (total general: 42 mejoras, 76.2% del roadmap global). ¡Fase 0 y Fase 1 completadas al 100%! Fase 2 avanzada (7 de 8 completadas, 87.5%). Fase 3 avanzada (6 de 8 completadas). Fase 4 avanzada (6 de 7 completadas, 86%). Fase 6 en marcha.
+> **33 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **9** (total general: 42 mejoras, 78.6% del roadmap global). ¡Fase 0, Fase 1 y Fase 4 completadas al 100%! Fase 2 avanzada (7 de 8 completadas, 87.5%). Fase 3 avanzada (6 de 8 completadas). Fase 6 en marcha.
 
 ---
 
@@ -117,7 +117,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-25B | Modo móvil y tablet (100% funcional) | ⚫ 5 | Estudio de factibilidad exhaustivo en mejoras.md: Bottom Nav (56px), carrusel de racks, Tap-to-Place, Card View en tablas y Web Share API. |
 | M-26 | Gestión avanzada de puertos | 🔴 4 | Nuevo modelo de datos para puertos, validaciones en `CableModal.js`, filtrado dinámico, VLAN. Refactor de `demoData.js`. |
 | M-27 | ~~Persistencia posiciones topología y saneamiento~~ | ✅ COMPLETADO | Coordenadas persistidas en `state.devices[].topology` y saneamiento relacional reactivo automático en `store.js` (`_sanitize`). |
-| M-28 | Skins visuales topología | 🔴 4 | 3 modos de renderizado en `TopologyRenderer.js`, carga de imágenes custom (FileReader + canvas), selector UI. |
+| M-28 | ~~Skins visuales topología~~ | ✅ COMPLETADO | Sistema modular en `TopologySkins.js` con 3 modos (circle/card/image), hit-testing adaptativo, 18 presets vectoriales y carga de imágenes custom en base64. |
 | M-29 | ~~Motor temas y transparencias topología~~ | ✅ COMPLETADO | Motor de temas con herencia/personalización, controles de transparencia, patrones de fondo en canvas. |
 | M-30 | ~~Buscador en catálogo de equipos~~ | ✅ COMPLETADO | Campo de filtrado dinámico en tiempo real dentro del modal/catálogo de equipos. |
 | M-31 | ~~Separación etiquetas topología~~ | ✅ COMPLETADO | Ajuste de dibujo en `TopologyRenderer.js`: IP y nombre independientes con posiciones arriba, abajo, izq, der, juntos o separados. |
@@ -132,17 +132,17 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-40 | ~~5 Slots de estados de topología~~ | ✅ COMPLETADO | Modelo de datos de 5 ranuras en store con persistencia en localStorage, aislamiento total de undo/redo, solución híbrida de barra compacta (~495px) con sliders en popover Estilo y popover de vistas con anclaje right:0. |
 | M-41 | ~~Invertir/Orientar conexiones~~ | ✅ COMPLETADO | Botón rápido de inversión (Swap) en CableModal y tabla, selector de canaleta superior/inferior y trazado físico SVG. |
 
-### Resumen de Complejidad (Tareas Pendientes: 10)
+### Resumen de Complejidad (Tareas Pendientes: 9)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
 | 🟡 Baja (2) | 0 | *(Todas completadas)* |
 | 🟠 Media (3) | 3 | M-03, M-25A, M-33 |
-| 🔴 Alta (4) | 4 | M-04, M-28, M-34 |
+| 🔴 Alta (4) | 3 | M-04, M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(32 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-21, M-22, M-23, M-24, M-26, M-27, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
+*(33 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-21, M-22, M-23, M-24, M-26, M-27, M-28, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
 
 ---
 
@@ -197,7 +197,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | M-22 | Importación masiva | 💡 P4 | Gran valor, pero depende de M-21 y M-26. |
 | M-25B | Modo móvil y tablet | 💡 P4 | Standby / Baja prioridad. Requiere rediseño de interfaz táctil. |
 | M-07 | Conflictos multiusuario | 💡 P4 | Escenario poco frecuente en uso actual (single-user). |
-| M-28 | Skins topología | 💡 P4 | Feature premium, no bloquea ningún flujo actual. |
+| M-28 | ~~Skins topología~~ | ✅ COMPLETADO | 3 modos visuales (Nodos, Tarjetas y Hardware Skins), 18 presets offline y soporte de imagen custom. |
 | M-29 | ~~Motor temas topología~~ | ✅ COMPLETADO | Motor de temas, fondos procedimentales y transparencias alfa en canvas. |
 | M-35 | Sin restricciones de ubicación | 💡 P4 | Flexibilidad total, pero requiere reescribir esquemas y drag & drop. |
 
@@ -228,13 +228,13 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
            │          │  M-38   │         │         │          │
            ├──────────┼─────────┼─────────┼─────────┼──────────┤
   P4 💡    │          │         │         │  M-22   │  M-07    │
-  Baja     │          │         │         │  M-28   │  M-25    │
+  Baja     │          │         │         │ [M-28]✓ │  M-25    │
            │          │         │         │  M-29   │  M-35    │
            └──────────┴─────────┴─────────┴─────────┴──────────┘
 ```
 
 > [!NOTE]
-> **Items completados:** `[M-06]✓`, `[M-08]✓`, `[M-17]✓` (Doc), `[M-18]✓`, `[M-27]✓` y `[M-41]✓`.
+> **Items completados:** `[M-06]✓`, `[M-08]✓`, `[M-17]✓` (Doc), `[M-18]✓`, `[M-27]✓`, `[M-28]✓` y `[M-41]✓`.
 
 > [!TIP]
 > **Zona de Quick Wins (arriba-izquierda):** M-02, M-10, M-09, M-19, M-37, M-41 — Máximo impacto con mínimo esfuerzo. Empezar aquí.
@@ -327,11 +327,14 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 |---|---|---|---|---|
 | 4.1 | M-27 | ~~Persistencia de posiciones y saneamiento~~ | `store.js`, `TopologyEvents.js`, `TopologyLayout.js` | ✅ COMPLETADO |
 | 4.2 | M-31 | ~~Separación y posicionamiento de etiquetas~~ | `TopologyRenderer.js`, `TopologyState.js`, `main.js`, `index.html` | ✅ COMPLETADO (posiciones arriba/abajo/der/izq/juntos/separados) |
-| 4.3 | M-28 | Sistema de skins (nodos/cards/imágenes) | `TopologyRenderer.js`, `TopologyState.js`, nuevo `TopologySkins.js` | Pendiente |
+| 4.3 | M-28 | ~~Sistema de skins (nodos/cards/imágenes)~~ | `TopologySkins.js`, `TopologyRenderer.js`, `TopologyState.js`, `TopologyEvents.js`, `TopologyLayout.js`, `DeviceModal.js`, `main.js`, `index.html` | ✅ COMPLETADO (3 modos: Nodos, Tarjetas y Hardware Skins fotorrealistas + 18 presets offline + custom base64) |
 | 4.4 | M-32 | ~~Layout de árbol jerárquico y ortogonal~~ | `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyState.js` | ✅ COMPLETADO (DAG jerárquico + base de desconectados + ortogonal) |
 | 4.5 | M-29 | ~~Motor de temas y transparencias~~ | `TopologyRenderer.js` | ✅ COMPLETADO (patrones dots/grid/hex, fondos light/dark, canal alfa y herencia cromática) |
 | 4.6 | M-39 | ~~Afinidad y proximidad de equipos de piso por gabinete~~ | `TopologyLayout.js` | ✅ COMPLETADO (agrupación por cuadrante inferior de rack + base uniforme + 14 tests) |
 | 4.7 | M-40 | ~~Guardado y conmutación de 5 estados (slots de topología)~~ | `store.js`, `TopologyState.js`, `main.js`, `index.html`, `panels.css` | ✅ COMPLETADO (5 ranuras con botones táctiles [1..5], popover de gestión, aislamiento deepClone y 32 tests) |
+
+> [!TIP]
+> 🎉 **¡Fase 4 completada al 100%!** Todas las 7 mejoras del Motor de Topología (`M-27`, `M-28`, `M-29`, `M-31`, `M-32`, `M-39`, `M-40`) han sido implementadas y validadas con 316 pruebas automatizadas al 100% de éxito.
 
 ---
 
@@ -558,7 +561,7 @@ graph LR
 | **Fase 1** — Quick Wins | 2-3 días | Semana 2 | M-10, M-13, M-14, M-15, M-09, M-16 |
 | **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22, M-41 |
 | **Fase 3** — Navegación & CRUD | 1-2 semanas | Semana 5-6 | M-11, M-12, M-30, M-23, M-38, M-24, M-36, M-20 |
-| **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | M-28 *(M-27, M-29, M-31, M-32, M-39 completados)* |
+| **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | *(M-27, M-28, M-29, M-31, M-32, M-39, M-40 completados al 100%)* |
 | **Fase 5** — Rendimiento & Calidad | 1-2 semanas | Semana 9-10 | M-03, M-04 *(M-08 y M-06 completados)* |
 | **Fase 6** — Premium | 3-4 semanas | Semana 11-14 | M-18, M-25, M-35, M-07 |
 

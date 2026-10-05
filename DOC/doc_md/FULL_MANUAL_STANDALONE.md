@@ -213,9 +213,20 @@ La vista de topología es un diagrama de red interactivo donde puedes ver cómo 
 - **Doble clic en un nodo:** Abre modal para crear una conexión.
 - **Doble clic en un cable:** Abre modal para editar esa conexión.
 
-### Cambiar estilo y posición de etiquetas de nodos
-- Haz clic en el botón **"Estilo"** del header → alterna entre **Card** (tarjetas rectangulares con nombre e IP) y **Circle** (círculos con icono, nombre e IP configurables).
-- En modo Circle, puedes abrir el menú desplegable para elegir presets de etiquetas (Separados IP Arriba / Nombre Abajo, Juntos, Izquierda, Derecha o Personalizado).
+### Cambiar estilo y representación visual de nodos (Skins Visuales M-28)
+- Abre el menú desplegable **"🎛️ Estilo"** en la barra superior de topología para elegir entre tres modos de renderizado:
+  - **Cards (Tarjetas):** Rectángulos técnicos de 150×50 px con icono, nombre e IP enfocado en lectura rápida de metadatos.
+  - **Nodos (Círculos):** Círculos minimalistas de radio 22 px con icono centrado y etiquetas de nombre e IP configurables (Arriba, Abajo, Izquierda, Derecha o Juntos).
+  - **Hardware (Skins Fotorrealistas):** Chasis arquitectónico de 140×50 px con bisel metálico, orejas laterales de montaje en rack, perforaciones de tornillos, carátula vectorial fotorrealista basada en 18 presets offline de fabricantes (Cisco, Dell, Fortinet, etc.) o fotos personalizadas en base64, badge de altura U y LED de estado operativo.
+- Tu selección de estilo se guarda en el proyecto y puede conmutarse independientemente en cualquiera de los 5 slots de memoria (M-40).
+
+### Carga de Fotos e Imágenes Personalizadas de Equipos (M-28)
+- Puedes personalizar la apariencia visual de cualquier equipo en el diagrama de topología:
+  1. Haz doble clic en el equipo o selecciónalo y pulsa "Editar" en el Inspector.
+  2. En el formulario técnico del equipo, abre el bloque **"Personalización Visual"**.
+  3. Puedes seleccionar un **Preset de Fabricante** predefinido (Servidor 1U/2U/4U, Switch ToR/Core, Router, Firewall UTM, Cabina Storage, Cámara CCTV, Punto de Acceso Wi-Fi, etc.).
+  4. O bien, pulsa el botón **"Subir Imagen..."** para cargar una imagen propia (`.png`, `.jpg`, `.svg`). La imagen se optimiza y se almacena directamente en tu archivo de proyecto `.rack` codificada en base64 sin requerir servidores ni conexión a internet.
+  5. Para remover una imagen personalizada y volver al gráfico vectorial de fábrica, basta con hacer clic en la miniatura interactiva de previsualización.
 
 ### Modo de Layout (Por Racks vs Árbol Jerárquico)
 - Puedes alternar entre **Organización por Racks** (agrupa los nodos dentro de sus respectivos gabinetes) y **Árbol Jerárquico** (organización tipo Draw.io de arriba hacia abajo: Core → Distribución → Acceso, con cables ortogonales redondeados).
@@ -600,9 +611,10 @@ Rack_Designer_2/
 │   │   │   └── PlacementModal.js ← Modal de colocación rápida
 │   │   │
 │   │   └── topology/
+│   │       ├── TopologySkins.js      ← Skins modulares: 3 modos (circle/card/image), 18 presets offline, imágenes custom e hit-testing M-28
 │   │       ├── TopologyState.js      ← Estado del canvas (hover, dragging, 5 slots M-40)
 │   │       ├── TopologyLayout.js     ← Algoritmo de layout automático y afinidad piso M-39
-│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle, temas dark/light/sepia M-18)
+│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle/image, temas dark/light/sepia M-18)
 │   │       ├── TopologyEvents.js     ← Interacciones (drag, zoom, click, resize)
 │   │       └── TopologyOrchestrator.js ← Lifecycle + exportación PNG
 │   │
@@ -844,14 +856,15 @@ Contiene:
 
 ## 8. El Topology View (Canvas 2D)
 
-La vista de topología es un **lienzo HTML5 Canvas** dividido en 5 módulos:
+La vista de topología es un **lienzo HTML5 Canvas** dividido en 6 módulos:
 
 | Archivo | Responsabilidad |
 |---|---|
-| `TopologyState.js` | Variables de estado del canvas (hover, dragging, posiciones) |
-| `TopologyLayout.js` | Algoritmo de distribución automática |
-| `TopologyRenderer.js` | Dibujado Canvas 2D (nodos, enlaces, partículas) |
-| `TopologyEvents.js` | Interacciones (drag, zoom, pan, dblclick, resize) |
+| `TopologySkins.js` | Motor modular de skins (cards, circle, hardware skins), 18 presets offline, imágenes custom base64 e hit-testing unificado (M-28) |
+| `TopologyState.js` | Variables de estado del canvas (hover, dragging, posiciones, 5 slots de memoria M-40) |
+| `TopologyLayout.js` | Algoritmo de distribución automática y afinidad de piso (M-39) |
+| `TopologyRenderer.js` | Dibujado Canvas 2D (nodos, enlaces, partículas, temas M-18) |
+| `TopologyEvents.js` | Interacciones (drag, zoom, pan, dblclick, resize) con detección de colisión matemática |
 | `TopologyOrchestrator.js` | Lifecycle (init, start, stop) + export PNG |
 
 ### Colores oficiales del canvas
@@ -864,19 +877,20 @@ La vista de topología es un **lienzo HTML5 Canvas** dividido en 5 módulos:
 | Bordes sala activa | Blanco 4px | `#ffffff` |
 | Bordes sala inactiva | Naranja oscuro 3px | `#c2410c` |
 | Racks | Verde | `#65a30d` |
-| Nodos (card/circle) | Navaja oscuro | `#0f172a` |
+| Nodos (card/circle/image) | Navaja oscuro | `#0f172a` |
 | Borde nodo | Color del tipo | `TYPE_COLORS[dev.type]` |
 | Conexiones | Color del cable | `conn.color` |
 | Partículas | Blanco + glow | `#ffffff` + shadow |
 
-### Estilos de nodos
+### Estilos de nodos (Skins Visuales M-28)
 
-La variable `window.TOPOLOGY_STYLE` controla el estilo de renderizado:
+La variable `window.TOPOLOGY_STYLE` controla el modo de renderizado activo:
 
-- **`'card'`** (por defecto): Rectángulos de 150×50 px con icono, nombre e IP
-- **`'circle'`**: Círculos de radio 22 px con icono centrado, nombre arriba, IP con badge
+- **`'circle'`** (Nodos): Círculos de radio 22 px con icono SVG centrado, nombre arriba y badge IP personalizable.
+- **`'card'`** (Tarjetas): Rectángulos de 150×50 px con icono, nombre e IP enfocado en lectura rápida de metadatos.
+- **`'image'`** (Hardware Skins): Chasis fotorrealista de 140×50 px con orejas metálicas de montaje en rack, carátula vectorial basada en `EMBEDDED_SVG_CACHE` (18 presets de fábrica 100% offline) o imagen personalizada subida por el usuario en base64 DataURL, con etiqueta U y LED de estado operativo.
 
-El botón `#btn-topo-style` alterna entre ambos estilos.
+El menú desplegable `#topo-style-dropdown` permite alternar instantáneamente entre los 3 modos (**Cards**, **Nodos** y **Hardware**) y persiste en el proyecto y en los 5 slots de memoria (M-40).
 
 ### Cómo se dibuja
 

@@ -22,13 +22,14 @@
 - **Inversión y Orientación Bicanal de Conexiones (M-41):** Botón Swap `#btn-cable-swap` en el modal de cables con icono SVG monocromático `.icon-swap` y microanimación de giro a 180° que intercambia instantáneamente equipos y puertos origen/destino con recálculo dinámico de colisiones. Selector de canaleta Superior (Techo) e Inferior (Piso) en el modal y trazado segregado en `rack.js` (`drawPhysicalCables`). Columna de canaleta con toggle de 1 clic y botón de inversión por fila en la tabla de conexiones (`tables.js`).
 - **Plantilla Estructurada de Exportación (M-21):** Generación de plantillas completas en Excel `.xlsx` y `.csv` desde `ImportModal.js` (`downloadDeviceTemplate`), incluyendo los 21 campos del modelo de equipos y hoja de ayuda interactiva `"Guia_Valores"` con tipos estándar de datacenter, lados de montaje y recomendaciones operativas de formato.
 - **Importación Masiva de Equipos (M-22):** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, normalización heurística de encabezados (`normalizeHeaderKey`), análisis reactivo en tiempo real (`analyzeImportBatch`) con detección de colisiones de slots físicos y desbordes de altura, políticas de duplicados (omitir/renombrar/sobrescribir), auto-creación de gabinetes y rollback atómico completo mediante Undo/Redo (`store.undo()`).
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **286 pruebas automáticas en 19 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
+- **Sistema Avanzado de Skins Visuales en Topología (M-28):** Módulo modular `TopologySkins.js` con 3 modos visuales (Nodos circulares con radio 22, Tarjetas de 150×50 y Hardware Skins fotorrealistas de 140×50 con orejas metálicas de montaje en rack, bisel metálico, carátula vectorial y LED de estado). 18 presets offline enlazados a `EMBEDDED_SVG_CACHE` y soporte de carga de imágenes en base64 DataURL vía `FileReader` con previsualización en `#modal-device`. Hit-testing geométrico adaptativo unificado (`isPointInNode`) y persistencia del estilo visual en los 5 slots de memoria (M-40).
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **316 pruebas automáticas en 20 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
 
 ## Current Issues & Technical Debt
 - **Cableado frontal vs trasero:** Actualmente las conexiones no diferencian si un puerto está en la cara frontal o trasera de un equipo dual/profundo (`M-33`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 10 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (32 completadas de 42 totales, 76.2% global, **¡Fase 0 y Fase 1 al 100%, Fase 2 al 87.5%!**):
+Total de 9 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (33 completadas de 42 totales, 78.6% global, **¡Fase 0, Fase 1 y Fase 4 al 100%, Fase 2 al 87.5%!**):
 
 ### Fase 2 — Core de Datos y Puertos
 - Separación de cableado frontal vs. trasero (`M-33`).
@@ -36,9 +37,6 @@ Total de 10 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.
 
 ### Fase 3 — Ergonomía y Layout
 - Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).
-
-### Fase 4 — Topología
-- Skins visuales en topología con imágenes personalizadas (`M-28`).
 
 ### Fase 5 — Rendimiento y Calidad
 - Optimización de deepClone / limitación de historial (`M-03`).

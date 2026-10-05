@@ -96,6 +96,7 @@ loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
 loadScript('../js/ui/modals/ImportModal.js');
 loadScript('../js/ui/faceplates.js');
+loadScript('../js/ui/topology/TopologySkins.js');
 loadScript('../js/ui/topology/TopologyState.js');
 loadScript('../js/ui/topology/TopologyLayout.js');
 loadScript('../js/demoData.js');
@@ -1412,6 +1413,114 @@ async function runTests() {
     'M-22: index.html define la estructura completa de #modal-import-devices con drop-zone y botón de confirmación');
   assert(finalHtmlCheck.includes('src="js/ui/modals/ImportModal.js"'),
     'M-22: index.html incluye el script js/ui/modals/ImportModal.js en el orden correcto');
+
+  // ----------------------------------------------------
+  // GRUPO 20: Sistema Avanzado de Skins Visuales en Topología (M-28)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 20: Sistema Avanzado de Skins Visuales en Topología (M-28)');
+
+  // 20.1 Disponibilidad y Estructura de TopologySkins
+  assert(typeof TopologySkins === 'object' && TopologySkins !== null,
+    'M-28: TopologySkins está expuesto globalmente como módulo');
+  assert(TopologySkins.MODES && TopologySkins.MODES.CIRCLE === 'circle' && TopologySkins.MODES.CARD === 'card' && TopologySkins.MODES.IMAGE === 'image',
+    'M-28: TopologySkins.MODES define los 3 modos canónicos: circle, card e image');
+
+  // 20.2 Geometría y Dimensiones de Nodos
+  const dimCircle = TopologySkins.getNodeDimensions('circle');
+  assert(dimCircle.width === 44 && dimCircle.height === 44 && dimCircle.radius === 22 && dimCircle.boundW === 66,
+    'M-28: getNodeDimensions("circle") retorna geometría circular (radio 22, boundW 66)');
+  const dimCard = TopologySkins.getNodeDimensions('card');
+  assert(dimCard.width === 150 && dimCard.height === 50 && dimCard.boundW === 160 && dimCard.boundH === 60,
+    'M-28: getNodeDimensions("card") retorna dimensiones de tarjeta (150x50, boundW 160)');
+  const dimImage = TopologySkins.getNodeDimensions('image');
+  assert(dimImage.width === 140 && dimImage.height === 50 && dimImage.boundW === 150 && dimImage.boundH === 60,
+    'M-28: getNodeDimensions("image") retorna proporciones de chasis hardware (140x50, boundW 150)');
+
+  // 20.3 Hit-Testing Unificado (isPointInNode)
+  const nodeCenter = { x: 200, y: 150 };
+  assert(TopologySkins.isPointInNode(nodeCenter, 200, 150, 'circle') &&
+         TopologySkins.isPointInNode(nodeCenter, 215, 160, 'circle') &&
+         !TopologySkins.isPointInNode(nodeCenter, 230, 150, 'circle'),
+    'M-28: isPointInNode en modo circle valida puntos estrictamente dentro del radio de 24px');
+  assert(TopologySkins.isPointInNode(nodeCenter, 200, 150, 'card') &&
+         TopologySkins.isPointInNode(nodeCenter, 270, 170, 'card') &&
+         !TopologySkins.isPointInNode(nodeCenter, 280, 150, 'card'),
+    'M-28: isPointInNode en modo card valida puntos dentro del rectángulo de 150x50');
+  assert(TopologySkins.isPointInNode(nodeCenter, 200, 150, 'image') &&
+         TopologySkins.isPointInNode(nodeCenter, 265, 170, 'image') &&
+         !TopologySkins.isPointInNode(nodeCenter, 275, 150, 'image'),
+    'M-28: isPointInNode en modo image valida puntos dentro del chasis de hardware de 140x50');
+
+  // 20.4 Presets de Hardware y Resolución de SVG
+  assert(TopologySkins.getPresetForDevice({ type: 'server', size: 1 }) === 'server_1u',
+    'M-28: getPresetForDevice asigna "server_1u" para servidores 1U');
+  assert(TopologySkins.getPresetForDevice({ type: 'server', size: 2 }) === 'server_2u',
+    'M-28: getPresetForDevice asigna "server_2u" para servidores 2U');
+  assert(TopologySkins.getPresetForDevice({ type: 'server', size: 4 }) === 'server_4u',
+    'M-28: getPresetForDevice asigna "server_4u" para servidores modulares/blade 4U');
+  assert(TopologySkins.getPresetForDevice({ type: 'switch' }) === 'switch',
+    'M-28: getPresetForDevice asigna "switch" para conmutadores de red');
+  assert(TopologySkins.getPresetForDevice({ type: 'router' }) === 'router',
+    'M-28: getPresetForDevice asigna "router" para enrutadores SFP+');
+  assert(TopologySkins.getPresetForDevice({ type: 'firewall' }) === 'firewall',
+    'M-28: getPresetForDevice asigna "firewall" para firewalls UTM');
+  assert(TopologySkins.getPresetForDevice({ type: 'storage' }) === 'storage',
+    'M-28: getPresetForDevice asigna "storage" para cabinas SAN/NAS');
+  assert(TopologySkins.getPresetForDevice({ type: 'camera' }) === 'camera',
+    'M-28: getPresetForDevice asigna "camera" para dispositivos de video CCTV');
+  assert(TopologySkins.getPresetForDevice({ type: 'ap' }) === 'ap',
+    'M-28: getPresetForDevice asigna "ap" para puntos de acceso Wi-Fi');
+  assert(TopologySkins.getPresetForDevice({ type: 'server', preset: 'firewall' }) === 'firewall',
+    'M-28: getPresetForDevice respeta el preset manual configurado en el dispositivo');
+  assert(Object.values(TopologySkins.HARDWARE_PRESETS).every(p => typeof EMBEDDED_SVG_CACHE[p] === 'string'),
+    'M-28: Todos los presets de hardware enlazan a gráficos vectoriales existentes en EMBEDDED_SVG_CACHE');
+
+  // 20.5 Integración con TopologyLayout.js
+  window.TOPOLOGY_STYLE = 'image';
+  assert(_nodeW() === 150 && _nodeH() === 60,
+    'M-28: TopologyLayout._nodeW/H retorna dimensiones de hardware (150x60) en modo image');
+  window.TOPOLOGY_STYLE = 'circle';
+  assert(_nodeW() === 66 && _nodeH() === 66,
+    'M-28: TopologyLayout._nodeW/H retorna dimensiones de nodo (66x66) en modo circle');
+  window.TOPOLOGY_STYLE = 'card';
+  assert(_nodeW() === 160 && _nodeH() === 60,
+    'M-28: TopologyLayout._nodeW/H retorna dimensiones de tarjeta (160x60) en modo card');
+
+  // 20.6 Persistencia y Conmutación en TopologyState y Slots (M-40)
+  window.TOPOLOGY_STYLE = 'image';
+  saveTopo();
+  assert(store._raw.topology.style === 'image',
+    'M-28: saveTopo persiste fielmente style: "image" en el estado global del almacén');
+  window.TOPOLOGY_STYLE = 'circle';
+  loadTopoState();
+  assert(window.TOPOLOGY_STYLE === 'image',
+    'M-28: loadTopoState restaura fielmente el estilo visual "image" guardado');
+
+  // Guardar en ranura de memoria y verificar restauración del estilo
+  window.TOPOLOGY_STYLE = 'image';
+  saveCurrentToTopologySlot(4, 'Vista Arquitectura Hardware');
+  window.TOPOLOGY_STYLE = 'card';
+  saveTopo();
+  applyTopologySlot(4);
+  assert(window.TOPOLOGY_STYLE === 'image',
+    'M-28: Los slots de memoria de topología (M-40) capturan y conmutan el modo visual "image"');
+
+  // 20.7 Comprobaciones de Archivos y DOM
+  const skinsHtmlCheck = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(skinsHtmlCheck.includes('id="topo-opt-image"'),
+    'M-28: index.html define el botón interactivo #topo-opt-image en el menú de estilos de topología');
+  assert(skinsHtmlCheck.indexOf('js/ui/topology/TopologySkins.js') < skinsHtmlCheck.indexOf('js/ui/topology/TopologyState.js'),
+    'M-28: index.html carga js/ui/topology/TopologySkins.js antes de TopologyState.js');
+  assert(skinsHtmlCheck.includes('id="dev-preset-select"') && skinsHtmlCheck.includes('id="dev-custom-image"') && skinsHtmlCheck.includes('id="btn-dev-upload-image"'),
+    'M-28: index.html define los controles de presets de hardware y carga de imágenes en #modal-device');
+
+  const rendererCodeCheck = fs.readFileSync(path.join(__dirname, '../js/ui/topology/TopologyRenderer.js'), 'utf8');
+  assert(rendererCodeCheck.includes("window.TOPOLOGY_STYLE === 'image'") && rendererCodeCheck.includes("TopologySkins.renderHardwareNode"),
+    'M-28: TopologyRenderer.js implementa el flujo de dibujo para modo image delegando a TopologySkins');
+
+  const eventsCodeCheck = fs.readFileSync(path.join(__dirname, '../js/ui/topology/TopologyEvents.js'), 'utf8');
+  assert(eventsCodeCheck.includes("TopologySkins.isPointInNode"),
+    'M-28: TopologyEvents.js delega la detección geométrica de colisión a TopologySkins.isPointInNode');
 
   // ----------------------------------------------------
   // RESUMEN FINAL

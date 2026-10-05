@@ -1,16 +1,25 @@
 # Active Context
 
 ## Current Work Focus
-El proyecto ha completado con éxito la **Plantilla Completa de Exportación (M-21)** y la **Importación Masiva desde CSV / Excel (M-22)**, junto con la **Inversión y Orientación Bicanal de Conexiones Físicas (M-41)**, el **Soporte para Tema Sepia y Selector Global de Temas (M-18)**, el **Guardado y Conmutación de Estados de Topología (M-40 con 5 slots de memoria y preservación de Undo/Redo)**, y la **Suite de Pruebas Automatizada (286 pruebas en 19 grupos al 100% de éxito en Node y Web)**. El avance global del roadmap de mejoras alcanza el **76.2% (32 de 42 tareas completadas)**, con la Fase 0 y Fase 1 al 100%, y la Fase 2 al 87.5% (7 de 8 completadas).
+El proyecto ha completado con éxito el **Sistema Avanzado de Skins Visuales en Topología (Cards, Nodos e Imágenes / Hardware Skins - M-28)**, alcanzando el **78.6% del roadmap global (33 de 42 tareas completadas)**, con la **Fase 0, Fase 1 y Fase 4 completadas al 100%**. La suite de pruebas automatizada se ha elevado a **316 pruebas en 20 grupos con 100% de éxito tanto en Node.js como en navegador web**. Se cuenta además con la **Plantilla Completa de Exportación (M-21)**, la **Importación Masiva desde CSV / Excel (M-22)**, la **Inversión y Orientación Bicanal de Conexiones Físicas (M-41)**, el **Soporte para Tema Sepia y Selector Global de Temas (M-18)**, y los **5 slots de memoria de Topología (M-40)**.
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-05] Implementación de M-28: Sistema Avanzado de Skins Visuales en Topología (Cards, Nodos e Imágenes / Hardware Skins):**
+  - **Nuevo Módulo Modular `TopologySkins.js`:** Gestión desacoplada de los 3 modos canónicos (`circle`, `card`, `image`), cálculo adaptativo de dimensiones con `getNodeDimensions(mode)` y hit-testing matemático unificado con `isPointInNode(node, px, py, style)`.
+  - **Catálogo de 18 Presets de Hardware Offline (`HARDWARE_PRESETS`):** Mapeo directo de tipos y alturas a gráficos vectoriales existentes en `EMBEDDED_SVG_CACHE` de `faceplates.js` (servidores 1U/2U/4U, switches, routers, firewalls, storage, patch, PDU, KVM, UPS, ATX, monitor, cámaras CCTV, APs, sensores, puertas y telefonía IP), garantizando operación 100% offline y compatible con protocolo `file://`.
+  - **Renderizado Fotorrealista de Hardware (`renderHardwareNode`):** Chasis metálico oscuro procedural degradado (`#181a1f`), bisel perimetral (`#333a46`), orejas laterales de montaje en rack con perforaciones de tornillos, carátula vectorial o imagen custom en base64, badge metálico con altura U y LED de estado operativo.
+  - **Caché Inteligente de Imágenes en Memoria:** `getHardwareImage(svgOrDataUrl, onLoaded)` reutiliza instancias de `HTMLImageElement` previniendo saturación en el bucle a 60 FPS y gatillando redibujado reactivo una vez cargada la imagen asíncrona.
+  - **Integración Completa en el Motor:** `TopologyLayout.js` adapta cuadrículas (`_nodeW` y `_nodeH`), `TopologyEvents.js` unifica la detección de impacto en clics, hover y arrastre con `TopologySkins.isPointInNode()`, y `TopologyRenderer.js` delega la rama de dibujo `image`.
+  - **Menú y Persistencia:** Botón `#topo-opt-image` ("Hardware") añadido al menú `#topo-style-dropdown`, persistencia en `TopologyState.js` y en los 5 slots de memoria (M-40).
+  - **Formulario de Equipos (`DeviceModal.js`):** Subida de imágenes `.png`, `.jpg`, `.svg` vía `FileReader` a base64 DataURL con previsualización interactiva y reseteo inmediato, junto a selector de preset.
+  - **Testing Automatizado:** Grupo 20 con 30 aserciones exhaustivas en `tests/integrity_check.cjs` y `tests/index.html`. Total: **316 de 316 pruebas pasando al 100% de éxito**.
 - **[2026-10-04] Implementación de M-21 y M-22: Plantilla Completa de Exportación e Importación Masiva (CSV / Excel):**
   - **Componente Modular `ImportModal.js`:** Generación y descarga de plantillas en Excel (.xlsx) y CSV con los 21 campos del modelo de equipos y hoja de ayuda `"Guia_Valores"` para valores válidos (M-21).
   - **Motor de Validación Reactiva y Detección de Colisiones:** `analyzeImportBatch` analiza en tiempo real colisiones físicas de slots, desbordes de altura, verificación de nombres y separa equipos de rack vs piso (M-22).
   - **Políticas de Duplicados y Auto-creación de Racks:** Modos Omitir (`skip`), Renombrar (`rename`) y Sobrescribir (`overwrite`) con soporte opcional para autogenerar gabinetes ausentes.
   - **Rollback Atómico con Undo/Redo:** La importación ejecuta un `store.snapshot()`, permitiendo revertir el 100% del lote en un único clic en Deshacer (`store.undo()`).
   - **Integración en UI:** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, botón de acceso `#btn-table-import-modal` en la barra de herramientas de tablas y `#menu-import-devices` en la cabecera. Opciones de descarga de plantillas en `#export-dropdown`.
-  - **Testing Automatizado:** Grupo 19 agregado a `tests/integrity_check.cjs` y `tests/index.html` con 21 nuevas pruebas (286 pruebas en 19 grupos pasando al 100% en Node y Web).
+  - **Testing Automatizado:** Grupo 19 agregado a `tests/integrity_check.cjs` y `tests/index.html` con 21 nuevas pruebas.
 - **[2026-10-04] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**
   - Incorporados Grupos 16, 17, 18 y 19 en `tests/index.html` alcanzando **286 pruebas en 19 grupos al 100% de éxito**, logrando paridad 1:1 total con `tests/integrity_check.cjs`.
 - **[2026-10-03] Implementación de M-41: Botón para Invertir y Cambiar Orientación de Conexiones:**

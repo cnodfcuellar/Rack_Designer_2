@@ -14,7 +14,7 @@
 
 ### 🔌 Conexiones y Vistas (Rendering)
 - **Vista Física (DOM + SVG):** Renderizado de chasis y faceplates en CSS puro, superpuesto con una capa interactiva vectorial para el enrutamiento inteligente de cables ortogonales segregados (bandeja aérea superior o canaleta bajo piso técnico, M-41).
-- **Vista Topológica (Canvas 2D):** Diagrama de red con motor de físicas (*auto-order*), nodos arrastrables, layouts por racks y árbol jerárquico DAG, control dual interactivo de espaciado H/V, afinidad automática de equipos de piso por gabinete (M-39), 5 ranuras de memoria de vistas (M-40) y temas adaptativos (Oscuro, Claro y Sepia, M-18).
+- **Vista Topológica (Canvas 2D):** Diagrama de red con motor de físicas (*auto-order*), nodos arrastrables, layouts por racks y árbol jerárquico DAG, control dual interactivo de espaciado H/V, afinidad automática de equipos de piso por gabinete (M-39), 5 ranuras de memoria de vistas (M-40), 3 modos de skins visuales: Cards, Nodos e imágenes/hardware fotorrealista con 18 presets offline (M-28) y temas adaptativos (Oscuro, Claro y Sepia, M-18).
 - **Tipos de Cables y Gestión de Enlaces:** Soporte para Cobre, Fibra (SM/MM) y DAC, selector de colores, asignación gráfica de puertos, selector de orientación de canaleta y botón rápido Swap de inversión de sentido (M-41).
 
 ### 🗃️ Interacción y Flujos de Datos
@@ -44,11 +44,11 @@ El proyecto emula un comportamiento estilo *React/Redux* utilizando un **Proxy E
 
 ### 3. Características Core del Sistema
 - **Vista Física (2D):** Racks y `faceplates` renderizados vía DOM. Incorpora enrutamiento inteligente de cables 2D superponiendo lienzos `<svg>` dinámicos (`js/ui/rack.js`).
-- **Vista Topológica (Lógica):** Motor de dibujo basado en HTML5 `<canvas>` (`js/ui/topology/`), con soporte para zoom, paneo, nodos móviles, 5 slots de guardado, enrutamiento de enlaces y físicas de distribución.
+- **Vista Topológica (Lógica):** Motor de dibujo basado en HTML5 `<canvas>` (`js/ui/topology/`), con soporte para zoom, paneo, nodos móviles, 3 estilos de representación (Cards, Nodos y Hardware con skins de fábrica o fotos personalizadas en base64, M-28), 5 slots de guardado, enrutamiento de enlaces y físicas de distribución.
 - **Control de Acceso Basado en Roles (RBAC):** Autenticación local mediante `js/auth/roles.js` usando encriptación `SHA-256`. Roles soportados: Admin, Editor, Viewer.
 - **Exportación e Importación:** Soporte completo para exportar configuraciones a JSON (para compartir), listas de inventario a Excel/CSV, importación masiva reactiva (`ImportModal.js`) y renderizado de Racks a imagen PNG fiel 1:1 (`html2canvas`).
 - **Soporte PWA:** Funciona offline como Progressive Web App mediante su `service-worker.js`.
-- **Suite de Pruebas:** 286 pruebas automáticas de integridad pasando al 100% en Node.js (`tests/integrity_check.cjs`) y en navegador web (`tests/index.html`).
+- **Suite de Pruebas:** 316 pruebas automáticas de integridad pasando al 100% en Node.js (`tests/integrity_check.cjs`) y en navegador web (`tests/index.html`).
 
 ### 4. Mapa de Directorios (Separación de Preocupaciones)
 * `js/store.js`: **Estado y Persistencia.** Define la mutación, maneja Undo/Redo y persistencia.

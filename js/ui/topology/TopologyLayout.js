@@ -17,8 +17,19 @@ const RACK_GAP      = 32;   // horizontal gap between racks
 const ROOM_GAP      = 60;   // horizontal gap between rooms
 const RACK_HEADER_H = 52;   // space for rack label at top and top node IP badge
 
-function _nodeW() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_W; }
-function _nodeH() { return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_H; }
+function _nodeW() {
+  if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.getNodeDimensions === 'function') {
+    return TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE).boundW;
+  }
+  return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_W;
+}
+
+function _nodeH() {
+  if (typeof TopologySkins !== 'undefined' && typeof TopologySkins.getNodeDimensions === 'function') {
+    return TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE).boundH;
+  }
+  return window.TOPOLOGY_STYLE === 'circle' ? CIRCLE_D : CARD_H;
+}
 
 // ──────────────────────────────────────────────────────────────────
 // Shared layout computation (returns rooms/racks/nodes/positions)

@@ -237,12 +237,18 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
 *   **Propuesta de Mejora:** Implementar un mecanismo para **guardar las posiciones (coordenadas X, Y)** de los nodos (equipos, racks, salas) dentro de la Vista de Topología. Al mover un nodo manualmente, su nueva ubicación debería registrarse en el estado global (`store.js`) y persistir en el archivo `.rack` o `localStorage`.
 *   **Objetivo/Beneficio en Producción:** Permite a los arquitectos de red crear diagramas lógicos personalizados y ordenados a su gusto. Actualmente, si el diseño dependiera solo de un layout automático, cualquier recarga o cambio de sala podría desorganizar los mapas mentales del usuario. Guardar las posiciones asegura que el esfuerzo invertido en organizar el diagrama visualmente no se pierda.
 
-### 🖼️ Sistema Avanzado de Skins Visuales en Topología
-*   **Propuesta de Mejora:** Ampliar el sistema de visualización en la Vista de Topología para ofrecer tres modos (skins) de representación para los equipos:
-    1.  **Nodos:** Representación lógica circular y minimalista.
-    2.  **Tarjetas (Cards):** Representación rectangular enfocada en metadatos (diseño actual).
-    3.  **Imagen Personalizada:** Permitir a los usuarios cargar imágenes de iconos o fotos del equipo en formatos `.jpg`, `.png` o `.svg` y usarlas como el nodo visual en el canvas.
-*   **Objetivo/Beneficio en Producción:** Brindar la flexibilidad de generar tanto diagramas lógicos y abstractos de alta legibilidad, como diagramas de red ultra-realistas. El uso de imágenes (como iconos de Cisco, Fortinet, etc.) mejora enormemente el valor de las exportaciones para presentaciones ejecutivas.
+### 🖼️ [COMPLETADO] Sistema Avanzado de Skins Visuales en Topología (M-28)
+*   **Estado:** Completado.
+*   **Implementación:**
+    *   Nuevo módulo modular [js/ui/topology/TopologySkins.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologySkins.js) con gestión de los 3 modos de representación:
+        1.  **Nodos (`circle`):** Representación lógica circular y minimalista con icono SVG y posicionamiento configurable de etiquetas Nombre/IP.
+        2.  **Tarjetas (`card`):** Representación rectangular estructurada (150×50px) enfocada en metadatos técnicos.
+        3.  **Hardware / Imágenes (`image`):** Representación arquitectónica/fotorrealista (140×50px) que renderiza chasis procedimentales con orejas de montaje en rack, tornillos metálicos, bisel reflectivo, carátula vectorial basada en `EMBEDDED_SVG_CACHE` y panel de datos con LED de estado en tiempo real e IP.
+    *   Soporte completo en [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js) y [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) para carga de imágenes personalizadas (`.png`, `.jpg`, `.svg` vía `FileReader` a base64 DataURL con previsualización) y selección de presets de fabricantes (Cisco, Fortinet, Dell, HP, etc.).
+    *   Hit-Testing geométrico unificado (`TopologySkins.isPointInNode`) integrado en [TopologyEvents.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyEvents.js) garantizando clics, arrastres y doble clics de alta precisión para círculos, tarjetas y chasis de hardware.
+    *   Integración en [TopologyLayout.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyLayout.js) (`_nodeW` y `_nodeH`), en el menú desplegable `#topo-style-dropdown` de [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) (botón `#topo-opt-image`), en [TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js), en la persistencia de [TopologyState.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyState.js) y en las 5 ranuras de memoria de topología (M-40).
+    *   Validado al 100% con 316 pruebas automatizadas en la suite de integridad (Grupo 20).
+*   **Objetivo/Beneficio en Producción:** Brindar la máxima flexibilidad estética y técnica para generar tanto diagramas lógicos y abstractos de alta densidad, como diagramas fotorrealistas de grado ejecutivo listos para exportaciones y presentaciones corporativas.
 
 ### 🎨 [COMPLETADO] Personalización Visual y Temas en la Topología
 *   **Estado:** Completado. Implementado en `TopologyRenderer.js` con:

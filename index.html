@@ -186,6 +186,7 @@
             <div style="display:flex; gap:6px;">
               <button class="btn-secondary" id="topo-opt-card" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Tarjetas</button>
               <button class="btn-secondary" id="topo-opt-circle" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Nodos</button>
+              <button class="btn-secondary" id="topo-opt-image" style="flex:1; justify-content:center; font-size:11px; padding:4px 6px;">Hardware</button>
             </div>
           </div>
           <div style="margin-bottom:10px;" id="topo-labels-section">
@@ -524,10 +525,43 @@
     </div>
     <div class="accordion-module">
       <input type="checkbox" id="dev-has-skin" class="module-toggle" title="Habilitar Skin Personalizado">
-      <div class="module-header"><label for="dev-has-skin"><i class="svg-icon icon-image" style="width:11px; height:11px; margin-right:6px;"></i> Skin / Apariencia</label></div>
+      <div class="module-header"><label for="dev-has-skin"><i class="svg-icon icon-image" style="width:11px; height:11px; margin-right:6px;"></i> Skin y Hardware Visual (Topología / Rack)</label></div>
       <div class="module-content">
-        <div class="form-grid">
-          <div class="form-row" style="margin-bottom:0;"><label>Nombre del archivo en assets/img/</label><input type="text" id="dev-skin" placeholder="mi_servidor.png"></div>
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 8px;">
+          <div class="form-row" style="margin-bottom:0;"><label>Preset de Hardware</label>
+            <select id="dev-preset-select">
+              <option value="auto">Automático según tipo</option>
+              <option value="server_1u">Servidor 1U (Dell R640)</option>
+              <option value="server_2u">Servidor 2U (HP DL380)</option>
+              <option value="server_4u">Servidor 4U (Blade Modular)</option>
+              <option value="switch">Switch 24P Gigabit</option>
+              <option value="router">Router SFP+ Óptico</option>
+              <option value="firewall">Firewall FortiGate 100F</option>
+              <option value="storage">Storage SAN 10 Bahías</option>
+              <option value="ups">UPS Smart 3000VA</option>
+              <option value="pdu">PDU 8 Tomas IEC</option>
+              <option value="patchpanel">Patch Panel 24P RJ45</option>
+              <option value="organizer">Organizador Horizontal</option>
+              <option value="kvm">Consola KVM 1U</option>
+              <option value="pc">PC / Workstation</option>
+              <option value="ap">Access Point Wi-Fi 6</option>
+              <option value="camera">Cámara IP CCTV</option>
+              <option value="printer">Impresora Corporativa</option>
+            </select>
+          </div>
+          <div class="form-row" style="margin-bottom:0;"><label>Archivo Skin (assets/img/)</label><input type="text" id="dev-skin" placeholder="mi_servidor.png"></div>
+        </div>
+        <div class="form-row" style="margin-bottom:0;">
+          <label>Imagen Personalizada (.png, .jpg, .svg)</label>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="file" id="dev-image-file" accept="image/*" style="display:none;">
+            <button type="button" class="btn-cancel" id="btn-dev-upload-image" style="font-size:11px; padding:4px 8px;"><i class="svg-icon icon-upload" style="width:12px; height:12px; margin-right:4px;"></i>Cargar Imagen...</button>
+            <div id="dev-image-preview-wrap" style="display:none; align-items:center; gap:6px;">
+              <img id="dev-image-preview" src="" alt="preview" style="width:36px; height:20px; object-fit:contain; border:1px solid var(--border); border-radius:3px; background:#000;">
+              <button type="button" id="btn-dev-clear-image" title="Eliminar imagen personalizada" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:12px;">✕</button>
+            </div>
+            <input type="hidden" id="dev-custom-image">
+          </div>
         </div>
       </div>
     </div>
@@ -925,6 +959,7 @@
   <script src="js/ui/modals/ImportModal.js"></script>
   <script src="js/ui/modals.js"></script>
   <script src="js/ui/rack.js"></script>
+  <script src="js/ui/topology/TopologySkins.js"></script>
   <script src="js/ui/topology/TopologyState.js"></script>
   <script src="js/ui/topology/TopologyEvents.js"></script>
   <script src="js/ui/topology/TopologyLayout.js"></script>

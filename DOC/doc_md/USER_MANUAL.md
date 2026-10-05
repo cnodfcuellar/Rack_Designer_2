@@ -207,9 +207,20 @@ La vista de topología es un diagrama de red interactivo donde puedes ver cómo 
 - **Doble clic en un nodo:** Abre modal para crear una conexión.
 - **Doble clic en un cable:** Abre modal para editar esa conexión.
 
-### Cambiar estilo y posición de etiquetas de nodos
-- Haz clic en el botón **"Estilo"** del header → alterna entre **Card** (tarjetas rectangulares con nombre e IP) y **Circle** (círculos con icono, nombre e IP configurables).
-- En modo Circle, puedes abrir el menú desplegable para elegir presets de etiquetas (Separados IP Arriba / Nombre Abajo, Juntos, Izquierda, Derecha o Personalizado).
+### Cambiar estilo y representación visual de nodos (Skins Visuales M-28)
+- Abre el menú desplegable **"🎛️ Estilo"** en la barra superior de topología para elegir entre tres modos de renderizado:
+  - **Cards (Tarjetas):** Rectángulos técnicos de 150×50 px con icono, nombre e IP enfocado en lectura rápida de metadatos.
+  - **Nodos (Círculos):** Círculos minimalistas de radio 22 px con icono centrado y etiquetas de nombre e IP configurables (Arriba, Abajo, Izquierda, Derecha o Juntos).
+  - **Hardware (Skins Fotorrealistas):** Chasis arquitectónico de 140×50 px con bisel metálico, orejas laterales de montaje en rack, perforaciones de tornillos, carátula vectorial fotorrealista basada en 18 presets offline de fabricantes (Cisco, Dell, Fortinet, etc.) o fotos personalizadas en base64, badge de altura U y LED de estado operativo.
+- Tu selección de estilo se guarda en el proyecto y puede conmutarse independientemente en cualquiera de los 5 slots de memoria (M-40).
+
+### Carga de Fotos e Imágenes Personalizadas de Equipos (M-28)
+- Puedes personalizar la apariencia visual de cualquier equipo en el diagrama de topología:
+  1. Haz doble clic en el equipo o selecciónalo y pulsa "Editar" en el Inspector.
+  2. En el formulario técnico del equipo, abre el bloque **"Personalización Visual"**.
+  3. Puedes seleccionar un **Preset de Fabricante** predefinido (Servidor 1U/2U/4U, Switch ToR/Core, Router, Firewall UTM, Cabina Storage, Cámara CCTV, Punto de Acceso Wi-Fi, etc.).
+  4. O bien, pulsa el botón **"Subir Imagen..."** para cargar una imagen propia (`.png`, `.jpg`, `.svg`). La imagen se optimiza y se almacena directamente en tu archivo de proyecto `.rack` codificada en base64 sin requerir servidores ni conexión a internet.
+  5. Para remover una imagen personalizada y volver al gráfico vectorial de fábrica, basta con hacer clic en la miniatura interactiva de previsualización.
 
 ### Modo de Layout (Por Racks vs Árbol Jerárquico)
 - Puedes alternar entre **Organización por Racks** (agrupa los nodos dentro de sus respectivos gabinetes) y **Árbol Jerárquico** (organización tipo Draw.io de arriba hacia abajo: Core → Distribución → Acceso, con cables ortogonales redondeados).

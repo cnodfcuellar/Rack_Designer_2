@@ -1,3 +1,50 @@
+## [2026-10-05] Implementación Completa: Sistema Avanzado de Skins Visuales en Topología (Cards, Nodos e Imágenes / Hardware Skins) (M-28)
+
+### Nuevo Módulo Modular de Skins para Canvas 2D (`js/ui/topology/TopologySkins.js`)
+- **Gestión Desacoplada de Modos Visuales:**
+  - Definidos los 3 modos canónicos de visualización en `MODES`: `circle` (Nodos circulares de 22px de radio), `card` (Tarjetas de metadatos de 150×50px) e `image` (Chasis de hardware arquitectónico y fotorrealista de 140×50px).
+  - Cálculo geométrico adaptativo mediante `getNodeDimensions(mode)` retornando dimensiones de bounding box (`boundW`, `boundH`) y semidimensiones para centrado y límites de arrastre.
+- **Catálogo de 18 Presets de Hardware Offline (`HARDWARE_PRESETS`):**
+  - Mapeo automático según tipo de equipo y altura U (`server_1u`, `server_2u`, `server_4u`, `switch`, `router`, `firewall`, `storage`, `patch`, `pdu`, `kvm`, `ups`, `atx`, `monitor`, `camera`, `ap`, `sensor`, `door`, `phone`).
+  - Mapeo directo de todos los presets a carátulas vectoriales en `EMBEDDED_SVG_CACHE` de `faceplates.js`, asegurando funcionamiento 100% offline y compatible con protocolo `file://` sin dependencias externas.
+  - Asignación inteligente con `getPresetForDevice(device)` respetando configuraciones manuales o resolviendo automáticamente por heurística de tipo y altura.
+- **Renderizado Procedimental Fotorrealista (`renderHardwareNode`):**
+  - Dibujo de chasis de hardware procedural con fondo metálico oscuro degradado (`#181a1f`), bisel perimetral (`#333a46`), orejas laterales de montaje en rack de 8px con perforaciones de tornillos y sombra suave de elevación.
+  - Dibujo de carátula vectorial o imagen personalizada del equipo centrada proporcionalmente a 120×36px con `object-fit: contain`.
+  - Barra inferior de estado con tipo de dispositivo, etiqueta de altura U en badge metálico y LED indicador de estado operativo (verde / ámbar / rojo).
+- **Caché Inteligente de Imágenes en Memoria:**
+  - `getHardwareImage(svgOrDataUrl, onLoaded)` implementa una caché en memoria de objetos `HTMLImageElement`, reutilizando instancias para evitar recreación de imágenes en cada frame del bucle a 60 FPS y disparando un redibujado reactivo una vez cargada la imagen asíncrona.
+- **Detección Geométrica de Colisión Unificada (`isPointInNode`):**
+  - Hit-testing adaptativo que resuelve con precisión matemática el área interactiva para clics, cursor hover y arrastre según el modo activo (`dx² + dy² ≤ r²` para nodos circulares; rectángulos delimitadores `[-w/2, w/2] × [-h/2, h/2]` para tarjetas y hardware).
+
+### Carátulas Vectoriales Adicionales (`js/ui/faceplates.js`)
+- Agregadas las definiciones vectoriales nativas de `floor_door.svg` (control de acceso biométrico) y `floor_phone.svg` (telefonía IP Cisco) en `EMBEDDED_SVG_CACHE`, alcanzando el 100% de cobertura vectorial sin requerir llamadas de red.
+
+### Integración en el Motor de Topología (`TopologyLayout.js`, `TopologyEvents.js`, `TopologyRenderer.js`, `TopologyState.js`, `js/main.js`, `index.html`)
+- **Motor de Distribución (`TopologyLayout.js`):**
+  - Métodos `_nodeW()` y `_nodeH()` delegados a `TopologySkins.getNodeDimensions(window.TOPOLOGY_STYLE)`, calculando espaciados y cuadrículas de 150×60px para hardware, 160×60px para tarjetas y 66×66px para nodos circulares.
+- **Motor de Eventos e Interacción (`TopologyEvents.js`):**
+  - Detección de impacto unificada en `pointerdown`, `pointermove` (cursor pointer sobre nodos) y `dblclick` delegada a `TopologySkins.isPointInNode()`.
+  - Límites de arrastre (*drag bounding*) dentro de la sala y gabinetes anfitriones adaptados a las semidimensiones exactas del modo activo.
+- **Renderizador Canvas 2D (`TopologyRenderer.js`):**
+  - Rama condicional en el ciclo de dibujo de nodos para `window.TOPOLOGY_STYLE === 'image'` delegando directamente a `TopologySkins.renderHardwareNode()`.
+- **Menú de Estilo y Persistencia (`index.html`, `js/main.js`, `TopologyState.js`):**
+  - Añadido el botón `<button class="btn-secondary" id="topo-opt-image">Hardware</button>` dentro de `#topo-style-dropdown`.
+  - Vinculación en `main.js`, sincronización visual de botones activos en `syncTopoStyleUI()` y persistencia del estilo en `TopologyState.js` (`saveTopo()` y `loadTopoState()`), plenamente integrado en los 5 slots de memoria de topología (M-40).
+
+### Formulario de Equipos y Carga de Imágenes (`index.html`, `js/ui/modals/DeviceModal.js`)
+- **Sección de Personalización Visual en `#modal-device`:**
+  - Selector desplegable de presets de fabricante `#dev-preset-select` con los 18 modelos estándar.
+  - Carga de imágenes personalizadas (`.png`, `.jpg`, `.svg`) mediante `FileReader` a base64 DataURL con botón `#btn-dev-upload-image`, input de archivo `#dev-image-file` y previsualización interactiva con miniatura `#dev-image-preview`.
+  - Soporte de reseteo rápido a imagen predeterminada mediante clic en la miniatura.
+  - Persistencia reactiva de `customTopoImage` y `preset` en el modelo de datos del equipo dentro del Store.
+
+### Suite de Pruebas Automatizada (`tests/integrity_check.cjs`, `tests/index.html`)
+- **Grupo 20 Incorporado (316 pruebas pasando al 100% en Node.js y Navegador Web):**
+  - 30 nuevas aserciones que validan la existencia y API de `TopologySkins`, dimensiones geométricas por modo, hit-testing diferencial, mapeo exhaustivo de los 18 presets vectoriales en `EMBEDDED_SVG_CACHE`, dimensiones de layout, persistencia de `style: "image"` en store y en los 5 slots de memoria, presencia de controles en el DOM y delegación en `TopologyRenderer` y `TopologyEvents`.
+
+---
+
 ## [2026-10-04] Implementación Completa: Plantilla Estructurada de Exportación (M-21) e Importación Masiva (CSV / Excel) (M-22)
 
 ### Componente Modular de Importación Masiva (`js/ui/modals/ImportModal.js`)

@@ -77,14 +77,16 @@ const ARCHITECTURE_SECTIONS = [
       { path: 'js/ui/modals/CableModal.js', lang: 'javascript', desc: 'Modal de cableado estructurado: asignación de puertos, filtrado de ocupados y VLANs.' },
       { path: 'js/ui/modals/RoomModal.js', lang: 'javascript', desc: 'Modal de gestión de salas: nombres, dimensiones y notas sin diálogos nativos prompt.' },
       { path: 'js/ui/modals/PlacementModal.js', lang: 'javascript', desc: 'Modal de colocación rápida (Quick Placement) con buscador en tiempo real y cálculo de slots.' },
-      { path: 'js/ui/modals/ExportModal.js', lang: 'javascript', desc: 'Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV.' }
+      { path: 'js/ui/modals/ExportModal.js', lang: 'javascript', desc: 'Modal de exportación de alta fidelidad: PNG 1:1 con html2canvas, modo dual F+T, Excel y CSV.' },
+      { path: 'js/ui/modals/ImportModal.js', lang: 'javascript', desc: 'Modal de importación masiva de equipos desde Excel/CSV con detección reactiva de colisiones y plantilla de 21 campos (M-21 y M-22).' }
     ]
   },
   {
     title: 'Capa 7: Motor Gráfico de Topología de Red (Canvas 2D MVC)',
-    description: 'Motor de diagramación lógica en Canvas 2D a 60 FPS: nodos circulares/tarjetas, enlaces Bézier, árbol jerárquico y afinidad de piso.',
+    description: 'Motor de diagramación lógica en Canvas 2D a 60 FPS: nodos circulares/tarjetas/hardware skins, enlaces Bézier, árbol jerárquico y afinidad de piso.',
     files: [
-      { path: 'js/ui/topology/TopologyState.js', lang: 'javascript', desc: 'Modelo del motor de topología: estado de interacción, pan, zoom y espaciado dual H/V.' },
+      { path: 'js/ui/topology/TopologySkins.js', lang: 'javascript', desc: 'Motor modular de skins: 3 modos (circle/card/image), 18 presets offline, imágenes custom base64 y hit-testing M-28.' },
+      { path: 'js/ui/topology/TopologyState.js', lang: 'javascript', desc: 'Modelo del motor de topología: estado de interacción, pan, zoom, espaciado dual H/V y 5 slots de memoria (M-40).' },
       { path: 'js/ui/topology/TopologyLayout.js', lang: 'javascript', desc: 'Controlador de layout: algoritmo de árbol jerárquico DAG y afinidad por rack anfitrión (M-39).' },
       { path: 'js/ui/topology/TopologyRenderer.js', lang: 'javascript', desc: 'Vista Canvas 2D: renderizado de salas, racks, nodos, partículas animadas y HUD de 240px.' },
       { path: 'js/ui/topology/TopologyEvents.js', lang: 'javascript', desc: 'Controlador de eventos: arrastre de nodos/racks/salas, redimensionamiento, zoom y auto-navegación.' },
@@ -102,8 +104,8 @@ const ARCHITECTURE_SECTIONS = [
     title: 'Capa 9: Automatización y Suite de Pruebas de Integridad',
     description: 'Pruebas de integridad relacional ejecutables tanto en Node.js como interactivamente en el navegador web.',
     files: [
-      { path: 'tests/integrity_check.cjs', lang: 'javascript', desc: 'Suite de pruebas de integridad para Node.js: 199 aserciones en 15 grupos al 100% de éxito.' },
-      { path: 'tests/index.html', lang: 'html', desc: 'Runner web interactivo de pruebas en navegador: paridad 1:1 con 199 pruebas en interfaz gráfica.' }
+      { path: 'tests/integrity_check.cjs', lang: 'javascript', desc: 'Suite de pruebas de integridad para Node.js: 316 aserciones en 20 grupos al 100% de éxito.' },
+      { path: 'tests/index.html', lang: 'html', desc: 'Runner web interactivo de pruebas en navegador: paridad 1:1 con 316 pruebas en interfaz gráfica.' }
     ]
   },
   {

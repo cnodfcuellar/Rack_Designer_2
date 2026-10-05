@@ -172,6 +172,7 @@ Rack_Designer_2/
 │   │   │   └── Globals.js        ← Variables globales compartidas entre modales
 │   │   │
 │   │   └── topology/             ← ★ MOTOR DE RED EN CANVAS 2D (patrón MVC)
+│   │       ├── TopologySkins.js      ← Skins modulares: 3 modos (circle/card/image), 18 presets offline, imágenes custom base64 y hit-testing M-28
 │   │       ├── TopologyState.js      ← Modelo: Estado del canvas (hover, dragging, sliders H/V, 5 slots de memoria M-40)
 │   │       ├── TopologyLayout.js     ← Controlador: Algoritmo layout automático, árbol jerárquico DAG y afinidad M-39
 │   │       ├── TopologyRenderer.js   ← Vista: Dibujado Canvas 2D con HUD ampliado (240px) y elipsis elegante
@@ -219,8 +220,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Archivos de contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares
 └── tests/
-    ├── index.html                ← Test runner visual interactivo en navegador web (286 tests en 19 grupos, 100% éxito)
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (286 tests en 19 grupos en Node.js, 100% éxito)
+    ├── index.html                ← Test runner visual interactivo en navegador web (316 tests en 20 grupos, 100% éxito)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (316 tests en 20 grupos en Node.js, 100% éxito)
 ```
 
 ---
@@ -276,6 +277,7 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 
 | Archivo | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|
+| [TopologySkins.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologySkins.js) | Motor modular de skins para Canvas 2D: renderizado fotorrealista de hardware (`renderHardwareNode`), 18 presets vectoriales en `EMBEDDED_SVG_CACHE`, soporte de imágenes custom base64, dimensiones dinámicas y hit-testing geométrico unificado (`isPointInNode`, M-28) | Cuando agregas nuevos presets de hardware, modificas el renderizado de chasis o cambias la geometría de colisión de nodos |
 | [TopologyState.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyState.js) | Estado local del canvas: nodo hover, nodo arrastrado, posición del mouse, sliders H/V y helpers globales para los 5 slots de memoria (`applyTopologySlot`, `saveCurrentToTopologySlot`, `clearTopologySlot`, `renameTopologySlot`, M-40) | Cuando agregas interacciones nuevas al canvas o gestión de estados de topología |
 | [TopologyLayout.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyLayout.js) | Algoritmo de distribución de nodos: layout canónico con afinidad de piso por rack anfitrión (`_findAffinityRackForFloorDevice()`, M-39), layout jerárquico DAG (M-32), `initTopoPositions()`, `autoOrderTopo()`, `recalcTopoSpacing()` | Cuando cambias cómo se posicionan automáticamente los nodos y racks |
 | [TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js) | Dibujado en Canvas 2D: nodos, enlaces, partículas de animación, fondo adaptativo dinámico según tema (oscuro, claro y sepia cálido `#f5eee1`, M-18) | Cuando cambias la apariencia visual de la topología |

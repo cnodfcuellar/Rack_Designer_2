@@ -259,6 +259,7 @@ function initGlobalEvents() {
   const btnLayoutTree = document.getElementById('topo-layout-tree');
   const btnOptCard = document.getElementById('topo-opt-card');
   const btnOptCircle = document.getElementById('topo-opt-circle');
+  const btnOptImage = document.getElementById('topo-opt-image');
   const topoPatternSelect = document.getElementById('topo-pattern-select');
   const topoAlphaSlider = document.getElementById('topo-alpha-slider');
   const topoAlphaVal = document.getElementById('topo-alpha-val');
@@ -288,26 +289,28 @@ function initGlobalEvents() {
       }
     }
 
-    const isCard = (window.TOPOLOGY_STYLE || 'card') === 'card';
-    if (btnOptCard && btnOptCircle) {
-      if (isCard) {
-        btnOptCard.style.borderColor = 'var(--accent)';
-        btnOptCard.style.color = 'var(--accent)';
-        btnOptCard.style.background = 'rgba(56, 189, 248, 0.15)';
-        btnOptCircle.style.borderColor = '';
-        btnOptCircle.style.color = '';
-        btnOptCircle.style.background = '';
+    const activeStyle = window.TOPOLOGY_STYLE || 'card';
+    const styleBtns = [
+      { btn: btnOptCard, style: 'card' },
+      { btn: btnOptCircle, style: 'circle' },
+      { btn: btnOptImage, style: 'image' }
+    ];
+
+    styleBtns.forEach(({ btn, style }) => {
+      if (!btn) return;
+      if (activeStyle === style) {
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.color = 'var(--accent)';
+        btn.style.background = 'rgba(56, 189, 248, 0.15)';
       } else {
-        btnOptCircle.style.borderColor = 'var(--accent)';
-        btnOptCircle.style.color = 'var(--accent)';
-        btnOptCircle.style.background = 'rgba(56, 189, 248, 0.15)';
-        btnOptCard.style.borderColor = '';
-        btnOptCard.style.color = '';
-        btnOptCard.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        btn.style.background = '';
       }
-    }
+    });
+
     if (topoLabelsSection) {
-      topoLabelsSection.style.display = isCard ? 'none' : 'block';
+      topoLabelsSection.style.display = (activeStyle === 'circle') ? 'block' : 'none';
     }
     if (topoLabelPreset) {
       topoLabelPreset.value = window.TOPO_LABEL_PRESET || 'separated';
@@ -445,6 +448,15 @@ function initGlobalEvents() {
   if (btnOptCircle) {
     btnOptCircle.addEventListener('click', () => {
       window.TOPOLOGY_STYLE = 'circle';
+      syncTopoStyleUI();
+      if (typeof saveTopo === 'function') saveTopo();
+      if (typeof drawTopo === 'function') drawTopo();
+    });
+  }
+
+  if (btnOptImage) {
+    btnOptImage.addEventListener('click', () => {
+      window.TOPOLOGY_STYLE = 'image';
       syncTopoStyleUI();
       if (typeof saveTopo === 'function') saveTopo();
       if (typeof drawTopo === 'function') drawTopo();

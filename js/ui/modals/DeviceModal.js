@@ -1,3 +1,12 @@
+function _setDeviceImagePreview(dataUrl) {
+  const previewWrap = document.getElementById('dev-image-preview-wrap');
+  const previewImg = document.getElementById('dev-image-preview');
+  const hiddenInput = document.getElementById('dev-custom-image');
+  if (hiddenInput) hiddenInput.value = dataUrl || '';
+  if (previewImg) previewImg.src = dataUrl || '';
+  if (previewWrap) previewWrap.style.display = dataUrl ? 'inline-flex' : 'none';
+}
+
 function openAddDeviceModal() {
   if (window.closeMobileSidebar) window.closeMobileSidebar();
   editingDeviceId = null;
@@ -8,6 +17,9 @@ function openAddDeviceModal() {
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
+  _setDeviceImagePreview('');
+  const presetSel = document.getElementById('dev-preset-select');
+  if (presetSel) presetSel.value = 'auto';
   const devStatus = document.getElementById('dev-status');
   if (devStatus) devStatus.value = 'active';
   document.getElementById('dev-has-brand').checked = false;
@@ -74,6 +86,9 @@ function openEditCatalogModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
   document.getElementById('dev-skin').value = dev.skin || '';
+  _setDeviceImagePreview(dev.customTopoImage || '');
+  const presetSel = document.getElementById('dev-preset-select');
+  if (presetSel) presetSel.value = dev.preset || 'auto';
 
   if (dev.ports) {
     document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
@@ -90,7 +105,7 @@ function openEditCatalogModal(id) {
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
   document.getElementById('dev-has-notes').checked = !!(dev.notes);
-  document.getElementById('dev-has-skin').checked = !!(dev.skin);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin || dev.customTopoImage || (dev.preset && dev.preset !== 'auto'));
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -130,6 +145,9 @@ function openEditDeviceModal(id) {
   passInput.type = window.SHOW_PASSWORDS ? 'text' : 'password';
   document.getElementById('dev-notes').value = dev.notes|| '';
   document.getElementById('dev-skin').value = dev.skin || '';
+  _setDeviceImagePreview(dev.customTopoImage || '');
+  const devPresetSel = document.getElementById('dev-preset-select');
+  if (devPresetSel) devPresetSel.value = dev.preset || 'auto';
 
   if (dev.ports) {
     document.getElementById('dev-ports-eth').value = dev.ports.ethernet || '';
@@ -146,7 +164,7 @@ function openEditDeviceModal(id) {
   document.getElementById('dev-has-auth').checked = !!(dev.user || dev.pass);
   document.getElementById('dev-has-power').checked = !!(dev.power > 0 || dev.plugs > 0 || dev.plugsOut > 0);
   document.getElementById('dev-has-notes').checked = !!(dev.notes);
-  document.getElementById('dev-has-skin').checked = !!(dev.skin);
+  document.getElementById('dev-has-skin').checked = !!(dev.skin || dev.customTopoImage || (dev.preset && dev.preset !== 'auto'));
 
   document.getElementById('modal-device').classList.remove('hidden');
 }
@@ -219,7 +237,9 @@ function initDeviceModal() {
       user: hasAuth ? document.getElementById('dev-user').value.trim() : '',
       pass: hasAuth ? document.getElementById('dev-pass').value : '',
       notes: hasNotes ? document.getElementById('dev-notes').value.trim() : '',
-      skin: hasSkin ? document.getElementById('dev-skin').value.trim() : ''
+      skin: hasSkin ? document.getElementById('dev-skin').value.trim() : '',
+      preset: hasSkin && document.getElementById('dev-preset-select') && document.getElementById('dev-preset-select').value !== 'auto' ? document.getElementById('dev-preset-select').value : '',
+      customTopoImage: hasSkin && document.getElementById('dev-custom-image') ? document.getElementById('dev-custom-image').value : ''
     };
     if (ports) props.ports = ports;
 
@@ -310,6 +330,37 @@ function initDeviceModal() {
       passToggleBtn.innerHTML = isPass 
         ? '<i class="svg-icon icon-eye-off" style="width:14px; height:14px;"></i>'
         : '<i class="svg-icon icon-eye" style="width:14px; height:14px;"></i>';
+    });
+  }
+
+  // M-28: Manejadores para carga de imagen personalizada
+  const btnUploadImg = document.getElementById('btn-dev-upload-image');
+  const fileImgInput = document.getElementById('dev-image-file');
+  const btnClearImg = document.getElementById('btn-dev-clear-image');
+
+  if (btnUploadImg && fileImgInput) {
+    btnUploadImg.addEventListener('click', () => fileImgInput.click());
+    fileImgInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        if (typeof notify === 'function') notify('Selecciona un archivo de imagen válido (.png, .jpg, .svg)', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        _setDeviceImagePreview(ev.target.result);
+        const skinModuleToggle = document.getElementById('dev-has-skin');
+        if (skinModuleToggle) skinModuleToggle.checked = true;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (btnClearImg) {
+    btnClearImg.addEventListener('click', () => {
+      _setDeviceImagePreview('');
+      if (fileImgInput) fileImgInput.value = '';
     });
   }
 }
