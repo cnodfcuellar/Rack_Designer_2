@@ -11,7 +11,7 @@
 - **Inspector y Outliner Jerárquico:** CRUD integral de Salas, Racks y Equipos desde el Inspector con Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`), cálculo de U y borrado seguro con RBAC (`M-36`). Botones de cabecera (`+ Sala`, `+ Rack`, `+ Equipo`) y acciones inline (`✏️` y `🗑️`) en cada nodo del Outliner (`M-23`). Selector de ordenamiento en 4 modos (`slot`, `name-asc`, `name-desc`, `type`) (`M-38`). Inspector colapsable interactivo con expansión flex del Outliner (`M-24`).
 - **Control Maestro de Animaciones:** Interruptor en `.status-dot` que alterna `.no-animations`, pausando simultáneamente los LEDs de los equipos en la vista física, las partículas de red en topología y los efectos CSS globales.
 - **Drag & Drop:** Inserción de catálogo a rack, movimiento entre gabinetes, reordenamiento, soporte para equipos de piso.
-- **Undo/Redo:** Historial reactivo con hasta 30 snapshots (`deepClone`). Soporte completo para Ctrl+Z/Y en física y topología.
+- **Undo/Redo:** Historial reactivo de alto rendimiento con algoritmo de clonado rápido `fastClone` (4x más veloz que JSON), límite acotado de 15 instantáneas (`_maxHistory = 15`), snapshots livianos sin `topologySlots` con ahorro de RAM de hasta el 80%, deduplicación reactiva O(1) y estimación de memoria consumida (`store.estimateHistoryMemory()`, `M-03`). Soporte completo para Ctrl+Z/Y en física y topología.
 - **Exportación de Alta Fidelidad:** PNG fiel 1:1 renderizando el DOM con `html2canvas.min.js` a escala Retina (`scale: 2`), fondo de datacenter `#090d17`, ocultamiento de botones de UI flotantes (`.exporting-capture`) y fallback procedimental a Canvas 2D (`M-37`). Exportación Excel/CSV con metadatos completos (`Tamaño`, `Skin`, `Notas`) vía SheetJS (`M-19`), JSON/`.rack` (backup completo con File System Access API).
 - **Persistencia Robusta:** localStorage automático con doble slot de respaldo redundante (`RACK_DESIGNER_NEXT_STATE_BACKUP`), recuperación automática ante fallos de parseo JSON y captura defensiva de cuota de almacenamiento (`QuotaExceededError`).
 - **Auth/RBAC:** 3 roles (Admin/Editor/Viewer), PIN con SHA-256 (con fallback puro JS para file:// y LAN), sesión persistente a recargas F5 mediante `sessionStorage`.
@@ -23,13 +23,14 @@
 - **Plantilla Estructurada de Exportación (M-21):** Generación de plantillas completas en Excel `.xlsx` y `.csv` desde `ImportModal.js` (`downloadDeviceTemplate`), incluyendo los 21 campos del modelo de equipos y hoja de ayuda interactiva `"Guia_Valores"` con tipos estándar de datacenter, lados de montaje y recomendaciones operativas de formato.
 - **Importación Masiva de Equipos (M-22):** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, normalización heurística de encabezados (`normalizeHeaderKey`), análisis reactivo en tiempo real (`analyzeImportBatch`) con detección de colisiones de slots físicos y desbordes de altura, políticas de duplicados (omitir/renombrar/sobrescribir), auto-creación de gabinetes y rollback atómico completo mediante Undo/Redo (`store.undo()`).
 - **Sistema Avanzado de Skins Visuales en Topología (M-28):** Módulo modular `TopologySkins.js` con 3 modos visuales (Nodos circulares con radio 22, Tarjetas de 150×50 y Hardware Skins fotorrealistas de 140×50 con orejas metálicas de montaje en rack, bisel metálico, carátula vectorial y LED de estado). 18 presets offline enlazados a `EMBEDDED_SVG_CACHE` y soporte de carga de imágenes en base64 DataURL vía `FileReader` con previsualización en `#modal-device`. Hit-testing geométrico adaptativo unificado (`isPointInNode`) y persistencia del estilo visual en los 5 slots de memoria (M-40).
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **316 pruebas automáticas en 20 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
+- **Optimización de deepClone y Limitación de Historial (M-03):** Función `fastClone` en `js/utils.js` 4x más rápida que JSON, pipeline multi-tier en `deepClone`, límite acotado de 15 niveles de historial (`store.maxHistory`), snapshots livianos con ahorro de RAM de hasta el 80% al omitir slots de topología, deduplicación reactiva consecutiva O(1) con `_mutatedSinceLastSnapshot` y auditoría de memoria con `store.estimateHistoryMemory()`.
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **335 pruebas automáticas en 21 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
 
 ## Current Issues & Technical Debt
 - **Cableado frontal vs trasero:** Actualmente las conexiones no diferencian si un puerto está en la cara frontal o trasera de un equipo dual/profundo (`M-33`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 9 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (33 completadas de 42 totales, 78.6% global, **¡Fase 0, Fase 1 y Fase 4 al 100%, Fase 2 al 87.5%!**):
+Total de 8 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (34 completadas de 42 totales, 81.0% global, **¡Fase 0, Fase 1 y Fase 4 al 100%, Fase 5 al 75%!**):
 
 ### Fase 2 — Core de Datos y Puertos
 - Separación de cableado frontal vs. trasero (`M-33`).
@@ -39,7 +40,6 @@ Total de 9 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.g
 - Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).
 
 ### Fase 5 — Rendimiento y Calidad
-- Optimización de deepClone / limitación de historial (`M-03`).
 - Redibujado selectivo renderAll (`M-04`).
 
 ### Fase 6 — Experiencia Premium

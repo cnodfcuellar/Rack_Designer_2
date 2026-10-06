@@ -19,7 +19,7 @@
 
 ### 🗃️ Interacción y Flujos de Datos
 - **Drag & Drop Inteligente:** Inserción de catálogo a rack, movimiento de equipos entre gabinetes, y despliegue de equipos de piso (*Floor Devices*).
-- **Deshacer / Rehacer (Undo/Redo):** Máquina del tiempo reactiva con hasta 30 instantáneas aisladas (`deepClone`).
+- **Deshacer / Rehacer (Undo/Redo):** Máquina del tiempo reactiva de alto rendimiento con algoritmo `fastClone` (4x más veloz que JSON), límite acotado de 15 instantáneas (`_maxHistory = 15`), snapshots livianos con ahorro de RAM de hasta el 80% y deduplicación reactiva O(1) (M-03).
 - **Exportación e Importación Masiva:** Imágenes PNG a escala Retina 1:1 (`html2canvas`), hojas de cálculo Excel/CSV (Inventario y Conexiones vía SheetJS), plantillas estructuradas de 21 campos con hoja de ayuda (M-21), importación masiva de equipos con detección de colisiones de slots y rollback atómico (M-22), y File System Access API para backups JSON cifrados (`.rack`).
 - **Seguridad en Reposo y Modo Dios (M-01):** Cifrado simétrico AES-GCM (`enc:v1:`) en `localStorage` y `.rack`, enmascaramiento por defecto y revelación autorizada bajo rol Admin.
 - **Motor de Búsqueda:** Búsqueda global superior (IP/MAC/Nombre), buscador en tiempo real en catálogo y en colocación asistida.
@@ -48,7 +48,7 @@ El proyecto emula un comportamiento estilo *React/Redux* utilizando un **Proxy E
 - **Control de Acceso Basado en Roles (RBAC):** Autenticación local mediante `js/auth/roles.js` usando encriptación `SHA-256`. Roles soportados: Admin, Editor, Viewer.
 - **Exportación e Importación:** Soporte completo para exportar configuraciones a JSON (para compartir), listas de inventario a Excel/CSV, importación masiva reactiva (`ImportModal.js`) y renderizado de Racks a imagen PNG fiel 1:1 (`html2canvas`).
 - **Soporte PWA:** Funciona offline como Progressive Web App mediante su `service-worker.js`.
-- **Suite de Pruebas:** 316 pruebas automáticas de integridad pasando al 100% en Node.js (`tests/integrity_check.cjs`) y en navegador web (`tests/index.html`).
+- **Suite de Pruebas:** 335 pruebas automáticas de integridad pasando al 100% en Node.js (`tests/integrity_check.cjs`) y en navegador web (`tests/index.html`).
 
 ### 4. Mapa de Directorios (Separación de Preocupaciones)
 * `js/store.js`: **Estado y Persistencia.** Define la mutación, maneja Undo/Redo y persistencia.

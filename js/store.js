@@ -13,6 +13,8 @@ class Store {
   constructor() {
     this._undoStack = [];
     this._redoStack = [];
+    this._maxHistory = 15; // M-03: Límite óptimo de 15 pasos de historial para balancear memoria y capacidad de deshacer
+    this._mutatedSinceLastSnapshot = true;
     this._listeners = {};
     this._proxyCache = new WeakMap();
     this._raw = this._load();
@@ -24,6 +26,7 @@ class Store {
 
   set state(val) {
     this._raw = val;
+    this._mutatedSinceLastSnapshot = true;
   }
 
   _defaultState() {
@@ -126,6 +129,7 @@ class Store {
   }
 
   _save() {
+    this._mutatedSinceLastSnapshot = true;
     try {
       // M-01: Cifrado en reposo para credenciales y contraseñas sensibles
       const stateToPersist = (typeof RackCrypto !== 'undefined' && typeof RackCrypto.prepareStateForStorage === 'function')
@@ -193,17 +197,82 @@ class Store {
     (this._listeners[event] || []).forEach(cb => cb(data));
   }
 
-  /** Guarda snapshot para Deshacer */
-  snapshot() {
-    this._undoStack.push(deepClone(this._raw));
-    if (this._undoStack.length > 30) this._undoStack.shift();
+  get maxHistory() {
+    return this._maxHistory;
+  }
+
+  set maxHistory(val) {
+    const num = parseInt(val, 10);
+    this._maxHistory = (!isNaN(num) && num > 0) ? num : 15;
+    while (this._undoStack.length > this._maxHistory) this._undoStack.shift();
+    while (this._redoStack.length > this._maxHistory) this._redoStack.shift();
+    this._updateHistoryButtons();
+  }
+
+  get historySize() {
+    return {
+      undo: this._undoStack.length,
+      redo: this._redoStack.length,
+      max: this._maxHistory
+    };
+  }
+
+  clearHistory() {
+    this._undoStack = [];
     this._redoStack = [];
+    this._mutatedSinceLastSnapshot = true;
+    this._updateHistoryButtons();
+  }
+
+  estimateHistoryMemory() {
+    try {
+      let totalBytes = 0;
+      for (const item of this._undoStack) {
+        totalBytes += JSON.stringify(item).length * 2;
+      }
+      for (const item of this._redoStack) {
+        totalBytes += JSON.stringify(item).length * 2;
+      }
+      return {
+        bytes: totalBytes,
+        kb: +(totalBytes / 1024).toFixed(2),
+        mb: +(totalBytes / (1024 * 1024)).toFixed(3)
+      };
+    } catch (_) {
+      return { bytes: 0, kb: 0, mb: 0 };
+    }
+  }
+
+  _createSnapshot() {
+    // M-03: Snapshot liviano excluyendo slots persistentes de topología que no participan en el undo
+    const snap = {};
+    for (const k of Object.keys(this._raw)) {
+      if (k === 'topologySlots' || k === 'activeTopologySlot') continue;
+      snap[k] = this._raw[k];
+    }
+    return deepClone(snap);
+  }
+
+  /** Guarda snapshot para Deshacer (M-03: optimizado con fastClone, límite N=15 y prevención de duplicados) */
+  snapshot() {
+    if (!this._mutatedSinceLastSnapshot && this._undoStack.length > 0) {
+      return;
+    }
+    this._undoStack.push(this._createSnapshot());
+    while (this._undoStack.length > this._maxHistory) {
+      this._undoStack.shift();
+    }
+    this._redoStack = [];
+    this._mutatedSinceLastSnapshot = false;
     this._updateHistoryButtons();
   }
 
   undo() {
     if (!this._undoStack.length) return;
-    this._redoStack.push(deepClone(this._raw));
+    this._redoStack.push(this._createSnapshot());
+    while (this._redoStack.length > this._maxHistory) {
+      this._redoStack.shift();
+    }
     const prev = this._undoStack.pop();
 
     // Preservar slots de topología persistentes configurados por el usuario
@@ -212,7 +281,7 @@ class Store {
 
     // Limpieza atómica de claves para evitar huérfanos
     Object.keys(this._raw).forEach(k => {
-      if (!(k in prev)) delete this._raw[k];
+      if (!(k in prev) && k !== 'topologySlots' && k !== 'activeTopologySlot') delete this._raw[k];
     });
     Object.assign(this._raw, prev);
 
@@ -221,6 +290,7 @@ class Store {
       this._raw.activeTopologySlot = currentActiveSlot;
     }
 
+    this._mutatedSinceLastSnapshot = true;
     this._save();
     this._emit('change', { path: 'undo', source: 'undo' });
     this._updateHistoryButtons();
@@ -228,7 +298,10 @@ class Store {
 
   redo() {
     if (!this._redoStack.length) return;
-    this._undoStack.push(deepClone(this._raw));
+    this._undoStack.push(this._createSnapshot());
+    while (this._undoStack.length > this._maxHistory) {
+      this._undoStack.shift();
+    }
     const next = this._redoStack.pop();
 
     // Preservar slots de topología persistentes configurados por el usuario
@@ -237,7 +310,7 @@ class Store {
 
     // Limpieza atómica de claves para evitar huérfanos
     Object.keys(this._raw).forEach(k => {
-      if (!(k in next)) delete this._raw[k];
+      if (!(k in next) && k !== 'topologySlots' && k !== 'activeTopologySlot') delete this._raw[k];
     });
     Object.assign(this._raw, next);
 
@@ -246,12 +319,14 @@ class Store {
       this._raw.activeTopologySlot = currentActiveSlot;
     }
 
+    this._mutatedSinceLastSnapshot = true;
     this._save();
     this._emit('change', { path: 'redo', source: 'redo' });
     this._updateHistoryButtons();
   }
 
   _updateHistoryButtons() {
+    if (typeof document === 'undefined') return;
     const btnUndo = document.getElementById('btn-undo');
     const btnRedo = document.getElementById('btn-redo');
     if(btnUndo) {
@@ -969,8 +1044,7 @@ class Store {
   }
 
   loadData(data) {
-    this._undoStack = [];
-    this._redoStack = [];
+    this.clearHistory();
     let stateToLoad = data;
     if (typeof RackCrypto !== 'undefined' && typeof RackCrypto.restoreStateFromStorage === 'function') {
       stateToLoad = RackCrypto.restoreStateFromStorage(data);

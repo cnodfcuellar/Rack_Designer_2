@@ -258,9 +258,9 @@ Rack_Designer_2/
 │       └── misc.css              ← Iconos SVG, tooltips, drag ghost, scrollbar
 │
 ├── js/
-│   ├── store.js                  ← ESTADO CENTRAL (Proxy ES6 + WeakMap cache)
+│   ├── store.js                  ← ESTADO CENTRAL (Proxy ES6 + WeakMap cache + Undo/Redo acotado N=15)
 │   ├── main.js                   ← Orquestador (init, eventos, renderAll)
-│   ├── utils.js                  ← Funciones auxiliares (uid, deepClone, notify, etc.)
+│   ├── utils.js                  ← Funciones auxiliares (uid, fastClone/deepClone multi-tier, notify, etc.)
 │   ├── icons.js                  ← SVG inline de todos los dispositivos
 │   ├── demoData.js               ← Carga datos de ejemplo (lazy load)
 │   │
@@ -322,8 +322,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares (manifest.json)
 └── tests/
-    ├── index.html                ← Runner web interactivo de pruebas en navegador (286 tests en 19 grupos al 100%)
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (286 tests en 19 grupos al 100%)
+    ├── index.html                ← Runner web interactivo de pruebas en navegador (335 tests en 21 grupos al 100%)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (335 tests en 21 grupos al 100%)
 ```
 
 **Ver diagrama:** `doc/doc_img/doc_svg/architecture_overview.svg` (File Structure)

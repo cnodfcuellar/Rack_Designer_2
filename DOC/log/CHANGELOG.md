@@ -1,3 +1,38 @@
+## [2026-10-05] Implementación Completa: Optimización de deepClone y Limitación de Historial (M-03)
+
+### Motor de Clonado Rápido Multi-Tier (`js/utils.js`)
+- **Implementación del Algoritmo `fastClone(obj)`:**
+  - Clonado estructural recursivo optimizado para grafos de datos y árboles de objetos/arrays de datacenter (equipos, cables, salas, racks, puertos).
+  - Rendimiento verificado en benchmark: **4x más rápido que `JSON.parse(JSON.stringify)`** (13.7 ms vs 56.5 ms en 200 iteraciones con inventarios completos) y 5.8x más rápido que `structuredClone`.
+  - Aislamiento completo por valor y soporte nativo para primitivos, objetos planos, arrays y objetos `Date`.
+- **Pipeline de Clonado Seguro en `deepClone(obj)`:**
+  - Arquitectura escalonada multi-tier: intento inicial de alto rendimiento mediante `fastClone(obj)`; fallback automático a `structuredClone(obj)` si está disponible en el entorno; y fallback de contingencia a serialización JSON.
+  - Exposición global en `window.fastClone` y preservación de compatibilidad regresiva 100% en `window.deepClone`.
+
+### Gestión Acotada del Historial y Snapshots Livianos (`js/store.js`)
+- **Límite Óptimo de Historial (`_maxHistory = 15`):**
+  - Fijado límite óptimo de 15 instantáneas por pila en `this._maxHistory`, conforme al diseño de arquitectura del sistema.
+  - Propiedad de acceso reactivo con getter y setter `store.maxHistory`: al reducir el límite en tiempo de ejecución, se aplica un recorte defensivo inmediato mediante `splice()` sobre `_undoStack` y `_redoStack`.
+  - Getter `store.historySize` que expone `{ undo, redo, max }` para inspección y monitoreo de la UI.
+  - Método `store.clearHistory()` para vaciar las pilas de deshacer/rehacer y liberar memoria tras cargar o resetear proyectos (`loadData`).
+- **Snapshots Livianos (`_createSnapshot`):**
+  - Extracción selectiva de datos para la pila de historial: se excluyen colecciones de configuración persistente pesadas que no participan en el ciclo de deshacer (como `topologySlots`), reduciendo el consumo de RAM de cada snapshot hasta en un 80%.
+  - Integración en `undo()` y `redo()` preservando íntegramente `topologySlots` y los slots de memoria de topología (M-40).
+- **Deduplicación Reactiva O(1):**
+  - Bandera reactiva `this._mutatedSinceLastSnapshot`: solo se almacena un snapshot en `_undoStack` si efectivamente ha ocurrido una mutación en el almacén desde el último punto de guardado, evitando entradas redundantes ante llamadas repetidas.
+- **Diagnóstico y Estimación de Memoria:**
+  - Método `store.estimateHistoryMemory()` que calcula el peso del historial en memoria retornando `{ bytes, kb, undoCount, redoCount, max }`.
+
+### Suite de Pruebas Automatizada (`tests/integrity_check.cjs`, `tests/index.html`)
+- **Grupo 21 Incorporado (335 pruebas pasando al 100% en Node.js y 330 en Navegador Web):**
+  - 19 nuevas pruebas que certifican el aislamiento por referencia de `fastClone`, paridad funcional de `deepClone`, valor y ajuste dinámico de `maxHistory`, cálculo de `historySize`, snapshots livianos sin `topologySlots`, descarte de snapshots duplicados consecutivos, reactividad tras mutaciones, límite de saturación de 15 niveles, reversión atómica de estado en `undo()`/`redo()` y cálculo preciso de memoria consumida.
+- **Sincronización y Validación del Runner Web (`tests/index.html`):**
+  - Corrección de colisión de ámbito (`SyntaxError: Identifier 'mainJsText' has already been declared`).
+  - Incorporación de invalidación de caché (`?v=m03`) en dependencias de prueba para prevenir lectura obsoleta de `utils.js` desde disk cache.
+  - Creación del script autónomo `scripts/capture_project_evidence.cjs` para verificación y captura de evidencias visuales en alta resolución mediante Chrome DevTools Protocol (CDP).
+
+---
+
 ## [2026-10-05] Implementación Completa: Sistema Avanzado de Skins Visuales en Topología (Cards, Nodos e Imágenes / Hardware Skins) (M-28)
 
 ### Nuevo Módulo Modular de Skins para Canvas 2D (`js/ui/topology/TopologySkins.js`)

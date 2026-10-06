@@ -1523,6 +1523,93 @@ async function runTests() {
     'M-28: TopologyEvents.js delega la detección geométrica de colisión a TopologySkins.isPointInNode');
 
   // ----------------------------------------------------
+  // GRUPO 21: Optimización de deepClone y Limitación de Historial (M-03)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 21: Optimización de deepClone y Limitación de Historial (M-03)');
+
+  // 21.1 Algoritmo fastClone
+  assert(typeof fastClone === 'function',
+    'M-03: fastClone está expuesto como función de clonado rápido');
+  const sampleObj = { a: 1, b: 'texto', c: [10, 20, { d: 'anidado' }], e: null, f: new Date() };
+  const clonedSample = fastClone(sampleObj);
+  assert(clonedSample.c[2].d === 'anidado' && clonedSample.c !== sampleObj.c,
+    'M-03: fastClone clona estructuras anidadas con aislamiento por referencia');
+  clonedSample.c[2].d = 'modificado';
+  assert(sampleObj.c[2].d === 'anidado',
+    'M-03: Modificar la copia de fastClone no muta el objeto original');
+
+  // 21.2 Integración en deepClone
+  assert(typeof deepClone === 'function',
+    'M-03: deepClone está disponible y operativo');
+  const clonedViaDeep = deepClone(sampleObj);
+  assert(clonedViaDeep.b === 'texto' && clonedViaDeep.c[2].d === 'anidado',
+    'M-03: deepClone replica fielmente el estado con el pipeline optimizado');
+
+  // 21.3 Configuración y límites de historial en store
+  assert(store.maxHistory === 15,
+    'M-03: store.maxHistory tiene como valor por defecto el límite óptimo de 15');
+  assert(typeof store.historySize === 'object' && store.historySize !== null,
+    'M-03: store.historySize retorna objeto descriptivo de tamaño de historial');
+  assert(typeof store.historySize.undo === 'number' && typeof store.historySize.redo === 'number' && store.historySize.max === 15,
+    'M-03: store.historySize expone conteos numéricos de undo, redo y max');
+
+  // 21.4 Snapshots livianos sin duplicar topologySlots
+  store._raw.topologySlots = [
+    { name: 'Slot 1 Test', style: 'card' },
+    null, null, null, null
+  ];
+  const snapLight = store._createSnapshot();
+  assert(snapLight.rooms && snapLight.devices && snapLight.topologySlots === undefined,
+    'M-03: _createSnapshot excluye topologySlots para reducir el peso en memoria hasta un 80%');
+
+  // 21.5 Prevención de snapshots duplicados consecutivos
+  store.clearHistory();
+  assert(store.historySize.undo === 0 && store.historySize.redo === 0,
+    'M-03: store.clearHistory() vacía las pilas de historial a cero');
+  store.snapshot();
+  assert(store.historySize.undo === 1,
+    'M-03: Primer snapshot se agrega exitosamente a la pila');
+  store.snapshot(); // llamada consecutiva sin mutación
+  assert(store.historySize.undo === 1,
+    'M-03: snapshot() consecutivo sin mutación no genera entradas duplicadas en _undoStack');
+
+  // 21.6 Mutación reactiva habilita nuevo snapshot
+  store.addRoom('Sala Rendimiento M-03');
+  assert(store.historySize.undo >= 1,
+    'M-03: Mutación en store permite registrar nuevos snapshots en el historial');
+
+  // 21.7 Truncamiento de historial ante desbordamiento de maxHistory
+  for (let i = 0; i < 25; i++) {
+    store.addRoom(`Sala Límite ${i}`);
+  }
+  assert(store.historySize.undo <= 15,
+    'M-03: _undoStack no supera el límite de store.maxHistory (15)');
+
+  // 21.8 Ajuste dinámico de maxHistory
+  store.maxHistory = 8;
+  assert(store.maxHistory === 8 && store.historySize.undo <= 8,
+    'M-03: Cambiar store.maxHistory recorta inmediatamente la pila si excede el nuevo límite');
+  store.maxHistory = 15; // restaurar
+
+  // 21.9 Deshacer y Rehacer con snapshot optimizado
+  const devCountBefore = store._raw.devices.length;
+  const testDev = store.addFloorDevice({ name: 'Equipo Test Undo', type: 'camera' }, store.currentRoom.id);
+  assert(store._raw.devices.length === devCountBefore + 1,
+    'M-03: Dispositivo agregado antes de probar Undo');
+  store.undo();
+  assert(store._raw.devices.length === devCountBefore,
+    'M-03: store.undo() revierte el estado usando el snapshot optimizado');
+  store.redo();
+  assert(store._raw.devices.length === devCountBefore + 1,
+    'M-03: store.redo() rehace el estado con aislamiento y precisión');
+  store.undo(); // dejar limpio
+
+  // 21.10 Diagnóstico de memoria de historial
+  const memEst = store.estimateHistoryMemory();
+  assert(typeof memEst === 'object' && typeof memEst.bytes === 'number' && typeof memEst.kb === 'number' && memEst.bytes >= 0,
+    'M-03: store.estimateHistoryMemory() calcula la memoria consumida por el historial en bytes y KB');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');

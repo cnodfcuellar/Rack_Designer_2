@@ -5,7 +5,7 @@
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
 > **Última actualización:** 2026-10-05
-> **Estado del sistema:** En producción (33 de 42 mejoras completadas, 78.6% del roadmap global)
+> **Estado del sistema:** En producción (34 de 42 mejoras completadas, 81.0% del roadmap global)
 
 ---
 
@@ -30,7 +30,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 |---|---|---|
 | M-01 | ~~Cifrado de credenciales e IPs en localStorage~~ | ✅ COMPLETADO |
 | M-02 | ~~Manejo de QuotaExceededError en `_save()`~~ | ✅ COMPLETADO |
-| M-03 | Optimización de `deepClone` / limitación de historial | ⏳ Rendimiento |
+| M-03 | ~~Optimización de `deepClone` / limitación de historial~~ | ✅ COMPLETADO |
 | M-04 | Redibujado selectivo (renderAll optimizado) | 🔄 Rendimiento |
 | M-05 | ~~Protección contra corrupción de JSON en `_load()`~~ | ✅ COMPLETADO |
 | M-06 | ~~Estrategia de actualización del Service Worker~~ | ✅ COMPLETADO |
@@ -344,9 +344,9 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
-| 5.1 | M-03 | Optimización deepClone / historial | `store.js` | Pendiente |
+| 5.1 | M-03 | ~~Optimización deepClone / historial~~ | `js/utils.js`, `js/store.js` | ✅ COMPLETADO (Algoritmo fastClone 4x más veloz, N=15 niveles acotados, snapshots livianos y 19 tests) |
 | 5.2 | M-04 | Redibujado selectivo | `main.js`, todos los archivos `ui/` | Pendiente |
-| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (231 pruebas en 16 grupos, CLI y Web) |
+| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (335 pruebas en 21 grupos, CLI y Web) |
 | 5.4 | M-06 | ~~Actualización Service Worker~~ | `service-worker.js`, `main.js` | ✅ COMPLETADO (PWA Offline) |
 
 ---
@@ -562,7 +562,7 @@ graph LR
 | **Fase 2** — Core Datos & Cables | 2 semanas | Semana 3-4 | M-26, M-33, M-34, M-19, M-21, M-37, M-22, M-41 |
 | **Fase 3** — Navegación & CRUD | 1-2 semanas | Semana 5-6 | M-11, M-12, M-30, M-23, M-38, M-24, M-36, M-20 |
 | **Fase 4** — Topología | 1-2 semanas | Semana 7-8 | *(M-27, M-28, M-29, M-31, M-32, M-39, M-40 completados al 100%)* |
-| **Fase 5** — Rendimiento & Calidad | 1-2 semanas | Semana 9-10 | M-03, M-04 *(M-08 y M-06 completados)* |
+| **Fase 5** — Rendimiento & Calidad | 1-2 semanas | Semana 9-10 | M-04 *(M-03, M-08 y M-06 completados)* |
 | **Fase 6** — Premium | 3-4 semanas | Semana 11-14 | M-18, M-25, M-35, M-07 |
 
 > **Estimación remanente: ~13-14 semanas** (1 desarrollador) o **~5-6 semanas** (equipo de 2-3 desarrolladores trabajando en paralelo por fases independientes).
