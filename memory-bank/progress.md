@@ -24,13 +24,14 @@
 - **Importación Masiva de Equipos (M-22):** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, normalización heurística de encabezados (`normalizeHeaderKey`), análisis reactivo en tiempo real (`analyzeImportBatch`) con detección de colisiones de slots físicos y desbordes de altura, políticas de duplicados (omitir/renombrar/sobrescribir), auto-creación de gabinetes y rollback atómico completo mediante Undo/Redo (`store.undo()`).
 - **Sistema Avanzado de Skins Visuales en Topología (M-28):** Módulo modular `TopologySkins.js` con 3 modos visuales (Nodos circulares con radio 22, Tarjetas de 150×50 y Hardware Skins fotorrealistas de 140×50 con orejas metálicas de montaje en rack, bisel metálico, carátula vectorial y LED de estado). 18 presets offline enlazados a `EMBEDDED_SVG_CACHE` y soporte de carga de imágenes en base64 DataURL vía `FileReader` con previsualización en `#modal-device`. Hit-testing geométrico adaptativo unificado (`isPointInNode`) y persistencia del estilo visual en los 5 slots de memoria (M-40).
 - **Optimización de deepClone y Limitación de Historial (M-03):** Función `fastClone` en `js/utils.js` 4x más rápida que JSON, pipeline multi-tier en `deepClone`, límite acotado de 15 niveles de historial (`store.maxHistory`), snapshots livianos con ahorro de RAM de hasta el 80% al omitir slots de topología, deduplicación reactiva consecutiva O(1) con `_mutatedSinceLastSnapshot` y auditoría de memoria con `store.estimateHistoryMemory()`.
-- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **335 pruebas automáticas en 21 grupos (100% éxito, 0 fallas)** en perfecta paridad 1:1.
+- **Plantillas Demo Profesionales y Modal de Selección:** Dos plantillas arquitectónicas completas integradas: 1) Centro de Datos Empresarial (ANSI/TIA-942) con 3 salas, 4 racks 42U densos, SAN y SOC; 2) Campus Universitario UTN con red jerárquica de 3 capas, 10 edificios/salas, 13 gabinetes estructurados, 24 VLANs y esquema 10.0.0.0/8. Selector interactivo modal `#modal-demo-selection` con tarjetas dark mode y respaldo previo.
+- **Testing Automatizado:** Suite de integridad `tests/integrity_check.cjs` y runner web interactivo `tests/index.html` con **360 pruebas automáticas en 22 grupos (100% éxito, 0 fallas)** en paridad total.
 
 ## Current Issues & Technical Debt
 - **Cableado frontal vs trasero:** Actualmente las conexiones no diferencian si un puerto está en la cara frontal o trasera de un equipo dual/profundo (`M-33`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 8 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (34 completadas de 42 totales, 81.0% global, **¡Fase 0, Fase 1 y Fase 4 al 100%, Fase 5 al 75%!**):
+Total de 7 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) (35 completadas de 42 totales, 83.3% global, **¡Fase 0, Fase 1, Fase 4 y Fase 5 al 100%!**):
 
 ### Fase 2 — Core de Datos y Puertos
 - Separación de cableado frontal vs. trasero (`M-33`).
@@ -38,9 +39,6 @@ Total de 8 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.g
 
 ### Fase 3 — Ergonomía y Layout
 - Diseño adaptativo y responsive para modo Desktop / Laptops (`M-25A`).
-
-### Fase 5 — Rendimiento y Calidad
-- Redibujado selectivo renderAll (`M-04`).
 
 ### Fase 6 — Experiencia Premium
 - Modo móvil y tablet — *Standby / Baja prioridad* (`M-25B`).
@@ -63,3 +61,6 @@ Total de 8 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.g
 - **Oct 2026 (Sprint 8):** Conmutación de 5 estados de topología (M-40) y optimización híbrida de la barra superior (~495px) con anclaje inteligente y aislamiento de Undo/Redo. 233 pruebas al 100%.
 - **Oct 2026 (Sprint 9):** Implementación de Tema Sepia y Selector Visible en Cabecera (M-18), paleta cálida completa, icono SVG café, soporte en Canvas 2D y exportaciones. Corrección de iconografía técnica según DESIGN.md (icono SVG monocromático icon-eye). Suite ampliada a 254 pruebas en 17 grupos al 100%.
 - **Oct 2026 (Sprint 10):** Implementación completa de M-41: Botón Swap `#btn-cable-swap` (Origen ⇄ Destino) en modal y tabla, selector de canaleta Superior (Techo) e Inferior (Piso) en conexiones y trazado físico en `rack.js`. 265 pruebas en 18 grupos al 100%. 31 mejoras completadas (73.8%).
+- **Oct 2026 (Sprint 12):** Implementación completa de M-04: Redibujado selectivo y despacho optimizado (`renderSingleRack` atómico, coalescencia rAF 60 FPS, estado sucio y monitor `RenderPerformance`). 355 pruebas en 22 grupos al 100%. **¡Fase 5 completada al 100%!** 35 mejoras completadas (83.3%).
+- **Oct 2026 (Sprint 13):** Plantilla Demo adicional Campus Universitario UTN con red jerárquica de 3 capas (10 edificios, 13 racks, 24 VLANs y direccionamiento 10.0.0.0/8), modal `#modal-demo-selection`, corrección de runner visual en protocolo `file:///` desacoplando `fetch()` con fallback autónomo, y corrección de arrastre en topología (`rx`/`ry` vs `r`). 360 pruebas en 22 grupos al 100%.
+

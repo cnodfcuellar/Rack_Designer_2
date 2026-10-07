@@ -156,72 +156,280 @@ function initChangePinModal() {
 
 // ===== FIN AUTENTICACIÓN =====
 
-function renderAll(event = {}) {
-  const source = event.source || event.path || '';
+// ===== M-04: SISTEMA DE REDIBUJADO SELECTIVO Y MONITOR DE RENDIMIENTO =====
+window.RenderPerformance = {
+  totalRenders: 0,
+  selectiveRenders: 0,
+  fullRenders: 0,
+  skippedRenders: 0,
+  lastRenderDurationMs: 0,
+  activeView: 'physical',
+  reset() {
+    this.totalRenders = 0;
+    this.selectiveRenders = 0;
+    this.fullRenders = 0;
+    this.skippedRenders = 0;
+    this.lastRenderDurationMs = 0;
+  }
+};
+
+window._renderState = {
+  dirtyPhysical: false,
+  dirtyTopology: false,
+  dirtyBottom: false,
+  dirtyOutliner: false
+};
+
+let _rafRenderId = null;
+let _queuedRenderEvents = [];
+
+function flushRenderQueue() {
+  if (_rafRenderId) {
+    if (typeof cancelAnimationFrame === 'function') {
+      cancelAnimationFrame(_rafRenderId);
+    }
+    _rafRenderId = null;
+  }
+  if (_queuedRenderEvents.length > 0) {
+    const events = [..._queuedRenderEvents];
+    _queuedRenderEvents = [];
+    _executeRenderAll(events);
+  }
+}
+
+function _executeRenderAll(events) {
+  const activeView = (typeof window !== 'undefined' && window.currentView) ? window.currentView : currentView;
+  const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
   
-  if (!source || ['loadData', 'undo', 'redo'].includes(source)) {
+  const isFullRedraw = !events.length || events.some(e => {
+    const s = e.source || e.path || '';
+    return !s || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(s);
+  });
+
+  window.RenderPerformance.totalRenders++;
+  window.RenderPerformance.activeView = activeView;
+
+  if (isFullRedraw) {
+    window.RenderPerformance.fullRenders++;
     renderRoomTabs();
     renderRackSelector();
     renderStats();
     if (typeof renderOutliner === 'function') renderOutliner();
     renderCatalog();
     renderPhysical();
+    window._renderState.dirtyPhysical = false;
     renderBottomPanel();
+    window._renderState.dirtyBottom = false;
     updateZoomLabel();
-    if (currentView === 'topology') {
+    if (activeView === 'topology') {
       if (typeof loadTopoState === 'function') loadTopoState();
       if (typeof initTopoPositions === 'function') initTopoPositions(true);
       if (typeof drawTopo === 'function') drawTopo();
     }
     if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    
+    const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
     return;
   }
 
-  if (source.includes('Room') || source === 'room-rename' || source === 'changeRoom') {
-    renderRoomTabs();
-    renderRackSelector();
-    renderStats();
-    renderPhysical();
-    if (currentView === 'topology') {
-      initTopoPositions();
+  window.RenderPerformance.selectiveRenders++;
+
+  const affectedRackIds = new Set();
+  const affectedDeviceIds = new Set();
+  let hasRoomChange = false;
+  let hasRackStructureChange = false;
+  let hasDeviceChange = false;
+  let hasConnChange = false;
+  let hasZoomChange = false;
+  let hasCatalogChange = false;
+  let hasTopoSlotChange = false;
+
+  for (const e of events) {
+    const s = e.source || e.path || '';
+    if (s.includes('Room') || s === 'room-rename' || s === 'changeRoom') hasRoomChange = true;
+    if (s.includes('Rack')) {
+      if ((s === 'updateRack' || s === 'moveDevice' || s === 'addDeviceToRack' || s === 'deleteDevice') && e.rackId) {
+        affectedRackIds.add(e.rackId);
+      } else {
+        hasRackStructureChange = true;
+      }
     }
-  }
-  
-  if (source.includes('Rack')) {
-    renderRackSelector();
-    renderStats();
-    if (typeof renderOutliner === 'function') renderOutliner();
-    renderPhysical();
-  }
-  
-  if (source.includes('Device') || source === 'addFloorDevice' || source === 'moveDevice' || source === 'deleteDevice' || source === 'updateDevice' || source === 'addDeviceToRack') {
-    renderStats();
-    if (typeof renderOutliner === 'function') renderOutliner();
-    
-    renderPhysical();
-    renderBottomPanel();
-  }
-  
-  if (source.includes('Connection')) {
-    renderStats();
-    if (typeof renderOutliner === 'function') renderOutliner();
-    
-    renderBottomPanel();
+    if (s.includes('Device') || ['addFloorDevice', 'moveDevice', 'deleteDevice', 'updateDevice', 'addDeviceToRack'].includes(s)) {
+      hasDeviceChange = true;
+      if (e.rackId) affectedRackIds.add(e.rackId);
+      if (e.oldRackId) affectedRackIds.add(e.oldRackId);
+      if (e.deviceId) affectedDeviceIds.add(e.deviceId);
+      if (e.device && e.device.rackId) affectedRackIds.add(e.device.rackId);
+    }
+    if (s.includes('Connection') || ['addConnection', 'updateConnection', 'deleteConnection', 'swapConnectionDirection', 'toggleConnectionOrientation'].includes(s)) {
+      hasConnChange = true;
+    }
+    if (s.includes('Zoom') || s.includes('Pan')) hasZoomChange = true;
+    if (s.includes('Catalog') || s === 'addCustomCatalogItem' || s === 'deleteCustomCatalogItem') hasCatalogChange = true;
+    if (s.includes('TopologySlot') || ['saveTopologySlot', 'loadTopologySlot', 'clearTopologySlot', 'renameTopologySlot'].includes(s)) hasTopoSlotChange = true;
   }
 
-  if (source.includes('Zoom') || source.includes('Pan')) {
+  // 1. Zoom / Pan
+  if (hasZoomChange) {
     updateZoomLabel();
   }
 
-  if (source.includes('Catalog')) {
+  // 2. Salas
+  if (hasRoomChange) {
+    renderRoomTabs();
+    renderRackSelector();
+    renderStats();
+    if (activeView === 'physical') {
+      renderPhysical();
+      window._renderState.dirtyPhysical = false;
+    } else {
+      window._renderState.dirtyPhysical = true;
+      if (typeof initTopoPositions === 'function') initTopoPositions();
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    if (typeof renderOutliner === 'function') renderOutliner();
+    renderBottomPanel();
+    const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+    return;
+  }
+
+  // 3. Catálogo
+  if (hasCatalogChange) {
     renderCatalog();
   }
 
-  if (source.includes('TopologySlot') || source === 'saveTopologySlot' || source === 'loadTopologySlot' || source === 'clearTopologySlot' || source === 'renameTopologySlot') {
+  // 4. Slots de Topología
+  if (hasTopoSlotChange) {
     if (typeof renderTopologySlots === 'function') renderTopologySlots();
-    if (currentView === 'topology' && typeof drawTopo === 'function') drawTopo();
+    if (activeView === 'topology' && typeof drawTopo === 'function') drawTopo();
+  }
+
+  // 5. Estadísticas
+  if (hasDeviceChange || hasRackStructureChange || hasConnChange) {
+    renderStats();
+  }
+
+  // 6. Racks (Estructura global: añadir o borrar rack)
+  if (hasRackStructureChange) {
+    renderRackSelector();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    if (activeView === 'physical') {
+      renderPhysical();
+      window._renderState.dirtyPhysical = false;
+    } else {
+      window._renderState.dirtyPhysical = true;
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    renderBottomPanel();
+    const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+    return;
+  }
+
+  // 7. Dispositivos y Racks individuales
+  if (hasDeviceChange || affectedRackIds.size > 0) {
+    // Vista Física
+    if (activeView === 'physical') {
+      let allUpdated = affectedRackIds.size > 0;
+      if (allUpdated && typeof window.renderSingleRack === 'function') {
+        for (const rid of affectedRackIds) {
+          const ok = window.renderSingleRack(rid);
+          if (!ok) { allUpdated = false; break; }
+        }
+      } else {
+        allUpdated = false;
+      }
+
+      if (!allUpdated) {
+        renderPhysical();
+      }
+      window._renderState.dirtyPhysical = false;
+    } else {
+      window._renderState.dirtyPhysical = true;
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+
+    // Outliner
+    const outlinerSection = document.getElementById('outliner-section');
+    const isOutlinerOpen = !outlinerSection || !outlinerSection.classList.contains('collapsed');
+    if (isOutlinerOpen && typeof renderOutliner === 'function') {
+      renderOutliner();
+    } else {
+      window._renderState.dirtyOutliner = true;
+    }
+
+    // Inspector selectivo: si la entidad seleccionada fue afectada, refrescarla
+    if (window.appState && window.appState.selectedId && typeof window.renderInspector === 'function') {
+      if (affectedDeviceIds.has(window.appState.selectedId) || affectedRackIds.has(window.appState.selectedId)) {
+        window.renderInspector(window.appState.selectedType, window.appState.selectedId);
+      }
+    }
+
+    // Panel Inferior (Tablas)
+    const bottomEl = document.getElementById('bottom');
+    const isBottomVisible = bottomEl && bottomEl.offsetHeight > 45;
+    if (isBottomVisible) {
+      renderBottomPanel();
+      window._renderState.dirtyBottom = false;
+    } else {
+      window._renderState.dirtyBottom = true;
+    }
+  }
+
+  // 8. Conexiones
+  if (hasConnChange) {
+    if (activeView === 'physical') {
+      if (typeof drawPhysicalCables === 'function') {
+        requestAnimationFrame(() => setTimeout(drawPhysicalCables, 20));
+      }
+    } else if (activeView === 'topology') {
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    
+    const bottomEl = document.getElementById('bottom');
+    const isBottomVisible = bottomEl && bottomEl.offsetHeight > 45;
+    if (isBottomVisible) {
+      renderBottomPanel();
+      window._renderState.dirtyBottom = false;
+    } else {
+      window._renderState.dirtyBottom = true;
+    }
+  }
+
+  const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+}
+
+function renderAll(event = {}) {
+  const source = event.source || event.path || '';
+  
+  // En eventos síncronos forzados o en entornos sin requestAnimationFrame
+  const isSync = event.immediate || !source || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(source) || typeof requestAnimationFrame !== 'function';
+
+  if (isSync) {
+    if (_queuedRenderEvents.length > 0) {
+      _queuedRenderEvents.push(event);
+      flushRenderQueue();
+    } else {
+      _executeRenderAll([event]);
+    }
+    return;
+  }
+
+  // Agrupamiento (Coalescing) a 60 FPS con requestAnimationFrame
+  _queuedRenderEvents.push(event);
+  if (!_rafRenderId) {
+    _rafRenderId = requestAnimationFrame(() => {
+      _rafRenderId = null;
+      flushRenderQueue();
+    });
   }
 }
+renderAll.flush = flushRenderQueue;
+renderAll.stats = window.RenderPerformance;
+window.renderAll = renderAll;
 
 // Bind to store mutations
 store.on('change', (e) => {
@@ -788,6 +996,10 @@ function initGlobalEvents() {
         if (topoSlotsGroup) topoSlotsGroup.classList.add('force-hide');
         if (btnCables) btnCables.classList.remove('force-hide');
         stopTopo();
+        if (window._renderState && window._renderState.dirtyPhysical) {
+          renderPhysical();
+          window._renderState.dirtyPhysical = false;
+        }
       } else {
         phys.classList.add('hidden');
         topo.style.display = 'block';
@@ -799,6 +1011,10 @@ function initGlobalEvents() {
         if (btnCables) btnCables.classList.add('force-hide');
         if (typeof renderTopologySlots === 'function') renderTopologySlots();
         startTopo();
+        if (window._renderState && window._renderState.dirtyTopology) {
+          if (typeof drawTopo === 'function') drawTopo();
+          window._renderState.dirtyTopology = false;
+        }
       }
     });
   });
@@ -981,13 +1197,26 @@ function initGlobalEvents() {
         notify('Proyecto limpiado. Nueva sala A1 creada.', 'success');
       }
     });
-    document.getElementById('menu-demo')?.addEventListener('click', async () => {
-      dropdown.classList.add('hidden');
+    function openDemoSelectionModal() {
       if (!RackAuth.can('editDevices')) {
         notify('Espectadores no pueden cargar demostraciones.', 'error', 3000);
         return;
       }
-      const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
+      const modal = document.getElementById('modal-demo-selection');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        executeLoadDemo('tia942');
+      }
+    }
+    window.openDemoSelectionModal = openDemoSelectionModal;
+
+    async function executeLoadDemo(demoType) {
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden cargar demostraciones.', 'error', 3000);
+        return;
+      }
+      const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar la demostración?\n\n(Recomendado para no perder tu progreso)');
       if (!wantSave) {
         const proceed = await customConfirm('Advertencia', 'ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
         if (!proceed) return;
@@ -1003,16 +1232,21 @@ function initGlobalEvents() {
       }
 
       function runDemo() {
-        if (typeof window.loadDemoData === 'function') {
-          window.loadDemoData();
-          if (typeof fileManager !== 'undefined') {
-            fileManager.fileHandle = null;
-            fileManager.fileName = 'Proyecto Demo';
-            fileManager.updateUI();
-          }
+        if (demoType === 'university' && typeof window.loadUniversityDemoData === 'function') {
+          window.loadUniversityDemoData();
+        } else if (typeof window.loadDemoData === 'function') {
+          window.loadDemoData(demoType);
         } else {
           notify('Error: no se pudo cargar el módulo de demos', 'error');
+          return;
         }
+
+        if (typeof fileManager !== 'undefined') {
+          fileManager.fileHandle = null;
+          fileManager.fileName = demoType === 'university' ? 'Campus UTN' : 'Proyecto Demo';
+          fileManager.updateUI();
+        }
+        document.getElementById('modal-demo-selection')?.classList.add('hidden');
       }
 
       if (typeof window.loadDemoData === 'function') {
@@ -1023,6 +1257,39 @@ function initGlobalEvents() {
         script.onload = runDemo;
         script.onerror = () => notify('Error: no se encontró js/demoData.js', 'error');
         document.head.appendChild(script);
+      }
+    }
+
+    document.getElementById('menu-demo')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      openDemoSelectionModal();
+    });
+
+    document.getElementById('btn-load-demo-tia942')?.addEventListener('click', () => {
+      executeLoadDemo('tia942');
+    });
+
+    document.getElementById('btn-load-demo-utn')?.addEventListener('click', () => {
+      executeLoadDemo('university');
+    });
+
+    document.getElementById('card-demo-tia942')?.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-load-demo-tia942')) return;
+      executeLoadDemo('tia942');
+    });
+
+    document.getElementById('card-demo-utn')?.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-load-demo-utn')) return;
+      executeLoadDemo('university');
+    });
+
+    document.getElementById('btn-close-demo-modal')?.addEventListener('click', () => {
+      document.getElementById('modal-demo-selection')?.classList.add('hidden');
+    });
+
+    document.getElementById('modal-demo-selection')?.addEventListener('click', (e) => {
+      if (e.target.id === 'modal-demo-selection') {
+        e.target.classList.add('hidden');
       }
     });
     document.getElementById('menu-export-cat')?.addEventListener('click', () => {
@@ -1122,6 +1389,10 @@ function initGlobalEvents() {
     } else {
       bot.style.height = 'var(--bottom-h)';
       document.getElementById('btn-collapse-bottom').textContent = '▼';
+      if (window._renderState && window._renderState.dirtyBottom) {
+        renderBottomPanel();
+        window._renderState.dirtyBottom = false;
+      }
     }
   });
 

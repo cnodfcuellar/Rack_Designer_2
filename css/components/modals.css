@@ -75,4 +75,22 @@
   background: rgba(16, 185, 129, 0.08) !important;
 }
 
+/* Tarjetas de Selección de Demos */
+.demo-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.demo-card:hover {
+  border-color: var(--accent) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+@media (max-width: 640px) {
+  #modal-demo-selection .modal {
+    max-width: 95% !important;
+  }
+  #modal-demo-selection .demo-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 

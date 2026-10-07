@@ -5,7 +5,7 @@
 > **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
 > **Fecha de creación:** 2026-07-27
 > **Última actualización:** 2026-10-05
-> **Estado del sistema:** En producción (34 de 42 mejoras completadas, 81.0% del roadmap global)
+> **Estado del sistema:** En producción (35 de 42 mejoras completadas, 83.3% del roadmap global)
 
 ---
 
@@ -31,7 +31,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-01 | ~~Cifrado de credenciales e IPs en localStorage~~ | ✅ COMPLETADO |
 | M-02 | ~~Manejo de QuotaExceededError en `_save()`~~ | ✅ COMPLETADO |
 | M-03 | ~~Optimización de `deepClone` / limitación de historial~~ | ✅ COMPLETADO |
-| M-04 | Redibujado selectivo (renderAll optimizado) | 🔄 Rendimiento |
+| M-04 | ~~Redibujado selectivo (renderAll optimizado)~~ | ✅ COMPLETADO |
 | M-05 | ~~Protección contra corrupción de JSON en `_load()`~~ | ✅ COMPLETADO |
 | M-06 | ~~Estrategia de actualización del Service Worker~~ | ✅ COMPLETADO |
 | M-07 | Resolución de conflictos de importación multiusuario | ⛔ Colaboración |
@@ -72,7 +72,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **33 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **9** (total general: 42 mejoras, 78.6% del roadmap global). ¡Fase 0, Fase 1 y Fase 4 completadas al 100%! Fase 2 avanzada (7 de 8 completadas, 87.5%). Fase 3 avanzada (6 de 8 completadas). Fase 6 en marcha.
+> **35 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **7** (total general: 42 mejoras, 83.3% del roadmap global). ¡Fase 0, Fase 1, Fase 4 y Fase 5 completadas al 100%! Fase 2 avanzada (7 de 8 completadas, 87.5%). Fase 3 avanzada (6 de 8 completadas). Fase 6 en marcha.
 
 ---
 
@@ -92,8 +92,8 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 |---|---|---|---|
 | M-01 | Cifrado de credenciales | 🔴 4 | Requiere implementar AES-GCM via Web Crypto API, migrar datos existentes, y gestionar claves de cifrado sin backend. |
 | M-02 | QuotaExceededError | 🟡 2 | Agregar `try/catch` en `_save()` de `store.js` y mostrar alerta visual. Cambio localizado. |
-| M-03 | Optimización deepClone | 🟠 3 | Limitar el array `_history`, implementar diffs incrementales o usar `structuredClone`. Riesgo en undo/redo. |
-| M-04 | Redibujado selectivo | 🔴 4 | Reescribir la lógica de `renderAll()` en `main.js` para actualizar solo nodos DOM afectados. Alto riesgo de regresión. |
+| M-03 | ~~Optimización deepClone~~ | ✅ COMPLETADO | Motor de clonado rápido multi-tier `fastClone` 4x más veloz, snapshots livianos sin `topologySlots`, historial acotado a 15 niveles y 19 pruebas. |
+| M-04 | ~~Redibujado selectivo~~ | ✅ COMPLETADO | Redibujado atómico de gabinetes (`renderSingleRack`), metadatos enriquecidos en `store`, coalescencia rAF 60 FPS, estado sucio (`_renderState`) y telemetría `RenderPerformance`. |
 | M-05 | Anti-corrupción JSON | 🟠 3 | Implementar doble escritura (backup slot) y validación de integridad en `_load()`. |
 | M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Implementado `reg.update()` automático periódico e interceptación PWA offline en `service-worker.js` y `main.js`. |
 | M-07 | Conflictos multiusuario | ⚫ 5 | Requiere algoritmo de merge de objetos JSON profundos, UI de resolución de conflictos, y cambios extensos en `fileManager.js`. |
@@ -345,9 +345,12 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
 | 5.1 | M-03 | ~~Optimización deepClone / historial~~ | `js/utils.js`, `js/store.js` | ✅ COMPLETADO (Algoritmo fastClone 4x más veloz, N=15 niveles acotados, snapshots livianos y 19 tests) |
-| 5.2 | M-04 | Redibujado selectivo | `main.js`, todos los archivos `ui/` | Pendiente |
-| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (335 pruebas en 21 grupos, CLI y Web) |
+| 5.2 | M-04 | ~~Redibujado selectivo~~ | `js/ui/rack.js`, `js/store.js`, `js/main.js` | ✅ COMPLETADO (renderSingleRack atómico, coalescencia rAF 60 FPS, estado sucio y 20 tests) |
+| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (355 pruebas en 22 grupos, CLI y Web) |
 | 5.4 | M-06 | ~~Actualización Service Worker~~ | `service-worker.js`, `main.js` | ✅ COMPLETADO (PWA Offline) |
+
+> [!TIP]
+> 🎉 **¡Fase 5 completada al 100%!** Todas las 4 tareas de Rendimiento y Calidad (`M-03`, `M-04`, `M-06`, `M-08`) han sido completadas con 355 pruebas pasando al 100% en CLI y 350 en Web.
 
 ---
 

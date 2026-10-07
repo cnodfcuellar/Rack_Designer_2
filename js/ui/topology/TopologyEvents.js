@@ -182,10 +182,10 @@ function initTopology() {
       const roomPos = roomPositions[roomId];
       const roomSize = roomSizes[roomId];
       if (roomPos && roomSize) {
-        if (nx - r < roomPos.x + 10) nx = roomPos.x + 10 + r;
-        if (nx + r > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - 10 - r;
-        if (ny - r < roomPos.y + 50) ny = roomPos.y + 50 + r;
-        if (ny + r > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - 10 - r;
+        if (nx - rx < roomPos.x + 10) nx = roomPos.x + 10 + rx;
+        if (nx + rx > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - 10 - rx;
+        if (ny - ry < roomPos.y + 50) ny = roomPos.y + 50 + ry;
+        if (ny + ry > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - 10 - ry;
       }
 
       nodePositions[draggingNode] = { x: nx, y: ny };

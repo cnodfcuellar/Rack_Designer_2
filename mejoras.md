@@ -33,8 +33,15 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     4. **Deduplicación Reactiva:** Se incorporó la bandera `_mutatedSinceLastSnapshot` para evitar acumular estados redundantes consecutivos si no ocurrieron mutaciones reales en el store.
     5. **Herramientas de Diagnóstico:** Método `store.estimateHistoryMemory()` para auditoría de bytes/KB en tiempo real y método `store.clearHistory()`. Validado al 100% con 19 pruebas de integración en el Grupo 21.
 
-### 🔄 Redibujado Completo Redundante (`renderAll`)
-*   **Problema:** El flujo reactivo actual en `main.js` tiende a disparar redibujados completos ante mutaciones menores. Por ejemplo, cambiar propiedades simples en el inspector o mover elementos del catálogo fuerza el redibujado de múltiples capas DOM y tablas, en lugar de realizar actualizaciones atómicas solo en los elementos del DOM alterados.
+### 🔄 [COMPLETADO] Redibujado Selectivo y Despacho Optimizado (M-04)
+*   **Problema original:** El flujo reactivo en `main.js` tendía a disparar redibujados completos ante cualquier mutación menor. Cambiar propiedades de un equipo forzaba la reconstrucción completa de todos los racks de la sala, paneles laterales y tablas de datos.
+*   **Solución implementada:**
+    1. **Redibujado Atómico de Gabinetes (`renderSingleRack`):** Se modularizó `buildRackFace` y se implementó `renderSingleRack(rackId)` en [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js), reemplazando granularmente el `.rack-wrapper` afectado en el DOM, preservando el estado de giro de cara (`flipped`) y re-enlazando eventos sin afectar al resto de la vista.
+    2. **Metadatos Enriquecidos en el Almacén:** Eventos emitidos en [js/store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js) ahora incluyen entidades afectadas explícitas (`rackId`, `deviceId`, `oldRackId`, `device`, `props`).
+    3. **Coalescencia a 60 FPS con `requestAnimationFrame`:** `renderAll()` en [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) agrupa ráfagas de mutaciones en `_queuedRenderEvents` para despacharlas en el siguiente frame, manteniendo compatibilidad síncrona inmediata para operaciones de datos (`loadData`, `undo`, `redo`, `importJSON` o `immediate: true`), con soporte para vaciado forzado síncrono mediante `renderAll.flush()`.
+    4. **Consciencia de Vistas Inactivas y Paneles Colapsados (`_renderState`):** Banderas `dirtyPhysical`, `dirtyTopology`, `dirtyBottom` y `dirtyOutliner` evitan regenerar el DOM de pestañas inactivas o paneles contraídos, procesando el dibujo pendiente únicamente al momento de expandir o conmutar de vista.
+    5. **Monitor de Rendimiento (`window.RenderPerformance`):** Objeto de diagnóstico y telemetría vinculado a `renderAll.stats` (`totalRenders`, `selectiveRenders`, `fullRenders`, `lastRenderDurationMs`, `reset()`).
+    6. **Validación Exhaustiva:** Certificado con 20 pruebas de integración automatizadas en el Grupo 22 de [tests/integrity_check.cjs](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs) y [tests/index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/index.html).
 
 ---
 

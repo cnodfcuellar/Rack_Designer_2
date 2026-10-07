@@ -13,6 +13,7 @@
 
 ## Technical Constraints
 1. **Script Load Order:** Extremely critical. `crypto.js` and `roles.js` must load before `store.js`. `store.js` must load before UI components. `main.js` must load last.
-2. **Storage Quotas:** Heavy use of `JSON.stringify` on large datacenter objects can rapidly exhaust `localStorage`.
-3. **Memory Limits:** The `deepClone` implementation for Undo/Redo is memory-intensive for large topologies.
-4. **CSS Cascading:** CSS import chain must strictly adhere to the defined hierarchy in `style.css`.
+2. **Storage Quotas:** Heavy use of `JSON.stringify` on large datacenter objects can rapidly exhaust `localStorage` (~5MB limit).
+3. **Memory Limits & Historial (Resuelto con M-03):** Mitigado mediante `fastClone(obj)` en `utils.js`, snapshots livianos sin `topologySlots` y límite de 15 instantáneas (`store.maxHistory = 15`).
+4. **Protocolo Local `file:///`:** Todo el código del cliente y runners de prueba (`tests/index.html`) debe operar 100% offline sin depender de llamadas `fetch()` que serían bloqueadas por directivas de seguridad CORS en esquemas locales.
+5. **CSS Cascading:** CSS import chain must strictly adhere to the defined hierarchy in `style.css`.

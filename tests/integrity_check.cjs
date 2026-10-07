@@ -43,17 +43,36 @@ global.document = {
   addEventListener: () => {},
   removeEventListener: () => {},
   body: { appendChild: () => {}, removeChild: () => {} },
-  getElementById: (id) => {
-    if (id === 'theme-toggle-icon' || id === 'theme-toggle-label' || id === 'btn-theme-toggle' || id === 'menu-theme') {
-      return { className: '', textContent: '', innerHTML: '', setAttribute: () => {}, getAttribute: () => null, addEventListener: () => {} };
-    }
-    if (id === 'bottom-table-wrap' || id === 'toast-container' || id === 'outliner-tree' || id === 'inspector-content' || id === 'outliner-sort-select' || id === 'btn-outliner-add-room' || id === 'btn-outliner-add-rack' || id === 'btn-outliner-add-dev') {
-      return { innerHTML: '', value: '', appendChild: () => {}, removeChild: () => {}, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} };
-    }
-    return null;
-  },
-  createElement: () => ({ innerHTML: '', style: {}, classList: { add: () => {}, remove: () => {} }, appendChild: () => {}, remove: () => {} })
+  getElementById: (id) => createMockEl(id),
+  querySelector: () => createMockEl(),
+  querySelectorAll: () => [],
+  createElement: (tag) => createMockEl(tag)
 };
+
+function createMockEl(idOrTag = 'div') {
+  return {
+    id: idOrTag,
+    className: '',
+    textContent: '',
+    innerHTML: '',
+    value: '',
+    style: {},
+    dataset: {},
+    classList: {
+      add: () => {},
+      remove: () => {},
+      contains: () => false,
+      toggle: () => false
+    },
+    setAttribute: () => {},
+    getAttribute: () => null,
+    appendChild: () => {},
+    removeChild: () => {},
+    addEventListener: () => {},
+    querySelector: () => createMockEl(),
+    querySelectorAll: () => []
+  };
+}
 global.CustomEvent = class CustomEvent {
   constructor(type, params) {
     this.type = type;
@@ -62,6 +81,24 @@ global.CustomEvent = class CustomEvent {
 };
 global.window = global;
 global.window.dispatchEvent = () => true;
+global.window.addEventListener = () => {};
+global.window.removeEventListener = () => {};
+global.document.addEventListener = () => {};
+global.document.removeEventListener = () => {};
+global.initTopology = () => {};
+global.stopTopo = () => {};
+global.startTopo = () => {};
+global.drawTopo = () => {};
+global.resizeCanvas = () => {};
+global.applyRoleUI = () => {};
+global.initAuthModal = () => {};
+global.initModals = () => {};
+global.initQuickPlacementModal = () => {};
+global.fileManager = { autoSave: () => {} };
+global.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} };
+global.requestAnimationFrame = (fn) => setTimeout(fn, 0);
+global.cancelAnimationFrame = (id) => clearTimeout(id);
+global.updateZoomLabel = () => {};
 
 // Cargar scripts principales en el contexto global usando vm
 function loadScript(relPath) {
@@ -87,6 +124,8 @@ loadScript('../js/auth/roles.js');
 loadScript('../js/store.js');
 loadScript('../js/ui/tables.js');
 loadScript('../js/ui/modals/Globals.js');
+loadScript('../js/ui/modals/RackModal.js');
+loadScript('../js/ui/modals/DeviceModal.js');
 loadScript('../js/ui/modals/RoomModal.js');
 loadScript('../js/ui/modals/CableModal.js');
 loadScript('../js/ui/catalog.js');
@@ -95,11 +134,14 @@ loadScript('../js/ui/outliner.js');
 loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
 loadScript('../js/ui/modals/ImportModal.js');
+loadScript('../js/ui/modals.js');
 loadScript('../js/ui/faceplates.js');
+loadScript('../js/ui/rack.js');
 loadScript('../js/ui/topology/TopologySkins.js');
 loadScript('../js/ui/topology/TopologyState.js');
 loadScript('../js/ui/topology/TopologyLayout.js');
 loadScript('../js/demoData.js');
+loadScript('../js/main.js');
 
 // --- 2. Framework Minimalista de Aserciones ---
 let passed = 0;
@@ -632,6 +674,24 @@ async function runTests() {
   // 11.7 Verificación de Conexiones Troncales Backbone
   const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
   assert(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+  // 11.6 Verificación de Plantilla Demo Adicional: Campus Universitario UTN (Red Jerárquica 3 Capas)
+  assert(typeof loadUniversityDemoData === 'function', 'Demo UTN: loadUniversityDemoData() está definida globalmente');
+  loadUniversityDemoData();
+  assert(store._raw.rooms.length === 10, `Demo UTN: Define fielmente los 10 edificios/salas del campus (encontradas: ${store._raw.rooms.length})`);
+  assert(store._raw.racks.length === 13, `Demo UTN: Define los 13 gabinetes estructurados por edificio (encontrados: ${store._raw.racks.length})`);
+  assert(store._raw.devices.length >= 100, `Demo UTN: Despliega inventario completo de equipos (encontrados: ${store._raw.devices.length})`);
+  
+  const utnAd01 = store._raw.devices.find(d => d.ip === '10.90.20.11');
+  const utnErp01 = store._raw.devices.find(d => d.ip === '10.90.150.11');
+  const utnAcad01 = store._raw.devices.find(d => d.ip === '10.90.160.11');
+  const utnCore01 = store._raw.devices.find(d => d.ip === '10.120.10.1');
+  const utnPbx01 = store._raw.devices.find(d => d.ip === '10.130.70.10');
+  const utnNvr01 = store._raw.devices.find(d => d.ip === '10.100.80.10');
+  assert(utnAd01 && utnErp01 && utnAcad01 && utnCore01 && utnPbx01 && utnNvr01, 'Demo UTN: Servidores clave (AD01, ERP01, Académico, Core Nexus, PBX, NVR) cuentan con IPs asignadas en 10.0.0.0/8');
+  
+  // Restaurar plantilla estándar TIA-942 para los tests posteriores
+  loadDemoData();
 
   // ----------------------------------------------------
   // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
@@ -1608,6 +1668,102 @@ async function runTests() {
   const memEst = store.estimateHistoryMemory();
   assert(typeof memEst === 'object' && typeof memEst.bytes === 'number' && typeof memEst.kb === 'number' && memEst.bytes >= 0,
     'M-03: store.estimateHistoryMemory() calcula la memoria consumida por el historial en bytes y KB');
+
+  // ----------------------------------------------------
+  // GRUPO 22: REDIBUJADO SELECTIVO Y MONITOR DE RENDIMIENTO (M-04)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 22: Redibujado Selectivo y Despacho Optimizado (M-04)');
+
+  // 22.1 Exposición de funciones de redibujado de racks
+  assert(typeof buildRackFace === 'function',
+    'M-04: buildRackFace está expuesta a nivel de módulo en rack.js');
+  assert(typeof renderSingleRack === 'function',
+    'M-04: renderSingleRack está expuesta para redibujado atómico de gabinetes');
+  assert(renderSingleRack('rack-no-existe-123') === false,
+    'M-04: renderSingleRack con ID inexistente retorna false de forma segura');
+
+  // 22.2 Monitor de Rendimiento y Estado Sucio
+  assert(typeof window.RenderPerformance === 'object' && window.RenderPerformance !== null,
+    'M-04: RenderPerformance está expuesto como objeto de métricas');
+  assert(typeof window.RenderPerformance.totalRenders === 'number' && typeof window.RenderPerformance.selectiveRenders === 'number',
+    'M-04: RenderPerformance rastrea totalRenders, selectiveRenders y fullRenders');
+  assert(typeof window.RenderPerformance.reset === 'function',
+    'M-04: RenderPerformance.reset() permite reiniciar contadores de diagnóstico');
+  assert(typeof window._renderState === 'object' && 'dirtyPhysical' in window._renderState,
+    'M-04: _renderState rastrea banderas dirtyPhysical, dirtyTopology y dirtyBottom');
+
+  // 22.3 Despachador renderAll, flush y stats
+  assert(typeof renderAll === 'function',
+    'M-04: renderAll está expuesto como despachador de renderizado');
+  assert(typeof renderAll.flush === 'function',
+    'M-04: renderAll.flush está disponible para vaciado forzado síncrono');
+  assert(renderAll.stats === window.RenderPerformance,
+    'M-04: renderAll.stats enlaza directamente al monitor RenderPerformance');
+
+  // 22.4 Metadatos enriquecidos en eventos de mutación de store
+  let lastCapturedEvent = null;
+  const eventCaptureListener = (e) => { lastCapturedEvent = e; };
+  store.on('change', eventCaptureListener);
+
+  const m4Rack = store.currentRacks[0] || (store.addRack({ name: 'Rack M04 Test', height: 42, color: '#3b82f6' }), store.currentRacks[0]);
+  
+  // Test addDeviceToRack evento enriquecido
+  store.addDeviceToRack({ name: 'Switch M04 Perf', type: 'switch', size: 1 }, m4Rack.id, 1, 'front');
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'addDeviceToRack' && lastCapturedEvent.rackId === m4Rack.id && lastCapturedEvent.device,
+    'M-04: store.addDeviceToRack emite metadatos enriquecidos con rackId y objeto device');
+
+  const addedDev = lastCapturedEvent.device;
+
+  // Test updateDevice evento enriquecido
+  store.updateDevice(addedDev.id, { notes: 'Optimizado M04' });
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'updateDevice' && lastCapturedEvent.deviceId === addedDev.id && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.updateDevice emite metadatos enriquecidos con deviceId y rackId');
+
+  // Test moveDevice evento enriquecido
+  store.moveDevice(addedDev.id, m4Rack.id, 5, 'front');
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'moveDevice' && lastCapturedEvent.deviceId === addedDev.id && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.moveDevice emite metadatos enriquecidos con deviceId, rackId y oldRackId');
+
+  // Test updateRack evento enriquecido
+  store.updateRack(m4Rack.id, { name: 'Rack M04 Modificado' });
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'updateRack' && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.updateRack emite metadatos enriquecidos con rackId');
+
+  // Test deleteDevice evento enriquecido
+  store.deleteDevice(addedDev.id);
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'deleteDevice' && lastCapturedEvent.deviceId === addedDev.id && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.deleteDevice emite metadatos enriquecidos con deviceId y rackId');
+
+  // 22.5 Comportamiento de renderizado selectivo vs full redraw
+  window.RenderPerformance.reset();
+  
+  // Full Redraw ante loadData / undo / redo
+  renderAll({ source: 'loadData' });
+  assert(window.RenderPerformance.fullRenders === 1 && window.RenderPerformance.selectiveRenders === 0,
+    'M-04: renderAll({ source: "loadData" }) dispara un redibujado completo (fullRenders)');
+
+  // Selective Redraw ante actualización de dispositivo
+  renderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-123', rackId: m4Rack.id });
+  assert(window.RenderPerformance.selectiveRenders === 1 && window.RenderPerformance.fullRenders === 1,
+    'M-04: renderAll con updateDevice ejecuta redibujado selectivo sin incrementar fullRenders');
+
+  // Selective Redraw ante cambio de zoom
+  renderAll({ source: 'setZoom', immediate: true });
+  assert(window.RenderPerformance.selectiveRenders === 2 && window.RenderPerformance.fullRenders === 1,
+    'M-04: renderAll con setZoom ejecuta redibujado selectivo aislando controles');
+
+  // Selective Redraw ante conexión
+  renderAll({ source: 'updateConnection', immediate: true });
+  assert(window.RenderPerformance.selectiveRenders === 3 && window.RenderPerformance.fullRenders === 1,
+    'M-04: renderAll con updateConnection ejecuta redibujado selectivo');
+
+  // 22.6 Vista inactiva: en topología no se regenera el DOM físico
+  currentView = 'topology';
+  window._renderState.dirtyPhysical = false;
+  renderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-999', rackId: m4Rack.id });
+  assert(window._renderState.dirtyPhysical === true,
+    'M-04: Mutación de equipo en vista topología marca _renderState.dirtyPhysical sin regenerar DOM físico');
+  currentView = 'physical';
 
   // ----------------------------------------------------
   // RESUMEN FINAL

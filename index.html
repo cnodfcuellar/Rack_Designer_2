@@ -75,7 +75,7 @@
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item" id="menu-import-devices"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Importación masiva (CSV/Excel)</div>
-          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (265 pruebas)</a>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (360 pruebas)</a>
           <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
@@ -927,6 +927,84 @@
     </div>
   </div>
 </div>
+
+<!-- ============================
+     MODAL DE SELECCIÓN DE DEMOS
+============================= -->
+<div class="modal-overlay hidden" id="modal-demo-selection">
+  <div class="modal" style="max-width: 680px; width: 95%;">
+    <div class="modal-title">
+      <i class="svg-icon icon-sparkle" style="width:20px; height:20px; margin-right:8px; color: var(--accent);"></i>
+      <span>Plantillas de Demostración</span>
+    </div>
+    <div class="modal-sub" style="margin-bottom:16px;">
+      Selecciona una arquitectura prediseñada para explorar el diseño de infraestructura, topología y cableado:
+    </div>
+
+    <div class="demo-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+      <!-- Tarjeta 1: Datacenter TIA-942 -->
+      <div class="demo-card" id="card-demo-tia942" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(14, 165, 233, 0.15); border: 1px solid #0ea5e9; display: flex; align-items: center; justify-content: center; color: #0ea5e9;">
+              <i class="svg-icon icon-server" style="width: 20px; height: 20px;"></i>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.3); font-family: var(--font-mono);">TIA-942</span>
+          </div>
+          <div style="font-size: var(--text-md); font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+            Centro de Datos Empresarial
+          </div>
+          <div style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px;">
+            Infraestructura estandarizada para Data Centers de misión crítica. Distribución gravitacional de peso y redundancia de alimentación.
+          </div>
+          <ul style="font-size: var(--text-xs); color: var(--text-muted); line-height: 1.6; padding-left: 18px; margin: 0 0 16px 0; font-family: var(--font-mono);">
+            <li>3 Salas (DC Principal, Corp A, SOC)</li>
+            <li>4 Gabinetes 42U de alta densidad</li>
+            <li>SAN NVMe, Virtualización y Borde BGP</li>
+            <li>Topología inter-rack y cableado OM4/Cat6A</li>
+          </ul>
+        </div>
+        <button type="button" class="btn-confirm" id="btn-load-demo-tia942" style="width: 100%; justify-content: center;">
+          <i class="svg-icon icon-check" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          Cargar Centro de Datos
+        </button>
+      </div>
+
+      <!-- Tarjeta 2: Campus Universitario UTN -->
+      <div class="demo-card" id="card-demo-utn" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; display: flex; align-items: center; justify-content: center; color: #10b981;">
+              <i class="svg-icon icon-building" style="width: 20px; height: 20px;"></i>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-family: var(--font-mono);">Campus UTN</span>
+          </div>
+          <div style="font-size: var(--text-md); font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+            Campus Universitario UTN
+          </div>
+          <div style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px;">
+            Red jerárquica de 3 capas (Core L3 HA, Distribución por edificio y Acceso PoE+). Segmentación por servicios y 24 VLANs.
+          </div>
+          <ul style="font-size: var(--text-xs); color: var(--text-muted); line-height: 1.6; padding-left: 18px; margin: 0 0 16px 0; font-family: var(--font-mono);">
+            <li>10 Edificios (DCC, TIC, ADM, AUL, ING, etc.)</li>
+            <li>13 Gabinetes estructurados (42U, 24U, 18U)</li>
+            <li>24 VLANs con esquema IP 10.0.0.0/8</li>
+            <li>Core Nexus, FortiGate HA, ERP, CCTV y VoIP</li>
+          </ul>
+        </div>
+        <button type="button" class="btn-confirm" id="btn-load-demo-utn" style="width: 100%; justify-content: center; border-color: #10b981; background: rgba(16, 185, 129, 0.2); color: #10b981;">
+          <i class="svg-icon icon-check" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          Cargar Campus UTN
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top: 0;">
+      <button type="button" class="btn-cancel" id="btn-close-demo-modal">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 
   <div id="device-tooltip"></div>
   <input type="file" id="import-file" accept=".rack,.json" class="hidden" style="display:none !important;">

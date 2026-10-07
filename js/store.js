@@ -466,7 +466,7 @@ class Store {
     const r = this._raw.racks.find(r => r.id === id);
     if (r) Object.assign(r, props);
     this._save(); 
-    this._emit('change', { source: 'updateRack' });
+    this._emit('change', { source: 'updateRack', rackId: id, props });
   }
 
   deleteRack(id) {
@@ -484,7 +484,7 @@ class Store {
     this._cleanTopologyPositions({ rackIds: [id], deviceIds });
     
     this._save(); 
-    this._emit('change', { source: 'deleteRack' });
+    this._emit('change', { source: 'deleteRack', rackId: id });
   }
 
   /** Comprueba si dos caras de montaje entran en conflicto físico */
@@ -524,7 +524,7 @@ class Store {
     if (deviceTemplate.plugsOut !== undefined) newDev.plugsOut = deviceTemplate.plugsOut;
     this._raw.devices.push(newDev);
     this._save(); 
-    this._emit('change', { source: 'addDeviceToRack' });
+    this._emit('change', { source: 'addDeviceToRack', rackId, device: newDev });
     return true;
   }
 
@@ -542,22 +542,25 @@ class Store {
       const nEnd = newSlot + size - 1;
       if (!(nEnd < d.slotStart || newSlot > dEnd)) return false;
     }
+    const oldRackId = dev.rackId;
     this.snapshot();
     dev.rackId = newRackId;
     dev.slotStart = newSlot;
     dev.mountSide = side;
     this._save(); 
-    this._emit('change', { source: 'moveDevice' });
+    this._emit('change', { source: 'moveDevice', deviceId, rackId: newRackId, oldRackId });
     return true;
   }
 
   deleteDevice(id) {
+    const devToDelete = this.deviceById(id);
+    const rackId = devToDelete ? devToDelete.rackId : null;
     this.snapshot();
     this._raw.devices = this._raw.devices.filter(d => d.id !== id);
     this._raw.connections = this._raw.connections.filter(c => c.sourceDeviceId !== id && c.targetDeviceId !== id);
     this._cleanTopologyPositions({ deviceIds: [id] });
     this._save(); 
-    this._emit('change', { source: 'deleteDevice' });
+    this._emit('change', { source: 'deleteDevice', deviceId: id, rackId });
   }
 
   updateDevice(id, props) {
@@ -565,7 +568,7 @@ class Store {
     const d = this._raw.devices.find(d => d.id === id);
     if (d) Object.assign(d, props);
     this._save(); 
-    this._emit('change', { source: 'updateDevice' });
+    this._emit('change', { source: 'updateDevice', deviceId: id, rackId: d ? d.rackId : null, device: d, props });
   }
 
   /* ---- Métodos de VLANs ---- */

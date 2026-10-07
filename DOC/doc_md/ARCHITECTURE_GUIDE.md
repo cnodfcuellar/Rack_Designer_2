@@ -180,30 +180,30 @@ onSlotDrop() detecta el drop
     ↓
 store.addDeviceToRack(template, rackId, slotU, side)
     ↓
-store.snapshot() → guarda estado actual para undo
+store.snapshot() → guarda estado actual usando fastClone (máximo 15 instantáneas)
     ↓
 this._raw.devices.push(nuevoEquipo) → muta los datos
     ↓
-this._save() + this._emit('change', { source: 'addDeviceToRack' })
+this._save() + this._emit('change', { source: 'addDeviceToRack', rackId, device })
     ↓
-renderAll({ source: 'addDeviceToRack' })
+renderAll({ source: 'addDeviceToRack', rackId, device }) [con coalescencia rAF 60 FPS]
     ↓
-renderPhysical() → nuevo faceplate aparece
+renderSingleRack(rackId) → redibujado atómico del gabinete sin reconstruir la sala completa
 renderStats() → estadísticas se actualizan
-renderOutliner() → árbol se actualiza
-renderBottomPanel() → tabla se actualiza
+renderOutliner() → árbol se actualiza si está abierto
+renderBottomPanel() → tabla se actualiza si está visible
 ```
 
 **Ver diagrama:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 3a)
 
-### Undo/Redo
+### Undo/Redo Optimizado (M-03)
 
-Cada vez que mutas el store, `snapshot()` guarda una copia del estado anterior (máximo 30). Cuando el usuario presiona Ctrl+Z:
+Cada vez que mutas el store, `snapshot()` guarda una copia del estado anterior (máximo acotado a 15 instantáneas mediante `fastClone(obj)`, excluyendo `topologySlots` para ahorrar hasta un 80% de RAM). Cuando el usuario presiona Ctrl+Z:
 
 1. Se toma el estado actual y se guarda en `_redoStack`
 2. Se saca el estado anterior de `_undoStack`
 3. Se sobreescribe `_raw` con ese estado
-4. Se redibuja todo
+4. Se redibuja todo con `renderAll({ source: 'undo' })`
 
 **Ver diagrama:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 4)
 

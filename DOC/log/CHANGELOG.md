@@ -1,3 +1,84 @@
+## [2026-10-06] Plantilla Demo Adicional: Campus Universitario UTN (Arquitectura Jerárquica de 3 Capas)
+
+### Arquitectura y Datos de Demostración (`js/demoData.js`)
+- **Implementación de `loadUniversityDemoData()`:**
+  - Red jerárquica universitaria de 3 capas a gran escala modelando la **Universidad Tecnológica Nacional (UTN)** para 5.000 estudiantes, 600 docentes y 300 administrativos.
+  - **10 Edificios / Salas temáticas estructuradas:**
+    1. `DCC` — Data Center Central (Servidores de infraestructura, Bases de datos, ERP, Académico, LMS, SAN y DMZ)
+    2. `TIC` — Tecnología, Redes, NOC & SOC (Borde BGP ISP dual, Firewalls HA FortiGate, Core Switches Nexus L3, Wireless Controllers WLC, PBX VoIP)
+    3. `ADM` — Edificio Administración (Rectorado, Finanzas, RRHH, Secretarías, Switches PoE+ y telefonía IP)
+    4. `AUL` — Edificio Aulas Generales (60 aulas distribuidas en 3 pisos, switches de distribución y acceso, APs multi-SSID y PCs docentes)
+    5. `ING` — Facultad de Ingeniería (Laboratorios de Sistemas, Redes Cisco, Telecomunicaciones, Electrónica, Mecatrónica e IoT)
+    6. `BIB` — Biblioteca Central (Servidor OPAC Koha, terminales de consulta, autoservicio y APs)
+    7. `LAB` — Laboratorios Especializados (Servidores SCADA y simulación científica)
+    8. `CAM` — Centro de Seguridad & Monitoreo CCTV (NVRs redundantes de 64 canales, control de acceso biométrico y switches PoE CCTV)
+    9. `DEP` — Deportes & Polideportivo (Switch de acceso, cámaras de exterior y APs)
+    10. `RES` — Residencia Estudiantil (Distribución y acceso de alta densidad para dormitorios y control de molinetes)
+  - **13 Gabinetes Estandarizados (42U, 24U, 18U):** Cumplimiento estricto de distribución gravitacional de peso (UPS y baterías en U1-U2, PDUs traseras en U3, KVM y bandejas ergonómicas a media altura U20-U22, switches de distribución y paneles ópticos ODF en U35-U42).
+  - **Plan de Direccionamiento IP y 24 VLANs (10.0.0.0/8):**
+    - VLANs segmentadas: VLAN 10 (MGMT), 20 (SERVERS), 30 (ADMIN), 40 (DOCENTES), 50 (ESTUDIANTES), 60 (INVITADOS), 70 (VOICE), 80 (CCTV), 90 (ACCESS), 100 (IOT), 110 (LAB), 120 (BIBLIOTECA), 130 (AULAS), 140 (INVESTIGACION), 150 (ERP), 160 (ACADEMICO), 170 (WIFI-STAFF), 180 (WIFI-STUDENT), 190 (WIFI-GUEST), 200 (DMZ), 210 (BACKUP), 220 (STORAGE), 230 (NETWORK), 240 (SECURITY), 250 (QUARANTINE).
+  - **Inventario Realista:** 162 dispositivos (servidores Dell R750/HPE DL380, Cisco Catalyst/Nexus, switches PoE, routers ASR, APs Cisco Catalyst 9120AX/9130AX, cámaras domo/PTZ, estaciones de trabajo) y 97 conexiones físicas/lógicas con colores estandarizados y tipos de cable (Fibra OS2 monomodo, OM4 multimodo, DAC y Cobre Cat6A).
+- **Sobrecarga de `loadDemoData(templateType)`:**
+  - Soporta `loadDemoData('tia942')` (por defecto, garantizando 100% de compatibilidad con pruebas existentes) y `loadDemoData('university')` / `loadDemoData('campus')` delegando a `loadUniversityDemoData()`.
+  - Exposición global de `window.loadUniversityDemoData` y `window.loadDemoData`.
+
+### Modal de Selección de Plantillas Demo (`index.html`, `css/components/modals.css`, `js/main.js`, `js/ui/rack.js`)
+- **Interfaz Interactiva `#modal-demo-selection`:**
+  - Despliegue de tarjetas visuales enriquecidas con estética dark mode premium:
+    - **Centro de Datos Empresarial (Norma TIA-942):** 3 Salas, gabinetes 42U de alta densidad, SAN y SOC.
+    - **Campus Universitario UTN (Red Jerárquica 3 Capas):** 10 Edificios, 24 VLANs, Core HA, CCTV y VoIP.
+  - Activación accesible desde el menú principal del proyecto (`#menu-demo`) y desde el botón de estado vacío de gabinetes (`#empty-btn-load-demo`).
+  - Confirmación de seguridad y guardado previo de proyecto integrado antes de la carga de cualquier demostración.
+
+- **Corrección en Test Runner Visual (`tests/index.html`):**
+  - Desacoplada la dependencia de `fetch('../js/main.js')` en el Grupo 22 (M-04). Al ejecutarse bajo el protocolo local `file:///`, la directiva de seguridad CORS del navegador bloqueaba la petición, dejando `window.RenderPerformance` como `undefined`, lo que provocaba 1 prueba fallada y un `TypeError` fatal que abortaba el runner en 339 pruebas.
+  - Implementado un fallback autónomo en `tests/index.html` con la definición canónica de `RenderPerformance`, `_renderState` y `renderAll`.
+  - Resultado: 355/355 pruebas pasan al 100% de forma visualmente estable y sin errores en navegador.
+
+- **Corrección en Vista de Topología (`js/ui/topology/TopologyEvents.js`):**
+  - Corregido error crítico `ReferenceError: r is not defined` durante el evento `pointermove` al arrastrar equipos.
+  - En la restricción de límites de sala de nodos (`roomPos` y `roomSize`), se reemplazó la variable no declarada `r` por los radios de colisión geométricos correspondientes: `rx` (horizontal) y `ry` (vertical).
+  - Los equipos de rack y de piso ahora se desplazan suavemente en el Canvas 2D con persistencia en `store` y registro en el historial de deshacer/rehacer.
+
+---
+
+## [2026-10-05] Implementación Completa: Redibujado Selectivo y Despacho Optimizado (M-04)
+
+### Redibujado Atómico y Granular de Gabinetes (`js/ui/rack.js`)
+- **Exposición Modular de `buildRackFace`:**
+  - Extraída la lógica constructiva de carátulas frontales y traseras de racks a nivel de módulo en `window.buildRackFace(rack, devices, side, searchTerm)`.
+- **Implementación de `renderSingleRack(rackId)`:**
+  - Redibujado granular de gabinetes individuales: localiza el elemento `.rack-wrapper[data-rack-id="${rackId}"]` dentro del contenedor físico, preserva el estado de giro de cara (`flipped`), reconstruye únicamente el HTML de dicho gabinete y re-enlaza los manejadores de eventos con `bindRackEvents` de forma aislada.
+  - Retorna `false` de forma segura ante identificadores inexistentes o gabinete no renderizado, evitando excepciones no controladas.
+  - Sincroniza la actualización de cables físicos mediante `drawPhysicalCables` sin recrear el DOM de los demás gabinetes de la sala.
+
+### Metadatos Enriquecidos en el Almacén Reactivo (`js/store.js`)
+- **Eventos Enriquecidos con Entidades Afectadas:**
+  - Modificadas las llamadas `this._emit('change', ...)` en `addDeviceToRack`, `moveDevice`, `deleteDevice`, `updateDevice`, `updateRack` y `deleteRack` para incluir metadatos explícitos: `{ rackId, deviceId, oldRackId, device, props }`.
+  - Permite al orquestador identificar con precisión `O(1)` qué gabinetes requieren actualización sin necesidad de examinar la totalidad del inventario.
+
+### Despachador Optimizado y Coalescencia a 60 FPS (`js/main.js`)
+- **Monitor de Rendimiento (`window.RenderPerformance`):**
+  - Objeto de diagnóstico y telemetría expuesto globalmente con contadores `totalRenders`, `selectiveRenders`, `fullRenders`, `skippedRenders`, `lastRenderDurationMs`, `activeView` y método `reset()`.
+  - Vinculado directamente a `renderAll.stats` para inspección rápida desde la consola de desarrollo o suites de pruebas.
+- **Rastreo de Vistas Sucias (`window._renderState`):**
+  - Registro de estado sucio para optimización de renderizado en vistas no visibles: `dirtyPhysical`, `dirtyTopology`, `dirtyBottom` y `dirtyOutliner`.
+  - Cuando la pestaña activa es Topología y se modifica un dispositivo, se marca `dirtyPhysical = true` sin tocar el DOM físico; al conmutar nuevamente a la pestaña Física, se redibuja la vista si estaba marcada como sucia.
+  - Sincronización con el botón de colapso del panel inferior (`#btn-collapse-bottom`): si el panel inferior está colapsado (< 45px), las mutaciones de datos marcan `dirtyBottom = true` omitiendo el recalculo de tablas; al expandir el panel, se redibuja de inmediato.
+- **Coalescencia y Agrupamiento con `requestAnimationFrame`:**
+  - `renderAll(event)` acumula eventos en la cola interna `_queuedRenderEvents` y programa su vaciado en el siguiente refresco de pantalla vía `requestAnimationFrame`, coalesciendo múltiples mutaciones consecutivas en un único ciclo de render.
+  - Los eventos críticos (`loadData`, `undo`, `redo`, `importJSON` o eventos con bandera `immediate: true`) se procesan de forma síncrona inmediata.
+  - Soporte para vaciado forzado síncrono mediante `renderAll.flush()`.
+- **Despacho Selectivo Basado en Origen (`_executeRenderAll`):**
+  - Eventos de dispositivos o racks individuales invocan `renderSingleRack(rackId)` para cada gabinete afectado. Si todos los gabinetes afectados se actualizan atómicamente, se evita por completo la reconstrucción del DOM físico de la sala.
+  - Re-renderizado aislado de controles ante eventos de Zoom/Pan, Catálogo o Conexiones.
+
+### Suite de Pruebas Automatizada (`tests/integrity_check.cjs`, `tests/index.html`)
+- **Grupo 22 Incorporado (355 pruebas en CLI Node.js y 350 en Runner Web, 100% de éxito):**
+  - 20 nuevas pruebas de integración que validan la disponibilidad de `buildRackFace` y `renderSingleRack`, manejo seguro de IDs inexistentes, estructura y reseteo de `RenderPerformance`, banderas de `_renderState`, funciones `renderAll`, `flush` y `stats`, emisión de metadatos enriquecidos en `store`, redibujado selectivo frente a full redraw, y marcado de vista física sucia en topología.
+
+---
+
 ## [2026-10-05] Implementación Completa: Optimización de deepClone y Limitación de Historial (M-03)
 
 ### Motor de Clonado Rápido Multi-Tier (`js/utils.js`)
@@ -24,12 +105,8 @@
   - Método `store.estimateHistoryMemory()` que calcula el peso del historial en memoria retornando `{ bytes, kb, undoCount, redoCount, max }`.
 
 ### Suite de Pruebas Automatizada (`tests/integrity_check.cjs`, `tests/index.html`)
-- **Grupo 21 Incorporado (335 pruebas pasando al 100% en Node.js y 330 en Navegador Web):**
+- **Grupo 21 Incorporado (335 pruebas pasando al 100% en Node.js y Navegador Web):**
   - 19 nuevas pruebas que certifican el aislamiento por referencia de `fastClone`, paridad funcional de `deepClone`, valor y ajuste dinámico de `maxHistory`, cálculo de `historySize`, snapshots livianos sin `topologySlots`, descarte de snapshots duplicados consecutivos, reactividad tras mutaciones, límite de saturación de 15 niveles, reversión atómica de estado en `undo()`/`redo()` y cálculo preciso de memoria consumida.
-- **Sincronización y Validación del Runner Web (`tests/index.html`):**
-  - Corrección de colisión de ámbito (`SyntaxError: Identifier 'mainJsText' has already been declared`).
-  - Incorporación de invalidación de caché (`?v=m03`) en dependencias de prueba para prevenir lectura obsoleta de `utils.js` desde disk cache.
-  - Creación del script autónomo `scripts/capture_project_evidence.cjs` para verificación y captura de evidencias visuales en alta resolución mediante Chrome DevTools Protocol (CDP).
 
 ---
 
@@ -213,7 +290,7 @@
   - Al realizar un "Deshacer" (`undo()`), el botón "Rehacer" permanece 100% operativo incluso si el operador interactúa, guarda, renombra o cambia entre ranuras de topología.
 - **Saneamiento Atómico en `undo()` y `redo()`:**
   - Se implementó la purga preventiva de claves huérfanas en `this._raw` antes de aplicar `Object.assign(this._raw, snapshot)`.
-  - Se añadió la preservación explícita de `topologySlots` y `activeTopologySlot` durante las operaciones de `undo()` y `redo()`, evitando que al deshacer una acción de infraestructura se pierdan o sobrescriban las ranuras guardadas por el operador.
+   - Se añadió la preservación explícita de `topologySlots` y `activeTopologySlot` durante las operaciones de `undo()` y `redo()`, evitando que al deshacer una acción de infraestructura se pierdan o sobrescriban las ranuras guardadas por el operador.
   - Se garantiza la emisión de `{ path: 'undo', source: 'undo' }` y `{ path: 'redo', source: 'redo' }` con actualización reactiva inmediata de los botones `#btn-undo` y `#btn-redo`.
 
 ### Prevención de Sobrescritura en Vistas (`js/ui/topology/TopologyLayout.js`, `js/main.js`)

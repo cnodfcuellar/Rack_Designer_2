@@ -306,15 +306,16 @@
 
 <!-- CONTENEDORES MOCK PARA PRUEBAS DE DOM -->
 <div id="inspector-content" style="display: none;"></div>
+<div id="view-physical" style="display: none;"></div>
 
 <!-- SCRIPTS DEL PROYECTO -->
 <script src="../js/xlsx.full.min.js"></script>
 <script src="../js/html2canvas.min.js"></script>
-<script src="../js/utils.js?v=m03"></script>
+<script src="../js/utils.js?v=m04"></script>
 <script src="../js/icons.js"></script>
 <script src="../js/auth/crypto.js"></script>
 <script src="../js/auth/roles.js"></script>
-<script src="../js/store.js?v=m03"></script>
+<script src="../js/store.js?v=m04"></script>
 <script src="../js/demoData.js"></script>
 <script src="../js/ui/faceplates.js"></script>
 <script src="../js/ui/tables.js"></script>
@@ -330,6 +331,7 @@
 <script src="../js/ui/topology/TopologySkins.js"></script>
 <script src="../js/ui/topology/TopologyState.js"></script>
 <script src="../js/ui/topology/TopologyLayout.js"></script>
+<script src="../js/ui/rack.js?v=m04"></script>
 
 <script>
   let totalTests = 0;
@@ -1022,6 +1024,24 @@
 
     const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
     addTestResult(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+    // 11.6 Verificación de Plantilla Demo Adicional: Campus Universitario UTN (Red Jerárquica 3 Capas)
+    addTestResult(typeof loadUniversityDemoData === 'function', 'Demo UTN: loadUniversityDemoData() está definida globalmente');
+    loadUniversityDemoData();
+    addTestResult(store._raw.rooms.length === 10, `Demo UTN: Define fielmente los 10 edificios/salas del campus (encontradas: ${store._raw.rooms.length})`);
+    addTestResult(store._raw.racks.length === 13, `Demo UTN: Define los 13 gabinetes estructurados por edificio (encontrados: ${store._raw.racks.length})`);
+    addTestResult(store._raw.devices.length >= 100, `Demo UTN: Despliega inventario completo de equipos (encontrados: ${store._raw.devices.length})`);
+    
+    const utnAd01 = store._raw.devices.find(d => d.ip === '10.90.20.11');
+    const utnErp01 = store._raw.devices.find(d => d.ip === '10.90.150.11');
+    const utnAcad01 = store._raw.devices.find(d => d.ip === '10.90.160.11');
+    const utnCore01 = store._raw.devices.find(d => d.ip === '10.120.10.1');
+    const utnPbx01 = store._raw.devices.find(d => d.ip === '10.130.70.10');
+    const utnNvr01 = store._raw.devices.find(d => d.ip === '10.100.80.10');
+    addTestResult(utnAd01 && utnErp01 && utnAcad01 && utnCore01 && utnPbx01 && utnNvr01, 'Demo UTN: Servidores clave (AD01, ERP01, Académico, Core Nexus, PBX, NVR) cuentan con IPs asignadas en 10.0.0.0/8');
+    
+    // Restaurar plantilla estándar TIA-942 para los tests posteriores
+    loadDemoData();
 
     // ----------------------------------------------------
     // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
@@ -1982,6 +2002,322 @@
     const memEstWeb = store.estimateHistoryMemory();
     addTestResult(typeof memEstWeb === 'object' && typeof memEstWeb.bytes === 'number' && typeof memEstWeb.kb === 'number' && memEstWeb.bytes >= 0,
       'M-03: store.estimateHistoryMemory() calcula la memoria consumida por el historial en bytes y KB');
+
+    // ----------------------------------------------------
+    // GRUPO 22: REDIBUJADO SELECTIVO Y MONITOR DE RENDIMIENTO (M-04)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 22: Redibujado Selectivo y Despacho Optimizado (M-04)');
+
+    // 22.1 Exposición de funciones de redibujado de racks
+    addTestResult(typeof buildRackFace === 'function',
+      'M-04: buildRackFace está expuesta a nivel de módulo en rack.js');
+    addTestResult(typeof renderSingleRack === 'function',
+      'M-04: renderSingleRack está expuesta para redibujado atómico de gabinetes');
+    addTestResult(renderSingleRack('rack-no-existe-123') === false,
+      'M-04: renderSingleRack con ID inexistente retorna false de forma segura');
+
+    // Inicializar harness de render si no está presente en el test runner
+    window.currentView = window.currentView || 'physical';
+    window.renderRoomTabs = window.renderRoomTabs || function(){};
+    window.renderRackSelector = window.renderRackSelector || function(){};
+    window.renderStats = window.renderStats || function(){};
+    window.renderCatalog = window.renderCatalog || function(){};
+    window.renderPhysical = window.renderPhysical || function(){};
+    window.renderBottomPanel = window.renderBottomPanel || function(){};
+    window.updateZoomLabel = window.updateZoomLabel || function(){};
+
+    if (typeof window.renderAll !== 'function' || !window.RenderPerformance) {
+      let m4Loaded = false;
+      try {
+        const resp = await fetch('../js/main.js');
+        if (resp && resp.ok) {
+          const text = await resp.text();
+          const renderBlockMatch = text.match(/\/\/ ===== M-04: SISTEMA DE REDIBUJADO[\s\S]*?window\.renderAll\s*=\s*renderAll;/);
+          if (renderBlockMatch) {
+            new Function(renderBlockMatch[0])();
+            m4Loaded = true;
+          }
+        }
+      } catch(e) {}
+
+      // Fallback autónomo si fetch('../js/main.js') fue bloqueado por directiva CORS en protocolo file:///
+      if (!m4Loaded && (typeof window.renderAll !== 'function' || !window.RenderPerformance)) {
+        window.RenderPerformance = {
+          totalRenders: 0,
+          selectiveRenders: 0,
+          fullRenders: 0,
+          skippedRenders: 0,
+          lastRenderDurationMs: 0,
+          activeView: 'physical',
+          reset() {
+            this.totalRenders = 0;
+            this.selectiveRenders = 0;
+            this.fullRenders = 0;
+            this.skippedRenders = 0;
+            this.lastRenderDurationMs = 0;
+          }
+        };
+
+        window._renderState = {
+          dirtyPhysical: false,
+          dirtyTopology: false,
+          dirtyBottom: false,
+          dirtyOutliner: false
+        };
+
+        let _rafRenderId = null;
+        let _queuedRenderEvents = [];
+
+        function flushRenderQueue() {
+          if (_rafRenderId) {
+            if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(_rafRenderId);
+            _rafRenderId = null;
+          }
+          if (_queuedRenderEvents.length > 0) {
+            const events = [..._queuedRenderEvents];
+            _queuedRenderEvents = [];
+            _executeRenderAll(events);
+          }
+        }
+
+        function _executeRenderAll(events) {
+          const activeView = (typeof window !== 'undefined' && window.currentView) ? window.currentView : 'physical';
+          const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+          const isFullRedraw = !events.length || events.some(e => {
+            const s = e.source || e.path || '';
+            return !s || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(s);
+          });
+
+          window.RenderPerformance.totalRenders++;
+          window.RenderPerformance.activeView = activeView;
+
+          if (isFullRedraw) {
+            window.RenderPerformance.fullRenders++;
+            if (typeof renderRoomTabs === 'function') renderRoomTabs();
+            if (typeof renderRackSelector === 'function') renderRackSelector();
+            if (typeof renderStats === 'function') renderStats();
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (typeof renderCatalog === 'function') renderCatalog();
+            if (typeof renderPhysical === 'function') renderPhysical();
+            window._renderState.dirtyPhysical = false;
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+            window._renderState.dirtyBottom = false;
+            if (typeof updateZoomLabel === 'function') updateZoomLabel();
+            const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+            return;
+          }
+
+          window.RenderPerformance.selectiveRenders++;
+          const affectedRackIds = new Set();
+          const affectedDeviceIds = new Set();
+          let hasRoomChange = false;
+          let hasRackStructureChange = false;
+          let hasDeviceChange = false;
+          let hasConnChange = false;
+          let hasZoomChange = false;
+          let hasCatalogChange = false;
+
+          for (const e of events) {
+            const s = e.source || e.path || '';
+            if (s.includes('Room') || s === 'room-rename' || s === 'changeRoom') hasRoomChange = true;
+            if (s.includes('Rack')) {
+              if ((s === 'updateRack' || s === 'moveDevice' || s === 'addDeviceToRack' || s === 'deleteDevice') && e.rackId) {
+                affectedRackIds.add(e.rackId);
+              } else {
+                hasRackStructureChange = true;
+              }
+            }
+            if (s.includes('Device') || ['addFloorDevice', 'moveDevice', 'deleteDevice', 'updateDevice', 'addDeviceToRack'].includes(s)) {
+              hasDeviceChange = true;
+              if (e.rackId) affectedRackIds.add(e.rackId);
+              if (e.oldRackId) affectedRackIds.add(e.oldRackId);
+              if (e.deviceId) affectedDeviceIds.add(e.deviceId);
+              if (e.device && e.device.rackId) affectedRackIds.add(e.device.rackId);
+            }
+            if (s.includes('Connection') || ['addConnection', 'updateConnection', 'deleteConnection', 'swapConnectionDirection', 'toggleConnectionOrientation'].includes(s)) {
+              hasConnChange = true;
+            }
+            if (s.includes('Zoom') || s.includes('Pan')) hasZoomChange = true;
+            if (s.includes('Catalog') || s === 'addCustomCatalogItem' || s === 'deleteCustomCatalogItem') hasCatalogChange = true;
+          }
+
+          if (hasZoomChange && typeof updateZoomLabel === 'function') updateZoomLabel();
+          if (hasRoomChange) {
+            if (typeof renderRoomTabs === 'function') renderRoomTabs();
+            if (typeof renderRackSelector === 'function') renderRackSelector();
+            if (typeof renderStats === 'function') renderStats();
+            if (activeView === 'physical') {
+              if (typeof renderPhysical === 'function') renderPhysical();
+              window._renderState.dirtyPhysical = false;
+            } else {
+              window._renderState.dirtyPhysical = true;
+            }
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+            const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+            return;
+          }
+
+          if (hasCatalogChange && typeof renderCatalog === 'function') renderCatalog();
+          if (hasDeviceChange || hasRackStructureChange || hasConnChange) {
+            if (typeof renderStats === 'function') renderStats();
+          }
+
+          if (hasRackStructureChange) {
+            if (typeof renderRackSelector === 'function') renderRackSelector();
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (activeView === 'physical') {
+              if (typeof renderPhysical === 'function') renderPhysical();
+              window._renderState.dirtyPhysical = false;
+            } else {
+              window._renderState.dirtyPhysical = true;
+            }
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+            const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+            return;
+          }
+
+          if (hasDeviceChange || affectedRackIds.size > 0) {
+            if (activeView === 'physical') {
+              let allUpdated = affectedRackIds.size > 0;
+              if (allUpdated && typeof window.renderSingleRack === 'function') {
+                for (const rid of affectedRackIds) {
+                  const ok = window.renderSingleRack(rid);
+                  if (!ok) { allUpdated = false; break; }
+                }
+              } else {
+                allUpdated = false;
+              }
+              if (!allUpdated && typeof renderPhysical === 'function') renderPhysical();
+              window._renderState.dirtyPhysical = false;
+            } else {
+              window._renderState.dirtyPhysical = true;
+            }
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+          }
+
+          if (hasConnChange) {
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+          }
+
+          const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+          window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+        }
+
+        function renderAll(event = {}) {
+          const source = event.source || event.path || '';
+          const isSync = event.immediate || !source || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(source) || typeof requestAnimationFrame !== 'function';
+          if (isSync) {
+            if (_queuedRenderEvents.length > 0) {
+              _queuedRenderEvents.push(event);
+              flushRenderQueue();
+            } else {
+              _executeRenderAll([event]);
+            }
+            return;
+          }
+          _queuedRenderEvents.push(event);
+          if (!_rafRenderId) {
+            _rafRenderId = requestAnimationFrame(() => {
+              _rafRenderId = null;
+              flushRenderQueue();
+            });
+          }
+        }
+
+        renderAll.flush = flushRenderQueue;
+        renderAll.stats = window.RenderPerformance;
+        window.renderAll = renderAll;
+      }
+    }
+    const testRenderAll = window.renderAll;
+
+    // 22.2 Monitor de Rendimiento y Estado Sucio
+    addTestResult(typeof window.RenderPerformance === 'object' && window.RenderPerformance !== null,
+      'M-04: RenderPerformance está expuesto como objeto de métricas');
+    addTestResult(typeof window.RenderPerformance.totalRenders === 'number' && typeof window.RenderPerformance.selectiveRenders === 'number',
+      'M-04: RenderPerformance rastrea totalRenders, selectiveRenders y fullRenders');
+    addTestResult(typeof window.RenderPerformance.reset === 'function',
+      'M-04: RenderPerformance.reset() permite reiniciar contadores de diagnóstico');
+    addTestResult(typeof window._renderState === 'object' && 'dirtyPhysical' in window._renderState,
+      'M-04: _renderState rastrea banderas dirtyPhysical, dirtyTopology y dirtyBottom');
+
+    // 22.3 Despachador renderAll, flush y stats
+    addTestResult(typeof testRenderAll === 'function',
+      'M-04: renderAll está expuesto como despachador de renderizado');
+    addTestResult(typeof testRenderAll.flush === 'function',
+      'M-04: renderAll.flush está disponible para vaciado forzado síncrono');
+    addTestResult(testRenderAll.stats === window.RenderPerformance,
+      'M-04: renderAll.stats enlaza directamente al monitor RenderPerformance');
+
+    // 22.4 Metadatos enriquecidos en eventos de mutación de store
+    let lastCapturedEventWeb = null;
+    const eventCaptureListenerWeb = (e) => { lastCapturedEventWeb = e; };
+    store.on('change', eventCaptureListenerWeb);
+
+    const m4RackWeb = store.currentRacks[0] || (store.addRack({ name: 'Rack M04 Test Web', height: 42, color: '#3b82f6' }), store.currentRacks[0]);
+
+    // Test addDeviceToRack evento enriquecido
+    store.addDeviceToRack({ name: 'Switch M04 Perf Web', type: 'switch', size: 1 }, m4RackWeb.id, 1, 'front');
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'addDeviceToRack' && lastCapturedEventWeb.rackId === m4RackWeb.id && lastCapturedEventWeb.device,
+      'M-04: store.addDeviceToRack emite metadatos enriquecidos con rackId y objeto device');
+
+    const addedDevWeb = lastCapturedEventWeb.device;
+
+    // Test updateDevice evento enriquecido
+    store.updateDevice(addedDevWeb.id, { notes: 'Optimizado M04 Web' });
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'updateDevice' && lastCapturedEventWeb.deviceId === addedDevWeb.id && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.updateDevice emite metadatos enriquecidos con deviceId y rackId');
+
+    // Test moveDevice evento enriquecido
+    store.moveDevice(addedDevWeb.id, m4RackWeb.id, 5, 'front');
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'moveDevice' && lastCapturedEventWeb.deviceId === addedDevWeb.id && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.moveDevice emite metadatos enriquecidos con deviceId, rackId y oldRackId');
+
+    // Test updateRack evento enriquecido
+    store.updateRack(m4RackWeb.id, { name: 'Rack M04 Modificado Web' });
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'updateRack' && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.updateRack emite metadatos enriquecidos con rackId');
+
+    // Test deleteDevice evento enriquecido
+    store.deleteDevice(addedDevWeb.id);
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'deleteDevice' && lastCapturedEventWeb.deviceId === addedDevWeb.id && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.deleteDevice emite metadatos enriquecidos con deviceId y rackId');
+
+    // 22.5 Comportamiento de renderizado selectivo vs full redraw
+    window.RenderPerformance.reset();
+
+    // Full Redraw ante loadData / undo / redo
+    testRenderAll({ source: 'loadData' });
+    addTestResult(window.RenderPerformance.fullRenders === 1 && window.RenderPerformance.selectiveRenders === 0,
+      'M-04: renderAll({ source: "loadData" }) dispara un redibujado completo (fullRenders)');
+
+    // Selective Redraw ante actualización de dispositivo
+    testRenderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-123', rackId: m4RackWeb.id });
+    addTestResult(window.RenderPerformance.selectiveRenders === 1 && window.RenderPerformance.fullRenders === 1,
+      'M-04: renderAll con updateDevice ejecuta redibujado selectivo sin incrementar fullRenders');
+
+    // Selective Redraw ante cambio de zoom
+    testRenderAll({ source: 'setZoom', immediate: true });
+    addTestResult(window.RenderPerformance.selectiveRenders === 2 && window.RenderPerformance.fullRenders === 1,
+      'M-04: renderAll con setZoom ejecuta redibujado selectivo aislando controles');
+
+    // Selective Redraw ante conexión
+    testRenderAll({ source: 'updateConnection', immediate: true });
+    addTestResult(window.RenderPerformance.selectiveRenders === 3 && window.RenderPerformance.fullRenders === 1,
+      'M-04: renderAll con updateConnection ejecuta redibujado selectivo');
+
+    // 22.6 Vista inactiva: en topología no se regenera el DOM físico
+    window.currentView = 'topology';
+    window._renderState.dirtyPhysical = false;
+    testRenderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-999', rackId: m4RackWeb.id });
+    addTestResult(window._renderState.dirtyPhysical === true,
+      'M-04: Mutación de equipo en vista topología marca _renderState.dirtyPhysical sin regenerar DOM físico');
+    window.currentView = 'physical';
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

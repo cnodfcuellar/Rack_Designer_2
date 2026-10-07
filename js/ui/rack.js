@@ -1,6 +1,109 @@
 const UNIT_H = 24; // px por U
 let dragState = null;
 
+function buildRackFace(rack, devices, side, searchTerm = '') {
+  const sideDevices = devices.filter(d => (d.mountSide === 'both' || (d.mountSide || 'front') === side));
+  let slotsHTML = '';
+  let skip = 0;
+  for (let u = 1; u <= rack.height; u++) {
+    if (skip > 0) { skip--; continue; }
+    const dev = sideDevices.find(d => d.slotStart === u);
+    if (dev) {
+      const h = dev.size * UNIT_H;
+      let matchClass = '';
+      if (searchTerm) {
+        const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
+        matchClass = fields.includes(searchTerm) ? 'search-match' : 'search-dim';
+      }
+      skip = dev.size - 1;
+      slotsHTML += `<div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}">
+          <div class="device-faceplate ${matchClass}"
+               style="top:0; height:${h}px"
+               data-device-id="${dev.id}"
+               draggable="true">
+            ${buildFaceplate(dev, h, side)}
+            <div class="device-actions">
+              <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
+              <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}"></div>`;
+    }
+  }
+  const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
+  const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
+  const btnText = side === 'front' ? '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
+
+  return `
+    <div class="rack-card ${side === 'rear' ? 'rear-view' : ''}" data-rack-id="${rack.id}" data-side="${side}">
+      <div class="rack-header">
+        <div class="rack-title" title="${titleText}">
+          <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
+          <span class="title-text" style="${side==='rear'?'color:var(--text-secondary); font-style:italic':''}">${escapeHTML(rack.name)}${side === 'rear' ? ' (Trasera)' : ''}</span>
+        </div>
+        <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
+          <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
+          <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
+          <div class="dropdown-menu hidden" id="rack-menu-${side}-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
+            <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
+            <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar Gabinete</div>
+            <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar Gabinete</div>
+          </div>
+        </div>
+      </div>
+      <div class="rack-body">
+        <div class="rack-rail-left">${railHTML}</div>
+        <div class="rack-slots" id="slots-${side}-${rack.id}">
+          ${slotsHTML}
+        </div>
+        <div class="rack-rail-right">${railHTML}</div>
+      </div>
+    </div>
+  `;
+}
+window.buildRackFace = buildRackFace;
+
+/**
+ * M-04: Redibujado selectivo y atómico de un único gabinete.
+ * Actualiza únicamente el rackWrapper especificado sin alterar el resto del DOM.
+ */
+function renderSingleRack(rackId) {
+  const container = document.getElementById('view-physical');
+  if (!container) return false;
+  const rackWrapper = container.querySelector(`.rack-wrapper[data-rack-id="${rackId}"]`);
+  if (!rackWrapper) return false;
+  const rack = store.rackById(rackId);
+  if (!rack) return false;
+
+  const devices = store.allDevicesInRack(rack.id);
+  const searchInput = document.getElementById('global-search');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+  const flipper = rackWrapper.querySelector('.rack-flipper');
+  const wasFlipped = flipper ? flipper.classList.contains('flipped') : false;
+
+  rackWrapper.innerHTML = `
+    <div class="rack-flipper ${wasFlipped ? 'flipped' : ''}" id="flipper-${rack.id}">
+      <div class="rack-face">${buildRackFace(rack, devices, 'front', searchTerm)}</div>
+      <div class="rack-rear">${buildRackFace(rack, devices, 'rear', searchTerm)}</div>
+    </div>
+    <div style="text-align:center; font-size:9px; color:var(--text-muted); margin-top:4px; font-family:var(--font-mono)">
+      ${rack.height}U · ${devices.filter(d => (d.mountSide||'front')==='front' || d.mountSide==='both').reduce((s,d)=>s+d.size,0)}/${rack.height} FRONT · ${devices.filter(d => d.mountSide==='rear' || d.mountSide==='both').reduce((s,d)=>s+d.size,0)}/${rack.height} REAR
+    </div>
+  `;
+
+  bindRackEvents(rackWrapper, wasFlipped ? new Set([rack.id]) : new Set());
+  if (typeof drawPhysicalCables === 'function') {
+    requestAnimationFrame(() => setTimeout(drawPhysicalCables, 20));
+  }
+  return true;
+}
+window.renderSingleRack = renderSingleRack;
+
 function renderPhysical() {
   const container = document.getElementById('view-physical');
   if(!container) return;
@@ -26,7 +129,7 @@ function renderPhysical() {
           <p>No hay gabinetes en esta sala.</p>
           <div style="display:flex; gap:12px; margin-top:16px;">
             <button class="btn-primary" id="empty-btn-add-rack">+ Rack</button>
-            <button class="btn-secondary" id="empty-btn-load-demo" onclick="if(typeof window.loadDemoData === 'function') window.loadDemoData();">
+            <button class="btn-secondary" id="empty-btn-load-demo" onclick="if(typeof window.openDemoSelectionModal === 'function') window.openDemoSelectionModal(); else if(typeof window.loadDemoData === 'function') window.loadDemoData();">
               <i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i> Cargar Plantilla Demo
             </button>
           </div>
@@ -38,71 +141,6 @@ function renderPhysical() {
     bindRackEvents(container, flippedRacks);
     updateZoomLabel();
     return;
-  }
-
-  function buildRackFace(rack, devices, side, searchTerm) {
-    const sideDevices = devices.filter(d => (d.mountSide === 'both' || (d.mountSide || 'front') === side));
-    let slotsHTML = '';
-    let skip = 0;
-    for (let u = 1; u <= rack.height; u++) {
-      if (skip > 0) { skip--; continue; }
-      const dev = sideDevices.find(d => d.slotStart === u);
-      if (dev) {
-        const h = dev.size * UNIT_H;
-        let matchClass = '';
-        if (searchTerm) {
-          const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
-          matchClass = fields.includes(searchTerm) ? 'search-match' : 'search-dim';
-        }
-        skip = dev.size - 1;
-        slotsHTML += `<div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}">
-            <div class="device-faceplate ${matchClass}"
-                 style="top:0; height:${h}px"
-                 data-device-id="${dev.id}"
-                 draggable="true">
-              ${buildFaceplate(dev, h, side)}
-              <div class="device-actions">
-                <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
-                <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
-              </div>
-            </div>
-          </div>`;
-      } else {
-        slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}"></div>`;
-      }
-    }
-    const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
-    const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
-    const btnText = side === 'front' ? '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
-
-    return `
-      <div class="rack-card ${side === 'rear' ? 'rear-view' : ''}" data-rack-id="${rack.id}" data-side="${side}">
-        <div class="rack-header">
-          <div class="rack-title" title="${titleText}">
-            <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
-            <span class="title-text" style="${side==='rear'?'color:var(--text-secondary); font-style:italic':''}">${escapeHTML(rack.name)}${side === 'rear' ? ' (Trasera)' : ''}</span>
-          </div>
-          <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
-            <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
-            <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
-            <div class="dropdown-menu hidden" id="rack-menu-${side}-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
-              <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
-              <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
-              <div class="dropdown-divider"></div>
-              <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar Gabinete</div>
-              <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar Gabinete</div>
-            </div>
-          </div>
-        </div>
-        <div class="rack-body">
-          <div class="rack-rail-left">${railHTML}</div>
-          <div class="rack-slots" id="slots-${side}-${rack.id}">
-            ${slotsHTML}
-          </div>
-          <div class="rack-rail-right">${railHTML}</div>
-        </div>
-      </div>
-    `;
   }
 
   const racksHTML = racks.map(rack => {
