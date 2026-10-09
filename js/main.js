@@ -981,6 +981,7 @@ function initGlobalEvents() {
       const spacingSlider = document.getElementById('topo-spacing');
       const btnAutoOrd = document.getElementById('btn-topo-autoorder');
       const btnCables = document.getElementById('btn-toggle-cables');
+      const btnCableMode = document.getElementById('btn-cable-mode');
       const topoSlotsGroup = document.getElementById('topo-slots-group');
       const topoSlotsDropdown = document.getElementById('topo-slots-dropdown');
       if (currentView === 'physical') {
@@ -995,6 +996,7 @@ function initGlobalEvents() {
         if (btnAutoOrd) btnAutoOrd.classList.add('force-hide');
         if (topoSlotsGroup) topoSlotsGroup.classList.add('force-hide');
         if (btnCables) btnCables.classList.remove('force-hide');
+        if (btnCableMode) btnCableMode.classList.remove('force-hide');
         stopTopo();
         if (window._renderState && window._renderState.dirtyPhysical) {
           renderPhysical();
@@ -1009,6 +1011,8 @@ function initGlobalEvents() {
         if (btnAutoOrd) btnAutoOrd.classList.remove('force-hide');
         if (topoSlotsGroup) topoSlotsGroup.classList.remove('force-hide');
         if (btnCables) btnCables.classList.add('force-hide');
+        if (btnCableMode) btnCableMode.classList.add('force-hide');
+        if (typeof window.exitInteractiveCableMode === 'function') window.exitInteractiveCableMode();
         if (typeof renderTopologySlots === 'function') renderTopologySlots();
         startTopo();
         if (window._renderState && window._renderState.dirtyTopology) {
@@ -1438,6 +1442,16 @@ function initGlobalEvents() {
         if (checkboxCables.checked && typeof drawPhysicalCables === 'function') {
           drawPhysicalCables();
         }
+      }
+    });
+  }
+
+  // M-34: Botón para alternar Modo Cableado Interactivo
+  const btnCableMode = document.getElementById('btn-cable-mode');
+  if (btnCableMode) {
+    btnCableMode.addEventListener('click', () => {
+      if (typeof window.toggleInteractiveCableMode === 'function') {
+        window.toggleInteractiveCableMode();
       }
     });
   }

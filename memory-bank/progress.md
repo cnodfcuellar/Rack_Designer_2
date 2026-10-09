@@ -19,16 +19,14 @@
 - **Exportación de Alta Fidelidad e Importación Masiva (M-21, M-22, M-37):** Exportación PNG 1:1 con `html2canvas` a escala Retina (2x) con fallback procedimental a Canvas 2D. Generación de plantillas Excel/CSV con metadatos completos y modal de importación masiva (`ImportModal.js`) con análisis de colisiones y rollback atómico completo vía Undo.
 - **Plantillas Demo Profesionales:** Centro de Datos Empresarial (ANSI/TIA-942) y Campus Universitario UTN con red jerárquica de 3 capas (10 edificios, 13 gabinetes, 24 VLANs y direccionamiento 10.0.0.0/8) accesibles mediante el modal `#modal-demo-selection`.
 - **Cableado Frontal vs. Trasero (M-33):** Soporte integral en modelo de datos (`sourceSide`, `targetSide`: `'front' | 'rear'`), aislamiento de colisiones de puertos por cara física en equipos duales (`mountSide: 'both'`), transposición simétrica en inversión de enlaces (`swapConnectionDirection`), enriquecimiento visual en tabla de conexiones con insignias esmeralda/azul, selectores dedicados en modal `#modal-cable` e indexación física en trazado de cables según cara activa.
-- **Testing Automatizado Exhaustivo:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con **370 pruebas automáticas en 23 grupos pasando al 100% de éxito (0 fallas)**.
+- **Creación Gráfica e Interactiva de Conexiones (Drag-to-Connect) (M-34):** Modo interactivo activable mediante botón de toolbar `#btn-cable-mode`, cursor crosshair, trazado elástico de Bézier SVG en tiempo real (`#rubberband-interactive-cable`), botones rápidos `.dev-btn.connect` en carátulas de equipos en rack y periféricos de piso, y preselección inteligente de dispositivos en `CableModal.js`.
+- **Testing Automatizado Exhaustivo:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con **381 pruebas automáticas en 24 grupos pasando al 100% de éxito (0 fallas)**.
 
 ## Current Issues & Technical Debt
-- **Interactividad Drag-to-Connect:** La creación de conexiones requiere abrir el modal en lugar de permitir trazar cables visualmente arrastrando desde los puertos del faceplate (`M-34`).
+- **Adaptabilidad Responsive en Pantallas Medianas:** Ajustar layout para pantallas de 1024px a 1366px (`M-25A`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 6 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (36 de 42 completadas, 85.7% global; **Fases 0, 1, 4 y 5 al 100%**; **Fase 2 al 87.5%** con 7 de 8 completadas):
-
-### Fase 2 — Core de Datos y Puertos
-- Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
+Total de 5 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (37 de 42 completadas, 88.1% global; **Fases 0, 1, 2, 4 y 5 al 100%**):
 
 ### Fase 3 — Ergonomía y Layout
 - Diseño adaptativo y responsive para modo Desktop / Laptops medianas (`M-25A`).
@@ -58,3 +56,4 @@ Total de 6 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.g
 - **Oct 2026 (Sprint 13):** Plantilla Demo Campus Universitario UTN (10 edificios, 13 racks, 24 VLANs), modal `#modal-demo-selection`, compatibilidad total con runner en protocolo `file:///` y corrección de límites perimetrales de topología (`rx`/`ry`). 360 pruebas en 22 grupos al 100%.
 - **Oct 2026 (Sprint 14):** Creación de la biblioteca de 19 skins vectoriales isométricas en `assets/img/` (30°, 3 planos de iluminación, sombras de piso) y generación de los 4 diagramas SVG arquitectónicos completos en `doc/doc_img/doc_svg/architecture/` (Codemap exhaustivo, Diagrama UML, Grafo de Relaciones y Dependencias).
 - **Oct 2026 (Sprint 15):** Implementación de M-33: Cableado Frontal vs. Trasero (`sourceSide`, `targetSide`, aislamiento de colisiones de puertos por cara en equipos duales, transposición de caras en swap, selectores en modal `#modal-cable` y trazado SVG reactivo). Suite ampliada a 370 pruebas en 23 grupos al 100% de éxito.
+- **Oct 2026 (Sprint 16):** Implementación de M-34: Creación Gráfica e Interactiva de Conexiones (Drag-to-Connect en vista física, rubber-band SVG en tiempo real y preselección inteligente en modal). Culminación al 100% de la Fase 2 (Core de Datos y Puertos) y suite ampliada a 381 pruebas en 24 grupos al 100% de éxito.

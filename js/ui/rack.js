@@ -23,6 +23,7 @@ function buildRackFace(rack, devices, side, searchTerm = '') {
                draggable="true">
             ${buildFaceplate(dev, h, side)}
             <div class="device-actions">
+              <button class="dev-btn connect" data-connect-dev="${dev.id}" title="Conectar / Cablear equipo"><i class="svg-icon icon-plug" style="width:12px; height:12px;"></i></button>
               <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
               <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
             </div>
@@ -613,6 +614,10 @@ function bindRackEvents(container, flippedRacks) {
     fp.addEventListener('click', e => {
       e.stopPropagation();
       const devId = fp.dataset.deviceId;
+      if (window._cableModeActive && typeof window.handleInteractiveCableTarget === 'function') {
+        window.handleInteractiveCableTarget(devId);
+        return;
+      }
       window.appState = window.appState || {};
       window.appState.selectedType = 'device';
       window.appState.selectedId = devId;
@@ -630,6 +635,17 @@ function bindRackEvents(container, flippedRacks) {
       window.appState.selectedId = rackId;
       if (typeof window.renderInspector === 'function') window.renderInspector('rack', rackId);
       if (typeof window.renderOutliner === 'function') window.renderOutliner();
+    });
+  });
+  container.querySelectorAll('.dev-btn.connect').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const devId = btn.dataset.connectDev;
+      if (typeof window.startInteractiveCableFromDevice === 'function') {
+        window.startInteractiveCableFromDevice(devId);
+      } else if (typeof openCableModal === 'function') {
+        openCableModal(devId);
+      }
     });
   });
   container.querySelectorAll('.dev-btn.edit').forEach(btn => {
@@ -993,3 +1009,234 @@ if (!window._physicalCablesBound) {
   });
   window._physicalCablesBound = true;
 }
+
+// ============================================================
+// M-34: MOTOR INTERACTIVO DRAG-TO-CONNECT Y CABLEADO EN VISTA FÍSICA
+// ============================================================
+window._cableModeActive = false;
+window._cableModeSourceId = null;
+window._cableModeSourcePort = null;
+window._cableModeSourceSide = 'front';
+window._cablePointerMoveBound = false;
+
+function toggleInteractiveCableMode() {
+  if (window._cableModeActive) {
+    exitInteractiveCableMode();
+  } else {
+    enterInteractiveCableMode();
+  }
+}
+window.toggleInteractiveCableMode = toggleInteractiveCableMode;
+
+function enterInteractiveCableMode() {
+  window._cableModeActive = true;
+  window._cableModeSourceId = null;
+  window._cableModeSourcePort = null;
+  
+  const btn = document.getElementById('btn-cable-mode');
+  if (btn) {
+    btn.classList.add('active');
+    const lbl = document.getElementById('cable-mode-label');
+    if (lbl) lbl.textContent = 'Selecciona Origen...';
+  }
+  
+  const container = document.getElementById('view-physical');
+  if (container) container.classList.add('cable-mode-active');
+  
+  // Asegurar que la capa de cables esté visible
+  const checkboxCables = document.getElementById('checkbox-toggle-cables');
+  if (checkboxCables && !checkboxCables.checked) {
+    checkboxCables.checked = true;
+    const svg = document.getElementById('physical-cables-svg');
+    if (svg) svg.style.display = 'block';
+    if (typeof drawPhysicalCables === 'function') drawPhysicalCables();
+  }
+
+  if (typeof notify === 'function') {
+    notify('Modo Cableado: Haz clic en el equipo o puerto de origen', 'info', 3000);
+  }
+  bindCableModePointerEvents();
+}
+window.enterInteractiveCableMode = enterInteractiveCableMode;
+
+function exitInteractiveCableMode() {
+  window._cableModeActive = false;
+  window._cableModeSourceId = null;
+  window._cableModeSourcePort = null;
+  
+  const btn = document.getElementById('btn-cable-mode');
+  if (btn) {
+    btn.classList.remove('active');
+    const lbl = document.getElementById('cable-mode-label');
+    if (lbl) lbl.textContent = 'Trazar Cable';
+  }
+  
+  const container = document.getElementById('view-physical');
+  if (container) container.classList.remove('cable-mode-active');
+  
+  document.querySelectorAll('.cable-mode-source').forEach(el => {
+    el.classList.remove('cable-mode-source');
+  });
+  
+  removeRubberbandLine();
+  unbindCableModePointerEvents();
+}
+window.exitInteractiveCableMode = exitInteractiveCableMode;
+
+function startInteractiveCableFromDevice(deviceId, portName = null, portSide = null) {
+  if (!deviceId) return;
+  const dev = store.deviceById(deviceId);
+  if (!dev) return;
+
+  if (!window._cableModeActive) {
+    enterInteractiveCableMode();
+  }
+  
+  window._cableModeSourceId = deviceId;
+  window._cableModeSourcePort = portName;
+  window._cableModeSourceSide = portSide || (dev.mountSide === 'rear' ? 'rear' : 'front');
+
+  // Resaltar visualmente el equipo origen
+  document.querySelectorAll('.cable-mode-source').forEach(el => el.classList.remove('cable-mode-source'));
+  const srcEl = document.querySelector(`[data-device-id="${deviceId}"]`);
+  if (srcEl) srcEl.classList.add('cable-mode-source');
+
+  const btn = document.getElementById('btn-cable-mode');
+  if (btn) {
+    const lbl = document.getElementById('cable-mode-label');
+    if (lbl) lbl.textContent = `A: ${dev.name.slice(0, 10)}... (Clic Destino)`;
+  }
+
+  if (typeof notify === 'function') {
+    notify(`Origen: ${dev.name}. Ahora haz clic en el equipo destino`, 'info', 2500);
+  }
+}
+window.startInteractiveCableFromDevice = startInteractiveCableFromDevice;
+
+function handleInteractiveCableTarget(targetDeviceId) {
+  if (!window._cableModeActive) return;
+
+  // Si no hay origen seleccionado aún, este equipo pasa a ser el origen
+  if (!window._cableModeSourceId) {
+    startInteractiveCableFromDevice(targetDeviceId);
+    return;
+  }
+
+  const srcId = window._cableModeSourceId;
+  const dstId = targetDeviceId;
+
+  if (srcId === dstId) {
+    // Si hace clic en el mismo equipo, abrir modal para seleccionar puertos en bucle o cancelar
+    if (typeof notify === 'function') {
+      notify('Equipo de origen y destino son el mismo', 'warn', 2000);
+    }
+    return;
+  }
+
+  const srcDev = store.deviceById(srcId);
+  const dstDev = store.deviceById(dstId);
+  if (!srcDev || !dstDev) {
+    exitInteractiveCableMode();
+    return;
+  }
+
+  const srcPort = window._cableModeSourcePort;
+  const srcSide = window._cableModeSourceSide;
+  const dstSide = dstDev.mountSide === 'rear' ? 'rear' : 'front';
+
+  // Salir de modo cableado interactivo
+  exitInteractiveCableMode();
+
+  // Abrir CableModal preconfigurado con origen y destino seleccionados
+  if (typeof openCableModal === 'function') {
+    openCableModal(srcId, srcPort, srcSide);
+    
+    // Configurar destino automáticamente
+    const dstSelect = document.getElementById('cable-dst-dev');
+    if (dstSelect) {
+      dstSelect.value = dstId;
+      if (typeof updateCableLocationDisplay === 'function') {
+        updateCableLocationDisplay('dst');
+      }
+    }
+    const dstSideSelect = document.getElementById('cable-dst-side');
+    if (dstSideSelect) dstSideSelect.value = dstSide;
+
+    if (typeof checkCableCollision === 'function') {
+      checkCableCollision();
+    }
+    
+    if (typeof notify === 'function') {
+      notify(`Conectando ${srcDev.name} ➔ ${dstDev.name}`, 'success', 2000);
+    }
+  }
+}
+window.handleInteractiveCableTarget = handleInteractiveCableTarget;
+
+function bindCableModePointerEvents() {
+  if (window._cablePointerMoveBound) return;
+  const container = document.getElementById('view-physical-content');
+  if (!container || typeof container.addEventListener !== 'function') return;
+
+  container.addEventListener('pointermove', onCablePointerMove);
+  window._cablePointerMoveBound = true;
+}
+
+function unbindCableModePointerEvents() {
+  const container = document.getElementById('view-physical-content');
+  if (container && typeof container.removeEventListener === 'function') {
+    container.removeEventListener('pointermove', onCablePointerMove);
+  }
+  window._cablePointerMoveBound = false;
+}
+
+function onCablePointerMove(e) {
+  if (!window._cableModeActive || !window._cableModeSourceId) {
+    removeRubberbandLine();
+    return;
+  }
+
+  const svg = document.getElementById('physical-cables-svg');
+  const container = document.getElementById('view-physical-content');
+  if (!svg || !container) return;
+
+  const srcEl = document.querySelector(`[data-device-id="${window._cableModeSourceId}"]`);
+  if (!srcEl) {
+    removeRubberbandLine();
+    return;
+  }
+
+  const containerRect = container.getBoundingClientRect();
+  const scale = containerRect.width ? container.offsetWidth / containerRect.width : 1;
+  const srcRect = srcEl.getBoundingClientRect();
+
+  const x1 = (srcRect.left + srcRect.width / 2 - containerRect.left) * scale;
+  const y1 = (srcRect.top + srcRect.height / 2 - containerRect.top) * scale;
+  const x2 = (e.clientX - containerRect.left) * scale;
+  const y2 = (e.clientY - containerRect.top) * scale;
+
+  let rubberband = document.getElementById('rubberband-interactive-cable');
+  if (!rubberband) {
+    rubberband = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    rubberband.setAttribute('id', 'rubberband-interactive-cable');
+    rubberband.setAttribute('class', 'rubberband-cable');
+    rubberband.setAttribute('stroke', '#38bdf8');
+    rubberband.setAttribute('stroke-width', '3');
+    rubberband.setAttribute('fill', 'none');
+    rubberband.setAttribute('opacity', '0.9');
+    svg.appendChild(rubberband);
+  }
+
+  // Trazado Bézier fluido rubber-band elástico
+  const dx = (x2 - x1) * 0.4;
+  const d = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+  rubberband.setAttribute('d', d);
+}
+
+function removeRubberbandLine() {
+  const rubberband = document.getElementById('rubberband-interactive-cable');
+  if (rubberband && rubberband.parentNode) {
+    rubberband.parentNode.removeChild(rubberband);
+  }
+}
+

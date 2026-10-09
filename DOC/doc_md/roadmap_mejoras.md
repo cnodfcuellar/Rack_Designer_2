@@ -62,7 +62,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-31 | ~~Separación y posicionamiento de etiquetas en topología~~ | ✅ COMPLETADO |
 | M-32 | ~~Layout de árbol jerárquico en topología~~ | ✅ COMPLETADO |
 | M-33 | ~~Sistema de cableado frontal vs trasero~~ | ✅ COMPLETADO |
-| M-34 | Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) | 🪢 UX |
+| M-34 | ~~Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect)~~ | ✅ COMPLETADO |
 | M-35 | Eliminación de restricciones de ubicación (Rack vs Piso/Frente) | 🔄 Core |
 | M-36 | ~~Creación, edición y eliminación de salas y racks desde el Inspector~~ | ✅ COMPLETADO |
 | M-37 | ~~Fidelidad visual 1:1 en exportación de imágenes PNG (html2canvas)~~ | ✅ COMPLETADO |
@@ -72,7 +72,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **36 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-33]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **6** (total general: 42 mejoras, 85.7% del roadmap global). ¡Fase 0, Fase 1, Fase 4 y Fase 5 completadas al 100%! Fase 2 casi completa (7 de 8 completadas, 87.5% → ¡Fase 2 avanzada a 87.5% con M-33!). Fase 3 avanzada. Fase 6 en marcha.
+> **37 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-33]✓`, `[M-34]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **5** (total general: 42 mejoras, 88.1% del roadmap global). **¡Fase 0, Fase 1, Fase 2, Fase 4 y Fase 5 completadas al 100%!** (Fase 2 finalizada con 8 de 8 completadas tras M-34). Fase 3 avanzada. Fase 6 en marcha.
 
 ---
 
@@ -291,12 +291,15 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 |---|---|---|---|---|
 | 2.1 | M-26 | ~~Modelo de puertos avanzado + validaciones~~ | `store.js`, `CableModal.js`, `demoData.js` | ✅ COMPLETADO (VLAN CRUD, validación colisión puertos, getDevicePorts) |
 | 2.2 | M-33 | ~~Cableado frontal vs trasero~~ | `store.js`, `CableModal.js`, `rack.js`, `tables.js` | ✅ COMPLETADO (sourceSide/targetSide, discriminación colisión dual, UI modal y tabla) |
-| 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` | Pendiente |
+| 2.3 | M-34 | ~~Drag-to-Connect en vista física~~ | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` | ✅ COMPLETADO (Modo interactivo #btn-cable-mode, cursor crosshair, elástico rubber-band, botones de cableado rápido y preselección automática de origen/destino) |
 | 2.4 | M-19 | ~~Propiedades faltantes en tabla inventario~~ | `tables.js`, `ExportModal.js` | ✅ COMPLETADO (columnas tamaño/skin/notas + inline edit + exportación) |
 | 2.5 | M-21 | ~~Plantilla completa de exportación~~ | `ImportModal.js`, `index.html`, `tables.js` | ✅ COMPLETADO (21 campos + hoja Guia_Valores + datos ejemplo/actuales) |
 | 2.6 | M-37 | ~~Exportación fiel 1:1 (html2canvas)~~ | `index.html`, `ExportModal.js`, `rack.css` | ✅ COMPLETADO (captura Retina 1:1 DOM + fallback procedimental) |
 | 2.7 | M-22 | ~~Importación masiva CSV/Excel~~ | `ImportModal.js`, `index.html`, `tables.js`, `main.js` | ✅ COMPLETADO (Drag & Drop, validación colisiones slots, auto-racks, resolver conflictos y Undo atómico) |
 | 2.8 | M-41 | ~~Botón para cambiar orientación e invertir conexiones~~ | `CableModal.js`, `index.html`, `rack.js`, `tables.js` | ✅ COMPLETADO (Botón Swap ⇄ en modal y tabla, selector de canaleta superior/inferior y trazado físico SVG) |
+
+> [!TIP]
+> 🎉 **¡Fase 2 completada al 100%!** Todas las 8 mejoras del Core de Datos y Puertos (`M-26`, `M-33`, `M-34`, `M-19`, `M-21`, `M-37`, `M-22`, `M-41`) han sido implementadas y validadas con 381 pruebas automatizadas al 100% de éxito.
 
 ---
 

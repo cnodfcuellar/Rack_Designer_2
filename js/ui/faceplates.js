@@ -340,7 +340,8 @@ function getFloorFaceplate(device) {
         <div class="floor-device-meta">${escapeHTML(device.ip) || escapeHTML(device.type).toUpperCase()}</div>
       </div>
       <div class="device-actions">
-        <button class="dev-btn menu" data-menu-dev="${device.id}" title="Opciones" style="background:none; border:none; font-size:16px; padding:0 8px; color:var(--text-muted); cursor:pointer;">⋮</button>
+        <button class="dev-btn connect" data-connect-dev="${device.id}" title="Conectar / Cablear equipo" style="border:none; background:none; cursor:pointer; color:var(--accent); padding:0 4px;"><i class="svg-icon icon-plug" style="width:12px; height:12px;"></i></button>
+        <button class="dev-btn menu" data-menu-dev="${device.id}" title="Opciones" style="background:none; border:none; font-size:16px; padding:0 6px; color:var(--text-muted); cursor:pointer;">⋮</button>
       </div>
     </div>`;
 }

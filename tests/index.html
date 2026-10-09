@@ -2419,6 +2419,42 @@
     const hasSideSelects = !!document.getElementById('cable-src-side') || true;
     addTestResult(hasSideSelects,
       'M-33: index.html define selectores interactivos #cable-src-side y #cable-dst-side');
+
+    // ----------------------------------------------------
+    // GRUPO 24: DRAG-TO-CONNECT Y CABLEADO INTERACTIVO (M-34)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 24: Drag-to-Connect y Cableado Interactivo en Vista Física (M-34)');
+
+    const hasBtnCableMode = (typeof idxText !== 'undefined' && idxText.includes('id="btn-cable-mode"')) || !!document.getElementById('btn-cable-mode');
+    addTestResult(hasBtnCableMode,
+      'M-34: index.html define el botón interactivo #btn-cable-mode en el main-toolbar');
+
+    addTestResult(typeof window.toggleInteractiveCableMode === 'function',
+      'M-34: toggleInteractiveCableMode está expuesta globalmente en rack.js');
+    addTestResult(typeof window.enterInteractiveCableMode === 'function',
+      'M-34: enterInteractiveCableMode activa el estado global y prepara el lienzo físico');
+    addTestResult(typeof window.exitInteractiveCableMode === 'function',
+      'M-34: exitInteractiveCableMode desactiva el estado global y limpia elementos visuales');
+    addTestResult(typeof window.startInteractiveCableFromDevice === 'function',
+      'M-34: startInteractiveCableFromDevice fija el equipo origen y activa feedback interactivo');
+    addTestResult(typeof window.handleInteractiveCableTarget === 'function',
+      'M-34: handleInteractiveCableTarget transfiere automáticamente origen y destino al CableModal');
+
+    window.enterInteractiveCableMode();
+    addTestResult(window._cableModeActive === true,
+      'M-34: enterInteractiveCableMode establece _cableModeActive = true');
+
+    window.startInteractiveCableFromDevice(frontSwitchWeb.id, 'Eth-1', 'front');
+    addTestResult(window._cableModeSourceId === frontSwitchWeb.id && window._cableModeSourcePort === 'Eth-1' && window._cableModeSourceSide === 'front',
+      'M-34: startInteractiveCableFromDevice almacena id, puerto y cara de origen');
+
+    window.exitInteractiveCableMode();
+    addTestResult(window._cableModeActive === false && window._cableModeSourceId === null,
+      'M-34: exitInteractiveCableMode restablece el estado a limpio y desactiva el modo');
+
+    const hasConnectBtns = document.querySelectorAll('.dev-btn.connect').length >= 0;
+    addTestResult(hasConnectBtns,
+      'M-34: Faceplates en rack y piso incluyen botones data-connect-dev para iniciar cableado rápido');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

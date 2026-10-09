@@ -1867,6 +1867,52 @@ async function runTests() {
     'M-33: index.html define selectores interactivos #cable-src-side y #cable-dst-side');
 
   // ----------------------------------------------------
+  // GRUPO 24: DRAG-TO-CONNECT Y CABLEADO INTERACTIVO (M-34)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 24: Drag-to-Connect y Cableado Interactivo en Vista Física (M-34)');
+
+  // 24.1 Botón de modo cableado en index.html
+  assert(htmlSrc.includes('id="btn-cable-mode"') && htmlSrc.includes('id="cable-mode-label"'),
+    'M-34: index.html define el botón interactivo #btn-cable-mode en el main-toolbar');
+
+  // 24.2 Estilos CSS para el modo cableado en rack.css
+  const rackCssSrc = fs.readFileSync(path.join(__dirname, '../css/components/rack.css'), 'utf8');
+  assert(rackCssSrc.includes('#btn-cable-mode.active') && rackCssSrc.includes('.cable-mode-active') && rackCssSrc.includes('.rubberband-cable'),
+    'M-34: rack.css define estilos para modo cableado activo, cursor crosshair y cable elástico rubber-band');
+
+  // 24.3 Funciones globales expuestas en rack.js
+  loadScript('../js/ui/rack.js');
+  assert(typeof global.toggleInteractiveCableMode === 'function',
+    'M-34: toggleInteractiveCableMode está expuesta globalmente en rack.js');
+  assert(typeof global.enterInteractiveCableMode === 'function',
+    'M-34: enterInteractiveCableMode activa el estado global y prepara el lienzo físico');
+  assert(typeof global.exitInteractiveCableMode === 'function',
+    'M-34: exitInteractiveCableMode desactiva el estado global y limpia elementos visuales');
+  assert(typeof global.startInteractiveCableFromDevice === 'function',
+    'M-34: startInteractiveCableFromDevice fija el equipo origen y activa feedback interactivo');
+  assert(typeof global.handleInteractiveCableTarget === 'function',
+    'M-34: handleInteractiveCableTarget transfiere automáticamente origen y destino al CableModal');
+
+  // 24.4 Flujo interactivo: entrar, fijar origen y salir
+  global.enterInteractiveCableMode();
+  assert(global._cableModeActive === true,
+    'M-34: enterInteractiveCableMode establece _cableModeActive = true');
+
+  global.startInteractiveCableFromDevice(frontSwitch.id, 'Eth-1', 'front');
+  assert(global._cableModeSourceId === frontSwitch.id && global._cableModeSourcePort === 'Eth-1' && global._cableModeSourceSide === 'front',
+    'M-34: startInteractiveCableFromDevice almacena id, puerto y cara de origen');
+
+  global.exitInteractiveCableMode();
+  assert(global._cableModeActive === false && global._cableModeSourceId === null,
+    'M-34: exitInteractiveCableMode restablece el estado a limpio y desactiva el modo');
+
+  // 24.5 Botón connect presente en las carátulas de equipos
+  const rackJsSrc = fs.readFileSync(path.join(__dirname, '../js/ui/rack.js'), 'utf8');
+  const faceplatesSrc = fs.readFileSync(path.join(__dirname, '../js/ui/faceplates.js'), 'utf8');
+  assert(rackJsSrc.includes('data-connect-dev') && faceplatesSrc.includes('data-connect-dev'),
+    'M-34: Faceplates en rack y piso incluyen botones data-connect-dev para iniciar cableado rápido');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');

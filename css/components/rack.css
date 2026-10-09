@@ -355,5 +355,60 @@
   display: none !important;
 }
 
+/* ============================================================
+   M-34: DRAG-TO-CONNECT Y MODO CABLEADO INTERACTIVO
+============================================================ */
+#btn-cable-mode.active {
+  background: var(--accent);
+  color: #020617;
+  border-color: var(--accent);
+  font-weight: 700;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.cable-mode-active #view-physical-content {
+  cursor: crosshair;
+}
+
+.cable-mode-active .device-faceplate,
+.cable-mode-active .floor-device-card,
+.cable-mode-active .rear-port-jack {
+  cursor: crosshair !important;
+}
+
+.cable-mode-active .device-faceplate:hover,
+.cable-mode-active .floor-device-card:hover {
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+}
+
+.cable-mode-source {
+  outline: 2px solid #22c55e !important;
+  outline-offset: -2px;
+  animation: pulseCableSrc 1.5s infinite;
+}
+
+@keyframes pulseCableSrc {
+  0%, 100% { box-shadow: 0 0 4px #22c55e; }
+  50% { box-shadow: 0 0 16px #22c55e; }
+}
+
+.dev-btn.connect {
+  color: var(--accent);
+}
+.dev-btn.connect:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.rubberband-cable {
+  stroke-dasharray: 6 3;
+  animation: rubberBandDash 0.8s linear infinite;
+}
+
+@keyframes rubberBandDash {
+  to { stroke-dashoffset: -9; }
+}
+
 
 

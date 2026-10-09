@@ -1,3 +1,25 @@
+## [2026-10-09] Implementación de M-34: Creación Gráfica e Interactiva de Conexiones en Vista Física (Drag-to-Connect)
+
+### 🔌 Vista Física, Cableado Interactivo y Ergonomía (`M-34`)
+- **Modo Cableado Interactivo (`js/ui/rack.js` y `css/components/rack.css`):**
+  - Botón `#btn-cable-mode` integrado en la barra de herramientas principal (`#main-toolbar`) con indicador visual de estado activo (brillo esmeralda, cursor crosshair y animación flotante).
+  - Activación mediante atajo o botón: permite iniciar y cancelar el trazado dinámico con retroalimentación inmediata.
+  - Efecto visual elástico *rubber-band* en tiempo real con curva Bézier cúbica SVG (`#rubberband-interactive-cable`) que sigue la posición del puntero del ratón desde el puerto o equipo origen hasta el objetivo.
+  - Resaltado pulsante en verde (`.cable-mode-source`) para el equipo y puerto origen seleccionado.
+- **Botones Directos en Carátulas (`device-actions`):**
+  - Botón rápido `.dev-btn.connect` con icono de enchufe/cable añadido a los equipos montados en rack y a las tarjetas de periféricos de piso (`js/ui/faceplates.js`).
+  - Permite iniciar el cableado interactivo con un solo clic directamente desde el frontal del equipo.
+- **Preselección Inteligente en Modal (`CableModal.js`):**
+  - Al hacer clic en un dispositivo destino mientras el modo cableado está activo, se finaliza el trazado interactivo y se abre el modal `#modal-cable` con el origen y destino ya preseleccionados y validados.
+  - Permite configurar o confirmar puertos y VLANs con máxima fluidez y cero fricción.
+- **Testing Automatizado Exhaustivo:**
+  - Grupo 24 añadido en `tests/integrity_check.cjs` y en el runner web `tests/index.html` con 11 nuevas pruebas técnicas.
+  - Suite de pruebas de integridad elevada a **381 pruebas automáticas en 24 grupos pasando al 100% de éxito (0 fallos)**.
+- **Cierre de Fase 2:**
+  - Culminación total de la Fase 2 (Core de Datos y Puertos) con 8 de 8 tareas finalizadas (100%). Avance global: 37 de 42 mejoras (88.1%).
+
+---
+
 ## [2026-10-09] Implementación de M-33: Sistema de Cableado Frontal vs. Trasero
 
 ### 🔌 Core de Datos, Conexiones y Ergonomía (`M-33`)
