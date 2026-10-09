@@ -183,11 +183,24 @@ Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos 
 ¡Ahora también puedes visualizar cómo están conectados los cables en la vida real!
 
 ### Crear una conexión
+Tienes dos métodos para conectar equipos:
+
+#### Método A: Modo Cableado Interactivo en Vista Física (*Drag-to-Connect*, M-34)
+¡La forma más rápida y visual de cablear!
+1. En la **Vista Física**, haz clic en el botón **`Modo Cableado`** (`#btn-cable-mode`) en la barra de herramientas superior, o haz clic directamente en el botón **`🔌`** de cualquier equipo en rack o de piso.
+2. El cursor cambiará a estilo *crosshair* (mira de precisión) y el botón se iluminará.
+3. Haz clic en el equipo o puerto de origen.
+4. Mueve el ratón hacia el equipo destino: verás una **línea elástica (*rubber-band*) en tiempo real** trazando una curva Bézier dinámica que conecta el origen con el puntero.
+5. Haz clic en el equipo destino: el modal de conexión se abrirá **automáticamente con el equipo origen y destino ya preseleccionados**.
+6. Selecciona los puertos deseados y pulsa **"Conectar"**.
+
+#### Método B: Modal Tradicional de Conexión
 1. Haz **doble clic** en un equipo (en la vista Topología o desde la tabla inferior).
 2. Se abrirá el modal de **"Nueva Conexión"**.
 3. Selecciona el equipo de origen, el equipo de destino y los puertos. 
    - *Tip:* Marca la casilla **"Mostrar solo puertos libres"** para ocultar los puertos que ya están ocupados y evitar errores.
-   - **Botón Swap de Inversión (⇄, M-41):** Usa el botón central de intercambio `#btn-cable-swap` para alternar instantáneamente el origen y el destino con un solo clic.
+   - **Discriminación de Cara Frontal vs. Trasera (M-33):** Usa los selectores de cara para especificar si el cable se conecta en la cara `[Frontal]` o `[Trasera]` del equipo. En servidores y almacenamiento de doble cara (`both`), los puertos traseros y frontales se gestionan independientemente sin falsas colisiones.
+   - **Botón Swap de Inversión (⇄, M-41):** Usa el botón central de intercambio `#btn-cable-swap` para alternar instantáneamente el origen y el destino (incluyendo sus caras) con un solo clic.
    - **Orientación de Canaleta (M-41):** Elige entre **Canaleta Superior (Techo / Bandeja Aérea)** o **Canaleta Inferior (Piso Técnico / Fondo)** para segregar las rutas físicas del cableado.
 4. Asigna una **VLAN** (ej. VLAN 10 Gestión, VLAN 20 Datos). El sistema sugerirá automáticamente un color de cable basado en la VLAN seleccionada.
 5. Haz clic en **"Conectar"**. El sistema verificará que no haya colisiones antes de enlazar los puertos.
