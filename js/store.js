@@ -640,19 +640,35 @@ class Store {
       else { ethCount = 2; fibCount = 0; }
     }
 
+    // Configurar cara predeterminada según montaje del equipo
+    const devMount = dev.mountSide || 'front';
+    const isDualMount = devMount === 'both';
+
     for (let i = 1; i <= ethCount; i++) {
       const pName = `Eth-${i}`;
+      // En equipos de doble cara (mountSide: 'both'), los primeros 2 puertos suelen ser de gestión/consola o frontales,
+      // pero por claridad técnica estándar se asigna 'rear' a servidores/almacenamiento para datos o 'front' para switches
+      let defaultSide = 'front';
+      if (devMount === 'rear') {
+        defaultSide = 'rear';
+      } else if (isDualMount) {
+        // En servidores y storage, los puertos LAN y SFP se ubican por defecto en la cara trasera
+        defaultSide = ['server', 'storage', 'san', 'ups', 'pdu'].includes(String(dev.type).toLowerCase()) ? 'rear' : 'front';
+      }
+
       portsMap.set(pName.toLowerCase(), {
         id: pName,
         name: pName,
         label: `Eth ${i}`,
         type: 'ethernet',
+        side: defaultSide,
         isOccupied: false,
         connection: null,
         connectionId: null,
         peerDeviceId: null,
         peerDeviceName: null,
         peerPort: null,
+        peerSide: null,
         cableType: null,
         cableColor: null,
         vlanId: 1,
@@ -665,17 +681,26 @@ class Store {
 
     for (let i = 1; i <= fibCount; i++) {
       const pName = `SFP-${i}`;
+      let defaultSide = 'front';
+      if (devMount === 'rear') {
+        defaultSide = 'rear';
+      } else if (isDualMount) {
+        defaultSide = ['server', 'storage', 'san'].includes(String(dev.type).toLowerCase()) ? 'rear' : 'front';
+      }
+
       portsMap.set(pName.toLowerCase(), {
         id: pName,
         name: pName,
         label: `SFP ${i}`,
         type: 'fiber',
+        side: defaultSide,
         isOccupied: false,
         connection: null,
         connectionId: null,
         peerDeviceId: null,
         peerDeviceName: null,
         peerPort: null,
+        peerSide: null,
         cableType: null,
         cableColor: null,
         vlanId: 1,
@@ -689,8 +714,10 @@ class Store {
     conns.forEach(c => {
       const isSrc = c.sourceDeviceId === deviceId;
       const portName = isSrc ? c.sourcePort : c.targetPort;
+      const connSide = isSrc ? (c.sourceSide || (devMount === 'rear' ? 'rear' : 'front')) : (c.targetSide || (devMount === 'rear' ? 'rear' : 'front'));
       const peerDevId = isSrc ? c.targetDeviceId : c.sourceDeviceId;
       const peerPort = isSrc ? c.targetPort : c.sourcePort;
+      const peerSide = isSrc ? (c.targetSide || 'front') : (c.sourceSide || 'front');
       const peerDev = this.deviceById(peerDevId);
       const key = String(portName).trim().toLowerCase();
 
@@ -702,11 +729,15 @@ class Store {
           name: portName,
           label: portName,
           type: isFiber ? 'fiber' : 'ethernet',
+          side: connSide,
           isOccupied: false,
           alias: '',
           mode: isFiber ? 'trunk' : 'access'
         };
         portsMap.set(key, portObj);
+      } else {
+        // Sincronizar el lado con la conexión activa si difiere
+        if (connSide) portObj.side = connSide;
       }
 
       const vId = c.vlanId !== undefined ? Number(c.vlanId) : 1;
@@ -718,6 +749,7 @@ class Store {
       portObj.peerDeviceId = peerDevId;
       portObj.peerDeviceName = peerDev ? peerDev.name : 'Desconocido';
       portObj.peerPort = peerPort;
+      portObj.peerSide = peerSide;
       portObj.cableType = c.cableType || 'Cobre';
       portObj.cableColor = c.color || '#3b82f6';
       portObj.vlanId = vId;
@@ -730,6 +762,7 @@ class Store {
         const cfg = portConfigs[pObj.name];
         if (cfg.alias) pObj.alias = cfg.alias;
         if (cfg.mode) pObj.mode = cfg.mode;
+        if (cfg.side) pObj.side = cfg.side;
         if (cfg.vlanId !== undefined && !pObj.isOccupied) {
           pObj.vlanId = Number(cfg.vlanId);
           const vObj = this.getVlanById(pObj.vlanId);
@@ -742,19 +775,30 @@ class Store {
     return Array.from(portsMap.values());
   }
 
-  isPortOccupied(deviceId, portName, excludeConnectionId = null) {
+  isPortOccupied(deviceId, portName, excludeConnectionId = null, portSide = null) {
     if (!deviceId || !portName) return false;
     const pName = String(portName).trim().toLowerCase();
+    const dev = this.deviceById(deviceId);
+    const isDual = dev && dev.mountSide === 'both';
+
     const conn = (this._raw.connections || []).find(c => {
       if (excludeConnectionId && c.id === excludeConnectionId) return false;
       const isSrc = c.sourceDeviceId === deviceId && String(c.sourcePort).trim().toLowerCase() === pName;
       const isDst = c.targetDeviceId === deviceId && String(c.targetPort).trim().toLowerCase() === pName;
-      return isSrc || isDst;
+      if (!isSrc && !isDst) return false;
+
+      // Si se especifica portSide y el equipo es de doble cara (both), discriminar colisión por cara
+      if (portSide && isDual) {
+        const cSide = isSrc ? (c.sourceSide || 'front') : (c.targetSide || 'front');
+        return cSide === portSide;
+      }
+
+      return true;
     });
     return conn || false;
   }
 
-  validateConnection({ sourceDeviceId, sourcePort, targetDeviceId, targetPort, excludeConnectionId = null }) {
+  validateConnection({ sourceDeviceId, sourcePort, sourceSide = null, targetDeviceId, targetPort, targetSide = null, excludeConnectionId = null }) {
     if (!sourceDeviceId || !targetDeviceId) {
       return { valid: false, error: 'Debes seleccionar el equipo de origen y de destino.' };
     }
@@ -764,31 +808,37 @@ class Store {
     const sPort = String(sourcePort).trim();
     const tPort = String(targetPort).trim();
 
-    if (sourceDeviceId === targetDeviceId && sPort.toLowerCase() === tPort.toLowerCase()) {
-      return { valid: false, error: 'No es posible conectar un puerto consigo mismo en el mismo equipo.' };
+    const srcDev = this.deviceById(sourceDeviceId);
+    const dstDev = this.deviceById(targetDeviceId);
+
+    const effectiveSrcSide = sourceSide || (srcDev && srcDev.mountSide === 'rear' ? 'rear' : 'front');
+    const effectiveDstSide = targetSide || (dstDev && dstDev.mountSide === 'rear' ? 'rear' : 'front');
+
+    if (sourceDeviceId === targetDeviceId && sPort.toLowerCase() === tPort.toLowerCase() && effectiveSrcSide === effectiveDstSide) {
+      return { valid: false, error: 'No es posible conectar un puerto consigo mismo en la misma cara del equipo.' };
     }
 
-    const srcOccupied = this.isPortOccupied(sourceDeviceId, sPort, excludeConnectionId);
+    const srcOccupied = this.isPortOccupied(sourceDeviceId, sPort, excludeConnectionId, effectiveSrcSide);
     if (srcOccupied) {
-      const srcDev = this.deviceById(sourceDeviceId);
       const peerDevId = srcOccupied.sourceDeviceId === sourceDeviceId ? srcOccupied.targetDeviceId : srcOccupied.sourceDeviceId;
       const peerDev = this.deviceById(peerDevId);
+      const sideText = srcDev && srcDev.mountSide === 'both' ? ` [${effectiveSrcSide === 'rear' ? 'Trasero' : 'Frontal'}]` : '';
       return {
         valid: false,
-        error: `El puerto "${sPort}" de "${srcDev ? srcDev.name : 'Origen'}" ya está conectado a "${peerDev ? peerDev.name : 'otro equipo'}".`,
-        conflict: { deviceId: sourceDeviceId, port: sPort, connection: srcOccupied }
+        error: `El puerto "${sPort}"${sideText} de "${srcDev ? srcDev.name : 'Origen'}" ya está conectado a "${peerDev ? peerDev.name : 'otro equipo'}".`,
+        conflict: { deviceId: sourceDeviceId, port: sPort, side: effectiveSrcSide, connection: srcOccupied }
       };
     }
 
-    const dstOccupied = this.isPortOccupied(targetDeviceId, tPort, excludeConnectionId);
+    const dstOccupied = this.isPortOccupied(targetDeviceId, tPort, excludeConnectionId, effectiveDstSide);
     if (dstOccupied) {
-      const dstDev = this.deviceById(targetDeviceId);
       const peerDevId = dstOccupied.sourceDeviceId === targetDeviceId ? dstOccupied.targetDeviceId : dstOccupied.sourceDeviceId;
       const peerDev = this.deviceById(peerDevId);
+      const sideText = dstDev && dstDev.mountSide === 'both' ? ` [${effectiveDstSide === 'rear' ? 'Trasero' : 'Frontal'}]` : '';
       return {
         valid: false,
-        error: `El puerto "${tPort}" de "${dstDev ? dstDev.name : 'Destino'}" ya está conectado a "${peerDev ? peerDev.name : 'otro equipo'}".`,
-        conflict: { deviceId: targetDeviceId, port: tPort, connection: dstOccupied }
+        error: `El puerto "${tPort}"${sideText} de "${dstDev ? dstDev.name : 'Destino'}" ya está conectado a "${peerDev ? peerDev.name : 'otro equipo'}".`,
+        conflict: { deviceId: targetDeviceId, port: tPort, side: effectiveDstSide, connection: dstOccupied }
       };
     }
 
@@ -816,14 +866,22 @@ class Store {
     }
 
     this.snapshot();
+    const srcDev = this.deviceById(conn.sourceDeviceId);
+    const dstDev = this.deviceById(conn.targetDeviceId);
+
+    const sSide = conn.sourceSide || (srcDev && srcDev.mountSide === 'rear' ? 'rear' : 'front');
+    const tSide = conn.targetSide || (dstDev && dstDev.mountSide === 'rear' ? 'rear' : 'front');
+
     const vId = conn.vlanId !== undefined ? Number(conn.vlanId) : 1;
     const vObj = this.getVlanById(vId);
     const newConn = {
       id: uid(),
       sourceDeviceId: conn.sourceDeviceId,
       sourcePort: String(conn.sourcePort).trim(),
+      sourceSide: sSide,
       targetDeviceId: conn.targetDeviceId,
       targetPort: String(conn.targetPort).trim(),
+      targetSide: tSide,
       cableType: conn.cableType || 'Cobre',
       color: conn.color || (vObj ? vObj.color : '#3b82f6'),
       vlanId: vId,
@@ -845,8 +903,10 @@ class Store {
       const merged = {
         sourceDeviceId: props.sourceDeviceId !== undefined ? props.sourceDeviceId : c.sourceDeviceId,
         sourcePort: props.sourcePort !== undefined ? props.sourcePort : c.sourcePort,
+        sourceSide: props.sourceSide !== undefined ? props.sourceSide : c.sourceSide,
         targetDeviceId: props.targetDeviceId !== undefined ? props.targetDeviceId : c.targetDeviceId,
         targetPort: props.targetPort !== undefined ? props.targetPort : c.targetPort,
+        targetSide: props.targetSide !== undefined ? props.targetSide : c.targetSide,
         excludeConnectionId: id
       };
       const val = this.validateConnection(merged);
@@ -874,8 +934,10 @@ class Store {
     return this.updateConnection(id, {
       sourceDeviceId: c.targetDeviceId,
       sourcePort: c.targetPort,
+      sourceSide: c.targetSide || 'front',
       targetDeviceId: c.sourceDeviceId,
-      targetPort: c.sourcePort
+      targetPort: c.sourcePort,
+      targetSide: c.sourceSide || 'front'
     });
   }
 

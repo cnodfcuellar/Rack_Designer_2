@@ -680,9 +680,15 @@
   <div class="modal">
     <div class="modal-title"><i class="svg-icon icon-plug" style="width:16px; height:16px; margin-right:8px;"></i><span id="modal-cable-title">Conectar Equipos</span></div>
     <div class="modal-sub">Conectar puertos entre equipos</div>
-    <div class="form-grid">
+    <div class="form-grid" style="grid-template-columns: 1fr 140px 1fr;">
       <div class="form-row"><label>Equipo Origen</label>
         <select id="cable-src-dev"></select>
+      </div>
+      <div class="form-row"><label>Cara Origen</label>
+        <select id="cable-src-side">
+          <option value="front">Frontal</option>
+          <option value="rear">Trasera</option>
+        </select>
       </div>
       <div class="form-row"><label>Puerto Origen</label>
         <div id="cable-src-port-container">
@@ -697,9 +703,15 @@
         <span>Invertir Sentido (Origen ⇄ Destino)</span>
       </button>
     </div>
-    <div class="form-grid">
+    <div class="form-grid" style="grid-template-columns: 1fr 140px 1fr;">
       <div class="form-row"><label>Equipo Destino</label>
         <select id="cable-dst-dev"></select>
+      </div>
+      <div class="form-row"><label>Cara Destino</label>
+        <select id="cable-dst-side">
+          <option value="front">Frontal</option>
+          <option value="rear">Trasera</option>
+        </select>
       </div>
       <div class="form-row"><label>Puerto Destino</label>
         <div id="cable-dst-port-container">

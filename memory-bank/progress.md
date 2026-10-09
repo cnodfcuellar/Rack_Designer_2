@@ -18,17 +18,16 @@
 - **Blindaje Criptográfico en Reposo y Modo Dios (M-01):** Cifrado simétrico de credenciales y campos sensibles (`pass`) con prefijo `enc:v1:<iv>:<ciphertext>` en `localStorage` y backups `.rack` mediante `RackCrypto`. Descifrado transparente en memoria, enmascaramiento por defecto con `••••••••`, toggle individual interactivo en Inspector y Modo Dios global para administradores (`SHOW_PASSWORDS`).
 - **Exportación de Alta Fidelidad e Importación Masiva (M-21, M-22, M-37):** Exportación PNG 1:1 con `html2canvas` a escala Retina (2x) con fallback procedimental a Canvas 2D. Generación de plantillas Excel/CSV con metadatos completos y modal de importación masiva (`ImportModal.js`) con análisis de colisiones y rollback atómico completo vía Undo.
 - **Plantillas Demo Profesionales:** Centro de Datos Empresarial (ANSI/TIA-942) y Campus Universitario UTN con red jerárquica de 3 capas (10 edificios, 13 gabinetes, 24 VLANs y direccionamiento 10.0.0.0/8) accesibles mediante el modal `#modal-demo-selection`.
-- **Testing Automatizado Exhaustivo:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con **360 pruebas automáticas en 22 grupos pasando al 100% de éxito (0 fallas)**.
+- **Cableado Frontal vs. Trasero (M-33):** Soporte integral en modelo de datos (`sourceSide`, `targetSide`: `'front' | 'rear'`), aislamiento de colisiones de puertos por cara física en equipos duales (`mountSide: 'both'`), transposición simétrica en inversión de enlaces (`swapConnectionDirection`), enriquecimiento visual en tabla de conexiones con insignias esmeralda/azul, selectores dedicados en modal `#modal-cable` e indexación física en trazado de cables según cara activa.
+- **Testing Automatizado Exhaustivo:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con **370 pruebas automáticas en 23 grupos pasando al 100% de éxito (0 fallas)**.
 
 ## Current Issues & Technical Debt
-- **Diferenciación de Puertos Frontales vs. Traseros:** El modelo de conexiones actualmente no discrimina si un enlace se conecta a la cara frontal o trasera de un dispositivo de chasis profundo (`M-33`).
 - **Interactividad Drag-to-Connect:** La creación de conexiones requiere abrir el modal en lugar de permitir trazar cables visualmente arrastrando desde los puertos del faceplate (`M-34`).
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 7 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (35 de 42 completadas, 83.3% global; **Fases 0, 1, 4 y 5 al 100%**):
+Total de 6 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (36 de 42 completadas, 85.7% global; **Fases 0, 1, 4 y 5 al 100%**; **Fase 2 al 87.5%** con 7 de 8 completadas):
 
 ### Fase 2 — Core de Datos y Puertos
-- Separación de cableado frontal vs. trasero (`M-33`).
 - Conexiones interactivas *Drag-to-Connect* arrastrando puertos (`M-34`).
 
 ### Fase 3 — Ergonomía y Layout
@@ -58,3 +57,4 @@ Total de 7 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.g
 - **Oct 2026 (Sprint 12):** Implementación de M-04: Redibujado selectivo y despacho optimizado (`renderSingleRack`, coalescencia rAF a 60 FPS, estado sucio y monitor `RenderPerformance`). 355 pruebas en 22 grupos al 100%.
 - **Oct 2026 (Sprint 13):** Plantilla Demo Campus Universitario UTN (10 edificios, 13 racks, 24 VLANs), modal `#modal-demo-selection`, compatibilidad total con runner en protocolo `file:///` y corrección de límites perimetrales de topología (`rx`/`ry`). 360 pruebas en 22 grupos al 100%.
 - **Oct 2026 (Sprint 14):** Creación de la biblioteca de 19 skins vectoriales isométricas en `assets/img/` (30°, 3 planos de iluminación, sombras de piso) y generación de los 4 diagramas SVG arquitectónicos completos en `doc/doc_img/doc_svg/architecture/` (Codemap exhaustivo, Diagrama UML, Grafo de Relaciones y Dependencias).
+- **Oct 2026 (Sprint 15):** Implementación de M-33: Cableado Frontal vs. Trasero (`sourceSide`, `targetSide`, aislamiento de colisiones de puertos por cara en equipos duales, transposición de caras en swap, selectores en modal `#modal-cable` y trazado SVG reactivo). Suite ampliada a 370 pruebas en 23 grupos al 100% de éxito.

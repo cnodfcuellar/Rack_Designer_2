@@ -390,7 +390,11 @@ function renderConnectionsTable(wrap, query) {
     },
     sourcePort: {
       th: '<th>Puerto Origen</th>',
-      td: (c) => `<td><strong>${escapeHTML(c.sourcePort)}</strong></td>`
+      td: (c, src) => {
+        const side = c.sourceSide || (src?.mountSide === 'rear' ? 'rear' : 'front');
+        const sideBadge = src?.mountSide === 'both' ? `<span style="font-size:10px; margin-left:4px; padding:1px 4px; border-radius:3px; background:${side==='rear'?'rgba(59,130,246,0.15)':'rgba(16,185,129,0.15)'}; color:${side==='rear'?'#60a5fa':'#34d399'}; border:1px solid ${side==='rear'?'rgba(59,130,246,0.3)':'rgba(16,185,129,0.3)'};">${side==='rear'?'Trasero':'Frontal'}</span>` : '';
+        return `<td><strong>${escapeHTML(c.sourcePort)}</strong>${sideBadge}</td>`;
+      }
     },
     dstLocation: {
       th: '<th>Sala/Rack Destino</th>',
@@ -402,7 +406,11 @@ function renderConnectionsTable(wrap, query) {
     },
     targetPort: {
       th: '<th>Puerto Destino</th>',
-      td: (c) => `<td><strong>${escapeHTML(c.targetPort)}</strong></td>`
+      td: (c, src, dst) => {
+        const side = c.targetSide || (dst?.mountSide === 'rear' ? 'rear' : 'front');
+        const sideBadge = dst?.mountSide === 'both' ? `<span style="font-size:10px; margin-left:4px; padding:1px 4px; border-radius:3px; background:${side==='rear'?'rgba(59,130,246,0.15)':'rgba(16,185,129,0.15)'}; color:${side==='rear'?'#60a5fa':'#34d399'}; border:1px solid ${side==='rear'?'rgba(59,130,246,0.3)':'rgba(16,185,129,0.3)'};">${side==='rear'?'Trasero':'Frontal'}</span>` : '';
+        return `<td><strong>${escapeHTML(c.targetPort)}</strong>${sideBadge}</td>`;
+      }
     },
     vlan: {
       th: '<th>VLAN</th>',

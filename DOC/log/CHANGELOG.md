@@ -1,3 +1,28 @@
+## [2026-10-09] Implementación de M-33: Sistema de Cableado Frontal vs. Trasero
+
+### 🔌 Core de Datos, Conexiones y Ergonomía (`M-33`)
+- **Extensión del Modelo de Conexiones (`js/store.js`):**
+  - Soporte explícito de cara de conexión: campos `sourceSide: 'front' | 'rear'` y `targetSide: 'front' | 'rear'` persistidos en el modelo reactivo.
+  - Asignación inteligente por defecto: equipos con `mountSide: 'rear'` adoptan `'rear'`, equipos de doble profundidad (`mountSide: 'both'`) asignan `'rear'` para servidores y almacenamiento o `'front'` para switches, y equipos convencionales adoptan `'front'`.
+  - Discriminación de ocupación en equipos de doble cara (`both`): `isPortOccupied(deviceId, portName, excludeConnId, portSide)` ahora permite utilizar el mismo nombre de puerto en la cara frontal y trasera sin falsos positivos de colisión.
+  - Validación contextual con advertencias claras: `validateConnection(...)` detecta e informa si la colisión ocurre en la cara `[Frontal]` o `[Trasera]`.
+  - Método `swapConnectionDirection(id)` actualizado para transponer simétricamente tanto los dispositivos y puertos como sus caras (`sourceSide` ⇄ `targetSide`).
+  - `getDevicePorts(deviceId)` enriquece cada puerto con su atributo `side` (`front` o `rear`), permitiendo clasificar y listar puertos frontales y traseros por separado.
+- **Formulario Interactivo de Conexión (`index.html` y `js/ui/modals/CableModal.js`):**
+  - Incorporados selectores visuales de cara `#cable-src-side` y `#cable-dst-side` con opciones `Frontal` y `Trasera` en el modal `#modal-cable`.
+  - Sincronización automática de cara al seleccionar equipos según su `mountSide`.
+  - Botón Swap `#btn-cable-swap` actualizado para intercambiar las caras seleccionadas junto a los equipos y puertos con microanimación de giro a 180°.
+  - Opciones de puerto etiquetadas con distintivos claros de cara (`[Frontal]` / `[Trasero]`).
+- **Tabla de Conexiones (`js/ui/tables.js`):**
+  - Columnas de Puerto Origen y Puerto Destino enriquecidas con badges visuales distintivos (`Frontal` en verde esmeralda y `Trasero` en azul cobalto) para equipos de doble cara (`both`).
+- **Enrutamiento Físico de Cables (`js/ui/rack.js`):**
+  - `drawPhysicalCables` selecciona inteligentemente el anclaje físico del puerto en la cara frontal o trasera (`.rear-port-jack`), adaptándose dinámicamente al estado de giro (`flipped`) de cada gabinete.
+- **Testing Automatizado Exhaustivo:**
+  - Grupo 23 incorporado en `tests/integrity_check.cjs` y en el runner web `tests/index.html` con 10 nuevas aserciones técnicas.
+  - Suite global elevada a **370 pruebas automáticas en 23 grupos pasando al 100% de éxito (0 fallos)** en paridad total.
+
+---
+
 ## [2026-10-09] Nuevo Diagrama SVG de Dependencias Arquitectónicas
 
 ### 📐 Documentación y Diagramación Vectorial (`doc/doc_img/doc_svg/architecture/`)

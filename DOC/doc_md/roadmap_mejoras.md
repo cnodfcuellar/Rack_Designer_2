@@ -52,7 +52,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-22 | ~~Importación masiva desde CSV/Excel~~ | ✅ COMPLETADO |
 | M-23 | ~~Controles de edición/creación en el Outliner~~ | ✅ COMPLETADO |
 | M-24 | ~~Inspector colapsable en panel derecho~~ | ✅ COMPLETADO |
-| M-25A | Diseño adaptativo y responsive en modo Desktop y Laptops | 🖥️ UX / Layout |
+| M-25 | Diseño adaptativo y responsive en modo Desktop y Laptops | 🖥️ UX / Layout |
 | M-25B | Modo móvil y tablet (Estudio de factibilidad y paridad funcional 100%) | 📱 UX |
 | M-26 | ~~Gestión avanzada de puertos y validaciones~~ | ✅ COMPLETADO |
 | M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
@@ -61,7 +61,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-30 | ~~Buscador en catálogo de añadir equipos~~ | ✅ COMPLETADO |
 | M-31 | ~~Separación y posicionamiento de etiquetas en topología~~ | ✅ COMPLETADO |
 | M-32 | ~~Layout de árbol jerárquico en topología~~ | ✅ COMPLETADO |
-| M-33 | Sistema de cableado frontal vs trasero | 🔌 Core |
+| M-33 | ~~Sistema de cableado frontal vs trasero~~ | ✅ COMPLETADO |
 | M-34 | Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) | 🪢 UX |
 | M-35 | Eliminación de restricciones de ubicación (Rack vs Piso/Frente) | 🔄 Core |
 | M-36 | ~~Creación, edición y eliminación de salas y racks desde el Inspector~~ | ✅ COMPLETADO |
@@ -72,7 +72,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **35 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **7** (total general: 42 mejoras, 83.3% del roadmap global). ¡Fase 0, Fase 1, Fase 4 y Fase 5 completadas al 100%! Fase 2 avanzada (7 de 8 completadas, 87.5%). Fase 3 avanzada (6 de 8 completadas). Fase 6 en marcha.
+> **36 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-33]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **6** (total general: 42 mejoras, 85.7% del roadmap global). ¡Fase 0, Fase 1, Fase 4 y Fase 5 completadas al 100%! Fase 2 casi completa (7 de 8 completadas, 87.5% → ¡Fase 2 avanzada a 87.5% con M-33!). Fase 3 avanzada. Fase 6 en marcha.
 
 ---
 
@@ -290,7 +290,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
 | 2.1 | M-26 | ~~Modelo de puertos avanzado + validaciones~~ | `store.js`, `CableModal.js`, `demoData.js` | ✅ COMPLETADO (VLAN CRUD, validación colisión puertos, getDevicePorts) |
-| 2.2 | M-33 | Cableado frontal vs trasero | `store.js`, `CableModal.js`, `rack.js` | Pendiente |
+| 2.2 | M-33 | ~~Cableado frontal vs trasero~~ | `store.js`, `CableModal.js`, `rack.js`, `tables.js` | ✅ COMPLETADO (sourceSide/targetSide, discriminación colisión dual, UI modal y tabla) |
 | 2.3 | M-34 | Drag-to-Connect en vista física | `rack.js`, `faceplates.js`, `main.js`, `css/components/rack.css` | Pendiente |
 | 2.4 | M-19 | ~~Propiedades faltantes en tabla inventario~~ | `tables.js`, `ExportModal.js` | ✅ COMPLETADO (columnas tamaño/skin/notas + inline edit + exportación) |
 | 2.5 | M-21 | ~~Plantilla completa de exportación~~ | `ImportModal.js`, `index.html`, `tables.js` | ✅ COMPLETADO (21 campos + hoja Guia_Valores + datos ejemplo/actuales) |

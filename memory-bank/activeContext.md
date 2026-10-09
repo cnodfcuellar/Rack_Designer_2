@@ -1,11 +1,17 @@
 # Active Context
 
 ## Current Work Focus
-Se completó la **biblioteca de 19 skins vectoriales isométricas en `assets/img/`**, con estilo artístico homogéneo a 30°, iluminación facetada en 3 planos y sombras de piso. Además, se generaron y documentaron los **4 diagramas SVG arquitectónicos completos en `doc/doc_img/doc_svg/architecture/`** (Dependencias, Grafo de Relaciones, Diagrama UML y Codemap exhaustivo). La suite de pruebas de integridad se encuentra al **100% de éxito con 360 pruebas automatizadas sin fallos**.
+Se implementó con éxito **`M-33: Sistema de Cableado Frontal vs. Trasero`**, incorporando discriminación de caras (`sourceSide`, `targetSide`) en conexiones, validación sensible a caras en equipos de doble profundidad (`mountSide: 'both'`), selectores interactivos en el modal de cables con soporte en el botón Swap, badges en tablas de inventario y trazado físico SVG inteligente. La suite de pruebas automatizadas se ha elevado a **370 pruebas con 100% de éxito (23 grupos, 0 fallos)** en paridad total CLI y Web.
 
 El foco activo continúa en el avance de las propuestas de mejora documentadas en [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) y [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md).
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-09] Implementación de M-33: Cableado Frontal vs. Trasero:**
+  - **Extensión del Modelo (`js/store.js`):** Soporte de `sourceSide` y `targetSide` en conexiones, método `isPortOccupied` con discriminación de cara `portSide`, validación de colisiones con etiquetas de cara (`[Frontal]` / `[Trasero]`), método `swapConnectionDirection` con transposición simétrica de caras y `getDevicePorts` con atributo `side`.
+  - **Formulario Interactivo (`index.html` y `CableModal.js`):** Selectores `#cable-src-side` y `#cable-dst-side`, sincronización automática según `mountSide`, soporte en botón Swap `#btn-cable-swap` y badges de estado en el selector de puertos.
+  - **Tabla de Conexiones (`tables.js`):** Badges visuales de cara en las columnas de puerto para equipos de doble cara.
+  - **Trazado Físico (`rack.js`):** Conexión SVG adaptativa a la cara activa (frontal vs. `.rear-port-jack`).
+  - **Testing Automatizado:** Grupo 23 incorporado con 10 nuevas pruebas en `tests/integrity_check.cjs` y `tests/index.html` (370 pruebas al 100% de éxito).
 - **[2026-10-09] Biblioteca Completa de 19 Skins Vectoriales Isométricas (`assets/img/`):**
   - **Estilo Artístico Homogéneo:** Proyección isométrica limpia a 30°, iluminación facetada en tres planos (tope claro, cara frontal/lateral izquierda media, cara derecha oscura), paleta de colores técnicos (carbón, cian luminoso, naranja/rojo de alarma, acentos metálicos) y sombras de piso elípticas difuminadas.
   - **19 Activos Diseñados y Disponibles:**

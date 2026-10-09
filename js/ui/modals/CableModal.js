@@ -55,7 +55,7 @@ function populateVlanSelect(selectedVlanId = 1) {
   vlanSelect.innerHTML = html;
 }
 
-function openCableModal(defaultSrcId = null, defaultSrcPort = null) {
+function openCableModal(defaultSrcId = null, defaultSrcPort = null, defaultSrcSide = null) {
   editingConnectionId = null;
   const titleEl = document.getElementById('modal-cable-title');
   if (titleEl) titleEl.textContent = 'Conectar Equipos';
@@ -76,6 +76,20 @@ function openCableModal(defaultSrcId = null, defaultSrcPort = null) {
   if (allDevs.length > 1) {
     const otherDev = allDevs.find(d => d.id !== srcSelect.value);
     if (otherDev) dstSelect.value = otherDev.id;
+  }
+
+  // Establecer caras por defecto
+  const srcDev = store.deviceById(srcSelect.value);
+  const dstDev = store.deviceById(dstSelect.value);
+
+  const srcSideSelect = document.getElementById('cable-src-side');
+  const dstSideSelect = document.getElementById('cable-dst-side');
+
+  if (srcSideSelect) {
+    srcSideSelect.value = defaultSrcSide || (srcDev && srcDev.mountSide === 'rear' ? 'rear' : 'front');
+  }
+  if (dstSideSelect) {
+    dstSideSelect.value = dstDev && dstDev.mountSide === 'rear' ? 'rear' : 'front';
   }
 
   populateVlanSelect(1);
@@ -110,6 +124,12 @@ function openEditCableModal(connId) {
 
   srcSelect.value = conn.sourceDeviceId;
   dstSelect.value = conn.targetDeviceId;
+
+  const srcSideSelect = document.getElementById('cable-src-side');
+  const dstSideSelect = document.getElementById('cable-dst-side');
+
+  if (srcSideSelect) srcSideSelect.value = conn.sourceSide || 'front';
+  if (dstSideSelect) dstSideSelect.value = conn.targetSide || 'front';
   
   populateVlanSelect(conn.vlanId || 1);
 
@@ -149,6 +169,9 @@ function updateCablePortInput(prefix, dev, defaultPort = null) {
   }
 
   const filterFreeOnly = document.getElementById('cable-filter-free-ports')?.checked ?? true;
+  const sideSelect = document.getElementById(`cable-${prefix}-side`);
+  const currentSide = sideSelect ? sideSelect.value : (dev.mountSide === 'rear' ? 'rear' : 'front');
+
   const allPorts = typeof store.getDevicePorts === 'function' ? store.getDevicePorts(dev.id) : [];
 
   if (allPorts.length === 0) {
@@ -175,12 +198,13 @@ function updateCablePortInput(prefix, dev, defaultPort = null) {
     let groupHtml = '';
     ports.forEach(p => {
       const isSelected = defaultPort && String(p.name).toLowerCase() === String(defaultPort).toLowerCase();
+      const portSideBadge = p.side ? (p.side === 'rear' ? ' [Trasero]' : ' [Frontal]') : '';
       if (p.isOccupiedForModal) {
         if (!filterFreeOnly || isSelected) {
-          groupHtml += `<option value="${escapeHTML(p.name)}" ${isSelected ? 'selected' : 'disabled'} style="color:var(--text-muted); background:var(--bg-card);">🔴 ${escapeHTML(p.name)} (Ocupado · a ${escapeHTML(p.peerDeviceName)} [${escapeHTML(p.peerPort)}])</option>`;
+          groupHtml += `<option value="${escapeHTML(p.name)}" ${isSelected ? 'selected' : 'disabled'} style="color:var(--text-muted); background:var(--bg-card);">🔴 ${escapeHTML(p.name)}${portSideBadge} (Ocupado · a ${escapeHTML(p.peerDeviceName)} [${escapeHTML(p.peerPort)}])</option>`;
         }
       } else {
-        groupHtml += `<option value="${escapeHTML(p.name)}" ${isSelected ? 'selected' : ''}>🟢 ${escapeHTML(p.name)} (Libre)</option>`;
+        groupHtml += `<option value="${escapeHTML(p.name)}" ${isSelected ? 'selected' : ''}>🟢 ${escapeHTML(p.name)}${portSideBadge} (Libre)</option>`;
       }
     });
     return groupHtml ? `<optgroup label="${escapeHTML(label)}">${groupHtml}</optgroup>` : '';
@@ -251,6 +275,8 @@ function checkCableCollision() {
   const dstId = document.getElementById('cable-dst-dev')?.value;
   const srcPort = document.getElementById('cable-src-port')?.value?.trim();
   const dstPort = document.getElementById('cable-dst-port')?.value?.trim();
+  const srcSide = document.getElementById('cable-src-side')?.value || 'front';
+  const dstSide = document.getElementById('cable-dst-side')?.value || 'front';
 
   if (!srcId || !dstId || !srcPort || !dstPort) {
     alertEl.classList.add('hidden');
@@ -262,8 +288,10 @@ function checkCableCollision() {
     const val = store.validateConnection({
       sourceDeviceId: srcId,
       sourcePort: srcPort,
+      sourceSide: srcSide,
       targetDeviceId: dstId,
       targetPort: dstPort,
+      targetSide: dstSide,
       excludeConnectionId: editingConnectionId
     });
 
@@ -282,11 +310,17 @@ function checkCableCollision() {
 function initCableModal() {
   const srcDevSelect = document.getElementById('cable-src-dev');
   const dstDevSelect = document.getElementById('cable-dst-dev');
+  const srcSideSelect = document.getElementById('cable-src-side');
+  const dstSideSelect = document.getElementById('cable-dst-side');
   const filterFreeCb = document.getElementById('cable-filter-free-ports');
   const vlanSelect = document.getElementById('cable-vlan');
 
   if (srcDevSelect) {
     srcDevSelect.addEventListener('change', () => {
+      const dev = store.deviceById(srcDevSelect.value);
+      if (srcSideSelect && dev) {
+        srcSideSelect.value = dev.mountSide === 'rear' ? 'rear' : 'front';
+      }
       updateCableLocationDisplay('src');
       checkCableCollision();
     });
@@ -294,7 +328,29 @@ function initCableModal() {
 
   if (dstDevSelect) {
     dstDevSelect.addEventListener('change', () => {
+      const dev = store.deviceById(dstDevSelect.value);
+      if (dstSideSelect && dev) {
+        dstSideSelect.value = dev.mountSide === 'rear' ? 'rear' : 'front';
+      }
       updateCableLocationDisplay('dst');
+      checkCableCollision();
+    });
+  }
+
+  if (srcSideSelect) {
+    srcSideSelect.addEventListener('change', () => {
+      const dev = store.deviceById(srcDevSelect?.value);
+      const curSrcPort = document.getElementById('cable-src-port')?.value;
+      updateCablePortInput('src', dev, curSrcPort);
+      checkCableCollision();
+    });
+  }
+
+  if (dstSideSelect) {
+    dstSideSelect.addEventListener('change', () => {
+      const dev = store.deviceById(dstDevSelect?.value);
+      const curDstPort = document.getElementById('cable-dst-port')?.value;
+      updateCablePortInput('dst', dev, curDstPort);
       checkCableCollision();
     });
   }
@@ -330,16 +386,26 @@ function initCableModal() {
     swapBtn.addEventListener('click', () => {
       const srcSelect = document.getElementById('cable-src-dev');
       const dstSelect = document.getElementById('cable-dst-dev');
+      const srcSideSelect = document.getElementById('cable-src-side');
+      const dstSideSelect = document.getElementById('cable-dst-side');
       if (!srcSelect || !dstSelect) return;
 
       const oldSrcDev = srcSelect.value;
       const oldDstDev = dstSelect.value;
       const oldSrcPort = document.getElementById('cable-src-port')?.value || null;
       const oldDstPort = document.getElementById('cable-dst-port')?.value || null;
+      const oldSrcSide = srcSideSelect ? srcSideSelect.value : 'front';
+      const oldDstSide = dstSideSelect ? dstSideSelect.value : 'front';
 
       // Intercambiar dispositivos seleccionados
       srcSelect.value = oldDstDev;
       dstSelect.value = oldSrcDev;
+
+      // Intercambiar caras seleccionadas
+      if (srcSideSelect && dstSideSelect) {
+        srcSideSelect.value = oldDstSide;
+        dstSideSelect.value = oldSrcSide;
+      }
 
       // Actualizar selectores y etiquetas con los puertos cruzados
       updateCableLocationDisplay('src', oldDstPort);
@@ -365,6 +431,8 @@ function initCableModal() {
     const dstId   = document.getElementById('cable-dst-dev').value;
     const srcPort = document.getElementById('cable-src-port').value.trim();
     const dstPort = document.getElementById('cable-dst-port').value.trim();
+    const srcSide = document.getElementById('cable-src-side')?.value || 'front';
+    const dstSide = document.getElementById('cable-dst-side')?.value || 'front';
     const type    = document.getElementById('cable-type').value;
     const color   = document.getElementById('cable-color').value;
     const vlanId  = parseInt(document.getElementById('cable-vlan')?.value) || 1;
@@ -386,8 +454,10 @@ function initCableModal() {
       const res = store.updateConnection(editingConnectionId, {
         sourceDeviceId: srcId,
         sourcePort: srcPort,
+        sourceSide: srcSide,
         targetDeviceId: dstId,
         targetPort: dstPort,
+        targetSide: dstSide,
         cableType: type,
         color,
         vlanId,
@@ -403,8 +473,10 @@ function initCableModal() {
       const res = store.addConnection({
         sourceDeviceId: srcId,
         sourcePort: srcPort,
+        sourceSide: srcSide,
         targetDeviceId: dstId,
         targetPort: dstPort,
+        targetSide: dstSide,
         cableType: type,
         color,
         vlanId,

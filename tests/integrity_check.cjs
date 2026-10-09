@@ -1766,6 +1766,107 @@ async function runTests() {
   currentView = 'physical';
 
   // ----------------------------------------------------
+  // GRUPO 23: Sistema de Cableado Frontal vs. Trasero (M-33)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 23: Sistema de Cableado Frontal vs. Trasero (M-33)');
+
+  // 23.1 Equipo de doble cara (mountSide: 'both')
+  const ok1 = store.addDeviceToRack({
+    name: 'Servidor SAN Dual M33',
+    type: 'server',
+    size: 2,
+    mountSide: 'both'
+  }, m4Rack.id, 15, 'both');
+
+  const ok2 = store.addDeviceToRack({
+    name: 'Switch Frontal M33',
+    type: 'switch',
+    size: 1,
+    mountSide: 'front'
+  }, m4Rack.id, 25, 'front');
+
+  const ok3 = store.addDeviceToRack({
+    name: 'PDU Trasera M33',
+    type: 'pdu',
+    size: 1,
+    mountSide: 'rear'
+  }, m4Rack.id, 30, 'rear');
+
+  const dualDev = store._raw.devices.find(d => d.name === 'Servidor SAN Dual M33');
+  const frontSwitch = store._raw.devices.find(d => d.name === 'Switch Frontal M33');
+  const rearPdu = store._raw.devices.find(d => d.name === 'PDU Trasera M33');
+
+  assert(ok1 && ok2 && ok3 && dualDev && frontSwitch && rearPdu,
+    'M-33: Equipos de prueba creados para validar cableado frontal vs trasero');
+
+  // 23.2 Conexión con sourceSide y targetSide explícitos
+  const connFront = store.addConnection({
+    sourceDeviceId: frontSwitch.id,
+    sourcePort: 'Eth-1',
+    sourceSide: 'front',
+    targetDeviceId: dualDev.id,
+    targetPort: 'Eth-1',
+    targetSide: 'front',
+    cableType: 'Cobre',
+    color: '#10b981'
+  });
+
+  assert(connFront.success && connFront.connection.sourceSide === 'front' && connFront.connection.targetSide === 'front',
+    'M-33: store.addConnection persiste sourceSide="front" y targetSide="front"');
+
+  // 23.3 En equipo dual (both), el mismo puerto en cara opuesta (rear) debe permitir conexión sin conflicto
+  const connRear = store.addConnection({
+    sourceDeviceId: rearPdu.id,
+    sourcePort: 'Eth-1',
+    sourceSide: 'rear',
+    targetDeviceId: dualDev.id,
+    targetPort: 'Eth-1',
+    targetSide: 'rear',
+    cableType: 'Cobre',
+    color: '#3b82f6'
+  });
+
+  assert(connRear.success && connRear.connection.targetSide === 'rear',
+    'M-33: Equipo de doble cara permite usar el mismo nombre de puerto en la cara trasera sin colisión');
+
+  // 23.4 Intento de colisión en la misma cara del equipo dual debe ser bloqueado
+  const connConflict = store.addConnection({
+    sourceDeviceId: frontSwitch.id,
+    sourcePort: 'Eth-2',
+    sourceSide: 'front',
+    targetDeviceId: dualDev.id,
+    targetPort: 'Eth-1',
+    targetSide: 'front'
+  });
+
+  assert(!connConflict.success && connConflict.error && connConflict.error.includes('Frontal'),
+    'M-33: validateConnection bloquea colisión de puerto en la misma cara identificando [Frontal]');
+
+  // 23.5 isPortOccupied sensible a cara (portSide)
+  assert(store.isPortOccupied(dualDev.id, 'Eth-1', null, 'front'),
+    'M-33: isPortOccupied retorna ocupado para cara frontal');
+  assert(store.isPortOccupied(dualDev.id, 'Eth-1', null, 'rear'),
+    'M-33: isPortOccupied retorna ocupado para cara trasera');
+  assert(!store.isPortOccupied(dualDev.id, 'Eth-2', null, 'front'),
+    'M-33: isPortOccupied retorna libre para puerto libre en cara frontal');
+
+  // 23.6 getDevicePorts expone atributo side
+  const dualPorts = store.getDevicePorts(dualDev.id);
+  const eth1 = dualPorts.find(p => p.name === 'Eth-1');
+  assert(eth1 && eth1.side !== undefined,
+    'M-33: getDevicePorts expone la propiedad side para cada puerto');
+
+  // 23.7 swapConnectionDirection intercambia sourceSide y targetSide
+  const swapped = store.swapConnectionDirection(connFront.connection.id);
+  assert(swapped.success && swapped.connection.sourceDeviceId === dualDev.id && swapped.connection.sourceSide === 'front' && swapped.connection.targetDeviceId === frontSwitch.id && swapped.connection.targetSide === 'front',
+    'M-33: swapConnectionDirection transpone fielmente sourceSide y targetSide');
+
+  // 23.8 Verificación de selectores de cara en index.html
+  const htmlSrc = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert(htmlSrc.includes('id="cable-src-side"') && htmlSrc.includes('id="cable-dst-side"'),
+    'M-33: index.html define selectores interactivos #cable-src-side y #cable-dst-side');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');

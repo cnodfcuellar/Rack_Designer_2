@@ -262,10 +262,31 @@ function drawPhysicalCables() {
   if (minFloorTop === Infinity) minFloorTop = maxRackBottom + 40;
 
   conns.forEach((c, index) => {
-    let srcEl = document.querySelector(`.rear-port-jack[data-device-id="${c.sourceDeviceId}"][data-port="${escapeHTML(c.sourcePort)}"]`);
+    const sDev = store.deviceById(c.sourceDeviceId);
+    const tDev = store.deviceById(c.targetDeviceId);
+    const sSide = c.sourceSide || (sDev && sDev.mountSide === 'rear' ? 'rear' : 'front');
+    const tSide = c.targetSide || (tDev && tDev.mountSide === 'rear' ? 'rear' : 'front');
+
+    // Selector inteligente según la cara de conexión:
+    // Si la conexión es en la cara trasera, buscar en .rack-card.rear-view o .rear-port-jack
+    let srcEl = null;
+    if (sSide === 'rear') {
+      srcEl = document.querySelector(`.rack-card.rear-view .rear-port-jack[data-device-id="${c.sourceDeviceId}"][data-port="${escapeHTML(c.sourcePort)}"]`)
+           || document.querySelector(`.rack-card.rear-view [data-device-id="${c.sourceDeviceId}"]`)
+           || document.querySelector(`.rear-port-jack[data-device-id="${c.sourceDeviceId}"][data-port="${escapeHTML(c.sourcePort)}"]`);
+    } else {
+      srcEl = document.querySelector(`.rack-card:not(.rear-view) [data-device-id="${c.sourceDeviceId}"]`);
+    }
     if (!srcEl) srcEl = document.querySelector(`[data-device-id="${c.sourceDeviceId}"]`);
-    
-    let dstEl = document.querySelector(`.rear-port-jack[data-device-id="${c.targetDeviceId}"][data-port="${escapeHTML(c.targetPort)}"]`);
+
+    let dstEl = null;
+    if (tSide === 'rear') {
+      dstEl = document.querySelector(`.rack-card.rear-view .rear-port-jack[data-device-id="${c.targetDeviceId}"][data-port="${escapeHTML(c.targetPort)}"]`)
+           || document.querySelector(`.rack-card.rear-view [data-device-id="${c.targetDeviceId}"]`)
+           || document.querySelector(`.rear-port-jack[data-device-id="${c.targetDeviceId}"][data-port="${escapeHTML(c.targetPort)}"]`);
+    } else {
+      dstEl = document.querySelector(`.rack-card:not(.rear-view) [data-device-id="${c.targetDeviceId}"]`);
+    }
     if (!dstEl) dstEl = document.querySelector(`[data-device-id="${c.targetDeviceId}"]`);
     
     if (srcEl && dstEl) {
