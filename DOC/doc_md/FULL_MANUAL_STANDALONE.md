@@ -38,7 +38,7 @@ Como los estantes del "Rack" están vacíos, necesitamos medir la altura de los 
 
 Al abrir RACK Designer Next, verás tu área de trabajo dividida en **5 paneles principales**. 
 
-![Mapa de la Interfaz](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDg1MCIgZmlsbD0ibm9uZSI+DQogIDxkZWZzPg0KICAgIDxzdHlsZT4NCiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PU91dGZpdDp3Z2h0QDMwMDs0MDA7NTAwOzYwMDs3MDA7ODAwJmFtcDtkaXNwbGF5PXN3YXAnKTsNCiAgICAgIHRleHQgeyBmb250LWZhbWlseTogJ091dGZpdCcsIHNhbnMtc2VyaWY7IH0NCiAgICAgIC50aXRsZSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZpbGw6ICMzOGJkZjg7IGZvbnQtc2l6ZTogMjRweDsgfQ0KICAgICAgLmRlc2MgeyBmb250LXdlaWdodDogNDAwOyBmaWxsOiAjOTRhM2I4OyBmb250LXNpemU6IDE0cHg7IH0NCiAgICAgIC5iYWRnZSB7IGZpbGw6ICNmNTllMGI7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMjBweDsgdGV4dC1hbmNob3I6IG1pZGRsZTsgfQ0KICAgICAgLnBhbmVsLWxhYmVsIHsgZm9udC13ZWlnaHQ6IDcwMDsgZmlsbDogI2YwZjRmZjsgZm9udC1zaXplOiAxNnB4OyB9DQogICAgICAucGFuZWwtc3ViIHsgZm9udC13ZWlnaHQ6IDQwMDsgZmlsbDogIzk0YTNiODsgZm9udC1zaXplOiAxMnB4OyB9DQogICAgPC9zdHlsZT4NCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0xMCUiIHk9Ii0xMCUiIHdpZHRoPSIxMjAlIiBoZWlnaHQ9IjEyMCUiPg0KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjQiIHN0ZERldmlhdGlvbj0iNiIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuNCIvPg0KICAgIDwvZmlsdGVyPg0KICA8L2RlZnM+DQoNCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODUwIiBmaWxsPSIjMGIwZjE5IiByeD0iMTYiLz4NCg0KICA8IS0tIFRpdGxlIC0tPg0KICA8dGV4dCB4PSI0MCIgeT0iNTAiIGNsYXNzPSJ0aXRsZSI+TUFQQSBERSBMQSBJTlRFUkZBWiBQUklOQ0lQQUw8L3RleHQ+DQogIDx0ZXh0IHg9IjQwIiB5PSI3NSIgY2xhc3M9ImRlc2MiPkNvbm9jZSBsYXMgNSDDoXJlYXMgY2xhdmUgZGUgUkFDSyBEZXNpZ25lciBOZXh0PC90ZXh0Pg0KDQogIDwhLS0gQVBQIFdJTkRPVyBNT0NLVVAgLS0+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwLCAxMDApIiBmaWx0ZXI9InVybCgjc2hhZG93KSI+DQogICAgPCEtLSBNYWluIFdpbmRvdyBCYWNrZ3JvdW5kIC0tPg0KICAgIDxyZWN0IHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjYwMCIgcng9IjgiIGZpbGw9IiMxNTFjMmUiIHN0cm9rZT0iIzJlM2Q1YSIgc3Ryb2tlLXdpZHRoPSIyIi8+DQogICAgDQogICAgPCEtLSAxLiBIRUFERVIgLS0+DQogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjExMjAiIGhlaWdodD0iNjAiIGZpbGw9IiMwZjE3MmEiIHJ4PSI4IiBzdHJva2U9IiMyZTNkNWEiIHN0cm9rZS13aWR0aD0iMSIvPg0KICAgIDxjaXJjbGUgY3g9IjU2MCIgY3k9IjMwIiByPSIxNiIgZmlsbD0iI2Y1OWUwYiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSI1NjAiIHk9IjM3IiBjbGFzcz0iYmFkZ2UiIGZpbGw9IiMwMDAiPjE8L3RleHQ+DQogICAgPHRleHQgeD0iNDAiIHk9IjM1IiBjbGFzcz0icGFuZWwtbGFiZWwiPkJBUlJBIFNVUEVSSU9SIChSb2xlcywgR3VhcmRhciwgRXhwb3J0YXIpPC90ZXh0Pg0KDQogICAgPCEtLSAyLiBMRUZUIFNJREVCQVIgKENBVEFMT0cpIC0tPg0KICAgIDxyZWN0IHg9IjAiIHk9IjYwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjM4MCIgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjMmUzZDVhIiBzdHJva2Utd2lkdGg9IjEiLz4NCiAgICA8Y2lyY2xlIGN4PSIxMjUiIGN5PSIyMzAiIHI9IjE2IiBmaWxsPSIjZjU5ZTBiIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPg0KICAgIDx0ZXh0IHg9IjEyNSIgeT0iMjM3IiBjbGFzcz0iYmFkZ2UiIGZpbGw9IiMwMDAiPjI8L3RleHQ+DQogICAgPHRleHQgeD0iMTI1IiB5PSIyNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+Q0FUw4FMT0dPPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEyNSIgeT0iMjkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtc3ViIj5BcnJhc3RyYSBlcXVpcG9zIGRlc2RlIGFxdcOtPC90ZXh0Pg0KDQogICAgPCEtLSAzLiBNQUlOIFdPUktTUEFDRSAtLT4NCiAgICA8cmVjdCB4PSIyNTAiIHk9IjYwIiB3aWR0aD0iNjIwIiBoZWlnaHQ9IjM4MCIgZmlsbD0iIzFlMjkzYiIgc3Ryb2tlPSIjMmUzZDVhIiBzdHJva2Utd2lkdGg9IjEiLz4NCiAgICA8Y2lyY2xlIGN4PSI1NjAiIGN5PSIyNTAiIHI9IjE2IiBmaWxsPSIjZjU5ZTBiIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPg0KICAgIDx0ZXh0IHg9IjU2MCIgeT0iMjU3IiBjbGFzcz0iYmFkZ2UiIGZpbGw9IiMwMDAiPjM8L3RleHQ+DQogICAgPHRleHQgeD0iNTYwIiB5PSIyOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+w4FSRUEgREUgVFJBQkFKTyAoTElFTlpPKTwvdGV4dD4NCiAgICA8dGV4dCB4PSI1NjAiIHk9IjMxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InBhbmVsLXN1YiI+VmlzdGEgRsOtc2ljYSBkZSBSYWNrcyB5IFRvcG9sb2fDrWEgZGUgU2FsYXM8L3RleHQ+DQoNCiAgICA8IS0tIDQuIFJJR0hUIFNJREVCQVIgKElOU1BFQ1RPUikgLS0+DQogICAgPHJlY3QgeD0iODcwIiB5PSI2MCIgd2lkdGg9IjI1MCIgaGVpZ2h0PSIzODAiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzJlM2Q1YSIgc3Ryb2tlLXdpZHRoPSIxIi8+DQogICAgPGNpcmNsZSBjeD0iOTk1IiBjeT0iMjMwIiByPSIxNiIgZmlsbD0iI2Y1OWUwYiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSI5OTUiIHk9IjIzNyIgY2xhc3M9ImJhZGdlIiBmaWxsPSIjMDAwIj40PC90ZXh0Pg0KICAgIDx0ZXh0IHg9Ijk5NSIgeT0iMjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtbGFiZWwiPklOU1BFQ1RPUiAmYW1wOyDDgVJCT0w8L3RleHQ+DQogICAgPHRleHQgeD0iOTk1IiB5PSIyOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1zdWIiPkVkaXRhIG5vbWJyZXMsIElQcyB5IHByb3BpZWRhZGVzPC90ZXh0Pg0KDQogICAgPCEtLSA1LiBCT1RUT00gUEFORUwgKFRBQkxFUykgLS0+DQogICAgPHJlY3QgeD0iMCIgeT0iNDQwIiB3aWR0aD0iMTEyMCIgaGVpZ2h0PSIxNjAiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzJlM2Q1YSIgc3Ryb2tlLXdpZHRoPSIxIi8+DQogICAgPGNpcmNsZSBjeD0iNTYwIiBjeT0iNTIwIiByPSIxNiIgZmlsbD0iI2Y1OWUwYiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4NCiAgICA8dGV4dCB4PSI1NjAiIHk9IjUyNyIgY2xhc3M9ImJhZGdlIiBmaWxsPSIjMDAwIj41PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjU2MCIgeT0iNTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtbGFiZWwiPklOVkVOVEFSSU8gWSBDT05FWElPTkVTPC90ZXh0Pg0KICA8L2c+DQoNCiAgPCEtLSBMRUdFTkQgLS0+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwLCA3MzApIj4NCiAgICA8dGV4dCB4PSIwIiB5PSIxNSIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2Y1OWUwYiI+MTwvdGV4dD4NCiAgICA8dGV4dCB4PSIyNSIgeT0iMTUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPkJhcnJhIFN1cGVyaW9yOjwvdGV4dD4NCiAgICA8dGV4dCB4PSIxMzUiIHk9IjE1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4Ij5DYW1iaWEgdHUgcm9sLCBndWFyZGEgZWwgcHJveWVjdG8gbyBleHBvcnRhIGEgRXhjZWwvUGxhbm8uPC90ZXh0Pg0KDQogICAgPHRleHQgeD0iMCIgeT0iNDAiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmNTllMGIiPjI8L3RleHQ+DQogICAgPHRleHQgeD0iMjUiIHk9IjQwIiBmb250LXNpemU9IjE0IiBmaWxsPSIjZjBmNGZmIj5DYXTDoWxvZ286PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEzNSIgeT0iNDAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiPkxpc3RhIGRlIGVxdWlwb3MgZGlzcG9uaWJsZXMuIFNlbGVjY2lvbmEsIG1hbnTDqW4gcHJlc2lvbmFkbyB5IGFycmFzdHJhIGFsIGNlbnRyby48L3RleHQ+DQoNCiAgICA8dGV4dCB4PSIwIiB5PSI2NSIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2Y1OWUwYiI+MzwvdGV4dD4NCiAgICA8dGV4dCB4PSIyNSIgeT0iNjUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPsOBcmVhIENlbnRyYWw6PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjEzNSIgeT0iNjUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiPkFxdcOtIGRpc2XDsWFzLiBQdWVkZXMgdmVyIGPDs21vIGx1Y2VuIGxvcyBSYWNrcyBkZSBmcmVudGUgbyB2ZXIgbGFzIHNhbGFzIGRlc2RlIGFycmliYS48L3RleHQ+DQoNCiAgICA8dGV4dCB4PSIwIiB5PSI5MCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2Y1OWUwYiI+NDwvdGV4dD4NCiAgICA8dGV4dCB4PSIyNSIgeT0iOTAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPkluc3BlY3Rvcjo8L3RleHQ+DQogICAgPHRleHQgeD0iMTM1IiB5PSI5MCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk0YTNiOCI+QWwgdG9jYXIgY3VhbHF1aWVyIGVxdWlwbywgYXF1w60gcG9kcsOhcyBlZGl0YXIgc3Ugbm9tYnJlLCBJUCwgbyB2ZXIgZW4gcXXDqSBVIGVzdMOhIGluc3RhbGFkby48L3RleHQ+DQoNCiAgICA8dGV4dCB4PSI1ODAiIHk9IjE1IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZjU5ZTBiIj41PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjYwNSIgeT0iMTUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGY0ZmYiPkludmVudGFyaW86PC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjY5MCIgeT0iMTUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5NGEzYjgiPlRhYmxhIHF1ZSByZXN1bWUgdG9kbyBlbCBoYXJkd2FyZSB5IGxvcyBjYWJsZXMgY29uZWN0YWRvcy48L3RleHQ+DQogIDwvZz4NCjwvc3ZnPg0K)
+![Mapa de la Interfaz](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDg2MCIgZmlsbD0ibm9uZSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PU91dGZpdDp3Z2h0QDMwMDs0MDA7NTAwOzYwMDs3MDA7ODAwJmFtcDtkaXNwbGF5PXN3YXAnKTsKICAgICAgQGltcG9ydCB1cmwoJ2h0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzMj9mYW1pbHk9SmV0QnJhaW5zK01vbm86d2dodEA0MDA7NTAwOzYwMCZhbXA7ZGlzcGxheT1zd2FwJyk7CiAgICAgIHRleHQgeyBmb250LWZhbWlseTogJ091dGZpdCcsIC1hcHBsZS1zeXN0ZW0sIHNhbnMtc2VyaWY7IH0KICAgICAgLm1vbm8geyBmb250LWZhbWlseTogJ0pldEJyYWlucyBNb25vJywgbW9ub3NwYWNlOyB9CiAgICAgIC50aXRsZSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZpbGw6ICMzOGJkZjg7IGZvbnQtc2l6ZTogMjRweDsgbGV0dGVyLXNwYWNpbmc6IDAuNXB4OyB9CiAgICAgIC5kZXNjIHsgZm9udC13ZWlnaHQ6IDQwMDsgZmlsbDogIzk0YTNiODsgZm9udC1zaXplOiAxNHB4OyB9CiAgICAgIC5iYWRnZSB7IGZpbGw6ICMwYjBmMTk7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMThweDsgdGV4dC1hbmNob3I6IG1pZGRsZTsgfQogICAgICAucGFuZWwtbGFiZWwgeyBmb250LXdlaWdodDogNzAwOyBmaWxsOiAjZjBmNGZmOyBmb250LXNpemU6IDE1cHg7IH0KICAgICAgLnBhbmVsLXN1YiB7IGZvbnQtd2VpZ2h0OiA0MDA7IGZpbGw6ICM5NGEzYjg7IGZvbnQtc2l6ZTogMTJweDsgfQogICAgPC9zdHlsZT4KICAgIDxmaWx0ZXIgaWQ9InNoYWRvd1dpbmRvdyIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiPgogICAgICA8ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iNiIgc3RkRGV2aWF0aW9uPSIxMCIgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9IjAuNTUiLz4KICAgIDwvZmlsdGVyPgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODYwIiBmaWxsPSIjMGIwZjE5IiByeD0iMTYiLz4KCiAgPCEtLSBFbmNhYmV6YWRvIFByaW5jaXBhbCAtLT4KICA8dGV4dCB4PSI0MCIgeT0iNDgiIGNsYXNzPSJ0aXRsZSI+TUFQQSBERSBMQSBJTlRFUkZBWiBQUklOQ0lQQUwg4oCUIFJBQ0sgREVTSUdORVIgTkVYVDwvdGV4dD4KICA8dGV4dCB4PSI0MCIgeT0iNzIiIGNsYXNzPSJkZXNjIj5HdcOtYSBkZSBvcmllbnRhY2nDs24gdmlzdWFsIGRlIGxvcyA1IGN1YWRyYW50ZXMgb3BlcmF0aXZvcyBkZSBsYSBjb25zb2xhIGRlIGRhdGFjZW50ZXI8L3RleHQ+CgogIDwhLS0gVkVOVEFOQSBNT0NLVVAgREUgTEEgQVBMSUNBQ0nDk04gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAsIDk1KSIgZmlsdGVyPSJ1cmwoI3NoYWRvd1dpbmRvdykiPgogICAgPCEtLSBDb250ZW5lZG9yIEJhc2UgLS0+CiAgICA8cmVjdCB3aWR0aD0iMTEyMCIgaGVpZ2h0PSI2MTAiIHJ4PSI4IiBmaWxsPSIjMTUxYzJlIiBzdHJva2U9IiMyNTMwNGIiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgCiAgICA8IS0tIDEuIEJBUlJBIFNVUEVSSU9SIChIRUFERVIgNTZweCkgLS0+CiAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTEyMCIgaGVpZ2h0PSI1OCIgZmlsbD0iIzBmMTcyYSIgcng9IjgiIHN0cm9rZT0iIzI1MzA0YiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICA8Y2lyY2xlIGN4PSI1NjAiIGN5PSIyOSIgcj0iMTUiIGZpbGw9IiNmNTllMGIiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSI1NjAiIHk9IjM1IiBjbGFzcz0iYmFkZ2UiPjE8L3RleHQ+CiAgICA8dGV4dCB4PSIyNCIgeT0iMzQiIGNsYXNzPSJwYW5lbC1sYWJlbCI+QkFSUkEgU1VQRVJJT1I8L3RleHQ+CiAgICA8dGV4dCB4PSIxNjAiIHk9IjM0IiBmaWxsPSIjMzhiZGY4IiBmb250LXNpemU9IjEyIiBjbGFzcz0ibW9ubyI+KFNhbGFzLCBSYWNrcywgVmlzdGFzIEbDrXNpY2EvVG9wb2xvZ8OtYSwgMyBUZW1hcyBPc2N1cm8vQ2xhcm8vU2VwaWEgTS0xOCwgVW5kby9SZWRvIE0tMDMgeSBSQkFDKTwvdGV4dD4KCiAgICA8IS0tIDIuIFNJREVCQVIgTEFURVJBTCBJWlFVSUVSRE8gKENBVMOBTE9HTykgLS0+CiAgICA8cmVjdCB4PSIwIiB5PSI1OCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIzOTIiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzI1MzA0YiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICA8Y2lyY2xlIGN4PSIxMjAiIGN5PSIyMjAiIHI9IjE1IiBmaWxsPSIjZjU5ZTBiIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHRleHQgeD0iMTIwIiB5PSIyMjYiIGNsYXNzPSJiYWRnZSI+MjwvdGV4dD4KICAgIDx0ZXh0IHg9IjEyMCIgeT0iMjU2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0icGFuZWwtbGFiZWwiPkNBVMOBTE9HTyBZIFBMQU5USUxMQVM8L3RleHQ+CiAgICA8dGV4dCB4PSIxMjAiIHk9IjI3NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InBhbmVsLXN1YiI+U2Vydmlkb3JlcywgU3dpdGNoZXMsIFJvdXRlcnMsIFBhdGNoIFBhbmVsczwvdGV4dD4KICAgIDx0ZXh0IHg9IjEyMCIgeT0iMjk0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzhiZGY4IiBmb250LXNpemU9IjExIj5BcnJhc3RyYSBoYWNpYSBsb3MgZ2FiaW5ldGVzPC90ZXh0PgoKICAgIDwhLS0gMy4gTElFTlpPIENFTlRSQUwgKMOBUkVBIERFIFRSQUJBSk8gRFVBTCkgLS0+CiAgICA8cmVjdCB4PSIyNDAiIHk9IjU4IiB3aWR0aD0iNjMwIiBoZWlnaHQ9IjM5MiIgZmlsbD0iIzBiMGYxOSIgc3Ryb2tlPSIjMjUzMDRiIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDxjaXJjbGUgY3g9IjU1NSIgY3k9IjIyMCIgcj0iMTUiIGZpbGw9IiNmNTllMGIiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSI1NTUiIHk9IjIyNiIgY2xhc3M9ImJhZGdlIj4zPC90ZXh0PgogICAgPHRleHQgeD0iNTU1IiB5PSIyNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+TElFTlpPIENFTlRSQUwgKMOBUkVBIERFIFRSQUJBSk8gRFVBTCk8L3RleHQ+CiAgICA8dGV4dCB4PSI1NTUiIHk9IjI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InBhbmVsLXN1YiI+4oCiIFZpc3RhIEbDrXNpY2E6IEdhYmluZXRlcyA0MlUsIEJpY2FuYWxpZGFkIFRlY2hvL1Bpc28gKE0tNDEpLCBGbGlwIDNEIHkgZ2FwIDcycHg8L3RleHQ+CiAgICA8dGV4dCB4PSI1NTUiIHk9IjI5NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InBhbmVsLXN1YiI+4oCiIFRvcG9sb2fDrWE6IENhbnZhcyAyRCwgU2tpbnMgSGFyZHdhcmUgKE0tMjgpLCBFbmxhY2VzIEJlemllciB5IDUgU2xvdHMgKE0tNDApPC90ZXh0PgoKICAgIDwhLS0gNC4gUEFORUwgTEFURVJBTCBERVJFQ0hPIChJTlNQRUNUT1IgJiBPVVRMSU5FUikgLS0+CiAgICA8cmVjdCB4PSI4NzAiIHk9IjU4IiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjM5MiIgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjMjUzMDRiIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDxjaXJjbGUgY3g9Ijk5NSIgY3k9IjIyMCIgcj0iMTUiIGZpbGw9IiNmNTllMGIiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSI5OTUiIHk9IjIyNiIgY2xhc3M9ImJhZGdlIj40PC90ZXh0PgogICAgPHRleHQgeD0iOTk1IiB5PSIyNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+T1VUTElORVIgJmFtcDsgUFJPUElFREFERVM8L3RleHQ+CiAgICA8dGV4dCB4PSI5OTUiIHk9IjI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InBhbmVsLXN1YiI+w4FyYm9sIGplcsOhcnF1aWNvIG9yZGVuYWJsZSAoVS9Ob21icmUpPC90ZXh0PgogICAgPHRleHQgeD0iOTk1IiB5PSIyOTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1zdWIiPkVkaWNpw7NuIGluc3RhbnTDoW5lYSBkZSBJUCwgTUFDIHkgcG90ZW5jaWE8L3RleHQ+CgogICAgPCEtLSA1LiBQQU5FTCBJTkZFUklPUiAoVEFCTEFTIE1PRFVMQVJFUyBERSBEQVRPUykgLS0+CiAgICA8cmVjdCB4PSIwIiB5PSI0NTAiIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjE2MCIgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjMjUzMDRiIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDxjaXJjbGUgY3g9IjU2MCIgY3k9IjUxNSIgcj0iMTUiIGZpbGw9IiNmNTllMGIiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSI1NjAiIHk9IjUyMSIgY2xhc3M9ImJhZGdlIj41PC90ZXh0PgogICAgPHRleHQgeD0iNTYwIiB5PSI1NTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1sYWJlbCI+VEFCTEFTIERFIERBVE9TIE1PRFVMQVJFUyAoSW52ZW50YXJpbyB5IENvbmV4aW9uZXMpPC90ZXh0PgogICAgPHRleHQgeD0iNTYwIiB5PSI1NzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJwYW5lbC1zdWIiPlNlbGVjdG9yIGRlIENvbHVtbmFzIFZpc2libGVzIChQcm9wdWVzdGEgMykgwrcgSW1wb3J0YWNpw7NuIE1hc2l2YSBFeGNlbC9DU1YgKE0tMjEvTS0yMikgwrcgSW52ZXJzacOzbiBTd2FwIOKHhCB5IENhbmFsZXRhIFRlY2hvL1Bpc28gKE0tNDEpPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBMRVlFTkRBIElORkVSSU9SIERFVEFMTEFEQSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MCwgNzI1KSI+CiAgICA8IS0tIENvbHVtbmEgMSAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTIiIGZpbGw9IiNmNTllMGIiLz4KICAgICAgPHRleHQgeD0iMTIiIHk9IjE3IiBjbGFzcz0iYmFkZ2UiIGZvbnQtc2l6ZT0iMTQiPjE8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjMyIiB5PSIxMiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2YwZjRmZiI+QmFycmEgU3VwZXJpb3I6PC90ZXh0PgogICAgICA8dGV4dCB4PSIzMiIgeT0iMjgiIGZvbnQtc2l6ZT0iMTEuNSIgZmlsbD0iIzk0YTNiOCI+Q2FtYmlvIGRlIHNhbGEgYWN0aXZhLCBzZWxlY2Npw7NuIGRlIHJhY2tzLCBhbHRlcm5hbmNpYSBkZSB2aXN0YXMsIGNpY2xvIGRlIDMgdGVtYXMgKPCfjJkgT3NjdXJvIC8g4piA77iPIENsYXJvIC8g4piVIFNlcGlhKSwgRGVzaGFjZXIvUmVoYWNlciBlIGluaWNpbyBkZSBzZXNpw7NuIFJCQUMuPC90ZXh0PgogICAgPC9nPgoKICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDQ4KSI+CiAgICAgIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEyIiBmaWxsPSIjZjU5ZTBiIi8+CiAgICAgIDx0ZXh0IHg9IjEyIiB5PSIxNyIgY2xhc3M9ImJhZGdlIiBmb250LXNpemU9IjE0Ij4yPC90ZXh0PgogICAgICA8dGV4dCB4PSIzMiIgeT0iMTIiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmMGY0ZmYiPkNhdMOhbG9nbyBkZSBFcXVpcG9zOjwvdGV4dD4KICAgICAgPHRleHQgeD0iMzIiIHk9IjI4IiBmb250LXNpemU9IjExLjUiIGZpbGw9IiM5NGEzYjgiPkJpYmxpb3RlY2EgYWdydXBhZGEgZGUgaGFyZHdhcmUgY2VydGlmaWNhZG8gY29uIGVzcGVjaWZpY2FjaW9uZXMgZGUgYWx0dXJhIGVuIFUsIGNvbnN1bW8gZW4gV2F0dHMgeSB0aXBvcyBkZSBjb25lY3RpdmlkYWQgcGFyYSBhcnJhc3RyZSBkaXJlY3RvIGFsIGdhYmluZXRlLjwvdGV4dD4KICAgIDwvZz4KCiAgICA8IS0tIENvbHVtbmEgMiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU4MCwgMCkiPgogICAgICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgZmlsbD0iI2Y1OWUwYiIvPgogICAgICA8dGV4dCB4PSIxMiIgeT0iMTciIGNsYXNzPSJiYWRnZSIgZm9udC1zaXplPSIxNCI+MzwvdGV4dD4KICAgICAgPHRleHQgeD0iMzIiIHk9IjEyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZjBmNGZmIj5MaWVuem8gQ2VudHJhbDo8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjMyIiB5PSIyOCIgZm9udC1zaXplPSIxMS41IiBmaWxsPSIjOTRhM2I4Ij5Fc3BhY2lvIGludGVyYWN0aXZvIGNvbiB6b29tIGluZmluaXRvLCByZW5kZXJpemFkbyBPKDEpIHNlbGVjdGl2bywgYmljYW5hbGlkYWQgZsOtc2ljYSBkZSBjYWJsZXMgeSBtb3RvciBkZSB0b3BvbG9nw61hIENhbnZhcyAyRCBjb24gc2tpbnMgZm90b3JyZWFsaXN0YXMgeSA1IG1lbW9yaWFzLjwvdGV4dD4KICAgIDwvZz4KCiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1ODAsIDQ4KSI+CiAgICAgIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEyIiBmaWxsPSIjZjU5ZTBiIi8+CiAgICAgIDx0ZXh0IHg9IjEyIiB5PSIxNyIgY2xhc3M9ImJhZGdlIiBmb250LXNpemU9IjE0Ij40PC90ZXh0PgogICAgICA8dGV4dCB4PSIzMiIgeT0iMTIiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmMGY0ZmYiPkluc3BlY3RvciAmYW1wOyBPdXRsaW5lcjo8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjMyIiB5PSIyOCIgZm9udC1zaXplPSIxMS41IiBmaWxsPSIjOTRhM2I4Ij7DgXJib2wgZXN0cnVjdHVyYWRvIGRlIGxhIGluZnJhZXN0cnVjdHVyYSB5IGZvcm11bGFyaW8gcmVhY3Rpdm8gcGFyYSBjb25maWd1cmFjacOzbiBkZSBJUHMsIGNyZWRlbmNpYWxlcyBjaWZyYWRhcyAoQUVTLUdDTSksIGxhZG9zIGRlIG1vbnRhamUgeSBtw6l0cmljYXMgZGUgcGVzbyBUSUEtOTQyLjwvdGV4dD4KICAgIDwvZz4KCiAgICA8IS0tIEZpbGEgaW5mZXJpb3IgYW5jaGEgcGFyYSBlbCBwdW50byA1IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgOTYpIj4KICAgICAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTIiIGZpbGw9IiNmNTllMGIiLz4KICAgICAgPHRleHQgeD0iMTIiIHk9IjE3IiBjbGFzcz0iYmFkZ2UiIGZvbnQtc2l6ZT0iMTQiPjU8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjMyIiB5PSIxMiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2YwZjRmZiI+VGFibGFzIGRlIERhdG9zOjwvdGV4dD4KICAgICAgPHRleHQgeD0iMTQ1IiB5PSIxMiIgZm9udC1zaXplPSIxMS41IiBmaWxsPSIjOTRhM2I4Ij5HZXN0acOzbiBtYXNpdmEgdGFidWxhciBjb24gc2VsZWN0b3IgY29uZmlndXJhYmxlIGRlIGNvbHVtbmFzLCBpbXBvcnRhY2nDs24gZGUgcGxhbmlsbGFzIFhMU1gvQ1NWLCBpbnZlcnNpw7NuIGRlIG9yaWdlbi9kZXN0aW5vIHkgZXhwb3J0YWNpw7NuIHTDqWNuaWNhLjwvdGV4dD4KICAgIDwvZz4KICA8L2c+Cgo8L3N2Zz4K)
 
 1. **Barra Superior (Header):** Aquí administras tu "Rol" (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a PNG (a escala Retina 1:1 sobre fondo de datacenter `#090d17`), CSV o Excel, y el botón para Guardar el archivo en tu computadora. También encontrarás los **tabs de vista** (Física / Topología), los controles de zoom, el interruptor para ocultar/mostrar cables, y los botones de Deshacer/Rehacer.
 2. **Catálogo (Izquierda):** Es tu "tienda" de equipos con **30 plantillas arquitectónicas profesionales** organizadas en 8 familias comerciales: Redes (`network`), Cómputo (`computing`), Almacenamiento (`storage`), **Seguridad y CCTV (`security`)**, Energía (`power`), KVM (`kvm`), Accesorios y Cableado (`accesorios`) y Equipos de Piso (`floor`). Además incluye una pestaña superior **"Todos"** con buscador reactivo. Al hacer **clic en un icono**, se despliega el flyout donde puedes buscar, arrastrar equipos o crear **Equipos Personalizados por Proyecto** (`+ Equipo`) que se identifican con un distintivo `PROYECTO`.
@@ -100,9 +100,17 @@ La aplicación guarda **automáticamente** los cambios en la memoria temporal de
 1. Ve a la **Barra Superior** → Menú del proyecto (⋮).
 2. Haz clic en **"Abrir"** y selecciona tu archivo `.rack` o `.json`.
 
-### Deshacer y Rehacer
-- **Ctrl+Z** o botón ↩ en el header: Deshace la última acción (hasta 30 pasos)
-- **Ctrl+Y** o botón ↪ en el header: Rehace la acción deshecha
+### Cargar Plantillas de Demostración (Demos)
+Si quieres explorar un proyecto terminado o aprender con casos reales:
+1. Ve a la **Barra Superior** → Menú del proyecto (⋮) → **"Plantillas de Demostración..."**.
+2. Aparecerá el **Modal de Selección de Demos** (`#modal-demo-selection`) con dos opciones arquitectónicas:
+   - **🏢 Centro de Datos Empresarial (TIA-942):** 2 salas, 4 gabinetes de 42U con servidores blade, switches ToR, storage SAN y cableado estructurado.
+   - **🎓 Campus Universitario UTN (A Gran Escala):** Red jerárquica de 3 capas modelando la Universidad Tecnológica Nacional con 10 edificios/salas estructuradas, 13 racks, 162 dispositivos, 24 VLANs y 97 conexiones de fibra y cobre.
+3. El sistema te pedirá confirmación para no perder tu trabajo actual antes de cargar la plantilla seleccionada.
+
+### Deshacer y Rehacer (M-03)
+- **Ctrl+Z** o botón ↩ en el header: Deshace la última acción (historial acotado a 15 pasos con motor ultra-rápido `fastClone`).
+- **Ctrl+Y** o botón ↪ en el header: Rehace la acción deshecha.
 
 ---
 
@@ -409,7 +417,7 @@ python -m http.server 8000
 
 ### Diagrama de tecnologías
 
-Ver: `doc/doc_img/doc_svg/architecture_overview.svg` (sección Tech Stack)
+Ver: `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (sección Tech Stack)
 
 ---
 
@@ -445,7 +453,7 @@ main.js escucha el evento → renderAll({ source })
 Se redibujan SOLO las vistas afectadas según el "source"
 ```
 
-**Ver diagrama completo:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 2)
+**Ver diagrama completo:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 2)
 
 ### Por qué es importante esto?
 
@@ -502,32 +510,32 @@ onSlotDrop() detecta el drop
     ↓
 store.addDeviceToRack(template, rackId, slotU, side)
     ↓
-store.snapshot() → guarda estado actual para undo
+store.snapshot() → guarda estado actual usando fastClone (máximo 15 instantáneas)
     ↓
 this._raw.devices.push(nuevoEquipo) → muta los datos
     ↓
-this._save() + this._emit('change', { source: 'addDeviceToRack' })
+this._save() + this._emit('change', { source: 'addDeviceToRack', rackId, device })
     ↓
-renderAll({ source: 'addDeviceToRack' })
+renderAll({ source: 'addDeviceToRack', rackId, device }) [con coalescencia rAF 60 FPS]
     ↓
-renderPhysical() → nuevo faceplate aparece
+renderSingleRack(rackId) → redibujado atómico del gabinete sin reconstruir la sala completa
 renderStats() → estadísticas se actualizan
-renderOutliner() → árbol se actualiza
-renderBottomPanel() → tabla se actualiza
+renderOutliner() → árbol se actualiza si está abierto
+renderBottomPanel() → tabla se actualiza si está visible
 ```
 
-**Ver diagrama:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 3a)
+**Ver diagrama:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 3a)
 
-### Undo/Redo
+### Undo/Redo Optimizado (M-03)
 
-Cada vez que mutas el store, `snapshot()` guarda una copia del estado anterior (máximo 30). Cuando el usuario presiona Ctrl+Z:
+Cada vez que mutas el store, `snapshot()` guarda una copia del estado anterior (máximo acotado a 15 instantáneas mediante `fastClone(obj)`, excluyendo `topologySlots` para ahorrar hasta un 80% de RAM). Cuando el usuario presiona Ctrl+Z:
 
 1. Se toma el estado actual y se guarda en `_redoStack`
 2. Se saca el estado anterior de `_undoStack`
 3. Se sobreescribe `_raw` con ese estado
-4. Se redibuja todo
+4. Se redibuja todo con `renderAll({ source: 'undo' })`
 
-**Ver diagrama:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 4)
+**Ver diagrama:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 4)
 
 ### Optimización: Debounce para Zoom/Pan
 
@@ -648,7 +656,7 @@ Rack_Designer_2/
     └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (335 tests en 21 grupos al 100%)
 ```
 
-**Ver diagrama:** `doc/doc_img/doc_svg/architecture_overview.svg` (File Structure)
+**Ver diagrama:** `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (File Structure)
 
 ### Orden de carga de CSS
 
@@ -750,7 +758,7 @@ document.documentElement.style.setProperty('--sidebar-w', '260px');
 }
 ```
 
-**Ver diagramas:** `doc/doc_img/doc_svg/layout_header.svg`, `layout_sidebar.svg`, etc.
+**Ver diagramas:** `doc/doc_img/doc_svg/layout/layout_header.svg`, `layout_sidebar.svg`, etc.
 
 ---
 
@@ -772,7 +780,7 @@ Contiene:
 - Botones Undo/Redo
 - Badge de usuario (rol actual: Admin/Editor/Espectador)
 
-**Ver:** `doc/doc_img/doc_svg/layout_header.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_header.svg`
 
 ### Sidebar (50px colapsado / 260px expandido)
 
@@ -791,7 +799,7 @@ Contiene:
 - Cada item es arrastrable al rack (drag & drop)
 - Menú contextual por item (⋮): Ubicación rápida, Editar plantilla, Eliminar plantilla
 
-**Ver:** `doc/doc_img/doc_svg/layout_sidebar.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_sidebar.svg`
 
 ### Main Canvas (1fr)
 
@@ -821,7 +829,7 @@ Contiene dos vistas (se alternan con tabs en el header):
   - HUD tooltip al hover sobre nodos
   - Búsqueda global para destacar nodos
 
-**Ver:** `doc/doc_img/doc_svg/layout_main_canvas.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_main_canvas.svg`
 
 ### Right Panel (300px)
 
@@ -835,7 +843,7 @@ Tres secciones:
 2. **Inspector** (`#inspector-section`): Tarjeta de propiedades del elemento seleccionado con soporte **colapsable** interactivo para expandir el Outliner. Incluye **CRUD activo** con Empty State (`+ Nueva Sala`, `+ Nuevo Gabinete`), y botones contextuales de eliminación segura (`deleteRoomFromInspector`, `deleteRackFromInspector`, `deleteDeviceFromInspector`).
 3. **Estadísticas** (`#stat-*`): Métricas globales (salas, racks, equipos en rack, equipos de piso, conexiones, potencia en Watts).
 
-**Ver:** `doc/doc_img/doc_svg/layout_right_panel.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_right_panel.svg`
 
 ### Bottom Panel (220px)
 
@@ -850,7 +858,7 @@ Contiene:
 - Menú de exportación con soporte a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado y Excel (`xlsx.full.min.js`).
 - Botón expandir/contraer.
 
-**Ver:** `doc/doc_img/doc_svg/layout_bottom_panel.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_bottom_panel.svg`
 
 ---
 
@@ -951,7 +959,7 @@ Las posiciones de nodos, racks y salas en la topología se guardan en `store._ra
 
 `exportTopologyToPNG()` en `TopologyOrchestrator.js` crea un canvas offscreen a 2x resolución, renderiza un frame estático sin hover, y descarga como PNG.
 
-**Ver:** `doc/doc_img/doc_svg/layout_topology.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_topology.svg`
 
 ---
 
@@ -976,8 +984,8 @@ Para erradicar colisiones de cables sobre servidores o periféricos de piso, el 
    - Switch interactivo `#checkbox-toggle-cables` en la barra de herramientas para ocultar/mostrar cables al instante.
 
 **Ver Diagramas:**
-- `doc/doc_img/doc_svg/enrutamiento_equipos_piso_y_racks.svg` (Doble canaleta y zonas segregadas)
-- `doc/doc_img/doc_svg/propuesta_1_canastillo_aereo.svg` (Canastillo aéreo superior)
+- `doc/doc_img/doc_svg/propuestas/enrutamiento_equipos_piso_y_racks.svg` (Doble canaleta y zonas segregadas)
+- `doc/doc_img/doc_svg/propuestas/propuesta_1_canastillo_aereo.svg` (Canastillo aéreo superior)
 
 ---
 
@@ -1171,73 +1179,82 @@ Todos los diagramas están en `doc/doc_img/doc_svg/` (33 archivos):
 
 | Archivo | Dimensiones | Contenido |
 |---|---|---|
-| `layout_header.svg` | 1100×140 | Layout detallado del header |
-| `layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
-| `layout_main_canvas.svg` | 720×580 | Área principal con racks |
-| `layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
-| `layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla |
-| `layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
-| `ui_layout_map.svg` | — | Mapa completo del layout UI |
+| `layout/layout_header.svg` | 1100×140 | Layout detallado del header |
+| `layout/layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
+| `layout/layout_main_canvas.svg` | 720×580 | Área principal con racks |
+| `layout/layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
+| `layout/layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla |
+| `layout/layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
+| `layout/ui_layout_map.svg` | — | Mapa completo del layout UI |
 
 ### Diagramas de Arquitectura
 
 | Archivo | Contenido |
 |---|---|
-| `architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
-| `architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks |
-| `project_flow.svg` | Flujo de datos completo (2000×2600) |
-| `file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
-| `store_reactivity.svg` | Detalle del patrón reactivo del Store |
-| `module_dependencies.svg` | Dependencias entre módulos JS |
-| `dependencies_map.svg` | Mapa de dependencias completo |
+| `architecture/architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
+| `architecture/architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks |
+| `flows/project_flow.svg` | Flujo de datos completo (2000×2600) |
+| `flows/file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
+| `flows/store_reactivity.svg` | Detalle del patrón reactivo del Store |
+| `architecture/module_dependencies.svg` | Dependencias entre módulos JS |
+| `architecture/dependencies_map.svg` | Mapa de dependencias completo |
 
 ### Diagramas de Funcionalidades
 
 | Archivo | Contenido |
 |---|---|
-| `drag_drop_flow.svg` | Flujo de drag & drop |
-| `topology_engine.svg` | Motor de topología Canvas 2D |
-| `modals_accordions.svg` | Sistema de modales con acordeones |
-| `roles_permissions.svg` | Matriz de roles y permisos |
-| `security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 |
-| `file_manager_api.svg` | File System Access API |
-| `autosave_history.svg` | Autoguardado e historial |
-| `export_system.svg` | Sistema de exportación |
-| `pwa_service_worker.svg` | Service Worker y PWA |
-| `theme_switcher.svg` | Sistema de temas claro/oscuro |
-| `hybrid_network_ports.svg` | Puertos de red híbridos |
+| `flows/drag_drop_flow.svg` | Flujo de drag & drop |
+| `propuestas/topology_engine.svg` | Motor de topología Canvas 2D |
+| `propuestas/modals_accordions.svg` | Sistema de modales con acordeones |
+| `flows/roles_permissions.svg` | Matriz de roles y permisos |
+| `flows/security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 |
+| `flows/file_manager_api.svg` | File System Access API |
+| `flows/autosave_history.svg` | Autoguardado e historial |
+| `flows/export_system.svg` | Sistema de exportación |
+| `architecture/pwa_service_worker.svg` | Service Worker y PWA |
+| `layout/theme_switcher.svg` | Sistema de temas claro/oscuro |
+| `propuestas/hybrid_network_ports.svg` | Puertos de red híbridos |
 
 ### Diagramas del Manual de Usuario
 
 | Archivo | Contenido |
 |---|---|
-| `manual_rack_anatomy.svg` | Anatomía de un rack |
-| `manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
-| `manual_action_flow.svg` | Flujo de acciones comunes |
+| `manual/manual_rack_anatomy.svg` | Anatomía de un rack |
+| `manual/manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
+| `manual/manual_action_flow.svg` | Flujo de acciones comunes |
 
 ### Diagramas de Mejoras
 
 | Archivo | Contenido |
 |---|---|
-| `mejoras_architecture_final.svg` | Arquitectura final propuesta |
-| `mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
+| `architecture/mejoras_architecture_final.svg` | Arquitectura final propuesta |
+| `propuestas/mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
 
 ### Cableado Físico y Vistas
 
 | Archivo | Contenido |
 |---|---|
-| `enrutamiento_equipos_piso_y_racks.svg` | Arquitectura de doble canaleta (Aérea vs Piso) |
-| `propuesta_1_canastillo_aereo.svg` | Canastillo superior aéreo inter-rack |
-| `propuesta_2_fila_continua_nowrap.svg` | Disposición en fila continua de racks |
-| `propuesta_3_cables_interactivos_hover.svg` | Modo interactivo Smart Focus |
+| `propuestas/enrutamiento_equipos_piso_y_racks.svg` | Arquitectura de doble canaleta (Aérea vs Piso) |
+| `propuestas/propuesta_1_canastillo_aereo.svg` | Canastillo superior aéreo inter-rack |
+| `propuestas/propuesta_2_fila_continua_nowrap.svg` | Disposición en fila continua de racks |
+| `propuestas/propuesta_3_cables_interactivos_hover.svg` | Modo interactivo Smart Focus |
+
+### Diagramas Entidad-Relación (ERD Vectoriales por Niveles)
+
+| Archivo | Nivel | Contenido |
+|---|---|---|
+| [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
+| [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
+| [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
+| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
 
 ### Otros
 
 | Archivo | Contenido |
 |---|---|
-| `directory_structure.svg` | Estructura de directorios |
-| `project_areas.svg` | Áreas del proyecto |
-| `user_personas.svg` | Perfiles de usuario |
+| `architecture/directory_structure.svg` | Estructura de directorios |
+| `architecture/project_areas.svg` | Áreas del proyecto |
+| `flows/user_personas.svg` | Perfiles de usuario |
 
 ---
 
@@ -1251,7 +1268,7 @@ El documento `mejoras.md` en la raíz del proyecto es el **Source of Truth** par
 - Deuda técnica y calidad
 - Problemas de UX y consistencia
 - Fases del roadmap de implementación (1–5)
-- Mejoras específicas planificadas para la topología (separación de etiquetas, layout de árbol genealógico)
+- Mejoras específicas implementadas para topología (skins de hardware M-28, 5 ranuras de memoria M-40, afinidad espacial M-39)
 
 ---
 
@@ -1261,14 +1278,15 @@ El proyecto RACK Designer Next es una app web vanilla que:
 
 1. **No necesita build step** → Solo abre index.html
 2. **Usa Proxy ES6** para estado reactivo (como Redux pero nativo, con cache WeakMap)
-3. **Guarda todo en localStorage** (sin backend) + autoguardado en disco con File System Access API
+3. **Guarda todo en localStorage** (con cifrado AES-GCM en reposo) + autoguardado en disco con File System Access API
 4. **Tiene 5 áreas fijas** en CSS Grid (header, sidebar flyout, main, right, bottom)
-5. **Canvas 2D** para la vista de topología (2 estilos: card/circle)
-6. **SVG inline** para cables en la vista física
-7. **Drag & drop** nativo para colocar equipos
+5. **Canvas 2D** para la vista de topología (3 estilos: card, circle y Hardware Skins fotorrealistas con 18 presets offline, M-28)
+6. **SVG inline** para cables en la vista física con bicanalidad segregada aérea y bajo piso (M-41)
+7. **Drag & drop** nativo para colocar equipos y reordenar slots
 8. **3 roles** (Admin, Editor, Viewer) con SHA-256 + token de integridad
-9. **Exporta** a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado, Excel y JSON (.rack)
+9. **Exporta e Importa** masivamente en Excel (.xlsx) y CSV con detección reactiva de colisiones (M-21/M-22), PNG 1:1 Retina y JSON (.rack)
 10. **PWA** con Service Worker (`rack-designer-next-cache-v30`) para uso offline
-11. **Suite de Integridad Automatizada** con 199 pruebas en 15 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
+11. **Doble Escenario Demo:** Datacenter TIA-942 y Campus Universitario UTN (10 salas, 13 racks, 162 equipos, 24 VLANs) mediante selector interactivo
+12. **Suite de Integridad Automatizada** con 360 pruebas en 23 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
 
 **La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.

@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 700" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+  </defs>
+
+  <rect width="340" height="700" fill="#0b0f19" rx="8"/>
+  <text x="170" y="20" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Right Panel Layout — #right-panel (260px width)</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- RIGHT PANEL (260px width) -->
+  <!-- ═══════════════════════════════════════ -->
+  <rect x="10" y="30" width="260" height="655" fill="#151c2e" stroke="#25304b" stroke-width="1" rx="4"/>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 1: OUTLINER (Árbol + Ordenamiento M-38) -->
+  <!-- ═══════════════════════════════════════ -->
+  <rect x="10" y="30" width="260" height="26" fill="#1a2235"/>
+  <text x="22" y="47" fill="#f0f6ff" font-size="11.5" font-weight="700">≡ Outliner</text>
+  
+  <!-- Acciones rápidas + Sala / + Rack / + Dev -->
+  <g transform="translate(110, 33)">
+    <rect width="34" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+    <text x="17" y="14" text-anchor="middle" fill="#38bdf8" font-size="8.5">+ Sala</text>
+    <rect x="38" width="36" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+    <text x="56" y="14" text-anchor="middle" fill="#38bdf8" font-size="8.5">+ Rack</text>
+    <rect x="78" width="38" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+    <text x="97" y="14" text-anchor="middle" fill="#38bdf8" font-size="8.5">+ Dev</text>
+    <text x="126" y="14" fill="#64748b" font-size="9">▼</text>
+  </g>
+
+  <!-- Barra de Ordenación del Outliner (#outliner-sort-select M-38) -->
+  <rect x="10" y="56" width="260" height="24" fill="#0f172a"/>
+  <line x1="10" y1="80" x2="270" y2="80" stroke="#25304b" stroke-width="0.8"/>
+  <text x="20" y="72" fill="#64748b" font-size="9.5">Ordenar:</text>
+  <rect x="68" y="60" width="194" height="17" rx="3" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+  <text x="76" y="72" fill="#38bdf8" font-size="9" class="mono">Posición U (Físico) ▾</text>
+
+  <!-- Árbol Jerárquico del Outliner -->
+  <g transform="translate(18, 86)">
+    <!-- Sala Data Center -->
+    <text x="6" y="15" fill="#f0f6ff" font-size="11" font-weight="600">🏢 Data Center</text>
+
+    <!-- Rack 01 -->
+    <text x="18" y="32" fill="#38bdf8" font-size="10.5" font-weight="500">🗄️ Rack 01 (42U)</text>
+    <text x="34" y="48" fill="#94a3b8" font-size="10" class="mono">├ [U42] PP-01 (1U)</text>
+    <text x="34" y="64" fill="#34d399" font-size="10" class="mono">├ [U41] SW-CORE-01 (1U)</text>
+    <text x="34" y="80" fill="#38bdf8" font-size="10" class="mono">├ [U37] SRV-PROD-01 (2U)</text>
+    <text x="34" y="96" fill="#facc15" font-size="10" class="mono">└ [U01] UPS-SMART (3U)</text>
+
+    <!-- Rack 02 -->
+    <text x="18" y="115" fill="#8b9ab8" font-size="10.5" font-weight="500">🗄️ Rack 02 (42U)</text>
+    <text x="34" y="131" fill="#94a3b8" font-size="10" class="mono">├ [U41] SW-ACCESS (1U)</text>
+    <text x="34" y="147" fill="#fbbf24" font-size="10" class="mono">└ [U40] RTR-BORDER (1U)</text>
+
+    <!-- Equipos de Piso -->
+    <text x="6" y="168" fill="#f59e0b" font-size="11" font-weight="600">🔌 Equipos de Piso</text>
+    <text x="22" y="184" fill="#94a3b8" font-size="10" class="mono">├ CONSOLE-PC-01</text>
+    <text x="22" y="200" fill="#94a3b8" font-size="10" class="mono">└ PRINTER-ADMIN</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 2: PROPIEDADES (Inspector Reactivo M-36) -->
+  <!-- ═══════════════════════════════════════ -->
+  <line x1="10" y1="300" x2="270" y2="300" stroke="#25304b" stroke-width="1"/>
+  <rect x="10" y="300" width="260" height="26" fill="#1a2235"/>
+  <text x="22" y="317" fill="#f0f6ff" font-size="11.5" font-weight="700">🔍 Inspector de Propiedades</text>
+  <text x="256" y="317" text-anchor="end" fill="#64748b" font-size="9">▼</text>
+
+  <!-- Contenido Inspector: Equipo Seleccionado -->
+  <g transform="translate(18, 335)">
+    <text x="6" y="12" fill="#38bdf8" font-size="11" font-weight="700">SRV-PROD-01 (Dell R740)</text>
+    <text x="6" y="26" fill="#64748b" font-size="9" class="mono">ID: dev-srv-prod-01 · 2U</text>
+
+    <!-- Formulario rápido -->
+    <g transform="translate(6, 36)" font-size="9.5">
+      <text x="0" y="12" fill="#94a3b8">IP:</text>
+      <rect x="40" y="0" width="180" height="18" rx="2" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+      <text x="46" y="12" fill="#f0f6ff" class="mono">192.168.10.15</text>
+
+      <text x="0" y="34" fill="#94a3b8">MAC:</text>
+      <rect x="40" y="22" width="180" height="18" rx="2" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+      <text x="46" y="34" fill="#f0f6ff" class="mono">AA:BB:CC:10:15:01</text>
+
+      <text x="0" y="56" fill="#94a3b8">Montaje:</text>
+      <rect x="40" y="44" width="180" height="18" rx="2" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+      <text x="46" y="56" fill="#f0f6ff">Ambas Caras (both M-10)</text>
+
+      <text x="0" y="78" fill="#94a3b8">Consumo:</text>
+      <rect x="40" y="66" width="180" height="18" rx="2" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+      <text x="46" y="78" fill="#f0f6ff">450 W (Dual PSU Redundante)</text>
+
+      <text x="0" y="100" fill="#94a3b8">Clave:</text>
+      <rect x="40" y="88" width="180" height="18" rx="2" fill="#1a2235" stroke="#25304b" stroke-width="0.5"/>
+      <text x="46" y="100" fill="#64748b" class="mono">•••••••• (AES-GCM M-01)</text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 3: ESTADÍSTICAS GLOBALES -->
+  <!-- ═══════════════════════════════════════ -->
+  <line x1="10" y1="480" x2="270" y2="480" stroke="#25304b" stroke-width="1"/>
+  <rect x="10" y="480" width="260" height="26" fill="#1a2235"/>
+  <text x="22" y="497" fill="#f0f6ff" font-size="11.5" font-weight="700">📊 Métricas del Datacenter</text>
+  <text x="256" y="497" text-anchor="end" fill="#64748b" font-size="9">▼</text>
+
+  <!-- Píldoras de Estadísticas -->
+  <g transform="translate(18, 516)">
+    <!-- Salas -->
+    <rect x="0" y="0" width="44" height="60" rx="5" fill="#1a2235" stroke="#25304b" stroke-width="0.6"/>
+    <text x="22" y="20" text-anchor="middle" font-size="12">🏢</text>
+    <text x="22" y="38" text-anchor="middle" fill="#64748b" font-size="7.5">Salas</text>
+    <text x="22" y="52" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">3</text>
+
+    <!-- Racks -->
+    <rect x="49" y="0" width="44" height="60" rx="5" fill="#1a2235" stroke="#25304b" stroke-width="0.6"/>
+    <text x="71" y="20" text-anchor="middle" font-size="12">🗄️</text>
+    <text x="71" y="38" text-anchor="middle" fill="#64748b" font-size="7.5">Racks</text>
+    <text x="71" y="52" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">6</text>
+
+    <!-- Equipos -->
+    <rect x="98" y="0" width="44" height="60" rx="5" fill="#1a2235" stroke="#25304b" stroke-width="0.6"/>
+    <text x="120" y="20" text-anchor="middle" font-size="12">⚡</text>
+    <text x="120" y="38" text-anchor="middle" fill="#64748b" font-size="7.5">Equipos</text>
+    <text x="120" y="52" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">28</text>
+
+    <!-- Piso -->
+    <rect x="147" y="0" width="44" height="60" rx="5" fill="#1a2235" stroke="#25304b" stroke-width="0.6"/>
+    <text x="169" y="20" text-anchor="middle" font-size="12">🔌</text>
+    <text x="169" y="38" text-anchor="middle" fill="#64748b" font-size="7.5">Piso</text>
+    <text x="169" y="52" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">4</text>
+
+    <!-- Cables -->
+    <rect x="196" y="0" width="44" height="60" rx="5" fill="#1a2235" stroke="#25304b" stroke-width="0.6"/>
+    <text x="218" y="20" text-anchor="middle" font-size="12">🔗</text>
+    <text x="218" y="38" text-anchor="middle" fill="#64748b" font-size="7.5">Cables</text>
+    <text x="218" y="52" text-anchor="middle" fill="#f43f5e" font-size="12" font-weight="700">18</text>
+  </g>
+
+  <!-- Métricas de Potencia Total -->
+  <g transform="translate(18, 586)">
+    <rect width="240" height="28" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.6"/>
+    <text x="10" y="18" fill="#94a3b8" font-size="9.5">Carga Eléctrica Total:</text>
+    <text x="230" y="18" text-anchor="end" fill="#facc15" font-size="10.5" font-weight="700" class="mono">2,380 W (2.38 kW)</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ANOTACIONES -->
+  <!-- ═══════════════════════════════════════ -->
+  <line x1="10" y1="670" x2="270" y2="670" stroke="#475569" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <text x="140" y="682" text-anchor="middle" fill="#475569" font-size="9" class="mono">260px (var(--right-panel-w))</text>
+
+</svg>

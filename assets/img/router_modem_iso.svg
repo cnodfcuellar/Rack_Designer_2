@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Sombra proyectada suave -->
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="10" stdDeviation="8" flood-color="#040914" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <!-- SOMBRA BASE ISOMÉTRICA EN EL SUELO -->
+  <path d="M 120 270 L 250 195 L 340 248 L 210 323 Z" fill="#000000" opacity="0.14"/>
+
+  <!-- ========================================== -->
+  <!-- 1. ANTENA VERTICAL TRASERA                 -->
+  <!-- ========================================== -->
+  <g id="antenna" filter="url(#shadow)">
+    <!-- Base cilíndrica de la antena en el panel posterior -->
+    <polygon points="302,156 314,149 319,152 307,159" fill="#1b2432"/>
+    <!-- Mástil de la Antena -->
+    <path d="M 311 154 L 311 82" stroke="#253040" stroke-width="7" stroke-linecap="round"/>
+    <path d="M 311 154 L 311 82" stroke="#37455a" stroke-width="3" stroke-linecap="round"/>
+    <!-- Punta redondeada de la antena -->
+    <circle cx="311" cy="80" r="3.5" fill="#4b5d78"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- 2. CHASIS PRINCIPAL DEL ROUTER             -->
+  <!-- ========================================== -->
+  <g id="chassis" filter="url(#shadow)">
+    <!-- Cara Superior del Chasis (Luz Principal) -->
+    <!-- Frontal-Sup (190, 225), Derecha-Sup (310, 155), Trasera-Sup (240, 115), Izquierda-Sup (120, 185) -->
+    <polygon points="120,185 240,115 310,155 190,225" fill="#2d3748"/>
+
+    <!-- Bisel / Relieve Superior (Estilo del hardware de la imagen) -->
+    <polygon points="135,183 235,125 295,159 195,217" fill="#232c3a"/>
+
+    <!-- Cara Lateral Derecha (Puertos Ethernet RJ45) -->
+    <polygon points="190,225 310,155 310,195 190,265" fill="#18202d"/>
+
+    <!-- Cara Frontal Izquierda (LEDs y Marca) -->
+    <polygon points="120,185 190,225 190,265 120,225" fill="#121822"/>
+
+    <!-- ========================================== -->
+    <!-- 3. PUERTOS ETHERNET (CARA DERECHA)        -->
+    <!-- ========================================== -->
+    <!-- Puerto WAN (Amarillo/Dorado) -->
+    <g transform="translate(0, 0)">
+      <polygon points="205,232 217,225 217,237 205,244" fill="#0c1017"/>
+      <polygon points="207,233 215,228 215,235 207,240" fill="#f59e0b"/>
+      <circle cx="211" cy="231" r="1.5" fill="#ffffff"/>
+    </g>
+
+    <!-- Puertos LAN 1 al 4 (Gris/Plata metálico con conectores) -->
+    <!-- LAN 1 -->
+    <polygon points="225,220 237,213 237,225 225,232" fill="#0c1017"/>
+    <polygon points="227,221 235,216 235,223 227,228" fill="#475569"/>
+
+    <!-- LAN 2 -->
+    <polygon points="245,209 257,202 257,214 245,221" fill="#0c1017"/>
+    <polygon points="247,210 255,205 255,212 247,217" fill="#475569"/>
+
+    <!-- LAN 3 -->
+    <polygon points="265,197 277,190 277,202 265,209" fill="#0c1017"/>
+    <polygon points="247,210 255,205 255,212 247,217" fill="#475569"/>
+
+    <!-- LAN 4 -->
+    <polygon points="285,186 297,179 297,191 285,198" fill="#0c1017"/>
+    <polygon points="287,187 295,182 295,189 287,194" fill="#475569"/>
+
+    <!-- ========================================== -->
+    <!-- 4. INDICADORES LED LUMINOSOS (CARA SUPERIOR)-->
+    <!-- ========================================== -->
+    <!-- Zona de LEDs en la superficie superior -->
+    <!-- LED Power (Verde brillante) -->
+    <ellipse cx="160" cy="180" rx="3" ry="1.8" fill="#22c55e"/>
+    <circle cx="160" cy="180" r="1.2" fill="#86efac"/>
+
+    <!-- LED Internet/WAN (Azul cian) -->
+    <ellipse cx="172" cy="173" rx="3" ry="1.8" fill="#38bdf8"/>
+    <circle cx="172" cy="173" r="1.2" fill="#bae6fd"/>
+
+    <!-- LED WLAN / 2.4G & 5G (Verdes) -->
+    <ellipse cx="184" cy="166" rx="3" ry="1.8" fill="#22c55e"/>
+    <ellipse cx="196" cy="159" rx="3" ry="1.8" fill="#22c55e"/>
+
+    <!-- LED LAN Activity (Verde parpadeante) -->
+    <ellipse cx="208" cy="152" rx="3" ry="1.8" fill="#22c55e"/>
+
+    <!-- Línea decorativa del bisel frontal -->
+    <path d="M 125 220 L 185 255" stroke="#2c3749" stroke-width="1.8"/>
+  </g>
+</svg>

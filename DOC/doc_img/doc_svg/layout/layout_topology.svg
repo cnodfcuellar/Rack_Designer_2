@@ -1,0 +1,332 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadowTop" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <!-- Malla de Puntos Translúcidos Canvas 2D -->
+    <pattern id="dotGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.2" fill="#ffffff" opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- CANVAS BACKGROUND (Datacenter Oficial #0b0f19) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect width="1400" height="720" fill="#0b0f19"/>
+  <rect width="1400" height="720" fill="url(#dotGrid)"/>
+
+  <!-- BARRA DE HERRAMIENTAS FLOTANTE DE TOPOLOGÍA -->
+  <g transform="translate(40, 16)" filter="url(#shadowTop)">
+    <rect width="1320" height="38" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+    
+    <!-- Controles de Zoom -->
+    <g transform="translate(14, 7)">
+      <rect width="24" height="24" rx="4" fill="#1a2235" stroke="#25304b" stroke-width="0.8"/>
+      <text x="12" y="16" text-anchor="middle" fill="#8b9ab8" font-size="12">−</text>
+      <text x="36" y="16" fill="#38bdf8" font-size="11" font-weight="600" class="mono">100%</text>
+      <rect x="74" width="24" height="24" rx="4" fill="#1a2235" stroke="#25304b" stroke-width="0.8"/>
+      <text x="86" y="16" text-anchor="middle" fill="#8b9ab8" font-size="12">+</text>
+      <rect x="104" width="36" height="24" rx="4" fill="#1a2235" stroke="#25304b" stroke-width="0.8"/>
+      <text x="122" y="16" text-anchor="middle" fill="#94a3b8" font-size="10" class="mono">⊙ 1:1</text>
+    </g>
+
+    <!-- Botón Auto-Orden -->
+    <g transform="translate(170, 7)">
+      <rect width="68" height="24" rx="4" fill="#1a2235" stroke="#25304b" stroke-width="0.8"/>
+      <text x="34" y="16" text-anchor="middle" fill="#f0f6ff" font-size="10.5" font-weight="600">⚡ Auto</text>
+    </g>
+
+    <!-- Selector de Skins / Modos Visuales M-28 -->
+    <g transform="translate(250, 7)">
+      <rect width="210" height="24" rx="5" fill="#0b0f19" stroke="#25304b" stroke-width="0.8"/>
+      <!-- Modo Hardware/Image (Activo M-28) -->
+      <rect x="2" y="2" width="76" height="20" rx="4" fill="#0ea5e9" fill-opacity="0.25" stroke="#0ea5e9" stroke-width="0.8"/>
+      <text x="40" y="15" text-anchor="middle" fill="#38bdf8" font-size="9.5" font-weight="700">🖥️ Chasis (M-28)</text>
+      <text x="115" y="15" text-anchor="middle" fill="#94a3b8" font-size="9.5">Card</text>
+      <text x="175" y="15" text-anchor="middle" fill="#94a3b8" font-size="9.5">Circle</text>
+    </g>
+
+    <!-- 5 RANURAS DE MEMORIA / SLOTS DE TOPOLOGÍA (M-40) -->
+    <g transform="translate(480, 7)">
+      <rect width="260" height="24" rx="5" fill="#1a2235" stroke="#38bdf8" stroke-width="0.8"/>
+      <text x="10" y="16" font-size="11">👁️</text>
+      <!-- Slots 1 a 5 -->
+      <rect x="28" y="2" width="22" height="20" rx="3" fill="#0ea5e9" fill-opacity="0.3" stroke="#0ea5e9" stroke-width="0.8"/>
+      <text x="39" y="15" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">1</text>
+      <rect x="54" y="2" width="22" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.6"/>
+      <text x="65" y="15" text-anchor="middle" fill="#94a3b8" font-size="10">2</text>
+      <rect x="80" y="2" width="22" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.6"/>
+      <text x="91" y="15" text-anchor="middle" fill="#94a3b8" font-size="10">3</text>
+      <rect x="106" y="2" width="22" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.6"/>
+      <text x="117" y="15" text-anchor="middle" fill="#94a3b8" font-size="10">4</text>
+      <rect x="132" y="2" width="22" height="20" rx="3" fill="#151c2e" stroke="#25304b" stroke-width="0.6"/>
+      <text x="143" y="15" text-anchor="middle" fill="#94a3b8" font-size="10">5</text>
+      <line x1="160" y1="4" x2="160" y2="20" stroke="#25304b" stroke-width="1"/>
+      <text x="175" y="15" fill="#38bdf8" font-size="9.5" font-weight="600">💾 Guardar Vista</text>
+      <text x="248" y="15" fill="#64748b" font-size="8">▾</text>
+    </g>
+
+    <!-- Indicador de Titulo Central -->
+    <text x="900" y="23" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Lienzo Canvas 2D · Modo Hardware Interactivo (Arrastre libre de salas, gabinetes y equipos)</text>
+
+    <!-- Exportar PNG -->
+    <g transform="translate(1230, 7)">
+      <rect width="76" height="24" rx="4" fill="#0ea5e9" fill-opacity="0.15" stroke="#0ea5e9" stroke-width="0.8"/>
+      <text x="38" y="16" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">📷 Export PNG</text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SALA 1: Data Center (Naranja Traslucido Datacenter) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g transform="translate(40, 70)">
+    <rect width="520" height="570" rx="16" fill="#f97316" fill-opacity="0.12" stroke="#ea580c" stroke-width="2"/>
+    <!-- Etiqueta de la Sala -->
+    <text x="24" y="36" fill="#fb923c" font-size="20" font-weight="700">🏢 Data Center Principal</text>
+    <text x="24" y="52" fill="#94a3b8" font-size="10" class="mono">Contenedor Geométrico · 3 Gabinetes · 18 Dispositivos</text>
+
+    <!-- RACK 101: CON HARDWARE SKINS FOTORREALISTAS (M-28) -->
+    <g transform="translate(24, 70)">
+      <rect width="150" height="360" rx="8" fill="#151c2e" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect width="150" height="26" rx="8" fill="#1a2235"/>
+      <text x="12" y="17" fill="#38bdf8" font-size="12" font-weight="700">Rack 101</text>
+      <text x="135" y="17" text-anchor="end" fill="#64748b" font-size="9" class="mono">42U</text>
+
+      <!-- Nodo 1: Switch 1U Chasis Hardware Fotorrealista (M-28) -->
+      <g transform="translate(5, 34)">
+        <rect width="140" height="50" rx="4" fill="#181a1f" stroke="#10b981" stroke-width="1.8"/>
+        <!-- Bisel lateral / orejas de montaje -->
+        <rect x="0" y="0" width="8" height="50" rx="2" fill="#333a46"/>
+        <circle cx="4" cy="8" r="1.5" fill="#94a3b8"/>
+        <circle cx="4" cy="42" r="1.5" fill="#94a3b8"/>
+        <rect x="132" y="0" width="8" height="50" rx="2" fill="#333a46"/>
+        <circle cx="136" cy="8" r="1.5" fill="#94a3b8"/>
+        <circle cx="136" cy="42" r="1.5" fill="#94a3b8"/>
+        <!-- LEDs y puertos frontales ilustrados -->
+        <circle cx="16" cy="15" r="2" fill="#10b981" filter="url(#glow)"/>
+        <circle cx="23" cy="15" r="2" fill="#22c55e"/>
+        <rect x="32" y="10" width="40" height="10" rx="1" fill="#0b0f19" stroke="#475569" stroke-width="0.5"/>
+        <text x="16" y="32" fill="#ffffff" font-size="11" font-weight="700">Switch Core 101</text>
+        <text x="16" y="44" fill="#94a3b8" font-size="9" class="mono">10.10.10.1 · 1U</text>
+      </g>
+
+      <!-- Nodo 2: Servidor 2U Chasis Hardware Fotorrealista (M-28) -->
+      <g transform="translate(5, 92)">
+        <rect width="140" height="56" rx="4" fill="#181a1f" stroke="#0ea5e9" stroke-width="1.8"/>
+        <rect x="0" y="0" width="8" height="56" rx="2" fill="#333a46"/>
+        <circle cx="4" cy="8" r="1.5" fill="#94a3b8"/><circle cx="4" cy="48" r="1.5" fill="#94a3b8"/>
+        <rect x="132" y="0" width="8" height="56" rx="2" fill="#333a46"/>
+        <circle cx="136" cy="8" r="1.5" fill="#94a3b8"/><circle cx="136" cy="48" r="1.5" fill="#94a3b8"/>
+        <!-- Bahías de disco simuladas -->
+        <rect x="15" y="8" width="55" height="14" rx="1" fill="#0b0f19" stroke="#334155" stroke-width="0.5"/>
+        <circle cx="78" cy="15" r="2.5" fill="#38bdf8" filter="url(#glow)"/>
+        <text x="16" y="35" fill="#ffffff" font-size="11" font-weight="700">Servidor Prod 01</text>
+        <text x="16" y="48" fill="#94a3b8" font-size="9" class="mono">10.10.10.11 · 2U</text>
+      </g>
+
+      <!-- Nodo 3: Servidor 2U -->
+      <g transform="translate(5, 156)">
+        <rect width="140" height="56" rx="4" fill="#181a1f" stroke="#0ea5e9" stroke-width="1.8"/>
+        <rect x="0" y="0" width="8" height="56" rx="2" fill="#333a46"/>
+        <rect x="132" y="0" width="8" height="56" rx="2" fill="#333a46"/>
+        <text x="16" y="32" fill="#ffffff" font-size="11" font-weight="700">Servidor Prod 02</text>
+        <text x="16" y="46" fill="#94a3b8" font-size="9" class="mono">10.10.10.12 · 2U</text>
+      </g>
+
+      <!-- Nodo 4: UPS 2U -->
+      <g transform="translate(5, 220)">
+        <rect width="140" height="50" rx="4" fill="#181a1f" stroke="#eab308" stroke-width="1.8"/>
+        <rect x="0" y="0" width="8" height="50" rx="2" fill="#333a46"/>
+        <rect x="132" y="0" width="8" height="50" rx="2" fill="#333a46"/>
+        <circle cx="16" cy="16" r="3" fill="#eab308" filter="url(#glow)"/>
+        <text x="26" y="19" fill="#facc15" font-size="9.5" font-weight="700">ONLINE</text>
+        <text x="16" y="34" fill="#ffffff" font-size="11" font-weight="700">UPS Smart 3000</text>
+        <text x="16" y="45" fill="#94a3b8" font-size="9" class="mono">3000 VA · 2U</text>
+      </g>
+    </g>
+
+    <!-- RACK 102 -->
+    <g transform="translate(190, 70)">
+      <rect width="150" height="360" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+      <rect width="150" height="26" rx="8" fill="#1a2235"/>
+      <text x="12" y="17" fill="#f0f6ff" font-size="12" font-weight="700">Rack 102</text>
+      
+      <!-- Switch 102 -->
+      <g transform="translate(5, 34)">
+        <rect width="140" height="50" rx="4" fill="#181a1f" stroke="#10b981" stroke-width="1.8"/>
+        <text x="16" y="28" fill="#ffffff" font-size="11" font-weight="700">Switch Dist 102</text>
+        <text x="16" y="42" fill="#94a3b8" font-size="9" class="mono">10.10.10.2 · 1U</text>
+      </g>
+
+      <!-- Servidores 102 -->
+      <g transform="translate(5, 92)">
+        <rect width="140" height="56" rx="4" fill="#181a1f" stroke="#0ea5e9" stroke-width="1.8"/>
+        <text x="16" y="32" fill="#ffffff" font-size="11" font-weight="700">Servidor Backup</text>
+        <text x="16" y="46" fill="#94a3b8" font-size="9" class="mono">10.10.10.21 · 2U</text>
+      </g>
+      <g transform="translate(5, 156)">
+        <rect width="140" height="56" rx="4" fill="#181a1f" stroke="#0ea5e9" stroke-width="1.8"/>
+        <text x="16" y="32" fill="#ffffff" font-size="11" font-weight="700">Servidor DB-01</text>
+        <text x="16" y="46" fill="#94a3b8" font-size="9" class="mono">10.10.10.22 · 2U</text>
+      </g>
+    </g>
+
+    <!-- RACK 103 -->
+    <g transform="translate(355, 70)">
+      <rect width="140" height="360" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+      <rect width="140" height="26" rx="8" fill="#1a2235"/>
+      <text x="12" y="17" fill="#f0f6ff" font-size="12" font-weight="700">Rack 103</text>
+      
+      <g transform="translate(5, 34)">
+        <rect width="130" height="50" rx="4" fill="#181a1f" stroke="#ef4444" stroke-width="1.8"/>
+        <text x="14" y="28" fill="#ffffff" font-size="11" font-weight="700">Firewall FortiGate</text>
+        <text x="14" y="42" fill="#f87171" font-size="9" class="mono">10.10.10.254 · 1U</text>
+      </g>
+      <g transform="translate(5, 92)">
+        <rect width="130" height="56" rx="4" fill="#181a1f" stroke="#0ea5e9" stroke-width="1.8"/>
+        <text x="14" y="32" fill="#ffffff" font-size="11" font-weight="700">Storage SAN 12TB</text>
+        <text x="14" y="46" fill="#94a3b8" font-size="9" class="mono">SAN-01 · 2U</text>
+      </g>
+    </g>
+
+    <!-- EQUIPOS DE PISO (Afinidad por Proximidad M-39) -->
+    <g transform="translate(24, 450)">
+      <rect width="470" height="100" rx="8" fill="#0b0f19" stroke="#334155" stroke-dasharray="4,3"/>
+      <text x="14" y="20" fill="#94a3b8" font-size="10.5" font-weight="600">Dispositivos de Piso Técnicos (Proximidad M-39)</text>
+      
+      <!-- Cámara CCTV -->
+      <rect x="14" y="32" width="130" height="48" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="24" y="52" fill="#ffffff" font-size="11" font-weight="600">📹 Cámara IP 01</text>
+      <text x="24" y="66" fill="#fbbf24" font-size="9" class="mono">10.10.88.10</text>
+
+      <!-- Terminal Consola -->
+      <rect x="160" y="32" width="130" height="48" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="170" y="52" fill="#ffffff" font-size="11" font-weight="600">💻 PC Monitoreo</text>
+      <text x="170" y="66" fill="#fbbf24" font-size="9" class="mono">10.10.78.19</text>
+
+      <!-- AP WiFi 6 -->
+      <rect x="306" y="32" width="130" height="48" rx="6" fill="#151c2e" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="316" y="52" fill="#ffffff" font-size="11" font-weight="600">📡 AP Central WiFi</text>
+      <text x="316" y="66" fill="#fbbf24" font-size="9" class="mono">10.10.88.20</text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SALA 2: Edificio A2 (Interconexión Troncal) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g transform="translate(600, 70)">
+    <rect width="360" height="570" rx="16" fill="#f97316" fill-opacity="0.10" stroke="#ea580c" stroke-width="1.8"/>
+    <text x="24" y="36" fill="#fb923c" font-size="20" font-weight="700">🏢 Edificio A2</text>
+    
+    <g transform="translate(24, 70)">
+      <rect width="145" height="360" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+      <rect width="145" height="26" rx="8" fill="#1a2235"/>
+      <text x="12" y="17" fill="#f0f6ff" font-size="12" font-weight="700">Rack 201</text>
+      <g transform="translate(5, 34)">
+        <rect width="135" height="50" rx="4" fill="#181a1f" stroke="#10b981" stroke-width="1.8"/>
+        <text x="14" y="28" fill="#ffffff" font-size="11" font-weight="700">Switch 201</text>
+        <text x="14" y="42" fill="#94a3b8" font-size="9" class="mono">10.10.20.1 · 1U</text>
+      </g>
+    </g>
+    <g transform="translate(190, 70)">
+      <rect width="145" height="360" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+      <rect width="145" height="26" rx="8" fill="#1a2235"/>
+      <text x="12" y="17" fill="#f0f6ff" font-size="12" font-weight="700">Rack 202</text>
+      <g transform="translate(5, 34)">
+        <rect width="135" height="50" rx="4" fill="#181a1f" stroke="#10b981" stroke-width="1.8"/>
+        <text x="14" y="28" fill="#ffffff" font-size="11" font-weight="700">Switch 202</text>
+        <text x="14" y="42" fill="#94a3b8" font-size="9" class="mono">10.10.20.2 · 1U</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SALA 3: Edificio B1 (Sede Remota) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g transform="translate(1000, 70)">
+    <rect width="360" height="570" rx="16" fill="#f97316" fill-opacity="0.10" stroke="#ea580c" stroke-width="1.8"/>
+    <text x="24" y="36" fill="#fb923c" font-size="20" font-weight="700">🏢 Edificio B1</text>
+    
+    <g transform="translate(24, 70)">
+      <rect width="145" height="360" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+      <rect width="145" height="26" rx="8" fill="#1a2235"/>
+      <text x="12" y="17" fill="#f0f6ff" font-size="12" font-weight="700">Rack 301</text>
+      <g transform="translate(5, 34)">
+        <rect width="135" height="50" rx="4" fill="#181a1f" stroke="#10b981" stroke-width="1.8"/>
+        <text x="14" y="28" fill="#ffffff" font-size="11" font-weight="700">Switch 301</text>
+        <text x="14" y="42" fill="#94a3b8" font-size="9" class="mono">10.10.30.1 · 1U</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- CONEXIONES BEZIER INTERACTIVAS CON PARTÍCULAS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Conexión Intra-Rack: Switch 101 -> Servidor Prod 01 -->
+  <path d="M 215 155 C 235 155, 235 210, 215 210" stroke="#38bdf8" stroke-width="2.5" fill="none" opacity="0.9"/>
+  <circle cx="230" cy="182" r="3" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Troncal Inter-Rack: Switch 101 -> Switch 102 -->
+  <path d="M 215 155 C 240 155, 240 155, 250 155" stroke="#10b981" stroke-width="3" fill="none" opacity="0.95" filter="url(#glow)"/>
+  <circle cx="232" cy="155" r="3.5" fill="#ffffff"/>
+
+  <!-- Enlace Inter-Salas: Switch 102 -> Switch 201 (Fibra Óptica Cyan) -->
+  <path d="M 380 155 C 500 120, 560 120, 630 155" stroke="#00d4ff" stroke-width="3.2" stroke-dasharray="8,4" fill="none" opacity="0.9"/>
+  <circle cx="510" cy="130" r="4" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="580" cy="135" r="4" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Enlace WAN: Switch 201 -> Switch 301 -->
+  <path d="M 770 155 C 880 110, 940 110, 1030 155" stroke="#8b5cf6" stroke-width="3" fill="none" opacity="0.85"/>
+  <circle cx="900" cy="122" r="3.5" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Cableado a Equipos de Piso (M-39) -->
+  <path d="M 135 180 C 80 250, 70 420, 115 540" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.75"/>
+  <circle cx="85" cy="360" r="3" fill="#ffffff"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HUD / TOOLTIP INTERACTIVO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g transform="translate(390, 240)" filter="url(#shadowTop)">
+    <rect width="180" height="92" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="14" y="22" fill="#ffffff" font-size="12" font-weight="700">Switch Core 101</text>
+    <text x="14" y="38" fill="#38bdf8" font-size="10" class="mono">IP: 10.10.10.1</text>
+    <text x="14" y="52" fill="#94a3b8" font-size="10" class="mono">Puertos: 48 RJ45 + 4 SFP+</text>
+    <text x="14" y="66" fill="#a78bfa" font-size="10" class="mono">VLANs: 10, 20, 99</text>
+    <text x="14" y="80" fill="#22c55e" font-size="9.5" font-weight="600">● Enlace Troncal Activo</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- LEYENDA DEL MOTOR CANVAS 2D -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g transform="translate(40, 656)">
+    <rect width="1320" height="50" rx="8" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+    <text x="24" y="24" fill="#f0f6ff" font-size="11" font-weight="700">MOTOR DE TOPOLOGÍA (Canvas 2D):</text>
+    
+    <!-- Elementos de la leyenda -->
+    <rect x="230" y="14" width="14" height="14" rx="3" fill="#181a1f" stroke="#0ea5e9" stroke-width="1.2"/>
+    <text x="250" y="25" fill="#94a3b8" font-size="10.5">Skins Hardware (M-28)</text>
+
+    <rect x="400" y="14" width="28" height="14" rx="4" fill="#0ea5e9" fill-opacity="0.3" stroke="#0ea5e9" stroke-width="1"/>
+    <text x="435" y="25" fill="#94a3b8" font-size="10.5">5 Slots de Memoria (M-40)</text>
+
+    <line x1="610" y1="21" x2="635" y2="21" stroke="#00d4ff" stroke-width="3" stroke-dasharray="4,2"/>
+    <text x="642" y="25" fill="#94a3b8" font-size="10.5">Troncal Fibra (Cross-Room)</text>
+
+    <line x1="810" y1="21" x2="835" y2="21" stroke="#f59e0b" stroke-width="2.5"/>
+    <text x="842" y="25" fill="#94a3b8" font-size="10.5">Afinidad Piso (M-39)</text>
+
+    <text x="1000" y="25" fill="#64748b" font-size="10" class="mono">Fondo Adaptativo #0b0f19 | Drag &amp; Drop de Nodos y Contenedores | 60 FPS Coalescente</text>
+  </g>
+
+</svg>

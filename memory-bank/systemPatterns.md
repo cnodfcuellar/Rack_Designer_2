@@ -1,35 +1,49 @@
 # System Patterns
 
 ## Architecture: Reactive Proxy Pattern
-The application emulates a modern React/Redux reactive architecture using native ES6 `Proxy`:
-1. **User Action:** UI event handler is triggered.
-2. **Store Mutator:** Handler calls a method on `store` (e.g., `store.addDeviceToRack()`).
-3. **Snapshot:** The store calls `snapshot()` to deepClone state for Undo/Redo tracking.
-4. **Proxy Interception:** Mutation on `this._raw` is intercepted by the Proxy `set` trap.
-5. **Persistence & Emission:** The Proxy automatically saves to `localStorage` and emits a `'change'` event.
-6. **Re-render:** `main.js` catches the `'change'` event and selectively triggers `renderAll({ source })`.
+La aplicación emula un flujo unidireccional y reactivo estilo Redux/React utilizando primitivas nativas de ES6 (`Proxy`):
 
-## Component Relationships
-- `js/store.js`: The absolute source of truth. Handles state, persistence, and events.
-- `js/main.js`: Orchestrator. Binds global events and triggers layout re-renders.
-- `js/ui/`: View layer modules. Must never mutate data directly. Only read from `store.state` and render to DOM.
-- `js/ui/topology/`: Specialized Canvas 2D engine operating as an MVC subset:
-  - `TopologySkins.js`: Gestión desacoplada de los 3 modos canónicos (`circle`, `card`, `image`), dimensiones adaptativas (`getNodeDimensions`), presets de hardware fotorrealistas (`HARDWARE_PRESETS`) y hit-testing matemático unificado (`isPointInNode`).
-  - `TopologyState.js`: Estado reactivo en memoria (zoom, pan, layoutMode, nodeLabelPos, ipLabelPos, spacing, spacingX).
-  - `TopologyLayout.js`: Algoritmos de ordenamiento geométrico. Soporta layout por racks (distribución de nodos en columnas internas con separación horizontal `colGap` y vertical `unitH`, gap fijo de racks `RACK_GAP = 32px`) y layout de árbol jerárquico (`DAG` padre-hijo ortogonal con posicionamiento de nodos desconectados al pie del rack/sala y cabecera de sala desvinculada de racks). Incorpora el algoritmo de afinidad y proximidad por gabinete anfitrión (`_findAffinityRackForFloorDevice`, `M-39`), posicionando equipos de piso en el cuadrante inferior de su rack conectado con línea de base uniforme (`floorBaseY`) y contención de sala reactiva. Recálculo reactivo a 60 FPS mediante `recalcTopoSpacing()` y `recalcTopoSpacingX()`.
-  - `TopologyRenderer.js`: Renderizado por Canvas 2D con badges, glow de selección, conectores Bézier y ortogonales redondeados, partículas de tráfico animadas y posicionamiento granular e independiente de etiquetas (Nombre e IP: arriba, abajo, izquierda, derecha, juntos, separados, ocultos).
-  - `TopologyEvents.js`: Captura de gestos táctiles, arrastre de nodos, racks y salas, redimensionamiento interactivo, clics, selección múltiple y persistencia de coordenadas en `store.state`. Restricción de límites perimetrales por radio geométrico horizontal (`rx`) y vertical (`ry`).
-  - `TopologyOrchestrator.js`: Coordinación de ciclo de vida del canvas, redibujado y resize.
+```
+ACCION DEL USUARIO (UI Event)
+    ↓
+METODO DEL STORE (e.g. store.addDeviceToRack())
+    ↓
+SNAPSHOT RAPIDO (fastClone multi-tier, maxHistory=15, deduplicación)
+    ↓
+MUTACION DE this._raw (push, Object.assign, splice)
+    ↓
+PROXY TRAP SET (intercepta cambio y persiste en localStorage)
+    ↓
+EMISION REACTIVA (store._emit('change', { source, entityInfo }))
+    ↓
+ORQUESTADOR (main.js rAF coalescing a 60 FPS)
+    ↓
+REDIBUJADO SELECTIVO (renderSingleRack o renderAll según dirty flags)
+```
 
-## Design Patterns
-- **No ES Modules in Browser:** Scripts are loaded sequentially in the global scope via `<script>` tags in `index.html`.
-- **Modular CSS:** Cascading architecture where later files override earlier ones (`variables.css` -> `layout.css` -> `components.css`).
-- **RBAC (Role Based Access Control):** Managed globally via `window.RackAuth`.
-- **Criptografía y Persistencia Blindada (`RackCrypto`):** Cifrado simétrico transparente con formato `enc:v1:<iv>:<ciphertext>` en `_save()`, descifrado automático en `_load()` y protección RBAC para Modo Dios (`SHOW_PASSWORDS`) y revelación táctil individual en Inspector.
-- **Dual Spacing Sliders (H / V):** Control independiente de granularidad horizontal y vertical sin alterar las relaciones estructurales de los contenedores de salas y racks.
-- **Rack Affinity & Proximity (M-39):** Agrupación geométrica de periféricos de piso por gabinete según grafo de conexiones activas, manteniendo aislamiento lateral sin invasión de racks adyacentes y nivelación uniforme a la grilla ortogonal.
-- **Topology Slots Memory Engine (M-40):** 5 ranuras independientes en `store.js` (`topologySlots`) con clonado profundo que capturan y restauran coordenadas de nodos, gabinetes, salas, nivel de zoom y encuadre pan sin perturbar la pila de deshacer/rehacer (`_redoStack`).
-- **Dual-Channel Cable Routing (M-41):** Segregación física de cableado en `rack.js` según `orientation: 'top' | 'bottom'`, canalizando cables superiores por la bandeja aérea y cables inferiores por el zócalo/piso técnico (`maxRackBottom + 14 + offset`). Conmutación atómica bidireccional (`swapConnectionDirection` y `toggleConnectionOrientation`).
-- **Clonado Profundo Optimizado e Historial Acotado (M-03):** Pipeline de clonación multi-tier con `fastClone(obj)` en `utils.js` (4x más veloz que JSON), límite de historial estricto (`store.maxHistory = 15`), snapshots livianos excluyendo `topologySlots` y deduplicación consecutiva O(1) con `_mutatedSinceLastSnapshot`.
-- **Redibujado Selectivo y Monitoreo de Rendimiento (M-04):** Despacho reactivo de interfaz en `main.js` mediante coalescencia rAF a 60 FPS, actualización granular de gabinetes individuales con `renderSingleRack(rackId)` sin reconstruir salas completas, seguimiento de estado sucio en vistas inactivas (`window._renderState`) y telemetría en tiempo real (`window.RenderPerformance`).
-- **Plantillas Demo Multiesquema:** Carga flexible y desacoplada de arquitecturas de referencia (`loadDemoData('tia942')` y `loadUniversityDemoData()`) mediante selector visual interactivo `#modal-demo-selection` con copia de seguridad previa.
+## Component Relationships & Responsibilities
+- **`js/store.js` (Singleton & State Hub):** Única fuente de la verdad. Almacena `this._raw`, expone `this.state` envuelto en un Proxy reactivo, administra las pilas de Undo/Redo acotadas, persiste en `localStorage` con cifrado simétrico y emite eventos con metadatos enriquecidos de entidad.
+- **`js/auth/crypto.js` (`RackCrypto`):** Capa de seguridad criptográfica con cifrado simétrico AES-GCM 256-bit bajo prefijo `enc:v1:<iv>:<ciphertext>`. Cifra contraseñas en reposo y descifra de forma transparente en memoria.
+- **`js/auth/roles.js` (`RackAuth`):** Matriz de control de acceso basada en roles (Admin, Editor, Viewer) y verificación criptográfica de PIN con digest SHA-256. Controla el acceso a Modo Dios (`SHOW_PASSWORDS`) y acciones destructivas de infraestructura.
+- **`js/main.js` (Orchestrator):** Punto de entrada. Enlaza los atajos de teclado globales (Ctrl+Z / Ctrl+Y), sincroniza la cabecera, gestiona los temas globales (Oscuro, Claro, Sepia) y administra la matriz de despacho de renderizado `renderAll({ source })` con agrupación por `requestAnimationFrame`.
+- **`js/ui/rack.js` (Alzado Físico de Racks):** Renderizado de gabinetes con animación CSS 3D flip (frontal y trasero), grilla CAD milimétrica (24px = 1U), slots físicos fijos de 240px, redibujado granular de gabinetes individuales con `renderSingleRack(rackId)` y trazado vectorial de cables con enrutamiento bicanal (techo vs. piso técnico).
+- **`js/ui/faceplates.js` (Carátulas de Hardware):** Renderizado de biseles de equipos, etiquetas de modelo, matriz interactiva de puertos y LEDs animados por hardware con inyección desde `EMBEDDED_SVG_CACHE`.
+- **`js/ui/catalog.js` (Catálogo de Equipos):** Clasificación en 7 familias comerciales estándar, buscador reactivo en tiempo real `#catalog-search` y fuentes de drag & drop.
+- **`js/ui/tables.js` (Inventario y Cableado):** Tablas de datos en panel inferior, edición en celda con doble clic, selector interactivo de columnas visibles y botón de inversión instantánea de cableado (*Swap* Origen ⇄ Destino).
+- **`js/ui/outliner.js` e `inspector.js`:** Árbol jerárquico multinivel con ordenamiento cuádruple (`slot`, `name-asc`, `name-desc`, `type`), acciones inline (`✏️` y `🗑️`), auto-navegación con centrado suave e Inspector colapsable con cálculo de U y botón de revelación táctil de contraseñas.
+- **`js/ui/topology/` (Motor Canvas 2D de Red):**
+  - **`TopologySkins.js`:** Gestión de los 3 modos canónicos (`circle`, `card`, `image`), 18 presets offline de hardware fotorrealista (`HARDWARE_PRESETS`), soporte de carga en base64 DataURL, cálculo adaptativo de dimensiones (`getNodeDimensions`) y detección de impacto geométrica unificada (`isPointInNode`).
+  - **`TopologyState.js`:** Estado reactivo en memoria (zoom, pan, layoutMode, nodeLabelPos, ipLabelPos, spacing, spacingX).
+  - **`TopologyLayout.js`:** Algoritmo por gabinetes y árbol jerárquico DAG (padre-hijo ortogonal con desconectados en la base). Incorpora afinidad y proximidad por rack anfitrión (`_findAffinityRackForFloorDevice`, M-39) posicionando periféricos de piso en el cuadrante inferior con línea de base uniforme (`floorBaseY`) y recálculo a 60 FPS con sliders duales H y V.
+  - **`TopologyRenderer.js`:** Renderizado acelerado por Canvas 2D con cables Bézier y ortogonales redondeados, partículas de tráfico animadas con `performance.now()`, HUD tooltip ergonómico ampliado a 240px con elipsis elegante y posicionamiento independiente de etiquetas (Nombre e IP).
+  - **`TopologyEvents.js`:** Captura de interacciones táctiles, arrastre fluido de nodos, gabinetes y salas con validación geométrica de límites perimetrales (`rx`/`ry`), selección múltiple y persistencia reactiva.
+  - **`TopologyOrchestrator.js`:** Fachada de ciclo de vida del canvas, redibujado continuo y 5 slots de memoria rápida (`topologySlots`, M-40) para guardar y conmutar encuadres y estados topológicos sin alterar el historial de Undo/Redo.
+
+## Design Patterns & Core Conventions
+1. **No ES Modules in Browser:** Todos los scripts de desarrollo se cargan ordenadamente en el ámbito global mediante etiquetas `<script>` en `index.html`.
+2. **Modular Cascading CSS:** Jerarquía estricta de hojas de estilo donde las capas posteriores refinan o sobreescriben a las anteriores sin colisiones de selectores.
+3. **Optimización Multi-Tier de Historial (M-03):** Función `fastClone` que acelera la clonación estructural 4x respecto a JSON nativo, con límite estricto de 15 niveles de historial, snapshots livianos sin ranuras topológicas y deduplicación consecutiva $O(1)$.
+4. **Coalescencia y Despacho Granular a 60 FPS (M-04):** Despacho reactivo de interfaz agrupado en `requestAnimationFrame`, actualización atómica de gabinetes individuales con `renderSingleRack(rackId)` y banderas de estado sucio para vistas inactivas.
+5. **Cifrado Simétrico Transparente en Reposo (M-01):** Protección de datos confidenciales con derivación PBKDF2 y cifrado AES-GCM 256-bit, manteniendo el flujo en memoria fluido sin bloqueos de rendimiento.
+6. **Biblioteca Isométrica Offline (`assets/img/`):** 19 activos vectoriales de alta definición en proyección isométrica a 30° con iluminación facetada en 3 planos y sombras de piso para personalización de skins de hardware.
+7. **Documentación de Arquitectura de Clase Mundial:** 4 diagramas vectoriales exhaustivos en `doc/doc_img/doc_svg/architecture/` (`diagrama_dependencias_completo.svg`, `grafo_relaciones_archivos_sistema.svg`, `diagrama_uml_completo_sistema.svg` y `codemap_grafo_completo.svg`).

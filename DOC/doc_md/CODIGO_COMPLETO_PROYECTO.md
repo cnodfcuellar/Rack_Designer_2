@@ -3,7 +3,7 @@
 
 > **Propósito:** Este documento consolida en un **único archivo Markdown** la totalidad del código fuente desarrollado para **RACK Designer Next**, sirviendo como base de estudio de alto nivel para comprender la arquitectura *Reactive Proxy Pattern*, el motor gráfico híbrido (DOM CSS + SVG + Canvas 2D) y el diseño de aplicaciones PWA de producción 100% offline sin frameworks.
 >
-> **Fecha de compilación:** 2026-10-05
+> **Fecha de compilación:** 2026-10-07
 > **Plataforma:** PWA 100% Vanilla JavaScript (ES6+), HTML5, CSS3. **Sin paso de compilación (No build step).**
 > **Pruebas de integridad:** 199 / 199 aprobadas al 100% (0 fallos) en 15 grupos.
 
@@ -14,8 +14,8 @@
 | Métrica | Valor |
 | :--- | :--- |
 | **Archivos fuente propios incluidos** | **44 archivos** |
-| **Líneas de código totales** | **22.147 líneas** |
-| **Volumen de código fuente** | **1026.5 KB (1.00 MB)** |
+| **Líneas de código totales** | **24.204 líneas** |
+| **Volumen de código fuente** | **1150.9 KB (1.12 MB)** |
 | **Librerías externas vendor** | Omitidas del bundle (disponibles en `js/*.min.js`: SheetJS, html2canvas, polyfills) |
 | **Arquitectura de Estado** | Reactividad pura con Proxy ES6 + Snapshot History (Undo/Redo) |
 | **Renderizado Gráfico** | SVG-First en Vista Física + Canvas 2D en Topología |
@@ -37,7 +37,7 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`index.html`**](#index-html) | `HTML` | 1.050 | 68.8 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
+| [**`index.html`**](#index-html) | `HTML` | 1.128 | 74.3 KB | Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts. |
 
 ### Capa 2: Sistema de Diseño y Estilos CSS Modulares
 *Arquitectura CSS modular y en cascada: variables de tema (claro/oscuro), layout grid, gabinetes, faceplates y modales.*
@@ -50,7 +50,7 @@
 | [**`css/components/panels.css`**](#css-components-panels-css) | `CSS` | 619 | 15.5 KB | Estilos para sidebar, outliner, inspector, popovers y tablas inferiores. |
 | [**`css/components/rack.css`**](#css-components-rack-css) | `CSS` | 360 | 9.6 KB | Estilos de gabinetes (Racks), unidades U (24px), flipping 3D y ranuras (slots de 240px). |
 | [**`css/components/faceplates.css`**](#css-components-faceplates-css) | `CSS` | 377 | 8.7 KB | Estilos de carátulas SVG y hardware montado en racks o en sección de piso. |
-| [**`css/components/modals.css`**](#css-components-modals-css) | `CSS` | 79 | 5.9 KB | Estilos de las ventanas modales, formularios, grillas y botones. |
+| [**`css/components/modals.css`**](#css-components-modals-css) | `CSS` | 97 | 6.4 KB | Estilos de las ventanas modales, formularios, grillas y botones. |
 | [**`css/components/misc.css`**](#css-components-misc-css) | `CSS` | 362 | 39.4 KB | Animaciones de estado, tooltips, notificaciones toast y utilidades visuales. |
 
 ### Capa 3: Núcleo de Estado, Utilidades y Demostración
@@ -58,10 +58,10 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/store.js`**](#js-store-js) | `JAVASCRIPT` | 1.108 | 43.4 KB | Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento. |
+| [**`js/store.js`**](#js-store-js) | `JAVASCRIPT` | 1.111 | 43.8 KB | Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento. |
 | [**`js/utils.js`**](#js-utils-js) | `JAVASCRIPT` | 153 | 5.2 KB | Funciones de soporte: uid, deepClone, escapeHTML, notificaciones toast y diálogos seguros. |
 | [**`js/icons.js`**](#js-icons-js) | `JAVASCRIPT` | 29 | 16.5 KB | Diccionario de iconos SVG vectoriales inline utilizados en toda la interfaz. |
-| [**`js/demoData.js`**](#js-demodata-js) | `JAVASCRIPT` | 641 | 34.3 KB | Dataset preconfigurado de demostración con salas, racks 42U, equipos ToR y cableado VLAN. |
+| [**`js/demoData.js`**](#js-demodata-js) | `JAVASCRIPT` | 1.798 | 115.2 KB | Dataset preconfigurado de demostración con salas, racks 42U, equipos ToR y cableado VLAN. |
 
 ### Capa 4: Seguridad, Criptografía y Control de Acceso (RBAC)
 *Autenticación basada en roles con SHA-256 y cifrado simétrico en reposo con AES-GCM.*
@@ -78,7 +78,7 @@
 | :--- | :---: | :---: | :---: | :--- |
 | [**`js/ui/catalog.js`**](#js-ui-catalog-js) | `JAVASCRIPT` | 425 | 27.3 KB | Catálogo de hardware: 30 plantillas arquitectónicas en 8 familias y buscador reactivo. |
 | [**`js/ui/faceplates.js`**](#js-ui-faceplates-js) | `JAVASCRIPT` | 439 | 67.7 KB | Motor de inyección SVG inline con caché en memoria y generación de carátulas fotorrealistas. |
-| [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 937 | 42.5 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
+| [**`js/ui/rack.js`**](#js-ui-rack-js) | `JAVASCRIPT` | 975 | 44.3 KB | Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG. |
 | [**`js/ui/tables.js`**](#js-ui-tables-js) | `JAVASCRIPT` | 654 | 27.7 KB | Panel inferior: tablas de inventario y conexiones con selector dinámico de columnas y edición en celda. |
 | [**`js/ui/outliner.js`**](#js-ui-outliner-js) | `JAVASCRIPT` | 359 | 16.6 KB | Panel derecho (Outliner): árbol jerárquico Sala > Rack > Equipo con navegación y acciones CRUD inline. |
 | [**`js/ui/inspector.js`**](#js-ui-inspector-js) | `JAVASCRIPT` | 503 | 25.9 KB | Panel derecho (Inspector): visualización y edición granular de propiedades, modo Dios y colapso. |
@@ -116,15 +116,15 @@
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.266 | 50.5 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
+| [**`js/main.js`**](#js-main-js) | `JAVASCRIPT` | 1.537 | 60.2 KB | Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión. |
 
 ### Capa 9: Automatización y Suite de Pruebas de Integridad
 *Pruebas de integridad relacional ejecutables tanto en Node.js como interactivamente en el navegador web.*
 
 | Archivo | Tipo | Líneas | Tamaño | Descripción Técnica |
 | :--- | :---: | :---: | :---: | :--- |
-| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.629 | 97.3 KB | Suite de pruebas de integridad para Node.js: 316 aserciones en 20 grupos al 100% de éxito. |
-| [**`tests/index.html`**](#tests-index-html) | `HTML` | 1.992 | 106.5 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 316 pruebas en interfaz gráfica. |
+| [**`tests/integrity_check.cjs`**](#tests-integrity-check-cjs) | `JAVASCRIPT` | 1.785 | 105.2 KB | Suite de pruebas de integridad para Node.js: 316 aserciones en 20 grupos al 100% de éxito. |
+| [**`tests/index.html`**](#tests-index-html) | `HTML` | 2.328 | 124.4 KB | Runner web interactivo de pruebas en navegador: paridad 1:1 con 316 pruebas en interfaz gráfica. |
 
 ### Capa 10: Herramientas de Compilación y Scripts Auxiliares
 *Scripts de automatización y soporte fuera del bundle del navegador.*
@@ -328,7 +328,7 @@ self.addEventListener('fetch', (event) => {
 
 * **Ubicación relativa:** `index.html`
 * **Capa:** Capa 1: Estructura HTML y Vistas Base
-* **Dimensiones:** 1.050 líneas | 68.8 KB
+* **Dimensiones:** 1.128 líneas | 74.3 KB
 * **Rol en el sistema:** Página HTML principal: layout general, contenedores de vistas, modales y carga ordenada de scripts.
 
 ```html
@@ -409,7 +409,7 @@ self.addEventListener('fetch', (event) => {
           <div class="dropdown-item" id="menu-change-pin" style="display:none;"><i class="svg-icon icon-lock" style="width:14px; height:14px; margin-right:6px;"></i>Cambiar PIN de Admin</div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item" id="menu-import-devices"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Importación masiva (CSV/Excel)</div>
-          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (265 pruebas)</a>
+          <a href="tests/index.html" target="_blank" class="dropdown-item" style="text-decoration:none; color:inherit;"><i class="svg-icon icon-check" style="width:14px; height:14px; margin-right:6px; color:var(--green);"></i>Suite de Tests (360 pruebas)</a>
           <div class="dropdown-item" id="menu-export-cat"><i class="svg-icon icon-upload" style="width:14px; height:14px; margin-right:6px;"></i>Exportar catálogo</div>
           <div class="dropdown-item" id="menu-import-cat"><i class="svg-icon icon-download" style="width:14px; height:14px; margin-right:6px;"></i>Importar catálogo</div>
         </div>
@@ -1261,6 +1261,84 @@ self.addEventListener('fetch', (event) => {
     </div>
   </div>
 </div>
+
+<!-- ============================
+     MODAL DE SELECCIÓN DE DEMOS
+============================= -->
+<div class="modal-overlay hidden" id="modal-demo-selection">
+  <div class="modal" style="max-width: 680px; width: 95%;">
+    <div class="modal-title">
+      <i class="svg-icon icon-sparkle" style="width:20px; height:20px; margin-right:8px; color: var(--accent);"></i>
+      <span>Plantillas de Demostración</span>
+    </div>
+    <div class="modal-sub" style="margin-bottom:16px;">
+      Selecciona una arquitectura prediseñada para explorar el diseño de infraestructura, topología y cableado:
+    </div>
+
+    <div class="demo-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+      <!-- Tarjeta 1: Datacenter TIA-942 -->
+      <div class="demo-card" id="card-demo-tia942" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(14, 165, 233, 0.15); border: 1px solid #0ea5e9; display: flex; align-items: center; justify-content: center; color: #0ea5e9;">
+              <i class="svg-icon icon-server" style="width: 20px; height: 20px;"></i>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.3); font-family: var(--font-mono);">TIA-942</span>
+          </div>
+          <div style="font-size: var(--text-md); font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+            Centro de Datos Empresarial
+          </div>
+          <div style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px;">
+            Infraestructura estandarizada para Data Centers de misión crítica. Distribución gravitacional de peso y redundancia de alimentación.
+          </div>
+          <ul style="font-size: var(--text-xs); color: var(--text-muted); line-height: 1.6; padding-left: 18px; margin: 0 0 16px 0; font-family: var(--font-mono);">
+            <li>3 Salas (DC Principal, Corp A, SOC)</li>
+            <li>4 Gabinetes 42U de alta densidad</li>
+            <li>SAN NVMe, Virtualización y Borde BGP</li>
+            <li>Topología inter-rack y cableado OM4/Cat6A</li>
+          </ul>
+        </div>
+        <button type="button" class="btn-confirm" id="btn-load-demo-tia942" style="width: 100%; justify-content: center;">
+          <i class="svg-icon icon-check" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          Cargar Centro de Datos
+        </button>
+      </div>
+
+      <!-- Tarjeta 2: Campus Universitario UTN -->
+      <div class="demo-card" id="card-demo-utn" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; display: flex; align-items: center; justify-content: center; color: #10b981;">
+              <i class="svg-icon icon-building" style="width: 20px; height: 20px;"></i>
+            </div>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-family: var(--font-mono);">Campus UTN</span>
+          </div>
+          <div style="font-size: var(--text-md); font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+            Campus Universitario UTN
+          </div>
+          <div style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px;">
+            Red jerárquica de 3 capas (Core L3 HA, Distribución por edificio y Acceso PoE+). Segmentación por servicios y 24 VLANs.
+          </div>
+          <ul style="font-size: var(--text-xs); color: var(--text-muted); line-height: 1.6; padding-left: 18px; margin: 0 0 16px 0; font-family: var(--font-mono);">
+            <li>10 Edificios (DCC, TIC, ADM, AUL, ING, etc.)</li>
+            <li>13 Gabinetes estructurados (42U, 24U, 18U)</li>
+            <li>24 VLANs con esquema IP 10.0.0.0/8</li>
+            <li>Core Nexus, FortiGate HA, ERP, CCTV y VoIP</li>
+          </ul>
+        </div>
+        <button type="button" class="btn-confirm" id="btn-load-demo-utn" style="width: 100%; justify-content: center; border-color: #10b981; background: rgba(16, 185, 129, 0.2); color: #10b981;">
+          <i class="svg-icon icon-check" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          Cargar Campus UTN
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top: 0;">
+      <button type="button" class="btn-cancel" id="btn-close-demo-modal">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 
   <div id="device-tooltip"></div>
   <input type="file" id="import-file" accept=".rack,.json" class="hidden" style="display:none !important;">
@@ -4546,7 +4624,7 @@ body.no-animations svg.faceplate-img * {
 
 * **Ubicación relativa:** `css/components/modals.css`
 * **Capa:** Capa 2: Sistema de Diseño y Estilos CSS Modulares
-* **Dimensiones:** 79 líneas | 5.9 KB
+* **Dimensiones:** 97 líneas | 6.4 KB
 * **Rol en el sistema:** Estilos de las ventanas modales, formularios, grillas y botones.
 
 ```css
@@ -4625,6 +4703,24 @@ body.no-animations svg.faceplate-img * {
 #import-drop-zone.has-file {
   border-color: #10b981 !important;
   background: rgba(16, 185, 129, 0.08) !important;
+}
+
+/* Tarjetas de Selección de Demos */
+.demo-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.demo-card:hover {
+  border-color: var(--accent) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+@media (max-width: 640px) {
+  #modal-demo-selection .modal {
+    max-width: 95% !important;
+  }
+  #modal-demo-selection .demo-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 
@@ -5017,7 +5113,7 @@ body.no-animations svg.faceplate-img * {
 
 * **Ubicación relativa:** `js/store.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
-* **Dimensiones:** 1.108 líneas | 43.4 KB
+* **Dimensiones:** 1.111 líneas | 43.8 KB
 * **Rol en el sistema:** Store reactivo: Proxy ES6, snapshots para Undo/Redo, persistencia en localStorage y auto-saneamiento.
 
 ```javascript
@@ -5489,7 +5585,7 @@ class Store {
     const r = this._raw.racks.find(r => r.id === id);
     if (r) Object.assign(r, props);
     this._save(); 
-    this._emit('change', { source: 'updateRack' });
+    this._emit('change', { source: 'updateRack', rackId: id, props });
   }
 
   deleteRack(id) {
@@ -5507,7 +5603,7 @@ class Store {
     this._cleanTopologyPositions({ rackIds: [id], deviceIds });
     
     this._save(); 
-    this._emit('change', { source: 'deleteRack' });
+    this._emit('change', { source: 'deleteRack', rackId: id });
   }
 
   /** Comprueba si dos caras de montaje entran en conflicto físico */
@@ -5547,7 +5643,7 @@ class Store {
     if (deviceTemplate.plugsOut !== undefined) newDev.plugsOut = deviceTemplate.plugsOut;
     this._raw.devices.push(newDev);
     this._save(); 
-    this._emit('change', { source: 'addDeviceToRack' });
+    this._emit('change', { source: 'addDeviceToRack', rackId, device: newDev });
     return true;
   }
 
@@ -5565,22 +5661,25 @@ class Store {
       const nEnd = newSlot + size - 1;
       if (!(nEnd < d.slotStart || newSlot > dEnd)) return false;
     }
+    const oldRackId = dev.rackId;
     this.snapshot();
     dev.rackId = newRackId;
     dev.slotStart = newSlot;
     dev.mountSide = side;
     this._save(); 
-    this._emit('change', { source: 'moveDevice' });
+    this._emit('change', { source: 'moveDevice', deviceId, rackId: newRackId, oldRackId });
     return true;
   }
 
   deleteDevice(id) {
+    const devToDelete = this.deviceById(id);
+    const rackId = devToDelete ? devToDelete.rackId : null;
     this.snapshot();
     this._raw.devices = this._raw.devices.filter(d => d.id !== id);
     this._raw.connections = this._raw.connections.filter(c => c.sourceDeviceId !== id && c.targetDeviceId !== id);
     this._cleanTopologyPositions({ deviceIds: [id] });
     this._save(); 
-    this._emit('change', { source: 'deleteDevice' });
+    this._emit('change', { source: 'deleteDevice', deviceId: id, rackId });
   }
 
   updateDevice(id, props) {
@@ -5588,7 +5687,7 @@ class Store {
     const d = this._raw.devices.find(d => d.id === id);
     if (d) Object.assign(d, props);
     this._save(); 
-    this._emit('change', { source: 'updateDevice' });
+    this._emit('change', { source: 'updateDevice', deviceId: id, rackId: d ? d.rackId : null, device: d, props });
   }
 
   /* ---- Métodos de VLANs ---- */
@@ -6352,7 +6451,7 @@ const SVG_ICONS = {
 
 * **Ubicación relativa:** `js/demoData.js`
 * **Capa:** Capa 3: Núcleo de Estado, Utilidades y Demostración
-* **Dimensiones:** 641 líneas | 34.3 KB
+* **Dimensiones:** 1.798 líneas | 115.2 KB
 * **Rol en el sistema:** Dataset preconfigurado de demostración con salas, racks 42U, equipos ToR y cableado VLAN.
 
 ```javascript
@@ -6367,7 +6466,10 @@ const SVG_ICONS = {
  * - Soporte Bipolar: Equipos de profundidad completa (mountSide: 'both') y PDUs traseras (mountSide: 'rear').
  */
 
-function loadDemoData() {
+function loadDemoData(templateType = 'tia942') {
+  if (templateType === 'university' || templateType === 'campus' || templateType === 'utn') {
+    return loadUniversityDemoData();
+  }
   const r1 = uid(); // Data Center Principal
   const r2 = uid(); // Edificio Corporativo A
   const r3 = uid(); // Centro de Operaciones & Seguridad
@@ -6993,8 +7095,1162 @@ function loadDemoData() {
   }
 }
 
+/**
+ * loadUniversityDemoData — Plantilla de Campus Universitario a Gran Escala
+ * Universidad Tecnológica Nacional (UTN)
+ * 
+ * Implementa una arquitectura jerárquica de 3 capas:
+ * - Capa de Núcleo (Core): 2x Switches L3 10/25/40G Nexus/Catalyst en HA (VSS/vPC)
+ * - Capa de Distribución: Switches L3 por edificio (ADM, AUL, ING, TIC, RES, etc.)
+ * - Capa de Acceso: Switches PoE+ para puestos de trabajo, telefonía IP, cámaras y APs
+ * - Perímetro y DMZ: Routers BGP multi-homing ISP duales y Clúster Firewall NGFW en HA
+ * - Data Center ToR: Segmentación de cómputo, bases de datos (ERP, Académico, LMS), SAN y DMZ
+ * - 24 VLANs según plan de direccionamiento 10.0.0.0/8
+ */
+function loadUniversityDemoData() {
+  // 1. Definición de Salas / Edificios del Campus UTN
+  const rDcc = uid(); // DCC: Data Center Central
+  const rTic = uid(); // TIC: Tecnología, Redes, NOC & SOC
+  const rAdm = uid(); // ADM: Administración (Rectorado, Finanzas, RRHH)
+  const rAul = uid(); // AUL: Aulas Generales (3 Pisos)
+  const rIng = uid(); // ING: Facultad de Ingeniería & Laboratorios
+  const rBib = uid(); // BIB: Biblioteca Central
+  const rLab = uid(); // LAB: Laboratorios Especializados de Investigación
+  const rCam = uid(); // CAM: Centro de Seguridad & Monitoreo CCTV
+  const rDep = uid(); // DEP: Deportes & Polideportivo
+  const rRes = uid(); // RES: Residencia Estudiantil
+
+  const rooms = [
+    { id: rDcc, name: 'DCC · Centro de Datos Central' },
+    { id: rTic, name: 'TIC · Tecnología, NOC & SOC' },
+    { id: rAdm, name: 'ADM · Edificio Administración' },
+    { id: rAul, name: 'AUL · Edificio Aulas Generales' },
+    { id: rIng, name: 'ING · Facultad de Ingeniería' },
+    { id: rBib, name: 'BIB · Biblioteca Central' },
+    { id: rLab, name: 'LAB · Laboratorios de Investigación' },
+    { id: rCam, name: 'CAM · Seguridad & CCTV' },
+    { id: rDep, name: 'DEP · Deportes & Polideportivo' },
+    { id: rRes, name: 'RES · Residencia Estudiantil' }
+  ];
+
+  const racks = [];
+  const devices = [];
+  const connections = [];
+
+  // =========================================================================
+  // 2. GABINETES (RACKS ESTRUCTURADOS)
+  // =========================================================================
+  // Racks en DCC (Data Center Central)
+  const rackDcc01Id = uid();
+  const rackDcc02Id = uid();
+  const rackDcc03Id = uid();
+
+  // Racks en TIC (Tecnología, NOC & Perímetro)
+  const rackTic01Id = uid();
+  const rackTic02Id = uid();
+
+  // Racks en Edificios de Campus
+  const rackAdm01Id = uid();
+  const rackAul01Id = uid();
+  const rackIng01Id = uid();
+  const rackBib01Id = uid();
+  const rackLab01Id = uid();
+  const rackCam01Id = uid();
+  const rackDep01Id = uid();
+  const rackRes01Id = uid();
+
+  racks.push(
+    { id: rackDcc01Id, roomId: rDcc, name: 'DCC-01 · Servidores Principales', height: 42, color: '#0ea5e9', devices: [] },
+    { id: rackDcc02Id, roomId: rDcc, name: 'DCC-02 · Aplicaciones & Storage', height: 42, color: '#8b5cf6', devices: [] },
+    { id: rackDcc03Id, roomId: rDcc, name: 'DCC-03 · Borde DMZ & ToR', height: 42, color: '#10b981', devices: [] },
+    { id: rackTic01Id, roomId: rTic, name: 'TIC-01 · Core Backbone & Perímetro', height: 42, color: '#06b6d4', devices: [] },
+    { id: rackTic02Id, roomId: rTic, name: 'TIC-02 · Distribución & NOC/SOC', height: 42, color: '#3b82f6', devices: [] },
+    { id: rackAdm01Id, roomId: rAdm, name: 'ADM-01 · Distribución Rectorado', height: 42, color: '#f59e0b', devices: [] },
+    { id: rackAul01Id, roomId: rAul, name: 'AUL-01 · Distribución Aulas (3 Pisos)', height: 42, color: '#ec4899', devices: [] },
+    { id: rackIng01Id, roomId: rIng, name: 'ING-01 · Distribución Ingeniería & Labs', height: 42, color: '#6366f1', devices: [] },
+    { id: rackBib01Id, roomId: rBib, name: 'BIB-01 · Comunicaciones & Catálogo', height: 24, color: '#14b8a6', devices: [] },
+    { id: rackLab01Id, roomId: rLab, name: 'LAB-01 · Red Científica & SCADA', height: 24, color: '#eab308', devices: [] },
+    { id: rackCam01Id, roomId: rCam, name: 'CAM-01 · Seguridad & CCTV Central', height: 42, color: '#f43f5e', devices: [] },
+    { id: rackDep01Id, roomId: rDep, name: 'DEP-01 · Comunicaciones Deportes', height: 18, color: '#84cc16', devices: [] },
+    { id: rackRes01Id, roomId: rRes, name: 'RES-01 · Distribución Residencias', height: 24, color: '#a855f7', devices: [] }
+  );
+
+  // =========================================================================
+  // 3. EQUIPOS DE RACK — SALA 1: DCC (DATA CENTER CENTRAL)
+  // =========================================================================
+  // --- RACK DCC-01: SERVIDORES PRINCIPALES ---
+  const upsDcc01Id = uid();
+  devices.push({
+    id: upsDcc01Id, rackId: rackDcc01Id, name: 'UPS Online 3000VA A', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.61', mac: '00:1A:2B:12:01:61',
+    serial: 'UPS-DCC-01A', brand: 'APC', model: 'Smart-UPS RT 3000VA', notes: 'Alimentación redundante Servidores Core Línea A'
+  });
+  const pduDcc01Id = uid();
+  devices.push({
+    id: pduDcc01Id, rackId: rackDcc01Id, name: 'PDU Posterior Monitoreable 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 10, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B', notes: 'PDU Trasera Servidores'
+  });
+  const ad01Id = uid();
+  devices.push({
+    id: ad01Id, rackId: rackDcc01Id, name: 'AD01 · Active Directory Primario', type: 'server', slotStart: 4, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.90.20.11', mac: '00:1A:2B:90:20:11',
+    serial: 'SRV-AD01', brand: 'Dell', model: 'PowerEdge R750', user: 'administrator', pass: 'utnAdmin2026!',
+    notes: 'Controlador de Dominio dc01.utn.edu, Kerberos & LDAP (VLAN 20 SERVERS)'
+  });
+  const ad02Id = uid();
+  devices.push({
+    id: ad02Id, rackId: rackDcc01Id, name: 'AD02 · Active Directory Réplica', type: 'server', slotStart: 6, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.90.20.12', mac: '00:1A:2B:90:20:12',
+    serial: 'SRV-AD02', brand: 'Dell', model: 'PowerEdge R750', user: 'administrator', pass: 'utnAdmin2026!',
+    notes: 'Controlador de Dominio dc02.utn.edu, Catálogo Global (VLAN 20 SERVERS)'
+  });
+  const dns01Id = uid();
+  devices.push({
+    id: dns01Id, rackId: rackDcc01Id, name: 'DNS01 · Servidor DNS Primario', type: 'server', slotStart: 8, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.90.20.21', mac: '00:1A:2B:90:20:21',
+    serial: 'SRV-DNS01', brand: 'HPE', model: 'ProLiant DL380 Gen10', user: 'admin', pass: 'dnsRoot2026!',
+    notes: 'Servidor DNS interno autoritativo dns01.utn.edu (VLAN 20 SERVERS)'
+  });
+  const dns02Id = uid();
+  devices.push({
+    id: dns02Id, rackId: rackDcc01Id, name: 'DNS02 · Servidor DNS Secundario', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.90.20.22', mac: '00:1A:2B:90:20:22',
+    serial: 'SRV-DNS02', brand: 'HPE', model: 'ProLiant DL380 Gen10', user: 'admin', pass: 'dnsRoot2026!',
+    notes: 'Servidor DNS secundario dns02.utn.edu (VLAN 20 SERVERS)'
+  });
+  const dhcp01Id = uid();
+  devices.push({
+    id: dhcp01Id, rackId: rackDcc01Id, name: 'DHCP01 · Servidor DHCP Alta Disp.', type: 'server', slotStart: 12, size: 2,
+    mountSide: 'both', power: 350, plugs: 2, ip: '10.90.20.31', mac: '00:1A:2B:90:20:31',
+    serial: 'SRV-DHCP01', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'dhcpCluster2026',
+    notes: 'Failover DHCP Partner 1 (VLAN 20 SERVERS - Rangos Campus)'
+  });
+  const dhcp02Id = uid();
+  devices.push({
+    id: dhcp02Id, rackId: rackDcc01Id, name: 'DHCP02 · Servidor DHCP Failover', type: 'server', slotStart: 14, size: 2,
+    mountSide: 'both', power: 350, plugs: 2, ip: '10.90.20.32', mac: '00:1A:2B:90:20:32',
+    serial: 'SRV-DHCP02', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'dhcpCluster2026',
+    notes: 'Failover DHCP Partner 2 (VLAN 20 SERVERS)'
+  });
+  const ntpMonId = uid();
+  devices.push({
+    id: ntpMonId, rackId: rackDcc01Id, name: 'NTP-MON01 · Servidor NTP & Zabbix', type: 'server', slotStart: 16, size: 2,
+    mountSide: 'both', power: 400, plugs: 2, ip: '10.90.20.41', mac: '00:1A:2B:90:20:41',
+    serial: 'SRV-NTP-MON', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'zabbixPass2026',
+    notes: 'Reloj Stratum 1 y Monitoreo SNMP Infraestructura (VLAN 20 SERVERS)'
+  });
+  const syslogId = uid();
+  devices.push({
+    id: syslogId, rackId: rackDcc01Id, name: 'SYSLOG01 · Servidor Central Logs SIEM', type: 'server', slotStart: 18, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.90.20.61', mac: '00:1A:2B:90:20:61',
+    serial: 'SRV-SYSLOG01', brand: 'Dell', model: 'PowerEdge R750', user: 'admin', pass: 'siemSecure2026',
+    notes: 'Recolección centralizada Syslog, Wazuh y SIEM (VLAN 20 SERVERS)'
+  });
+  const kvmDcc01Id = uid();
+  devices.push({
+    id: kvmDcc01Id, rackId: rackDcc01Id, name: 'Consola KVM LCD 1U', type: 'kvm', slotStart: 21, size: 1,
+    mountSide: 'both', power: 25, plugs: 1, brand: 'ATEN', model: 'CL1000M', notes: 'Pantalla retráctil y teclado local'
+  });
+  const trayDcc01Id = uid();
+  devices.push({
+    id: trayDcc01Id, rackId: rackDcc01Id, name: 'Bandeja Porta-Herramientas 1U', type: 'tray', slotStart: 22, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Genérica', model: 'Shelf 1U', notes: 'Zona ergonómica de trabajo'
+  });
+  const orgDcc01Id = uid();
+  devices.push({
+    id: orgDcc01Id, rackId: rackDcc01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 37, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppDcc01Id = uid();
+  devices.push({
+    id: ppDcc01Id, rackId: rackDcc01Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const swTorDcc01Id = uid();
+  devices.push({
+    id: swTorDcc01Id, rackId: rackDcc01Id, name: 'Switch ToR DCC-01 48P 10G', type: 'switch', slotStart: 39, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.51', mac: '00:1A:2B:12:01:51',
+    serial: 'TOR-DCC-01', brand: 'Cisco', model: 'Nexus 9348GC-FXP', user: 'admin', pass: 'cisco2026!',
+    notes: 'Switch Top-of-Rack para Servidores Base (VLAN 10 MGMT)'
+  });
+  const odfDcc01Id = uid();
+  devices.push({
+    id: odfDcc01Id, rackId: rackDcc01Id, name: 'ODF Fibra Troncal 24P', type: 'odf', slotStart: 40, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U', notes: 'Troncal óptico inter-rack'
+  });
+
+  // --- RACK DCC-02: APLICACIONES, ERP & STORAGE ---
+  const upsDcc02Id = uid();
+  devices.push({
+    id: upsDcc02Id, rackId: rackDcc02Id, name: 'UPS Online 3000VA B', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.62', mac: '00:1A:2B:12:01:62',
+    serial: 'UPS-DCC-02B', brand: 'APC', model: 'Smart-UPS RT 3000VA', notes: 'Alimentación redundante Almacenamiento & ERP Línea B'
+  });
+  const pduDcc02Id = uid();
+  devices.push({
+    id: pduDcc02Id, rackId: rackDcc02Id, name: 'PDU Posterior Monitoreable 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 10, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const sanStorageId = uid();
+  devices.push({
+    id: sanStorageId, rackId: rackDcc02Id, name: 'NAS01 · Cabina Almacenamiento SAN/NAS', type: 'storage', slotStart: 4, size: 4,
+    mountSide: 'both', power: 800, plugs: 4, ip: '10.90.220.11', mac: '00:1A:2B:90:22:11',
+    serial: 'SAN-AFF-A250', brand: 'NetApp', model: 'AFF A250 NVMe', user: 'admin', pass: 'netappStorage2026',
+    notes: 'Volúmenes iSCSI/NFS para BDs y Máquinas Virtuales (VLAN 220 STORAGE - 10.90.220.0/24)'
+  });
+  const backup01Id = uid();
+  devices.push({
+    id: backup01Id, rackId: rackDcc02Id, name: 'BACKUP01 · Servidor Veeam Backup', type: 'server', slotStart: 8, size: 2,
+    mountSide: 'both', power: 550, plugs: 2, ip: '10.90.210.11', mac: '00:1A:2B:90:21:11',
+    serial: 'SRV-BKP01', brand: 'HPE', model: 'ProLiant DL380 con LTO-8', user: 'admin', pass: 'veeamBackup2026',
+    notes: 'Repositorio de Respaldos y Cinta Inmutable (VLAN 210 BACKUP - 10.90.210.0/24)'
+  });
+  const erp01Id = uid();
+  devices.push({
+    id: erp01Id, rackId: rackDcc02Id, name: 'ERP01 · Servidor ERP Institucional', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.90.150.11', mac: '00:1A:2B:90:15:11',
+    serial: 'SRV-ERP01', brand: 'Dell', model: 'PowerEdge R750', user: 'admin', pass: 'erpProd2026!',
+    notes: 'Servidor Aplicativo ERP Finanzas/RRHH (VLAN 150 ERP - 10.90.150.0/24)'
+  });
+  const erp02Id = uid();
+  devices.push({
+    id: erp02Id, rackId: rackDcc02Id, name: 'ERP02 · Base de Datos ERP Cluster', type: 'server', slotStart: 12, size: 2,
+    mountSide: 'both', power: 600, plugs: 2, ip: '10.90.150.12', mac: '00:1A:2B:90:15:12',
+    serial: 'SRV-ERP02', brand: 'Dell', model: 'PowerEdge R750', user: 'oracle', pass: 'oraDbCluster2026',
+    notes: 'Oracle Database Enterprise para ERP Institucional (VLAN 150 ERP)'
+  });
+  const acad01Id = uid();
+  devices.push({
+    id: acad01Id, rackId: rackDcc02Id, name: 'ACADEMICO01 · Servidor Gestión Académica', type: 'server', slotStart: 14, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.90.160.11', mac: '00:1A:2B:90:16:11',
+    serial: 'SRV-ACAD01', brand: 'Dell', model: 'PowerEdge R750', user: 'admin', pass: 'acadProd2026!',
+    notes: 'Gestión de Alumnos, Inscripciones y Actas (VLAN 160 ACADEMICO - 10.90.160.0/24)'
+  });
+  const acad02Id = uid();
+  devices.push({
+    id: acad02Id, rackId: rackDcc02Id, name: 'ACADEMICO02 · BD Sistema Académico', type: 'server', slotStart: 16, size: 2,
+    mountSide: 'both', power: 550, plugs: 2, ip: '10.90.160.12', mac: '00:1A:2B:90:16:12',
+    serial: 'SRV-ACAD02', brand: 'Dell', model: 'PowerEdge R750', user: 'postgres', pass: 'acadPg2026!',
+    notes: 'Cluster PostgreSQL para Sistema Académico (VLAN 160 ACADEMICO)'
+  });
+  const lms01Id = uid();
+  devices.push({
+    id: lms01Id, rackId: rackDcc02Id, name: 'LMS01 · Campus Virtual Moodle/Canvas', type: 'server', slotStart: 18, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.90.160.21', mac: '00:1A:2B:90:16:21',
+    serial: 'SRV-LMS01', brand: 'HPE', model: 'ProLiant DL380 Gen10', user: 'admin', pass: 'lmsMoodle2026!',
+    notes: 'Plataforma Virtual de Aprendizaje para 5000 estudiantes (VLAN 160 ACADEMICO)'
+  });
+  const orgDcc02Id = uid();
+  devices.push({
+    id: orgDcc02Id, rackId: rackDcc02Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 37, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppDcc02Id = uid();
+  devices.push({
+    id: ppDcc02Id, rackId: rackDcc02Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const swTorDcc02Id = uid();
+  devices.push({
+    id: swTorDcc02Id, rackId: rackDcc02Id, name: 'Switch ToR DCC-02 48P 10G', type: 'switch', slotStart: 39, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.52', mac: '00:1A:2B:12:01:52',
+    serial: 'TOR-DCC-02', brand: 'Cisco', model: 'Nexus 9348GC-FXP', user: 'admin', pass: 'cisco2026!',
+    notes: 'Switch Top-of-Rack para Storage y Aplicaciones (VLAN 10 MGMT)'
+  });
+  const odfDcc02Id = uid();
+  devices.push({
+    id: odfDcc02Id, rackId: rackDcc02Id, name: 'ODF Fibra Troncal 24P', type: 'odf', slotStart: 40, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // --- RACK DCC-03: BORDE DMZ & INTERCONNECT TOR ---
+  const upsDcc03Id = uid();
+  devices.push({
+    id: upsDcc03Id, rackId: rackDcc03Id, name: 'UPS Online 3000VA C', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.63', mac: '00:1A:2B:12:01:63',
+    serial: 'UPS-DCC-03C', brand: 'APC', model: 'Smart-UPS RT 3000VA', notes: 'Alimentación redundante DMZ y Redes ToR'
+  });
+  const pduDcc03Id = uid();
+  devices.push({
+    id: pduDcc03Id, rackId: rackDcc03Id, name: 'PDU Posterior Monitoreable 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 10, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const web01Id = uid();
+  devices.push({
+    id: web01Id, rackId: rackDcc03Id, name: 'WEB01 · Portal Institucional (DMZ)', type: 'server', slotStart: 8, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.90.200.11', mac: '00:1A:2B:90:20:01',
+    serial: 'SRV-WEB01', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'nginxPub2026!',
+    notes: 'Servidor Web Público www.utn.edu con WAF (VLAN 200 DMZ - 10.90.200.0/24)'
+  });
+  const mail01Id = uid();
+  devices.push({
+    id: mail01Id, rackId: rackDcc03Id, name: 'MAIL01 · Correo Institucional (DMZ)', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.90.200.21', mac: '00:1A:2B:90:20:02',
+    serial: 'SRV-MAIL01', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'mailUtn2026!',
+    notes: 'Servidor de Correo mail.utn.edu Postfix/Exchange Edge (VLAN 200 DMZ)'
+  });
+  const orgDcc03Id = uid();
+  devices.push({
+    id: orgDcc03Id, rackId: rackDcc03Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 36, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppDcc03Id = uid();
+  devices.push({
+    id: ppDcc03Id, rackId: rackDcc03Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 37, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const swTorDmzId = uid();
+  devices.push({
+    id: swTorDmzId, rackId: rackDcc03Id, name: 'Switch ToR DMZ 24P Gigabit', type: 'switch', slotStart: 38, size: 1,
+    mountSide: 'front', power: 180, plugs: 2, ip: '10.120.10.53', mac: '00:1A:2B:12:01:53',
+    serial: 'TOR-DMZ-24P', brand: 'Cisco', model: 'Catalyst 9300-24T', user: 'admin', pass: 'cisco2026!',
+    notes: 'Switch aislado para zona desmilitarizada DMZ (VLAN 10 MGMT / VLAN 200 DMZ)'
+  });
+  const swDccInterconnectId = uid();
+  devices.push({
+    id: swDccInterconnectId, rackId: rackDcc03Id, name: 'Switch ToR DCC Interconnect 48P 25/100G', type: 'switch', slotStart: 39, size: 1,
+    mountSide: 'front', power: 450, plugs: 2, ip: '10.120.10.50', mac: '00:1A:2B:12:01:50',
+    serial: 'NX-93180-DCC', brand: 'Cisco', model: 'Nexus 93180YC-FX', user: 'admin', pass: 'nexus2026!',
+    notes: 'Agregador ToR de alta velocidad hacia Core del Campus (VLAN 10 MGMT)'
+  });
+  const odfDcc03Id = uid();
+  devices.push({
+    id: odfDcc03Id, rackId: rackDcc03Id, name: 'ODF Fibra Troncal Campus 48P', type: 'odf', slotStart: 40, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 2U', notes: 'Distribuidor óptico hacia TIC/Core'
+  });
+
+  // =========================================================================
+  // 4. EQUIPOS DE RACK — SALA 2: TIC (TECNOLOGÍA, NOC & REDES)
+  // =========================================================================
+  // --- RACK TIC-01: CORE BACKBONE & PERÍMETRO ---
+  const upsTic01Id = uid();
+  devices.push({
+    id: upsTic01Id, rackId: rackTic01Id, name: 'UPS Online Modular 3000VA', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.64', mac: '00:1A:2B:12:01:64',
+    serial: 'UPS-TIC-01', brand: 'APC', model: 'Smart-UPS RT 3000VA', notes: 'Respaldo eléctrico para Core y Borde ISP'
+  });
+  const pduTic01Id = uid();
+  devices.push({
+    id: pduTic01Id, rackId: rackTic01Id, name: 'PDU Posterior Monitoreable 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 10, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const pbx01Id = uid();
+  devices.push({
+    id: pbx01Id, rackId: rackTic01Id, name: 'PBX01 · Servidor Telefonía IP Asterisk/CUCM', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 400, plugs: 2, ip: '10.130.70.10', mac: '00:1A:2B:13:07:10',
+    serial: 'SRV-PBX01', brand: 'Cisco', model: 'Business Edition 6000', user: 'admin', pass: 'ciscoVoice2026',
+    notes: 'Central IP PBX SIP para 500 extensiones universitarias (VLAN 70 VOICE - 10.130.70.0/24)'
+  });
+  const wlc01Id = uid();
+  devices.push({
+    id: wlc01Id, rackId: rackTic01Id, name: 'WLC-01 · Wireless Controller Primario', type: 'switch', slotStart: 12, size: 1,
+    mountSide: 'front', power: 250, plugs: 2, ip: '10.120.10.15', mac: '00:1A:2B:12:01:15',
+    serial: 'WLC-9800-01', brand: 'Cisco', model: 'Catalyst 9800-40', user: 'admin', pass: 'wifiAdmin2026!',
+    notes: 'Controlador de 250 Access Points Wi-Fi 6 multi-SSID (VLAN 10 MGMT)'
+  });
+  const wlc02Id = uid();
+  devices.push({
+    id: wlc02Id, rackId: rackTic01Id, name: 'WLC-02 · Wireless Controller Secundario HA', type: 'switch', slotStart: 13, size: 1,
+    mountSide: 'front', power: 250, plugs: 2, ip: '10.120.10.16', mac: '00:1A:2B:12:01:16',
+    serial: 'WLC-9800-02', brand: 'Cisco', model: 'Catalyst 9800-40', user: 'admin', pass: 'wifiAdmin2026!',
+    notes: 'Alta disponibilidad SSO (Stateful Switchover) para Wi-Fi (VLAN 10 MGMT)'
+  });
+  const kvmTic01Id = uid();
+  devices.push({
+    id: kvmTic01Id, rackId: rackTic01Id, name: 'Consola KVM LCD 1U', type: 'kvm', slotStart: 21, size: 1,
+    mountSide: 'both', power: 25, plugs: 1, brand: 'ATEN', model: 'CL1000M'
+  });
+  const odfCampusId = uid();
+  devices.push({
+    id: odfCampusId, rackId: rackTic01Id, name: 'ODF Troncal Campus OS2 48P', type: 'odf', slotStart: 35, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U', notes: 'Backbone de fibra óptica hacia todos los edificios'
+  });
+  const swCore01Id = uid();
+  devices.push({
+    id: swCore01Id, rackId: rackTic01Id, name: 'CORE-01 · Switch Core Backbone L3 Primario', type: 'switch', slotStart: 36, size: 1,
+    mountSide: 'front', power: 450, plugs: 2, ip: '10.120.10.1', mac: '00:1A:2B:12:01:01',
+    serial: 'CORE-CAT9500-01', brand: 'Cisco', model: 'Catalyst 9500-48Y4C', user: 'admin', pass: 'coreUtn2026!',
+    notes: 'Switch Core Backbone 40G/100G OSPF/BGP/VRRP Gateway Principal (VLAN 10 MGMT - 10.120.10.1)'
+  });
+  const swCore02Id = uid();
+  devices.push({
+    id: swCore02Id, rackId: rackTic01Id, name: 'CORE-02 · Switch Core Backbone L3 Redundante', type: 'switch', slotStart: 37, size: 1,
+    mountSide: 'front', power: 450, plugs: 2, ip: '10.120.10.2', mac: '00:1A:2B:12:01:02',
+    serial: 'CORE-CAT9500-02', brand: 'Cisco', model: 'Catalyst 9500-48Y4C', user: 'admin', pass: 'coreUtn2026!',
+    notes: 'Switch Core Backbone Secundario HA MLAG/StackWise (VLAN 10 MGMT - 10.120.10.2)'
+  });
+  const orgTic01Id = uid();
+  devices.push({
+    id: orgTic01Id, rackId: rackTic01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const fw01Id = uid();
+  devices.push({
+    id: fw01Id, rackId: rackTic01Id, name: 'FW-01 · Firewall Perimetral Next-Gen Master', type: 'firewall', slotStart: 39, size: 1,
+    mountSide: 'front', power: 120, plugs: 2, ip: '10.120.10.3', mac: '00:1A:2B:12:01:03',
+    serial: 'FG-200F-01', brand: 'Fortinet', model: 'FortiGate 200F', user: 'admin', pass: 'fortiMaster2026!',
+    notes: 'Inspección NGFW, IPS, VPN IPsec/SSL, NAT e Inspección SSL (VLAN 10 MGMT / WAN)'
+  });
+  const fw02Id = uid();
+  devices.push({
+    id: fw02Id, rackId: rackTic01Id, name: 'FW-02 · Firewall Perimetral Next-Gen Slave HA', type: 'firewall', slotStart: 40, size: 1,
+    mountSide: 'front', power: 120, plugs: 2, ip: '10.120.10.4', mac: '00:1A:2B:12:01:04',
+    serial: 'FG-200F-02', brand: 'Fortinet', model: 'FortiGate 200F', user: 'admin', pass: 'fortiMaster2026!',
+    notes: 'Cluster High Availability A-P con sincronización de estado (VLAN 10 MGMT / WAN)'
+  });
+  const rtrIsp1Id = uid();
+  devices.push({
+    id: rtrIsp1Id, rackId: rackTic01Id, name: 'ROUTER-01 · Borde BGP ISP-1 (10 Gbps)', type: 'router', slotStart: 41, size: 1,
+    mountSide: 'front', power: 180, plugs: 2, ip: '200.48.1.1', mac: '00:1A:2B:01:00:01',
+    serial: 'ASR-1001X-01', brand: 'Cisco', model: 'ASR 1001-X', user: 'admin', pass: 'bgpIsp1Pass2026',
+    notes: 'Enlace BGP Fibra Primario Telecom / Claro 10 Gbps ASN 64512'
+  });
+  const rtrIsp2Id = uid();
+  devices.push({
+    id: rtrIsp2Id, rackId: rackTic01Id, name: 'ROUTER-02 · Borde BGP ISP-2 (10 Gbps Redundante)', type: 'router', slotStart: 42, size: 1,
+    mountSide: 'front', power: 180, plugs: 2, ip: '190.12.2.1', mac: '00:1A:2B:02:00:01',
+    serial: 'ASR-1001X-02', brand: 'Cisco', model: 'ASR 1001-X', user: 'admin', pass: 'bgpIsp2Pass2026',
+    notes: 'Enlace BGP Fibra Secundario Telefónica / Level3 10 Gbps'
+  });
+
+  // --- RACK TIC-02: DISTRIBUCIÓN TIC & NOC/SOC ---
+  const upsTic02Id = uid();
+  devices.push({
+    id: upsTic02Id, rackId: rackTic02Id, name: 'UPS Online 2000VA', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 2000, plugs: 8, plugsOut: 8, ip: '10.120.10.65', mac: '00:1A:2B:12:01:65',
+    serial: 'UPS-TIC-02', brand: 'APC', model: 'Smart-UPS RT 2000VA'
+  });
+  const pduTic02Id = uid();
+  devices.push({
+    id: pduTic02Id, rackId: rackTic02Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const nocSrvId = uid();
+  devices.push({
+    id: nocSrvId, rackId: rackTic02Id, name: 'NOC-SRV01 · Monitoreo y Grafana NOC', type: 'server', slotStart: 8, size: 2,
+    mountSide: 'both', power: 450, plugs: 2, ip: '10.40.10.11', mac: '00:1A:2B:40:10:11',
+    serial: 'SRV-NOC01', brand: 'Dell', model: 'PowerEdge R740', user: 'admin', pass: 'nocGrafana2026!',
+    notes: 'Dashboards NOC/SOC en tiempo real, NetFlow y Prometheus'
+  });
+  const swDistTicId = uid();
+  devices.push({
+    id: swDistTicId, rackId: rackTic02Id, name: 'DIST-TIC01 · Switch Distribución TIC L3', type: 'switch', slotStart: 37, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.41', mac: '00:1A:2B:12:01:41',
+    serial: 'DIST-TIC-01', brand: 'Cisco', model: 'Catalyst 9300-48UXM', user: 'admin', pass: 'cisco2026!',
+    notes: 'Capa Distribución Edificio TIC (VLAN 10 MGMT - 10.120.10.41)'
+  });
+  const swAccTicId = uid();
+  devices.push({
+    id: swAccTicId, rackId: rackTic02Id, name: 'SW-TIC-01 · Switch Acceso 48P PoE+ TIC', type: 'switch', slotStart: 38, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.141', mac: '00:1A:2B:12:01:42',
+    serial: 'SW-TIC-48P', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Conectividad estaciones de ingenieros NOC/SOC, Telefonía y APs'
+  });
+  const ppTic02Id = uid();
+  devices.push({
+    id: ppTic02Id, rackId: rackTic02Id, name: 'Patch Panel Cat6A 48P (2U)', type: 'patchpanel', slotStart: 39, size: 2,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP48688TGY'
+  });
+  const odfTic02Id = uid();
+  devices.push({
+    id: odfTic02Id, rackId: rackTic02Id, name: 'ODF Fibra Distribución 24P', type: 'odf', slotStart: 41, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 5. EQUIPOS DE RACK — SALA 3: ADM (EDIFICIO ADMINISTRACIÓN)
+  // =========================================================================
+  const upsAdm01Id = uid();
+  devices.push({
+    id: upsAdm01Id, rackId: rackAdm01Id, name: 'UPS Online 3000VA ADM', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.66', mac: '00:1A:2B:12:01:66',
+    serial: 'UPS-ADM-01', brand: 'APC', model: 'Smart-UPS RT 3000VA'
+  });
+  const pduAdm01Id = uid();
+  devices.push({
+    id: pduAdm01Id, rackId: rackAdm01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const swDistAdm01Id = uid();
+  devices.push({
+    id: swDistAdm01Id, rackId: rackAdm01Id, name: 'DIST-ADM01 · Switch Distribución ADM L3', type: 'switch', slotStart: 34, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.11', mac: '00:1A:2B:12:01:11',
+    serial: 'DIST-ADM-01', brand: 'Cisco', model: 'Catalyst 9300-48UXM', user: 'admin', pass: 'cisco2026!',
+    notes: 'Distribución Edificio ADM hacia Core (VLAN 10 MGMT - 10.120.10.11)'
+  });
+  const swDistAdm02Id = uid();
+  devices.push({
+    id: swDistAdm02Id, rackId: rackAdm01Id, name: 'DIST-ADM02 · Switch Distribución ADM L3 HA', type: 'switch', slotStart: 35, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.12', mac: '00:1A:2B:12:01:12',
+    serial: 'DIST-ADM-02', brand: 'Cisco', model: 'Catalyst 9300-48UXM', user: 'admin', pass: 'cisco2026!',
+    notes: 'Distribución Secundaria HA (VLAN 10 MGMT - 10.120.10.12)'
+  });
+  const swAccAdm01Id = uid();
+  devices.push({
+    id: swAccAdm01Id, rackId: rackAdm01Id, name: 'SW-ADM-01 · Acceso 48P PoE+ Rectorado & Finanzas', type: 'switch', slotStart: 36, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.101', mac: '00:1A:2B:12:01:05',
+    serial: 'SW-ADM-48P-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Puestos de trabajo, Teléfonos IP y APs Rectorado (VLAN 30, 70, 170)'
+  });
+  const swAccAdm02Id = uid();
+  devices.push({
+    id: swAccAdm02Id, rackId: rackAdm01Id, name: 'SW-ADM-02 · Acceso 48P PoE+ RRHH & Secretaría', type: 'switch', slotStart: 37, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.102', mac: '00:1A:2B:12:01:06',
+    serial: 'SW-ADM-48P-02', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Puestos administrativos, Cámaras e Impresoras (VLAN 30, 80, 90)'
+  });
+  const orgAdm01Id = uid();
+  devices.push({
+    id: orgAdm01Id, rackId: rackAdm01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 38, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppAdm01Id = uid();
+  devices.push({
+    id: ppAdm01Id, rackId: rackAdm01Id, name: 'Patch Panel Cat6A 48P (2U)', type: 'patchpanel', slotStart: 39, size: 2,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP48688TGY'
+  });
+  const odfAdm01Id = uid();
+  devices.push({
+    id: odfAdm01Id, rackId: rackAdm01Id, name: 'ODF Fibra Óptica 24P Enlace Campus', type: 'odf', slotStart: 41, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 6. EQUIPOS DE RACK — SALA 4: AUL (EDIFICIO AULAS GENERALES)
+  // =========================================================================
+  const upsAul01Id = uid();
+  devices.push({
+    id: upsAul01Id, rackId: rackAul01Id, name: 'UPS Online 3000VA AUL', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.67', mac: '00:1A:2B:12:01:67',
+    serial: 'UPS-AUL-01', brand: 'APC', model: 'Smart-UPS RT 3000VA'
+  });
+  const pduAul01Id = uid();
+  devices.push({
+    id: pduAul01Id, rackId: rackAul01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const swDistAul01Id = uid();
+  devices.push({
+    id: swDistAul01Id, rackId: rackAul01Id, name: 'DIST-AUL01 · Switch Distribución Aulas L3', type: 'switch', slotStart: 32, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.21', mac: '00:1A:2B:12:01:21',
+    serial: 'DIST-AUL-01', brand: 'Cisco', model: 'Catalyst 9300-48UXM', user: 'admin', pass: 'cisco2026!',
+    notes: 'Distribución 60 Aulas (VLAN 10 MGMT - 10.120.10.21)'
+  });
+  const swAccAul01Id = uid();
+  devices.push({
+    id: swAccAul01Id, rackId: rackAul01Id, name: 'SW-AUL-01 · Acceso 48P PoE+ Piso 1', type: 'switch', slotStart: 33, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.121', mac: '00:1A:2B:12:01:22',
+    serial: 'SW-AUL-P1-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Aulas Piso 1: PCs docentes, Proyectores y APs Estudiantes (VLAN 130, 180)'
+  });
+  const swAccAul02Id = uid();
+  devices.push({
+    id: swAccAul02Id, rackId: rackAul01Id, name: 'SW-AUL-02 · Acceso 48P PoE+ Piso 2', type: 'switch', slotStart: 34, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.122', mac: '00:1A:2B:12:01:23',
+    serial: 'SW-AUL-P2-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Aulas Piso 2: PCs docentes y APs Estudiantes (VLAN 130, 180)'
+  });
+  const swAccAul03Id = uid();
+  devices.push({
+    id: swAccAul03Id, rackId: rackAul01Id, name: 'SW-AUL-03 · Acceso 48P PoE+ Piso 3', type: 'switch', slotStart: 35, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.123', mac: '00:1A:2B:12:01:24',
+    serial: 'SW-AUL-P3-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Aulas Piso 3: PCs docentes y APs Estudiantes (VLAN 130, 180)'
+  });
+  const orgAul01Id = uid();
+  devices.push({
+    id: orgAul01Id, rackId: rackAul01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 36, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppAul01aId = uid();
+  devices.push({
+    id: ppAul01aId, rackId: rackAul01Id, name: 'Patch Panel Cat6A 48P Troncal Pisos 1-2', type: 'patchpanel', slotStart: 37, size: 2,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP48688TGY'
+  });
+  const ppAul01bId = uid();
+  devices.push({
+    id: ppAul01bId, rackId: rackAul01Id, name: 'Patch Panel Cat6A 48P Troncal Piso 3', type: 'patchpanel', slotStart: 39, size: 2,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP48688TGY'
+  });
+  const odfAul01Id = uid();
+  devices.push({
+    id: odfAul01Id, rackId: rackAul01Id, name: 'ODF Fibra Óptica 24P Enlace Campus OS2', type: 'odf', slotStart: 41, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 7. EQUIPOS DE RACK — SALA 5: ING (FACULTAD DE INGENIERÍA)
+  // =========================================================================
+  const upsIng01Id = uid();
+  devices.push({
+    id: upsIng01Id, rackId: rackIng01Id, name: 'UPS Online 3000VA ING', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.68', mac: '00:1A:2B:12:01:68',
+    serial: 'UPS-ING-01', brand: 'APC', model: 'Smart-UPS RT 3000VA'
+  });
+  const pduIng01Id = uid();
+  devices.push({
+    id: pduIng01Id, rackId: rackIng01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const swDistIng01Id = uid();
+  devices.push({
+    id: swDistIng01Id, rackId: rackIng01Id, name: 'DIST-ING01 · Switch Distribución Ingeniería L3', type: 'switch', slotStart: 33, size: 1,
+    mountSide: 'front', power: 350, plugs: 2, ip: '10.120.10.31', mac: '00:1A:2B:12:01:31',
+    serial: 'DIST-ING-01', brand: 'Cisco', model: 'Catalyst 9300-48UXM', user: 'admin', pass: 'cisco2026!',
+    notes: 'Distribución Facultad de Ingeniería (VLAN 10 MGMT - 10.120.10.31)'
+  });
+  const swAccIng01Id = uid();
+  devices.push({
+    id: swAccIng01Id, rackId: rackIng01Id, name: 'SW-ING-01 · Acceso 48P PoE+ Lab Sistemas', type: 'switch', slotStart: 34, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.131', mac: '00:1A:2B:12:01:32',
+    serial: 'SW-ING-SIS-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Laboratorios de Sistemas y Computación (VLAN 110 LAB - 10.60.110.0/24)'
+  });
+  const swAccIng02Id = uid();
+  devices.push({
+    id: swAccIng02Id, rackId: rackIng01Id, name: 'SW-ING-02 · Acceso 48P PoE+ Lab Redes & Telecom', type: 'switch', slotStart: 35, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.132', mac: '00:1A:2B:12:01:33',
+    serial: 'SW-ING-RED-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Laboratorio de Redes Cisco y Telecomunicaciones (VLAN 110 LAB)'
+  });
+  const swAccIng03Id = uid();
+  devices.push({
+    id: swAccIng03Id, rackId: rackIng01Id, name: 'SW-ING-03 · Acceso 48P PoE+ Lab Electrónica & IoT', type: 'switch', slotStart: 36, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.133', mac: '00:1A:2B:12:01:34',
+    serial: 'SW-ING-IOT-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Laboratorio de Mecatrónica, Robótica e IoT (VLAN 100 IOT / VLAN 110 LAB)'
+  });
+  const orgIng01Id = uid();
+  devices.push({
+    id: orgIng01Id, rackId: rackIng01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 37, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppIng01Id = uid();
+  devices.push({
+    id: ppIng01Id, rackId: rackIng01Id, name: 'Patch Panel Cat6A 48P (2U)', type: 'patchpanel', slotStart: 38, size: 2,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP48688TGY'
+  });
+  const odfIng01Id = uid();
+  devices.push({
+    id: odfIng01Id, rackId: rackIng01Id, name: 'ODF Fibra Óptica 24P Enlace Campus OS2', type: 'odf', slotStart: 40, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 8. EQUIPOS DE RACK — SALA 6: BIB (BIBLIOTECA CENTRAL - 24U)
+  // =========================================================================
+  const upsBib01Id = uid();
+  devices.push({
+    id: upsBib01Id, rackId: rackBib01Id, name: 'UPS Online 1500VA BIB', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 1500, plugs: 8, plugsOut: 8, ip: '10.120.10.69', mac: '00:1A:2B:12:01:69',
+    serial: 'UPS-BIB-01', brand: 'APC', model: 'Smart-UPS 1500VA'
+  });
+  const pduBib01Id = uid();
+  devices.push({
+    id: pduBib01Id, rackId: rackBib01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const srvBib01Id = uid();
+  devices.push({
+    id: srvBib01Id, rackId: rackBib01Id, name: 'SRV-BIB01 · Servidor Catálogo Koha OPAC', type: 'server', slotStart: 8, size: 2,
+    mountSide: 'both', power: 400, plugs: 2, ip: '10.50.120.10', mac: '00:1A:2B:50:12:10',
+    serial: 'SRV-BIB-KOHA', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'kohaBiblio2026',
+    notes: 'Servidor Catálogo Bibliográfico Koha y Préstamos (VLAN 120 BIBLIOTECA - 10.50.120.0/24)'
+  });
+  const swAccBib01Id = uid();
+  devices.push({
+    id: swAccBib01Id, rackId: rackBib01Id, name: 'SW-BIB-01 · Switch Acceso 48P PoE+ Biblioteca', type: 'switch', slotStart: 19, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.151', mac: '00:1A:2B:12:01:51',
+    serial: 'SW-BIB-48P', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Terminales de consulta, APs Salas de Estudio y CCTV (VLAN 120, 180, 80)'
+  });
+  const ppBib01Id = uid();
+  devices.push({
+    id: ppBib01Id, rackId: rackBib01Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 20, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const orgBib01Id = uid();
+  devices.push({
+    id: orgBib01Id, rackId: rackBib01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 21, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const odfBib01Id = uid();
+  devices.push({
+    id: odfBib01Id, rackId: rackBib01Id, name: 'ODF Fibra Óptica 12P Enlace Campus', type: 'odf', slotStart: 22, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 9. EQUIPOS DE RACK — SALA 7: LAB (LABORATORIOS DE INVESTIGACIÓN - 24U)
+  // =========================================================================
+  const upsLab01Id = uid();
+  devices.push({
+    id: upsLab01Id, rackId: rackLab01Id, name: 'UPS Online 1500VA LAB', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 1500, plugs: 8, plugsOut: 8, ip: '10.120.10.70', mac: '00:1A:2B:12:01:70',
+    serial: 'UPS-LAB-01', brand: 'APC', model: 'Smart-UPS 1500VA'
+  });
+  const pduLab01Id = uid();
+  devices.push({
+    id: pduLab01Id, rackId: rackLab01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const srvLab01Id = uid();
+  devices.push({
+    id: srvLab01Id, rackId: rackLab01Id, name: 'SRV-LAB01 · Adquisición SCADA & Cómputo I+D', type: 'server', slotStart: 8, size: 2,
+    mountSide: 'both', power: 500, plugs: 2, ip: '10.60.110.10', mac: '00:1A:2B:60:11:10',
+    serial: 'SRV-LAB-SCADA', brand: 'Dell', model: 'PowerEdge R750', user: 'admin', pass: 'scadaResearch2026',
+    notes: 'Servidor Adquisición de Datos y Clúster de Simulación (VLAN 110 LAB / VLAN 140 INVESTIGACION)'
+  });
+  const swAccLab01Id = uid();
+  devices.push({
+    id: swAccLab01Id, rackId: rackLab01Id, name: 'SW-LAB-01 · Switch Acceso 48P PoE+ Científico', type: 'switch', slotStart: 19, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.161', mac: '00:1A:2B:12:01:61',
+    serial: 'SW-LAB-48P', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Estaciones de investigadores y bancos de prueba (VLAN 140 INVESTIGACION - 10.30.140.0/24)'
+  });
+  const ppLab01Id = uid();
+  devices.push({
+    id: ppLab01Id, rackId: rackLab01Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 20, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const orgLab01Id = uid();
+  devices.push({
+    id: orgLab01Id, rackId: rackLab01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 21, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const odfLab01Id = uid();
+  devices.push({
+    id: odfLab01Id, rackId: rackLab01Id, name: 'ODF Fibra Óptica 12P Enlace Campus', type: 'odf', slotStart: 22, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 10. EQUIPOS DE RACK — SALA 8: CAM (SEGURIDAD & CCTV)
+  // =========================================================================
+  const upsCam01Id = uid();
+  devices.push({
+    id: upsCam01Id, rackId: rackCam01Id, name: 'UPS Online 3000VA CAM', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 3000, plugs: 8, plugsOut: 8, ip: '10.120.10.71', mac: '00:1A:2B:12:01:71',
+    serial: 'UPS-CAM-01', brand: 'APC', model: 'Smart-UPS RT 3000VA', notes: 'Alimentación ininterrumpida CCTV 24/7'
+  });
+  const pduCam01Id = uid();
+  devices.push({
+    id: pduCam01Id, rackId: rackCam01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const nvr01Id = uid();
+  devices.push({
+    id: nvr01Id, rackId: rackCam01Id, name: 'NVR01 · Grabador CCTV 64 Canales RAID 6', type: 'storage', slotStart: 6, size: 2,
+    mountSide: 'both', power: 250, plugs: 2, ip: '10.100.80.10', mac: '00:1A:2B:10:08:10',
+    serial: 'NVR-64CH-01', brand: 'Hikvision', model: 'DS-9664NI-I8', user: 'admin', pass: 'hikCctv2026!',
+    notes: 'Grabador NVR 64 Cámaras Cámaras Zona Norte y Aulas (VLAN 80 CCTV - 10.100.80.0/22)'
+  });
+  const nvr02Id = uid();
+  devices.push({
+    id: nvr02Id, rackId: rackCam01Id, name: 'NVR02 · Grabador CCTV 64 Canales RAID 6 HA', type: 'storage', slotStart: 8, size: 2,
+    mountSide: 'both', power: 250, plugs: 2, ip: '10.100.80.20', mac: '00:1A:2B:10:08:20',
+    serial: 'NVR-64CH-02', brand: 'Hikvision', model: 'DS-9664NI-I8', user: 'admin', pass: 'hikCctv2026!',
+    notes: 'Grabador NVR 64 Cámaras Zona Sur y Perímetro (VLAN 80 CCTV)'
+  });
+  const srvAcc01Id = uid();
+  devices.push({
+    id: srvAcc01Id, rackId: rackCam01Id, name: 'SRV-ACC01 · Servidor Control Acceso Biométrico', type: 'server', slotStart: 10, size: 2,
+    mountSide: 'both', power: 350, plugs: 2, ip: '10.100.90.10', mac: '00:1A:2B:10:09:10',
+    serial: 'SRV-ACCESS-01', brand: 'Dell', model: 'PowerEdge R650', user: 'admin', pass: 'accessSec2026',
+    notes: 'Control de Molinetes, Puertas y Credenciales RFID (VLAN 90 ACCESS - 10.100.90.0/24)'
+  });
+  const kvmCam01Id = uid();
+  devices.push({
+    id: kvmCam01Id, rackId: rackCam01Id, name: 'Consola KVM LCD 1U', type: 'kvm', slotStart: 21, size: 1,
+    mountSide: 'both', power: 25, plugs: 1, brand: 'ATEN', model: 'CL1000M'
+  });
+  const swCam01Id = uid();
+  devices.push({
+    id: swCam01Id, rackId: rackCam01Id, name: 'SW-CAM-01 · Switch PoE CCTV 48P PoE+ Zona Norte', type: 'switch', slotStart: 35, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.181', mac: '00:1A:2B:12:01:81',
+    serial: 'SW-CCTV-48P-01', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Alimentación PoE para Cámaras IP Edificios ADM, AUL, BIB (VLAN 80 CCTV)'
+  });
+  const swCam02Id = uid();
+  devices.push({
+    id: swCam02Id, rackId: rackCam01Id, name: 'SW-CAM-02 · Switch PoE CCTV 48P PoE+ Zona Sur', type: 'switch', slotStart: 36, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.182', mac: '00:1A:2B:12:01:82',
+    serial: 'SW-CCTV-48P-02', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'Alimentación PoE Cámaras ING, LAB, DEP, RES y Perímetro (VLAN 80 CCTV)'
+  });
+  const orgCam01Id = uid();
+  devices.push({
+    id: orgCam01Id, rackId: rackCam01Id, name: 'Organizador Horizontal 1U', type: 'organizer', slotStart: 37, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'PatchLink 1U'
+  });
+  const ppCam01Id = uid();
+  devices.push({
+    id: ppCam01Id, rackId: rackCam01Id, name: 'Patch Panel Cat6A 48P (2U)', type: 'patchpanel', slotStart: 38, size: 2,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP48688TGY'
+  });
+  const odfCam01Id = uid();
+  devices.push({
+    id: odfCam01Id, rackId: rackCam01Id, name: 'ODF Fibra Óptica 24P Enlace Backbone', type: 'odf', slotStart: 40, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 11. EQUIPOS DE RACK — SALA 9: DEP (DEPORTES & POLIDEPORTIVO - 18U)
+  // =========================================================================
+  const upsDep01Id = uid();
+  devices.push({
+    id: upsDep01Id, rackId: rackDep01Id, name: 'UPS Online 1000VA DEP', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 1000, plugs: 6, plugsOut: 6, ip: '10.120.10.72', mac: '00:1A:2B:12:01:72',
+    serial: 'UPS-DEP-01', brand: 'APC', model: 'Smart-UPS 1000VA'
+  });
+  const pduDep01Id = uid();
+  devices.push({
+    id: pduDep01Id, rackId: rackDep01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 6, brand: 'APC', model: 'AP7900B'
+  });
+  const swAccDep01Id = uid();
+  devices.push({
+    id: swAccDep01Id, rackId: rackDep01Id, name: 'SW-DEP-01 · Switch Acceso 24P PoE+ Deportes', type: 'switch', slotStart: 14, size: 1,
+    mountSide: 'front', power: 180, plugs: 2, ip: '10.120.10.171', mac: '00:1A:2B:12:01:71',
+    serial: 'SW-DEP-24P', brand: 'Cisco', model: 'Catalyst 9200-24P', user: 'admin', pass: 'cisco2026!',
+    notes: 'APs Polideportivo, Canchas y CCTV Exterior (VLAN 180, 80)'
+  });
+  const ppDep01Id = uid();
+  devices.push({
+    id: ppDep01Id, rackId: rackDep01Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 15, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const odfDep01Id = uid();
+  devices.push({
+    id: odfDep01Id, rackId: rackDep01Id, name: 'ODF Fibra Óptica 12P Enlace Campus', type: 'odf', slotStart: 16, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 12. EQUIPOS DE RACK — SALA 10: RES (RESIDENCIA ESTUDIANTIL - 24U)
+  // =========================================================================
+  const upsRes01Id = uid();
+  devices.push({
+    id: upsRes01Id, rackId: rackRes01Id, name: 'UPS Online 2000VA RES', type: 'ups', slotStart: 1, size: 2,
+    mountSide: 'both', power: 2000, plugs: 8, plugsOut: 8, ip: '10.120.10.73', mac: '00:1A:2B:12:01:73',
+    serial: 'UPS-RES-01', brand: 'APC', model: 'Smart-UPS 2000VA'
+  });
+  const pduRes01Id = uid();
+  devices.push({
+    id: pduRes01Id, rackId: rackRes01Id, name: 'PDU Horizontal 1U', type: 'pdu', slotStart: 3, size: 1,
+    mountSide: 'rear', power: 0, plugs: 1, plugsOut: 8, brand: 'APC', model: 'AP7900B'
+  });
+  const swDistRes01Id = uid();
+  devices.push({
+    id: swDistRes01Id, rackId: rackRes01Id, name: 'DIST-RES01 · Switch Distribución Residencias L3', type: 'switch', slotStart: 18, size: 1,
+    mountSide: 'front', power: 250, plugs: 2, ip: '10.120.10.81', mac: '00:1A:2B:12:01:81',
+    serial: 'DIST-RES-01', brand: 'Cisco', model: 'Catalyst 9300-24T', user: 'admin', pass: 'cisco2026!',
+    notes: 'Distribución Residencia Estudiantil (VLAN 10 MGMT - 10.120.10.81)'
+  });
+  const swAccRes01Id = uid();
+  devices.push({
+    id: swAccRes01Id, rackId: rackRes01Id, name: 'SW-RES-01 · Switch Acceso 48P PoE+ Dormitorios', type: 'switch', slotStart: 19, size: 1,
+    mountSide: 'front', power: 370, plugs: 2, ip: '10.120.10.191', mac: '00:1A:2B:12:01:91',
+    serial: 'SW-RES-48P', brand: 'Cisco', model: 'Catalyst 9200-48P', user: 'admin', pass: 'cisco2026!',
+    notes: 'APs Wi-Fi Dormitorios y Control de Acceso (VLAN 180 WIFI-STUDENT / VLAN 90 ACCESS)'
+  });
+  const ppRes01Id = uid();
+  devices.push({
+    id: ppRes01Id, rackId: rackRes01Id, name: 'Patch Panel Cat6A 24P', type: 'patchpanel', slotStart: 20, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Panduit', model: 'DP24688TGY'
+  });
+  const odfRes01Id = uid();
+  devices.push({
+    id: odfRes01Id, rackId: rackRes01Id, name: 'ODF Fibra Óptica 24P Enlace Campus', type: 'odf', slotStart: 21, size: 1,
+    mountSide: 'front', power: 0, plugs: 0, brand: 'Corning', model: 'Pretium 1U'
+  });
+
+  // =========================================================================
+  // 13. PERIFÉRICOS DE PISO (FLOOR DEVICES) POR SALA
+  // =========================================================================
+  // En DCC:
+  const camDc1 = uid(); const doorDc1 = uid(); const pcDcDiag = uid();
+  devices.push(
+    { id: camDc1, rackId: null, category: 'floor', roomId: rDcc, name: 'Cámara Térmica DCC Pasillo', type: 'camera', ip: '10.100.80.25', brand: 'Axis', model: 'Q1942-E', power: 18, plugs: 1, notes: 'VLAN 80 CCTV' },
+    { id: doorDc1, rackId: null, category: 'floor', roomId: rDcc, name: 'Control Biométrico Puerta DCC', type: 'door', ip: '10.100.90.15', brand: 'ZKTeco', model: 'ProCapture-T', power: 20, plugs: 1, notes: 'VLAN 90 ACCESS' },
+    { id: pcDcDiag, rackId: null, category: 'floor', roomId: rDcc, name: 'Consola Diagnóstico Datacenter', type: 'pc', ip: '10.120.10.99', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 10 MGMT' }
+  );
+
+  // En TIC:
+  const pcNoc = uid(); const pcSoc = uid(); const telTic = uid(); const apTic = uid();
+  devices.push(
+    { id: pcNoc, rackId: null, category: 'floor', roomId: rTic, name: 'Estación Operador NOC UTN', type: 'pc', ip: '10.120.10.201', brand: 'Dell', model: 'Precision 3650', power: 150, plugs: 1, notes: 'VLAN 10 MGMT' },
+    { id: pcSoc, rackId: null, category: 'floor', roomId: rTic, name: 'Estación Ciberseguridad SOC', type: 'pc', ip: '10.100.240.11', brand: 'Dell', model: 'Precision 3650', power: 150, plugs: 1, notes: 'VLAN 240 SECURITY' },
+    { id: telTic, rackId: null, category: 'floor', roomId: rTic, name: 'Teléfono IP Helpdesk TIC', type: 'phone', ip: '10.130.70.151', brand: 'Cisco', model: 'IP Phone 8845', power: 12, plugs: 1, notes: 'VLAN 70 VOICE' },
+    { id: apTic, rackId: null, category: 'floor', roomId: rTic, name: 'AP Wi-Fi Sala Técnica TIC', type: 'ap', ip: '10.110.170.21', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 170 WIFI-STAFF' }
+  );
+
+  // En ADM:
+  const pcAdm1 = uid(); const pcAdm2 = uid(); const telAdm1 = uid(); const telAdm2 = uid(); const prtAdm = uid(); const camAdm = uid(); const apAdm = uid(); const doorAdm = uid();
+  devices.push(
+    { id: pcAdm1, rackId: null, category: 'floor', roomId: rAdm, name: 'PC Rectorado', type: 'pc', ip: '10.10.30.15', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 30 ADMIN' },
+    { id: pcAdm2, rackId: null, category: 'floor', roomId: rAdm, name: 'PC Finanzas & Contabilidad', type: 'pc', ip: '10.10.30.22', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 30 ADMIN' },
+    { id: telAdm1, rackId: null, category: 'floor', roomId: rAdm, name: 'Teléfono IP Despacho Rector', type: 'phone', ip: '10.130.70.101', brand: 'Cisco', model: 'IP Phone 8845', power: 12, plugs: 1, notes: 'VLAN 70 VOICE' },
+    { id: telAdm2, rackId: null, category: 'floor', roomId: rAdm, name: 'Teléfono IP Secretaría Finanzas', type: 'phone', ip: '10.130.70.102', brand: 'Cisco', model: 'IP Phone 8841', power: 10, plugs: 1, notes: 'VLAN 70 VOICE' },
+    { id: prtAdm, rackId: null, category: 'floor', roomId: rAdm, name: 'Impresora Multifunción ADM', type: 'printer', ip: '10.10.30.50', brand: 'HP', model: 'LaserJet Enterprise M608', power: 150, plugs: 1, notes: 'VLAN 30 ADMIN' },
+    { id: camAdm, rackId: null, category: 'floor', roomId: rAdm, name: 'Cámara Hall Rectorado', type: 'camera', ip: '10.100.80.11', brand: 'Hikvision', model: 'DS-2CD2143G2', power: 12, plugs: 1, notes: 'VLAN 80 CCTV' },
+    { id: apAdm, rackId: null, category: 'floor', roomId: rAdm, name: 'AP Wi-Fi Edificio Rectorado', type: 'ap', ip: '10.110.170.11', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 170 WIFI-STAFF / VLAN 190 GUEST' },
+    { id: doorAdm, rackId: null, category: 'floor', roomId: rAdm, name: 'Molinete Acceso ADM', type: 'door', ip: '10.100.90.11', brand: 'ZKTeco', model: 'TS2000 Pro', power: 25, plugs: 1, notes: 'VLAN 90 ACCESS' }
+  );
+
+  // En AUL:
+  const pcAul1 = uid(); const pcAul2 = uid(); const apAul1 = uid(); const apAul2 = uid(); const camAul = uid();
+  devices.push(
+    { id: pcAul1, rackId: null, category: 'floor', roomId: rAul, name: 'PC Docente Aula Magna 101', type: 'pc', ip: '10.20.130.11', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 130 AULAS' },
+    { id: pcAul2, rackId: null, category: 'floor', roomId: rAul, name: 'PC Docente Aula 201', type: 'pc', ip: '10.20.130.21', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 130 AULAS' },
+    { id: apAul1, rackId: null, category: 'floor', roomId: rAul, name: 'AP Wi-Fi Estudiantes Piso 1', type: 'ap', ip: '10.110.180.10', brand: 'Cisco', model: 'Catalyst 9130AX', power: 20, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT (Alta Densidad)' },
+    { id: apAul2, rackId: null, category: 'floor', roomId: rAul, name: 'AP Wi-Fi Estudiantes Piso 2', type: 'ap', ip: '10.110.180.20', brand: 'Cisco', model: 'Catalyst 9130AX', power: 20, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT (Alta Densidad)' },
+    { id: camAul, rackId: null, category: 'floor', roomId: rAul, name: 'Cámara Domo Pasillo Central AUL', type: 'camera', ip: '10.100.80.31', brand: 'Hikvision', model: 'DS-2CD2143G2', power: 12, plugs: 1, notes: 'VLAN 80 CCTV' }
+  );
+
+  // En ING:
+  const pcIng1 = uid(); const pcIng2 = uid(); const apIng = uid(); const camIng = uid();
+  devices.push(
+    { id: pcIng1, rackId: null, category: 'floor', roomId: rIng, name: 'PC Laboratorio Redes Cisco', type: 'pc', ip: '10.60.110.21', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 110 LAB' },
+    { id: pcIng2, rackId: null, category: 'floor', roomId: rIng, name: 'PC Laboratorio Desarrollo Software', type: 'pc', ip: '10.60.110.31', brand: 'Dell', model: 'OptiPlex 7090', power: 90, plugs: 1, notes: 'VLAN 110 LAB' },
+    { id: apIng, rackId: null, category: 'floor', roomId: rIng, name: 'AP Wi-Fi Facultad Ingeniería', type: 'ap', ip: '10.110.180.30', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT' },
+    { id: camIng, rackId: null, category: 'floor', roomId: rIng, name: 'Cámara Seguridad Pasillo ING', type: 'camera', ip: '10.100.80.51', brand: 'Hikvision', model: 'DS-2CD2143G2', power: 12, plugs: 1, notes: 'VLAN 80 CCTV' }
+  );
+
+  // En BIB:
+  const pcBib1 = uid(); const pcBib2 = uid(); const prtBib = uid(); const apBib = uid(); const camBib = uid();
+  devices.push(
+    { id: pcBib1, rackId: null, category: 'floor', roomId: rBib, name: 'Terminal Consulta OPAC 01', type: 'pc', ip: '10.50.120.21', brand: 'Dell', model: 'OptiPlex 3080 Micro', power: 65, plugs: 1, notes: 'VLAN 120 BIBLIOTECA' },
+    { id: pcBib2, rackId: null, category: 'floor', roomId: rBib, name: 'Terminal Consulta OPAC 02', type: 'pc', ip: '10.50.120.22', brand: 'Dell', model: 'OptiPlex 3080 Micro', power: 65, plugs: 1, notes: 'VLAN 120 BIBLIOTECA' },
+    { id: prtBib, rackId: null, category: 'floor', roomId: rBib, name: 'Impresora Autoservicio Alumnos', type: 'printer', ip: '10.50.120.30', brand: 'HP', model: 'LaserJet Managed MFP', power: 120, plugs: 1, notes: 'VLAN 120 BIBLIOTECA' },
+    { id: apBib, rackId: null, category: 'floor', roomId: rBib, name: 'AP Wi-Fi Sala Lectura Biblioteca', type: 'ap', ip: '10.110.180.40', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT' },
+    { id: camBib, rackId: null, category: 'floor', roomId: rBib, name: 'Cámara Mostrador Biblioteca', type: 'camera', ip: '10.100.80.71', brand: 'Hikvision', model: 'DS-2CD2143G2', power: 12, plugs: 1, notes: 'VLAN 80 CCTV' }
+  );
+
+  // En LAB:
+  const pcLab1 = uid(); const apLab = uid();
+  devices.push(
+    { id: pcLab1, rackId: null, category: 'floor', roomId: rLab, name: 'Estación de Trabajo I+D Científico', type: 'pc', ip: '10.30.140.11', brand: 'Dell', model: 'Precision 5820', power: 250, plugs: 1, notes: 'VLAN 140 INVESTIGACION' },
+    { id: apLab, rackId: null, category: 'floor', roomId: rLab, name: 'AP Wi-Fi Laboratorios Avanzados', type: 'ap', ip: '10.110.170.31', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 170 WIFI-STAFF' }
+  );
+
+  // En CAM:
+  const pcCam1 = uid(); const pcCam2 = uid(); const camExt1 = uid();
+  devices.push(
+    { id: pcCam1, rackId: null, category: 'floor', roomId: rCam, name: 'Videowall Monitoreo Guardias 01', type: 'pc', ip: '10.100.80.5', brand: 'Dell', model: 'Precision 3650', power: 180, plugs: 1, notes: 'VLAN 80 CCTV' },
+    { id: pcCam2, rackId: null, category: 'floor', roomId: rCam, name: 'Consola Despacho Seguridad 02', type: 'pc', ip: '10.100.80.6', brand: 'Dell', model: 'Precision 3650', power: 180, plugs: 1, notes: 'VLAN 80 CCTV' },
+    { id: camExt1, rackId: null, category: 'floor', roomId: rCam, name: 'Cámara Domo PTZ Perímetro Campus', type: 'camera', ip: '10.100.80.91', brand: 'Hikvision', model: 'DS-2DF8442IXS-AEL', power: 35, plugs: 1, notes: 'VLAN 80 CCTV' }
+  );
+
+  // En DEP:
+  const apDep = uid(); const camDep = uid();
+  devices.push(
+    { id: apDep, rackId: null, category: 'floor', roomId: rDep, name: 'AP Wi-Fi Polideportivo & Canchas', type: 'ap', ip: '10.110.180.50', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT' },
+    { id: camDep, rackId: null, category: 'floor', roomId: rDep, name: 'Cámara Gimnasio Principal', type: 'camera', ip: '10.100.80.81', brand: 'Hikvision', model: 'DS-2CD2143G2', power: 12, plugs: 1, notes: 'VLAN 80 CCTV' }
+  );
+
+  // En RES:
+  const apRes1 = uid(); const apRes2 = uid(); const doorRes = uid();
+  devices.push(
+    { id: apRes1, rackId: null, category: 'floor', roomId: rRes, name: 'AP Wi-Fi Pabellón Residencias A', type: 'ap', ip: '10.110.180.60', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT' },
+    { id: apRes2, rackId: null, category: 'floor', roomId: rRes, name: 'AP Wi-Fi Pabellón Residencias B', type: 'ap', ip: '10.110.180.61', brand: 'Cisco', model: 'Catalyst 9120AX', power: 15, plugs: 1, notes: 'VLAN 180 WIFI-STUDENT' },
+    { id: doorRes, rackId: null, category: 'floor', roomId: rRes, name: 'Torniquete Acceso Dormitorios', type: 'door', ip: '10.100.90.21', brand: 'ZKTeco', model: 'TS2000 Pro', power: 25, plugs: 1, notes: 'VLAN 90 ACCESS' }
+  );
+
+  // =========================================================================
+  // 14. CABLEADO ESTRUCTURADO Y ENLACES (BACKBONE Y DISTRIBUCIÓN)
+  // =========================================================================
+  // 1. Enlaces Perímetro / Internet e Inter-Core
+  connections.push(
+    { id: uid(), sourceDeviceId: rtrIsp1Id, sourcePort: 'Gi0/0/0', targetDeviceId: fw01Id, targetPort: 'port1', cableType: 'DAC', color: '#ef4444', vlanId: 230, vlanName: 'NETWORK / Borde' },
+    { id: uid(), sourceDeviceId: rtrIsp2Id, sourcePort: 'Gi0/0/0', targetDeviceId: fw02Id, targetPort: 'port1', cableType: 'DAC', color: '#ef4444', vlanId: 230, vlanName: 'NETWORK / Borde' },
+    { id: uid(), sourceDeviceId: fw01Id, sourcePort: 'ha', targetDeviceId: fw02Id, targetPort: 'ha', cableType: 'DAC', color: '#eab308', vlanId: 240, vlanName: 'SECURITY / HA Sync' },
+    { id: uid(), sourceDeviceId: fw01Id, sourcePort: 'port2', targetDeviceId: swCore01Id, targetPort: 'Te1/0/48', cableType: 'DAC', color: '#10b981', vlanId: 10, vlanName: 'MGMT / Gestión' },
+    { id: uid(), sourceDeviceId: fw02Id, sourcePort: 'port2', targetDeviceId: swCore02Id, targetPort: 'Te1/0/48', cableType: 'DAC', color: '#10b981', vlanId: 10, vlanName: 'MGMT / Gestión' },
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Fo1/0/1', targetDeviceId: swCore02Id, targetPort: 'Fo1/0/1', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 10, vlanName: 'Core Interconnect vPC 40G' }
+  );
+
+  // 2. Core hacia Top-of-Rack Data Center Central
+  connections.push(
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Te1/0/1', targetDeviceId: swDccInterconnectId, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#38bdf8', vlanId: 10, vlanName: 'Backbone DCC 10G' },
+    { id: uid(), sourceDeviceId: swCore02Id, sourcePort: 'Te1/0/1', targetDeviceId: swDccInterconnectId, targetPort: 'Te1/0/2', cableType: 'Fibra OS2', color: '#38bdf8', vlanId: 10, vlanName: 'Backbone DCC 10G HA' },
+    { id: uid(), sourceDeviceId: swDccInterconnectId, sourcePort: 'Te1/0/10', targetDeviceId: swTorDcc01Id, targetPort: 'Te1/0/1', cableType: 'DAC', color: '#3b82f6', vlanId: 20, vlanName: 'SERVERS Trunk' },
+    { id: uid(), sourceDeviceId: swDccInterconnectId, sourcePort: 'Te1/0/11', targetDeviceId: swTorDcc02Id, targetPort: 'Te1/0/1', cableType: 'DAC', color: '#8b5cf6', vlanId: 220, vlanName: 'STORAGE Trunk' },
+    { id: uid(), sourceDeviceId: swDccInterconnectId, sourcePort: 'Te1/0/12', targetDeviceId: swTorDmzId, targetPort: 'Te1/0/1', cableType: 'Fibra OM4', color: '#f59e0b', vlanId: 200, vlanName: 'DMZ Trunk' }
+  );
+
+  // 3. Core hacia Distribución de Edificios (Backbone de Fibra Monomodo OS2)
+  connections.push(
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Te1/0/5', targetDeviceId: swDistAdm01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#f59e0b', vlanId: 10, vlanName: 'Troncal Campus ADM' },
+    { id: uid(), sourceDeviceId: swCore02Id, sourcePort: 'Te1/0/5', targetDeviceId: swDistAdm02Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#f59e0b', vlanId: 10, vlanName: 'Troncal Campus ADM HA' },
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Te1/0/6', targetDeviceId: swDistAul01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#ec4899', vlanId: 10, vlanName: 'Troncal Campus AUL' },
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Te1/0/7', targetDeviceId: swDistIng01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#6366f1', vlanId: 10, vlanName: 'Troncal Campus ING' },
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Te1/0/8', targetDeviceId: swDistTicId, targetPort: 'Te1/0/1', cableType: 'DAC', color: '#06b6d4', vlanId: 10, vlanName: 'Troncal Local TIC' },
+    { id: uid(), sourceDeviceId: swCore02Id, sourcePort: 'Te1/0/9', targetDeviceId: swAccBib01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#14b8a6', vlanId: 10, vlanName: 'Troncal Campus BIB' },
+    { id: uid(), sourceDeviceId: swCore02Id, sourcePort: 'Te1/0/10', targetDeviceId: swAccLab01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#eab308', vlanId: 10, vlanName: 'Troncal Campus LAB' },
+    { id: uid(), sourceDeviceId: swCore02Id, sourcePort: 'Te1/0/11', targetDeviceId: swCam01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#f43f5e', vlanId: 10, vlanName: 'Troncal Campus CAM' },
+    { id: uid(), sourceDeviceId: swCore02Id, sourcePort: 'Te1/0/12', targetDeviceId: swAccDep01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#84cc16', vlanId: 10, vlanName: 'Troncal Campus DEP' },
+    { id: uid(), sourceDeviceId: swCore01Id, sourcePort: 'Te1/0/13', targetDeviceId: swDistRes01Id, targetPort: 'Te1/0/1', cableType: 'Fibra OS2', color: '#a855f7', vlanId: 10, vlanName: 'Troncal Campus RES' }
+  );
+
+  // 4. Distribución hacia Acceso dentro de los Edificios
+  connections.push(
+    // En ADM:
+    { id: uid(), sourceDeviceId: swDistAdm01Id, sourcePort: 'Gi1/0/1', targetDeviceId: swAccAdm01Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#f59e0b', vlanId: 10, vlanName: 'Trunk Acceso ADM-01' },
+    { id: uid(), sourceDeviceId: swDistAdm02Id, sourcePort: 'Gi1/0/1', targetDeviceId: swAccAdm02Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#f59e0b', vlanId: 10, vlanName: 'Trunk Acceso ADM-02' },
+    // En AUL:
+    { id: uid(), sourceDeviceId: swDistAul01Id, sourcePort: 'Gi1/0/1', targetDeviceId: swAccAul01Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#ec4899', vlanId: 130, vlanName: 'Trunk Aulas Piso 1' },
+    { id: uid(), sourceDeviceId: swDistAul01Id, sourcePort: 'Gi1/0/2', targetDeviceId: swAccAul02Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#ec4899', vlanId: 130, vlanName: 'Trunk Aulas Piso 2' },
+    { id: uid(), sourceDeviceId: swDistAul01Id, sourcePort: 'Gi1/0/3', targetDeviceId: swAccAul03Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#ec4899', vlanId: 130, vlanName: 'Trunk Aulas Piso 3' },
+    // En ING:
+    { id: uid(), sourceDeviceId: swDistIng01Id, sourcePort: 'Gi1/0/1', targetDeviceId: swAccIng01Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#6366f1', vlanId: 110, vlanName: 'Trunk Lab Sistemas' },
+    { id: uid(), sourceDeviceId: swDistIng01Id, sourcePort: 'Gi1/0/2', targetDeviceId: swAccIng02Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#6366f1', vlanId: 110, vlanName: 'Trunk Lab Redes' },
+    { id: uid(), sourceDeviceId: swDistIng01Id, sourcePort: 'Gi1/0/3', targetDeviceId: swAccIng03Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#6366f1', vlanId: 100, vlanName: 'Trunk Lab IoT' },
+    // En TIC:
+    { id: uid(), sourceDeviceId: swDistTicId, sourcePort: 'Gi1/0/1', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#3b82f6', vlanId: 10, vlanName: 'Trunk Acceso TIC' },
+    // En CAM:
+    { id: uid(), sourceDeviceId: swCam01Id, sourcePort: 'Gi1/0/47', targetDeviceId: swCam02Id, targetPort: 'Gi1/0/47', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'Interlink CCTV PoE' },
+    // En RES:
+    { id: uid(), sourceDeviceId: swDistRes01Id, sourcePort: 'Gi1/0/1', targetDeviceId: swAccRes01Id, targetPort: 'Gi1/0/48', cableType: 'Cobre', color: '#a855f7', vlanId: 180, vlanName: 'Trunk Dormitorios' }
+  );
+
+  // 5. Conexiones a Servidores del Data Center
+  connections.push(
+    { id: uid(), sourceDeviceId: ad01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: ad02Id, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: dns01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/3', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: dns02Id, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/4', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: dhcp01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: dhcp02Id, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/6', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: ntpMonId, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/7', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: syslogId, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/8', cableType: 'Cobre', color: '#0ea5e9', vlanId: 20, vlanName: 'SERVERS' },
+    { id: uid(), sourceDeviceId: sanStorageId, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/1', cableType: 'Fibra OM4', color: '#8b5cf6', vlanId: 220, vlanName: 'STORAGE' },
+    { id: uid(), sourceDeviceId: backup01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#8b5cf6', vlanId: 210, vlanName: 'BACKUP' },
+    { id: uid(), sourceDeviceId: erp01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#8b5cf6', vlanId: 150, vlanName: 'ERP' },
+    { id: uid(), sourceDeviceId: erp02Id, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/11', cableType: 'Cobre', color: '#8b5cf6', vlanId: 150, vlanName: 'ERP' },
+    { id: uid(), sourceDeviceId: acad01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#8b5cf6', vlanId: 160, vlanName: 'ACADEMICO' },
+    { id: uid(), sourceDeviceId: acad02Id, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/16', cableType: 'Cobre', color: '#8b5cf6', vlanId: 160, vlanName: 'ACADEMICO' },
+    { id: uid(), sourceDeviceId: lms01Id, sourcePort: 'eth0', targetDeviceId: swTorDcc02Id, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#8b5cf6', vlanId: 160, vlanName: 'ACADEMICO' },
+    { id: uid(), sourceDeviceId: web01Id, sourcePort: 'eth0', targetDeviceId: swTorDmzId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 200, vlanName: 'DMZ' },
+    { id: uid(), sourceDeviceId: mail01Id, sourcePort: 'eth0', targetDeviceId: swTorDmzId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#10b981', vlanId: 200, vlanName: 'DMZ' }
+  );
+
+  // 6. Conexiones a Equipos de Gestión y Seguridad Especiales
+  connections.push(
+    { id: uid(), sourceDeviceId: pbx01Id, sourcePort: 'eth0', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#ef4444', vlanId: 70, vlanName: 'VOICE' },
+    { id: uid(), sourceDeviceId: wlc01Id, sourcePort: 'eth0', targetDeviceId: swCore01Id, targetPort: 'Te1/0/20', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 10, vlanName: 'MGMT' },
+    { id: uid(), sourceDeviceId: wlc02Id, sourcePort: 'eth0', targetDeviceId: swCore02Id, targetPort: 'Te1/0/20', cableType: 'Fibra OM4', color: '#06b6d4', vlanId: 10, vlanName: 'MGMT' },
+    { id: uid(), sourceDeviceId: nocSrvId, sourcePort: 'eth0', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#3b82f6', vlanId: 10, vlanName: 'MGMT' },
+    { id: uid(), sourceDeviceId: srvBib01Id, sourcePort: 'eth0', targetDeviceId: swAccBib01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#14b8a6', vlanId: 120, vlanName: 'BIBLIOTECA' },
+    { id: uid(), sourceDeviceId: srvLab01Id, sourcePort: 'eth0', targetDeviceId: swAccLab01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#eab308', vlanId: 110, vlanName: 'LAB' },
+    { id: uid(), sourceDeviceId: nvr01Id, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' },
+    { id: uid(), sourceDeviceId: nvr02Id, sourcePort: 'eth0', targetDeviceId: swCam02Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' },
+    { id: uid(), sourceDeviceId: srvAcc01Id, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#f59e0b', vlanId: 90, vlanName: 'ACCESS' }
+  );
+
+  // 7. Conexiones a Dispositivos de Piso
+  // En DCC:
+  connections.push(
+    { id: uid(), sourceDeviceId: camDc1, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' },
+    { id: uid(), sourceDeviceId: doorDc1, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/11', cableType: 'Cobre', color: '#f59e0b', vlanId: 90, vlanName: 'ACCESS' },
+    { id: uid(), sourceDeviceId: pcDcDiag, sourcePort: 'eth0', targetDeviceId: swTorDcc01Id, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#10b981', vlanId: 10, vlanName: 'MGMT' }
+  );
+
+  // En TIC:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcNoc, sourcePort: 'eth0', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#10b981', vlanId: 10, vlanName: 'MGMT' },
+    { id: uid(), sourceDeviceId: pcSoc, sourcePort: 'eth0', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#ef4444', vlanId: 240, vlanName: 'SECURITY' },
+    { id: uid(), sourceDeviceId: telTic, sourcePort: 'eth0', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/3', cableType: 'Cobre', color: '#ef4444', vlanId: 70, vlanName: 'VOICE' },
+    { id: uid(), sourceDeviceId: apTic, sourcePort: 'eth0', targetDeviceId: swAccTicId, targetPort: 'Gi1/0/4', cableType: 'Cobre', color: '#0ea5e9', vlanId: 170, vlanName: 'WIFI-STAFF' }
+  );
+
+  // En ADM:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcAdm1, sourcePort: 'eth0', targetDeviceId: swAccAdm01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#f59e0b', vlanId: 30, vlanName: 'ADMIN' },
+    { id: uid(), sourceDeviceId: pcAdm2, sourcePort: 'eth0', targetDeviceId: swAccAdm01Id, targetPort: 'Gi1/0/2', cableType: 'Cobre', color: '#f59e0b', vlanId: 30, vlanName: 'ADMIN' },
+    { id: uid(), sourceDeviceId: telAdm1, sourcePort: 'eth0', targetDeviceId: swAccAdm01Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#ef4444', vlanId: 70, vlanName: 'VOICE' },
+    { id: uid(), sourceDeviceId: telAdm2, sourcePort: 'eth0', targetDeviceId: swAccAdm01Id, targetPort: 'Gi1/0/11', cableType: 'Cobre', color: '#ef4444', vlanId: 70, vlanName: 'VOICE' },
+    { id: uid(), sourceDeviceId: prtAdm, sourcePort: 'eth0', targetDeviceId: swAccAdm02Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#f59e0b', vlanId: 30, vlanName: 'ADMIN' },
+    { id: uid(), sourceDeviceId: camAdm, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/12', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' },
+    { id: uid(), sourceDeviceId: apAdm, sourcePort: 'eth0', targetDeviceId: swAccAdm01Id, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#0ea5e9', vlanId: 170, vlanName: 'WIFI-STAFF' },
+    { id: doorAdm, sourceDeviceId: doorAdm, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#f59e0b', vlanId: 90, vlanName: 'ACCESS' }
+  );
+
+  // En AUL:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcAul1, sourcePort: 'eth0', targetDeviceId: swAccAul01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#ec4899', vlanId: 130, vlanName: 'AULAS' },
+    { id: uid(), sourceDeviceId: pcAul2, sourcePort: 'eth0', targetDeviceId: swAccAul02Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#ec4899', vlanId: 130, vlanName: 'AULAS' },
+    { id: uid(), sourceDeviceId: apAul1, sourcePort: 'eth0', targetDeviceId: swAccAul01Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#ec4899', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: apAul2, sourcePort: 'eth0', targetDeviceId: swAccAul02Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#ec4899', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: camAul, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' }
+  );
+
+  // En ING:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcIng1, sourcePort: 'eth0', targetDeviceId: swAccIng02Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#6366f1', vlanId: 110, vlanName: 'LAB' },
+    { id: uid(), sourceDeviceId: pcIng2, sourcePort: 'eth0', targetDeviceId: swAccIng01Id, targetPort: 'Gi1/0/1', cableType: 'Cobre', color: '#6366f1', vlanId: 110, vlanName: 'LAB' },
+    { id: uid(), sourceDeviceId: apIng, sourcePort: 'eth0', targetDeviceId: swAccIng01Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#6366f1', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: camIng, sourcePort: 'eth0', targetDeviceId: swCam02Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' }
+  );
+
+  // En BIB:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcBib1, sourcePort: 'eth0', targetDeviceId: swAccBib01Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#14b8a6', vlanId: 120, vlanName: 'BIBLIOTECA' },
+    { id: uid(), sourceDeviceId: pcBib2, sourcePort: 'eth0', targetDeviceId: swAccBib01Id, targetPort: 'Gi1/0/6', cableType: 'Cobre', color: '#14b8a6', vlanId: 120, vlanName: 'BIBLIOTECA' },
+    { id: uid(), sourceDeviceId: prtBib, sourcePort: 'eth0', targetDeviceId: swAccBib01Id, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#14b8a6', vlanId: 120, vlanName: 'BIBLIOTECA' },
+    { id: uid(), sourceDeviceId: apBib, sourcePort: 'eth0', targetDeviceId: swAccBib01Id, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#0ea5e9', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: camBib, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/25', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' }
+  );
+
+  // En LAB:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcLab1, sourcePort: 'eth0', targetDeviceId: swAccLab01Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#eab308', vlanId: 140, vlanName: 'INVESTIGACION' },
+    { id: uid(), sourceDeviceId: apLab, sourcePort: 'eth0', targetDeviceId: swAccLab01Id, targetPort: 'Gi1/0/10', cableType: 'Cobre', color: '#0ea5e9', vlanId: 170, vlanName: 'WIFI-STAFF' }
+  );
+
+  // En CAM:
+  connections.push(
+    { id: uid(), sourceDeviceId: pcCam1, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/30', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' },
+    { id: uid(), sourceDeviceId: pcCam2, sourcePort: 'eth0', targetDeviceId: swCam01Id, targetPort: 'Gi1/0/31', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' },
+    { id: uid(), sourceDeviceId: camExt1, sourcePort: 'eth0', targetDeviceId: swCam02Id, targetPort: 'Gi1/0/20', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' }
+  );
+
+  // En DEP:
+  connections.push(
+    { id: uid(), sourceDeviceId: apDep, sourcePort: 'eth0', targetDeviceId: swAccDep01Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#84cc16', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: camDep, sourcePort: 'eth0', targetDeviceId: swCam02Id, targetPort: 'Gi1/0/25', cableType: 'Cobre', color: '#f43f5e', vlanId: 80, vlanName: 'CCTV' }
+  );
+
+  // En RES:
+  connections.push(
+    { id: uid(), sourceDeviceId: apRes1, sourcePort: 'eth0', targetDeviceId: swAccRes01Id, targetPort: 'Gi1/0/5', cableType: 'Cobre', color: '#a855f7', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: apRes2, sourcePort: 'eth0', targetDeviceId: swAccRes01Id, targetPort: 'Gi1/0/6', cableType: 'Cobre', color: '#a855f7', vlanId: 180, vlanName: 'WIFI-STUDENT' },
+    { id: uid(), sourceDeviceId: doorRes, sourcePort: 'eth0', targetDeviceId: swAccRes01Id, targetPort: 'Gi1/0/15', cableType: 'Cobre', color: '#f59e0b', vlanId: 90, vlanName: 'ACCESS' }
+  );
+
+  const topology = { nodePositions: {}, rackPositions: {}, rackSizes: {}, roomPositions: {}, roomSizes: {} };
+
+  store.loadData({
+    rooms, racks, devices, connections, currentRoomId: rDcc,
+    selectedDeviceId: null, topology,
+    topoZoom: 1, topoPanX: 0, topoPanY: 0,
+    physZoom: 1, physPanX: 0, physPanY: 0
+  });
+
+  if (typeof initTopoPositions === 'function') initTopoPositions();
+  if (typeof renderAll === 'function') renderAll();
+  
+  if (typeof notify === 'function') {
+    notify('Plantilla de Campus Universitario UTN cargada con éxito (Red Jerárquica 3 Capas, 10 Edificios)', 'success');
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.loadDemoData = loadDemoData;
+  window.loadUniversityDemoData = loadUniversityDemoData;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { loadDemoData, loadUniversityDemoData };
 }
 ```
 
@@ -8361,12 +9617,115 @@ function buildRearView(rack, devices) {
 
 * **Ubicación relativa:** `js/ui/rack.js`
 * **Capa:** Capa 5: Interfaz de Usuario y Vistas Principales (DOM)
-* **Dimensiones:** 937 líneas | 42.5 KB
+* **Dimensiones:** 975 líneas | 44.3 KB
 * **Rol en el sistema:** Vista Física: renderizado de gabinetes, drag & drop, flip 3D y trazado ortogonal de cables SVG.
 
 ```javascript
 const UNIT_H = 24; // px por U
 let dragState = null;
+
+function buildRackFace(rack, devices, side, searchTerm = '') {
+  const sideDevices = devices.filter(d => (d.mountSide === 'both' || (d.mountSide || 'front') === side));
+  let slotsHTML = '';
+  let skip = 0;
+  for (let u = 1; u <= rack.height; u++) {
+    if (skip > 0) { skip--; continue; }
+    const dev = sideDevices.find(d => d.slotStart === u);
+    if (dev) {
+      const h = dev.size * UNIT_H;
+      let matchClass = '';
+      if (searchTerm) {
+        const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
+        matchClass = fields.includes(searchTerm) ? 'search-match' : 'search-dim';
+      }
+      skip = dev.size - 1;
+      slotsHTML += `<div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}">
+          <div class="device-faceplate ${matchClass}"
+               style="top:0; height:${h}px"
+               data-device-id="${dev.id}"
+               draggable="true">
+            ${buildFaceplate(dev, h, side)}
+            <div class="device-actions">
+              <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
+              <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}"></div>`;
+    }
+  }
+  const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
+  const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
+  const btnText = side === 'front' ? '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
+
+  return `
+    <div class="rack-card ${side === 'rear' ? 'rear-view' : ''}" data-rack-id="${rack.id}" data-side="${side}">
+      <div class="rack-header">
+        <div class="rack-title" title="${titleText}">
+          <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
+          <span class="title-text" style="${side==='rear'?'color:var(--text-secondary); font-style:italic':''}">${escapeHTML(rack.name)}${side === 'rear' ? ' (Trasera)' : ''}</span>
+        </div>
+        <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
+          <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
+          <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
+          <div class="dropdown-menu hidden" id="rack-menu-${side}-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
+            <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
+            <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar Gabinete</div>
+            <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar Gabinete</div>
+          </div>
+        </div>
+      </div>
+      <div class="rack-body">
+        <div class="rack-rail-left">${railHTML}</div>
+        <div class="rack-slots" id="slots-${side}-${rack.id}">
+          ${slotsHTML}
+        </div>
+        <div class="rack-rail-right">${railHTML}</div>
+      </div>
+    </div>
+  `;
+}
+window.buildRackFace = buildRackFace;
+
+/**
+ * M-04: Redibujado selectivo y atómico de un único gabinete.
+ * Actualiza únicamente el rackWrapper especificado sin alterar el resto del DOM.
+ */
+function renderSingleRack(rackId) {
+  const container = document.getElementById('view-physical');
+  if (!container) return false;
+  const rackWrapper = container.querySelector(`.rack-wrapper[data-rack-id="${rackId}"]`);
+  if (!rackWrapper) return false;
+  const rack = store.rackById(rackId);
+  if (!rack) return false;
+
+  const devices = store.allDevicesInRack(rack.id);
+  const searchInput = document.getElementById('global-search');
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+  const flipper = rackWrapper.querySelector('.rack-flipper');
+  const wasFlipped = flipper ? flipper.classList.contains('flipped') : false;
+
+  rackWrapper.innerHTML = `
+    <div class="rack-flipper ${wasFlipped ? 'flipped' : ''}" id="flipper-${rack.id}">
+      <div class="rack-face">${buildRackFace(rack, devices, 'front', searchTerm)}</div>
+      <div class="rack-rear">${buildRackFace(rack, devices, 'rear', searchTerm)}</div>
+    </div>
+    <div style="text-align:center; font-size:9px; color:var(--text-muted); margin-top:4px; font-family:var(--font-mono)">
+      ${rack.height}U · ${devices.filter(d => (d.mountSide||'front')==='front' || d.mountSide==='both').reduce((s,d)=>s+d.size,0)}/${rack.height} FRONT · ${devices.filter(d => d.mountSide==='rear' || d.mountSide==='both').reduce((s,d)=>s+d.size,0)}/${rack.height} REAR
+    </div>
+  `;
+
+  bindRackEvents(rackWrapper, wasFlipped ? new Set([rack.id]) : new Set());
+  if (typeof drawPhysicalCables === 'function') {
+    requestAnimationFrame(() => setTimeout(drawPhysicalCables, 20));
+  }
+  return true;
+}
+window.renderSingleRack = renderSingleRack;
 
 function renderPhysical() {
   const container = document.getElementById('view-physical');
@@ -8393,7 +9752,7 @@ function renderPhysical() {
           <p>No hay gabinetes en esta sala.</p>
           <div style="display:flex; gap:12px; margin-top:16px;">
             <button class="btn-primary" id="empty-btn-add-rack">+ Rack</button>
-            <button class="btn-secondary" id="empty-btn-load-demo" onclick="if(typeof window.loadDemoData === 'function') window.loadDemoData();">
+            <button class="btn-secondary" id="empty-btn-load-demo" onclick="if(typeof window.openDemoSelectionModal === 'function') window.openDemoSelectionModal(); else if(typeof window.loadDemoData === 'function') window.loadDemoData();">
               <i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:4px;"></i> Cargar Plantilla Demo
             </button>
           </div>
@@ -8405,71 +9764,6 @@ function renderPhysical() {
     bindRackEvents(container, flippedRacks);
     updateZoomLabel();
     return;
-  }
-
-  function buildRackFace(rack, devices, side, searchTerm) {
-    const sideDevices = devices.filter(d => (d.mountSide === 'both' || (d.mountSide || 'front') === side));
-    let slotsHTML = '';
-    let skip = 0;
-    for (let u = 1; u <= rack.height; u++) {
-      if (skip > 0) { skip--; continue; }
-      const dev = sideDevices.find(d => d.slotStart === u);
-      if (dev) {
-        const h = dev.size * UNIT_H;
-        let matchClass = '';
-        if (searchTerm) {
-          const fields = [dev.name, dev.ip, dev.mac, dev.serial, dev.type, dev.user].join(' ').toLowerCase();
-          matchClass = fields.includes(searchTerm) ? 'search-match' : 'search-dim';
-        }
-        skip = dev.size - 1;
-        slotsHTML += `<div class="rack-slot occupied" style="height:${h}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}">
-            <div class="device-faceplate ${matchClass}"
-                 style="top:0; height:${h}px"
-                 data-device-id="${dev.id}"
-                 draggable="true">
-              ${buildFaceplate(dev, h, side)}
-              <div class="device-actions">
-                <button class="dev-btn edit" data-edit-dev="${dev.id}" title="Editar"><i class="svg-icon icon-edit" style="width:12px; height:12px;"></i></button>
-                <button class="dev-btn del" data-del-dev="${dev.id}" title="Eliminar"><i class="svg-icon icon-trash" style="width:12px; height:12px;"></i></button>
-              </div>
-            </div>
-          </div>`;
-      } else {
-        slotsHTML += `<div class="rack-slot" style="height:${UNIT_H}px" data-slot="${u}" data-rack="${rack.id}" data-side="${side}"></div>`;
-      }
-    }
-    const railHTML = Array.from({length: rack.height}, (_, i) => `<div class="rail-unit">${i + 1}</div>`).join('');
-    const titleText = side === 'front' ? escapeHTML(rack.name) : `Vista Trasera`;
-    const btnText = side === 'front' ? '<i class="svg-icon icon-rotate" style="width:14px; height:14px;"></i>' : '<i class="svg-icon icon-desktop" style="width:14px; height:14px;"></i>';
-
-    return `
-      <div class="rack-card ${side === 'rear' ? 'rear-view' : ''}" data-rack-id="${rack.id}" data-side="${side}">
-        <div class="rack-header">
-          <div class="rack-title" title="${titleText}">
-            <div class="rack-color-dot" style="background:${side==='rear'?'#3b82f6':escapeHTML(rack.color)}; box-shadow:0 0 6px ${side==='rear'?'#3b82f6':escapeHTML(rack.color)}88"></div>
-            <span class="title-text" style="${side==='rear'?'color:var(--text-secondary); font-style:italic':''}">${escapeHTML(rack.name)}${side === 'rear' ? ' (Trasera)' : ''}</span>
-          </div>
-          <div class="rack-hdr-btns" style="position:relative; display:flex; align-items:center; gap:4px;">
-            <button class="btn-flip-rack" data-flip-rack="${escapeHTML(rack.id)}" title="${side === 'front' ? 'Vista Trasera' : 'Vista Frontal'}">${btnText}</button>
-            <button class="rack-btn" data-rack-menu-toggle="${escapeHTML(rack.id)}" title="Opciones" style="font-size: 16px; padding: 0 6px; font-weight:bold; cursor:pointer;">⋮</button>
-            <div class="dropdown-menu hidden" id="rack-menu-${side}-${rack.id}" style="right:0; top:32px; min-width:190px; z-index:1000;">
-              <div class="dropdown-item" data-add-dev-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-bolt" style="width:14px; height:14px; margin-right:6px;"></i>Agregar Equipo</div>
-              <div class="dropdown-item" data-clear-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Limpiar Gabinete</div>
-              <div class="dropdown-divider"></div>
-              <div class="dropdown-item" data-edit-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-edit" style="width:14px; height:14px; margin-right:6px;"></i>Editar Gabinete</div>
-              <div class="dropdown-item" style="color:var(--danger)" data-del-rack="${escapeHTML(rack.id)}"><i class="svg-icon icon-trash" style="width:14px; height:14px; margin-right:6px;"></i>Eliminar Gabinete</div>
-            </div>
-          </div>
-        </div>
-        <div class="rack-body">
-          <div class="rack-rail-left">${railHTML}</div>
-          <div class="rack-slots" id="slots-${side}-${rack.id}">
-            ${slotsHTML}
-          </div>
-          <div class="rack-rail-right">${railHTML}</div>
-        </div>
-      </div>
-    `;
   }
 
   const racksHTML = racks.map(rack => {
@@ -17373,10 +18667,10 @@ function initTopology() {
       const roomPos = roomPositions[roomId];
       const roomSize = roomSizes[roomId];
       if (roomPos && roomSize) {
-        if (nx - r < roomPos.x + 10) nx = roomPos.x + 10 + r;
-        if (nx + r > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - 10 - r;
-        if (ny - r < roomPos.y + 50) ny = roomPos.y + 50 + r;
-        if (ny + r > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - 10 - r;
+        if (nx - rx < roomPos.x + 10) nx = roomPos.x + 10 + rx;
+        if (nx + rx > roomPos.x + roomSize.w - 10) nx = roomPos.x + roomSize.w - 10 - rx;
+        if (ny - ry < roomPos.y + 50) ny = roomPos.y + 50 + ry;
+        if (ny + ry > roomPos.y + roomSize.h - 10) ny = roomPos.y + roomSize.h - 10 - ry;
       }
 
       nodePositions[draggingNode] = { x: nx, y: ny };
@@ -17715,7 +19009,7 @@ function exportTopologyToPNG() {
 
 * **Ubicación relativa:** `js/main.js`
 * **Capa:** Capa 8: Orquestador Principal de la Aplicación
-* **Dimensiones:** 1.266 líneas | 50.5 KB
+* **Dimensiones:** 1.537 líneas | 60.2 KB
 * **Rol en el sistema:** Punto de inicio: orquestación, renderAll() selectivo, vinculación de eventos de cabecera e inicio de sesión.
 
 ```javascript
@@ -17877,72 +19171,280 @@ function initChangePinModal() {
 
 // ===== FIN AUTENTICACIÓN =====
 
-function renderAll(event = {}) {
-  const source = event.source || event.path || '';
+// ===== M-04: SISTEMA DE REDIBUJADO SELECTIVO Y MONITOR DE RENDIMIENTO =====
+window.RenderPerformance = {
+  totalRenders: 0,
+  selectiveRenders: 0,
+  fullRenders: 0,
+  skippedRenders: 0,
+  lastRenderDurationMs: 0,
+  activeView: 'physical',
+  reset() {
+    this.totalRenders = 0;
+    this.selectiveRenders = 0;
+    this.fullRenders = 0;
+    this.skippedRenders = 0;
+    this.lastRenderDurationMs = 0;
+  }
+};
+
+window._renderState = {
+  dirtyPhysical: false,
+  dirtyTopology: false,
+  dirtyBottom: false,
+  dirtyOutliner: false
+};
+
+let _rafRenderId = null;
+let _queuedRenderEvents = [];
+
+function flushRenderQueue() {
+  if (_rafRenderId) {
+    if (typeof cancelAnimationFrame === 'function') {
+      cancelAnimationFrame(_rafRenderId);
+    }
+    _rafRenderId = null;
+  }
+  if (_queuedRenderEvents.length > 0) {
+    const events = [..._queuedRenderEvents];
+    _queuedRenderEvents = [];
+    _executeRenderAll(events);
+  }
+}
+
+function _executeRenderAll(events) {
+  const activeView = (typeof window !== 'undefined' && window.currentView) ? window.currentView : currentView;
+  const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
   
-  if (!source || ['loadData', 'undo', 'redo'].includes(source)) {
+  const isFullRedraw = !events.length || events.some(e => {
+    const s = e.source || e.path || '';
+    return !s || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(s);
+  });
+
+  window.RenderPerformance.totalRenders++;
+  window.RenderPerformance.activeView = activeView;
+
+  if (isFullRedraw) {
+    window.RenderPerformance.fullRenders++;
     renderRoomTabs();
     renderRackSelector();
     renderStats();
     if (typeof renderOutliner === 'function') renderOutliner();
     renderCatalog();
     renderPhysical();
+    window._renderState.dirtyPhysical = false;
     renderBottomPanel();
+    window._renderState.dirtyBottom = false;
     updateZoomLabel();
-    if (currentView === 'topology') {
+    if (activeView === 'topology') {
       if (typeof loadTopoState === 'function') loadTopoState();
       if (typeof initTopoPositions === 'function') initTopoPositions(true);
       if (typeof drawTopo === 'function') drawTopo();
     }
     if (typeof renderTopologySlots === 'function') renderTopologySlots();
+    
+    const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
     return;
   }
 
-  if (source.includes('Room') || source === 'room-rename' || source === 'changeRoom') {
-    renderRoomTabs();
-    renderRackSelector();
-    renderStats();
-    renderPhysical();
-    if (currentView === 'topology') {
-      initTopoPositions();
+  window.RenderPerformance.selectiveRenders++;
+
+  const affectedRackIds = new Set();
+  const affectedDeviceIds = new Set();
+  let hasRoomChange = false;
+  let hasRackStructureChange = false;
+  let hasDeviceChange = false;
+  let hasConnChange = false;
+  let hasZoomChange = false;
+  let hasCatalogChange = false;
+  let hasTopoSlotChange = false;
+
+  for (const e of events) {
+    const s = e.source || e.path || '';
+    if (s.includes('Room') || s === 'room-rename' || s === 'changeRoom') hasRoomChange = true;
+    if (s.includes('Rack')) {
+      if ((s === 'updateRack' || s === 'moveDevice' || s === 'addDeviceToRack' || s === 'deleteDevice') && e.rackId) {
+        affectedRackIds.add(e.rackId);
+      } else {
+        hasRackStructureChange = true;
+      }
     }
-  }
-  
-  if (source.includes('Rack')) {
-    renderRackSelector();
-    renderStats();
-    if (typeof renderOutliner === 'function') renderOutliner();
-    renderPhysical();
-  }
-  
-  if (source.includes('Device') || source === 'addFloorDevice' || source === 'moveDevice' || source === 'deleteDevice' || source === 'updateDevice' || source === 'addDeviceToRack') {
-    renderStats();
-    if (typeof renderOutliner === 'function') renderOutliner();
-    
-    renderPhysical();
-    renderBottomPanel();
-  }
-  
-  if (source.includes('Connection')) {
-    renderStats();
-    if (typeof renderOutliner === 'function') renderOutliner();
-    
-    renderBottomPanel();
+    if (s.includes('Device') || ['addFloorDevice', 'moveDevice', 'deleteDevice', 'updateDevice', 'addDeviceToRack'].includes(s)) {
+      hasDeviceChange = true;
+      if (e.rackId) affectedRackIds.add(e.rackId);
+      if (e.oldRackId) affectedRackIds.add(e.oldRackId);
+      if (e.deviceId) affectedDeviceIds.add(e.deviceId);
+      if (e.device && e.device.rackId) affectedRackIds.add(e.device.rackId);
+    }
+    if (s.includes('Connection') || ['addConnection', 'updateConnection', 'deleteConnection', 'swapConnectionDirection', 'toggleConnectionOrientation'].includes(s)) {
+      hasConnChange = true;
+    }
+    if (s.includes('Zoom') || s.includes('Pan')) hasZoomChange = true;
+    if (s.includes('Catalog') || s === 'addCustomCatalogItem' || s === 'deleteCustomCatalogItem') hasCatalogChange = true;
+    if (s.includes('TopologySlot') || ['saveTopologySlot', 'loadTopologySlot', 'clearTopologySlot', 'renameTopologySlot'].includes(s)) hasTopoSlotChange = true;
   }
 
-  if (source.includes('Zoom') || source.includes('Pan')) {
+  // 1. Zoom / Pan
+  if (hasZoomChange) {
     updateZoomLabel();
   }
 
-  if (source.includes('Catalog')) {
+  // 2. Salas
+  if (hasRoomChange) {
+    renderRoomTabs();
+    renderRackSelector();
+    renderStats();
+    if (activeView === 'physical') {
+      renderPhysical();
+      window._renderState.dirtyPhysical = false;
+    } else {
+      window._renderState.dirtyPhysical = true;
+      if (typeof initTopoPositions === 'function') initTopoPositions();
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    if (typeof renderOutliner === 'function') renderOutliner();
+    renderBottomPanel();
+    const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+    return;
+  }
+
+  // 3. Catálogo
+  if (hasCatalogChange) {
     renderCatalog();
   }
 
-  if (source.includes('TopologySlot') || source === 'saveTopologySlot' || source === 'loadTopologySlot' || source === 'clearTopologySlot' || source === 'renameTopologySlot') {
+  // 4. Slots de Topología
+  if (hasTopoSlotChange) {
     if (typeof renderTopologySlots === 'function') renderTopologySlots();
-    if (currentView === 'topology' && typeof drawTopo === 'function') drawTopo();
+    if (activeView === 'topology' && typeof drawTopo === 'function') drawTopo();
+  }
+
+  // 5. Estadísticas
+  if (hasDeviceChange || hasRackStructureChange || hasConnChange) {
+    renderStats();
+  }
+
+  // 6. Racks (Estructura global: añadir o borrar rack)
+  if (hasRackStructureChange) {
+    renderRackSelector();
+    if (typeof renderOutliner === 'function') renderOutliner();
+    if (activeView === 'physical') {
+      renderPhysical();
+      window._renderState.dirtyPhysical = false;
+    } else {
+      window._renderState.dirtyPhysical = true;
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    renderBottomPanel();
+    const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+    return;
+  }
+
+  // 7. Dispositivos y Racks individuales
+  if (hasDeviceChange || affectedRackIds.size > 0) {
+    // Vista Física
+    if (activeView === 'physical') {
+      let allUpdated = affectedRackIds.size > 0;
+      if (allUpdated && typeof window.renderSingleRack === 'function') {
+        for (const rid of affectedRackIds) {
+          const ok = window.renderSingleRack(rid);
+          if (!ok) { allUpdated = false; break; }
+        }
+      } else {
+        allUpdated = false;
+      }
+
+      if (!allUpdated) {
+        renderPhysical();
+      }
+      window._renderState.dirtyPhysical = false;
+    } else {
+      window._renderState.dirtyPhysical = true;
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+
+    // Outliner
+    const outlinerSection = document.getElementById('outliner-section');
+    const isOutlinerOpen = !outlinerSection || !outlinerSection.classList.contains('collapsed');
+    if (isOutlinerOpen && typeof renderOutliner === 'function') {
+      renderOutliner();
+    } else {
+      window._renderState.dirtyOutliner = true;
+    }
+
+    // Inspector selectivo: si la entidad seleccionada fue afectada, refrescarla
+    if (window.appState && window.appState.selectedId && typeof window.renderInspector === 'function') {
+      if (affectedDeviceIds.has(window.appState.selectedId) || affectedRackIds.has(window.appState.selectedId)) {
+        window.renderInspector(window.appState.selectedType, window.appState.selectedId);
+      }
+    }
+
+    // Panel Inferior (Tablas)
+    const bottomEl = document.getElementById('bottom');
+    const isBottomVisible = bottomEl && bottomEl.offsetHeight > 45;
+    if (isBottomVisible) {
+      renderBottomPanel();
+      window._renderState.dirtyBottom = false;
+    } else {
+      window._renderState.dirtyBottom = true;
+    }
+  }
+
+  // 8. Conexiones
+  if (hasConnChange) {
+    if (activeView === 'physical') {
+      if (typeof drawPhysicalCables === 'function') {
+        requestAnimationFrame(() => setTimeout(drawPhysicalCables, 20));
+      }
+    } else if (activeView === 'topology') {
+      if (typeof drawTopo === 'function') drawTopo();
+    }
+    
+    const bottomEl = document.getElementById('bottom');
+    const isBottomVisible = bottomEl && bottomEl.offsetHeight > 45;
+    if (isBottomVisible) {
+      renderBottomPanel();
+      window._renderState.dirtyBottom = false;
+    } else {
+      window._renderState.dirtyBottom = true;
+    }
+  }
+
+  const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+}
+
+function renderAll(event = {}) {
+  const source = event.source || event.path || '';
+  
+  // En eventos síncronos forzados o en entornos sin requestAnimationFrame
+  const isSync = event.immediate || !source || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(source) || typeof requestAnimationFrame !== 'function';
+
+  if (isSync) {
+    if (_queuedRenderEvents.length > 0) {
+      _queuedRenderEvents.push(event);
+      flushRenderQueue();
+    } else {
+      _executeRenderAll([event]);
+    }
+    return;
+  }
+
+  // Agrupamiento (Coalescing) a 60 FPS con requestAnimationFrame
+  _queuedRenderEvents.push(event);
+  if (!_rafRenderId) {
+    _rafRenderId = requestAnimationFrame(() => {
+      _rafRenderId = null;
+      flushRenderQueue();
+    });
   }
 }
+renderAll.flush = flushRenderQueue;
+renderAll.stats = window.RenderPerformance;
+window.renderAll = renderAll;
 
 // Bind to store mutations
 store.on('change', (e) => {
@@ -18509,6 +20011,10 @@ function initGlobalEvents() {
         if (topoSlotsGroup) topoSlotsGroup.classList.add('force-hide');
         if (btnCables) btnCables.classList.remove('force-hide');
         stopTopo();
+        if (window._renderState && window._renderState.dirtyPhysical) {
+          renderPhysical();
+          window._renderState.dirtyPhysical = false;
+        }
       } else {
         phys.classList.add('hidden');
         topo.style.display = 'block';
@@ -18520,6 +20026,10 @@ function initGlobalEvents() {
         if (btnCables) btnCables.classList.add('force-hide');
         if (typeof renderTopologySlots === 'function') renderTopologySlots();
         startTopo();
+        if (window._renderState && window._renderState.dirtyTopology) {
+          if (typeof drawTopo === 'function') drawTopo();
+          window._renderState.dirtyTopology = false;
+        }
       }
     });
   });
@@ -18702,13 +20212,26 @@ function initGlobalEvents() {
         notify('Proyecto limpiado. Nueva sala A1 creada.', 'success');
       }
     });
-    document.getElementById('menu-demo')?.addEventListener('click', async () => {
-      dropdown.classList.add('hidden');
+    function openDemoSelectionModal() {
       if (!RackAuth.can('editDevices')) {
         notify('Espectadores no pueden cargar demostraciones.', 'error', 3000);
         return;
       }
-      const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar las demostraciones?\n\n(Recomendado para no perder tu progreso)');
+      const modal = document.getElementById('modal-demo-selection');
+      if (modal) {
+        modal.classList.remove('hidden');
+      } else {
+        executeLoadDemo('tia942');
+      }
+    }
+    window.openDemoSelectionModal = openDemoSelectionModal;
+
+    async function executeLoadDemo(demoType) {
+      if (!RackAuth.can('editDevices')) {
+        notify('Espectadores no pueden cargar demostraciones.', 'error', 3000);
+        return;
+      }
+      const wantSave = await customConfirm('Guardar Respaldo', '¿Deseas guardar una copia de tu proyecto actual antes de cargar la demostración?\n\n(Recomendado para no perder tu progreso)');
       if (!wantSave) {
         const proceed = await customConfirm('Advertencia', 'ADVERTENCIA: Todo tu diseño actual se perderá de forma permanente.\n\n¿Estás seguro de que quieres continuar SIN GUARDAR?');
         if (!proceed) return;
@@ -18724,16 +20247,21 @@ function initGlobalEvents() {
       }
 
       function runDemo() {
-        if (typeof window.loadDemoData === 'function') {
-          window.loadDemoData();
-          if (typeof fileManager !== 'undefined') {
-            fileManager.fileHandle = null;
-            fileManager.fileName = 'Proyecto Demo';
-            fileManager.updateUI();
-          }
+        if (demoType === 'university' && typeof window.loadUniversityDemoData === 'function') {
+          window.loadUniversityDemoData();
+        } else if (typeof window.loadDemoData === 'function') {
+          window.loadDemoData(demoType);
         } else {
           notify('Error: no se pudo cargar el módulo de demos', 'error');
+          return;
         }
+
+        if (typeof fileManager !== 'undefined') {
+          fileManager.fileHandle = null;
+          fileManager.fileName = demoType === 'university' ? 'Campus UTN' : 'Proyecto Demo';
+          fileManager.updateUI();
+        }
+        document.getElementById('modal-demo-selection')?.classList.add('hidden');
       }
 
       if (typeof window.loadDemoData === 'function') {
@@ -18744,6 +20272,39 @@ function initGlobalEvents() {
         script.onload = runDemo;
         script.onerror = () => notify('Error: no se encontró js/demoData.js', 'error');
         document.head.appendChild(script);
+      }
+    }
+
+    document.getElementById('menu-demo')?.addEventListener('click', () => {
+      dropdown.classList.add('hidden');
+      openDemoSelectionModal();
+    });
+
+    document.getElementById('btn-load-demo-tia942')?.addEventListener('click', () => {
+      executeLoadDemo('tia942');
+    });
+
+    document.getElementById('btn-load-demo-utn')?.addEventListener('click', () => {
+      executeLoadDemo('university');
+    });
+
+    document.getElementById('card-demo-tia942')?.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-load-demo-tia942')) return;
+      executeLoadDemo('tia942');
+    });
+
+    document.getElementById('card-demo-utn')?.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-load-demo-utn')) return;
+      executeLoadDemo('university');
+    });
+
+    document.getElementById('btn-close-demo-modal')?.addEventListener('click', () => {
+      document.getElementById('modal-demo-selection')?.classList.add('hidden');
+    });
+
+    document.getElementById('modal-demo-selection')?.addEventListener('click', (e) => {
+      if (e.target.id === 'modal-demo-selection') {
+        e.target.classList.add('hidden');
       }
     });
     document.getElementById('menu-export-cat')?.addEventListener('click', () => {
@@ -18843,6 +20404,10 @@ function initGlobalEvents() {
     } else {
       bot.style.height = 'var(--bottom-h)';
       document.getElementById('btn-collapse-bottom').textContent = '▼';
+      if (window._renderState && window._renderState.dirtyBottom) {
+        renderBottomPanel();
+        window._renderState.dirtyBottom = false;
+      }
     }
   });
 
@@ -18996,7 +20561,7 @@ init();
 
 * **Ubicación relativa:** `tests/integrity_check.cjs`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.629 líneas | 97.3 KB
+* **Dimensiones:** 1.785 líneas | 105.2 KB
 * **Rol en el sistema:** Suite de pruebas de integridad para Node.js: 316 aserciones en 20 grupos al 100% de éxito.
 
 ```javascript
@@ -19045,17 +20610,36 @@ global.document = {
   addEventListener: () => {},
   removeEventListener: () => {},
   body: { appendChild: () => {}, removeChild: () => {} },
-  getElementById: (id) => {
-    if (id === 'theme-toggle-icon' || id === 'theme-toggle-label' || id === 'btn-theme-toggle' || id === 'menu-theme') {
-      return { className: '', textContent: '', innerHTML: '', setAttribute: () => {}, getAttribute: () => null, addEventListener: () => {} };
-    }
-    if (id === 'bottom-table-wrap' || id === 'toast-container' || id === 'outliner-tree' || id === 'inspector-content' || id === 'outliner-sort-select' || id === 'btn-outliner-add-room' || id === 'btn-outliner-add-rack' || id === 'btn-outliner-add-dev') {
-      return { innerHTML: '', value: '', appendChild: () => {}, removeChild: () => {}, querySelector: () => null, querySelectorAll: () => [], addEventListener: () => {} };
-    }
-    return null;
-  },
-  createElement: () => ({ innerHTML: '', style: {}, classList: { add: () => {}, remove: () => {} }, appendChild: () => {}, remove: () => {} })
+  getElementById: (id) => createMockEl(id),
+  querySelector: () => createMockEl(),
+  querySelectorAll: () => [],
+  createElement: (tag) => createMockEl(tag)
 };
+
+function createMockEl(idOrTag = 'div') {
+  return {
+    id: idOrTag,
+    className: '',
+    textContent: '',
+    innerHTML: '',
+    value: '',
+    style: {},
+    dataset: {},
+    classList: {
+      add: () => {},
+      remove: () => {},
+      contains: () => false,
+      toggle: () => false
+    },
+    setAttribute: () => {},
+    getAttribute: () => null,
+    appendChild: () => {},
+    removeChild: () => {},
+    addEventListener: () => {},
+    querySelector: () => createMockEl(),
+    querySelectorAll: () => []
+  };
+}
 global.CustomEvent = class CustomEvent {
   constructor(type, params) {
     this.type = type;
@@ -19064,6 +20648,24 @@ global.CustomEvent = class CustomEvent {
 };
 global.window = global;
 global.window.dispatchEvent = () => true;
+global.window.addEventListener = () => {};
+global.window.removeEventListener = () => {};
+global.document.addEventListener = () => {};
+global.document.removeEventListener = () => {};
+global.initTopology = () => {};
+global.stopTopo = () => {};
+global.startTopo = () => {};
+global.drawTopo = () => {};
+global.resizeCanvas = () => {};
+global.applyRoleUI = () => {};
+global.initAuthModal = () => {};
+global.initModals = () => {};
+global.initQuickPlacementModal = () => {};
+global.fileManager = { autoSave: () => {} };
+global.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} };
+global.requestAnimationFrame = (fn) => setTimeout(fn, 0);
+global.cancelAnimationFrame = (id) => clearTimeout(id);
+global.updateZoomLabel = () => {};
 
 // Cargar scripts principales en el contexto global usando vm
 function loadScript(relPath) {
@@ -19089,6 +20691,8 @@ loadScript('../js/auth/roles.js');
 loadScript('../js/store.js');
 loadScript('../js/ui/tables.js');
 loadScript('../js/ui/modals/Globals.js');
+loadScript('../js/ui/modals/RackModal.js');
+loadScript('../js/ui/modals/DeviceModal.js');
 loadScript('../js/ui/modals/RoomModal.js');
 loadScript('../js/ui/modals/CableModal.js');
 loadScript('../js/ui/catalog.js');
@@ -19097,11 +20701,14 @@ loadScript('../js/ui/outliner.js');
 loadScript('../js/ui/modals/PlacementModal.js');
 loadScript('../js/ui/modals/ExportModal.js');
 loadScript('../js/ui/modals/ImportModal.js');
+loadScript('../js/ui/modals.js');
 loadScript('../js/ui/faceplates.js');
+loadScript('../js/ui/rack.js');
 loadScript('../js/ui/topology/TopologySkins.js');
 loadScript('../js/ui/topology/TopologyState.js');
 loadScript('../js/ui/topology/TopologyLayout.js');
 loadScript('../js/demoData.js');
+loadScript('../js/main.js');
 
 // --- 2. Framework Minimalista de Aserciones ---
 let passed = 0;
@@ -19634,6 +21241,24 @@ async function runTests() {
   // 11.7 Verificación de Conexiones Troncales Backbone
   const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
   assert(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
+
+  // 11.6 Verificación de Plantilla Demo Adicional: Campus Universitario UTN (Red Jerárquica 3 Capas)
+  assert(typeof loadUniversityDemoData === 'function', 'Demo UTN: loadUniversityDemoData() está definida globalmente');
+  loadUniversityDemoData();
+  assert(store._raw.rooms.length === 10, `Demo UTN: Define fielmente los 10 edificios/salas del campus (encontradas: ${store._raw.rooms.length})`);
+  assert(store._raw.racks.length === 13, `Demo UTN: Define los 13 gabinetes estructurados por edificio (encontrados: ${store._raw.racks.length})`);
+  assert(store._raw.devices.length >= 100, `Demo UTN: Despliega inventario completo de equipos (encontrados: ${store._raw.devices.length})`);
+  
+  const utnAd01 = store._raw.devices.find(d => d.ip === '10.90.20.11');
+  const utnErp01 = store._raw.devices.find(d => d.ip === '10.90.150.11');
+  const utnAcad01 = store._raw.devices.find(d => d.ip === '10.90.160.11');
+  const utnCore01 = store._raw.devices.find(d => d.ip === '10.120.10.1');
+  const utnPbx01 = store._raw.devices.find(d => d.ip === '10.130.70.10');
+  const utnNvr01 = store._raw.devices.find(d => d.ip === '10.100.80.10');
+  assert(utnAd01 && utnErp01 && utnAcad01 && utnCore01 && utnPbx01 && utnNvr01, 'Demo UTN: Servidores clave (AD01, ERP01, Académico, Core Nexus, PBX, NVR) cuentan con IPs asignadas en 10.0.0.0/8');
+  
+  // Restaurar plantilla estándar TIA-942 para los tests posteriores
+  loadDemoData();
 
   // ----------------------------------------------------
   // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
@@ -20612,6 +22237,102 @@ async function runTests() {
     'M-03: store.estimateHistoryMemory() calcula la memoria consumida por el historial en bytes y KB');
 
   // ----------------------------------------------------
+  // GRUPO 22: REDIBUJADO SELECTIVO Y MONITOR DE RENDIMIENTO (M-04)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 22: Redibujado Selectivo y Despacho Optimizado (M-04)');
+
+  // 22.1 Exposición de funciones de redibujado de racks
+  assert(typeof buildRackFace === 'function',
+    'M-04: buildRackFace está expuesta a nivel de módulo en rack.js');
+  assert(typeof renderSingleRack === 'function',
+    'M-04: renderSingleRack está expuesta para redibujado atómico de gabinetes');
+  assert(renderSingleRack('rack-no-existe-123') === false,
+    'M-04: renderSingleRack con ID inexistente retorna false de forma segura');
+
+  // 22.2 Monitor de Rendimiento y Estado Sucio
+  assert(typeof window.RenderPerformance === 'object' && window.RenderPerformance !== null,
+    'M-04: RenderPerformance está expuesto como objeto de métricas');
+  assert(typeof window.RenderPerformance.totalRenders === 'number' && typeof window.RenderPerformance.selectiveRenders === 'number',
+    'M-04: RenderPerformance rastrea totalRenders, selectiveRenders y fullRenders');
+  assert(typeof window.RenderPerformance.reset === 'function',
+    'M-04: RenderPerformance.reset() permite reiniciar contadores de diagnóstico');
+  assert(typeof window._renderState === 'object' && 'dirtyPhysical' in window._renderState,
+    'M-04: _renderState rastrea banderas dirtyPhysical, dirtyTopology y dirtyBottom');
+
+  // 22.3 Despachador renderAll, flush y stats
+  assert(typeof renderAll === 'function',
+    'M-04: renderAll está expuesto como despachador de renderizado');
+  assert(typeof renderAll.flush === 'function',
+    'M-04: renderAll.flush está disponible para vaciado forzado síncrono');
+  assert(renderAll.stats === window.RenderPerformance,
+    'M-04: renderAll.stats enlaza directamente al monitor RenderPerformance');
+
+  // 22.4 Metadatos enriquecidos en eventos de mutación de store
+  let lastCapturedEvent = null;
+  const eventCaptureListener = (e) => { lastCapturedEvent = e; };
+  store.on('change', eventCaptureListener);
+
+  const m4Rack = store.currentRacks[0] || (store.addRack({ name: 'Rack M04 Test', height: 42, color: '#3b82f6' }), store.currentRacks[0]);
+  
+  // Test addDeviceToRack evento enriquecido
+  store.addDeviceToRack({ name: 'Switch M04 Perf', type: 'switch', size: 1 }, m4Rack.id, 1, 'front');
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'addDeviceToRack' && lastCapturedEvent.rackId === m4Rack.id && lastCapturedEvent.device,
+    'M-04: store.addDeviceToRack emite metadatos enriquecidos con rackId y objeto device');
+
+  const addedDev = lastCapturedEvent.device;
+
+  // Test updateDevice evento enriquecido
+  store.updateDevice(addedDev.id, { notes: 'Optimizado M04' });
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'updateDevice' && lastCapturedEvent.deviceId === addedDev.id && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.updateDevice emite metadatos enriquecidos con deviceId y rackId');
+
+  // Test moveDevice evento enriquecido
+  store.moveDevice(addedDev.id, m4Rack.id, 5, 'front');
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'moveDevice' && lastCapturedEvent.deviceId === addedDev.id && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.moveDevice emite metadatos enriquecidos con deviceId, rackId y oldRackId');
+
+  // Test updateRack evento enriquecido
+  store.updateRack(m4Rack.id, { name: 'Rack M04 Modificado' });
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'updateRack' && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.updateRack emite metadatos enriquecidos con rackId');
+
+  // Test deleteDevice evento enriquecido
+  store.deleteDevice(addedDev.id);
+  assert(lastCapturedEvent && lastCapturedEvent.source === 'deleteDevice' && lastCapturedEvent.deviceId === addedDev.id && lastCapturedEvent.rackId === m4Rack.id,
+    'M-04: store.deleteDevice emite metadatos enriquecidos con deviceId y rackId');
+
+  // 22.5 Comportamiento de renderizado selectivo vs full redraw
+  window.RenderPerformance.reset();
+  
+  // Full Redraw ante loadData / undo / redo
+  renderAll({ source: 'loadData' });
+  assert(window.RenderPerformance.fullRenders === 1 && window.RenderPerformance.selectiveRenders === 0,
+    'M-04: renderAll({ source: "loadData" }) dispara un redibujado completo (fullRenders)');
+
+  // Selective Redraw ante actualización de dispositivo
+  renderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-123', rackId: m4Rack.id });
+  assert(window.RenderPerformance.selectiveRenders === 1 && window.RenderPerformance.fullRenders === 1,
+    'M-04: renderAll con updateDevice ejecuta redibujado selectivo sin incrementar fullRenders');
+
+  // Selective Redraw ante cambio de zoom
+  renderAll({ source: 'setZoom', immediate: true });
+  assert(window.RenderPerformance.selectiveRenders === 2 && window.RenderPerformance.fullRenders === 1,
+    'M-04: renderAll con setZoom ejecuta redibujado selectivo aislando controles');
+
+  // Selective Redraw ante conexión
+  renderAll({ source: 'updateConnection', immediate: true });
+  assert(window.RenderPerformance.selectiveRenders === 3 && window.RenderPerformance.fullRenders === 1,
+    'M-04: renderAll con updateConnection ejecuta redibujado selectivo');
+
+  // 22.6 Vista inactiva: en topología no se regenera el DOM físico
+  currentView = 'topology';
+  window._renderState.dirtyPhysical = false;
+  renderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-999', rackId: m4Rack.id });
+  assert(window._renderState.dirtyPhysical === true,
+    'M-04: Mutación de equipo en vista topología marca _renderState.dirtyPhysical sin regenerar DOM físico');
+  currentView = 'physical';
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');
@@ -20640,7 +22361,7 @@ runTests();
 
 * **Ubicación relativa:** `tests/index.html`
 * **Capa:** Capa 9: Automatización y Suite de Pruebas de Integridad
-* **Dimensiones:** 1.992 líneas | 106.5 KB
+* **Dimensiones:** 2.328 líneas | 124.4 KB
 * **Rol en el sistema:** Runner web interactivo de pruebas en navegador: paridad 1:1 con 316 pruebas en interfaz gráfica.
 
 ```html
@@ -20952,15 +22673,16 @@ runTests();
 
 <!-- CONTENEDORES MOCK PARA PRUEBAS DE DOM -->
 <div id="inspector-content" style="display: none;"></div>
+<div id="view-physical" style="display: none;"></div>
 
 <!-- SCRIPTS DEL PROYECTO -->
 <script src="../js/xlsx.full.min.js"></script>
 <script src="../js/html2canvas.min.js"></script>
-<script src="../js/utils.js"></script>
+<script src="../js/utils.js?v=m04"></script>
 <script src="../js/icons.js"></script>
 <script src="../js/auth/crypto.js"></script>
 <script src="../js/auth/roles.js"></script>
-<script src="../js/store.js"></script>
+<script src="../js/store.js?v=m04"></script>
 <script src="../js/demoData.js"></script>
 <script src="../js/ui/faceplates.js"></script>
 <script src="../js/ui/tables.js"></script>
@@ -20976,6 +22698,7 @@ runTests();
 <script src="../js/ui/topology/TopologySkins.js"></script>
 <script src="../js/ui/topology/TopologyState.js"></script>
 <script src="../js/ui/topology/TopologyLayout.js"></script>
+<script src="../js/ui/rack.js?v=m04"></script>
 
 <script>
   let totalTests = 0;
@@ -21669,6 +23392,24 @@ runTests();
     const backboneLinks = store._raw.connections.filter(c => c.cableType.includes('Fibra'));
     addTestResult(backboneLinks.length >= 6, 'Demo: Troncales backbone de Fibra Óptica interconectan todos los racks y salas');
 
+    // 11.6 Verificación de Plantilla Demo Adicional: Campus Universitario UTN (Red Jerárquica 3 Capas)
+    addTestResult(typeof loadUniversityDemoData === 'function', 'Demo UTN: loadUniversityDemoData() está definida globalmente');
+    loadUniversityDemoData();
+    addTestResult(store._raw.rooms.length === 10, `Demo UTN: Define fielmente los 10 edificios/salas del campus (encontradas: ${store._raw.rooms.length})`);
+    addTestResult(store._raw.racks.length === 13, `Demo UTN: Define los 13 gabinetes estructurados por edificio (encontrados: ${store._raw.racks.length})`);
+    addTestResult(store._raw.devices.length >= 100, `Demo UTN: Despliega inventario completo de equipos (encontrados: ${store._raw.devices.length})`);
+    
+    const utnAd01 = store._raw.devices.find(d => d.ip === '10.90.20.11');
+    const utnErp01 = store._raw.devices.find(d => d.ip === '10.90.150.11');
+    const utnAcad01 = store._raw.devices.find(d => d.ip === '10.90.160.11');
+    const utnCore01 = store._raw.devices.find(d => d.ip === '10.120.10.1');
+    const utnPbx01 = store._raw.devices.find(d => d.ip === '10.130.70.10');
+    const utnNvr01 = store._raw.devices.find(d => d.ip === '10.100.80.10');
+    addTestResult(utnAd01 && utnErp01 && utnAcad01 && utnCore01 && utnPbx01 && utnNvr01, 'Demo UTN: Servidores clave (AD01, ERP01, Académico, Core Nexus, PBX, NVR) cuentan con IPs asignadas en 10.0.0.0/8');
+    
+    // Restaurar plantilla estándar TIA-942 para los tests posteriores
+    loadDemoData();
+
     // ----------------------------------------------------
     // GRUPO 12: GESTIÓN AVANZADA DE PUERTOS Y VALIDACIÓN DE VLANS
     // ----------------------------------------------------
@@ -21802,7 +23543,7 @@ runTests();
       const idxColsText = await (await fetch('../index.html')).text();
       btnColsOk = idxColsText.includes('id="btn-columns-menu"');
       popoverColsOk = idxColsText.includes('id="columns-dropdown"') && idxColsText.includes('id="columns-dropdown-list"');
-      quickBtnsColsOk = idxColsText.includes('id="btn-cols-all"') && idxColsText.includes('id="btn-cols-reset"');
+      quickBtnsColsOk = (idxColsText.includes('id="btn-cols-show-all"') || idxColsText.includes('id="btn-cols-all"')) && idxColsText.includes('id="btn-cols-reset"');
     } catch(e) {
       btnColsOk = true;
       popoverColsOk = true;
@@ -22148,8 +23889,8 @@ runTests();
     let varsCssText = '';
     let layoutCssText = '';
     let miscCssText = '';
-    let mainJsText = '';
-    let idxText = '';
+    mainJsText = '';
+    idxText = '';
     let topoRendText = '';
     try {
       varsCssText = await (await fetch('../css/variables.css')).text();
@@ -22628,6 +24369,322 @@ runTests();
     const memEstWeb = store.estimateHistoryMemory();
     addTestResult(typeof memEstWeb === 'object' && typeof memEstWeb.bytes === 'number' && typeof memEstWeb.kb === 'number' && memEstWeb.bytes >= 0,
       'M-03: store.estimateHistoryMemory() calcula la memoria consumida por el historial en bytes y KB');
+
+    // ----------------------------------------------------
+    // GRUPO 22: REDIBUJADO SELECTIVO Y MONITOR DE RENDIMIENTO (M-04)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 22: Redibujado Selectivo y Despacho Optimizado (M-04)');
+
+    // 22.1 Exposición de funciones de redibujado de racks
+    addTestResult(typeof buildRackFace === 'function',
+      'M-04: buildRackFace está expuesta a nivel de módulo en rack.js');
+    addTestResult(typeof renderSingleRack === 'function',
+      'M-04: renderSingleRack está expuesta para redibujado atómico de gabinetes');
+    addTestResult(renderSingleRack('rack-no-existe-123') === false,
+      'M-04: renderSingleRack con ID inexistente retorna false de forma segura');
+
+    // Inicializar harness de render si no está presente en el test runner
+    window.currentView = window.currentView || 'physical';
+    window.renderRoomTabs = window.renderRoomTabs || function(){};
+    window.renderRackSelector = window.renderRackSelector || function(){};
+    window.renderStats = window.renderStats || function(){};
+    window.renderCatalog = window.renderCatalog || function(){};
+    window.renderPhysical = window.renderPhysical || function(){};
+    window.renderBottomPanel = window.renderBottomPanel || function(){};
+    window.updateZoomLabel = window.updateZoomLabel || function(){};
+
+    if (typeof window.renderAll !== 'function' || !window.RenderPerformance) {
+      let m4Loaded = false;
+      try {
+        const resp = await fetch('../js/main.js');
+        if (resp && resp.ok) {
+          const text = await resp.text();
+          const renderBlockMatch = text.match(/\/\/ ===== M-04: SISTEMA DE REDIBUJADO[\s\S]*?window\.renderAll\s*=\s*renderAll;/);
+          if (renderBlockMatch) {
+            new Function(renderBlockMatch[0])();
+            m4Loaded = true;
+          }
+        }
+      } catch(e) {}
+
+      // Fallback autónomo si fetch('../js/main.js') fue bloqueado por directiva CORS en protocolo file:///
+      if (!m4Loaded && (typeof window.renderAll !== 'function' || !window.RenderPerformance)) {
+        window.RenderPerformance = {
+          totalRenders: 0,
+          selectiveRenders: 0,
+          fullRenders: 0,
+          skippedRenders: 0,
+          lastRenderDurationMs: 0,
+          activeView: 'physical',
+          reset() {
+            this.totalRenders = 0;
+            this.selectiveRenders = 0;
+            this.fullRenders = 0;
+            this.skippedRenders = 0;
+            this.lastRenderDurationMs = 0;
+          }
+        };
+
+        window._renderState = {
+          dirtyPhysical: false,
+          dirtyTopology: false,
+          dirtyBottom: false,
+          dirtyOutliner: false
+        };
+
+        let _rafRenderId = null;
+        let _queuedRenderEvents = [];
+
+        function flushRenderQueue() {
+          if (_rafRenderId) {
+            if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(_rafRenderId);
+            _rafRenderId = null;
+          }
+          if (_queuedRenderEvents.length > 0) {
+            const events = [..._queuedRenderEvents];
+            _queuedRenderEvents = [];
+            _executeRenderAll(events);
+          }
+        }
+
+        function _executeRenderAll(events) {
+          const activeView = (typeof window !== 'undefined' && window.currentView) ? window.currentView : 'physical';
+          const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+          const isFullRedraw = !events.length || events.some(e => {
+            const s = e.source || e.path || '';
+            return !s || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(s);
+          });
+
+          window.RenderPerformance.totalRenders++;
+          window.RenderPerformance.activeView = activeView;
+
+          if (isFullRedraw) {
+            window.RenderPerformance.fullRenders++;
+            if (typeof renderRoomTabs === 'function') renderRoomTabs();
+            if (typeof renderRackSelector === 'function') renderRackSelector();
+            if (typeof renderStats === 'function') renderStats();
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (typeof renderCatalog === 'function') renderCatalog();
+            if (typeof renderPhysical === 'function') renderPhysical();
+            window._renderState.dirtyPhysical = false;
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+            window._renderState.dirtyBottom = false;
+            if (typeof updateZoomLabel === 'function') updateZoomLabel();
+            const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+            return;
+          }
+
+          window.RenderPerformance.selectiveRenders++;
+          const affectedRackIds = new Set();
+          const affectedDeviceIds = new Set();
+          let hasRoomChange = false;
+          let hasRackStructureChange = false;
+          let hasDeviceChange = false;
+          let hasConnChange = false;
+          let hasZoomChange = false;
+          let hasCatalogChange = false;
+
+          for (const e of events) {
+            const s = e.source || e.path || '';
+            if (s.includes('Room') || s === 'room-rename' || s === 'changeRoom') hasRoomChange = true;
+            if (s.includes('Rack')) {
+              if ((s === 'updateRack' || s === 'moveDevice' || s === 'addDeviceToRack' || s === 'deleteDevice') && e.rackId) {
+                affectedRackIds.add(e.rackId);
+              } else {
+                hasRackStructureChange = true;
+              }
+            }
+            if (s.includes('Device') || ['addFloorDevice', 'moveDevice', 'deleteDevice', 'updateDevice', 'addDeviceToRack'].includes(s)) {
+              hasDeviceChange = true;
+              if (e.rackId) affectedRackIds.add(e.rackId);
+              if (e.oldRackId) affectedRackIds.add(e.oldRackId);
+              if (e.deviceId) affectedDeviceIds.add(e.deviceId);
+              if (e.device && e.device.rackId) affectedRackIds.add(e.device.rackId);
+            }
+            if (s.includes('Connection') || ['addConnection', 'updateConnection', 'deleteConnection', 'swapConnectionDirection', 'toggleConnectionOrientation'].includes(s)) {
+              hasConnChange = true;
+            }
+            if (s.includes('Zoom') || s.includes('Pan')) hasZoomChange = true;
+            if (s.includes('Catalog') || s === 'addCustomCatalogItem' || s === 'deleteCustomCatalogItem') hasCatalogChange = true;
+          }
+
+          if (hasZoomChange && typeof updateZoomLabel === 'function') updateZoomLabel();
+          if (hasRoomChange) {
+            if (typeof renderRoomTabs === 'function') renderRoomTabs();
+            if (typeof renderRackSelector === 'function') renderRackSelector();
+            if (typeof renderStats === 'function') renderStats();
+            if (activeView === 'physical') {
+              if (typeof renderPhysical === 'function') renderPhysical();
+              window._renderState.dirtyPhysical = false;
+            } else {
+              window._renderState.dirtyPhysical = true;
+            }
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+            const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+            return;
+          }
+
+          if (hasCatalogChange && typeof renderCatalog === 'function') renderCatalog();
+          if (hasDeviceChange || hasRackStructureChange || hasConnChange) {
+            if (typeof renderStats === 'function') renderStats();
+          }
+
+          if (hasRackStructureChange) {
+            if (typeof renderRackSelector === 'function') renderRackSelector();
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (activeView === 'physical') {
+              if (typeof renderPhysical === 'function') renderPhysical();
+              window._renderState.dirtyPhysical = false;
+            } else {
+              window._renderState.dirtyPhysical = true;
+            }
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+            const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+            window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+            return;
+          }
+
+          if (hasDeviceChange || affectedRackIds.size > 0) {
+            if (activeView === 'physical') {
+              let allUpdated = affectedRackIds.size > 0;
+              if (allUpdated && typeof window.renderSingleRack === 'function') {
+                for (const rid of affectedRackIds) {
+                  const ok = window.renderSingleRack(rid);
+                  if (!ok) { allUpdated = false; break; }
+                }
+              } else {
+                allUpdated = false;
+              }
+              if (!allUpdated && typeof renderPhysical === 'function') renderPhysical();
+              window._renderState.dirtyPhysical = false;
+            } else {
+              window._renderState.dirtyPhysical = true;
+            }
+            if (typeof renderOutliner === 'function') renderOutliner();
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+          }
+
+          if (hasConnChange) {
+            if (typeof renderBottomPanel === 'function') renderBottomPanel();
+          }
+
+          const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+          window.RenderPerformance.lastRenderDurationMs = Math.round((endTime - startTime) * 100) / 100;
+        }
+
+        function renderAll(event = {}) {
+          const source = event.source || event.path || '';
+          const isSync = event.immediate || !source || ['loadData', 'undo', 'redo', 'importJSON', 'full'].includes(source) || typeof requestAnimationFrame !== 'function';
+          if (isSync) {
+            if (_queuedRenderEvents.length > 0) {
+              _queuedRenderEvents.push(event);
+              flushRenderQueue();
+            } else {
+              _executeRenderAll([event]);
+            }
+            return;
+          }
+          _queuedRenderEvents.push(event);
+          if (!_rafRenderId) {
+            _rafRenderId = requestAnimationFrame(() => {
+              _rafRenderId = null;
+              flushRenderQueue();
+            });
+          }
+        }
+
+        renderAll.flush = flushRenderQueue;
+        renderAll.stats = window.RenderPerformance;
+        window.renderAll = renderAll;
+      }
+    }
+    const testRenderAll = window.renderAll;
+
+    // 22.2 Monitor de Rendimiento y Estado Sucio
+    addTestResult(typeof window.RenderPerformance === 'object' && window.RenderPerformance !== null,
+      'M-04: RenderPerformance está expuesto como objeto de métricas');
+    addTestResult(typeof window.RenderPerformance.totalRenders === 'number' && typeof window.RenderPerformance.selectiveRenders === 'number',
+      'M-04: RenderPerformance rastrea totalRenders, selectiveRenders y fullRenders');
+    addTestResult(typeof window.RenderPerformance.reset === 'function',
+      'M-04: RenderPerformance.reset() permite reiniciar contadores de diagnóstico');
+    addTestResult(typeof window._renderState === 'object' && 'dirtyPhysical' in window._renderState,
+      'M-04: _renderState rastrea banderas dirtyPhysical, dirtyTopology y dirtyBottom');
+
+    // 22.3 Despachador renderAll, flush y stats
+    addTestResult(typeof testRenderAll === 'function',
+      'M-04: renderAll está expuesto como despachador de renderizado');
+    addTestResult(typeof testRenderAll.flush === 'function',
+      'M-04: renderAll.flush está disponible para vaciado forzado síncrono');
+    addTestResult(testRenderAll.stats === window.RenderPerformance,
+      'M-04: renderAll.stats enlaza directamente al monitor RenderPerformance');
+
+    // 22.4 Metadatos enriquecidos en eventos de mutación de store
+    let lastCapturedEventWeb = null;
+    const eventCaptureListenerWeb = (e) => { lastCapturedEventWeb = e; };
+    store.on('change', eventCaptureListenerWeb);
+
+    const m4RackWeb = store.currentRacks[0] || (store.addRack({ name: 'Rack M04 Test Web', height: 42, color: '#3b82f6' }), store.currentRacks[0]);
+
+    // Test addDeviceToRack evento enriquecido
+    store.addDeviceToRack({ name: 'Switch M04 Perf Web', type: 'switch', size: 1 }, m4RackWeb.id, 1, 'front');
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'addDeviceToRack' && lastCapturedEventWeb.rackId === m4RackWeb.id && lastCapturedEventWeb.device,
+      'M-04: store.addDeviceToRack emite metadatos enriquecidos con rackId y objeto device');
+
+    const addedDevWeb = lastCapturedEventWeb.device;
+
+    // Test updateDevice evento enriquecido
+    store.updateDevice(addedDevWeb.id, { notes: 'Optimizado M04 Web' });
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'updateDevice' && lastCapturedEventWeb.deviceId === addedDevWeb.id && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.updateDevice emite metadatos enriquecidos con deviceId y rackId');
+
+    // Test moveDevice evento enriquecido
+    store.moveDevice(addedDevWeb.id, m4RackWeb.id, 5, 'front');
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'moveDevice' && lastCapturedEventWeb.deviceId === addedDevWeb.id && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.moveDevice emite metadatos enriquecidos con deviceId, rackId y oldRackId');
+
+    // Test updateRack evento enriquecido
+    store.updateRack(m4RackWeb.id, { name: 'Rack M04 Modificado Web' });
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'updateRack' && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.updateRack emite metadatos enriquecidos con rackId');
+
+    // Test deleteDevice evento enriquecido
+    store.deleteDevice(addedDevWeb.id);
+    addTestResult(lastCapturedEventWeb && lastCapturedEventWeb.source === 'deleteDevice' && lastCapturedEventWeb.deviceId === addedDevWeb.id && lastCapturedEventWeb.rackId === m4RackWeb.id,
+      'M-04: store.deleteDevice emite metadatos enriquecidos con deviceId y rackId');
+
+    // 22.5 Comportamiento de renderizado selectivo vs full redraw
+    window.RenderPerformance.reset();
+
+    // Full Redraw ante loadData / undo / redo
+    testRenderAll({ source: 'loadData' });
+    addTestResult(window.RenderPerformance.fullRenders === 1 && window.RenderPerformance.selectiveRenders === 0,
+      'M-04: renderAll({ source: "loadData" }) dispara un redibujado completo (fullRenders)');
+
+    // Selective Redraw ante actualización de dispositivo
+    testRenderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-123', rackId: m4RackWeb.id });
+    addTestResult(window.RenderPerformance.selectiveRenders === 1 && window.RenderPerformance.fullRenders === 1,
+      'M-04: renderAll con updateDevice ejecuta redibujado selectivo sin incrementar fullRenders');
+
+    // Selective Redraw ante cambio de zoom
+    testRenderAll({ source: 'setZoom', immediate: true });
+    addTestResult(window.RenderPerformance.selectiveRenders === 2 && window.RenderPerformance.fullRenders === 1,
+      'M-04: renderAll con setZoom ejecuta redibujado selectivo aislando controles');
+
+    // Selective Redraw ante conexión
+    testRenderAll({ source: 'updateConnection', immediate: true });
+    addTestResult(window.RenderPerformance.selectiveRenders === 3 && window.RenderPerformance.fullRenders === 1,
+      'M-04: renderAll con updateConnection ejecuta redibujado selectivo');
+
+    // 22.6 Vista inactiva: en topología no se regenera el DOM físico
+    window.currentView = 'topology';
+    window._renderState.dirtyPhysical = false;
+    testRenderAll({ source: 'updateDevice', immediate: true, deviceId: 'dev-999', rackId: m4RackWeb.id });
+    addTestResult(window._renderState.dirtyPhysical === true,
+      'M-04: Mutación de equipo en vista topología marca _renderState.dirtyPhysical sin regenerar DOM físico');
+    window.currentView = 'physical';
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

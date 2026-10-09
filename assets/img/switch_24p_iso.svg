@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Sombra suave en el suelo -->
+    <filter id="shadowSwitch" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#020617" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- SOMBRA BASE EN EL SUELO -->
+  <polygon points="40,240 200,147 360,240 200,332" fill="#000000" opacity="0.12"/>
+
+  <!-- ======================================================== -->
+  <!-- CHASIS DEL SWITCH RACK 1U (Robusto, horizontal y nítido)   -->
+  <!-- ======================================================== -->
+  <g id="switch-chassis" filter="url(#shadowSwitch)">
+    <!-- 1. OREJAS DE RACK METÁLICAS (Soportes en los extremos) -->
+    <!-- Oreja izquierda -->
+    <polygon points="50,215 65,206 65,236 50,245" fill="#64748b"/>
+    <circle cx="58" cy="226" r="2" fill="#0f172a"/>
+    <circle cx="58" cy="236" r="2" fill="#0f172a"/>
+
+    <!-- Oreja derecha -->
+    <polygon points="335,206 350,215 350,245 335,236" fill="#475569"/>
+    <circle cx="342" cy="226" r="2" fill="#0f172a"/>
+    <circle cx="342" cy="236" r="2" fill="#0f172a"/>
+
+    <!-- 2. CHASIS METÁLICO PRINCIPAL -->
+    <!-- Cara Superior (Gris azulado con luz cenital) -->
+    <polygon points="65,206 200,128 335,206 200,284" fill="#334155"/>
+
+    <!-- Tira de ventilación superior estilizada -->
+    <polygon points="90,204 185,149 195,155 100,210" fill="#1e293b"/>
+
+    <!-- Cara Frontal Izquierda (Donde están todos los puertos y LEDs) -->
+    <polygon points="65,206 200,284 200,314 65,236" fill="#0f172a"/>
+
+    <!-- Cara Lateral Derecha (Profundidad del switch) -->
+    <polygon points="200,284 335,206 335,236 200,314" fill="#1e293b"/>
+
+    <!-- ======================================================== -->
+    <!-- DETALLES DEL PANEL FRONTAL (CARA IZQUIERDA)              -->
+    <!-- ======================================================== -->
+    <!-- Logo / Marca del fabricante -->
+    <polygon points="75,214 85,220 85,224 75,218" fill="#38bdf8"/>
+
+    <!-- Grupo de LEDs de estado (Power, Status, Fan) -->
+    <ellipse cx="92" cy="224" rx="2" ry="1.2" fill="#22c55e"/>
+    <ellipse cx="98" cy="227" rx="2" ry="1.2" fill="#22c55e"/>
+    <ellipse cx="104" cy="230" rx="1.5" ry="1" fill="#38bdf8"/>
+
+    <!-- BLOQUE 1 DE PUERTOS RJ45 (Puertos 1 al 8) -->
+    <!-- Hueco hundido oscuro -->
+    <polygon points="112,233 148,254 148,266 112,245" fill="#020617"/>
+    <!-- 8 Puertos Ethernet con conectores dorados y LEDs verdes -->
+    <path d="M 115 240 L 145 257" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 3"/>
+    <path d="M 115 245 L 145 262" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 5"/>
+
+    <!-- BLOQUE 2 DE PUERTOS RJ45 (Puertos 9 al 16) -->
+    <polygon points="154,257 190,278 190,290 154,269" fill="#020617"/>
+    <path d="M 157 264 L 187 281" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 3"/>
+    <path d="M 157 269 L 187 286" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 5"/>
+
+    <!-- ======================================================== -->
+    <!-- DETALLES LATERALES / UPLINKS SFP+ EN LA CARA DERECHA     -->
+    <!-- ======================================================== -->
+    <!-- 4 Puertos SFP+ de Fibra Óptica (Metálicos Plateados) -->
+    <polygon points="210,278 240,261 240,273 210,290" fill="#020617"/>
+    <polygon points="214,277 224,271 224,279 214,285" fill="#cbd5e1"/>
+    <circle cx="219" cy="278" r="1.5" fill="#38bdf8"/>
+    <polygon points="228,269 238,263 238,271 228,277" fill="#cbd5e1"/>
+    <circle cx="233" cy="270" r="1.5" fill="#38bdf8"/>
+
+    <!-- Rejilla de ventilación del chasis -->
+    <path d="M 255 248 L 320 211 M 255 254 L 320 217" stroke="#0f172a" stroke-width="2"/>
+  </g>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Sombra proyectada suave -->
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="12" stdDeviation="10" flood-color="#040914" flood-opacity="0.35"/>
+    </filter>
+    <!-- Gradiente de pantalla de la laptop -->
+    <linearGradient id="laptopScreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- SOMBRA BASE ISOMÉTRICA EN EL SUELO -->
+  <polygon points="110,260 250,185 340,235 200,310" fill="#000000" opacity="0.14"/>
+
+  <!-- ========================================== -->
+  <!-- 1. PANTALLA / TAPA VERTICAL DE LA LAPTOP   -->
+  <!-- ========================================== -->
+  <g id="laptop-screen" filter="url(#shadow)">
+    <!-- Tapa Trasera (Gris Metálico Oscuro) -->
+    <polygon points="120,205 240,140 240,70 120,135" fill="#1e293b"/>
+    <!-- Canto / Borde Superior de la Tapa -->
+    <polygon points="120,135 125,132 245,67 240,70" fill="#334155"/>
+    <!-- Canto Lateral Derecho -->
+    <polygon points="240,70 245,67 245,137 240,140" fill="#0f172a"/>
+
+    <!-- Marco Frontal de Pantalla (Bisel) -->
+    <polygon points="125,138 235,78 235,142 125,202" fill="#0f172a"/>
+
+    <!-- PANTALLA LCD ACTIVA (Cian Brillante) -->
+    <polygon points="130,142 230,88 230,138 130,192" fill="url(#laptopScreen)"/>
+
+    <!-- Reflejo Isométrico de Cristal -->
+    <polygon points="150,115 190,93 160,165 140,165" fill="#ffffff" opacity="0.25"/>
+
+    <!-- Cámara Web frontal -->
+    <circle cx="182" cy="113" r="1.5" fill="#64748b"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- 2. BASE / TECLADO DE LA LAPTOP             -->
+  <!-- ========================================== -->
+  <g id="laptop-base" filter="url(#shadow)">
+    <!-- Cara Superior de la Base (Chasis) -->
+    <!-- Frontal-Sup (190, 275), Derecha-Sup (310, 210), Bisagra-Der (240, 140), Bisagra-Izq (120, 205) -->
+    <polygon points="120,205 240,140 310,210 190,275" fill="#f1f5f9"/>
+
+    <!-- Canto Frontal Izquierdo (Sombra Suave) -->
+    <polygon points="120,205 190,275 190,283 120,213" fill="#cbd5e1"/>
+
+    <!-- Canto Frontal Derecho (Sombra Profunda) -->
+    <polygon points="190,275 310,210 310,218 190,283" fill="#94a3b8"/>
+
+    <!-- ÁREA HUNDIDA DEL TECLADO -->
+    <polygon points="145,205 235,155 285,205 195,255" fill="#334155"/>
+
+    <!-- TECLAS ISOMÉTRICAS (Blanco puro / Alto contraste) -->
+    <!-- Fila 1 -->
+    <path d="M 155 204 L 240 157" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 3"/>
+    <!-- Fila 2 -->
+    <path d="M 163 212 L 248 165" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 3"/>
+    <!-- Fila 3 -->
+    <path d="M 171 220 L 256 173" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 3"/>
+    <!-- Fila 4 -->
+    <path d="M 179 228 L 264 181" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 3"/>
+    <!-- Barra Espaciadora -->
+    <polygon points="192,243 212,232 216,236 196,247" fill="#ffffff"/>
+
+    <!-- TRACKPAD ISOMÉTRICO (Touchpad) -->
+    <polygon points="190,260 215,246 225,256 200,270" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  </g>
+</svg>

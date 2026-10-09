@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="12" stdDeviation="10" flood-color="#040914" flood-opacity="0.35"/>
+    </filter>
+    <linearGradient id="upsLcd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M 110 270 L 230 195 L 320 245 L 200 320 Z" fill="#000000" opacity="0.14"/>
+
+  <!-- CHASIS UPS DE RACK / TORRE ISOMÉTRICO (2U-3U PESADO) -->
+  <g id="ups-unit" filter="url(#shadow)">
+    <!-- Cara Superior -->
+    <polygon points="110,180 230,110 320,160 200,230" fill="#2d3748"/>
+    <!-- Cara Frontal Izquierda -->
+    <polygon points="110,180 200,230 200,285 110,235" fill="#151d28"/>
+    <!-- Cara Lateral Derecha -->
+    <polygon points="200,230 320,160 320,215 200,285" fill="#1c2533"/>
+
+    <!-- PANTALLA LCD FRONTAL AZUL (Estado de Batería y Carga) -->
+    <polygon points="120,195 155,214 155,232 120,213" fill="url(#upsLcd)"/>
+    <!-- Métricas en LCD (Barras de Carga y 220V) -->
+    <path d="M 126 204 L 148 216 M 126 209 L 144 219 M 126 214 L 140 222" stroke="#ffffff" stroke-width="1.8"/>
+
+    <!-- Botones de Control de Encendido / Test -->
+    <circle cx="168" cy="226" r="3" fill="#22c55e"/>
+    <circle cx="177" cy="231" r="2.5" fill="#64748b"/>
+    <circle cx="186" cy="236" r="2.5" fill="#64748b"/>
+
+    <!-- Rejilla frontal de ventilación / Disipador de Baterías -->
+    <path d="M 120 225 L 155 244 M 120 230 L 155 249 M 120 235 L 155 254 M 120 240 L 155 259 M 120 245 L 155 264" 
+          stroke="#0b0f16" stroke-width="2.2" stroke-linecap="round"/>
+
+    <!-- Bisel de Bahía de Módulo de Baterías (Lado Derecho) -->
+    <polygon points="210,235 305,182 305,210 210,263" fill="#121822"/>
+    <path d="M 220 240 L 295 198 M 220 250 L 295 208" stroke="#334155" stroke-width="2"/>
+    <!-- Ícono de Rayo / Energía en chasis -->
+    <polygon points="255,215 258,222 253,222 256,230 250,224 254,224" fill="#eab308"/>
+  </g>
+</svg>

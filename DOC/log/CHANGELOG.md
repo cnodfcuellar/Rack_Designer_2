@@ -1,3 +1,155 @@
+## [2026-10-09] Nuevo Diagrama SVG de Dependencias Arquitectónicas
+
+### 📐 Documentación y Diagramación Vectorial (`doc/doc_img/doc_svg/architecture/`)
+- **`assets/img/` (Galería Completa de 19 Skins Vectoriales Isométricas):**
+  - Creados y optimizados 19 archivos SVG de alta definición recreando fielmente el estilo artístico isométrico (proyección 30°, iluminación facetada en 3 planos, paleta carbón/cian con acentos luminosos y sombras de suelo):
+    1. [desktop_workstation_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/desktop_workstation_iso.svg): Estación de trabajo PC (rediseñada con torre nítida, monitor slim con reflejo diagonal y teclado con barra espaciadora clara).
+    2. [router_modem_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/router_modem_iso.svg): Router/módem de telecomunicaciones con antena vertical, LEDs y 5 puertos RJ45.
+    3. [cctv_camera_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/cctv_camera_iso.svg): Cámara de seguridad CCTV tipo bala con lente turquesa y brazo articulado.
+    4. [server_rack_open_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/server_rack_open_iso.svg): Gabinete de servidores con puerta batiente abierta a 90°, bahías SAN y LEDs.
+    5. [telecom_tower_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/telecom_tower_iso.svg): Torre de transmisión inalámbrica con crucetas metálicas, baliza roja y ondas de radio.
+    6. [laptop_client_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/laptop_client_iso.svg): Computadora portátil cliente con bisel de pantalla, teclado y trackpad.
+    7. [database_storage_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/database_storage_iso.svg): Cilindros de almacenamiento y base de datos masiva en tres colores (rojo, marino y cian).
+    8. [switch_24p_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/switch_24p_iso.svg): Switch de red 1U (rediseñado con frente amplio, matriz clara de puertos RJ45 con LEDs y jaulas SFP+ plateadas).
+    9. [ups_power_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/ups_power_iso.svg): Sistema ininterrumpido de energía (UPS) con pantalla LCD de voltaje y módulo de baterías.
+    10. [pdu_power_strip_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/pdu_power_strip_iso.svg): Regleta PDU vertical 0U con tomas IEC C13, display de amperaje y cable trifásico.
+    11. [firewall_shield_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/firewall_shield_iso.svg): Firewall de seguridad perimetral (rediseñado con chasis rojo UTM y escudo protector vertical azul con candado reconocible).
+    12. [access_point_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/access_point_iso.svg): Punto de acceso Wi-Fi de techo tipo plato con anillo LED cian luminoso.
+    13. [nvr_recorder_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/nvr_recorder_iso.svg): Grabador NVR para videovigilancia CCTV con bahías SATA y 8 puertos PoE.
+    14. [nas_storage_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/nas_storage_iso.svg): Servidor NAS de almacenamiento en torre con 4 bahías hot-swap y pestillos metálicos.
+    15. [decoder_box_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/decoder_box_iso.svg): Decodificador de TV / Streaming con pantalla digital de canal y salidas HDMI.
+    16. [voip_phone_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/voip_phone_iso.svg): Teléfono IP VoIP (rediseñado con base angular limpia, teclado matricial contrastado, LCD y auricular separado con cable en espiral).
+    17. [network_printer_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/network_printer_iso.svg): Impresora multifuncional láser con escáner, pantalla táctil y hoja impresa en salida.
+    18. [datacenter_door_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/datacenter_door_iso.svg): Puerta de acceso a datacenter (rediseñada con marco de acero proporcional, puerta de cristal cian entreabierta, barra antipánico y control RFID lateral).
+    19. [vehicle_barrier_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/vehicle_barrier_iso.svg): Barrera vehicular / talanquera con gabinete naranja, baliza ámbar y pluma reflectiva.
+  - Disponibles para uso inmediato en el campo "Archivo Skin (`assets/img/`)" de los formularios de equipos.
+- **`codemap_grafo_completo.svg`:**
+  - Creado grafo vectorial ultra detallado (2400x1600 px) del **Codemap de Orientación de la Base de Código**, con estética Datacenter Dark Mode.
+  - Ilustra minuciosamente la totalidad de los archivos de código del proyecto, funciones y símbolos exportados:
+    1. **Entrada & PWA:** `index.html` (árbol de contenedores e inyección de 32 scripts), `service-worker.js` (ciclo offline `rack-designer-next-cache-v33`), `json/manifest.json`.
+    2. **Sistema CSS Modular:** `style.css` (cadena de @import), `variables.css` (tokens de 3 temas, U=24px, gap=72px), `layout.css`, componentes de hardware (`rack.css`, `faceplates.css`, `panels.css`, `modals.css`, `misc.css`, `mobile-drag-drop.css`).
+    3. **Núcleo Reactivo (Core):** `store.js` (`this._raw`, Proxy ES6 Trap, `_save` localStorage, `snapshot()` N=15, `undo/redo`, `addDeviceToRack`, `moveDevice`, `deleteDevice`, `addConnection`, `deleteConnection`), `utils.js` (`fastClone`, `debounce`, `uid`, etc.), `icons.js` (60+ SVGs inline), `demoData.js`, `fileManager.js` (bridge IO .rack/.json).
+    4. **Seguridad RBAC:** `roles.js` (`RackAuth.can()`, sesión en sessionStorage) y `crypto.js` (SHA-256 WebCrypto).
+    5. **Capa de Vistas UI:** `rack.js` (renderPhysicalView, slot drop, 3D flip, cables bicanal techo/piso), `faceplates.js` (biseles, LEDs, matriz de puertos), `catalog.js` (CATALOG array, flyout, drag sources), `tables.js` (tablas de equipos/conexiones, selector de columnas, swap ⇄), `outliner.js` e `inspector.js` (árbol jerárquico y tarjeta de specs).
+    6. **Sistema de Modales:** `ui/modals.js`, `Globals.js` y submódulos (`DeviceModal.js`, `RackModal.js`, `CableModal.js`, `RoomModal.js`, `PlacementModal.js`, `ExportModal.js`, `ImportModal.js`).
+    7. **Motor Canvas 2D de Red:** `TopologyOrchestrator.js` (patrón MVC, 5 slots de memoria rápida M-40), `TopologyRenderer.js` (cables Bézier, partículas de tráfico 60 FPS, HUD ampliado 240px), `TopologyState.js`, `TopologyLayout.js` (algoritmo DAG M-39), `TopologyEvents.js` y `TopologySkins.js` (18 presets offline M-28).
+    8. **Orquestador Central:** `main.js` (enrutador de teclado Ctrl+Z/Ctrl+Y, alternancia de vistas y matriz de despacho `renderAll({ source })` con coalescencia por `requestAnimationFrame`).
+    9. **Librerías Vendor:** `xlsx.full.min.js`, `html2canvas.min.js`, `mobile-drag-drop.min.js`, `mobile-drag-drop-scroll.min.js`.
+  - Incluye secuencia del ciclo de vida en 6 pasos y panel inferior interactivo de recetas: *"¿Qué archivo toco si quiero...?"*.
+- **`diagrama_uml_completo_sistema.svg`:**
+  - Creado diagrama UML completo de clases, paquetes y módulos (2200x1500 px) con formato técnico estándar y estética Datacenter Dark Mode.
+  - Modela con máxima exhaustividad los 8 paquetes del sistema:
+    1. **`«Platform»`:** `index.html` (DOM Bootstrapper), `service-worker.js` (Cache-First Offline), `json/manifest.json` y assets de identidad.
+    2. **`«Styles»`:** `css/style.css`, tokens de tema de `variables.css` (3 temas, gap 72px, U=24px), grilla de `layout.css`, `mobile-drag-drop.css`, y estilos de componentes de hardware (`faceplates.css`, `rack.css`, `panels.css`, `modals.css`).
+    3. **`«Core»`:** `store.js` (Singleton, Proxy ES6, _raw, snapshot N=15, _save LocalStorage, _emit), `utils.js` (fastClone, debounce, uid, etc.), `icons.js` (catálogo de 60+ SVGs), `demoData.js` (semilla inicial) e `IOBridge` (`fileManager.js`).
+    4. **`«Security»`:** `roles.js` (`RackAuth`, roles Admin, Editor, Viewer) y `crypto.js` (SHA-256 WebCrypto).
+    5. **`«UIView»`:** `rack.js` (renderPhysicalView, slot drop, flip 3D, cables físicos), `faceplates.js` (carátulas, LEDs, matriz de puertos), `catalog.js` (sidebar, flyout, drag sources), `tables.js` (panel inferior, tab switching, swap ⇄), `outliner.js` (árbol jerárquico) e `inspector.js` (editor de specs y métricas).
+    6. **`«Modals»`:** `ui/modals.js` (coordinador central), `Globals.js` y submódulos de diálogo (`RackModal`, `DeviceModal`, `CableModal`, `RoomModal`, `ExportModal`, `PlacementModal`, `ImportModal`).
+    7. **`«Topology»`:** `TopologyOrchestrator.js` (fachada Canvas 2D), `TopologyRenderer.js` (cables Bézier, animación de paquetes, skins vectoriales), `TopologyState.js`, `TopologyLayout.js` y `TopologyEvents.js`.
+    8. **`«Runtime»`:** `main.js` (orquestador, atajos globales Ctrl+Z/Ctrl+Y, alternancia de vistas y matriz de despacho `renderAll({ source })` a 60 FPS coordinada con `requestAnimationFrame`).
+    9. **`«Vendor»`:** Integración de `xlsx.full.min.js`, `html2canvas.min.js`, `mobile-drag-drop.min.js`.
+  - Incluye secuencia UML completa del ciclo de vida de los datos, estereotipos («Singleton», «Facade», «ViewRenderer», «Utility», etc.) y tabla de convenciones arquitectónicas.
+- **`grafo_relaciones_archivos_sistema.svg`:**
+  - Creado grafo vectorial ultra detallado (2000x1350 px) en estética *Datacenter Dark Mode* con rejilla técnica de precisión.
+  - Mapeo exhaustivo de **todos y cada uno de los archivos necesarios para que el proyecto funcione**:
+    1. **Entrada y PWA:** `index.html`, `service-worker.js`, `json/manifest.json`, `assets/icons/icon.svg` y PNGs.
+    2. **Sistema CSS Modular:** `css/style.css`, `css/variables.css`, `css/layout.css`, `css/mobile-drag-drop.css`, `css/components/panels.css`, `css/components/rack.css`, `css/components/faceplates.css`, `css/components/modals.css`, `css/components/misc.css`.
+    3. **Librerías Externas (Vendor):** `js/xlsx.full.min.js`, `js/html2canvas.min.js`, `js/mobile-drag-drop.min.js`, `js/mobile-drag-drop-scroll.min.js`.
+    4. **Núcleo Reactivo (Core):** `js/store.js` (Proxy ES6, sincronización `localStorage`, snapshot undo/redo), `js/utils.js`, `js/icons.js`, `js/demoData.js`, `js/ui/fileManager.js`, `assets/svg/default/*.svg`.
+    5. **Seguridad RBAC:** `js/auth/crypto.js` (SHA-256 WebCrypto) y `js/auth/roles.js` (`RackAuth`).
+    6. **Sistema de Modales:** `js/ui/modals/Globals.js`, `RackModal.js`, `DeviceModal.js`, `CableModal.js`, `RoomModal.js`, `ExportModal.js`, `PlacementModal.js`, `ImportModal.js` y coordinador `js/ui/modals.js`.
+    7. **Vistas de Interfaz (UI):** `js/ui/catalog.js`, `js/ui/faceplates.js`, `js/ui/rack.js`, `js/ui/tables.js`, `js/ui/outliner.js`, `js/ui/inspector.js` y métricas globales.
+    8. **Motor de Topología Canvas 2D:** `TopologyState.js`, `TopologySkins.js`, `TopologyLayout.js`, `TopologyEvents.js`, `TopologyRenderer.js` y fachada `TopologyOrchestrator.js`.
+    9. **Orquestador Central:** `js/main.js` (enrutador global de eventos y matriz de despacho `renderAll({ source })` a 60 FPS por `requestAnimationFrame`).
+  - Aristas interconectadas que demuestran el flujo: Acción de Usuario ➔ Captura en Trap Proxy ➔ Despacho rAF ➔ Redibujo Selectivo O(1).
+- **`diagrama_dependencias_completo.svg`:**
+  - Creado diagrama SVG de alta definición (1600x1100 px) con estética Datacenter Dark Mode.
+  - Mapeo integral de las 8 capas del sistema.
+
+## [2026-10-07] Organización y Categorización Estructural de Diagramas Vectoriales SVG (`doc/doc_img/doc_svg/`)
+
+### 📁 Reorganización en 6 Subdirectorios Semánticos
+- **Clasificación Integral de los 50 Archivos Vectoriales SVG:**
+  - `erd/` (4 archivos): Diagramas Entidad-Relación por niveles (`erd_01_atomic_core.svg`, `erd_02_datacenter_entities.svg`, `erd_03_topology_engine.svg`, `erd_04_system_reactive_architecture.svg`).
+  - `layout/` (9 archivos): Diagramas de interfaz de usuario y cuadrantes del DOM (`layout_header.svg`, `layout_sidebar.svg`, `layout_main_canvas.svg`, `layout_right_panel.svg`, `layout_bottom_panel.svg`, `layout_topology.svg`, `layout_sala_dual_export.svg`, `ui_layout_map.svg`, `theme_switcher.svg`).
+  - `architecture/` (8 archivos): Arquitectura de capas, dependencias y Service Worker (`architecture_current.svg`, `architecture_overview.svg`, `mejoras_architecture_final.svg`, `module_dependencies.svg`, `dependencies_map.svg`, `directory_structure.svg`, `project_areas.svg`, `pwa_service_worker.svg`).
+  - `flows/` (10 archivos): Flujos de datos, reactividad Proxy ES6, autenticación y API de archivos (`store_reactivity.svg`, `project_flow.svg`, `file_communication_flow.svg`, `file_manager_api.svg`, `export_system.svg`, `drag_drop_flow.svg`, `autosave_history.svg`, `roles_permissions.svg`, `security_rbac_crypto.svg`, `user_personas.svg`).
+  - `manual/` (3 archivos): Ilustraciones didácticas para el usuario final (`manual_rack_anatomy.svg`, `manual_ui_overview.svg`, `manual_action_flow.svg`).
+  - `propuestas/` (16 archivos): Diseños conceptuales, comparativas técnicas y diagramas de mejoras (`propuesta_1_canastillo_aereo.svg`, `propuesta_2_fila_continua_nowrap.svg`, `propuesta_3_cables_interactivos_hover.svg`, `propuesta_drag_to_connect.svg`, `propuesta_exportacion_svg_pdf.svg`, `propuesta_gestion_puertos_vlans.svg`, `propuesta_hibrida_toolbar_topo.svg`, `propuesta_importacion_masiva_excel.svg`, `propuesta_selector_columnas_tablas.svg`, `propuesta_tema_sepia_responsive.svg`, `comparativa_soluciones_toolbar_topo.svg`, `enrutamiento_equipos_piso_y_racks.svg`, `hybrid_network_ports.svg`, `mejoras_device_skins_fallback.svg`, `modals_accordions.svg`, `topology_engine.svg`).
+
+### 📚 Creación de Índice Maestro y Actualización de Enlaces
+- **Renovación Integral del `README.md` Principal:**
+  - Modernización completa del `README.md` raíz: presentación ejecutiva, propuesta de valor para ingenieros de datacenter, desglose ilustrado de las 8 capacidades estrella, tabla arquitectónica y guía de ejecución en 1 minuto.
+  - Banderines oficiales de Shields.io: **HTML5**, **JavaScript (ES6+)**, **CSS3**, **Google Antigravity IDE**, **PWA Offline**, **Web Crypto API**, **Canvas 2D @60fps** y **360 Tests Passing**.
+  - Incrustadas 18 vistas previas visuales vectoriales a gran formato cubriendo todas las áreas funcionales.
+- **Presentación Ejecutiva del Catálogo Visual (`doc/doc_img/doc_svg/README.md`):**
+  - Transformado en una presentación completa del producto y catálogo de planos técnicos con badges, tablas de metadatos y diagramas ilustrados.
+- **Sincronización de Rutas en Documentación:**
+  - Actualización de todas las referencias de ruta en `doc/doc_md/USER_MANUAL.md`, `doc/propuestas_gallery.html`, `doc/doc_md/ARCHITECTURE_GUIDE.md`, `doc/doc_md/CODEBASE_ORIENTATION_MAP.md` y `.agents/AGENTS.md`.
+  - Recompilación exitosa del manual independiente consolidado (`doc/doc_md/FULL_MANUAL_STANDALONE.md` y `doc/doc_md/FULL_MANUAL_STANDALONE.html`) con incrustación vectorial de imágenes en sus nuevas rutas.
+  - Recompilación del paquete completo de código fuente (`doc/doc_md/CODIGO_COMPLETO_PROYECTO.md`).
+  - Depuración y eliminación completa del subdirectorio temporal de respaldo `doc/doc_md/medidas/malactualizado_backup` y sus 8 archivos redundantes, preservando las especificaciones canónicas actualizadas.
+  - Validación completa con la suite automatizada: 360 de 360 pruebas aprobadas exitosamente.
+
+## [2026-10-06] Actualización Integral de Diagramas Vectoriales SVG (`doc/doc_img/doc_svg/`)
+
+### 🎨 Sincronización de Diagramas de Arquitectura e Interfaz
+- **`layout_header.svg`:**
+  - Actualizado para reflejar fielmente el Selector de 3 Temas (`#btn-theme-toggle`: 🌙 Oscuro / ☀️ Claro / ☕ Sepia, M-18), controles Undo/Redo (↩ / ↪, M-03), indicador de estado del sistema (`.status-dot`), badge de rol RBAC (`#user-badge`) y navegación multi-sala/multi-rack.
+- **`layout_bottom_panel.svg`:**
+  - Incorporadas las pestañas modulares (`.tab-pills`), el botón de importación masiva (`#btn-table-import-modal`, M-21/M-22), el selector interactivo de columnas visibles (Propuesta 3), la columna de canaleta con alternancia (`⬆️ Techo` / `⬇️ Piso`, M-41) y las acciones de inversión rápida Swap (`⇄`, M-41).
+- **`layout_topology.svg`:**
+  - Reemplazado el fondo antiguo por el fondo oficial de datacenter (`#0b0f19`) con cuadrícula de puntos translúcidos.
+  - Incorporada la barra superior flotante con los 5 slots de memoria instantánea (`TopologySlots` M-40) y el selector de estilos.
+  - Implementados los nodos con Skins de Hardware Fotorrealistas (`TOPOLOGY_STYLE = 'image'`, M-28: chasis oscuro, biseles metálicos, orejas de rack, LEDs y bahías).
+- **`layout_main_canvas.svg`:**
+  - Incorporada la arquitectura de bicanalidad: Bandeja Aérea / Canastillo Superior (datos) y Canaleta bajo Piso Técnico a cota `maxRackBottom + 14` (M-41, potencia).
+  - Reflejados el gap inter-rack de 72px (3U), las 42 unidades U estandarizadas, el botón Flip 3D (cara frontal/posterior) y el monitor de redibujado selectivo granular O(1) (M-04).
+- **`manual_ui_overview.svg`:**
+  - Sincronizadas las 5 áreas clave de la aplicación destacando el motor tri-tema (M-18), catálogo agrupado, lienzo dual con bicanalidad y slots, outliner ordenable (M-38) y tablas con importación masiva (M-21/M-22).
+- **`theme_switcher.svg`:**
+  - Actualizado de interruptor dual a motor tri-estado completo: Oscuro (🌙 `#0b0f19`), Claro (☀️ `#f8fafc`) y Sepia (☕ `#2d241e`), detallando tokens CSS y persistencia en `localStorage`.
+- **`layout_right_panel.svg`:**
+  - Calibrado al ancho canónico de 260px (`var(--right-panel-w)`), incorporando acciones de cabecera en outliner (`+ Sala`, `+ Rack`, `+ Dev`), selector de ordenación por ranura/nombre/tipo (M-38) y campos extendidos de inspector (M-36).
+- **`architecture_current.svg`:**
+  - Actualizado íntegramente en sus 5 capas de arquitectura: incorporación de `TopologySkins.js` (M-28), 5 slots `TopologyState.js` (M-40), bicanalidad techo/piso a cota `maxRackBottom + 14` (M-41), redibujado granular $O(1)$ (`renderSingleRack`, M-04), `ImportModal.js` (M-22), `RackCrypto` con AES-GCM (M-01), optimización `fastClone` ($N=15$, M-03), y las plantillas duales TIA-942 / Campus UTN (24 VLANs).
+- **`store_reactivity.svg`:**
+  - Actualizado el flujo reactivo completo de mutaciones Proxy ES6: instantánea previa con `fastClone(this._raw)` limitada a $N=15$ (-80% consumo RAM), persistencia con clave canónica `RACK_DESIGNER_NEXT_STATE` y AES-GCM, despacho coalescente a 60 FPS con rAF, y redibujado selectivo $O(1)$.
+- **`module_dependencies.svg`:**
+  - Mapa de dependencias actualizado con los 44 scripts del proyecto: módulos criptográficos (`crypto.js`), modales (`ImportModal.js`), subsistema de topología (`TopologySkins.js`), vistas modulares (`outliner.js`, `inspector.js`, `tables.js`) y orquestación con `main.js`.
+
+## [2026-10-06] Suite de Diagramas Entidad-Relación (ERD) en SVG y Sincronización Integral de Documentación (`doc/`)
+
+### 📐 Nueva Suite de Diagramas Entidad-Relación Vectoriales SVG (`doc/doc_img/doc_svg/`)
+- **Implementación de 4 Diagramas ERD por Niveles de Complejidad Progresiva:**
+  - **`erd_01_atomic_core.svg` (Nivel 1 — Atómico, 1200×850 px):** Modelado formal de las estructuras primitivas y utilidades base: `VLAN`, `Port`, `CableType`, `RackAuth`, `Session`, `RackCrypto` y `Utils_FastClone`. Incluye campos primarios/foráneos (PK/FK), tipos de datos, cardinalidades y firmas criptográficas SHA-256 / AES-GCM.
+  - **`erd_02_datacenter_entities.svg` (Nivel 2 — Datacenter, 1300×980 px):** Relaciones de contención espacial e infraestructura de centro de datos: `Room` (1:N) ➔ `Rack` (1:N) ➔ `Device` (1:N) ➔ `Port` (N:M) `Connection`, junto a `CustomCatalogItem` y su proyección hacia los motores de UI física (`RackRenderer`, `PhysicalCableCanvas`, `TablesView`).
+  - **`erd_03_topology_engine.svg` (Nivel 3 — Topología Canvas 2D, 1300×920 px):** Arquitectura MVC del motor gráfico de topología: `TopologyState`, geometrías espaciales (`NodePosition`, `RackGeometry`, `RoomGeometry`), contención perimetral, las 5 ranuras independientes `TopologySlots` (M-40) y los 3 modos visuales del subsistema `TopologySkins` (M-28: `circle`, `card` e `image` con 18 presets offline).
+  - **`erd_04_system_reactive_architecture.svg` (Nivel 4 — Sistema Global, 1400×1060 px):** Mapa integral de la arquitectura del sistema: shell PWA `index.html` (32 scripts síncronos), reactividad con Proxy ES6 en `store.js`, orquestador `main.js` con coalescencia `requestAnimationFrame` a 60 FPS, redibujado granular de gabinetes `renderSingleRack(rackId)` (M-04), sincronización de vistas UI, modales y la suite de aseguramiento de integridad de 360 pruebas.
+- **Estética de Datacenter:** Fondo oscuro contrastado (`#040812` / `#0a1526`), gradientes cromáticos por familia, cardinalidades relacionales formales (1:1, 1:N, N:M), llaves PK/FK explícitas y leyendas tipográficas legibles.
+
+### 📚 Sincronización y Actualización Integral de la Carpeta de Documentación (`doc/`)
+- **`doc/doc_md/medidas/medidas_lienzo_fisico.md`:**
+  - Incorporada la 4ª zona física de cableado segregado: Canaleta Inferior bajo Piso Técnico (`orientation === 'bottom'`) a cota `maxRackBottom + 14 + offset` (M-41).
+  - Documentada la arquitectura de redibujado selectivo granular de gabinetes `renderSingleRack(rackId)` con preservación de estado 3D (`flipped`) y renderizado modular con `buildRackFace` (M-04).
+- **`doc/doc_md/medidas/medidas_lienzo_topologia.md`:**
+  - Actualizada la nómina real de 6 submódulos del motor: `TopologyState.js`, `TopologyRenderer.js`, `TopologyEvents.js`, `TopologyLayout.js`, `TopologyExport.js` y `TopologySkins.js`.
+  - Documentado el 3er modo de renderizado de nodos: Hardware Skins fotorrealistas (`TOPOLOGY_STYLE = 'image'`, M-28) con chasis metálico oscuro, bisel, orejas de rack, LEDs y 18 presets offline.
+  - Documentada la adaptación cromática de grilla y fondo al Tema Sepia (`#f5eee1`, M-18) y los 5 slots de memoria (`TopologySlots`, M-40).
+- **`doc/doc_md/medidas/medidas_header.md`:**
+  - Actualizado el conteo de la suite de pruebas a **360 pruebas automatizadas en 23 grupos** al 100% de éxito.
+  - Incorporado el selector visible de 3 temas (`#btn-theme-toggle`: Oscuro 🌙 ⇄ Claro ☀️ ⇄ Sepia ☕, M-18) y el modal interactivo de demos `#modal-demo-selection`.
+- **`doc/doc_md/medidas/medidas_panel_inferior.md`:**
+  - Sincronizadas las 5 pestañas completas de datos: Dispositivos, Racks, Conexiones, Puertos y VLANs.
+  - Documentada la columna de canaleta interactiva (⬆️ Techo ⇄ ⬇️ Piso) y el botón de swap rápido (`data-swap-conn`) en la tabla de conexiones (M-41), así como el botón de importación masiva (`#btn-table-import-modal`, M-21/M-22).
+- **`doc/doc_md/medidas/medidas_racks.md` & `medidas_interfaz.md`:**
+  - Actualizados con especificaciones técnicas de redibujado granular `renderSingleRack(rackId)` (M-04) y el sistema tri-tema (Oscuro/Claro/Sepia).
+- **`doc/doc_md/CODEBASE_ORIENTATION_MAP.md` & `ARCHITECTURE_GUIDE.md`:**
+  - Sincronizados con el árbol de scripts actual (`TopologySkins.js`, `ImportModal.js`), referencias a la suite de 360 pruebas en 23 grupos, la plantilla universitaria UTN (`loadUniversityDemoData()`) y la inclusión de los 4 diagramas ERD vectoriales.
+- **`doc/doc_md/USER_MANUAL.md` & `roadmap_mejoras.md`:**
+  - Actualizado el manual de usuario con el flujo de carga de plantillas de demostración (Datacenter TIA-942 y Campus UTN) e historial optimizado a 15 niveles de `fastClone` (M-03).
+  - Marcado M-18 como completado y actualizado el tablero de tareas pendientes a 6 ítems.
+
 ## [2026-10-06] Plantilla Demo Adicional: Campus Universitario UTN (Arquitectura Jerárquica de 3 Capas)
 
 ### Arquitectura y Datos de Demostración (`js/demoData.js`)
@@ -39,6 +191,13 @@
   - Corregido error crítico `ReferenceError: r is not defined` durante el evento `pointermove` al arrastrar equipos.
   - En la restricción de límites de sala de nodos (`roomPos` y `roomSize`), se reemplazó la variable no declarada `r` por los radios de colisión geométricos correspondientes: `rx` (horizontal) y `ry` (vertical).
   - Los equipos de rack y de piso ahora se desplazan suavemente en el Canvas 2D con persistencia en `store` y registro en el historial de deshacer/rehacer.
+
+- **Generación de Suite de Diagramas Entidad-Relación en SVG (`doc/doc_img/doc_svg/`):**
+  - Creados 4 diagramas SVG estructurados desde lo elemental hasta la arquitectura completa del sistema:
+    1. `erd_01_atomic_core.svg`: Entidades atómicas de base (VLAN, Port, CableType, RackAuth, RackCrypto, Utils).
+    2. `erd_02_datacenter_entities.svg`: Entidades de infraestructura (Room, Rack, Device, Connection, CustomCatalogItem) y vínculos con la vista física.
+    3. `erd_03_topology_engine.svg`: Entidades del motor gráfico Canvas 2D (TopologyState, Geometrías, Skins M-28, 5 Slots M-40, Pipeline de módulos).
+    4. `erd_04_system_reactive_architecture.svg`: Mapa relacional integral de todos los archivos del proyecto, flujo de eventos reactivos Proxy ES6 y ciclo de vida de renderizado.
 
 ---
 

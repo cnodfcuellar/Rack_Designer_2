@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Sombra suave en el suelo -->
+    <filter id="shadowFW" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#020617" flood-opacity="0.3"/>
+    </filter>
+    <!-- Gradiente del escudo azul de seguridad -->
+    <linearGradient id="fwShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- SOMBRA BASE EN EL SUELO -->
+  <polygon points="60,250 200,169 340,250 200,331" fill="#000000" opacity="0.12"/>
+
+  <!-- ======================================================== -->
+  <!-- 1. CHASIS DEL APPLIANCE FIREWALL (Rojo corporativo / UTM) -->
+  <!-- ======================================================== -->
+  <g id="firewall-chassis" filter="url(#shadowFW)">
+    <!-- Orejas de rack laterales -->
+    <polygon points="60,205 75,196 75,231 60,240" fill="#475569"/>
+    <polygon points="325,196 340,205 340,240 325,231" fill="#334155"/>
+
+    <!-- Cara Superior del Chasis (Rojo granate elegante) -->
+    <polygon points="75,196 200,124 325,196 200,268" fill="#b91c1c"/>
+
+    <!-- Cara Frontal Izquierda (Puertos protegidos DMZ y WAN) -->
+    <polygon points="75,196 200,268 200,303 75,231" fill="#7f1d1d"/>
+
+    <!-- Cara Lateral Derecha (Profundidad del equipo) -->
+    <polygon points="200,268 325,196 325,231 200,303" fill="#991b1b"/>
+
+    <!-- ======================================================== -->
+    <!-- DETALLES DEL PANEL FRONTAL                               -->
+    <!-- ======================================================== -->
+    <!-- Logotipo / Emblema de seguridad en frontal -->
+    <polygon points="85,208 97,215 97,222 85,215" fill="#fef08a"/>
+
+    <!-- LEDs de actividad / Estado de VPN y Amenazas -->
+    <ellipse cx="106" cy="221" rx="2.5" ry="1.5" fill="#22c55e"/>
+    <ellipse cx="114" cy="225" rx="2.5" ry="1.5" fill="#38bdf8"/>
+    <ellipse cx="122" cy="230" rx="2.5" ry="1.5" fill="#eab308"/>
+
+    <!-- BANCO DE PUERTOS WAN / DMZ (Puertos dorados de alta seguridad) -->
+    <polygon points="132,233 162,250 162,263 132,246" fill="#450a0a"/>
+    <path d="M 135 242 L 159 256" stroke="#f59e0b" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="4 3"/>
+
+    <!-- BANCO DE PUERTOS LAN INTERNOS -->
+    <polygon points="166,252 196,269 196,282 166,265" fill="#450a0a"/>
+    <path d="M 169 261 L 193 275" stroke="#22c55e" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="4 3"/>
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- 2. ESCUDO DE PROTECCIÓN ISOMÉTRICO (VERTICAL Y LIMPIO)   -->
+  <!-- ======================================================== -->
+  <!-- Escudo erguido perpendicularmente frente a la cara derecha -->
+  <g id="security-shield" transform="translate(245, 175)" filter="url(#shadowFW)">
+    <!-- Silueta exterior del escudo (Borde de titanio) -->
+    <path d="M 0 -65 C 32 -65, 48 -45, 48 -15 C 48 35, 20 70, 0 95 C -20 70, -48 35, -48 -15 C -48 -45, -32 -65, 0 -65 Z" 
+          fill="#0f172a"/>
+
+    <!-- Cara frontal azul del escudo -->
+    <path d="M 0 -58 C 26 -58, 40 -40, 40 -12 C 40 30, 16 62, 0 85 C -16 62, -40 30, -40 -12 C -40 -40, -26 -58, 0 -58 Z" 
+          fill="url(#fwShieldGrad)"/>
+
+    <!-- Reflejo diagonal de brillo -->
+    <path d="M 0 -50 C 18 -50, 30 -35, 30 -10 C 30 20, 12 45, 0 60 Z" 
+          fill="#ffffff" opacity="0.3"/>
+
+    <!-- ÍCONO DE CANDADO CENTRAL BLANCO PURO (100% RECONOCIBLE) -->
+    <!-- Arco del candado -->
+    <path d="M -8 -8 C -8 -20, 8 -20, 8 -8" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+    <!-- Cuerpo del candado -->
+    <rect x="-12" y="-8" width="24" height="22" rx="4" fill="#ffffff"/>
+    <!-- Cerradura oscura -->
+    <circle cx="0" cy="0" r="2.5" fill="#0284c7"/>
+    <rect x="-1.5" y="0" width="3" height="6" fill="#0284c7"/>
+  </g>
+</svg>

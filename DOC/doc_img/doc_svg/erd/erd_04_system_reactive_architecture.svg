@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1060" viewBox="0 0 1400 1060">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040812"/>
+      <stop offset="100%" stop-color="#08101e"/>
+    </linearGradient>
+    <linearGradient id="hdrStore" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="hdrMain" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <linearGradient id="hdrUI" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="hdrModals" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="hdrTopo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="hdrTest" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity="0.65"/>
+    </filter>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#818cf8"/>
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1400" height="1060" fill="url(#bg)"/>
+  <rect width="1400" height="1060" fill="url(#grid)"/>
+
+  <!-- Main Banner -->
+  <rect x="40" y="24" width="1320" height="64" rx="10" fill="#0b1728" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="24" width="6" height="64" rx="3" fill="#38bdf8"/>
+  <text x="65" y="48" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" fill="#38bdf8" letter-spacing="2.5" font-weight="700">DIAGRAMA ENTIDAD-RELACIÓN · NIVEL 4 (ARQUITECTURA COMPLEJA)</text>
+  <text x="65" y="71" font-family="'Segoe UI', Roboto, sans-serif" font-size="18" fill="#f8fafc" font-weight="700">Mapa Relacional de Todos los Archivos, Flujo Reactivo Proxy ES6 y Ciclo de Vida</text>
+  <rect x="1140" y="40" width="200" height="32" rx="6" fill="#0c2338" stroke="#38bdf8" stroke-width="1"/>
+  <text x="1240" y="61" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">SISTEMA COMPLETO</text>
+
+  <!-- BLOQUE CENTRAL: STORE.JS (Capa Reactiva Central) -->
+  <g transform="translate(50, 115)" filter="url(#shadow)">
+    <rect width="400" height="340" rx="10" fill="#08111e" stroke="#0284c7" stroke-width="2"/>
+    <rect width="400" height="40" rx="10" fill="url(#hdrStore)"/>
+    <rect y="30" width="400" height="10" fill="url(#hdrStore)"/>
+    <text x="15" y="26" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">NÚCLEO: js/store.js (State Store)</text>
+    <text x="385" y="26" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#bae6fd">Proxy ES6 Reactive</text>
+
+    <text x="15" y="65" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">_raw State</text>
+    <text x="160" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">rooms[], racks[], devices[], conns[]</text>
+
+    <text x="15" y="88" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">state (Proxy)</text>
+    <text x="160" y="88" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Traps set/get con WeakMap cache</text>
+
+    <text x="15" y="111" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">snapshot()</text>
+    <text x="160" y="111" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">fastClone(), límite N=15 (M-03)</text>
+
+    <text x="15" y="134" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">_undo/redoStack</text>
+    <text x="160" y="134" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Excluye topologySlots (-80% RAM)</text>
+
+    <text x="15" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">_save() / _load()</text>
+    <text x="160" y="157" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Doble slot respaldo + Quota catch</text>
+
+    <text x="15" y="180" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">_emit('change')</text>
+    <text x="160" y="180" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Eventos con rackId y devId (M-04)</text>
+
+    <rect x="15" y="200" width="370" height="120" rx="6" fill="#040a14" stroke="#1e293b"/>
+    <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="11" fill="#38bdf8" font-weight="700">Módulos de Soporte Inyectados Directamente:</text>
+    <text x="25" y="242" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• <tspan fill="#f8fafc">js/utils.js:</tspan> fastClone(obj), uid(), notify(), formatBytes</text>
+    <text x="25" y="262" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• <tspan fill="#f8fafc">js/auth/crypto.js:</tspan> RackCrypto (Cifrado simétrico AES-GCM)</text>
+    <text x="25" y="282" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• <tspan fill="#f8fafc">js/auth/roles.js:</tspan> RackAuth (RBAC SHA-256 tokens de sesión)</text>
+    <text x="25" y="302" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• <tspan fill="#f8fafc">js/demoData.js:</tspan> Plantillas TIA-942 y Campus UTN (3 capas)</text>
+  </g>
+
+  <!-- BLOQUE CENTRAL: MAIN.JS (Orquestador y Rendimiento) -->
+  <g transform="translate(490, 115)" filter="url(#shadow)">
+    <rect width="420" height="340" rx="10" fill="#08111e" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="420" height="40" rx="10" fill="url(#hdrMain)"/>
+    <rect y="30" width="420" height="10" fill="url(#hdrMain)"/>
+    <text x="15" y="26" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ORQUESTADOR: js/main.js</text>
+    <text x="405" y="26" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#c7d2fe">Despacho &amp; Telemetría</text>
+
+    <text x="15" y="65" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">renderAll(event)</text>
+    <text x="165" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Despachador central de renderizado</text>
+
+    <text x="15" y="88" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">rAF Coalescing</text>
+    <text x="165" y="88" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Agrupamiento a 60 FPS en ráfagas</text>
+
+    <text x="15" y="111" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">renderAll.flush()</text>
+    <text x="165" y="111" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Vaciado síncrono forzado de cola</text>
+
+    <text x="15" y="134" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">_renderState</text>
+    <text x="165" y="134" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Banderas dirtyPhysical / dirtyTopo</text>
+
+    <text x="15" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">RenderPerformance</text>
+    <text x="165" y="157" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">totalRenders, selective, durationMs</text>
+
+    <rect x="15" y="180" width="390" height="140" rx="6" fill="#040a14" stroke="#1e293b"/>
+    <text x="25" y="202" font-family="'Segoe UI', sans-serif" font-size="11" fill="#818cf8" font-weight="700">Enrutamiento Selectivo de Vistas (M-04):</text>
+    <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Mutación de Equipo: renderSingleRack(e.rackId) atómico</text>
+    <text x="25" y="242" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Cambio de Sala / loadData: Redibujado completo (full)</text>
+    <text x="25" y="262" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Conexiones: Trazado en rack.js o drawTopo()</text>
+    <text x="25" y="282" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Paneles Colapsados: Pospuestos hasta reapertura</text>
+    <text x="25" y="302" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• init(): Inicializa topología, modales y eventos de UI</text>
+  </g>
+
+  <!-- BLOQUE DERECHO: VISTAS UI FÍSICAS (DOM Rendering) -->
+  <g transform="translate(950, 115)" filter="url(#shadow)">
+    <rect width="400" height="340" rx="10" fill="#08111e" stroke="#059669" stroke-width="2"/>
+    <rect width="400" height="40" rx="10" fill="url(#hdrUI)"/>
+    <rect y="30" width="400" height="10" fill="url(#hdrUI)"/>
+    <text x="15" y="26" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">CAPA DE VISTAS FÍSICAS: js/ui/</text>
+    <text x="385" y="26" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#a7f3d0">DOM &amp; SVG Físico</text>
+
+    <text x="15" y="65" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">rack.js</text>
+    <text x="140" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">renderSingleRack(), cables SVG bicanal</text>
+
+    <text x="15" y="88" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">faceplates.js</text>
+    <text x="140" y="88" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Carátulas vectoriales SVG y puertos</text>
+
+    <text x="15" y="111" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">catalog.js</text>
+    <text x="140" y="111" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">7 familias comerciales y drag-drop</text>
+
+    <text x="15" y="134" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">tables.js</text>
+    <text x="140" y="134" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Inventario &amp; Conexiones con edición</text>
+
+    <text x="15" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">outliner.js</text>
+    <text x="140" y="157" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Árbol jerárquico sala→rack→equipo</text>
+
+    <text x="15" y="180" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">inspector.js</text>
+    <text x="140" y="180" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Propiedades contextuales y pass toggle</text>
+
+    <text x="15" y="203" font-family="'JetBrains Mono', monospace" font-size="11" fill="#34d399">fileManager.js</text>
+    <text x="140" y="203" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">File System Access API y autoguardado</text>
+
+    <rect x="15" y="225" width="370" height="95" rx="6" fill="#040a14" stroke="#1e293b"/>
+    <text x="25" y="247" font-family="'Segoe UI', sans-serif" font-size="11" fill="#34d399" font-weight="700">Regla Canónica de la Vista:</text>
+    <text x="25" y="267" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">Ningún archivo de UI muta el DOM directamente.</text>
+    <text x="25" y="287" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">Toda interacción llama métodos de store (ej: store.updateDevice)</text>
+    <text x="25" y="307" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">y el Proxy gatilla el redibujado ordenado.</text>
+  </g>
+
+  <!-- BLOQUE INFERIOR IZQUIERDO: MODALES (Diálogos e Import/Export) -->
+  <g transform="translate(50, 490)" filter="url(#shadow)">
+    <rect width="400" height="340" rx="10" fill="#08111e" stroke="#d97706" stroke-width="2"/>
+    <rect width="400" height="40" rx="10" fill="url(#hdrModals)"/>
+    <rect y="30" width="400" height="10" fill="url(#hdrModals)"/>
+    <text x="15" y="26" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">CAPA DE MODALES: js/ui/modals/</text>
+    <text x="385" y="26" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#fef3c7">Diálogos de Usuario</text>
+
+    <text x="15" y="65" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">modals.js</text>
+    <text x="150" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Orquestador de apertura y foco</text>
+
+    <text x="15" y="88" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">RoomModal.js</text>
+    <text x="150" y="88" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Creación/Edición de Salas</text>
+
+    <text x="15" y="111" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">RackModal.js</text>
+    <text x="150" y="111" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Alturas normalizadas (8..48U)</text>
+
+    <text x="15" y="134" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">DeviceModal.js</text>
+    <text x="150" y="134" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Acordeones, IP, pass y skins custom</text>
+
+    <text x="15" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">CableModal.js</text>
+    <text x="150" y="157" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Botón Swap M-41 &amp; Canaleta Techo/Piso</text>
+
+    <text x="15" y="180" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">ImportModal.js</text>
+    <text x="150" y="180" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Importación masiva 21 campos (M-21/22)</text>
+
+    <text x="15" y="203" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">ExportModal.js</text>
+    <text x="150" y="203" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">PNG 1:1 html2canvas, Excel y JSON</text>
+
+    <text x="15" y="226" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">PlacementModal.js</text>
+    <text x="150" y="226" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Colocación rápida por slot U</text>
+
+    <rect x="15" y="245" width="370" height="75" rx="6" fill="#040a14" stroke="#1e293b"/>
+    <text x="25" y="267" font-family="'Segoe UI', sans-serif" font-size="11" fill="#f59e0b" font-weight="700">Modal de Selección de Demos:</text>
+    <text x="25" y="287" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">#modal-demo-selection permite alternar entre</text>
+    <text x="25" y="307" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">Datacenter TIA-942 y Campus Universitario UTN.</text>
+  </g>
+
+  <!-- BLOQUE INFERIOR CENTRAL: TOPOLOGÍA (Canvas 2D Engine) -->
+  <g transform="translate(490, 490)" filter="url(#shadow)">
+    <rect width="420" height="340" rx="10" fill="#08111e" stroke="#7c3aed" stroke-width="2"/>
+    <rect width="420" height="40" rx="10" fill="url(#hdrTopo)"/>
+    <rect y="30" width="420" height="10" fill="url(#hdrTopo)"/>
+    <text x="15" y="26" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">MOTOR TOPOLOGÍA: js/ui/topology/</text>
+    <text x="405" y="26" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ede9fe">Canvas 2D MVC</text>
+
+    <text x="15" y="65" font-family="'JetBrains Mono', monospace" font-size="11" fill="#c084fc">TopologySkins.js</text>
+    <text x="175" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">circle, card, image (18 presets M-28)</text>
+
+    <text x="15" y="88" font-family="'JetBrains Mono', monospace" font-size="11" fill="#c084fc">TopologyState.js</text>
+    <text x="175" y="88" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Hover, zoom, pan, 5 slots (M-40)</text>
+
+    <text x="15" y="111" font-family="'JetBrains Mono', monospace" font-size="11" fill="#c084fc">TopologyLayout.js</text>
+    <text x="175" y="111" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Grilla, árbol DAG y afinidad piso M-39</text>
+
+    <text x="15" y="134" font-family="'JetBrains Mono', monospace" font-size="11" fill="#c084fc">TopologyRenderer.js</text>
+    <text x="175" y="134" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Loop 60 FPS, Bézier, tráfico animado</text>
+
+    <text x="15" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#c084fc">TopologyEvents.js</text>
+    <text x="175" y="157" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Gestos, drag nodos (rx/ry), resize</text>
+
+    <text x="15" y="180" font-family="'JetBrains Mono', monospace" font-size="11" fill="#c084fc">TopologyOrch.js</text>
+    <text x="175" y="180" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">startTopo/stopTopo, exportación Retina</text>
+
+    <rect x="15" y="205" width="390" height="115" rx="6" fill="#040a14" stroke="#1e293b"/>
+    <text x="25" y="227" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c084fc" font-weight="700">Integración con el Ciclo Reactivo:</text>
+    <text x="25" y="247" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Al activar la vista de topología se invoca startTopo()</text>
+    <text x="25" y="267" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Al salir se detiene el bucle con stopTopo() para liberar GPU</text>
+    <text x="25" y="287" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Si la vista está inactiva, _renderState.dirtyTopology = true</text>
+    <text x="25" y="307" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Arrastre y redimensión emiten snapshot seguro en store</text>
+  </g>
+
+  <!-- BLOQUE INFERIOR DERECHO: TESTING & AUTOMATIZACIÓN -->
+  <g transform="translate(950, 490)" filter="url(#shadow)">
+    <rect width="400" height="340" rx="10" fill="#08111e" stroke="#e11d48" stroke-width="2"/>
+    <rect width="400" height="40" rx="10" fill="url(#hdrTest)"/>
+    <rect y="30" width="400" height="10" fill="url(#hdrTest)"/>
+    <text x="15" y="26" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">CALIDAD &amp; INTEGRIDAD: tests/</text>
+    <text x="385" y="26" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#fecdd3">360 Tests Automatizados</text>
+
+    <text x="15" y="65" font-family="'JetBrains Mono', monospace" font-size="11" fill="#fb7185">integrity_check.cjs</text>
+    <text x="175" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Runner de Terminal Node.js (CLI)</text>
+
+    <text x="15" y="88" font-family="'JetBrains Mono', monospace" font-size="11" fill="#fb7185">tests/index.html</text>
+    <text x="175" y="88" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Runner Web Visual Autónomo</text>
+
+    <text x="15" y="111" font-family="'JetBrains Mono', monospace" font-size="11" fill="#fb7185">22 Grupos de Prueba</text>
+    <text x="175" y="111" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Cobertura 100% de regresión</text>
+
+    <rect x="15" y="130" width="370" height="190" rx="6" fill="#040a14" stroke="#1e293b"/>
+    <text x="25" y="152" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fb7185" font-weight="700">Hitos de Certificación de Integridad:</text>
+    <text x="25" y="172" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Grupo 1..13: RBAC, CRUD, Colisiones, Flip 3D, Cables</text>
+    <text x="25" y="192" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Grupo 14..16: Cifrado en reposo AES-GCM (M-01) y Quota</text>
+    <text x="25" y="212" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Grupo 17..19: Slots M-40, Tema Sepia M-18 y Swap M-41</text>
+    <text x="25" y="232" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Grupo 20: Skins de Hardware fotorrealistas (M-28)</text>
+    <text x="25" y="252" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Grupo 21: Optimización fastClone e historial N=15 (M-03)</text>
+    <text x="25" y="272" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Grupo 22: Redibujado selectivo y RenderPerformance (M-04)</text>
+    <text x="25" y="292" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#34d399">• Plantilla Campus UTN: 360 pruebas pasadas (100% éxito)</text>
+    <text x="25" y="310" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#38bdf8">• Fallback autónomo en tests/index.html libre de bloqueos CORS</text>
+  </g>
+
+  <!-- FLECHAS DE FLUJO REACTIVO -->
+  <!-- Store -> Main (Proxy Change Event) -->
+  <path d="M 450 220 L 490 220" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="470" y="210" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#38bdf8">emit</text>
+
+  <!-- Main -> UI (renderAll) -->
+  <path d="M 910 220 L 950 220" fill="none" stroke="#818cf8" stroke-width="3" marker-end="url(#arrow-indigo)"/>
+  <text x="930" y="210" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#818cf8">redraw</text>
+
+  <!-- UI User Actions -> Store (mutations) -->
+  <path d="M 1150 455 L 1150 475 L 250 475 L 250 455" fill="none" stroke="#34d399" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#arrow-emerald)"/>
+  <text x="700" y="470" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#34d399">Acción de Usuario (Drop/Click) → store.addDeviceToRack() → snapshot() → mutación</text>
+
+  <!-- Footer Banner Final -->
+  <rect x="40" y="865" width="1320" height="150" rx="8" fill="#060c16" stroke="#1e293b" filter="url(#shadow)"/>
+  <text x="65" y="895" font-family="'Segoe UI', sans-serif" font-size="12.5" fill="#f8fafc" font-weight="700">SÍNTESIS ARQUITECTÓNICA DE RACK DESIGNER NEXT</text>
+  <text x="65" y="920" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">1. <tspan fill="#38bdf8" font-weight="600">Pureza Vanilla 100%:</tspan> Cero dependencias pesadas de runtime, sin transpildores ni empaquetadores (Webpack/Vite). Se ejecuta directamente en cualquier navegador moderno mediante index.html o como PWA offline autónoma.</text>
+  <text x="65" y="945" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">2. <tspan fill="#818cf8" font-weight="600">Reactividad Redux-like Nativa:</tspan> El Proxy ES6 sobre store._raw intercepta mutaciones, genera backups automáticos con cifrado AES-GCM en localStorage y despacha notificaciones atómicas con información enriquecida para redibujado selective O(1).</text>
+  <text x="65" y="970" font-family="'Segoe UI', sans-serif" font-size="11" fill="#34d399" font-weight="600">3. <tspan fill="#34d399" font-weight="600">Rendimiento 60 FPS Coalescente:</tspan> Agrupamiento inteligente rAF en main.js evita recalcular el árbol DOM repetidamente durante ráfagas de eventos, manteniendo un consumo de memoria mínimo con el algoritmo fastClone y límite de 15 instantáneas.</text>
+  <text x="65" y="995" font-family="'Segoe UI', sans-serif" font-size="11" fill="#f59e0b" font-weight="600">4. <tspan fill="#f59e0b" font-weight="600">Topología MVC Desacoplada:</tspan> Motor gráfico Canvas 2D con layouts automáticos por gabinete y árbol DAG, skins fotorrealistas (TopologySkins), 5 ranuras de memoria instantánea y contención geométrica adaptativa.</text>
+</svg>

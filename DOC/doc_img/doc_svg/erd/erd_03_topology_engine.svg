@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="920" viewBox="0 0 1300 920">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050914"/>
+      <stop offset="100%" stop-color="#091322"/>
+    </linearGradient>
+    <linearGradient id="hdrState" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="hdrPos" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="hdrSlots" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="hdrSkins" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1300" height="920" fill="url(#bg)"/>
+  <rect width="1300" height="920" fill="url(#grid)"/>
+
+  <!-- Main Banner -->
+  <rect x="40" y="24" width="1220" height="60" rx="10" fill="#0b1728" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="24" width="6" height="60" rx="3" fill="#0284c7"/>
+  <text x="65" y="48" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" fill="#38bdf8" letter-spacing="2.5" font-weight="700">DIAGRAMA ENTIDAD-RELACIÓN · NIVEL 3</text>
+  <text x="65" y="69" font-family="'Segoe UI', Roboto, sans-serif" font-size="18" fill="#f8fafc" font-weight="700">Motor Gráfico de Topología: Entidades Canvas 2D, Skins y Slots de Memoria</text>
+  <rect x="1070" y="38" width="170" height="30" rx="6" fill="#0c2338" stroke="#0284c7" stroke-width="1"/>
+  <text x="1155" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">CANVAS 2D 60 FPS</text>
+
+  <!-- ENTIDAD 1: TopologyState (Top-Left) -->
+  <g transform="translate(50, 110)" filter="url(#shadow)">
+    <rect width="360" height="280" rx="10" fill="#09111e" stroke="#0284c7" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="10" fill="url(#hdrState)"/>
+    <rect y="28" width="360" height="10" fill="url(#hdrState)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: TopologyState (Estado Global)</text>
+    <text x="335" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#bae6fd">TopologyState.js</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">ATTR</text>
+    <text x="55" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">topoZoom / Pan</text>
+    <text x="230" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (0.1..3x, X, Y)</text>
+
+    <line x1="15" y1="72" x2="345" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="55" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">layoutMode</text>
+    <text x="230" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">racks | tree (DAG)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="55" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">spacingH / V</text>
+    <text x="230" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (Dual Sliders)</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="55" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">nodeLabelPos</text>
+    <text x="230" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">top|bottom|left|right</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="55" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">ipLabelPos</text>
+    <text x="230" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">top|bottom|left|right</text>
+
+    <text x="15" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="55" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">activeTheme</text>
+    <text x="230" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">dark | light | sepia</text>
+
+    <rect x="15" y="210" width="330" height="55" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="230" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#38bdf8">🎨 Parámetros Reactivos de Presentación</text>
+    <text x="25" y="248" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Persistidos en el Store y sincronizados con Canvas 2D</text>
+  </g>
+
+  <!-- ENTIDAD 2: Geometría de Elementos (Top-Center) -->
+  <g transform="translate(470, 110)" filter="url(#shadow)">
+    <rect width="380" height="280" rx="10" fill="#09111e" stroke="#059669" stroke-width="1.5"/>
+    <rect width="380" height="38" rx="10" fill="url(#hdrPos)"/>
+    <rect y="28" width="380" height="10" fill="url(#hdrPos)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: TopologyGeometries (Posiciones)</text>
+    <text x="355" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#d1fae5">store.topology</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">MAP</text>
+    <text x="55" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">nodePositions</text>
+    <text x="230" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">{ [devId]: {x, y} }</text>
+
+    <line x1="15" y1="72" x2="365" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">MAP</text>
+    <text x="55" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">rackPositions</text>
+    <text x="230" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">{ [rackId]: {x, y} }</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">MAP</text>
+    <text x="55" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">rackSizes</text>
+    <text x="230" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">{ [rackId]: {w, h} }</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">MAP</text>
+    <text x="55" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">roomPositions</text>
+    <text x="230" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">{ [roomId]: {x, y} }</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">MAP</text>
+    <text x="55" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">roomSizes</text>
+    <text x="230" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">{ [roomId]: {w, h} }</text>
+
+    <rect x="15" y="195" width="350" height="70" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#34d399">📐 Contención Geométrica y Afinidad (M-39)</text>
+    <text x="25" y="233" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Equipos contenidos por límites de gabinete y sala</text>
+    <text x="25" y="250" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Arrastre interactivo con radios adaptativos rx y ry</text>
+  </g>
+
+  <!-- ENTIDAD 3: TopologySkins (Top-Right) -->
+  <g transform="translate(910, 110)" filter="url(#shadow)">
+    <rect width="340" height="280" rx="10" fill="#09111e" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect width="340" height="38" rx="10" fill="url(#hdrSkins)"/>
+    <rect y="28" width="340" height="10" fill="url(#hdrSkins)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: TopologySkins (M-28)</text>
+    <text x="315" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ede9fe">TopologySkins.js</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">ENUM</text>
+    <text x="55" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">MODES</text>
+    <text x="180" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">circle | card | image</text>
+
+    <line x1="15" y1="72" x2="325" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">DIM</text>
+    <text x="55" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">circle</text>
+    <text x="180" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">r: 22px (44×44, b: 66)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">DIM</text>
+    <text x="55" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">card</text>
+    <text x="180" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">150×50px (b: 160×60)</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">DIM</text>
+    <text x="55" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">image</text>
+    <text x="180" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">140×50px (Chasis IT)</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">COLL</text>
+    <text x="55" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">HARDWARE_PRESETS</text>
+    <text x="210" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">18 SVGs offline</text>
+
+    <rect x="15" y="195" width="310" height="70" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="215" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#c084fc">🖼️ Chasis Fotorrealista y Carga Custom</text>
+    <text x="25" y="233" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Hit-Testing matemático unificado: isPointInNode()</text>
+    <text x="25" y="250" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Caché de imágenes en memoria para bucle a 60 FPS</text>
+  </g>
+
+  <!-- ENTIDAD 4: TopologySlots (Bottom-Left) -->
+  <g transform="translate(50, 440)" filter="url(#shadow)">
+    <rect width="400" height="260" rx="10" fill="#09111e" stroke="#d97706" stroke-width="1.5"/>
+    <rect width="400" height="38" rx="10" fill="url(#hdrSlots)"/>
+    <rect y="28" width="400" height="10" fill="url(#hdrSlots)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: TopologySlot (Memoria M-40)</text>
+    <text x="380" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#fef3c7">topologySlots[0..4]</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">PK</text>
+    <text x="45" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">index</text>
+    <text x="230" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (0..4)</text>
+
+    <line x1="15" y1="72" x2="385" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">name / timestamp</text>
+    <text x="230" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string / ISO date</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">SNAP</text>
+    <text x="45" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">node / rack / room Pos</text>
+    <text x="230" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">Copia profunda aislada</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">SNAP</text>
+    <text x="45" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">zoom / panX / panY</text>
+    <text x="230" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">Encuadre visual exacto</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">SNAP</text>
+    <text x="45" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">style</text>
+    <text x="230" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">circle | card | image</text>
+
+    <rect x="15" y="185" width="370" height="60" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="205" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#f59e0b">💾 5 Slots de Guardado y Restauración Instantánea</text>
+    <text x="25" y="223" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Excluidos de store.snapshot() (M-03) ahorrando hasta 80% RAM</text>
+  </g>
+
+  <!-- MÓDULOS DEL MOTOR DE TOPOLOGÍA (Bottom-Right) -->
+  <g transform="translate(490, 440)" filter="url(#shadow)">
+    <rect width="760" height="260" rx="10" fill="#08111e" stroke="#1e293b" stroke-width="1.5"/>
+    <rect width="760" height="38" rx="10" fill="#0f1f33"/>
+    <text x="20" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#38bdf8" font-weight="700">PIPELINE DE EJECUCIÓN MODULAR EN TIEMPO REAL</text>
+
+    <!-- 4 Sub-cajas de módulos -->
+    <rect x="20" y="55" width="165" height="185" rx="8" fill="#0a1526" stroke="#0284c7" stroke-width="1"/>
+    <text x="30" y="78" font-family="'Segoe UI', sans-serif" font-size="11" fill="#38bdf8" font-weight="700">TopologyLayout.js</text>
+    <text x="30" y="98" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Distribución por racks</text>
+    <text x="30" y="116" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Layout DAG padre-hijo</text>
+    <text x="30" y="134" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Afinidad de piso (M-39)</text>
+    <text x="30" y="152" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Separación H/V continua</text>
+    <text x="30" y="170" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• No muta store (puro)</text>
+
+    <rect x="205" y="55" width="165" height="185" rx="8" fill="#0a1526" stroke="#059669" stroke-width="1"/>
+    <text x="215" y="78" font-family="'Segoe UI', sans-serif" font-size="11" fill="#34d399" font-weight="700">TopologyRenderer.js</text>
+    <text x="215" y="98" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Bucle requestAnimationFrame</text>
+    <text x="215" y="116" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Curvas Bézier &amp; Ortogonales</text>
+    <text x="215" y="134" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Partículas de tráfico anim</text>
+    <text x="215" y="152" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• HUD de datos y LEDs</text>
+    <text x="215" y="170" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Fondo dots/grid/hexagon</text>
+
+    <rect x="390" y="55" width="165" height="185" rx="8" fill="#0a1526" stroke="#e11d48" stroke-width="1"/>
+    <text x="400" y="78" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fb7185" font-weight="700">TopologyEvents.js</text>
+    <text x="400" y="98" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Pointerdown/move/up</text>
+    <text x="400" y="116" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Drag nodos, racks, salas</text>
+    <text x="400" y="134" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Redimensionamiento manual</text>
+    <text x="400" y="152" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Dblclick (cable / modal)</text>
+    <text x="400" y="170" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Wheel zoom interactivo</text>
+
+    <rect x="575" y="55" width="165" height="185" rx="8" fill="#0a1526" stroke="#7c3aed" stroke-width="1"/>
+    <text x="585" y="78" font-family="'Segoe UI', sans-serif" font-size="11" fill="#c084fc" font-weight="700">TopologyOrch.js</text>
+    <text x="585" y="98" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• startTopo() / stopTopo()</text>
+    <text x="585" y="116" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• resizeCanvas() responsive</text>
+    <text x="585" y="134" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• exportTopologyToPNG()</text>
+    <text x="585" y="152" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Offscreen canvas 2x Retina</text>
+    <text x="585" y="170" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#94a3b8">• Coordinación de ciclo UI</text>
+  </g>
+
+  <!-- Relaciones / Flechas -->
+  <path d="M 410 200 L 470 200" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 850 200 L 910 200" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-purple)"/>
+  <path d="M 230 390 L 230 440" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 450 550 L 490 550" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <!-- Footer Banner -->
+  <rect x="40" y="730" width="1220" height="150" rx="8" fill="#07101c" stroke="#1e293b" filter="url(#shadow)"/>
+  <text x="65" y="760" font-family="'Segoe UI', sans-serif" font-size="12" fill="#f8fafc" font-weight="700">PATRÓN DE DESACOPLAMIENTO Y RENDIMIENTO EN CANVAS 2D</text>
+  <text x="65" y="785" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Estado Sucio (_renderState.dirtyTopology): Si el usuario está trabajando en la vista física, las mutaciones de datos posponen el redibujado de topología hasta que se seleccione la pestaña, ahorrando cómputo de CPU/GPU.</text>
+  <text x="65" y="808" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Aislamiento de Undo/Redo en Slots: Restaurar un slot de topología conmuta las coordenadas del mundo gráfico sin alterar el historial de mutaciones de infraestructura (_undoStack), garantizando libertad visual sin riesgo de pérdida de datos.</text>
+  <text x="65" y="831" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Precisión de Colisión: isPointInNode() unifica matemáticamente el arrastre, hover y apertura modal con tolerancia contextual tanto en modos geométricos (círculos y tarjetas) como en contornos de chasis hardware.</text>
+</svg>

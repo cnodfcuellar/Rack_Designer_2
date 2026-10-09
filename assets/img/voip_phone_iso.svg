@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Sombra suave en el suelo -->
+    <filter id="shadowVoip" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#020617" flood-opacity="0.3"/>
+    </filter>
+    <!-- Pantalla LCD del teléfono -->
+    <linearGradient id="voipLcd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- SOMBRA BASE EN EL SUELO -->
+  <polygon points="70,270 200,195 330,270 200,345" fill="#000000" opacity="0.12"/>
+
+  <!-- ======================================================== -->
+  <!-- 1. BASE INCLINADA DEL TELÉFONO (Consola principal)        -->
+  <!-- ======================================================== -->
+  <g id="phone-base" filter="url(#shadowVoip)">
+    <!-- Cuña / Cara superior inclinada -->
+    <polygon points="120,205 210,153 290,199 200,251" fill="#334155"/>
+    <!-- Canto frontal izquierdo -->
+    <polygon points="120,205 200,251 200,276 120,230" fill="#0f172a"/>
+    <!-- Canto frontal derecho -->
+    <polygon points="200,251 290,199 290,224 200,276" fill="#1e293b"/>
+
+    <!-- PANTALLA LCD SUPERIOR INCLINADA -->
+    <polygon points="195,180 235,157 265,174 225,197" fill="url(#voipLcd)"/>
+    <!-- Líneas de estado en pantalla (Hora, Extensión 101, Ícono de Red) -->
+    <path d="M 205 180 L 245 163 M 205 186 L 235 174" stroke="#ffffff" stroke-width="1.8"/>
+
+    <!-- BOTONES DE TECLADO NUMÉRICO (MATRIZ 3x4 NÍTIDA) -->
+    <!-- Fila 1 -->
+    <ellipse cx="212" cy="208" rx="3.5" ry="2" fill="#ffffff"/>
+    <ellipse cx="225" cy="201" rx="3.5" ry="2" fill="#ffffff"/>
+    <ellipse cx="238" cy="194" rx="3.5" ry="2" fill="#ffffff"/>
+    <!-- Fila 2 -->
+    <ellipse cx="220" cy="216" rx="3.5" ry="2" fill="#ffffff"/>
+    <ellipse cx="233" cy="209" rx="3.5" ry="2" fill="#ffffff"/>
+    <ellipse cx="246" cy="202" rx="3.5" ry="2" fill="#ffffff"/>
+    <!-- Fila 3 -->
+    <ellipse cx="228" cy="224" rx="3.5" ry="2" fill="#ffffff"/>
+    <ellipse cx="241" cy="217" rx="3.5" ry="2" fill="#ffffff"/>
+    <ellipse cx="254" cy="210" rx="3.5" ry="2" fill="#ffffff"/>
+    <!-- Botón verde de llamada y rojo de colgar -->
+    <ellipse cx="236" cy="233" rx="4" ry="2.2" fill="#22c55e"/>
+    <ellipse cx="262" cy="218" rx="4" ry="2.2" fill="#ef4444"/>
+
+    <!-- Cuna / Hueco donde descansa el auricular -->
+    <polygon points="135,212 175,189 185,195 145,218" fill="#1e293b"/>
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- 2. AURICULAR ERGONÓMICO (DESMONTADO / APOYADO A LA IZQ)  -->
+  <!-- ======================================================== -->
+  <g id="handset" filter="url(#shadowVoip)">
+    <!-- Cuerpo del auricular -->
+    <!-- Bloque superior (altavoz/oído) -->
+    <polygon points="160,170 178,160 190,167 172,177" fill="#1e293b"/>
+    <polygon points="172,177 190,167 190,175 172,185" fill="#0f172a"/>
+    <ellipse cx="175" cy="170" rx="6" ry="3.5" fill="#475569"/>
+
+    <!-- Mango ergonómico intermedio -->
+    <polygon points="145,190 165,178 172,185 152,197" fill="#334155"/>
+
+    <!-- Bloque inferior (micrófono/boca) -->
+    <polygon points="130,215 148,205 160,212 142,222" fill="#1e293b"/>
+    <polygon points="142,222 160,212 160,220 142,230" fill="#0f172a"/>
+    <ellipse cx="145" cy="215" rx="6" ry="3.5" fill="#475569"/>
+
+    <!-- CABLE EN ESPIRAL / RESORTE HACIA LA BASE -->
+    <path d="M 132,226 C 122,235 125,245 135,248 C 125,255 130,265 142,260" 
+          fill="none" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

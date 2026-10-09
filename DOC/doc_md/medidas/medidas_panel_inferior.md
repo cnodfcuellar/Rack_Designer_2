@@ -32,14 +32,16 @@ El panel inferior actúa como una hoja de datos tipo Excel interactiva que conti
 
 ## 2. Cabecera del Panel (`.bottom-header`)
 
-La cabecera contiene los selectores de pestañas (Inventario y Conexiones), botones de acción rápida, filtros de búsqueda y exportaciones.
+La cabecera contiene los selectores de pestañas (5 pestañas modulares completas: **Dispositivos**, **Racks**, **Conexiones**, **Puertos** y **VLANs**), botón para el modal de importación masiva (`#btn-table-import-modal`, M-21/M-22), filtros de búsqueda, selector dinámico de columnas y menú de exportación.
 
 *   **Altura Fija:** **`38px`** (`flex-shrink: 0`).
 *   **Layout:** Flexbox horizontal (`display: flex`, `align-items: center`, `gap: 8px`) con relleno lateral de `padding: 0 14px`.
 *   **Elementos Normalizados a Altura de 24px:**
     *   **Pestañas de Control (`.tab-pill`):** Relleno interno de `5px 14px`. El botón activo tiene fondo iluminado (`var(--accent-glow)`) y texto de color de énfasis (`var(--accent)`).
-    *   **Buscador Local (`#table-search`):** Ancho fijo de **`160px`**.
-    *   **Botón de Menú de Exportación (`#btn-export-menu`):** Despliega el menú `#export-dropdown` posicionado en `z-index: 9999` con un ancho de **`180px`**.
+    *   **Botón de Importación Masiva (`#btn-table-import-modal`, M-21/M-22):** Abre el diálogo drag & drop `#modal-import-devices` con análisis reactivo de colisiones para hojas Excel (.xlsx) y CSV.
+    *   **Buscador Local (`#table-search`):** Ancho fijo de **`160px`** con filtrado en tiempo real.
+    *   **Gestión Dinámica de Columnas (`#btn-columns-menu`, M-20):** Desplegable con checkboxes para alternar visibilidad de las 18 columnas de datos.
+    *   **Botón de Menú de Exportación (`#btn-export-menu`):** Despliega el menú `#export-dropdown` posicionado en `z-index: 9999` con un ancho de **`180px`** (JSON, CSV, Excel, Plantillas M-21, PNG Retina 1:1).
 
 ---
 
@@ -90,6 +92,26 @@ Las tablas de datos utilizan el modelo de colapso de bordes y tipografías monoe
     *   Fuente: Tamaño `--text-sm` (`11px`), tipografía monoespaciada y color secundario (`var(--text-secondary)`).
     *   Ajuste: `white-space: nowrap` y alineación vertical media.
 *   **Fila en Hover (`tr:hover td`):** El fondo cambia a un color de tarjeta destacado (`var(--bg-card2)`) para mejorar el seguimiento de la fila.
+
+### 🔌 Estructura de la Tabla de Conexiones (M-41)
+Lista cada enlace físico/lógico del proyecto con herramientas directas de gestión:
+1.  **Origen:** Dispositivo emisor con distintivo cromático.
+2.  **Puerto Origen:** Conector asignado (ej. `eth0`, `port-24`).
+3.  **Destino:** Dispositivo receptor.
+4.  **Puerto Destino:** Conector de llegada.
+5.  **Tipo de Cable:** Norma física (Cat6, Cat6A, Fibra OS2, OM4, DAC, etc.).
+6.  **Longitud:** Metraje en metros.
+7.  **VLAN:** Identificador y color de red virtual.
+8.  **Canaleta / Orientación (M-41):** Toggle interactivo directo en celda (`⬆️ Techo` ⇄ `⬇️ Piso`). Alterna la ruta física del cable hacia bandejas aéreas o piso técnico.
+9.  **Acciones:**
+    *   **Invertir Extremos (`data-swap-conn`, M-41):** Botón rápido con icono vectorial `.icon-swap` (⇄) que intercambia inmediatamente el equipo y puerto de origen por los de destino.
+    *   **Editar en Modal:** Abre `CableModal` para reconfiguración completa.
+    *   **Eliminar Enlace:** Remueve la conexión y libera ambos puertos en tiempo real.
+
+### 📊 Otras Pestañas Modulares
+*   **Racks:** Capacidad en U, carga en kg, potencia consumida vs capacidad de PDU y balance térmico.
+*   **Puertos:** Vista consolidada de puertos libres vs ocupados por dispositivo, tipo de interfaz y velocidad.
+*   **VLANs:** Segmentos de red, direccionamiento IP CIDR, gateways y codificación hexadecimal de color.
 
 ---
 

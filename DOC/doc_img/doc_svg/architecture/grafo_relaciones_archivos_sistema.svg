@@ -1,0 +1,736 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1350" width="2000" height="1350" style="background:#070b14; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+  <defs>
+    <!-- Gradiente de fondo global -->
+    <linearGradient id="canvasBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050811"/>
+      <stop offset="50%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#04060d"/>
+    </linearGradient>
+
+    <!-- Gradientes de categorías / subsistemas -->
+    <linearGradient id="gradRoot" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+
+    <linearGradient id="gradCss" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#be185d"/>
+    </linearGradient>
+
+    <linearGradient id="gradVendor" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+
+    <linearGradient id="gradCore" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+
+    <linearGradient id="gradAuth" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#a16207"/>
+    </linearGradient>
+
+    <linearGradient id="gradModals" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+
+    <linearGradient id="gradUI" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+
+    <linearGradient id="gradTopo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#7e22ce"/>
+    </linearGradient>
+
+    <linearGradient id="gradOrch" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#9f1239"/>
+    </linearGradient>
+
+    <!-- Filtros de elevación -->
+    <filter id="shadowBox" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Marcadores de Flechas para las aristas del grafo -->
+    <marker id="m-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569"/>
+    </marker>
+    <marker id="m-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="m-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="m-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ec4899"/>
+    </marker>
+    <marker id="m-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#a855f7"/>
+    </marker>
+    <marker id="m-emerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981"/>
+    </marker>
+    <marker id="m-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f97316"/>
+    </marker>
+
+    <!-- Cuadrícula técnica de fondo -->
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#172033" stroke-width="0.6" stroke-opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Fondo Completo -->
+  <rect width="2000" height="1350" fill="url(#canvasBg)"/>
+  <rect width="2000" height="1350" fill="url(#gridPattern)"/>
+
+  <!-- ========================================================================= -->
+  <!-- HEADER / TÍTULO PRINCIPAL                                                 -->
+  <!-- ========================================================================= -->
+  <g transform="translate(60, 35)">
+    <rect width="1880" height="80" rx="14" fill="#0e1726" stroke="#1e293b" stroke-width="1.6" filter="url(#shadowBox)"/>
+    <rect x="0" y="0" width="8" height="80" rx="4" fill="#38bdf8"/>
+    
+    <text x="32" y="34" font-size="11" font-weight="700" fill="#38bdf8" letter-spacing="2">GRAFO EXHAUSTIVO DE ARCHIVOS ESENCIALES DEL SISTEMA RUNTIME (0 BUILD STEP)</text>
+    <text x="32" y="62" font-size="22" font-weight="800" fill="#f8fafc">MAPA DE RELACIONES, CARGA Y DEPENDENCIAS CRÍTICAS DEL PROYECTO</text>
+    
+    <g transform="translate(1330, 26)">
+      <rect width="250" height="30" rx="6" fill="#1e293b" stroke="#334155"/>
+      <circle cx="16" cy="15" r="5" fill="#10b981"/>
+      <text x="30" y="20" font-size="12" font-weight="600" fill="#cbd5e1">100% Archivos Esenciales</text>
+
+      <rect x="265" width="265" height="30" rx="6" fill="#1e293b" stroke="#334155"/>
+      <circle cx="281" cy="15" r="5" fill="#38bdf8"/>
+      <text x="295" y="20" font-size="12" font-weight="600" fill="#cbd5e1">Persistencia Offline &amp; Proxy</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 1: RAÍZ & MANIFIESTO PWA (X: 60, Y: 145, W: 290)                      -->
+  <!-- ========================================================================= -->
+  <g transform="translate(60, 145)">
+    <rect width="290" height="340" rx="12" fill="#091424" stroke="#0369a1" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="290" height="32" rx="12" fill="url(#gradRoot)"/>
+    <rect y="20" width="290" height="12" fill="#0369a1"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">1. ENTRADA Y MANIFIESTO PWA</text>
+
+    <!-- index.html -->
+    <g id="node-index" transform="translate(15, 45)">
+      <rect width="260" height="75" rx="8" fill="#0f2942" stroke="#38bdf8" stroke-width="1.8"/>
+      <text x="12" y="22" font-size="14" font-weight="800" fill="#7dd3fc">index.html</text>
+      <text x="12" y="40" font-size="10.5" fill="#e0f2fe">Punto de entrada DOM y contenedor</text>
+      <text x="12" y="54" font-size="10" fill="#94a3b8">Carga los 32+ scripts en orden global</text>
+      <text x="12" y="67" font-size="9.5" fill="#38bdf8">Estructura #app (#header, #sidebar, etc.)</text>
+    </g>
+
+    <!-- service-worker.js -->
+    <g id="node-sw" transform="translate(15, 130)">
+      <rect width="260" height="65" rx="6" fill="#0e2236" stroke="#0ea5e9" stroke-width="1.2"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#38bdf8">service-worker.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Caché: rack-designer-next-cache-v33</text>
+      <text x="12" y="52" font-size="9.5" fill="#94a3b8">Intercepta peticiones (Cache-First Offline)</text>
+    </g>
+
+    <!-- json/manifest.json -->
+    <g id="node-manifest" transform="translate(15, 205)">
+      <rect width="260" height="55" rx="6" fill="#0e2236" stroke="#0284c7" stroke-width="1"/>
+      <text x="12" y="20" font-size="12.5" font-weight="700" fill="#38bdf8">json/manifest.json</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Metadatos de instalación PWA en SO</text>
+      <text x="12" y="48" font-size="9" fill="#94a3b8">Iconos 192x192, 512x512, tema y display</text>
+    </g>
+
+    <!-- assets/icons/icon.svg -->
+    <g id="node-icon" transform="translate(15, 270)">
+      <rect width="260" height="55" rx="6" fill="#0e2236" stroke="#0284c7" stroke-width="1"/>
+      <text x="12" y="20" font-size="12" font-weight="700" fill="#38bdf8">assets/icons/icon.svg / PNGs</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Identidad visual y favicons del sistema</text>
+      <text x="12" y="48" font-size="9" fill="#94a3b8">icon-192x192.png, icon-512x512.png</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 2: SISTEMA CSS MODULAR (X: 60, Y: 510, W: 290)                       -->
+  <!-- ========================================================================= -->
+  <g transform="translate(60, 510)">
+    <rect width="290" height="450" rx="12" fill="#190915" stroke="#831843" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="290" height="32" rx="12" fill="url(#gradCss)"/>
+    <rect y="20" width="290" height="12" fill="#be185d"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">2. SISTEMA CSS MODULAR (css/)</text>
+
+    <!-- css/style.css -->
+    <g id="node-style" transform="translate(15, 45)">
+      <rect width="260" height="50" rx="6" fill="#2d0b21" stroke="#ec4899" stroke-width="1.6"/>
+      <text x="12" y="22" font-size="13" font-weight="800" fill="#fbcfe8">css/style.css</text>
+      <text x="12" y="38" font-size="10" fill="#f472b6">Punto de entrada CSS (@import en cadena)</text>
+    </g>
+
+    <!-- Submódulos CSS -->
+    <g transform="translate(15, 105)">
+      <rect x="0" y="0" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="16" font-size="11" font-weight="700" fill="#f9a8d4">css/variables.css</text>
+      <text x="10" y="29" font-size="9" fill="#cbd5e1">Tokens de color (3 temas), U=24px, gap=72px</text>
+
+      <rect x="0" y="44" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="60" font-size="11" font-weight="700" fill="#f9a8d4">css/layout.css</text>
+      <text x="10" y="73" font-size="9" fill="#cbd5e1">Grid (#header, #sidebar, #main, #right, #bottom)</text>
+
+      <rect x="0" y="88" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="104" font-size="11" font-weight="700" fill="#f9a8d4">css/mobile-drag-drop.css</text>
+      <text x="10" y="117" font-size="9" fill="#cbd5e1">Estilos visuales para touch drag en móviles</text>
+
+      <rect x="0" y="132" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="148" font-size="11" font-weight="700" fill="#f9a8d4">css/components/panels.css</text>
+      <text x="10" y="161" font-size="9" fill="#cbd5e1">Paneles laterales, buscador, outliner e inspector</text>
+
+      <rect x="0" y="176" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="192" font-size="11" font-weight="700" fill="#f9a8d4">css/components/rack.css</text>
+      <text x="10" y="205" font-size="9" fill="#cbd5e1">Rieles de rack, numeración 1U-48U, canales</text>
+
+      <rect x="0" y="220" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="236" font-size="11" font-weight="700" fill="#f9a8d4">css/components/faceplates.css</text>
+      <text x="10" y="249" font-size="9" fill="#cbd5e1">Skins frontales: LEDs, puertos RJ45/SFP, biseles</text>
+
+      <rect x="0" y="264" width="260" height="38" rx="5" fill="#200617" stroke="#9d174d" stroke-width="1"/>
+      <text x="10" y="280" font-size="11" font-weight="700" fill="#f9a8d4">css/components/modals.css &amp; misc.css</text>
+      <text x="10" y="293" font-size="9" fill="#cbd5e1">Diálogos emergentes, backdrops, tooltips y animaciones</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 3: VENDOR LIBS (X: 380, Y: 145, W: 310)                              -->
+  <!-- ========================================================================= -->
+  <g transform="translate(380, 145)">
+    <rect width="310" height="230" rx="12" fill="#0b1326" stroke="#1d4ed8" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="310" height="32" rx="12" fill="url(#gradVendor)"/>
+    <rect y="20" width="310" height="12" fill="#1d4ed8"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">3. LIBRERÍAS EXTERNAS (VENDOR)</text>
+
+    <!-- xlsx.full.min.js -->
+    <g id="node-xlsx" transform="translate(15, 45)">
+      <rect width="280" height="40" rx="6" fill="#122040" stroke="#3b82f6" stroke-width="1"/>
+      <text x="12" y="24" font-size="12.5" font-weight="700" fill="#93c5fd">js/xlsx.full.min.js</text>
+      <text x="195" y="24" font-size="10" fill="#64748b">Excel Import/Export</text>
+    </g>
+
+    <!-- html2canvas.min.js -->
+    <g id="node-h2c" transform="translate(15, 95)">
+      <rect width="280" height="40" rx="6" fill="#122040" stroke="#3b82f6" stroke-width="1"/>
+      <text x="12" y="24" font-size="12.5" font-weight="700" fill="#93c5fd">js/html2canvas.min.js</text>
+      <text x="190" y="24" font-size="10" fill="#64748b">Rasterizado a PNG</text>
+    </g>
+
+    <!-- mobile-drag-drop -->
+    <g id="node-mdd" transform="translate(15, 145)">
+      <rect width="280" height="65" rx="6" fill="#122040" stroke="#3b82f6" stroke-width="1"/>
+      <text x="12" y="22" font-size="12" font-weight="700" fill="#93c5fd">js/mobile-drag-drop*.min.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Polyfill HTML5 Drag and Drop táctil</text>
+      <text x="12" y="52" font-size="9" fill="#94a3b8">mobile-drag-drop.min.js + scroll.min.js</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 4: NÚCLEO REACTIVO & ESTADO (X: 380, Y: 395, W: 310)                  -->
+  <!-- ========================================================================= -->
+  <g transform="translate(380, 395)">
+    <rect width="310" height="470" rx="12" fill="#071926" stroke="#0e7490" stroke-width="1.4" filter="url(#shadowBox)"/>
+    <rect width="310" height="32" rx="12" fill="url(#gradCore)"/>
+    <rect y="20" width="310" height="12" fill="#0e7490"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">4. NÚCLEO REACTIVO (CORE)</text>
+
+    <!-- store.js -->
+    <g id="node-store" transform="translate(15, 45)">
+      <rect width="280" height="100" rx="8" fill="#0a2a40" stroke="#06b6d4" stroke-width="2"/>
+      <circle cx="260" cy="22" r="6" fill="#06b6d4" filter="url(#glowCyan)"/>
+      <text x="14" y="25" font-size="16" font-weight="800" fill="#67e8f9">js/store.js</text>
+      <text x="14" y="44" font-size="11" font-weight="700" fill="#a5f3fc">• Patrón Proxy ES6 (_makeProxy)</text>
+      <text x="14" y="60" font-size="10" fill="#e0f2fe">• Mutación de _raw y guardado a LocalStorage</text>
+      <text x="14" y="74" font-size="10" fill="#cbd5e1">• Emisión de eventos: store._emit('change')</text>
+      <text x="14" y="88" font-size="10" fill="#67e8f9">• Historial Deshacer/Rehacer (N=15)</text>
+    </g>
+
+    <!-- utils.js -->
+    <g id="node-utils" transform="translate(15, 155)">
+      <rect width="280" height="55" rx="6" fill="#0b2438" stroke="#0891b2" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#38bdf8">js/utils.js</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">fastClone, debounce, escapeHtml, uid,</text>
+      <text x="12" y="48" font-size="9" fill="#94a3b8">formatPower, formatWeight, colores</text>
+    </g>
+
+    <!-- icons.js -->
+    <g id="node-icons" transform="translate(15, 220)">
+      <rect width="280" height="50" rx="6" fill="#0b2438" stroke="#0891b2" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#38bdf8">js/icons.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Catálogo de 60+ iconos SVG inline (window.Icons)</text>
+    </g>
+
+    <!-- demoData.js -->
+    <g id="node-demodata" transform="translate(15, 280)">
+      <rect width="280" height="55" rx="6" fill="#0b2438" stroke="#0891b2" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#38bdf8">js/demoData.js</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Dataset inicial: Sala Principal, 2 Racks,</text>
+      <text x="12" y="48" font-size="9" fill="#94a3b8">equipos estándar (servidores, switches, routers)</text>
+    </g>
+
+    <!-- fileManager.js -->
+    <g id="node-filemgr" transform="translate(15, 345)">
+      <rect width="280" height="55" rx="6" fill="#0b2438" stroke="#0891b2" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#38bdf8">js/ui/fileManager.js</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Lectura y descarga de proyectos (.rack y .json)</text>
+      <text x="12" y="48" font-size="9" fill="#94a3b8">Exportación Excel estructurada con xlsx</text>
+    </g>
+
+    <!-- default svgs info -->
+    <g transform="translate(15, 410)">
+      <rect width="280" height="45" rx="6" fill="#071b29" stroke="#05536e" stroke-width="0.8"/>
+      <text x="12" y="20" font-size="10" font-weight="600" fill="#67e8f9">assets/svg/default/*.svg (13 skins vectoriales)</text>
+      <text x="12" y="34" font-size="8.5" fill="#94a3b8">server_1u, switch_24p, router, ups, storage, etc.</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 5: AUTENTICACIÓN Y ROLES RBAC (X: 380, Y: 885, W: 310)               -->
+  <!-- ========================================================================= -->
+  <g transform="translate(380, 885)">
+    <rect width="310" height="160" rx="12" fill="#1c1606" stroke="#854d0e" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="310" height="32" rx="12" fill="url(#gradAuth)"/>
+    <rect y="20" width="310" height="12" fill="#a16207"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">5. SEGURIDAD RBAC (js/auth/)</text>
+
+    <!-- crypto.js -->
+    <g id="node-crypto" transform="translate(15, 45)">
+      <rect width="280" height="42" rx="6" fill="#2b2007" stroke="#ca8a04" stroke-width="1"/>
+      <text x="12" y="24" font-size="12.5" font-weight="700" fill="#fde047">js/auth/crypto.js</text>
+      <text x="140" y="24" font-size="9.5" fill="#cbd5e1">SHA-256 WebCrypto</text>
+    </g>
+
+    <!-- roles.js -->
+    <g id="node-roles" transform="translate(15, 95)">
+      <rect width="280" height="50" rx="6" fill="#2b2007" stroke="#eab308" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="13" font-weight="800" fill="#fef08a">js/auth/roles.js (window.RackAuth)</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Control de roles: Admin, Editor, Espectador</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 6: SISTEMA DE MODALES (X: 730, Y: 145, W: 380)                       -->
+  <!-- ========================================================================= -->
+  <g transform="translate(730, 145)">
+    <rect width="380" height="420" rx="12" fill="#1c0f07" stroke="#9a3412" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="380" height="32" rx="12" fill="url(#gradModals)"/>
+    <rect y="20" width="380" height="12" fill="#c2410c"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">6. SISTEMA DE MODALES (ui/modals/)</text>
+
+    <!-- Globals.js -->
+    <g id="node-mod-glob" transform="translate(15, 45)">
+      <rect width="350" height="40" rx="6" fill="#2e1408" stroke="#ea580c" stroke-width="1.2"/>
+      <text x="12" y="24" font-size="13" font-weight="700" fill="#fdba74">js/ui/modals/Globals.js</text>
+      <text x="180" y="24" font-size="10" fill="#fed7aa">openModal, closeModal, backdrops</text>
+    </g>
+
+    <!-- Componentes de Modales en Rejilla 2 Columnas -->
+    <g transform="translate(15, 95)">
+      <!-- RackModal -->
+      <g id="node-mod-rack" transform="translate(0, 0)">
+        <rect width="170" height="52" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">RackModal.js</text>
+        <text x="10" y="34" font-size="9" fill="#cbd5e1">Alta y edición de racks</text>
+        <text x="10" y="45" font-size="8.5" fill="#94a3b8">Unidades U, nombre, fila</text>
+      </g>
+
+      <!-- DeviceModal -->
+      <g id="node-mod-dev" transform="translate(180, 0)">
+        <rect width="170" height="52" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">DeviceModal.js</text>
+        <text x="10" y="34" font-size="9" fill="#cbd5e1">Formulario de equipos</text>
+        <text x="10" y="45" font-size="8.5" fill="#94a3b8">Watts, peso, puertos, skin</text>
+      </g>
+
+      <!-- CableModal -->
+      <g id="node-mod-cab" transform="translate(0, 60)">
+        <rect width="170" height="52" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">CableModal.js</text>
+        <text x="10" y="34" font-size="9" fill="#cbd5e1">Conexión origen-destino</text>
+        <text x="10" y="45" font-size="8.5" fill="#94a3b8">Tipo cable, color, VLAN</text>
+      </g>
+
+      <!-- RoomModal -->
+      <g id="node-mod-room" transform="translate(180, 60)">
+        <rect width="170" height="52" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">RoomModal.js</text>
+        <text x="10" y="34" font-size="9" fill="#cbd5e1">Salas del Datacenter</text>
+        <text x="10" y="45" font-size="8.5" fill="#94a3b8">Multi-sala y dimensiones</text>
+      </g>
+
+      <!-- ExportModal -->
+      <g id="node-mod-exp" transform="translate(0, 120)">
+        <rect width="170" height="52" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">ExportModal.js</text>
+        <text x="10" y="34" font-size="9" fill="#cbd5e1">Exportador Integral</text>
+        <text x="10" y="45" font-size="8.5" fill="#94a3b8">PNG (h2c), JSON, Excel</text>
+      </g>
+
+      <!-- PlacementModal -->
+      <g id="node-mod-plc" transform="translate(180, 120)">
+        <rect width="170" height="52" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">PlacementModal.js</text>
+        <text x="10" y="34" font-size="9" fill="#cbd5e1">Ubicación rápida en U</text>
+        <text x="10" y="45" font-size="8.5" fill="#94a3b8">Selección de slot destino</text>
+      </g>
+
+      <!-- ImportModal -->
+      <g id="node-mod-imp" transform="translate(0, 180)">
+        <rect width="350" height="50" rx="6" fill="#281106" stroke="#c2410c" stroke-width="1"/>
+        <text x="10" y="20" font-size="12" font-weight="700" fill="#fed7aa">ImportModal.js</text>
+        <text x="10" y="34" font-size="9.5" fill="#cbd5e1">Importación masiva Excel / JSON con previsualización</text>
+      </g>
+    </g>
+
+    <!-- Coordinador modals.js -->
+    <g id="node-modals" transform="translate(15, 345)">
+      <rect width="350" height="58" rx="8" fill="#361707" stroke="#f97316" stroke-width="1.8"/>
+      <text x="12" y="24" font-size="14" font-weight="800" fill="#ffedd5">js/ui/modals.js (window.Modals)</text>
+      <text x="12" y="42" font-size="10.5" fill="#fed7aa">Fachada unificada que expone métodos hacia UI</text>
+      <text x="12" y="53" font-size="9" fill="#fdba74">Dispara mutaciones directamente hacia store.js</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 7: VISTAS DE INTERFAZ DE USUARIO (X: 730, Y: 585, W: 380)            -->
+  <!-- ========================================================================= -->
+  <g transform="translate(730, 585)">
+    <rect width="380" height="460" rx="12" fill="#081a12" stroke="#047857" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="380" height="32" rx="12" fill="url(#gradUI)"/>
+    <rect y="20" width="380" height="12" fill="#047857"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">7. VISTAS DE INTERFAZ DE USUARIO (ui/*.js)</text>
+
+    <!-- catalog.js -->
+    <g id="node-catalog" transform="translate(15, 45)">
+      <rect width="350" height="52" rx="6" fill="#0f2e20" stroke="#10b981" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#a7f3d0">js/ui/catalog.js</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Sidebar de categorías, flyout desplegable de equipos,</text>
+      <text x="12" y="48" font-size="9" fill="#6ee7b7">buscador en tiempo real e inicialización de drag &amp; drop</text>
+    </g>
+
+    <!-- faceplates.js -->
+    <g id="node-faceplates" transform="translate(15, 105)">
+      <rect width="350" height="52" rx="6" fill="#0f2e20" stroke="#10b981" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#a7f3d0">js/ui/faceplates.js</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Renderizado visual dinámico de biseles frontales,</text>
+      <text x="12" y="48" font-size="9" fill="#6ee7b7">indicadores LED interactivos, puertos de red RJ45/SFP</text>
+    </g>
+
+    <!-- rack.js -->
+    <g id="node-rack" transform="translate(15, 165)">
+      <rect width="350" height="65" rx="8" fill="#133d2b" stroke="#34d399" stroke-width="1.8"/>
+      <text x="12" y="24" font-size="14" font-weight="800" fill="#6ee7b7">js/ui/rack.js (Vista Física Datacenter)</text>
+      <text x="12" y="42" font-size="10.5" fill="#e2e8f0">• Renderizado de Racks (1U a 48U) y slots vacíos</text>
+      <text x="12" y="56" font-size="9.5" fill="#cbd5e1">• Drop target de equipos, cambio frontal/trasero (Flip)</text>
+    </g>
+
+    <!-- tables.js -->
+    <g id="node-tables" transform="translate(15, 240)">
+      <rect width="350" height="55" rx="6" fill="#0f2e20" stroke="#10b981" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#a7f3d0">js/ui/tables.js (Panel Inferior)</text>
+      <text x="12" y="36" font-size="10" fill="#cbd5e1">Tablas de Equipos, Conexiones, Resumen y Alertas</text>
+      <text x="12" y="48" font-size="9" fill="#6ee7b7">Selector interactivo de columnas y filtros de canaleta</text>
+    </g>
+
+    <!-- outliner.js & inspector.js -->
+    <g transform="translate(15, 305)">
+      <!-- outliner -->
+      <g id="node-outliner" transform="translate(0, 0)">
+        <rect width="170" height="55" rx="6" fill="#0f2e20" stroke="#10b981" stroke-width="1"/>
+        <text x="10" y="22" font-size="12" font-weight="700" fill="#a7f3d0">js/ui/outliner.js</text>
+        <text x="10" y="36" font-size="9.5" fill="#cbd5e1">Árbol jerárquico</text>
+        <text x="10" y="48" font-size="8.5" fill="#94a3b8">Salas &gt; Racks &gt; Equipos</text>
+      </g>
+
+      <!-- inspector -->
+      <g id="node-inspector" transform="translate(180, 0)">
+        <rect width="170" height="55" rx="6" fill="#0f2e20" stroke="#10b981" stroke-width="1"/>
+        <text x="10" y="22" font-size="12" font-weight="700" fill="#a7f3d0">js/ui/inspector.js</text>
+        <text x="10" y="36" font-size="9.5" fill="#cbd5e1">Inspector de detalle</text>
+        <text x="10" y="48" font-size="8.5" fill="#94a3b8">Edición directa de specs</text>
+      </g>
+    </g>
+
+    <!-- Metrics info -->
+    <g transform="translate(15, 370)">
+      <rect width="350" height="42" rx="6" fill="#0b2318" stroke="#059669" stroke-width="1"/>
+      <text x="12" y="20" font-size="11" font-weight="700" fill="#34d399">Barra de Métricas y Estadísticas Globales</text>
+      <text x="12" y="33" font-size="9" fill="#cbd5e1">Cálculo de Consumo (W), Peso (kg) y Espacio Ocupado (%)</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 8: MOTOR DE TOPOLOGÍA 2D (X: 1150, Y: 145, W: 380)                   -->
+  <!-- ========================================================================= -->
+  <g transform="translate(1150, 145)">
+    <rect width="380" height="570" rx="12" fill="#150e26" stroke="#6b21a8" stroke-width="1.3" filter="url(#shadowBox)"/>
+    <rect width="380" height="32" rx="12" fill="url(#gradTopo)"/>
+    <rect y="20" width="380" height="12" fill="#7e22ce"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">8. MOTOR DE TOPOLOGÍA (ui/topology/)</text>
+
+    <!-- TopologyState.js -->
+    <g id="node-topostate" transform="translate(15, 45)">
+      <rect width="350" height="50" rx="6" fill="#24143d" stroke="#a855f7" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#d8b4fe">js/ui/topology/TopologyState.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Estado local del lienzo: Zoom, Pan (X/Y), Selección de nodos</text>
+    </g>
+
+    <!-- TopologySkins.js -->
+    <g id="node-toposkins" transform="translate(15, 105)">
+      <rect width="350" height="50" rx="6" fill="#24143d" stroke="#a855f7" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#d8b4fe">js/ui/topology/TopologySkins.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Dibujo vectorial de skins (Routers, Switches, Servidores)</text>
+    </g>
+
+    <!-- TopologyLayout.js -->
+    <g id="node-topolayout" transform="translate(15, 165)">
+      <rect width="350" height="50" rx="6" fill="#24143d" stroke="#a855f7" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#d8b4fe">js/ui/topology/TopologyLayout.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Disposición de nodos: Por Racks, Circular, Grilla, Fuerza</text>
+    </g>
+
+    <!-- TopologyEvents.js -->
+    <g id="node-topoevents" transform="translate(15, 225)">
+      <rect width="350" height="50" rx="6" fill="#24143d" stroke="#a855f7" stroke-width="1"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#d8b4fe">js/ui/topology/TopologyEvents.js</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Manejo de puntero, arrastre de nodos, clic en puertos</text>
+    </g>
+
+    <!-- TopologyRenderer.js -->
+    <g id="node-toporenderer" transform="translate(15, 285)">
+      <rect width="350" height="65" rx="6" fill="#24143d" stroke="#c084fc" stroke-width="1.3"/>
+      <text x="12" y="22" font-size="13" font-weight="700" fill="#ede9fe">js/ui/topology/TopologyRenderer.js (Canvas 2D)</text>
+      <text x="12" y="38" font-size="10" fill="#cbd5e1">Renderizado 60 FPS: cables curvados Bézier, puertos,</text>
+      <text x="12" y="52" font-size="9.5" fill="#d8b4fe">animación de tráfico de paquetes y etiquetas VLAN</text>
+    </g>
+
+    <!-- TopologyOrchestrator.js -->
+    <g id="node-topoorch" transform="translate(15, 365)">
+      <rect width="350" height="75" rx="8" fill="#321759" stroke="#d8b4fe" stroke-width="2"/>
+      <circle cx="330" cy="22" r="6" fill="#c084fc" filter="url(#glowCyan)"/>
+      <text x="12" y="26" font-size="15" font-weight="800" fill="#ffffff">TopologyOrchestrator.js</text>
+      <text x="12" y="44" font-size="11" font-weight="700" fill="#e9d5ff">Fachada global (window.Topology)</text>
+      <text x="12" y="58" font-size="10" fill="#cbd5e1">init(), render(), switchView(), saveState()</text>
+      <text x="12" y="70" font-size="9" fill="#c084fc">Control de los 5 slots de memoria instantánea</text>
+    </g>
+
+    <!-- Sub-info -->
+    <g transform="translate(15, 455)">
+      <rect width="350" height="95" rx="6" fill="#190e30" stroke="#7e22ce" stroke-width="1"/>
+      <text x="12" y="22" font-size="11" font-weight="700" fill="#e9d5ff">MEMORIA Y RENDIMIENTO GRÁFICO:</text>
+      <text x="12" y="40" font-size="10" fill="#cbd5e1">• Desacoplado del árbol DOM para soportar 100+ equipos</text>
+      <text x="12" y="56" font-size="10" fill="#cbd5e1">• Cálculo de envolventes de colisión y zoom matricial</text>
+      <text x="12" y="72" font-size="10" fill="#cbd5e1">• Prevención de lag mediante transformaciones 2D nativas</text>
+      <text x="12" y="86" font-size="9.5" fill="#38bdf8">• Sincronizado automáticamente con store.js</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- CAPA 9: ORQUESTADOR CENTRAL (X: 1570, Y: 145, W: 370)                     -->
+  <!-- ========================================================================= -->
+  <g transform="translate(1570, 145)">
+    <rect width="370" height="680" rx="12" fill="#1c0714" stroke="#9f1239" stroke-width="1.6" filter="url(#shadowBox)"/>
+    <rect width="370" height="32" rx="12" fill="url(#gradOrch)"/>
+    <rect y="20" width="370" height="12" fill="#9f1239"/>
+    <text x="14" y="21" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1">9. ORQUESTADOR CENTRAL (INICIALIZADOR)</text>
+
+    <!-- main.js -->
+    <g id="node-main" transform="translate(15, 45)">
+      <rect width="340" height="210" rx="10" fill="#2d0a1e" stroke="#f43f5e" stroke-width="2.2"/>
+      <circle cx="315" cy="25" r="7" fill="#f43f5e" filter="url(#glowCyan)"/>
+      <text x="16" y="30" font-size="19" font-weight="900" fill="#ffe4e6">js/main.js</text>
+      <text x="16" y="52" font-size="12" font-weight="700" fill="#fbcfe8">El último script en cargar en index.html</text>
+      
+      <text x="16" y="76" font-size="11" font-weight="700" fill="#ffffff">Función Estrella: renderAll({ source })</text>
+      <text x="16" y="94" font-size="10" fill="#cbd5e1">• Recibe notificaciones de store.js</text>
+      <text x="16" y="108" font-size="10" fill="#cbd5e1">• Redibuja solo los componentes afectados</text>
+      <text x="16" y="122" font-size="10" fill="#cbd5e1">• Agrupa múltiples cambios en 1 rAF (60 FPS)</text>
+
+      <text x="16" y="146" font-size="11" font-weight="700" fill="#ffffff">Enrutador Global de Eventos:</text>
+      <text x="16" y="162" font-size="10" fill="#cbd5e1">• Atajos de teclado: Ctrl+Z / Ctrl+Y</text>
+      <text x="16" y="176" font-size="10" fill="#cbd5e1">• Conmutador de Temas: Oscuro / Claro / Sepia</text>
+      <text x="16" y="190" font-size="10" fill="#cbd5e1">• Drag &amp; Drop nativo y touch</text>
+    </g>
+
+    <!-- Matriz de Despacho renderAll -->
+    <g transform="translate(15, 270)">
+      <rect width="340" height="370" rx="8" fill="#1f0514" stroke="#881337" stroke-width="1.2"/>
+      <text x="14" y="24" font-size="12" font-weight="800" fill="#f43f5e">MATRIZ DE DISPATCH POR 'SOURCE':</text>
+      
+      <!-- Fila 1: Total -->
+      <g transform="translate(12, 38)">
+        <rect width="316" height="52" rx="5" fill="#2b0a1d" stroke="#4c0519"/>
+        <text x="8" y="18" font-size="11" font-weight="700" fill="#fbcfe8">loadData | undo | redo | (vacío)</text>
+        <text x="8" y="34" font-size="9.5" fill="#fda4af">Redibujo Total Completo</text>
+        <text x="8" y="46" font-size="8.5" fill="#94a3b8">Salas, Racks, Tablas, Outliner, Topología</text>
+      </g>
+
+      <!-- Fila 2: Room -->
+      <g transform="translate(12, 96)">
+        <rect width="316" height="50" rx="5" fill="#2b0a1d" stroke="#4c0519"/>
+        <text x="8" y="18" font-size="11" font-weight="700" fill="#fbcfe8">Room | room-rename | changeRoom</text>
+        <text x="8" y="34" font-size="9.5" fill="#fda4af">Vistas afectadas:</text>
+        <text x="8" y="45" font-size="8.5" fill="#94a3b8">Pestañas de salas, selectores, vista física</text>
+      </g>
+
+      <!-- Fila 3: Rack -->
+      <g transform="translate(12, 152)">
+        <rect width="316" height="50" rx="5" fill="#2b0a1d" stroke="#4c0519"/>
+        <text x="8" y="18" font-size="11" font-weight="700" fill="#fbcfe8">Rack | addRack | deleteRack</text>
+        <text x="8" y="34" font-size="9.5" fill="#fda4af">Vistas afectadas:</text>
+        <text x="8" y="45" font-size="8.5" fill="#94a3b8">Vista Física, Métricas, Outliner, Selectores</text>
+      </g>
+
+      <!-- Fila 4: Device -->
+      <g transform="translate(12, 208)">
+        <rect width="316" height="50" rx="5" fill="#2b0a1d" stroke="#4c0519"/>
+        <text x="8" y="18" font-size="11" font-weight="700" fill="#fbcfe8">Device | addDevice | moveDevice ...</text>
+        <text x="8" y="34" font-size="9.5" fill="#fda4af">Vistas afectadas:</text>
+        <text x="8" y="45" font-size="8.5" fill="#94a3b8">Racks, Métricas, Outliner, Inspector, Tablas</text>
+      </g>
+
+      <!-- Fila 5: Connection -->
+      <g transform="translate(12, 264)">
+        <rect width="316" height="50" rx="5" fill="#2b0a1d" stroke="#4c0519"/>
+        <text x="8" y="18" font-size="11" font-weight="700" fill="#fbcfe8">Connection | addConnection ...</text>
+        <text x="8" y="34" font-size="9.5" fill="#fda4af">Vistas afectadas:</text>
+        <text x="8" y="45" font-size="8.5" fill="#94a3b8">Cables físicos, puertos faceplate, tablas</text>
+      </g>
+
+      <!-- Fila 6: Zoom/Pan -->
+      <g transform="translate(12, 320)">
+        <rect width="316" height="38" rx="5" fill="#2b0a1d" stroke="#4c0519"/>
+        <text x="8" y="16" font-size="11" font-weight="700" fill="#fbcfe8">Zoom | Pan</text>
+        <text x="8" y="30" font-size="8.5" fill="#94a3b8">Sin redibujo de datos (transformación CSS/Canvas)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- GRAFO DE ARISTAS Y RELACIONES (LÍNEAS INTERACTIVAS CONECTADAS)            -->
+  <!-- ========================================================================= -->
+
+  <!-- index.html incluye css/style.css -->
+  <path d="M 190 220 L 190 510" fill="none" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#m-pink)"/>
+
+  <!-- index.html registra service-worker.js -->
+  <path d="M 275 180 L 275 220" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#m-blue)"/>
+
+  <!-- index.html vincula json/manifest.json -->
+  <path d="M 190 220 L 190 350" fill="none" stroke="#38bdf8" stroke-width="1" marker-end="url(#m-blue)"/>
+
+  <!-- index.html carga librerías externas (vendor) -->
+  <path d="M 350 200 L 380 200" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#m-blue)"/>
+
+  <!-- index.html carga core (store.js) -->
+  <path d="M 350 240 C 370 240, 360 450, 380 450" fill="none" stroke="#06b6d4" stroke-width="2" marker-end="url(#m-cyan)"/>
+
+  <!-- store.js alimenta la reactividad hacia UI Views -->
+  <path d="M 690 440 C 710 440, 710 650, 730 650" fill="none" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#m-cyan)"/>
+
+  <!-- store.js alimenta el motor de topología -->
+  <path d="M 690 420 C 720 420, 1100 220, 1150 220" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#m-cyan)"/>
+
+  <!-- Modales disparan mutaciones hacia store.js -->
+  <path d="M 730 490 C 700 490, 710 460, 690 460" fill="none" stroke="#f97316" stroke-width="2.2" marker-end="url(#m-orange)"/>
+
+  <!-- UI Views interactúan con store.js -->
+  <path d="M 730 750 C 700 750, 700 500, 690 500" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#m-emerald)"/>
+
+  <!-- store.js emite eventos change hacia main.js -->
+  <path d="M 690 410 C 720 410, 1500 120, 1570 230" fill="none" stroke="#06b6d4" stroke-width="2.8" marker-end="url(#m-cyan)"/>
+
+  <!-- main.js dispara renderAll hacia UI Views -->
+  <path d="M 1570 300 C 1400 300, 1200 620, 1110 620" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#m-pink)"/>
+
+  <!-- main.js dispara render hacia TopologyOrchestrator -->
+  <path d="M 1570 260 C 1530 260, 1530 510, 1500 510" fill="none" stroke="#f43f5e" stroke-width="2" marker-end="url(#m-pink)"/>
+
+  <!-- TopologyOrchestrator coordina con TopologyRenderer / State / Layout -->
+  <path d="M 1340 510 L 1340 430" fill="none" stroke="#a855f7" stroke-width="2" marker-end="url(#m-purple)"/>
+
+  <!-- Roles y Crypto protegen las operaciones de Store y Modales -->
+  <path d="M 690 940 C 720 940, 720 520, 730 520" fill="none" stroke="#eab308" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#m-gray)"/>
+
+
+  <!-- ========================================================================= -->
+  <!-- PANEL INFERIOR: RESUMEN DE FLUJO REACTIVO Y METADATOS                     -->
+  <!-- ========================================================================= -->
+  <g transform="translate(60, 1070)">
+    <rect width="1880" height="235" rx="14" fill="#0c1322" stroke="#1e293b" stroke-width="1.5" filter="url(#shadowBox)"/>
+    
+    <!-- Título de Resumen -->
+    <text x="30" y="32" font-size="14" font-weight="800" fill="#f8fafc">PATRÓN DE EJECUCIÓN: FLUJO REACTIVO Y SINCRONIZACIÓN DE ESTADO SIN FRAMEWORKS</text>
+    <text x="30" y="50" font-size="11" fill="#94a3b8">Este diagrama representa la totalidad de los archivos indispensables para el funcionamiento y renderizado de RACK Designer Next en el navegador.</text>
+
+    <!-- 4 Pasos del Ciclo de Vida -->
+    <g transform="translate(30, 70)">
+      <!-- Paso 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="430" height="135" rx="8" fill="#131e33" stroke="#2563eb" stroke-width="1"/>
+        <circle cx="28" cy="28" r="14" fill="#1d4ed8"/>
+        <text x="24" y="33" font-size="13" font-weight="800" fill="#ffffff">1</text>
+        <text x="52" y="26" font-size="13" font-weight="700" fill="#93c5fd">ACCIÓN DE USUARIO (UI)</text>
+        <text x="52" y="42" font-size="10.5" fill="#cbd5e1">Arrastrar equipo a unidad U o llenar modal.</text>
+        <text x="14" y="70" font-size="10" fill="#94a3b8">Los manejadores de eventos en <tspan fill="#6ee7b7">rack.js</tspan> o</text>
+        <text x="14" y="86" font-size="10" fill="#94a3b8"><tspan fill="#fed7aa">modals.js</tspan> validan permisos mediante</text>
+        <text x="14" y="102" font-size="10" fill="#fde047">RackAuth.can('edit')</text>
+        <text x="14" y="118" font-size="10" fill="#38bdf8">Llaman a métodos de store (ej. addDeviceToRack)</text>
+      </g>
+
+      <!-- Paso 2 -->
+      <g transform="translate(460, 0)">
+        <rect width="430" height="135" rx="8" fill="#082536" stroke="#06b6d4" stroke-width="1"/>
+        <circle cx="28" cy="28" r="14" fill="#0891b2"/>
+        <text x="24" y="33" font-size="13" font-weight="800" fill="#ffffff">2</text>
+        <text x="52" y="26" font-size="13" font-weight="700" fill="#67e8f9">STORE &amp; PROXY ES6 TRAP</text>
+        <text x="52" y="42" font-size="10.5" fill="#cbd5e1">Captura reactiva de la mutación interna.</text>
+        <text x="14" y="70" font-size="10" fill="#94a3b8">1. <tspan fill="#67e8f9">snapshot()</tspan> clona estado para Undo/Redo.</text>
+        <text x="14" y="86" font-size="10" fill="#94a3b8">2. Modifica la estructura de datos <tspan fill="#a5f3fc">this._raw</tspan>.</text>
+        <text x="14" y="102" font-size="10" fill="#94a3b8">3. El trap <tspan fill="#67e8f9">set</tspan> ejecuta <tspan fill="#a5f3fc">_save()</tspan> a LocalStorage.</text>
+        <text x="14" y="118" font-size="10" fill="#67e8f9">4. Dispara: store._emit('change', { source })</text>
+      </g>
+
+      <!-- Paso 3 -->
+      <g transform="translate(920, 0)">
+        <rect width="430" height="135" rx="8" fill="#290b20" stroke="#f43f5e" stroke-width="1"/>
+        <circle cx="28" cy="28" r="14" fill="#be185d"/>
+        <text x="24" y="33" font-size="13" font-weight="800" fill="#ffffff">3</text>
+        <text x="52" y="26" font-size="13" font-weight="700" fill="#fda4af">COALESCENCIA &amp; DISPATCH</text>
+        <text x="52" y="42" font-size="10.5" fill="#cbd5e1">Coordinación inteligente en main.js.</text>
+        <text x="14" y="70" font-size="10" fill="#94a3b8"><tspan fill="#fda4af">main.js</tspan> recibe el evento 'change'.</text>
+        <text x="14" y="86" font-size="10" fill="#94a3b8">En lugar de redibujar inmediatamente, programa</text>
+        <text x="14" y="102" font-size="10" fill="#cbd5e1">un callback en <tspan fill="#f43f5e">requestAnimationFrame</tspan>.</text>
+        <text x="14" y="118" font-size="10" fill="#fbcfe8">Previene parpadeos y conserva 60 FPS fijos.</text>
+      </g>
+
+      <!-- Paso 4 -->
+      <g transform="translate(1380, 0)">
+        <rect width="440" height="135" rx="8" fill="#13261b" stroke="#10b981" stroke-width="1"/>
+        <circle cx="28" cy="28" r="14" fill="#059669"/>
+        <text x="24" y="33" font-size="13" font-weight="800" fill="#ffffff">4</text>
+        <text x="52" y="26" font-size="13" font-weight="700" fill="#6ee7b7">REDIBUJO SELECTIVO O(1)</text>
+        <text x="52" y="42" font-size="10.5" fill="#cbd5e1">Actualización visual de vistas afectadas.</text>
+        <text x="14" y="70" font-size="10" fill="#94a3b8">• Si source es 'Rack': actualiza <tspan fill="#6ee7b7">rack.js</tspan> y stats.</text>
+        <text x="14" y="86" font-size="10" fill="#94a3b8">• Si source es 'Connection': actualiza puertos.</text>
+        <text x="14" y="102" font-size="10" fill="#94a3b8">• Sincroniza Canvas en <tspan fill="#c084fc">Topology.render()</tspan>.</text>
+        <text x="14" y="118" font-size="10" fill="#10b981">El DOM refleja los datos sin mutación directa.</text>
+      </g>
+    </g>
+  </g>
+</svg>

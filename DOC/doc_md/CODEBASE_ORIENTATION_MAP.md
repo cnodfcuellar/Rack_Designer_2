@@ -165,6 +165,7 @@ Rack_Designer_2/
 │   │   ├── modals/               ← ★ VENTANAS MODALES (una por archivo)
 │   │   │   ├── DeviceModal.js    ← Modal: Agregar/Editar equipo (formulario completo)
 │   │   │   ├── CableModal.js     ← Modal: Crear/Editar conexión (botón swap ⇄ e input de canaleta superior/inferior M-41)
+│   │   │   ├── ImportModal.js    ← Modal: Importación masiva Excel/CSV con detección reactiva de colisiones M-21/M-22
 │   │   │   ├── RackModal.js      ← Modal: Agregar/Editar gabinete
 │   │   │   ├── RoomModal.js      ← Modal: Agregar/Renombrar sala
 │   │   │   ├── PlacementModal.js ← Modal: Colocación rápida (Quick Placement)
@@ -206,7 +207,7 @@ Rack_Designer_2/
 │
 ├── doc/
 │   ├── doc_md/                   ← Documentación técnica en Markdown (ESTE ARCHIVO)
-│   ├── doc_img/                  ← Imágenes y 46 diagramas SVG de la documentación
+│   ├── doc_img/                  ← Imágenes y diagramas SVG de la documentación
 │   ├── log/                      ← CHANGELOG.md (diario de cambios)
 │   └── temp/                     ← Archivos temporales de documentación
 │
@@ -220,8 +221,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Archivos de contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares
 └── tests/
-    ├── index.html                ← Test runner visual interactivo en navegador web (316 tests en 20 grupos, 100% éxito)
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (316 tests en 20 grupos en Node.js, 100% éxito)
+    ├── index.html                ← Test runner visual interactivo en navegador web (360 tests en 23 grupos, 100% éxito)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (360 tests en 23 grupos en Node.js, 100% éxito)
 ```
 
 ---
@@ -238,7 +239,7 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 | [main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) | ~30 KB | Inicialización (`init()`), despacho de eventos globales, `renderAll()`, cambio de vistas, selector de temas (Oscuro/Claro/Sepia con `applyTheme`, `toggleThemeCycle`, M-18), renderizado de slots de topología (`renderTopologySlots`, M-40) | Cuando conectas un nuevo botón del UI, cambias la lógica de renderizado, o agregas una nueva vista |
 | [utils.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/utils.js) | ~5 KB | Utilidades puras: clonado ultra-rápido `fastClone()` (4x más veloz que JSON), `deepClone()` multi-tier escalonado (M-03), `uid()`, `notify()`, `escapeHTML()`, `downloadJSON()`, `customConfirm()`, `getDeviceLocation()` | Cuando necesitas una función utilitaria nueva que no pertenece a ningún componente |
 | [icons.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/icons.js) | ~15 KB | Objeto `SVG_ICONS` con iconos SVG inline como strings | Cuando agregas un nuevo tipo de equipo que necesita su propio icono |
-| [demoData.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/demoData.js) | ~13 KB | Función `loadDemoData()` que carga un proyecto de demostración pre-diseñado | Cuando quieres actualizar los datos de la demo incluida |
+| [demoData.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/demoData.js) | ~25 KB | Funciones de datos demo: `loadDemoData()` (Datacenter TIA-942) y `loadUniversityDemoData()` (Campus Universitario UTN con 10 edificios/salas, 13 racks, 162 dispositivos, 24 VLANs y 97 enlaces), respaldadas por `#modal-demo-selection` | Cuando actualizas o agregas escenarios de demostración |
 
 ### Archivos de Autenticación y Seguridad (js/auth/)
 
@@ -252,7 +253,7 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 | Archivo | Tamaño | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|:---|
 | [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) | ~18 KB | Define el array `CATALOG` (30 plantillas arquitectónicas en 8 familias `CATALOG_GROUPS`), gestión de `customCatalog`, categoría "Todos" con buscador reactivo | Cuando agregas nuevos tipos de equipos al catálogo o modificas la sidebar |
-| [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) | ~38 KB | Renderizado de la vista física: chasis de racks con gap de 72px, ranuras de 240px fijas (10:1), grilla CAD 24px, alineación de piso 584px, enrutamiento bicanal SVG de cables (bandeja aérea superior o canaleta inferior bajo piso técnico `maxRackBottom + 14`, M-41) | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
+| [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) | ~38 KB | Renderizado de la vista física: chasis de racks con gap de 72px, ranuras de 240px fijas (10:1), grilla CAD 24px, alineación de piso 584px, enrutamiento bicanal SVG de cables (bandeja aérea superior o canaleta inferior bajo piso técnico `maxRackBottom + 14`, M-41) y redibujado selectivo granular de gabinetes `renderSingleRack(rackId)` con preservación de estado flipped (M-04) | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
 | [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) | ~5 KB | Motor visual SVG-First: mapea tipos de equipos a gráficos SVG animados en `assets/svg/default/`, genera overlays de texto y anclajes `data-port` | Cuando agregas soporte para un nuevo tipo de SVG o cambias la resolución de assets visuales |
 | [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) | ~15 KB | Panel inferior: tablas de inventario (columnas configurables con modal, edición inline `dblclick`) y tabla de conexiones con columna interactiva `Canaleta` (`⬆️ Techo` ⇄ `⬇️ Piso`) y acción rápida por fila `data-swap-conn` (M-41) | Cuando modificas las columnas de las tablas o agregas nuevas pestañas de datos |
 | [outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js) | ~9 KB | Panel derecho: árbol jerárquico (Sala > Rack > Equipo), toolbar superior (`+ Sala`, `+ Rack`, `+ Equipo`), selector de ordenamiento (4 modos) y botones inline `✏️`/`🗑️` | Cuando cambias la estructura jerárquica o agregas acciones al árbol |
@@ -798,76 +799,85 @@ Todos los diagramas de arquitectura están en `doc/doc_img/doc_svg/` (46 archivo
 
 | Archivo | Dimensiones | Contenido |
 |:---|:---|:---|
-| `layout_header.svg` | 1100×140 | Detalle del layout del header con selector de temas y slots |
-| `layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
-| `layout_main_canvas.svg` | 720×580 | Área principal con tarjetas de rack |
-| `layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
-| `layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla de datos |
-| `layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
-| `layout_sala_dual_export.svg` | — | Vista dual modular frente + dorso de sala completa |
-| `ui_layout_map.svg` | — | Mapa completo del layout UI |
+| `layout/layout_header.svg` | 1100×140 | Detalle del layout del header con selector de temas y slots |
+| `layout/layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
+| `layout/layout_main_canvas.svg` | 720×580 | Área principal con tarjetas de rack |
+| `layout/layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
+| `layout/layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla de datos |
+| `layout/layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
+| `layout/layout_sala_dual_export.svg` | — | Vista dual modular frente + dorso de sala completa |
+| `layout/ui_layout_map.svg` | — | Mapa completo del layout UI |
 
 ### Diagramas de Arquitectura
 
 | Archivo | Contenido |
 |:---|:---|
-| `architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
-| `architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks offline |
-| `project_flow.svg` | Flujo de datos completo (2000×2600) |
-| `file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
-| `store_reactivity.svg` | Detalle del patrón reactivo del Store |
-| `module_dependencies.svg` | Dependencias entre módulos JS |
-| `dependencies_map.svg` | Mapa de dependencias completo |
-| `directory_structure.svg` | Estructura de directorios del proyecto |
+| `architecture/architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
+| `architecture/architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks offline |
+| `flows/project_flow.svg` | Flujo de datos completo (2000×2600) |
+| `flows/file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
+| `flows/store_reactivity.svg` | Detalle del patrón reactivo del Store |
+| `architecture/module_dependencies.svg` | Dependencias entre módulos JS |
+| `architecture/dependencies_map.svg` | Mapa de dependencias completo |
+| `architecture/directory_structure.svg` | Estructura de directorios del proyecto |
+
+### Diagramas Entidad-Relación (ERD Vectoriales por Niveles)
+
+| Archivo | Nivel | Contenido |
+|:---|:---|:---|
+| [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Tipos base, seguridad y utilidades: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
+| [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades de infraestructura: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
+| [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) e Interacciones |
+| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva completa: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
 
 ### Diagramas de Funcionalidades
 
 | Archivo | Contenido |
 |:---|:---|
-| `drag_drop_flow.svg` | Flujo de drag & drop |
-| `topology_engine.svg` | Motor de topología Canvas 2D |
-| `modals_accordions.svg` | Sistema de modales con acordeones |
-| `roles_permissions.svg` | Matriz de roles y permisos |
-| `security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 + Cifrado en reposo (RackCrypto) |
-| `file_manager_api.svg` | File System Access API |
-| `autosave_history.svg` | Autoguardado e historial |
-| `export_system.svg` | Sistema de exportación |
-| `pwa_service_worker.svg` | Service Worker y PWA |
-| `theme_switcher.svg` | Sistema de temas claro/oscuro/sepia |
-| `hybrid_network_ports.svg` | Puertos de red híbridos |
-| `enrutamiento_equipos_piso_y_racks.svg` | Trazado de enrutamiento y afinidad de equipos de piso (M-39) |
+| `flows/drag_drop_flow.svg` | Flujo de drag & drop |
+| `propuestas/topology_engine.svg` | Motor de topología Canvas 2D |
+| `propuestas/modals_accordions.svg` | Sistema de modales con acordeones |
+| `flows/roles_permissions.svg` | Matriz de roles y permisos |
+| `flows/security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 + Cifrado en reposo (RackCrypto) |
+| `flows/file_manager_api.svg` | File System Access API |
+| `flows/autosave_history.svg` | Autoguardado e historial |
+| `flows/export_system.svg` | Sistema de exportación |
+| `architecture/pwa_service_worker.svg` | Service Worker y PWA |
+| `layout/theme_switcher.svg` | Sistema de temas claro/oscuro/sepia |
+| `propuestas/hybrid_network_ports.svg` | Puertos de red híbridos |
+| `propuestas/enrutamiento_equipos_piso_y_racks.svg` | Trazado de enrutamiento y afinidad de equipos de piso (M-39) |
 
 ### Diagramas del Manual de Usuario
 
 | Archivo | Contenido |
 |:---|:---|
-| `manual_rack_anatomy.svg` | Anatomía de un rack |
-| `manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
-| `manual_action_flow.svg` | Flujo de acciones comunes |
+| `manual/manual_rack_anatomy.svg` | Anatomía de un rack |
+| `manual/manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
+| `manual/manual_action_flow.svg` | Flujo de acciones comunes |
 
 ### Diagramas de Mejoras y Propuestas de Diseño
 
 | Archivo | Contenido |
 |:---|:---|
-| `comparativa_soluciones_toolbar_topo.svg` | Comparativa de distribución espacial de controles de topología |
-| `propuesta_hibrida_toolbar_topo.svg` | Solución híbrida con barra de 5 slots anclada (M-40) |
-| `propuesta_tema_sepia_responsive.svg` | Adaptación del tema cálido sepia y respuesta responsive (M-18) |
-| `propuesta_1_canastillo_aereo.svg` | Propuesta de canalización aérea superior |
-| `propuesta_2_fila_continua_nowrap.svg` | Propuesta de fila continua sin saltos de línea |
-| `propuesta_3_cables_interactivos_hover.svg` | Propuesta de cables interactivos y resaltado en hover |
-| `propuesta_drag_to_connect.svg` | Propuesta de cableado táctil interactivo Drag-to-Connect (M-34) |
-| `propuesta_exportacion_svg_pdf.svg` | Propuesta de exportación vectorial SVG / PDF |
-| `propuesta_gestion_puertos_vlans.svg` | Propuesta de gestión avanzada de puertos y VLANs |
-| `propuesta_importacion_masiva_excel.svg` | Propuesta de importación masiva desde Excel |
-| `propuesta_selector_columnas_tablas.svg` | Propuesta de selector contextual de columnas |
-| `mejoras_architecture_final.svg` | Arquitectura final propuesta |
-| `mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
+| `propuestas/comparativa_soluciones_toolbar_topo.svg` | Comparativa de distribución espacial de controles de topología |
+| `propuestas/propuesta_hibrida_toolbar_topo.svg` | Solución híbrida con barra de 5 slots anclada (M-40) |
+| `propuestas/propuesta_tema_sepia_responsive.svg` | Adaptación del tema cálido sepia y respuesta responsive (M-18) |
+| `propuestas/propuesta_1_canastillo_aereo.svg` | Propuesta de canalización aérea superior |
+| `propuestas/propuesta_2_fila_continua_nowrap.svg` | Propuesta de fila continua sin saltos de línea |
+| `propuestas/propuesta_3_cables_interactivos_hover.svg` | Propuesta de cables interactivos y resaltado en hover |
+| `propuestas/propuesta_drag_to_connect.svg` | Propuesta de cableado táctil interactivo Drag-to-Connect (M-34) |
+| `propuestas/propuesta_exportacion_svg_pdf.svg` | Propuesta de exportación vectorial SVG / PDF |
+| `propuestas/propuesta_gestion_puertos_vlans.svg` | Propuesta de gestión avanzada de puertos y VLANs |
+| `propuestas/propuesta_importacion_masiva_excel.svg` | Propuesta de importación masiva desde Excel |
+| `propuestas/propuesta_selector_columnas_tablas.svg` | Propuesta de selector contextual de columnas |
+| `architecture/mejoras_architecture_final.svg` | Arquitectura final propuesta |
+| `propuestas/mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
 
 ### Otros
 
 | Archivo | Contenido |
 |:---|:---|
-| `project_areas.svg` | Áreas del proyecto |
-| `user_personas.svg` | Perfiles de usuario |
+| `architecture/project_areas.svg` | Áreas del proyecto |
+| `flows/user_personas.svg` | Perfiles de usuario |
 
 También consulta: [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md) para una explicación paso a paso de la arquitectura.

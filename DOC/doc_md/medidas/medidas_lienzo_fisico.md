@@ -86,12 +86,12 @@ Cuando los dispositivos no están montados en racks (ej. Cámaras, impresoras, A
 
 ---
 
-## 6. Geometría y Matemáticas del Enrutamiento Segregado de Cables (3 Zonas)
+## 6. Geometría y Matemáticas del Enrutamiento Segregado de Cables (Bicanalidad Techo / Piso Técnico M-41)
 
-La capa SVG (`#physical-cables-svg`) renderiza conexiones ortogonales limpias con esquinas redondeadas de precisión milimétrica ($r = 6\text{px}$) utilizando 3 zonas físicas estrictamente segregadas:
+La capa SVG (`#physical-cables-svg`) renderiza conexiones ortogonales limpias con esquinas redondeadas de precisión milimétrica ($r = 6\text{px}$) segregando el cableado físico en **4 zonas** y soportando bicanalidad independiente según la orientación (`orientation: 'top' | 'bottom'`):
 
-### 🛫 Zona 1: Canastillo Superior / Bandeja Aérea (Inter-Rack)
-Aplica a conexiones entre equipos alojados en dos gabinetes distintos (`p1.isRack && p2.isRack`).
+### 🛫 Zona 1: Canastillo Superior / Bandeja Aérea (Inter-Rack Techo)
+Aplica a conexiones inter-rack con orientación superior (`conn.orientation !== 'bottom'`).
 *   **Elevación Aérea:**
     $$\text{overheadY} = \min(\text{RackTop}) - 14\text{px} - (\text{index} \pmod 7) \times 5\text{px}$$
     El cable asciende por el pasillo lateral y viaja por encima del gabinete más alto, evitando cualquier cruce con equipos de rack.
@@ -99,7 +99,14 @@ Aplica a conexiones entre equipos alojados en dos gabinetes distintos (`p1.isRac
     *   Si el destino está a la derecha: emerge por el riel derecho (`p1.rightEdgeX + 8 + (index % 4) * 4`).
     *   Si el destino está a la izquierda: emerge por el riel izquierdo (`p1.leftEdgeX - 8 - (index % 4) * 4`).
 
-### 🛣️ Zona 2: Canaleta Media Segregada (Equipos de Piso ↔ Racks)
+### 🚇 Zona 2: Canaleta Inferior / Plenum de Piso Técnico (Inter-Rack Piso, M-41)
+Aplica a conexiones inter-rack con orientación inferior (`conn.orientation === 'bottom'`).
+*   **Depresión Bajo Piso:**
+    $$\text{underfloorY} = \max(\text{RackBottom}) + 14\text{px} + (\text{index} \pmod 6) \times 5\text{px}$$
+    El cable desciende por el organizador lateral vertical y viaja por la canaleta inferior del piso técnico, evitando congestión en las bandejas aéreas superiores.
+*   **Segregación Física:** Permite separar cables de alta potencia (PDUs/UPS) o acometidas principales de los latiguillos de datos aéreos.
+
+### 🛣️ Zona 3: Canaleta Media Segregada (Equipos de Piso ↔ Racks)
 Aplica a enlaces entre periféricos de piso (CCTV, APs, impresoras) y switches/patch panels en racks (`pFloor` y `pRack`).
 *   **Troncal Horizontal Intermedia:**
     $$\text{middleGutterY} = \max(\text{RackBottom}) + 18\text{px} + (\text{index} \pmod 6) \times 4\text{px}$$
@@ -108,7 +115,7 @@ Aplica a enlaces entre periféricos de piso (CCTV, APs, impresoras) y switches/p
     $$\text{rackGutterX} = \text{pRack.edgeX} \pm (8\text{px} + (\text{index} \pmod 4) \times 4\text{px})$$
     El cable sube limpiamente por la separación lateral de **`72px`** del rack de destino e ingresa ortogonalmente al puerto del dispositivo.
 
-### 🗄️ Zona 3: Organizador Lateral (Mismo Rack / Intra-Rack)
+### 🗄️ Zona 4: Organizador Lateral (Mismo Rack / Intra-Rack)
 Aplica a conexiones internas dentro del mismo gabinete (`p1.rackId === p2.rackId`).
 *   **Mismo Dispositivo (Loopback/Puertos Adyacentes):** Curva suave de Bézier cúbica (`C`) con arco de compensación.
 *   **Entre Diferentes Slots:**
@@ -117,7 +124,18 @@ Aplica a conexiones internas dentro del mismo gabinete (`p1.rackId === p2.rackId
 
 ---
 
-## 7. Diagramas de Layout del Workspace Físico
+## 7. Redibujado Selectivo Granular de Gabinetes (`renderSingleRack`, M-04)
+
+Para garantizar un rendimiento fluido a 60 FPS en datacenters con decenas de gabinetes, el lienzo físico implementa redibujado granular atómico:
+
+*   **Reemplazo Atómico en DOM:** Si la mutación en el Store solo afecta a un gabinete (ej. inserción, movimiento o edición de un equipo), `renderSingleRack(rackId)` localiza el elemento `.rack-wrapper[data-rack-id="..."]` y reemplaza exclusivamente ese nodo en el DOM sin destruir los demás racks de la sala.
+*   **Preservación del Giro 3D (`flipped`):** Conserva intacto el estado frontal/trasero sin saltos visuales ni pérdida de foco.
+*   **Sincronización Quirúrgica de Cables:** Redibuja selectivamente los cables físicos asociados a ese gabinete mediante `drawPhysicalCables()` sin recalcular los enlaces de salas o racks no afectados.
+*   **Modularidad de Caras (`buildRackFace`):** La generación de la cara frontal y trasera fue desacoplada en funciones puras reutilizables en `js/ui/rack.js`.
+
+---
+
+## 8. Diagramas de Layout del Workspace Físico
 
 ### 🗺️ Jerarquía de Contenedores de Vista Física (Mermaid)
 

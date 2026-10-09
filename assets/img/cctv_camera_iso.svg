@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Sombra proyectada suave -->
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="10" stdDeviation="8" flood-color="#040914" flood-opacity="0.32"/>
+    </filter>
+    <!-- Lente de la cámara -->
+    <radialGradient id="lensGrad" cx="45%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#4fd1c5"/>
+      <stop offset="40%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </radialGradient>
+  </defs>
+
+  <!-- SOMBRA BASE ISOMÉTRICA EN EL SUELO -->
+  <ellipse cx="230" cy="340" rx="60" ry="22" fill="#000000" opacity="0.14"/>
+
+  <!-- ========================================== -->
+  <!-- 1. SOPORTE / BRAZO METÁLICO DE MONTAJE     -->
+  <!-- ========================================== -->
+  <g id="camera-mount" filter="url(#shadow)">
+    <!-- Base de anclaje (Placa de pared/techo) -->
+    <polygon points="215,310 245,293 260,302 230,319" fill="#e2e8f0"/>
+    <polygon points="215,310 230,319 230,326 215,317" fill="#94a3b8"/>
+    <polygon points="230,319 260,302 260,309 230,326" fill="#cbd5e1"/>
+
+    <!-- Brazo Vertical Articulado -->
+    <polygon points="225,260 240,251 240,305 225,314" fill="#cbd5e1"/>
+    <polygon points="240,251 248,256 248,310 240,305" fill="#94a3b8"/>
+
+    <!-- Articulación esférica / Rótula giratoria -->
+    <ellipse cx="233" cy="254" rx="14" ry="10" fill="#64748b"/>
+    <ellipse cx="233" cy="252" rx="12" ry="8" fill="#94a3b8"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- 2. CUERPO CILÍNDRICO DE LA CÁMARA (BULLET) -->
+  <!-- ========================================== -->
+  <g id="camera-body" filter="url(#shadow)">
+    <!-- Parasol / Cubierta superior blanca (Visera protectora) -->
+    <!-- Cara Superior de la visera -->
+    <path d="M 170 145 C 195 130, 245 158, 255 180 L 210 206 C 200 185, 160 160, 170 145 Z" fill="#ffffff"/>
+    <path d="M 170 145 L 210 206 L 206 212 L 166 151 Z" fill="#cbd5e1"/>
+
+    <!-- Carcasa Cilíndrica Principal de la Cámara -->
+    <!-- Base cilíndrica trasera -->
+    <path d="M 195 190 C 230 170, 260 188, 260 215 C 260 238, 225 255, 195 240 Z" fill="#94a3b8"/>
+
+    <!-- Cuerpo cilíndrico lateral (Blanco/Gris suave) -->
+    <path d="M 130 190 L 215 140 C 240 155, 250 190, 235 220 L 150 270 Z" fill="#f1f5f9"/>
+
+    <!-- Cara Frontal Cilíndrica (Apertura hacia el objetivo) -->
+    <!-- Anillo frontal biselado -->
+    <ellipse cx="140" cy="230" rx="38" ry="46" fill="#334155" transform="rotate(-30 140 230)"/>
+    <ellipse cx="140" cy="230" rx="32" ry="40" fill="#0f172a" transform="rotate(-30 140 230)"/>
+
+    <!-- LENTE FRONTAL DE VIDRIO / SENSOR ÓPTICO (Cian/Turquesa) -->
+    <ellipse cx="140" cy="230" rx="24" ry="30" fill="url(#lensGrad)" transform="rotate(-30 140 230)"/>
+
+    <!-- Reflejo curvo de luz en la lente -->
+    <path d="M 125 212 C 140 200, 155 208, 155 218 C 150 215, 135 210, 125 212 Z" fill="#ffffff" opacity="0.6"/>
+
+    <!-- LED Infrarrojo nocturno / Indicador de Grabación (Rojo parpadeante) -->
+    <circle cx="150" cy="205" r="3" fill="#ef4444"/>
+    <circle cx="150" cy="205" r="1.5" fill="#fca5a5"/>
+  </g>
+</svg>

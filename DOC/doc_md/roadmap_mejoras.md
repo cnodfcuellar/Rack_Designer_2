@@ -97,7 +97,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-05 | Anti-corrupción JSON | 🟠 3 | Implementar doble escritura (backup slot) y validación de integridad en `_load()`. |
 | M-06 | ~~Service Worker update~~ | ✅ COMPLETADO | Implementado `reg.update()` automático periódico e interceptación PWA offline en `service-worker.js` y `main.js`. |
 | M-07 | Conflictos multiusuario | ⚫ 5 | Requiere algoritmo de merge de objetos JSON profundos, UI de resolución de conflictos, y cambios extensos en `fileManager.js`. |
-| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Implementada suite de 199 pruebas automáticas de integridad y relaciones en 15 grupos en Node.js vía `tests/integrity_check.cjs` y runner web `tests/index.html` (100% éxito, paridad 1:1). |
+| M-08 | ~~Suite de pruebas~~ | ✅ COMPLETADO | Suite de 360 pruebas automáticas de integridad y relaciones en 23 grupos en Node.js vía `tests/integrity_check.cjs` y runner web `tests/index.html` (100% éxito, paridad 1:1). |
 | M-09 | Modal edición de salas | 🟡 2 | Crear `RoomModal.js` completo (ya existe esqueleto de 1.3KB). Patrón idéntico a `RackModal.js`. |
 | M-10 | Borde racks más visible | 🟢 1 | Cambio CSS puro en `rack.css` (aumentar `border-width`). |
 | M-11 | Grupo "Network" en sidebar | 🟡 2 | Modificar la estructura de categorías en `catalog.js`. |
@@ -106,7 +106,7 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-14 | Ancho fijo slots (10×U) | 🟢 1 | Cambio CSS: `width: 240px` fijo en `.rack-slots`. |
 | M-15 | Grilla de fondo vista física | 🟢 1 | CSS `background-image` con patrón SVG o `repeating-linear-gradient`. |
 | M-16 | Alturas rack estándar | 🟡 2 | Reemplazar `<input>` por `<select>` en `RackModal.js` con opciones predefinidas. |
-| M-18 | Tema Sepia + selector visible | 🟠 3 | Nuevo conjunto de variables CSS, lógica de toggle en header, persistencia de preferencia. |
+| M-18 | ~~Tema Sepia + selector visible~~ | ✅ COMPLETADO | Variables CSS Sepia, botón dinámico `#btn-theme-toggle` en cabecera (Oscuro ⇄ Claro ⇄ Sepia), fondo adaptativo en Canvas 2D y persistencia en localStorage. |
 | M-19 | Props faltantes en tabla | 🟡 2 | Agregar columnas `notes`, `size`, `skin` en `tables.js`. |
 | M-20 | Ocultar columnas en tablas | 🟠 3 | Crear UI de checkboxes, lógica de filtrado de columnas, persistencia en localStorage. |
 | M-21 | ~~Plantilla exportación completa~~ | ✅ COMPLETADO | Plantilla de 21 columnas en Excel/CSV + hoja Guia_Valores + datos actuales o de ejemplo. |
@@ -132,17 +132,17 @@ Cada tarea se evalúa en una escala de **1 a 5** basada en los siguientes criter
 | M-40 | ~~5 Slots de estados de topología~~ | ✅ COMPLETADO | Modelo de datos de 5 ranuras en store con persistencia en localStorage, aislamiento total de undo/redo, solución híbrida de barra compacta (~495px) con sliders en popover Estilo y popover de vistas con anclaje right:0. |
 | M-41 | ~~Invertir/Orientar conexiones~~ | ✅ COMPLETADO | Botón rápido de inversión (Swap) en CableModal y tabla, selector de canaleta superior/inferior y trazado físico SVG. |
 
-### Resumen de Complejidad (Tareas Pendientes: 9)
+### Resumen de Complejidad (Tareas Pendientes: 6)
 
 | Nivel | Cantidad Pendiente | IDs Pendientes |
 |---|---|---|
 | 🟢 Trivial (1) | 0 | *(Todas completadas)* |
 | 🟡 Baja (2) | 0 | *(Todas completadas)* |
-| 🟠 Media (3) | 3 | M-03, M-25A, M-33 |
-| 🔴 Alta (4) | 3 | M-04, M-34 |
+| 🟠 Media (3) | 2 | M-25A, M-33 |
+| 🔴 Alta (4) | 1 | M-34 |
 | ⚫ Muy Alta (5) | 3 | M-07, M-25B, M-35 |
 
-*(33 Completadas: M-01, M-02, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-21, M-22, M-23, M-24, M-26, M-27, M-28, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
+*(36 Completadas: M-01, M-02, M-03, M-04, M-05, M-06, M-08, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-18, M-19, M-20, M-21, M-22, M-23, M-24, M-26, M-27, M-28, M-29, M-30, M-31, M-32, M-36, M-37, M-38, M-39, M-40, M-41)*
 
 ---
 

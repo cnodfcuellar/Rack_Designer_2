@@ -87,7 +87,7 @@ python -m http.server 8000
 
 ### Diagrama de tecnologías
 
-Ver: `doc/doc_img/doc_svg/architecture_overview.svg` (sección Tech Stack)
+Ver: `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (sección Tech Stack)
 
 ---
 
@@ -123,7 +123,7 @@ main.js escucha el evento → renderAll({ source })
 Se redibujan SOLO las vistas afectadas según el "source"
 ```
 
-**Ver diagrama completo:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 2)
+**Ver diagrama completo:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 2)
 
 ### Por qué es importante esto?
 
@@ -194,7 +194,7 @@ renderOutliner() → árbol se actualiza si está abierto
 renderBottomPanel() → tabla se actualiza si está visible
 ```
 
-**Ver diagrama:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 3a)
+**Ver diagrama:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 3a)
 
 ### Undo/Redo Optimizado (M-03)
 
@@ -205,7 +205,7 @@ Cada vez que mutas el store, `snapshot()` guarda una copia del estado anterior (
 3. Se sobreescribe `_raw` con ese estado
 4. Se redibuja todo con `renderAll({ source: 'undo' })`
 
-**Ver diagrama:** `doc/doc_img/doc_svg/project_flow.svg` (Flow 4)
+**Ver diagrama:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 4)
 
 ### Optimización: Debounce para Zoom/Pan
 
@@ -326,7 +326,7 @@ Rack_Designer_2/
     └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (335 tests en 21 grupos al 100%)
 ```
 
-**Ver diagrama:** `doc/doc_img/doc_svg/architecture_overview.svg` (File Structure)
+**Ver diagrama:** `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (File Structure)
 
 ### Orden de carga de CSS
 
@@ -428,7 +428,7 @@ document.documentElement.style.setProperty('--sidebar-w', '260px');
 }
 ```
 
-**Ver diagramas:** `doc/doc_img/doc_svg/layout_header.svg`, `layout_sidebar.svg`, etc.
+**Ver diagramas:** `doc/doc_img/doc_svg/layout/layout_header.svg`, `layout_sidebar.svg`, etc.
 
 ---
 
@@ -450,7 +450,7 @@ Contiene:
 - Botones Undo/Redo
 - Badge de usuario (rol actual: Admin/Editor/Espectador)
 
-**Ver:** `doc/doc_img/doc_svg/layout_header.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_header.svg`
 
 ### Sidebar (50px colapsado / 260px expandido)
 
@@ -469,7 +469,7 @@ Contiene:
 - Cada item es arrastrable al rack (drag & drop)
 - Menú contextual por item (⋮): Ubicación rápida, Editar plantilla, Eliminar plantilla
 
-**Ver:** `doc/doc_img/doc_svg/layout_sidebar.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_sidebar.svg`
 
 ### Main Canvas (1fr)
 
@@ -499,7 +499,7 @@ Contiene dos vistas (se alternan con tabs en el header):
   - HUD tooltip al hover sobre nodos
   - Búsqueda global para destacar nodos
 
-**Ver:** `doc/doc_img/doc_svg/layout_main_canvas.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_main_canvas.svg`
 
 ### Right Panel (300px)
 
@@ -513,7 +513,7 @@ Tres secciones:
 2. **Inspector** (`#inspector-section`): Tarjeta de propiedades del elemento seleccionado con soporte **colapsable** interactivo para expandir el Outliner. Incluye **CRUD activo** con Empty State (`+ Nueva Sala`, `+ Nuevo Gabinete`), y botones contextuales de eliminación segura (`deleteRoomFromInspector`, `deleteRackFromInspector`, `deleteDeviceFromInspector`).
 3. **Estadísticas** (`#stat-*`): Métricas globales (salas, racks, equipos en rack, equipos de piso, conexiones, potencia en Watts).
 
-**Ver:** `doc/doc_img/doc_svg/layout_right_panel.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_right_panel.svg`
 
 ### Bottom Panel (220px)
 
@@ -528,7 +528,7 @@ Contiene:
 - Menú de exportación con soporte a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado y Excel (`xlsx.full.min.js`).
 - Botón expandir/contraer.
 
-**Ver:** `doc/doc_img/doc_svg/layout_bottom_panel.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_bottom_panel.svg`
 
 ---
 
@@ -629,7 +629,7 @@ Las posiciones de nodos, racks y salas en la topología se guardan en `store._ra
 
 `exportTopologyToPNG()` en `TopologyOrchestrator.js` crea un canvas offscreen a 2x resolución, renderiza un frame estático sin hover, y descarga como PNG.
 
-**Ver:** `doc/doc_img/doc_svg/layout_topology.svg`
+**Ver:** `doc/doc_img/doc_svg/layout/layout_topology.svg`
 
 ---
 
@@ -654,8 +654,8 @@ Para erradicar colisiones de cables sobre servidores o periféricos de piso, el 
    - Switch interactivo `#checkbox-toggle-cables` en la barra de herramientas para ocultar/mostrar cables al instante.
 
 **Ver Diagramas:**
-- `doc/doc_img/doc_svg/enrutamiento_equipos_piso_y_racks.svg` (Doble canaleta y zonas segregadas)
-- `doc/doc_img/doc_svg/propuesta_1_canastillo_aereo.svg` (Canastillo aéreo superior)
+- `doc/doc_img/doc_svg/propuestas/enrutamiento_equipos_piso_y_racks.svg` (Doble canaleta y zonas segregadas)
+- `doc/doc_img/doc_svg/propuestas/propuesta_1_canastillo_aereo.svg` (Canastillo aéreo superior)
 
 ---
 
@@ -849,73 +849,82 @@ Todos los diagramas están en `doc/doc_img/doc_svg/` (33 archivos):
 
 | Archivo | Dimensiones | Contenido |
 |---|---|---|
-| `layout_header.svg` | 1100×140 | Layout detallado del header |
-| `layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
-| `layout_main_canvas.svg` | 720×580 | Área principal con racks |
-| `layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
-| `layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla |
-| `layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
-| `ui_layout_map.svg` | — | Mapa completo del layout UI |
+| `layout/layout_header.svg` | 1100×140 | Layout detallado del header |
+| `layout/layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
+| `layout/layout_main_canvas.svg` | 720×580 | Área principal con racks |
+| `layout/layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
+| `layout/layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla |
+| `layout/layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
+| `layout/ui_layout_map.svg` | — | Mapa completo del layout UI |
 
 ### Diagramas de Arquitectura
 
 | Archivo | Contenido |
 |---|---|
-| `architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
-| `architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks |
-| `project_flow.svg` | Flujo de datos completo (2000×2600) |
-| `file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
-| `store_reactivity.svg` | Detalle del patrón reactivo del Store |
-| `module_dependencies.svg` | Dependencias entre módulos JS |
-| `dependencies_map.svg` | Mapa de dependencias completo |
+| `architecture/architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
+| `architecture/architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks |
+| `flows/project_flow.svg` | Flujo de datos completo (2000×2600) |
+| `flows/file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
+| `flows/store_reactivity.svg` | Detalle del patrón reactivo del Store |
+| `architecture/module_dependencies.svg` | Dependencias entre módulos JS |
+| `architecture/dependencies_map.svg` | Mapa de dependencias completo |
 
 ### Diagramas de Funcionalidades
 
 | Archivo | Contenido |
 |---|---|
-| `drag_drop_flow.svg` | Flujo de drag & drop |
-| `topology_engine.svg` | Motor de topología Canvas 2D |
-| `modals_accordions.svg` | Sistema de modales con acordeones |
-| `roles_permissions.svg` | Matriz de roles y permisos |
-| `security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 |
-| `file_manager_api.svg` | File System Access API |
-| `autosave_history.svg` | Autoguardado e historial |
-| `export_system.svg` | Sistema de exportación |
-| `pwa_service_worker.svg` | Service Worker y PWA |
-| `theme_switcher.svg` | Sistema de temas claro/oscuro |
-| `hybrid_network_ports.svg` | Puertos de red híbridos |
+| `flows/drag_drop_flow.svg` | Flujo de drag & drop |
+| `propuestas/topology_engine.svg` | Motor de topología Canvas 2D |
+| `propuestas/modals_accordions.svg` | Sistema de modales con acordeones |
+| `flows/roles_permissions.svg` | Matriz de roles y permisos |
+| `flows/security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 |
+| `flows/file_manager_api.svg` | File System Access API |
+| `flows/autosave_history.svg` | Autoguardado e historial |
+| `flows/export_system.svg` | Sistema de exportación |
+| `architecture/pwa_service_worker.svg` | Service Worker y PWA |
+| `layout/theme_switcher.svg` | Sistema de temas claro/oscuro |
+| `propuestas/hybrid_network_ports.svg` | Puertos de red híbridos |
 
 ### Diagramas del Manual de Usuario
 
 | Archivo | Contenido |
 |---|---|
-| `manual_rack_anatomy.svg` | Anatomía de un rack |
-| `manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
-| `manual_action_flow.svg` | Flujo de acciones comunes |
+| `manual/manual_rack_anatomy.svg` | Anatomía de un rack |
+| `manual/manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
+| `manual/manual_action_flow.svg` | Flujo de acciones comunes |
 
 ### Diagramas de Mejoras
 
 | Archivo | Contenido |
 |---|---|
-| `mejoras_architecture_final.svg` | Arquitectura final propuesta |
-| `mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
+| `architecture/mejoras_architecture_final.svg` | Arquitectura final propuesta |
+| `propuestas/mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
 
 ### Cableado Físico y Vistas
 
 | Archivo | Contenido |
 |---|---|
-| `enrutamiento_equipos_piso_y_racks.svg` | Arquitectura de doble canaleta (Aérea vs Piso) |
-| `propuesta_1_canastillo_aereo.svg` | Canastillo superior aéreo inter-rack |
-| `propuesta_2_fila_continua_nowrap.svg` | Disposición en fila continua de racks |
-| `propuesta_3_cables_interactivos_hover.svg` | Modo interactivo Smart Focus |
+| `propuestas/enrutamiento_equipos_piso_y_racks.svg` | Arquitectura de doble canaleta (Aérea vs Piso) |
+| `propuestas/propuesta_1_canastillo_aereo.svg` | Canastillo superior aéreo inter-rack |
+| `propuestas/propuesta_2_fila_continua_nowrap.svg` | Disposición en fila continua de racks |
+| `propuestas/propuesta_3_cables_interactivos_hover.svg` | Modo interactivo Smart Focus |
+
+### Diagramas Entidad-Relación (ERD Vectoriales por Niveles)
+
+| Archivo | Nivel | Contenido |
+|---|---|---|
+| [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
+| [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
+| [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
+| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
 
 ### Otros
 
 | Archivo | Contenido |
 |---|---|
-| `directory_structure.svg` | Estructura de directorios |
-| `project_areas.svg` | Áreas del proyecto |
-| `user_personas.svg` | Perfiles de usuario |
+| `architecture/directory_structure.svg` | Estructura de directorios |
+| `architecture/project_areas.svg` | Áreas del proyecto |
+| `flows/user_personas.svg` | Perfiles de usuario |
 
 ---
 
@@ -929,7 +938,7 @@ El documento `mejoras.md` en la raíz del proyecto es el **Source of Truth** par
 - Deuda técnica y calidad
 - Problemas de UX y consistencia
 - Fases del roadmap de implementación (1–5)
-- Mejoras específicas planificadas para la topología (separación de etiquetas, layout de árbol genealógico)
+- Mejoras específicas implementadas para topología (skins de hardware M-28, 5 ranuras de memoria M-40, afinidad espacial M-39)
 
 ---
 
@@ -939,14 +948,15 @@ El proyecto RACK Designer Next es una app web vanilla que:
 
 1. **No necesita build step** → Solo abre index.html
 2. **Usa Proxy ES6** para estado reactivo (como Redux pero nativo, con cache WeakMap)
-3. **Guarda todo en localStorage** (sin backend) + autoguardado en disco con File System Access API
+3. **Guarda todo en localStorage** (con cifrado AES-GCM en reposo) + autoguardado en disco con File System Access API
 4. **Tiene 5 áreas fijas** en CSS Grid (header, sidebar flyout, main, right, bottom)
-5. **Canvas 2D** para la vista de topología (2 estilos: card/circle)
-6. **SVG inline** para cables en la vista física
-7. **Drag & drop** nativo para colocar equipos
+5. **Canvas 2D** para la vista de topología (3 estilos: card, circle y Hardware Skins fotorrealistas con 18 presets offline, M-28)
+6. **SVG inline** para cables en la vista física con bicanalidad segregada aérea y bajo piso (M-41)
+7. **Drag & drop** nativo para colocar equipos y reordenar slots
 8. **3 roles** (Admin, Editor, Viewer) con SHA-256 + token de integridad
-9. **Exporta** a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado, Excel y JSON (.rack)
+9. **Exporta e Importa** masivamente en Excel (.xlsx) y CSV con detección reactiva de colisiones (M-21/M-22), PNG 1:1 Retina y JSON (.rack)
 10. **PWA** con Service Worker (`rack-designer-next-cache-v30`) para uso offline
-11. **Suite de Integridad Automatizada** con 199 pruebas en 15 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
+11. **Doble Escenario Demo:** Datacenter TIA-942 y Campus Universitario UTN (10 salas, 13 racks, 162 equipos, 24 VLANs) mediante selector interactivo
+12. **Suite de Integridad Automatizada** con 360 pruebas en 23 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
 
 **La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.

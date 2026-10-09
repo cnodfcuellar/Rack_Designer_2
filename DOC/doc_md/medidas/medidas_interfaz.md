@@ -39,7 +39,7 @@ El contenedor principal del sistema (`#app`) utiliza un diseño bidimensional im
 ### ⚡ HEADER (Cabecera)
 *   **Altura Total:** `56px` (`--header-h`).
 *   **Área de Logo (`.header-logo-area`):** Ancho fijo de `260px`, alineado a la izquierda con borde derecho separator de `1px`.
-*   **Área Principal (`.header-main-area`):** `flex: 1` para ocupar el espacio restante. Contiene las pestañas de sala, racks y controles globales.
+*   **Área Principal (`.header-main-area`):** `flex: 1` para ocupar el espacio restante. Contiene selectores de sala y racks, pestañas de vistas, buscador global, selector visible de 3 temas (`#btn-theme-toggle`: Oscuro 🌙 ⇄ Claro ☀️ ⇄ Sepia ☕ M-18), grupo de deshacer/rehacer con `fastClone` (M-03) y credencial RBAC.
 
 ### 📁 BARRA LATERAL & CATÁLOGO FLOTANTE
 *   **Barra de Iconos (`#sidebar`):**
@@ -53,11 +53,13 @@ El contenedor principal del sistema (`#app`) utiliza un diseño bidimensional im
     *   Z-Index: `50` (flota sobre el lienzo central `#main` extendiéndose hacia la derecha de la barra lateral).
 
 ### 📐 LIENZO CENTRAL (`#main`)
-*   **Grid de Fondo (CAD Grid):** Renderizado en `#view-physical` con un patrón ortogonal de líneas milimétricas sutiles (`linear-gradient`) de `1px` espaciados en una cuadrícula CAD de **`24px` × `24px`** (equivalente a 1U de rack), optimizada para modo oscuro y claro.
+*   **Grid de Fondo (CAD Grid):** Renderizado en `#view-physical` con un patrón ortogonal de líneas milimétricas sutiles (`linear-gradient`) de `1px` espaciados en una cuadrícula CAD de **`24px` × `24px`** (equivalente a 1U de rack), optimizada dinámicamente para modo oscuro, claro y sepia.
 *   **Disposición de Racks (`#view-physical-content` / `#racks-area`):**
     *   Modelo de caja: `display: flex`, `flex-wrap: wrap`.
     *   **Separación Inter-Rack:** **`gap: 72px`** (3U), proporcionando pasillos laterales holgados para la canalización vertical limpia de cables sin sobrevolar gabinetes ni periféricos.
     *   Alineación de piso: Contenedor perimétrico de equipos de suelo con `min-width: 584px`.
+    *   **Bicanalidad de Cableado (M-41):** Rutas segregadas aéreas (techo: $\min(Top) - 14px$) y bajo piso técnico (suelo: $\max(Bottom) + 14px$) según orientación configurada.
+    *   **Redibujado Selectivo (M-04):** Actualización atómica de gabinetes individuales con `renderSingleRack(rackId)` preservando estado 3D (`flipped`).
 
 ### 📋 PANEL DERECHO (`#right-panel`)
 El panel derecho (`300px`, `--right-panel-w`) se subdivide en tres secciones organizadas verticalmente con `flex-direction: column`:
@@ -74,6 +76,7 @@ El panel derecho (`300px`, `--right-panel-w`) se subdivide en tres secciones org
     *   Contenido: Tarjetas métricas de ocupación en U, consumo eléctrico (W/kW), disipación térmica (BTU/h) y peso total (kg).
 
 ### 📊 PANEL INFERIOR (`#bottom`)
+*   **Pestañas Modulares:** 5 pestañas completas (**Dispositivos**, **Racks**, **Conexiones**, **Puertos**, **VLANs**), botón para importador masivo (`#btn-table-import-modal`, M-21/M-22) y selector de columnas (`#btn-columns-menu`).
 *   **Altura Expandido:** `220px` (`--bottom-h`).
 *   **Altura Colapsado (Clase `.collapsed`):** Reducido estrictamente a **`38px`** (solo visible la barra de pestañas).
 *   **Transiciones:** Animado suavemente mediante cambios de altura y transformaciones CSS.

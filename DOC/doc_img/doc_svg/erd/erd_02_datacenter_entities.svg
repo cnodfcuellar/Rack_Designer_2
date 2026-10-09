@@ -1,0 +1,305 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="980" viewBox="0 0 1300 980">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050a14"/>
+      <stop offset="100%" stop-color="#0a1324"/>
+    </linearGradient>
+    <linearGradient id="hdrRoom" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="hdrRack" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+    <linearGradient id="hdrDevice" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="hdrConn" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="hdrCatalog" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+    <marker id="arrow-sky" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#818cf8"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arrow-rose" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#fb7185"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <rect width="1300" height="980" fill="url(#bg)"/>
+  <rect width="1300" height="980" fill="url(#grid)"/>
+
+  <!-- Main Banner -->
+  <rect x="40" y="24" width="1220" height="60" rx="10" fill="#0b1728" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="40" y="24" width="6" height="60" rx="3" fill="#4f46e5"/>
+  <text x="65" y="48" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" fill="#818cf8" letter-spacing="2.5" font-weight="700">DIAGRAMA ENTIDAD-RELACIÓN · NIVEL 2</text>
+  <text x="65" y="69" font-family="'Segoe UI', Roboto, sans-serif" font-size="18" fill="#f8fafc" font-weight="700">Modelo Central de Infraestructura: Salas, Gabinetes, Equipos y Conexiones</text>
+  <rect x="1070" y="38" width="170" height="30" rx="6" fill="#0f1f3a" stroke="#4f46e5" stroke-width="1"/>
+  <text x="1155" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">STORE._RAW CORE</text>
+
+  <!-- ENTIDAD 1: ROOM -->
+  <g transform="translate(50, 110)" filter="url(#shadow)">
+    <rect width="340" height="250" rx="10" fill="#09111e" stroke="#0284c7" stroke-width="1.5"/>
+    <rect width="340" height="38" rx="10" fill="url(#hdrRoom)"/>
+    <rect y="28" width="340" height="10" fill="url(#hdrRoom)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: Room (Sala / Edificio)</text>
+    <text x="315" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#bae6fd">store.rooms[]</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">PK</text>
+    <text x="45" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">id</text>
+    <text x="210" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">UUID (uid())</text>
+
+    <line x1="15" y1="72" x2="325" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">name</text>
+    <text x="210" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (Nombre)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">building</text>
+    <text x="210" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (Opcional)</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">floorLevel</text>
+    <text x="210" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (Piso)</text>
+
+    <rect x="15" y="165" width="310" height="70" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="186" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#38bdf8">🏢 Contenedor Físico y Topológico Primario</text>
+    <text x="25" y="204" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">UI: Barra de Pestañas (#room-tabs) &amp; RoomModal.js</text>
+    <text x="25" y="222" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Eliminación en cascada segura (Racks → Devs → Conns)</text>
+  </g>
+
+  <!-- ENTIDAD 2: RACK -->
+  <g transform="translate(480, 110)" filter="url(#shadow)">
+    <rect width="360" height="320" rx="10" fill="#09111e" stroke="#4f46e5" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="10" fill="url(#hdrRack)"/>
+    <rect y="28" width="360" height="10" fill="url(#hdrRack)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: Rack (Gabinete de Servidores)</text>
+    <text x="335" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#e0e7ff">store.racks[]</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">PK</text>
+    <text x="45" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">id</text>
+    <text x="220" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">UUID (uid())</text>
+
+    <line x1="15" y1="72" x2="345" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8" font-weight="700">FK</text>
+    <text x="45" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">roomId</text>
+    <text x="220" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">UUID (Room)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">name</text>
+    <text x="220" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (ej: R-01)</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">height</text>
+    <text x="220" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (8..48U, def 42)</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">color</text>
+    <text x="220" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">#hex (Borde/Badge)</text>
+
+    <text x="15" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">flipped</text>
+    <text x="220" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">boolean (Front/Rear)</text>
+
+    <text x="15" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">order</text>
+    <text x="220" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (Secuencia)</text>
+
+    <rect x="15" y="235" width="330" height="70" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="256" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#818cf8">🖥️ Renderizado Físico y Rotación 3D</text>
+    <text x="25" y="274" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">UI: rack.js (renderSingleRack atómico M-04)</text>
+    <text x="25" y="292" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Doble vista Frontal/Trasera preservada en redibujado</text>
+  </g>
+
+  <!-- ENTIDAD 3: DEVICE -->
+  <g transform="translate(900, 110)" filter="url(#shadow)">
+    <rect width="360" height="430" rx="10" fill="#09111e" stroke="#0d9488" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="10" fill="url(#hdrDevice)"/>
+    <rect y="28" width="360" height="10" fill="url(#hdrDevice)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: Device (Hardware IT)</text>
+    <text x="335" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ccfbf1">store.devices[]</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">PK</text>
+    <text x="45" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">id</text>
+    <text x="220" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">UUID (uid())</text>
+
+    <line x1="15" y1="72" x2="345" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8" font-weight="700">FK</text>
+    <text x="45" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">rackId</text>
+    <text x="220" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#818cf8">UUID (Rack | null)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8" font-weight="700">FK</text>
+    <text x="45" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">roomId</text>
+    <text x="220" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">UUID (Room | floor)</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">name</text>
+    <text x="220" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (Hostname)</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">type</text>
+    <text x="220" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">server|switch|router...</text>
+
+    <text x="15" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">size (U)</text>
+    <text x="220" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (1..10U)</text>
+
+    <text x="15" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">slotU</text>
+    <text x="220" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">number (1..height)</text>
+
+    <text x="15" y="236" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="236" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">side</text>
+    <text x="220" y="236" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">front | rear</text>
+
+    <text x="15" y="260" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="260" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">category</text>
+    <text x="220" y="260" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">rack | floor</text>
+
+    <text x="15" y="284" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="284" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">ip / user / pass</text>
+    <text x="220" y="284" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">Red &amp; AES-GCM (M-01)</text>
+
+    <text x="15" y="308" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="308" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">preset / skin</text>
+    <text x="220" y="308" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">Hardware Skins (M-28)</text>
+
+    <text x="15" y="332" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="332" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">ports[]</text>
+    <text x="220" y="332" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">Array&lt;Port&gt;</text>
+
+    <rect x="15" y="350" width="330" height="65" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="370" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#2dd4bf">⚙️ Núcleo de Modelado Hardware</text>
+    <text x="25" y="388" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">UI: faceplates.js (SVG vector), DeviceModal.js</text>
+    <text x="25" y="404" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Inspector.js con toggle de contraseñas individuales</text>
+  </g>
+
+  <!-- ENTIDAD 4: CONNECTION (Bottom) -->
+  <g transform="translate(480, 500)" filter="url(#shadow)">
+    <rect width="360" height="340" rx="10" fill="#09111e" stroke="#e11d48" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="10" fill="url(#hdrConn)"/>
+    <rect y="28" width="360" height="10" fill="url(#hdrConn)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: Connection (Enlace Físico / Cable)</text>
+    <text x="335" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffe4e6">store.connections[]</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">PK</text>
+    <text x="45" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">id</text>
+    <text x="220" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">UUID (uid())</text>
+
+    <line x1="15" y1="72" x2="345" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2dd4bf" font-weight="700">FK</text>
+    <text x="45" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">sourceDeviceId</text>
+    <text x="220" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2dd4bf">UUID (Device Origen)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">sourcePort</text>
+    <text x="220" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (Puerto A)</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2dd4bf" font-weight="700">FK</text>
+    <text x="45" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">targetDeviceId</text>
+    <text x="220" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2dd4bf">UUID (Device Destino)</text>
+
+    <text x="15" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">targetPort</text>
+    <text x="220" y="164" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (Puerto B)</text>
+
+    <text x="15" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8" font-weight="700">FK</text>
+    <text x="45" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">vlanId</text>
+    <text x="220" y="188" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">number (VLAN)</text>
+
+    <text x="15" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">cableType / color</text>
+    <text x="220" y="212" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string / #hex</text>
+
+    <text x="15" y="236" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="236" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">orientation</text>
+    <text x="220" y="236" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">top | bottom (M-41)</text>
+
+    <rect x="15" y="260" width="330" height="65" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="280" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#fb7185">🔌 Conmutación Bicanal e Inversión Swap</text>
+    <text x="25" y="298" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">UI: CableModal.js (Swap M-41), tables.js</text>
+    <text x="25" y="314" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Trazado bicanal en rack.js (Techo / Suelo)</text>
+  </g>
+
+  <!-- ENTIDAD 5: CUSTOM CATALOG ITEM (Bottom-Left) -->
+  <g transform="translate(50, 420)" filter="url(#shadow)">
+    <rect width="340" height="230" rx="10" fill="#09111e" stroke="#d97706" stroke-width="1.5"/>
+    <rect width="340" height="38" rx="10" fill="url(#hdrCatalog)"/>
+    <rect y="28" width="340" height="10" fill="url(#hdrCatalog)"/>
+    <text x="15" y="25" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff" font-weight="700">ENTIDAD: CustomCatalogItem</text>
+    <text x="315" y="25" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#fef3c7">customCatalog[]</text>
+
+    <text x="15" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f43f5e" font-weight="700">PK</text>
+    <text x="45" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">id</text>
+    <text x="210" y="60" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">UUID (uid())</text>
+
+    <line x1="15" y1="72" x2="325" y2="72" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="15" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">name / model</text>
+    <text x="210" y="92" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">string (Plantilla)</text>
+
+    <text x="15" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">type / size (U)</text>
+    <text x="210" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">server | switch / U</text>
+
+    <text x="15" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#64748b">ATTR</text>
+    <text x="45" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f8fafc">defaultPorts[]</text>
+    <text x="210" y="140" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">Plantilla de puertos</text>
+
+    <rect x="15" y="165" width="310" height="50" rx="6" fill="#08101e" stroke="#1e293b"/>
+    <text x="25" y="185" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#f59e0b">📦 Plantillas Reutilizables de Usuario</text>
+    <text x="25" y="202" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">UI: catalog.js (Familia 'Personalizados')</text>
+  </g>
+
+  <!-- RELACIONES (Líneas y Cardinalidades) -->
+  <!-- Room (1) -> (N) Rack -->
+  <path d="M 390 200 L 480 200" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow-sky)"/>
+  <rect x="415" y="182" width="45" height="18" rx="4" fill="#0b1728" stroke="#0284c7" stroke-width="0.8"/>
+  <text x="437" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#38bdf8">1 : N</text>
+
+  <!-- Rack (1) -> (N) Device -->
+  <path d="M 840 230 L 900 230" fill="none" stroke="#818cf8" stroke-width="2.5" marker-end="url(#arrow-indigo)"/>
+  <rect x="850" y="212" width="45" height="18" rx="4" fill="#0b1728" stroke="#4f46e5" stroke-width="0.8"/>
+  <text x="872" y="225" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#818cf8">1 : N</text>
+
+  <!-- Room (1) -> (N) Floor Device (directo abajo y luego a Device) -->
+  <path d="M 220 360 L 220 400 L 1080 400 L 1080 540" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-sky)"/>
+  <text x="650" y="394" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#38bdf8">Room (1) : (N) Floor Device (category: "floor")</text>
+
+  <!-- Device (1) -> (N) Connection Source -->
+  <path d="M 940 540 L 940 620 L 840 620" fill="none" stroke="#2dd4bf" stroke-width="2" marker-end="url(#arrow-teal)"/>
+  <text x="890" y="612" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#2dd4bf">Origen</text>
+
+  <!-- Device (1) -> (N) Connection Target -->
+  <path d="M 1020 540 L 1020 700 L 840 700" fill="none" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-rose)"/>
+  <text x="940" y="692" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#fb7185">Destino</text>
+
+  <!-- Footer Banner -->
+  <rect x="40" y="870" width="1220" height="85" rx="8" fill="#08111e" stroke="#1e293b" filter="url(#shadow)"/>
+  <text x="65" y="895" font-family="'Segoe UI', sans-serif" font-size="12" fill="#f8fafc" font-weight="700">REGLAS DE INTEGRIDAD REFERENCIAL Y AISLAMIENTO</text>
+  <text x="65" y="915" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Eliminación en Cascada: Al borrar un Gabinete (Rack), todas sus conexiones asociadas se purgan de store._raw.connections sin dejar cables flotantes.</text>
+  <text x="65" y="933" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#94a3b8">• Auto-Saneamiento (_sanitize()): Purgado de huérfanos al cargar datos y protección ante colisiones físicas de slots U y caras front/rear.</text>
+</svg>

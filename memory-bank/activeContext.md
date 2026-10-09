@@ -1,184 +1,69 @@
 # Active Context
 
 ## Current Work Focus
-Se implementó con éxito la **Plantilla Demo de Campus Universitario a Gran Escala (Universidad Tecnológica Nacional - UTN)** con una red jerárquica de 3 capas, 10 edificios/salas estructuradas, 13 gabinetes estándar, 24 VLANs según el plan de direccionamiento 10.0.0.0/8, y el nuevo **Modal de Selección de Plantillas Demo (`#modal-demo-selection`)**. La suite de pruebas automatizada se ha elevado a **360 pruebas con 100% de éxito tanto en Node.js como en navegador web**.
+Se completó la **biblioteca de 19 skins vectoriales isométricas en `assets/img/`**, con estilo artístico homogéneo a 30°, iluminación facetada en 3 planos y sombras de piso. Además, se generaron y documentaron los **4 diagramas SVG arquitectónicos completos en `doc/doc_img/doc_svg/architecture/`** (Dependencias, Grafo de Relaciones, Diagrama UML y Codemap exhaustivo). La suite de pruebas de integridad se encuentra al **100% de éxito con 360 pruebas automatizadas sin fallos**.
+
+El foco activo continúa en el avance de las propuestas de mejora documentadas en [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) y [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md).
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-09] Biblioteca Completa de 19 Skins Vectoriales Isométricas (`assets/img/`):**
+  - **Estilo Artístico Homogéneo:** Proyección isométrica limpia a 30°, iluminación facetada en tres planos (tope claro, cara frontal/lateral izquierda media, cara derecha oscura), paleta de colores técnicos (carbón, cian luminoso, naranja/rojo de alarma, acentos metálicos) y sombras de piso elípticas difuminadas.
+  - **19 Activos Diseñados y Disponibles:**
+    1. `desktop_workstation_iso.svg`: Estación de trabajo PC con torre nítida, monitor slim con reflejo diagonal y teclado con barra espaciadora clara.
+    2. `router_modem_iso.svg`: Router/módem con antena vertical, LEDs y 5 puertos RJ45.
+    3. `cctv_camera_iso.svg`: Cámara de seguridad CCTV tipo bala con lente turquesa y brazo articulado.
+    4. `server_rack_open_iso.svg`: Gabinete de servidores con puerta batiente abierta a 90°, bahías SAN y LEDs.
+    5. `telecom_tower_iso.svg`: Torre de transmisión inalámbrica con crucetas metálicas, baliza roja y ondas de radio.
+    6. `laptop_client_iso.svg`: Laptop cliente con bisel de pantalla, teclado y trackpad.
+    7. `database_storage_iso.svg`: Cilindros de base de datos en tres niveles de color (rojo, marino y cian).
+    8. `switch_24p_iso.svg`: Switch de red 1U con frente amplio, matriz clara de puertos RJ45 con LEDs y jaulas SFP+ plateadas.
+    9. `ups_power_iso.svg`: UPS con pantalla LCD de voltaje y módulo de baterías hot-swap.
+    10. `pdu_power_strip_iso.svg`: Regleta PDU vertical 0U con tomas IEC C13, display de amperaje y cable trifásico.
+    11. `firewall_shield_iso.svg`: Firewall UTM con chasis rojo y escudo protector vertical azul con candado reconocible.
+    12. `access_point_iso.svg`: Punto de acceso Wi-Fi de techo tipo plato con anillo LED cian luminoso.
+    13. `nvr_recorder_iso.svg`: Grabador NVR para videovigilancia CCTV con bahías SATA y 8 puertos PoE.
+    14. `nas_storage_iso.svg`: Servidor NAS de almacenamiento en torre con 4 bahías hot-swap y pestillos metálicos.
+    15. `decoder_box_iso.svg`: Decodificador de TV / Streaming con pantalla digital de canal y salidas HDMI.
+    16. `voip_phone_iso.svg`: Teléfono IP VoIP con base angular limpia, teclado matricial contrastado, pantalla LCD y auricular separado con cable en espiral.
+    17. `network_printer_iso.svg`: Impresora multifuncional láser con escáner, pantalla táctil y hoja impresa en salida.
+    18. `datacenter_door_iso.svg`: Puerta de acceso a datacenter con marco de acero proporcional, puerta de cristal cian entreabierta, barra antipánico y control RFID lateral.
+    19. `vehicle_barrier_iso.svg`: Barrera vehicular / talanquera con gabinete naranja, baliza ámbar y pluma reflectiva.
+  - Disponibles directamente para asignación de hardware y personalización en el campo "Archivo Skin (`assets/img/`)" de los modales de equipos.
+- **[2026-10-09] Documentación y Diagramación Vectorial Arquitectónica (`doc/doc_img/doc_svg/architecture/`):**
+  - **`codemap_grafo_completo.svg` (2400x1600 px):** Codemap exhaustivo de la base de código en Dark Mode que mapea todas las funciones, módulos y flujos del sistema con sección interactiva *"¿Qué archivo toco si quiero...?"*.
+  - **`diagrama_uml_completo_sistema.svg` (2200x1500 px):** Diagrama UML técnico de clases y paquetes modelando Platform, Styles, Core, Security, UIView, Modals, Topology, Runtime y Vendor.
+  - **`grafo_relaciones_archivos_sistema.svg` (2000x1350 px):** Grafo integral de relaciones y dependencias entre la totalidad de los archivos de código del proyecto.
+  - **`diagrama_dependencias_completo.svg` (1600x1100 px):** Diagrama estructurado de las 8 capas arquitectónicas del sistema.
 - **[2026-10-06] Plantilla Demo Adicional: Campus Universitario UTN y Modal de Selección:**
-  - **Implementación de `loadUniversityDemoData()` (`js/demoData.js`):** Red jerárquica universitaria de 3 capas modelando la UTN (5.000 estudiantes, 600 docentes, 300 administrativos) dividida en 10 edificios: DCC (Data Center Central), TIC (Tecnología, NOC & SOC), ADM (Administración), AUL (Aulas 3 pisos), ING (Ingeniería y Labs), BIB (Biblioteca), LAB (Investigación y SCADA), CAM (Seguridad CCTV), DEP (Deportes) y RES (Residencias).
-  - **13 Gabinetes Estructurados y 24 VLANs:** Distribución gravitacional de peso estricta, servidores principales (AD01/02, DNS01/02, DHCP01/02, NTP, Syslog, ERP, Académico, LMS, SAN, Backup, DMZ Web y Mail, PBX IP, WLCs), 162 dispositivos, 97 conexiones de fibra OS2/OM4/DAC/Cat6A y esquema IP 10.0.0.0/8.
-  - **Modal de Selección de Demos (`#modal-demo-selection` en `index.html`, `js/main.js`, `css/components/modals.css`):** Tarjetas interactivas dark mode para elegir entre el Centro de Datos Empresarial (TIA-942) y el Campus Universitario UTN, con confirmación de respaldo y guardado seguro.
-  - **Testing Automatizado:** 360 pruebas en CLI (`integrity_check.cjs`) pasando al 100%. Resuelto problema de protocolo `file:///` en runner web (`tests/index.html`) desacoplando `fetch('../js/main.js')` con fallback autónomo para M-04, alcanzando 355/355 pruebas al 100% sin excepciones no controladas.
-  - **Bugfix Topología (`TopologyEvents.js`):** Corregido `ReferenceError: r is not defined` en el cálculo de límites de sala al arrastrar equipos sobre el Canvas 2D, restaurando el movimiento fluido e interactivo de nodos.
+  - Red jerárquica de 3 capas modelando la UTN (10 edificios: DCC, TIC, ADM, AUL, ING, BIB, LAB, CAM, DEP, RES).
+  - 13 gabinetes estructurados, 24 VLANs según el esquema 10.0.0.0/8, 162 dispositivos y 97 conexiones físicas.
+  - Modal `#modal-demo-selection` con selección visual interactiva y respaldo automático de seguridad.
+  - Runner web en `tests/index.html` adaptado para operación en `file:///` desacoplando `fetch()` con fallback autónomo.
 - **[2026-10-05] Implementación de M-04: Redibujado Selectivo y Despacho Optimizado:**
-  - **Redibujado Granular de Gabinetes (`renderSingleRack` en `js/ui/rack.js`):** Extracción modular de `buildRackFace` y reemplazo atómico del elemento `.rack-wrapper` en el DOM sin reconstruir los demás racks de la sala, preservando el estado de giro de cara (`flipped`), re-enlazando eventos de forma aislada y sincronizando el trazado de cables con `drawPhysicalCables`.
-  - **Metadatos Enriquecidos en `js/store.js`:** Mutaciones en el almacén emiten eventos con información explícita de entidad (`rackId`, `deviceId`, `oldRackId`, `device`, `props`) para direccionamiento `O(1)` de actualizaciones.
-  - **Coalescencia y Agrupamiento con `requestAnimationFrame` en `js/main.js`:** Despacho agrupado en refresco de pantalla para eventos visuales continuos, manteniendo procesamiento síncrono inmediato para operaciones críticas de datos (`loadData`, `undo`, `redo`, `importJSON` o `immediate: true`), y vaciado forzado con `renderAll.flush()`.
-  - **Consciencia de Vistas Inactivas y Paneles Contraídos (`window._renderState`):** Banderas `dirtyPhysical`, `dirtyTopology`, `dirtyBottom` y `dirtyOutliner` que posponen regeneraciones innecesarias del DOM en pestañas ocultas o paneles colapsados hasta su reapertura.
-  - **Monitor de Diagnóstico (`window.RenderPerformance`):** Objeto de telemetría expuesto en `renderAll.stats` con métricas en tiempo real (`totalRenders`, `selectiveRenders`, `fullRenders`, `lastRenderDurationMs`, `reset()`).
-  - **Testing Automatizado:** Grupo 22 incorporado con 20 pruebas de integración en `tests/integrity_check.cjs` y `tests/index.html`. Total: **355 de 355 pruebas pasando al 100%**.
+  - Redibujado granular de gabinetes individuales con `renderSingleRack(rackId)` en `js/ui/rack.js`.
+  - Coalescencia rAF a 60 FPS en `main.js` y banderas de estado sucio (`_renderState`).
+  - Monitor de telemetría y diagnóstico `window.RenderPerformance`.
 - **[2026-10-05] Implementación de M-03: Optimización de deepClone y Limitación de Historial:**
-  - **Algoritmo `fastClone(obj)` en `js/utils.js`:** Función de clonación recursiva/iterativa optimizada para estructuras planas de datacenters. Rendimiento verificado en benchmark: **4x más rápido que `JSON.parse(JSON.stringify)`** (13.7 ms vs 56.5 ms en datasets con 150 equipos y conexiones) y 5.8x más rápido que `structuredClone`. Fallback multi-tier seguro escalonado (`fastClone` ➔ `structuredClone` ➔ `JSON`).
-  - **Límite Acotado de Historial (`_maxHistory = 15`):** Restricción de las pilas de Undo/Redo a un tamaño óptimo de 15 instantáneas, con getters y setters reactivos (`store.maxHistory`, `store.historySize`), truncamiento dinámico defensivo con `splice()` y método de purga `store.clearHistory()`.
-  - **Snapshots Livianos:** El método `_createSnapshot()` en `store.js` omite las colecciones de datos pesadas que no forman parte del flujo de deshacer (como `topologySlots`), reduciendo el uso de memoria RAM de cada instantánea hasta en un 80%.
-  - **Deduplicación Reactiva O(1):** Bandera `_mutatedSinceLastSnapshot` que previene guardar estados consecutivos idénticos en la pila si no ocurrieron mutaciones de datos en el almacén.
-  - **Herramienta de Diagnóstico:** Método `store.estimateHistoryMemory()` que calcula el consumo de memoria en bytes y kilobytes.
-  - **Testing Automatizado:** Grupo 21 incorporado con 19 pruebas de integración en `tests/integrity_check.cjs` y `tests/index.html`. Total: **335 de 335 pruebas pasando al 100% de éxito**.
-- **[2026-10-05] Implementación de M-28: Sistema Avanzado de Skins Visuales en Topología (Cards, Nodos e Imágenes / Hardware Skins):**
-  - **Nuevo Módulo Modular `TopologySkins.js`:** Gestión desacoplada de los 3 modos canónicos (`circle`, `card`, `image`), cálculo adaptativo de dimensiones con `getNodeDimensions(mode)` y hit-testing matemático unificado con `isPointInNode(node, px, py, style)`.
-  - **Catálogo de 18 Presets de Hardware Offline (`HARDWARE_PRESETS`):** Mapeo directo de tipos y alturas a gráficos vectoriales existentes en `EMBEDDED_SVG_CACHE` de `faceplates.js` (servidores 1U/2U/4U, switches, routers, firewalls, storage, patch, PDU, KVM, UPS, ATX, monitor, cámaras CCTV, APs, sensores, puertas y telefonía IP), garantizando operación 100% offline y compatible con protocolo `file://`.
-  - **Renderizado Fotorrealista de Hardware (`renderHardwareNode`):** Chasis metálico oscuro procedural degradado (`#181a1f`), bisel perimetral (`#333a46`), orejas laterales de montaje en rack con perforaciones de tornillos, carátula vectorial o imagen custom en base64, badge metálico con altura U y LED de estado operativo.
-  - **Caché Inteligente de Imágenes en Memoria:** `getHardwareImage(svgOrDataUrl, onLoaded)` reutiliza instancias de `HTMLImageElement` previniendo saturación en el bucle a 60 FPS y gatillando redibujado reactivo una vez cargada la imagen asíncrona.
-  - **Integración Completa en el Motor:** `TopologyLayout.js` adapta cuadrículas (`_nodeW` y `_nodeH`), `TopologyEvents.js` unifica la detección de impacto en clics, hover y arrastre con `TopologySkins.isPointInNode()`, y `TopologyRenderer.js` delega la rama de dibujo `image`.
-  - **Menú y Persistencia:** Botón `#topo-opt-image` ("Hardware") añadido al menú `#topo-style-dropdown`, persistencia en `TopologyState.js` y en los 5 slots de memoria (M-40).
-  - **Formulario de Equipos (`DeviceModal.js`):** Subida de imágenes `.png`, `.jpg`, `.svg` vía `FileReader` a base64 DataURL con previsualización interactiva y reseteo inmediato, junto a selector de preset.
-  - **Testing Automatizado:** Grupo 20 con 30 aserciones exhaustivas en `tests/integrity_check.cjs` y `tests/index.html`. Total: **316 de 316 pruebas pasando al 100% de éxito**.
-- **[2026-10-04] Implementación de M-21 y M-22: Plantilla Completa de Exportación e Importación Masiva (CSV / Excel):**
-  - **Componente Modular `ImportModal.js`:** Generación y descarga de plantillas en Excel (.xlsx) y CSV con los 21 campos del modelo de equipos y hoja de ayuda `"Guia_Valores"` para valores válidos (M-21).
-  - **Motor de Validación Reactiva y Detección de Colisiones:** `analyzeImportBatch` analiza en tiempo real colisiones físicas de slots, desbordes de altura, verificación de nombres y separa equipos de rack vs piso (M-22).
-  - **Políticas de Duplicados y Auto-creación de Racks:** Modos Omitir (`skip`), Renombrar (`rename`) y Sobrescribir (`overwrite`) con soporte opcional para autogenerar gabinetes ausentes.
-  - **Rollback Atómico con Undo/Redo:** La importación ejecuta un `store.snapshot()`, permitiendo revertir el 100% del lote en un único clic en Deshacer (`store.undo()`).
-  - **Integración en UI:** Modal interactivo `#modal-import-devices` con drop-zone drag & drop, botón de acceso `#btn-table-import-modal` en la barra de herramientas de tablas y `#menu-import-devices` en la cabecera. Opciones de descarga de plantillas en `#export-dropdown`.
-  - **Testing Automatizado:** Grupo 19 agregado a `tests/integrity_check.cjs` y `tests/index.html` con 21 nuevas pruebas.
-- **[2026-10-04] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**
-  - Incorporados Grupos 16, 17, 18 y 19 en `tests/index.html` alcanzando **286 pruebas en 19 grupos al 100% de éxito**, logrando paridad 1:1 total con `tests/integrity_check.cjs`.
-- **[2026-10-03] Implementación de M-41: Botón para Invertir y Cambiar Orientación de Conexiones:**
-  - **Inversión de Sentido Lógico (Swap Origen ⇄ Destino):** Botón interactivo `#btn-cable-swap` en `CableModal.js` con microanimación de giro a 180° e icono vectorial monocromático `.icon-swap` que transpone de inmediato equipos y puertos con recálculo dinámico de colisiones.
-  - **Acción Rápida en Tabla (`tables.js`):** Botón `data-swap-conn` en la columna de Acciones de la tabla de conexiones para invertir cualquier enlace con un solo clic.
-  - **Orientación de Canaleta Física (Superior / Inferior):** Selector `#cable-orientation` en el modal de cables y toggle interactivo de 1 clic en la columna de la tabla (`⬆️ Techo` ⇄ `⬇️ Piso`). Persistencia en el modelo reactivo (`orientation: 'top' | 'bottom'`).
-  - **Enrutamiento Segregado en Vista Física (`rack.js`):** El motor SVG de `drawPhysicalCables` desciende los cables con orientación inferior hacia la canaleta de piso técnico (`maxRackBottom + 14 + offset`), separando limpiamente el cableado bajo piso del aéreo.
-- **[2026-10-02] Implementación de M-18: Soporte para Tema Sepia y Selector Global de Temas:**
-  - **Diseño Ergonómico Relajante:** Paleta cálida pergamino (`--bg-main: #f4ecd8`, `--text-primary: #332517`, `--accent: #b45309`) en `variables.css`.
-  - **Botón Dinámico en Cabecera (`#btn-theme-toggle`):** Ciclo continuo y accesible (Oscuro ⇄ Claro ⇄ Sepia) con icono dinámico (`.icon-moon`, `.icon-sun`, `.icon-coffee`).
-  - **Adaptación en Grilla CAD y Topología:** Ajuste de cuadrícula en `layout.css` y fondo cálido (`#f5eee1`) en Canvas 2D (`TopologyRenderer.js`).
-- **[2026-10-02] Implementación de M-40: Guardado y Conmutación de Estados de Topología (Slots):**
-  - **Sistema de 5 Ranuras:** Gestión de 5 estados independientes (`topologySlots`) con clonado profundo en `store.js` que capturan posiciones de nodos, racks, salas, encuadre pan y nivel de zoom.
-  - **Barra de Acceso Rápido y Menú Desplegable:** `#topo-slots-bar` en la barra de herramientas y menú `#topo-slots-dropdown` para guardar, cargar, renombrar y vaciar ranuras.
-  - **Preservación de Undo/Redo:** La alternancia entre ranuras no destruye `_redoStack`, permitiendo rehacer sin inconsistencias.
-  - **Normalización de Iconografía:** Estandarización del icono de vistas a `.icon-eye` monocromático alineado estrictamente con `DESIGN.md`.
-
-## Recent Changes (Septiembre 2026)
-- **[2026-09-30] Sincronización Total de Suite Web Interactiva (`tests/index.html`):**
-  - **Paridad 1:1 Exacta:** Sincronizadas las 13 pruebas que estaban agrupadas o pendientes en el runner web, alcanzando exactamente **199 pruebas en 15 grupos al 100% de éxito**.
-  - Sincronizados Grupo 5 (canónica y normalizeAssetUrl), Grupo 6 (ancho estricto 280px y elipsis de rack), Grupo 7 (desacople de 3 asserts en customCatalog), Grupo 8 (normalización a 14 tests), Grupo 9 (exportación Dual y ocultamiento de controles), Grupo 13 (desacople de botones de columnas) y Grupo 14 (desacople de toggle y script crypto).
-- **[2026-09-30] Refinamiento de Topología (Elipsis Elegante y HUD Tooltip Ampliado a 240px):**
-  - **HUD Tooltip Ergonómico:** Ancho expandido a `240px` con soporte multilínea dinámico para nombres técnicos extensos (>21 caracteres) y márgenes de seguridad anti-desborde perimetral (`10px`).
-  - **Elipsis en Tarjetas y Círculos:** Truncamiento elegante con puntos suspensivos (`slice(0, 16) + '…'`) preservando las dimensiones estándar de las tarjetas (`150px`) y la geometría intacta de los racks.
-  - **Testing Automatizado:** 199/199 pruebas de integridad pasadas al 100% en Node.js y navegador web.
-- **[2026-09-30] Implementación de M-39: Afinidad y Proximidad de Equipos de Piso por Gabinete:**
-  - **Algoritmo de Afinidad por Rack Anfitrión (`TopologyLayout.js`):** Función `_findAffinityRackForFloorDevice()` que calcula el rack anfitrión analizando las conexiones directas hacia cada gabinete de la misma sala, con resolución por mayoría de enlaces en periféricos *multi-homed* y manejo de no conectados (`null`).
-  - **Alineación en Cuadrante Inferior:** Periféricos ubicados directamente bajo el ancho horizontal del rack (`[rackX, rackX + rw]`) en subcolumnas compactas que nunca desbordan hacia gabinetes vecinos (`RACK_GAP = 32px`).
-  - **Preservación de Armonía y Cuadrícula:** Línea de base uniforme (`floorBaseY = rackTopY + maxRackH + 28px`), base neutra para no conectados y cálculo reactivo de altura de sala (`roomH`).
-  - **Paridad con Árbol Jerárquico (`_computeTreeLayout`):** Soporte paritario en el modo DAG jerárquico.
-  - **Testing de Integridad:** Grupo 15 con 14 aserciones exhaustivas en `tests/integrity_check.cjs` y `tests/index.html`. Total: 196/196 pruebas pasando al 100%.
-  - **Hito de Roadmap:** 28 de 40 mejoras completadas (Fase 4 al 83%, 5 de 6 completadas).
-- **[2026-09-29] Blindaje de Producción al 100%: Cifrado en Reposo (M-01) y Modo Dios:**
-  - **Módulo Criptográfico Autónomo `RackCrypto` (`js/auth/crypto.js`):** Cifrado simétrico de credenciales y campos sensibles (`pass`) con prefijo `enc:v1:<iv>:<ciphertext>` derivado de clave 256-bit y vector de inicialización único por registro.
-  - **Persistencia Segura en Reposo:** Cifrado automático en `store._save()`, `fileManager.writeToFile` y `downloadFallback`. En `localStorage` y en respaldos exportados `.rack` nunca reside texto plano.
-  - **Descifrado Transparente en Memoria:** `store._load()` y `store.loadData()` descifran las credenciales al instanciar el estado en memoria para operación fluida a 60 FPS sin penalización de rendimiento.
-  - **Gobernanza RBAC, Modo Dios y Revelación Táctil:** Contraseñas enmascaradas con `••••••••` por defecto. Modo Dios (`SHOW_PASSWORDS`) y revelación táctil individual en Inspector (`toggleDevicePasswordInspector`) gobernadas por rol Admin (`RackAuth.can('toggleGodMode')`). Toggle `#dev-pass-toggle` en modales.
-  - **Integridad Automatizada:** 182 pruebas en 14 grupos al 100% (Grupo 14 dedicado a seguridad y cifrado).
-- **[2026-09-28] Vista de Topología: Control Dual de Espaciado Horizontal y Vertical:**
-  - **Grupo de Sliders `#topo-spacing-group`:** Integración de barra horizontal `H` (`#topo-spacing-x`) y barra vertical `V` (`#topo-spacing`).
-  - **Espaciado Horizontal de Nodos (H):** En el estilo por racks (`_computeLayout`), los equipos se organizan en columnas separadas por `colGap`, expandiendo el ancho del gabinete y manteniendo la distancia entre racks fija (`RACK_GAP = 32px`). En el estilo árbol (`_computeTreeLayout`), separa horizontalmente los nodos hermanos del mismo nivel.
-  - **Espaciado Vertical (V):** Regula la distancia entre niveles jerárquicos padre-hijo (`rowGap`) y entre slots verticales.
-  - **Recálculo Reactivo a 60 FPS:** Implementación de `recalcTopoSpacingX()` y `recalcTopoSpacing()` con persistencia en `TopologyState.js`.
-- **[2026-09-28] Vista de Topología: Separación de Cabeceras entre Sala y Racks en Árbol:**
-  - Corrección de colisión vertical: los racks ahora inician estrictamente por debajo de la cabecera de la sala (`rackTopY = ROOM_MARGIN + ROOM_PAD_TOP`), garantizando más de 20px de espacio libre. Los niveles jerárquicos inician por debajo de la cabecera del rack (`startY = rackTopY + RACK_HEADER_H`).
-- **[2026-09-28] Vista de Topología: Personalización de Ubicación de Nombre e IP en Nodos Circulares:**
-  - Menú popover de Estilo (`#topo-style-dropdown`) con selector de presets: *Separados (IP Arriba / Nombre Abajo)*, *Separados Invertidos*, *Juntos Abajo*, *Juntos Arriba*, *Juntos Derecha*, *Juntos Izquierda* y *Personalizado* con selectores independientes para Nombre e IP (`Arriba`, `Abajo`, `Derecha`, `Izquierda`, `Oculto`).
-  - Renderizado dinámico en Canvas 2D (`TopologyRenderer.js`) apilando o separando las etiquetas según la orientación sin colisiones y con sombras de alto contraste.
-- **[2026-09-27] Vista de Topología: Layout en Árbol Jerárquico y Reubicación de Dispositivos No Conectados:**
-  - Algoritmo de árbol DAG según dirección del flujo de datos (Padre $\rightarrow$ Hijo) con relajación de niveles.
-  - Conexiones ortogonales redondeadas (`orthogonalEdgeStyle`) y partículas sincronizadas con `performance.now()`.
-  - Reubicación estricta de equipos desconectados: en racks se ubican al fondo (`unconnStartTier = maxConnTierInRack + 1`), y en la sala se sitúan en la base inferior.
-- **[2026-09-27] UX: Auto-Navegación y Enfoque desde el Outliner:**
-  - Auto-scroll y centrado suave (`scrollIntoView`) con resaltado de borde azul temporal (1.5s) al hacer clic en salas, racks o equipos en el Outliner. Auto-cambio dinámico de sala si el objeto está en otra sala.
-- **[2026-09-27] Cabecera: Protección de Vistas y Truncamiento de Nombres Largos:**
-  - `flex-shrink: 0` en pestañas `.view-tabs`, botones de acción rápida, credencial y dot de estado.
-  - Truncamiento elíptico en selectores de sala y rack con tooltips dinámicos `title` para lectura completa en hover.
-- **[2026-09-23] Selector Dinámico de Columnas en Tablas de Datos:**
-  - Botón `⚙ Columnas` en el panel inferior con menú popover interactivo contextual (18 columnas en Inventario, 10 en Conexiones), categorías semánticas, persistencia en `localStorage`, modo corto de 220px y pantalla completa.
-- **[2026-09-22] Exportación de Sala Completa en Vista Dual (Frente + Dorso Modular por Gabinete):**
-  - **Disposición Modular por Gabinete (`mode === 'dual'`):** Cada rack en la sala completa se exporta dentro de un recuadro cerrado e independiente con borde y franja superior de su color asignado (`rack.color`), cabecera con `GABINETE: [NOMBRE]`, ocupación `[X]U · [Y]U USADAS · [Z]W`, badge `VISTA DUAL (F+T)` y columnas interiores `VISTA FRONTAL` y `VISTA TRASERA` lado a lado.
-  - **Lienzo Panorámico General de Datacenter:** Módulos ensamblados horizontalmente con espaciado técnico de 40px (80px Retina 2x), cabecera general con métricas globales consolidadas y badge `VISTA DUAL PANORÁMICA`.
-  - **Integración con Equipos de Piso:** Inclusión de periféricos al pie con borde `#f59e0b` e iconografía vectorial nítida trazada con `drawFloorIconCanvas`.
-  - **Doble Modalidad en Modal (`openPNGModal`):** Botón principal `#btn-export-entire-room-dual` (Vista Dual Frente + Dorso) y botón secundario `#btn-export-entire-room` (Vista Actual 1:1).
-  - **Fallback Procedural 2D:** Soporte completo en Canvas 2D (`_fallbackExportRoomToPNG`) para entornos donde `html2canvas` falle o no esté presente.
-  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v30` y 119/119 pruebas de integridad pasando al 100%.
-- **[2026-09-22] Iconografía Vectorial en Exportación de Equipos de Piso (1:1 y Fallback 2D):**
-  - **Trazado Vectorial en Fallback (`drawFloorIconCanvas`):** Implementación de trazado vectorial en Canvas 2D para todos los periféricos de piso (`camera`, `printer`, `phone`, `ap`, `pc`, `door`), integrando cajita con esquinas redondeadas y fondo tintado idéntica a la UI.
-  - **Resolución de Compatibilidad con `html2canvas`:** Reemplazo de `color-mix()` por `rgba()`, inyección de atributos explícitos `width="22" height="22"` en SVGs y ocultamiento de botones de acción durante la captura.
-  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v29` y 117/117 pruebas de integridad pasando al 100%.
-- **[2026-09-22] Exportación de Gabinetes en Ambos Lados (Frontal + Trasera 1:1):**
-  - **Captura y Composición Dual (`exportRackToPNG` con `side === 'both'`):**
-    - Se implementó la captura secuencial de la cara Frontal y la cara Trasera en alta resolución Retina (`scale: 2`), combinándolas horizontalmente en un único lienzo de imagen con espaciado técnico de 36px y fondo adaptativo del tema.
-    - Se agregaron botones independientes en cada tarjeta de gabinete del modal: `Frontal`, `Trasera` y `Ambos Lados` (resaltado).
-    - Descarga automática con el sufijo `${rack.name}_Ambos_Lados.png`.
-  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v28` y 117/117 pruebas de integridad pasando al 100%.
-- **[2026-09-22] Estabilización Definitiva de Exportación de Toda la Sala Completa a PNG (Alta Fidelidad 1:1):**
-  - **Aislamiento Seguro en Captura de Sala (`exportRoomToPNG`):**
-    - Se eliminó el uso de `ignoreElements` en `html2canvas` (causante de caídas silenciosas al fallback procedural 2D) y se reemplazó por la aplicación directa de `style.display = 'none'` sobre controles interactivos (`#canvas-btn-add-rack`, `#floor-btn-add-device`, `.device-actions`, `.btn-flip-rack`, etc.), restaurando sus estados en el bloque `finally`.
-    - **Protección de SVG de Cables Vacío:** Al exportar salas sin cables dibujados, se oculta completamente el elemento `<svg id="physical-cables-svg">` (`display: 'none'`), evitando fallas de serialización SVG de Chromium en protocolo local `file:///`.
-    - **Amplitud y Proporción Natural (`max-content`):** Se aplica `width: max-content`, `minWidth: max-content` y `boxSizing: border-box` en `#view-physical-content` durante la captura para garantizar que todos los gabinetes se alineen horizontalmente con holgura e impecable resolución, sin saltos de línea ni recortes.
-    - **Diagnóstico y Reporte Claro:** Captura y notificación explícita de errores en la interfaz si la captura 1:1 llegase a fallar antes de recurrir al renderizador alternativo.
-  - **Service Worker & Testing:** Caché actualizada a `rack-designer-next-cache-v27` y 117/117 pruebas de integridad pasando limpiamente al 100%.
-- **[2026-09-22] Reparación y Fidelidad 1:1 en Exportación PNG de Gabinetes Individuales:**
-  - **Resolución de Canvas Tainted (`SecurityError`):** Inyección de `EMBEDDED_SVG_CACHE` con los 18 SVGs nativos directamente en memoria dentro de `faceplates.js`. Esto elimina la dependencia de `fetch()` (bloqueado por CORS en protocolo `file:///`) y erradica las etiquetas `<img>` que contaminaban el canvas. Ahora `html2canvas` genera el PNG de hardware real 1:1 sin caer en el fallback.
-  - **Aplanado 3D Temporal para html2canvas:** Neutralización transitoria de `perspective: none`, `transform: none`, `transform-style: flat` y `transition: none` en `.rack-wrapper` y `.rack-flipper` con restauración exacta en bloque `finally`.
-  - **Aislamiento de Caras (Frontal vs. Trasera):** Eliminación del solapamiento parásito ocultando la cara inactiva (`display: none`) y colocando la activa en flujo relativo sin rotaciones 3D.
-  - **Orientación Real en Fallback:** Corrección en `_fallbackExportRackToPNG` para que U1 esté en la base y U12/U42 en el tope.
-  - **Adaptación al Tema Dinámico:** Uso de `getActiveThemeBg()` para leer el color de fondo `--bg-main` según el tema activo (`data-theme="light"` o modo oscuro), tanto en `html2canvas` como en los renderizadores procedimentales Canvas 2D.
-  - **Soporte Frontal / Trasera en Modal:** Detección de equipos en cara trasera en `openPNGModal()` para ofrecer exportación directa e independiente de ambas vistas.
-  - **Compensación de Zoom / Pan:** Reset temporal de `phys.style.zoom` y `transform` durante la captura para evitar recortes y desplazamientos.
-- **[2026-09-21] Catálogo Arquitectónico Profesional, Seguridad/CCTV y Equipos Personalizados por Proyecto:**
-  - **Enfoque Genérico / Arquitectónico:** Estandarización a 30 plantillas limpias de centro de datos sin marcas arbitrarias (Servidores 1U/2U/4U/Blade, Switches 24P/48P/Core/Agregación, Routers de borde, Firewalls UTM, Cabinas SAN, NAS 2U, JBOD, UPS Online 1500/3000, PDUs, Organizadores, Bandejas, etc.) con potencias (W) y puertos reales.
-  - **Nueva Categoría Seguridad y CCTV (`security`):** Creación de la familia comercial con NVR 1U/2U, DVR 1U y Decodificador de Video Wall 1U, acompañados de iconos vectoriales dedicados (`SVG_ICONS`).
-  - **Reorganización en 8 Familias (`CATALOG_GROUPS`):** `network` exclusiva para activos, `accesorios` integrando Patch Panels y Bandeja de Fibra Óptica (ODF), más cómputo, storage, security, power, kvm y floor.
-  - **Equipos Personalizados por Proyecto (`customCatalog`):** Persistencia en el store de plantillas creadas por el usuario, badge visual `PROYECTO`, inclusión en archivos exportados `.rack` / `.json`, y retorno automático al catálogo por defecto al crear un nuevo proyecto.
-  - **PWA & Cache:** Actualización a `rack-designer-next-cache-v11`.
-  - **Testing:** 83 pruebas en `tests/integrity_check.cjs` y 82 pruebas en `tests/index.html` pasando limpiamente al 100%.
-- **[2026-09-21] Sprint 4 de Mejoras (M-37, M-19, M-30):**
-  - **M-37:** Fidelidad visual 1:1 en la exportación de imágenes PNG utilizando `html2canvas.min.js` a escala Retina (`scale: 2`) sobre fondo `#090d17` con fallback procedimental a Canvas 2D. Regla CSS `.exporting-capture` para ocultar controles de UI flotantes durante la captura.
-  - **M-19:** Nuevas columnas en la tabla de inventario (`Tamaño`, `Skin`, `Notas`) con edición interactiva en celda (`dblclick`), validación numérica de tamaño, persistencia directa en el store (`finishCellEdit`) y sincronización completa con la exportación CSV.
-  - **M-30:** Buscador reactivo en tiempo real (`#qp-dev-search`) en el modal de catálogo asistido (`#modal-quick-placement`) con función `filterQPCatalog()`, selección inteligente y recálculo de slots disponibles.
-  - **PWA & Cache:** Actualización a `rack-designer-next-cache-v10` con precaché de `js/html2canvas.min.js`.
-  - **Testing:** 13 nuevas pruebas en el Grupo 9 de `tests/integrity_check.cjs` y en `tests/index.html` (78/78 tests pasando al 100%).
-- **[2026-09-19] Sprint 3 de Mejoras (M-36, M-23, M-38, M-24):**
-  - **M-36:** CRUD integral de Salas, Racks y Equipos desde el panel Inspector con Empty State proactivo (`+ Nueva Sala`, `+ Nuevo Gabinete`), vistas contextuales con cálculo de U y funciones de eliminación seguras con RBAC (`deleteRoomFromInspector`, `deleteRackFromInspector`, `deleteDeviceFromInspector`).
-  - **M-23:** Botones de creación rápida en cabecera del Outliner (`+ Sala`, `+ Rack`, `+ Equipo`) y botones inline contextuales `✏️` y `🗑️` por nodo en el árbol jerárquico con confirmación `customConfirm`.
-  - **M-38:** Selector de ordenamiento en Outliner (`#outliner-sort-select`) con 4 modos reactivos: `slot` (posición U), `name-asc` (A→Z), `name-desc` (Z→A) y `type` (familia funcional).
-  - **M-24:** Inspector colapsable interactivo con rotación de chevron `▼` y expansión fluida del Outliner en panel derecho (`flex: 1 1 180px`).
-  - **PWA & Cache:** Actualización a `rack-designer-next-cache-v9`.
-  - **Testing:** 13 nuevas pruebas en el Grupo 8 de `tests/integrity_check.cjs` (65/65 tests pasando al 100%).
-- **[2026-09-19] Sprint 2 de Mejoras (M-09, M-11, M-12):**
-  - **M-09:** Modal reactivo unificado `#modal-room` con título dinámico, botones contextuales y verificación RBAC. Botones de edición táctil `✏️` en cada pestaña de sala del catálogo.
-  - **M-11:** Reorganización del catálogo vertical de 50px en 7 familias comerciales estándar (`CATALOG_GROUPS`), consolidando "Redes" (#38bdf8).
-  - **M-12:** Categoría superior "Todos" (`id: 'all'`) en la cima del catálogo e integración del motor de búsqueda reactivo en tiempo real `#catalog-search`.
-  - **PWA & Cache:** Actualización a `rack-designer-next-cache-v8`.
-  - **Testing:** 10 nuevas pruebas en el Grupo 7 de `tests/integrity_check.cjs` (52/52 tests pasando al 100%).
-- **[2026-09-19] Sprint 1 de Mejoras (M-02, M-05, M-10, M-13, M-14, M-15, M-16):**
-  - Manejo defensivo de `QuotaExceededError` (`M-02`).
-  - Doble slot de respaldo anti-corrupción (`M-05`).
-  - Borde de 1.5px y sombra tridimensional de gabinete (`M-10`).
-  - Ancho de slots a 240px exactos en relación 10:1 (`M-14`).
-  - Grilla técnica CAD milimétrica con paso de 24px (`M-15`).
-  - Alineación de equipos de piso con `min-width: 584px` (`M-13`).
-  - Selector de alturas comerciales normalizadas (42U default) (`M-16`).
+  - Algoritmo `fastClone` 4x más veloz que JSON en `js/utils.js`.
+  - Límite estricto de 15 instantáneas (`_maxHistory = 15`) y deduplicación reactiva $O(1)$.
+  - Snapshots livianos excluyendo `topologySlots` con ahorro de hasta 80% en RAM.
+- **[2026-10-05] Implementación de M-28: Skins Visuales en Topología (Cards, Nodos e Imágenes / Hardware Skins):**
+  - Módulo `TopologySkins.js` con 18 presets offline, renderizado fotorrealista de chasis y soporte para base64 DataURL.
 
 ## Next Steps
 Continuar con el roadmap técnico ([`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) / [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md)):
-1. **Seguridad y Cifrado (Fase 0):**
-   - **M-01:** Cifrado WebCrypto AES-GCM para almacenamiento seguro de credenciales y datos sensibles en localStorage.
-2. **Gestión de Puertos y Cableado (Fase 2):**
-   - **M-26:** Gestión avanzada de puertos, validación de ocupación y soporte VLAN.
-   - **M-33:** Cableado frontal vs. trasero.
-3. **Ergonomía de Cableado (Fase 2):**
-   - **M-34:** Conexiones interactivas en vista física arrastrando puertos (*Drag-to-Connect*).
+1. **Fase 2 — Core de Datos y Ergonomía de Puertos:**
+   - **M-26:** Gestión avanzada de puertos, validación de ocupación y soporte de VLANs en conexiones.
+   - **M-33:** Separación de cableado frontal vs. trasero en puertos duales.
+   - **M-34:** Conexiones interactivas *Drag-to-Connect* arrastrando puertos directamente en la vista física.
+2. **Fase 3 — Ergonomía y Layout:**
+   - **M-25A:** Optimización adaptativa y responsive para pantallas de Desktop y Laptops medianas.
+3. **Fase 6 — Colaboración y Resiliencia:**
+   - **M-35:** Flexibilidad de ubicación sin restricciones arbitrarias.
+   - **M-07:** Resolución de conflictos multiusuario y versionado de proyectos.
 
 ## Active Decisions & Considerations
-- **100% Vanilla JS + CSS3 + HTML5:** Arquitectura reactiva con Proxy nativo ES6. Sin build step ni frameworks.
-- **Cero Diálogos Bloqueantes:** Todos los formularios de salas, racks, equipos y conexiones utilizan modales HTML5 accesibles y reactivos.
-- **Suite de Integridad:** `tests/integrity_check.cjs` valida automáticamente antes de cada entrega el 100% de la lógica de negocio, seguridad, integridad de datos y renderizado.
-- **Respaldo en Git:** Solo bajo petición explícita del usuario.
-- **Mantenimiento del Changelog:** Registro obligatorio en `doc/log/CHANGELOG.md` tras cada modificación.
+- **100% Vanilla JS + CSS3 + HTML5:** Arquitectura reactiva con Proxy nativo ES6 sin dependencias de compilación.
+- **Cero Diálogos Bloqueantes:** Modales HTML5 interactivos accesibles para todas las operaciones.
+- **Suite de Integridad 100% OK:** 360 pruebas automáticas en `tests/integrity_check.cjs` y `tests/index.html` pasando sin errores.
+- **Actualización Obligatoria de Documentación:** Mantener sincronizados `memory-bank/` y `doc/log/CHANGELOG.md` en cada hito de desarrollo.

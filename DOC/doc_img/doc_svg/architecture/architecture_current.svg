@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1560" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .title { font-weight: 800; fill: #38bdf8; }
+      .subtitle { fill: #8b9ab8; font-weight: 400; }
+      .meta { fill: #64748b; font-size: 11px; }
+      .layer-title { font-weight: 700; font-size: 14.5px; fill: #0ea5e9; }
+      .class-title { font-weight: 700; font-size: 12px; fill: #38bdf8; }
+      .class-desc { font-size: 10px; fill: #94a3b8; }
+      .flow-arrow { stroke: #38bdf8; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+    </marker>
+    <linearGradient id="g-accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="g-cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="g-green" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#059669" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="g-amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1560" fill="#0b0f19" rx="16"/>
+  <rect width="1200" height="1560" fill="none" stroke="#25304b" stroke-width="2" rx="16"/>
+
+  <!-- ========================================== -->
+  <!-- TITLE BLOCK -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 36)">
+    <rect width="1120" height="130" rx="12" fill="#151c2e" stroke="#25304b" stroke-width="1.5"/>
+    <text x="560" y="50" text-anchor="middle" font-size="28" class="title">⚡ RACK DESIGNER NEXT</text>
+    <text x="560" y="78" text-anchor="middle" font-size="16" class="subtitle">Diagrama de Arquitectura Integral del Sistema (2026)</text>
+    <text x="560" y="106" text-anchor="middle" font-size="12" class="meta mono">PWA · 100% Vanilla JS (ES6+) · HTML5 · CSS3 · Canvas 2D · Offline-First · Zero Build Steps · pnpm</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- PRESENTATION LAYER (UI) -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 190)">
+    <rect width="1120" height="370" rx="12" fill="url(#g-accent)" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="24" y="30" class="layer-title">CAPA 1: PRESENTACIÓN (INTERFAZ DE USUARIO Y VISTAS DUALES)</text>
+    
+    <!-- index.html -->
+    <rect x="24" y="50" width="240" height="300" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+    <text x="144" y="76" text-anchor="middle" font-size="13.5" font-weight="700" fill="#f0f6ff">index.html (PWA Layout)</text>
+    <text x="144" y="94" text-anchor="middle" font-size="10" class="mono subtitle">32 Scripts Clásicos Síncronos</text>
+    
+    <g transform="translate(36, 108)">
+      <rect width="216" height="230" rx="6" fill="#151c2e" stroke="#2e3d5a" stroke-width="0.8"/>
+      <text x="10" y="20" font-size="10.5" font-weight="700" fill="#38bdf8">Componentes de Interfaz</text>
+      
+      <rect x="10" y="30" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="46" font-size="9.5" fill="#f0f6ff">#header: Temas M-18 / RBAC</text>
+
+      <rect x="10" y="58" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="74" font-size="9.5" fill="#f0f6ff">#catalog: Flyout / Búsqueda</text>
+
+      <rect x="10" y="86" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="102" font-size="9.5" fill="#f0f6ff">#view-physical: Lienzo Físico</text>
+
+      <rect x="10" y="114" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="130" font-size="9.5" fill="#f0f6ff">#topology-canvas: Canvas 2D</text>
+
+      <rect x="10" y="142" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="158" font-size="9.5" fill="#f0f6ff">#right-panel: Outliner/Inspector</text>
+
+      <rect x="10" y="170" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="186" font-size="9.5" fill="#f0f6ff">#bottom: Tablas de Datos</text>
+
+      <rect x="10" y="198" width="196" height="24" rx="4" fill="#0f172a"/>
+      <text x="16" y="214" font-size="9.5" fill="#38bdf8">#modal-demo-selection (UTN)</text>
+    </g>
+
+    <!-- Topology Engine (ui/topology/) -->
+    <rect x="280" y="50" width="260" height="135" rx="8" fill="#151c2e" stroke="#2e3d5a" stroke-width="1"/>
+    <text x="296" y="74" class="class-title">Topology Engine (Canvas 2D)</text>
+    <text x="296" y="90" class="class-desc mono">TopologyRenderer · Skins · Layout · State</text>
+    <rect x="296" y="102" width="228" height="72" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="306" y="118" font-size="9" fill="#94a3b8">· 3 Modos visuales: Circle, Card e Image</text>
+    <text x="306" y="133" font-size="9" fill="#38bdf8">· Skins Hardware fotorrealistas (M-28)</text>
+    <text x="306" y="148" font-size="9" fill="#10b981">· 5 Slots de Memoria Instantánea (M-40)</text>
+    <text x="306" y="163" font-size="9" fill="#94a3b8">· Contención perimetral salas y racks</text>
+
+    <!-- Physical View & Gabinetes (rack.js) -->
+    <rect x="556" y="50" width="260" height="135" rx="8" fill="#151c2e" stroke="#2e3d5a" stroke-width="1"/>
+    <text x="572" y="74" class="class-title">Lienzo Físico &amp; Racks</text>
+    <text x="572" y="90" class="class-desc mono">rack.js · faceplates.js</text>
+    <rect x="572" y="102" width="228" height="72" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="582" y="118" font-size="9" fill="#38bdf8">· renderSingleRack(rackId) O(1) (M-04)</text>
+    <text x="582" y="133" font-size="9" fill="#10b981">· Bicanalidad: Techo y Piso max+14 (M-41)</text>
+    <text x="582" y="148" font-size="9" fill="#94a3b8">· Separación estandarizada 72px (3U)</text>
+    <text x="582" y="163" font-size="9" fill="#94a3b8">· Flip 3D (Cara Frontal / Posterior)</text>
+
+    <!-- Outliner, Inspector & Tablas -->
+    <rect x="832" y="50" width="270" height="135" rx="8" fill="#151c2e" stroke="#2e3d5a" stroke-width="1"/>
+    <text x="848" y="74" class="class-title">Outliner, Inspector &amp; Tablas</text>
+    <text x="848" y="90" class="class-desc mono">outliner.js · inspector.js · tables.js</text>
+    <rect x="848" y="102" width="238" height="72" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="858" y="118" font-size="9" fill="#38bdf8">· Selector de Columnas Visibles (Propuesta 3)</text>
+    <text x="858" y="133" font-size="9" fill="#f59e0b">· Swap de cables ⇄ y Canaleta Techo/Piso (M-41)</text>
+    <text x="858" y="148" font-size="9" fill="#94a3b8">· Outliner con ordenación por U/Nombre (M-38)</text>
+    <text x="858" y="163" font-size="9" fill="#10b981">· Inspector: claves cifradas y doble cara (M-36)</text>
+
+    <!-- Fila Inferior de Capa 1: Modales y Gestión Masiva -->
+    <rect x="280" y="200" width="410" height="150" rx="8" fill="#151c2e" stroke="#2e3d5a" stroke-width="1"/>
+    <text x="296" y="224" class="class-title">ui/modals/ — 8 Modales Modulares</text>
+    <text x="296" y="240" class="class-desc mono">ImportModal · ExportModal · PlacementModal · Device/Rack/Cable</text>
+    <rect x="296" y="252" width="378" height="86" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="306" y="270" font-size="9.5" fill="#34d399" font-weight="600">· ImportModal.js (M-22): Importación masiva CSV/XLSX</text>
+    <text x="306" y="286" font-size="9" fill="#94a3b8">· Detección automática de colisiones internas y desbordes</text>
+    <text x="306" y="302" font-size="9" fill="#94a3b8">· Auto-creación de gabinetes y equipos de piso</text>
+    <text x="306" y="318" font-size="9" fill="#38bdf8">· ExportModal.js: Plano PNG off-canvas y memorias técnicas</text>
+
+    <!-- FileManager & SheetJS -->
+    <rect x="706" y="200" width="396" height="150" rx="8" fill="#151c2e" stroke="#2e3d5a" stroke-width="1"/>
+    <text x="722" y="224" class="class-title">fileManager.js &amp; xlsx.full.min.js</text>
+    <text x="722" y="240" class="class-desc">Persistencia de Archivo, Plantillas y Exportación Global</text>
+    <rect x="722" y="252" width="364" height="86" rx="4" fill="#0f172a" stroke="#25304b" stroke-width="0.5"/>
+    <text x="732" y="270" font-size="9.5" fill="#38bdf8">· Plantillas de Exportación de Dispositivos e Inventario (M-21)</text>
+    <text x="732" y="286" font-size="9" fill="#94a3b8">· Serialización JSON atómica para backups integrales</text>
+    <text x="732" y="302" font-size="9" fill="#94a3b8">· File System Access API para guardado nativo sin diálogo</text>
+    <text x="732" y="318" font-size="9" fill="#10b981">· Compatibilidad universal con navegadores Chromium / Firefox / WebKit</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- ORCHESTRATOR & UTILS LAYER -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 580)">
+    <rect width="1120" height="190" rx="12" fill="url(#g-cyan)" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="24" y="30" class="layer-title" fill="#06b6d4">CAPA 2: CONTROLADOR, DESPACHADOR &amp; ALGORITMOS NUCLEARES</text>
+    
+    <!-- main.js -->
+    <rect x="24" y="48" width="540" height="126" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+    <text x="44" y="72" class="class-title" fill="#06b6d4">main.js (Orquestador Central Reactivo)</text>
+    <text x="44" y="88" class="class-desc">Coordinador del ciclo de vida, escuchas de eventos y renderizado.</text>
+    <rect x="44" y="100" width="500" height="62" rx="4" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+    <text x="54" y="118" font-size="9.5" fill="#38bdf8">· Coalescencia requestAnimationFrame fluida a 60 FPS (M-04)</text>
+    <text x="54" y="133" font-size="9" fill="#94a3b8">· Despacho enriquecido: renderAll({ source, rackId, deviceId })</text>
+    <text x="54" y="148" font-size="9" fill="#10b981">· Switcher de 3 temas nativos (Oscuro 🌙 / Claro ☀️ / Sepia ☕ M-18)</text>
+
+    <!-- utils.js -->
+    <rect x="580" y="48" width="522" height="126" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+    <text x="600" y="72" class="class-title" fill="#06b6d4">utils.js (Ayudantes y Algoritmos Rápidos)</text>
+    <text x="600" y="88" class="class-desc">Clonado rápido por capas, hashing y componentes de diálogo.</text>
+    <rect x="600" y="100" width="482" height="62" rx="4" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+    <text x="610" y="118" font-size="9.5" fill="#34d399">· fastClone(obj) — Clonado optimizado O(N) por referencias aisladas (M-03)</text>
+    <text x="610" y="133" font-size="9" fill="#94a3b8">· Generador UUID con fallback matemático seguro</text>
+    <text x="610" y="148" font-size="9" fill="#38bdf8">· Sistema no invasivo notify() y diálogo modal customConfirm()</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SECURITY & CRYPTO LAYER -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 790)">
+    <rect width="1120" height="230" rx="12" fill="url(#g-amber)" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="24" y="30" class="layer-title" fill="#f59e0b">CAPA 3: SEGURIDAD, CRIPTOGRAFÍA EN REPOSO &amp; RBAC</text>
+    
+    <g transform="translate(24, 48)">
+      <!-- crypto.js (AES-GCM M-01) -->
+      <rect width="530" height="162" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+      <text x="20" y="24" class="class-title" fill="#f59e0b">js/auth/crypto.js (window.RackCrypto)</text>
+      <text x="20" y="40" class="class-desc">Cifrado Simétrico AES-GCM &amp; Derivación PBKDF2 (M-01)</text>
+      <rect x="20" y="52" width="490" height="100" rx="4" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+      <text x="30" y="72" font-size="9.5" fill="#fbbf24">· Cifrado en reposo para contraseñas de dispositivos y datos críticos</text>
+      <text x="30" y="90" font-size="9" fill="#94a3b8">· Clave criptográfica derivada mediante PBKDF2 (100.000 iteraciones)</text>
+      <text x="30" y="108" font-size="9" fill="#38bdf8">· Modo Dios para Administradores con revelación segura en tiempo real</text>
+      <text x="30" y="126" font-size="9" fill="#10b981">· Soporte offline nativo en Web Crypto API y contextos seguros</text>
+
+      <!-- roles.js (RBAC SHA-256) -->
+      <rect x="550" width="518" height="162" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+      <text x="570" y="24" class="class-title" fill="#f59e0b">js/auth/roles.js (window.RackAuth)</text>
+      <text x="570" y="40" class="class-desc">Control de Acceso Basado en Roles (RBAC) y Firmas</text>
+      <rect x="570" y="52" width="478" height="100" rx="4" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+      <text x="580" y="72" font-size="9.5" fill="#fbbf24">· Validación de PIN de Admin (SHA-256 con fallback local puro en JS)</text>
+      <text x="580" y="90" font-size="9" fill="#94a3b8">· Token en memoria volátil de sesión para prevenir manipulación sessionStorage</text>
+      <text x="580" y="108" font-size="9" fill="#f87171">· 3 Roles Canónicos: Admin (full), Editor (operativo), Espectador (lectura)</text>
+      <text x="580" y="126" font-size="9" fill="#38bdf8">· Comprobación granular con RackAuth.can('action')</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- STATE MANAGEMENT & STORAGE LAYER -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 1040)">
+    <rect width="1120" height="260" rx="12" fill="url(#g-green)" stroke="#10b981" stroke-width="1.5"/>
+    <text x="24" y="30" class="layer-title" fill="#10b981">CAPA 4: ESTADO REACTIVO Y PERSISTENCIA (EL CEREBRO)</text>
+
+    <!-- store.js -->
+    <rect x="24" y="48" width="680" height="196" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+    <text x="44" y="72" class="class-title" fill="#10b981">store.js (State Manager Reactivo con Proxy ES6)</text>
+    <text x="44" y="88" class="class-desc">Única fuente de verdad de la infraestructura (Salas, Gabinetes, Equipos, VLANs, Puertos, Cables).</text>
+    
+    <g transform="translate(44, 100)">
+      <rect width="280" height="130" rx="6" fill="#151c2e" stroke="#10b981" stroke-width="1"/>
+      <text x="14" y="22" font-size="11" font-weight="700" fill="#34d399">Trampa Proxy ES6 (_makeProxy)</text>
+      <text x="14" y="42" font-size="9" fill="#94a3b8">· Intercepta mutaciones de variables de estado</text>
+      <text x="14" y="60" font-size="9" fill="#94a3b8">· Auto-saneamiento relacional en cascada (_sanitize)</text>
+      <text x="14" y="78" font-size="9" fill="#10b981">· Emisión de eventos atómicos con metadatos de ID</text>
+      <text x="14" y="96" font-size="9" fill="#94a3b8">· Cero mutación directa del DOM</text>
+      <text x="14" y="114" font-size="8.5" fill="#38bdf8" class="mono">store._raw ➔ Proxy Wrapper ➔ UI</text>
+
+      <rect x="300" y="0" width="300" height="130" rx="6" fill="#151c2e" stroke="#25304b" stroke-width="1"/>
+      <text x="314" y="22" font-size="11" font-weight="700" fill="#34d399">Historial Optimizado (M-03)</text>
+      <text x="314" y="42" font-size="9" fill="#38bdf8">· Límite dinámico óptimo: maxHistory = 15</text>
+      <text x="314" y="60" font-size="9" fill="#94a3b8">· fastClone(this._raw) pre-mutación seguro</text>
+      <text x="314" y="78" font-size="9" fill="#94a3b8">· Exclusión de topologySlots (-80% consumo RAM)</text>
+      <text x="314" y="96" font-size="9" fill="#94a3b8">· Métricas con store.estimateHistoryMemory()</text>
+      <text x="314" y="114" font-size="8.5" fill="#f59e0b" class="mono">store.undo() ⇄ store.redo()</text>
+    </g>
+
+    <!-- Storage and Demo Data -->
+    <rect x="720" y="48" width="376" height="196" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+    <text x="740" y="72" class="class-title" fill="#10b981">Almacenamiento y Plantillas de Datos</text>
+    <text x="740" y="88" class="class-desc">Persistencia de estado y cargadores de demostración.</text>
+    <rect x="740" y="100" width="336" height="130" rx="4" fill="#151c2e" stroke="#25304b" stroke-width="0.5"/>
+    <text x="750" y="120" font-size="9.5" fill="#f0f6ff" class="mono">· RACK_DESIGNER_NEXT_STATE</text>
+    <text x="750" y="136" font-size="8.5" fill="#94a3b8">  Persistencia localStorage con backup anti-corrupción (M-05)</text>
+    <text x="750" y="152" font-size="9.5" fill="#f0f6ff" class="mono">· RACK_SESSION_USER (sessionStorage)</text>
+    <text x="750" y="168" font-size="9.5" fill="#f0f6ff" class="mono">· RACK_ADMIN_PIN (SHA-256)</text>
+    <text x="750" y="186" font-size="9.5" fill="#34d399">· Plantilla 1: Datacenter Empresarial (TIA-942)</text>
+    <text x="750" y="202" font-size="9.5" fill="#38bdf8">· Plantilla 2: Campus Universitario UTN (10 Salas, 24 VLANs)</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- OFFLINE ENGINE & SERVICE WORKER -->
+  <!-- ========================================== -->
+  <g transform="translate(40, 1320)">
+    <rect width="1120" height="130" rx="12" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+    <text x="24" y="28" class="layer-title" fill="#94a3b8">CAPA 5: MOTOR OFFLINE PWA &amp; SUITE DE ASEGURAMIENTO (TESTS)</text>
+
+    <!-- service-worker.js -->
+    <rect x="24" y="44" width="540" height="70" rx="8" fill="#0f172a" stroke="#25304b" stroke-width="1"/>
+    <text x="44" y="68" class="class-title" fill="#94a3b8">service-worker.js (PWA Offline)</text>
+    <text x="44" y="86" class="class-desc">Caché: rack-designer-next-cache-v3 · Instalable sin conexión</text>
+
+    <!-- tests/ -->
+    <rect x="580" y="44" width="522" height="70" rx="8" fill="#0f172a" stroke="#e11d48" stroke-width="1"/>
+    <text x="600" y="68" class="class-title" fill="#fb7185">tests/integrity_check.cjs &amp; tests/index.html</text>
+    <text x="600" y="86" class="class-desc">360 Pruebas Automatizadas en 22 Grupos · 100% Cobertura de Regresión</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- DATA FLOW ARROWS -->
+  <!-- ========================================== -->
+  <path d="M 600,560 L 600,575 L 290,575 L 290,580" class="flow-arrow" marker-end="url(#arrow-cyan)"/>
+  <path d="M 400,1040 L 400,770" class="flow-arrow" stroke="#10b981" marker-end="url(#arrow-green)"/>
+
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="12" stdDeviation="10" flood-color="#040914" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <!-- SOMBRA BASE ISOMÉTRICA EN EL SUELO -->
+  <polygon points="60,330 200,240 340,320 200,410" fill="#000000" opacity="0.14"/>
+
+  <!-- TALANQUERA / BARRERA VEHICULAR AUTOMÁTICA ISOMÉTRICA -->
+  <g id="vehicle-barrier" filter="url(#shadow)">
+    <!-- 1. GABINETE / COLUMNA MOTORIZADA (COLOR NARANJA SEGURIDAD) -->
+    <!-- Cara Superior -->
+    <polygon points="100,210 135,190 160,205 125,225" fill="#f97316"/>
+    <!-- Cara Frontal Izquierda -->
+    <polygon points="100,210 125,225 125,340 100,325" fill="#c2410c"/>
+    <!-- Cara Lateral Derecha -->
+    <polygon points="125,225 160,205 160,320 125,340" fill="#ea580c"/>
+
+    <!-- LUZ ESTROBOSCÓPICA / BALIZA SUPERIOR (Ámbar / Naranja Parpadeante) -->
+    <ellipse cx="130" cy="202" rx="10" ry="6" fill="#fbbf24"/>
+    <ellipse cx="130" cy="200" rx="8" ry="4" fill="#fef08a"/>
+
+    <!-- CERRADURA Y VENTILACIÓN DEL GABINETE -->
+    <circle cx="112" cy="245" r="2.5" fill="#0f172a"/>
+    <path d="M 135 240 L 152 230 M 135 248 L 152 238 M 135 256 L 152 246" stroke="#9a3412" stroke-width="2"/>
+
+    <!-- 2. RÓTULA Y MECANISMO DE ARTICULACIÓN -->
+    <ellipse cx="148" cy="215" rx="14" ry="10" fill="#1e293b"/>
+    <ellipse cx="148" cy="214" rx="10" ry="7" fill="#475569"/>
+
+    <!-- 3. BRAZO / PLUMA DE LA BARRERA CON FRANJAS REFLECTIVAS ROJAS Y BLANCAS -->
+    <!-- Brazo extendido hacia la derecha en ángulo isométrico -->
+    <!-- Base del brazo (Blanco) -->
+    <polygon points="145,210 330,305 330,317 145,222" fill="#ffffff"/>
+    <polygon points="145,208 330,303 330,305 145,210" fill="#cbd5e1"/>
+
+    <!-- Franja Roja 1 -->
+    <polygon points="180,228 205,241 205,253 180,240" fill="#ef4444"/>
+    <!-- Franja Roja 2 -->
+    <polygon points="230,254 255,267 255,279 230,266" fill="#ef4444"/>
+    <!-- Franja Roja 3 (Punta) -->
+    <polygon points="280,280 305,293 305,305 280,292" fill="#ef4444"/>
+
+    <!-- Tira de LEDs luminosos en la pluma (Verde / Paso permitido) -->
+    <line x1="155" y1="213" x2="325" y2="303" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 4"/>
+
+    <!-- Poste de Apoyo en el Extremo (Descanso de Pluma a la derecha) -->
+    <polygon points="325,308 335,302 335,355 325,361" fill="#475569"/>
+  </g>
+</svg>

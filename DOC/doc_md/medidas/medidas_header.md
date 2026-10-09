@@ -39,7 +39,7 @@ La cabecera se divide horizontalmente en dos contenedores principales:
     *   **Botón de Menú Móvil (`#mobile-menu-btn`):** `display: none` en escritorio. Dimensiones normalizadas de `24px` × `24px`.
     *   **Imagen del Logo (`.logo-icon`):** Medida fija de `24px` × `24px` (`object-fit: contain`) con filtro de resplandor (`drop-shadow` de `8px var(--accent)`).
     *   **Texto Subtítulo (`.logo-sub` o `#project-filename`):** Tamaño de fuente `--text-xs` (`10px`), fuente monoespaciada y margen superior de `-4px`.
-    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Demos), Modo Dios/PIN, Suite de Tests (199 pruebas automatizadas en 15 grupos) y Exportar/Importar Catálogo personalizado.
+    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Selector de Demos TIA-942 / Campus UTN `#modal-demo-selection`), Modo Dios/PIN, Suite de Tests (360 pruebas automatizadas en 23 grupos con 100% de éxito), Importación Masiva de Equipos (`#menu-import-devices`) y Exportar/Importar Catálogo personalizado.
 
 ### ⚙️ Área Principal (`.header-main-area`)
 *   **Ancho:** Flexible (`flex: 1`, `min-width: 0`).
@@ -58,9 +58,12 @@ La cabecera se divide horizontalmente en dos contenedores principales:
     *   **Buscador Global (`.h-search`):**
         *   Ancho en Reposo: **`200px`** (padding de entrada: `4px 10px 4px 30px`, `min-width: 120px`, `flex-shrink: 1`).
         *   Ancho en Foco: **`240px`** (transición fluida de `0.2s`) con filtrado reactivo simultáneo sobre racks, periféricos de piso y tabla de inventario.
-    *   **Grupo de Historial (`.h-btn-group`):**
-        *   Botones individuales (`#btn-undo`, `#btn-redo`): Normalizados a `24px` de alto, con bordes redondeados solo en esquinas exteriores (Izquierdo: `6px 0 0 6px`, Derecho: `0 6px 6px 0`).
-    *   **Punto de Estado (`.status-dot`):** Círculo de `7px` × `7px` con animación de pulso y resplandor de color verde (`#10b981`).
+    *   **Selector Visible de Temas (`#btn-theme-toggle`, M-18):**
+        *   Botón directo con altura normalizada de **`24px`** y padding de `0 8px`.
+        *   Cicla instantáneamente entre los 3 modos: **Oscuro (🌙)** ⇄ **Claro (☀️)** ⇄ **Sepia (☕)** con iconos SVG dedicados (`.icon-moon`, `.icon-sun`, `.icon-coffee`). Persistencia automática en `localStorage` (`RACK_DESIGNER_THEME`).
+    *   **Grupo de Historial (`.h-btn-group`, M-03):**
+        *   Botones individuales (`#btn-undo`, `#btn-redo`): Normalizados a `24px` de alto, con bordes redondeados en esquinas exteriores. Respaldados por historial acotado a 15 niveles de `fastClone`.
+    *   **Punto de Estado (`.status-dot`):** Círculo de `7px` × `7px` con animación de pulso y resplandor de color verde (`#10b981`). Pausa o reanuda las partículas de topología al hacer clic.
     *   **Insignia de Usuario (`#user-badge`):** Relleno de `2px 10px` con bordes completamente redondeados (`10px`), interacción por clic para autenticación RBAC y visualización del rol activo (Admin, Editor, Viewer).
 
 ---

@@ -4,16 +4,18 @@ Este documento detalla las especificaciones de dibujo en Canvas 2D, coordenadas 
 
 ---
 
+---
+
 ## 1. Lienzo de Dibujo (HTML5 Canvas 2D)
 
-La topología de red se renderiza en un motor Canvas 2D desacoplado en 5 módulos (`TopologyModel.js`, `TopologyRenderer.js`, `TopologyInteraction.js`, `TopologyLayout.js`, `TopologyUI.js`), optimizado para alto rendimiento a 60 FPS sin sobrecargar el DOM:
+La topología de red se renderiza en un motor Canvas 2D desacoplado en 6 submódulos especializados (`TopologyState.js`, `TopologyRenderer.js`, `TopologyEvents.js`, `TopologyLayout.js`, `TopologyExport.js` y `TopologySkins.js`), optimizado para alto rendimiento a 60 FPS sin sobrecargar el DOM:
 
 *   **Contenedor (`#view-topology`):** Posicionado de forma absoluta (`position: absolute; inset: 0; z-index: 1;`) para rellenar el área `main`.
 *   **Canvas (`#topology-canvas`):** Renderizado al 100% de ancho y alto con cursor interactivo de agarre (`grab` / `grabbing`).
-*   **Grilla de Fondo (Malla):**
-    *   Fondo global: Color azul oscuro de fondo (`var(--bg-main)`).
+*   **Grilla de Fondo (Malla Adaptativa al Tema, M-18):**
+    *   Fondo global: Color azul oscuro (`var(--bg-main)` = `#0b0f19`) en modo oscuro, blanco hueso en modo claro, y tono pergamino cálido (`#f5eee1`) en modo Sepia.
     *   Espaciado de la malla: Puntos de cuadrícula distribuidos cada **`40px` × `40px`**.
-    *   Medida de los puntos: Círculos perfectos con un radio de **`1.5px`** y color blanco translúcido (`#ffffff22`).
+    *   Medida de los puntos: Círculos perfectos con un radio de **`1.5px`** y color blanco translúcido (`#ffffff22`) o sepia suave (`#78350f22`).
 *   **Sincronización Cromática:** Nodos y conexiones heredan de forma estricta los colores de las 8 familias del catálogo comercial (`#10b981` servidores, `#38bdf8` switches/patchpanels, `#f59e0b` routers, `#ef4444` firewalls, `#06b6d4` storage, `#f43f5e` seguridad/CCTV, `#eab308` UPS/energía, `#a855f7` periféricos de piso).
 
 ---
@@ -42,6 +44,7 @@ El motor de topología implementa navegación interactiva (arrastrar lienzo y zo
     *   `moveTo(pos.x + size.w - 20, pos.y + size.h)`
     *   `lineTo(pos.x + size.w, pos.y + size.h - 20)`
     *   `lineTo(pos.x + size.w, pos.y + size.h)`
+*   **Contención de Arrastre:** Los nodos hijos quedan estrictamente contenidos dentro del perímetro de la sala mediante radios defensivos $rx$ y $ry$.
 
 ### 📁 2. Racks (Gabinetes)
 *   **Bordes Redondeados:** Radio de curvatura de **`12px`**.
@@ -55,9 +58,9 @@ El motor de topología implementa navegación interactiva (arrastrar lienzo y zo
 
 ---
 
-## 4. Medidas de los Nodos (Dispositivos)
+## 4. Medidas y Modos Visuales de Nodos (`TopologySkins.js`, M-28)
 
-La interfaz permite conmutar dinámicamente entre dos estilos visuales para los nodos del catálogo de red:
+La interfaz permite conmutar dinámicamente entre tres estilos visuales mediante el motor modular `TopologySkins`:
 
 ### 🔵 Estilo de Círculos (`TOPOLOGY_STYLE = 'circle'`)
 *   **Radio Base del Nodo (`r`):** **`22px`** (diámetro total de `44px`).
@@ -68,7 +71,7 @@ La interfaz permite conmutar dinámicamente entre dos estilos visuales para los 
 *   **Icono Interno:** Dibujado al centro con medidas de **`20px` × `20px`**.
 *   **Etiquetas Textuales:**
     *   **Nombre del Equipo:** Fuente `bold 11px "Space Grotesk"` posicionado a `x`, `y - r - 26`.
-    *   **Etiqueta de IP:** Escrita con fuente `bold 10px "JetBrains Mono"`. Se renderiza dentro de una pastilla o caja con bordes redondeados (`4px`) y relleno de color claro, calculando su ancho dinámicamente según la longitud de la IP con un relleno lateral extra de `6px`.
+    *   **Etiqueta de IP:** Escrita con fuente `bold 10px "JetBrains Mono"` dentro de pastilla con borde redondeado (`4px`).
 
 ### 🎴 Estilo de Tarjetas (`TOPOLOGY_STYLE = 'card'`)
 *   **Medidas del Rectángulo:** Ancho de **`150px`** y altura de **`50px`** (con un buffer de layout en rejilla de `160px` × `60px`).
@@ -79,6 +82,13 @@ La interfaz permite conmutar dinámicamente entre dos estilos visuales para los 
 *   **Textos:**
     *   Nombre: `bold 12px "Space Grotesk"` alineado a la izquierda en `cx + 36, cy + 18`.
     *   IP: `11px "JetBrains Mono"` color gris atenuado (`#94a3b8`) en `cx + 36, cy + 34`.
+
+### 🖥️ Estilo de Hardware Fotorrealista (`TOPOLOGY_STYLE = 'image'`, M-28)
+*   **Dimensiones del Chasis:** Ancho de **`140px`** y altura de **`50px`** (rejilla adaptativa de layout: `150px` × `60px`).
+*   **Chasis Metálico Procedural:** Fondo degradado oscuro (`#181a1f`), bisel perimetral (`#333a46`) y orejas laterales de montaje en rack con perforaciones plateadas (`#64748b`).
+*   **Carátula de Hardware:** Gráfico vectorial de alta definición derivado de 18 presets offline en `EMBEDDED_SVG_CACHE` o fotos personalizadas subidas por el usuario en base64 (`customImage`).
+*   **Badges Técnicos:** Placa metálica de altura U (`1U`, `2U`, `4U`) en la esquina superior y LED luminoso con pulso y estado operativo verde esmeralda.
+*   **Hit-Testing Adaptativo:** Detección de impacto unificada en clics, hover y arrastre mediante `TopologySkins.isPointInNode(pos, mx, my, 'image')`.
 
 ---
 
@@ -116,21 +126,19 @@ Al pasar el cursor sobre un nodo del lienzo, se dibuja un HUD informativo cerca 
 
 ---
 
-## 7. Esquemas y Proporciones
-
-### 📐 Medidas de los Nodos (Círculo vs Tarjeta en Canvas)
+### 📐 Medidas de los Nodos (Círculo vs Tarjeta vs Hardware en Canvas)
 
 ```text
-  NODO ESTILO CÍRCULO                      NODO ESTILO TARJETA (Width: 150px)
-       ▲                                  ◄────────────── 150px ─────────────►
-       │ Aureola: r + 4 (26px)            ┌──────────────────────────────────┐ ▲
-       ▼                                  │ ┌────┐  Nombre (elipsis si >17)  │ │ 50px
-     ┌───┐ ▲                              │ │Icon│  (12px, bold, white text) │ │
-   ┌─┤img├─┐│                             │ └────┘  IP (11px, Mono, gray)    │ │
-   │ └───┘ ││ Radio: 22px                 └──────────────────────────────────┘ ▼
-   └───────┘▼                             ◄─20px─►◄───────────130px──────────►
+  NODO ESTILO CÍRCULO            NODO ESTILO TARJETA (150px)          NODO HARDWARE SKIN (140x50px)
+       ▲                        ◄────────── 150px ─────────►         ◄────────── 140px ─────────►
+       │ Aureola: r + 4         ┌──────────────────────────┐ ▲       ┌─┬──────────────────────┬─┐ ▲
+       ▼                        │ ┌────┐ Nombre (elipsis)  │ │ 50px  │o│ [1U] SVG Chasis Face │o│ │ 50px
+     ┌───┐ ▲                    │ │Icon│ (12px bold white) │ │       │ │ LED* Bisel metálico  │ │ │
+   ┌─┤img├─┐│                   │ └────┘ IP (11px Mono)    │ │       └─┴──────────────────────┴─┘ ▼
+   │ └───┘ ││ Radio: 22px       └──────────────────────────┘ ▼       ◄4►◄──────── 132px ─────►◄4►
+   └───────┘▼                   ◄─20px─►◄────── 130px ─────►          Oreja                 Oreja
    ◄─44px──►
-  Etiqueta con elipsis si >17 chars
+  Etiqueta elipsis si >17
 ```
 
 ### 🗺️ Diagrama del Flujo de Coordenadas de Cables Bézier

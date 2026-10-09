@@ -24,7 +24,7 @@ Como los estantes del "Rack" están vacíos, necesitamos medir la altura de los 
 > **Vistas de un Rack (Frente y Atrás)**
 > Los Racks tienen dos puertas. Por delante (Front) sueles ver los botones de encendido y discos duros. Por detrás (Rear) sueles ver los cables de poder y puertos de red. ¡La aplicación te permite girar el Rack para trabajar por ambas caras!
 
-![Anatomía de un Rack](../doc_img/doc_svg/manual_rack_anatomy.svg)
+![Anatomía de un Rack](../doc_img/doc_svg/manual/manual_rack_anatomy.svg)
 
 ---
 
@@ -32,7 +32,7 @@ Como los estantes del "Rack" están vacíos, necesitamos medir la altura de los 
 
 Al abrir RACK Designer Next, verás tu área de trabajo dividida en **5 paneles principales**. 
 
-![Mapa de la Interfaz](../doc_img/doc_svg/manual_ui_overview.svg)
+![Mapa de la Interfaz](../doc_img/doc_svg/manual/manual_ui_overview.svg)
 
 1. **Barra Superior (Header):** Aquí administras tu "Rol" (para iniciar sesión como Admin y tener permisos para editar), el botón para Exportar tu plano a PNG (a escala Retina 1:1 sobre fondo de datacenter `#090d17`), CSV o Excel, y el botón para Guardar el archivo en tu computadora. También encontrarás los **tabs de vista** (Física / Topología), los controles de zoom, el interruptor para ocultar/mostrar cables, y los botones de Deshacer/Rehacer.
 2. **Catálogo (Izquierda):** Es tu "tienda" de equipos con **30 plantillas arquitectónicas profesionales** organizadas en 8 familias comerciales: Redes (`network`), Cómputo (`computing`), Almacenamiento (`storage`), **Seguridad y CCTV (`security`)**, Energía (`power`), KVM (`kvm`), Accesorios y Cableado (`accesorios`) y Equipos de Piso (`floor`). Además incluye una pestaña superior **"Todos"** con buscador reactivo. Al hacer **clic en un icono**, se despliega el flyout donde puedes buscar, arrastrar equipos o crear **Equipos Personalizados por Proyecto** (`+ Equipo`) que se identifican con un distintivo `PROYECTO`.
@@ -70,7 +70,7 @@ Al abrir la aplicación por primera vez, verás un modal de inicio de sesión co
 
 La aplicación fue diseñada para ser tan fácil como un juego de "arrastrar y soltar".
 
-![Flujo de Trabajo Básico](../doc_img/doc_svg/manual_action_flow.svg)
+![Flujo de Trabajo Básico](../doc_img/doc_svg/manual/manual_action_flow.svg)
 
 ### Cómo moverse y seleccionar
 - **Clic Izquierdo:** Selecciona un objeto (Rack, servidor, etc.). Al seleccionarlo, se iluminará y sus datos aparecerán en el panel de la derecha (Inspector).
@@ -94,9 +94,17 @@ La aplicación guarda **automáticamente** los cambios en la memoria temporal de
 1. Ve a la **Barra Superior** → Menú del proyecto (⋮).
 2. Haz clic en **"Abrir"** y selecciona tu archivo `.rack` o `.json`.
 
-### Deshacer y Rehacer
-- **Ctrl+Z** o botón ↩ en el header: Deshace la última acción (hasta 30 pasos)
-- **Ctrl+Y** o botón ↪ en el header: Rehace la acción deshecha
+### Cargar Plantillas de Demostración (Demos)
+Si quieres explorar un proyecto terminado o aprender con casos reales:
+1. Ve a la **Barra Superior** → Menú del proyecto (⋮) → **"Plantillas de Demostración..."**.
+2. Aparecerá el **Modal de Selección de Demos** (`#modal-demo-selection`) con dos opciones arquitectónicas:
+   - **🏢 Centro de Datos Empresarial (TIA-942):** 2 salas, 4 gabinetes de 42U con servidores blade, switches ToR, storage SAN y cableado estructurado.
+   - **🎓 Campus Universitario UTN (A Gran Escala):** Red jerárquica de 3 capas modelando la Universidad Tecnológica Nacional con 10 edificios/salas estructuradas, 13 racks, 162 dispositivos, 24 VLANs y 97 conexiones de fibra y cobre.
+3. El sistema te pedirá confirmación para no perder tu trabajo actual antes de cargar la plantilla seleccionada.
+
+### Deshacer y Rehacer (M-03)
+- **Ctrl+Z** o botón ↩ en el header: Deshace la última acción (historial acotado a 15 pasos con motor ultra-rápido `fastClone`).
+- **Ctrl+Y** o botón ↪ en el header: Rehace la acción deshecha.
 
 ---
 

@@ -65,6 +65,11 @@ $$\text{Altura Total (px)} = (\text{Cantidad de U} \times 24\text{px}) + 38\text
 ### 📐 Separación Técnica Inter-Rack
 En el lienzo físico (`#view-physical-content` / `#racks-area`), los gabinetes se organizan mediante Flexbox con una separación holgada de **`gap: 72px`** (3U), proporcionando conductos laterales limpios para el enrutamiento vertical de cables sin sobrevolar equipos adyacentes.
 
+### ⚡ Redibujado Selectivo Granular (`renderSingleRack`, M-04)
+*   **Actualización Quirúrgica:** En lugar de demoler y reconstruir toda la sala cuando un equipo cambia en un rack, `renderSingleRack(rackId)` realiza una sustitución atómica exclusivamente del `.rack-wrapper` afectado en el DOM.
+*   **Persistencia de Giro (`flipped`):** Mantiene la cara frontal o posterior activa sin reinicializar el estado visual 3D ni perder transiciones.
+*   **Rendimiento a 60 FPS:** Reduce la carga de reflow y layout del navegador a $O(1)$ respecto a la cantidad de racks del datacenter.
+
 ---
 
 ## 5. Diagrama Visual (Estructura de un Rack de 4 U)

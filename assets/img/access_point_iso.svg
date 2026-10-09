@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="10" stdDeviation="8" flood-color="#040914" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <!-- SOMBRA BASE ISOMÉTRICA EN EL SUELO -->
+  <ellipse cx="200" cy="270" rx="80" ry="32" fill="#000000" opacity="0.14"/>
+
+  <!-- ACCESS POINT DISCO / TECHO ISOMÉTRICO (Estilo Ubiquiti UniFi) -->
+  <g id="access-point" filter="url(#shadow)">
+    <!-- Base de Montaje a Techo/Pared (Plato Inferior) -->
+    <ellipse cx="200" cy="225" rx="72" ry="36" fill="#cbd5e1"/>
+    <ellipse cx="200" cy="223" rx="70" ry="34" fill="#94a3b8"/>
+
+    <!-- Carcasa Cúpula Central (Blanco Suave y Sombra Lateral) -->
+    <path d="M 130 220 C 130 170, 270 170, 270 220 C 270 245, 130 245, 130 220 Z" fill="#f8fafc"/>
+    <ellipse cx="200" cy="216" rx="66" ry="32" fill="#ffffff"/>
+
+    <!-- ANILLO LED CIRCULAR LUMINOSO (Azul Cian / Estado Conectado) -->
+    <ellipse cx="200" cy="215" rx="34" ry="16" fill="none" stroke="#38bdf8" stroke-width="3.5"/>
+    <ellipse cx="200" cy="215" rx="32" ry="15" fill="none" stroke="#bae6fd" stroke-width="1.5"/>
+
+    <!-- Logo / Centro del Plato -->
+    <ellipse cx="200" cy="215" rx="14" ry="7" fill="#f1f5f9"/>
+
+    <!-- Antenas Radiales Wi-Fi Discretas (Ondas sutiles que emanan) -->
+    <path d="M 155 175 A 50 25 0 0 1 245 175" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3" opacity="0.8"/>
+    <path d="M 140 160 A 70 35 0 0 1 260 160" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3" opacity="0.5"/>
+  </g>
+</svg>

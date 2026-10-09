@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="12" stdDeviation="10" flood-color="#040914" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <path d="M 100 280 L 220 200 L 320 260 L 200 340 Z" fill="#000000" opacity="0.14"/>
+
+  <!-- IMPRESORA / MULTIFUNCIONAL DE RED LÁSER ISOMÉTRICA -->
+  <g id="printer-unit" filter="url(#shadow)">
+    <!-- Cuerpo Principal (Bloque Blanco / Gris Claro) -->
+    <polygon points="100,190 220,120 320,180 200,250" fill="#f8fafc"/>
+    <polygon points="100,190 200,250 200,310 100,250" fill="#cbd5e1"/>
+    <polygon points="200,250 320,180 320,240 200,310" fill="#94a3b8"/>
+
+    <!-- TAPA SUPERIOR DEL ESCÁNER / ADF (Gris Oscuro) -->
+    <polygon points="115,180 220,120 305,170 200,230" fill="#334155"/>
+    <polygon points="115,180 200,230 200,240 115,190" fill="#1e293b"/>
+
+    <!-- PANTALLA TÁCTIL DE CONTROL INCLINADA (Cian) -->
+    <polygon points="170,195 195,180 210,190 185,205" fill="#38bdf8"/>
+    <circle cx="202" cy="200" r="2.5" fill="#22c55e"/> <!-- Botón Iniciar -->
+
+    <!-- BANDEJA DE SALIDA DE PAPEL FRONTAL (Ranura hundida) -->
+    <polygon points="110,215 190,265 190,285 110,235" fill="#0f172a"/>
+    <!-- HOJA DE PAPEL BLANCO SALIENDO IMPRESA -->
+    <polygon points="115,225 185,270 170,280 100,235" fill="#ffffff"/>
+    <line x1="120" y1="237" x2="160" y2="263" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="125" y1="243" x2="155" y2="263" stroke="#94a3b8" stroke-width="2"/>
+
+    <!-- GAVETA DE ALIMENTACIÓN DE PAPEL INFERIOR (Bandeja 1) -->
+    <polygon points="105,260 195,315 195,325 105,270" fill="#94a3b8"/>
+    <!-- Manija de la gaveta -->
+    <line x1="145" y1="290" x2="165" y2="302" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
