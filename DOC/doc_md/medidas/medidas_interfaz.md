@@ -59,6 +59,7 @@ El contenedor principal del sistema (`#app`) utiliza un diseño bidimensional im
     *   **Separación Inter-Rack:** **`gap: 72px`** (3U), proporcionando pasillos laterales holgados para la canalización vertical limpia de cables sin sobrevolar gabinetes ni periféricos.
     *   Alineación de piso: Contenedor perimétrico de equipos de suelo con `min-width: 584px`.
     *   **Bicanalidad de Cableado (M-41):** Rutas segregadas aéreas (techo: $\min(Top) - 14px$) y bajo piso técnico (suelo: $\max(Bottom) + 14px$) según orientación configurada.
+    *   **Modo Cableado Interactivo Drag-to-Connect (M-34):** Barra `#main-toolbar` con botón `#btn-cable-mode` (altura 24px), cursor *crosshair*, trazo elástico de curva Bézier SVG en tiempo real (`#rubberband-interactive-cable`) con animación elástica `@keyframes rubberBandDash` y botones `.dev-btn.connect` en carátulas.
     *   **Redibujado Selectivo (M-04):** Actualización atómica de gabinetes individuales con `renderSingleRack(rackId)` preservando estado 3D (`flipped`).
 
 ### 📋 PANEL DERECHO (`#right-panel`)

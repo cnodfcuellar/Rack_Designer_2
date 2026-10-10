@@ -211,3 +211,22 @@ graph TD
   como vertical (entre filas de racks al hacer wrap).
 ```
 
+---
+
+## 7. Modo Cableado Interactivo en Vista Física (M-34 Drag-to-Connect)
+
+El lienzo físico implementa trazado interactivo de cables con retroalimentación visual en tiempo real:
+
+*   **Botón de Modo en Toolbar (`#btn-cable-mode`):**
+    *   Dimensiones: Normalizado a `height: 24px`, `padding: 0 10px`, borde de `1px solid var(--border)` y radio de `6px`.
+    *   Estado Activo (`.active`): Fondo translúcido esmeralda (`rgba(16, 185, 129, 0.15)`), borde `--accent-success` (`#10b981`), sombra resplandeciente (`box-shadow: 0 0 10px rgba(16, 185, 129, 0.3)`) y texto contrastado.
+*   **Cursor Activo (`.cable-mode-active`):** Al activarse el modo sobre `#view-physical`, el cursor del puntero se conmuta globalmente a `cursor: crosshair` (mira de precisión).
+*   **Botón Rápido en Carátulas (`.dev-btn.connect`):**
+    *   Medida: `20px` × `20px` posicionado dentro de `.device-actions` de cada carátula en rack y tarjeta de piso.
+    *   Icono: SVG de enchufe/cable de `12px` × `12px`.
+*   **Línea Elástica Bézier (*Rubber-Band*, `#rubberband-interactive-cable`):**
+    *   Trazo: `stroke: #10b981` (verde esmeralda brillante), `stroke-width: 2.5px`, `stroke-dasharray: 6 4`.
+    *   Animación: Deslizamiento elástico `@keyframes rubberBandDash` a `0.8s linear infinite`.
+    *   Curva: Curva Bézier cúbica adaptativa (`M x1 y1 C cx1 cy1, cx2 cy2, x2 y2`) calculada en tiempo real según el cuadrante de arrastre del puntero relativo al equipo origen.
+*   **Resaltado de Origen (`.cable-mode-source`):** Pulso luminoso verde de `1.5s ease-in-out infinite` sobre el equipo y puerto de origen seleccionado.
+

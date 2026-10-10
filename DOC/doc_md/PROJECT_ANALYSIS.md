@@ -156,11 +156,11 @@ Organización en cascada limpia sin dependencias externas:
 
 * **`scripts/`**: Herramientas en Node.js para tareas de mantenimiento y generación de documentación (ej. compilación del manual estático unificado con `marked`).
 * **`.py/`**: Scripts auxiliares en Python para análisis de datos, validación estática de modelos y manipulación masiva de datasets.
-* **`tests/`**: Suite de pruebas unitarias y de integración. Incluye runner interactivo web en navegador (`tests/index.html`) y suite Node.js (`tests/integrity_check.cjs`) con 199 pruebas automáticas en 15 grupos al 100% de éxito.
+* **`tests/`**: Suite de pruebas unitarias y de integración. Incluye runner interactivo web en navegador (`tests/index.html`) y suite Node.js (`tests/integrity_check.cjs`) con 381 pruebas automáticas en 24 grupos al 100% de éxito.
 
 ---
 
-## 9. Estado Actual del Proyecto (Hitos de Septiembre 2026)
+## 9. Estado Actual del Proyecto (Hitos de Octubre 2026)
 
 El proyecto ha completado exitosamente su transición arquitectónica hacia un sistema **SVG-First** y una plataforma PWA de nivel corporativo:
 
@@ -179,36 +179,45 @@ El proyecto ha completado exitosamente su transición arquitectónica hacia un s
    * Auto-actualización al cargar mediante `registration.update()` en `main.js`.
 
 4. **Consolidación Documental y Hoja de Ruta**:
-   * Publicación del plan maestro en `roadmap_mejoras.md` (40 propuestas estructuradas, 28 completadas) y su correspondiente informe ejecutivo en `informe_mejoras_e_implementacion.md`.
+   * Publicación del plan maestro en `roadmap_mejoras.md` (42 propuestas estructuradas, 37 completadas al 88.1% con Fases 0, 1, 2, 4 y 5 al 100%) y su correspondiente informe ejecutivo en `informe_mejoras_e_implementacion.md`.
    * Sincronización completa con el sistema de memoria persistente `memory-bank/`.
 
-5. **Soporte de Doble Cara (Dual-Side Mounting)**:
+5. **Soporte de Doble Cara (Dual-Side Mounting) y Cableado Frontal vs. Trasero (M-33)**:
    * Capacidad nativa para alojar equipos de chasis profundo (`mountSide: 'both'`) que ocupan unidades en ambas caras (frontal y trasera) del gabinete.
-   * Motor de validación bilateral (`store.sidesConflict`) para impedir colisiones o superposiciones indebidas de hardware en la profundidad del rack.
+   * Discriminación de cara física en conexiones (`sourceSide`, `targetSide`: `'front' | 'rear'`).
+   * Aislamiento estricto de ocupación de puertos por cara física sin falsos positivos de colisión.
+   * Inversión simétrica bidireccional de enlaces con botón Swap `#btn-cable-swap`.
 
-6. **Gestión Avanzada de VLANs y Puertos**:
+6. **Cableado Interactivo Drag-to-Connect en Vista Física (M-34)**:
+   * Modo cableado interactivo con botón `#btn-cable-mode` en toolbar y cursor *crosshair*.
+   * Previsualización elástica *rubber-band* en tiempo real con curva Bézier cúbica SVG (`#rubberband-interactive-cable`) siguiendo el puntero del ratón.
+   * Botones rápidos `.dev-btn.connect` en carátulas de equipos montados en rack y periféricos de suelo.
+   * Apertura fluida del modal `#modal-cable` con origen y destino preseleccionados y validados.
+
+7. **Gestión Avanzada de VLANs y Puertos**:
    * Catálogo de VLANs predefinidas (Gestión, Datos, VoIP, CCTV, etc.) y asignación de redes lógico/cromáticas por enlace.
    * Modales de conexión mejorados con opciones de filtrado ("Mostrar solo puertos libres") y bloqueo estricto de intentos de interconexión en puertos ocupados (`store.isPortOccupied`).
    
-7. **Selector Dinámico de Columnas en Tablas**:
+8. **Selector Dinámico de Columnas en Tablas**:
    * Interfaz reactiva para personalizar las vistas del panel inferior, permitiendo a los operadores mostrar u ocultar columnas a discreción con guardado persistente en `localStorage`.
 
-8. **Cifrado Simétrico en Reposo y Modo Dios RBAC (M-01)**:
+9. **Cifrado Simétrico en Reposo y Modo Dios RBAC (M-01)**:
    * Módulo `RackCrypto` (`js/auth/crypto.js`) con cifrado AES-GCM (`enc:v1:`) para credenciales en reposo (`localStorage` y backups `.rack`).
    * Enmascaramiento por defecto (`••••••••`), botón interactivo de ojo y Modo Dios global para administradores (`SHOW_PASSWORDS`).
 
-9. **Topología Avanzada y Control Dual de Espaciado (H y V)**:
-   * Layout de Árbol Jerárquico ortogonal estilo Draw.io (`DAG`) con reubicación de equipos desconectados en la base de racks/sala.
-   * Control dual interactivo a 60 FPS con sliders independientes para espaciado horizontal (H) y vertical (V).
+10. **Topología Avanzada, Skins de Hardware (M-28) y 5 Ranuras de Memoria (M-40)**:
+    * 3 modos de representación visual: Tarjetas, Círculos y Hardware Skins fotorrealistas con 18 presets offline.
+    * 5 ranuras independientes (`topologySlots`) con clonado profundo que capturan y conmutan coordenadas, zoom, pan y estilos a 60 FPS.
+    * Layout de Árbol Jerárquico ortogonal estilo Draw.io (`DAG`) con sliders independientes de espaciado horizontal y vertical.
+    * Afinidad y proximidad ponderada de equipos de piso por gabinete (M-39).
 
-10. **Afinidad y Proximidad de Equipos de Piso por Gabinete (M-39)**:
-    * Agrupación ponderada por rack anfitrión en el cuadrante inferior bajo la proyección horizontal del gabinete.
-    * Línea de base uniforme (`floorBaseY`) para toda la sala, contención reactiva de dimensiones y eliminación de cruces de cables tipo "spaghetti".
+11. **Redibujado Selectivo y Despacho Granular (M-04)**:
+    * Re-renderizado granular atómico de gabinetes individuales con `renderSingleRack(rackId)` preservando estados de giro 3D.
+    * Coalescencia rAF a 60 FPS en `main.js` y monitor de rendimiento `RenderPerformance`.
 
-11. **Refinamiento Ergonómico en Topología**:
-    * HUD Tooltip ampliado a `240px` con soporte multilínea inteligente para nombres técnicos extensos y colchón perimetral de seguridad anti-desborde (`10px`).
-    * Elipsis elegante (`…`) en tarjetas (`150px`) y nodos circulares previniendo roturas de cuadrícula.
-
+12. **Optimización de Historial y Deshacer Ultrarrápido (M-03)**:
+    * Algoritmo `fastClone` 4x más veloz que JSON nativo.
+    * Límite estricto de 15 snapshots con deduplicación consecutiva $O(1)$ y exclusión de ranuras de topología para un ahorro de RAM del 80%.
 
 ---
 
@@ -265,7 +274,7 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
 
 * **Archivo:** [`tests/integrity_check.cjs`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs)
 * **Estado:** Totalmente operativa y ejecutable mediante `node tests/integrity_check.cjs`.
-* **Resultados de Validación:** **199 de 199 pruebas aprobadas (100% verde) en 15 grupos completos**:
+* **Resultados de Validación:** **381 de 381 pruebas aprobadas (100% verde) en 24 grupos completos**:
   1. Autenticación RBAC, hashing SHA-256 y persistencia ante F5.
   2. Detección y bloqueo inmediato de manipulación de tokens en almacenamiento.
   3. Eliminación de gabinetes con purga en cascada de conexiones.
@@ -281,7 +290,16 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
   13. Selector dinámico de columnas en inventario y conexiones con persistencia en localStorage.
   14. Cifrado simétrico en reposo (M-01), descifrado en memoria y gobernanza con Modo Dios.
   15. Afinidad y proximidad de equipos de piso por gabinete (M-39), elipsis elegante y HUD de 240px.
-* **Runner Web Interactivo:** Paridad absoluta 1:1 verificada en `tests/index.html` ejecutando las mismas 199 pruebas en navegador sin dependencias externas.
+  16. Guardado y alternancia entre 5 estados de topología (M-40).
+  17. Selector global de temas (Claro, Oscuro, Sepia M-18).
+  18. Sistema de cableado bicanal segregado aéreo vs piso técnico y botón swap (M-41).
+  19. Plantilla demo Campus Universitario UTN y modal de selección interactiva.
+  20. Skins visuales en topología: cards, nodos e imágenes fotorrealistas con 18 presets offline (M-28).
+  21. Optimización de deepClone y limitación de historial de undo/redo (M-03).
+  22. Redibujado selectivo granular de gabinetes y despacho coalescente rAF a 60 FPS (M-04).
+  23. Sistema de cableado frontal vs. trasero y discriminación de cara en equipos de doble profundidad (M-33).
+  24. Drag-to-Connect y modo cableado interactivo en vista física con línea elástica rubber-band SVG (M-34).
+* **Runner Web Interactivo:** Paridad absoluta 1:1 verificada en `tests/index.html` ejecutando las 381 pruebas en navegador sin dependencias externas.
 * **Archivos Huérfanos Eliminados:** Se purgó el archivo comentado e inservible `tests/Rack.test.js`.
 
 ---

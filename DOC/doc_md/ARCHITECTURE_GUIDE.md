@@ -633,9 +633,20 @@ Las posiciones de nodos, racks y salas en la topología se guardan en `store._ra
 
 ---
 
-## 9. Renderizado de Cableado Físico (SVG)
+## 9. Renderizado de Cableado Físico (SVG) y Modo Interactivo
 
 A diferencia de la topología (Canvas 2D), el cableado físico se resuelve inyectando dinámicamente un lienzo vectorial `<svg id="physical-cables-svg">` posicionado de forma absoluta dentro de `#view-physical-content`.
+
+### Modo Interactivo Drag-to-Connect (M-34)
+La aplicación cuenta con trazado interactivo de cables directamente sobre los racks:
+1. **Activación de Modo Cableado (`#btn-cable-mode`):** En `#main-toolbar`, el botón activa `_cableModeActive = true`, aplicando cursor *crosshair* en el lienzo físico y resaltando el botón.
+2. **Acción Rápida en Carátulas:** Cada carátula de rack o tarjeta de piso incluye un botón rápido `.dev-btn.connect` (`data-connect-dev`) para iniciar el cableado sin abrir menús.
+3. **Línea Elástica en Tiempo Real (*Rubber-Band*):** Al seleccionar un origen, se inyecta dinámicamente un elemento SVG path `#rubberband-interactive-cable` con clase `.rubberband-cable` (animación de guiones deslizantes en verde esmeralda y curva Bézier cúbica) que sigue en tiempo real el puntero `pointermove`.
+4. **Resaltado de Origen:** El equipo y puerto de origen reciben la clase `.cable-mode-source` con animación CSS de pulso.
+5. **Preselección Inteligente:** Al hacer clic en el equipo destino, se abre automáticamente el modal `#modal-cable` con origen y destino ya preseleccionados y validados, permitiendo confirmar puertos y VLANs con cero fricción.
+
+### Discriminación Frontal vs. Trasera en Equipos Duales (M-33)
+El motor de conexiones almacena `sourceSide` y `targetSide` (`'front' | 'rear'`). Para equipos de doble profundidad (`mountSide: 'both'`), `isPortOccupied()` aísla los puertos por cara física, permitiendo utilizar el mismo identificador de puerto en el frente y en la parte posterior sin falsos positivos de colisión. En la vista física, `drawPhysicalCables()` ajusta automáticamente el punto de anclaje según la cara activa (frontal o trasera mediante `.rear-port-jack`), adaptándose dinámicamente al estado de giro (`flipped`) de los gabinetes.
 
 ### Arquitectura de Enrutamiento Segregado en 3 Zonas Libres:
 
@@ -957,6 +968,6 @@ El proyecto RACK Designer Next es una app web vanilla que:
 9. **Exporta e Importa** masivamente en Excel (.xlsx) y CSV con detección reactiva de colisiones (M-21/M-22), PNG 1:1 Retina y JSON (.rack)
 10. **PWA** con Service Worker (`rack-designer-next-cache-v30`) para uso offline
 11. **Doble Escenario Demo:** Datacenter TIA-942 y Campus Universitario UTN (10 salas, 13 racks, 162 equipos, 24 VLANs) mediante selector interactivo
-12. **Suite de Integridad Automatizada** con 360 pruebas en 23 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
+12. **Suite de Integridad Automatizada** con 381 pruebas en 24 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
 
 **La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.

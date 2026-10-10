@@ -668,6 +668,23 @@ Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rac
 2. **Desde la tabla de datos:** En [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js), haz clic en el botón de la columna `Canaleta` (`⬆️ Techo` ⇄ `⬇️ Piso`) o en el botón `data-swap-conn` de la columna de Acciones.
 3. **Desde código:** Llama a `store.swapConnectionDirection(connectionId)` o `store.toggleConnectionOrientation(connectionId)`. El motor SVG en [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) enrutará inmediatamente los cables inferiores por el zócalo técnico.
 
+### ⚡ Conectar equipos interactivamente en la vista física (M-34 Drag-to-Connect)
+
+1. **Activar Modo Cableado:** Clic en `#btn-cable-mode` en `#main-toolbar` o clic en el botón directo `.dev-btn.connect` (`data-connect-dev`) en el frente de cualquier equipo.
+2. **Trazado Dinámico:** El sistema ancla el origen y dibuja una curva Bézier SVG elástica `#rubberband-interactive-cable` que sigue el puntero en tiempo real (`onCablePointerMove`).
+3. **Completar y Guardar:** Al hacer clic sobre el equipo destino, se abre automáticamente `#modal-cable` con ambos equipos preseleccionados y validados.
+4. **API y Funciones Globales en [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js):**
+   - `toggleInteractiveCableMode()`: Alterna el modo.
+   - `startInteractiveCableFromDevice(deviceId, portName, portSide)`: Fija el origen.
+   - `handleInteractiveCableTarget(targetDeviceId)`: Finaliza y abre el modal.
+   - `exitInteractiveCableMode()`: Limpia el canvas y desactiva el cursor *crosshair*.
+
+### 🔄 Cablear caras frontales vs. traseras en equipos duales (M-33)
+
+1. **En el Modal:** Configura los selectores `#cable-src-side` y `#cable-dst-side` (`'front'` o `'rear'`).
+2. **En el Store:** `store.addConnection(...)` persiste `sourceSide` y `targetSide`. `isPortOccupied(deviceId, portName, excludeId, portSide)` verifica la disponibilidad aislando los puertos por cara física en equipos de doble profundidad (`mountSide: 'both'`).
+3. **En el Trazado Físico:** [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) ancla la conexión a la cara frontal o al jack posterior `.rear-port-jack` según la cara activa y el estado de rotación 3D del gabinete.
+
 ### 🌓 Cambiar temas o extender la paleta de colores (M-18)
 
 1. **Variables CSS:** En [variables.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/variables.css), agrega o ajusta los tokens bajo el selector del tema (ej. `[data-theme="sepia"]`).

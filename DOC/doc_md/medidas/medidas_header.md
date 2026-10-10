@@ -39,7 +39,7 @@ La cabecera se divide horizontalmente en dos contenedores principales:
     *   **Botón de Menú Móvil (`#mobile-menu-btn`):** `display: none` en escritorio. Dimensiones normalizadas de `24px` × `24px`.
     *   **Imagen del Logo (`.logo-icon`):** Medida fija de `24px` × `24px` (`object-fit: contain`) con filtro de resplandor (`drop-shadow` de `8px var(--accent)`).
     *   **Texto Subtítulo (`.logo-sub` o `#project-filename`):** Tamaño de fuente `--text-xs` (`10px`), fuente monoespaciada y margen superior de `-4px`.
-    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Selector de Demos TIA-942 / Campus UTN `#modal-demo-selection`), Modo Dios/PIN, Suite de Tests (360 pruebas automatizadas en 23 grupos con 100% de éxito), Importación Masiva de Equipos (`#menu-import-devices`) y Exportar/Importar Catálogo personalizado.
+    *   **Botón del Menú del Proyecto (`#btn-project-menu`):** Dimensiones de `24px` × `24px` con transiciones de color en hover. Despliega `#project-dropdown` (`z-index: 1000`) con opciones de archivo (Abrir, Guardar, Selector de Demos TIA-942 / Campus UTN `#modal-demo-selection`), Modo Dios/PIN, Suite de Tests (381 pruebas automatizadas en 24 grupos con 100% de éxito), Importación Masiva de Equipos (`#menu-import-devices`) y Exportar/Importar Catálogo personalizado.
 
 ### ⚙️ Área Principal (`.header-main-area`)
 *   **Ancho:** Flexible (`flex: 1`, `min-width: 0`).

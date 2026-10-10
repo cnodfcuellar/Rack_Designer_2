@@ -226,12 +226,26 @@ Dado que esta sala no necesita racks metálicos altos, insertaremos los equipos 
 <h2>🔌 Parte 5: Visualización de Conexiones Físicas</h2>
 <p>¡Ahora también puedes visualizar cómo están conectados los cables en la vida real!</p>
 <h3>Crear una conexión</h3>
+<p>Tienes dos métodos para conectar equipos:</p>
+<h4>Método A: Modo Cableado Interactivo en Vista Física (<em>Drag-to-Connect</em>, M-34)</h4>
+<p>¡La forma más rápida y visual de cablear!</p>
+<ol>
+<li>En la <strong>Vista Física</strong>, haz clic en el botón <strong><code>Modo Cableado</code></strong> (<code>#btn-cable-mode</code>) en la barra de herramientas superior, o haz clic directamente en el botón <strong><code>🔌</code></strong> de cualquier equipo en rack o de piso.</li>
+<li>El cursor cambiará a estilo <em>crosshair</em> (mira de precisión) y el botón se iluminará.</li>
+<li>Haz clic en el equipo o puerto de origen.</li>
+<li>Mueve el ratón hacia el equipo destino: verás una <strong>línea elástica (<em>rubber-band</em>) en tiempo real</strong> trazando una curva Bézier dinámica que conecta el origen con el puntero.</li>
+<li>Haz clic en el equipo destino: el modal de conexión se abrirá <strong>automáticamente con el equipo origen y destino ya preseleccionados</strong>.</li>
+<li>Selecciona los puertos deseados y pulsa <strong>&quot;Conectar&quot;</strong>.</li>
+</ol>
+<h4>Método B: Modal Tradicional de Conexión</h4>
 <ol>
 <li>Haz <strong>doble clic</strong> en un equipo (en la vista Topología o desde la tabla inferior).</li>
 <li>Se abrirá el modal de <strong>&quot;Nueva Conexión&quot;</strong>.</li>
-<li>Selecciona el equipo de origen, el equipo de destino y los puertos. <ul>
+<li>Selecciona el equipo de origen, el equipo de destino y los puertos. 
+<ul>
 <li><em>Tip:</em> Marca la casilla <strong>&quot;Mostrar solo puertos libres&quot;</strong> para ocultar los puertos que ya están ocupados y evitar errores.</li>
-<li><strong>Botón Swap de Inversión (⇄, M-41):</strong> Usa el botón central de intercambio <code>#btn-cable-swap</code> para alternar instantáneamente el origen y el destino con un solo clic.</li>
+<li><strong>Discriminación de Cara Frontal vs. Trasera (M-33):</strong> Usa los selectores de cara para especificar si el cable se conecta en la cara <code>[Frontal]</code> o <code>[Trasera]</code> del equipo. En servidores y almacenamiento de doble cara (<code>both</code>), los puertos traseros y frontales se gestionan independientemente sin falsas colisiones.</li>
+<li><strong>Botón Swap de Inversión (⇄, M-41):</strong> Usa el botón central de intercambio <code>#btn-cable-swap</code> para alternar instantáneamente el origen y el destino (incluyendo sus caras) con un solo clic.</li>
 <li><strong>Orientación de Canaleta (M-41):</strong> Elige entre <strong>Canaleta Superior (Techo / Bandeja Aérea)</strong> o <strong>Canaleta Inferior (Piso Técnico / Fondo)</strong> para segregar las rutas físicas del cableado.</li>
 </ul>
 </li>
