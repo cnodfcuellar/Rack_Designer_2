@@ -1556,6 +1556,24 @@ function initGlobalEvents() {
     });
   }
 
+  // Soporte para desplazamiento horizontal fluido con rueda del ratón en la barra del lienzo
+  const mainToolbarEl = document.querySelector('.main-toolbar');
+  if (mainToolbarEl) {
+    mainToolbarEl.addEventListener('wheel', (e) => {
+      // Bloquear estrictamente cualquier scroll vertical al interactuar con la barra
+      e.preventDefault();
+      const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      mainToolbarEl.scrollLeft += delta;
+    }, { passive: false });
+
+    // Garantizar que la barra nunca retenga desplazamiento vertical
+    mainToolbarEl.addEventListener('scroll', () => {
+      if (mainToolbarEl.scrollTop !== 0) {
+        mainToolbarEl.scrollTop = 0;
+      }
+    });
+  }
+
   // Header buttons
   document.getElementById('btn-add-rack').addEventListener('click', openAddRackModal);
   document.getElementById('btn-add-rack-nav')?.addEventListener('click', openAddRackModal);

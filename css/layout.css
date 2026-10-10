@@ -1002,7 +1002,10 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 6px 12px;
+  height: 42px;
+  max-height: 42px;
+  box-sizing: border-box;
   background: transparent;
   border-bottom: none;
   z-index: 10;
@@ -1011,11 +1014,36 @@
   left: 0;
   right: 0;
   flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden !important;
+  touch-action: pan-x !important;
+  overscroll-behavior: none !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
   pointer-events: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main-toolbar::-webkit-scrollbar {
+  display: none;
 }
 
 .main-toolbar>* {
   pointer-events: auto;
+  flex-shrink: 0;
+}
+
+.main-toolbar .spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+#btn-toggle-right-panel {
+  position: sticky;
+  right: 0;
+  z-index: 20;
+  box-shadow: -6px 0 12px var(--bg-main, rgba(0, 0, 0, 0.15));
 }
 
 .zoom-label {

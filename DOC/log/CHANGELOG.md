@@ -1,3 +1,17 @@
+## [2026-10-10] Bloqueo Estricto de Scroll Vertical y Deslizamiento Horizontal en Barra del Lienzo
+
+### 🚀 Ergonomía de Herramientas del Lienzo (`.main-toolbar`)
+- **Bloqueo de Desplazamiento Vertical (`touch-action: pan-x`):**
+  - Se fijó la altura de `.main-toolbar` a 42px con `box-sizing: border-box; overflow-y: hidden !important; touch-action: pan-x !important; overscroll-behavior: none !important;`, impidiendo cualquier movimiento vertical al deslizar en tablets o pantallas táctiles.
+  - Se interceptó el evento `wheel` en [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) para anular el scroll vertical (`e.preventDefault()`) y convertir cualquier movimiento de rueda en desplazamiento 100% horizontal (`scrollLeft`).
+  - Se añadió un listener de control en el evento `scroll` para asegurar que `scrollTop` se mantenga siempre en `0` pase lo que pase.
+- **Botón de Panel Siempre Accesible (`#btn-toggle-right-panel`):**
+  - Se ancló fijamente a la derecha con `position: sticky; right: 0; z-index: 20;` y una sombra sutil proyectada hacia la izquierda (`box-shadow: -6px 0 12px var(--bg-main)`).
+  - Al deslizar la barra, las demás herramientas pasan limpiamente por debajo del botón de panel, garantizando que el usuario **siempre pueda colapsar o expandir el Outliner** a un solo clic sin importar lo estrecha que sea la ventana.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada exitosamente con **396/396 pruebas aprobadas (100%)**.
+  - Versiones incrementadas a `v=47` en `index.html` y `style.css`, y `v43` en `service-worker.js`.
+
 ## [2026-10-10] Buscadores Compactos Responsivos: Modo Solo Icono de Lupa en Ventanas Pequeñas
 
 ### 🔍 Experiencia de Usuario y Optimización Responsive (`#header`, `#sidebar` y `#bottom`)
