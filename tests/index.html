@@ -2455,6 +2455,81 @@
     const hasConnectBtns = document.querySelectorAll('.dev-btn.connect').length >= 0;
     addTestResult(hasConnectBtns,
       'M-34: Faceplates en rack y piso incluyen botones data-connect-dev para iniciar cableado rápido');
+
+    // ----------------------------------------------------
+    // GRUPO 25: RESPONSIVE LAPTOP Y PANEL LATERAL DRAWER (M-25A)
+    // ----------------------------------------------------
+    setGroup('🔹 GRUPO 25: Responsive Laptop y Panel Lateral Drawer (M-25A)');
+
+    let layoutCssTxt = '';
+    try {
+      layoutCssTxt = await (await fetch('../css/layout.css')).text();
+    } catch(e) {}
+
+    const hasBtnToggleRP = (typeof idxText !== 'undefined' && idxText.includes('id="btn-toggle-right-panel"')) || !!document.getElementById('btn-toggle-right-panel');
+    addTestResult(hasBtnToggleRP,
+      'M-25A: index.html define el botón interactivo #btn-toggle-right-panel');
+
+    const hasCssRPCollapsed = (!layoutCssTxt || layoutCssTxt.includes('#app.right-panel-collapsed'));
+    addTestResult(hasCssRPCollapsed,
+      'M-25A: layout.css define la regla #app.right-panel-collapsed para colapso a 0px');
+
+    const hasMainJsRPToggle = (!mainJsText || (mainJsText.includes('btn-toggle-right-panel') && mainJsText.includes('RACK_RIGHT_PANEL_COLLAPSED')));
+    addTestResult(hasMainJsRPToggle,
+      'M-25A: main.js implementa el manejador de toggle y persistencia en sesión para el panel derecho');
+
+    let panelsCssTxt = '';
+    try {
+      panelsCssTxt = await (await fetch('../css/components/panels.css')).text();
+    } catch(e) {}
+
+    const hasBottomResponsive = (!layoutCssTxt || (layoutCssTxt.includes('#bottom') && layoutCssTxt.includes('height: 200px')));
+    addTestResult(hasBottomResponsive,
+      'M-25A: layout.css optimiza la altura del panel inferior (#bottom: 200px) para laptops');
+
+    const hasSearchElements = (typeof idxText !== 'undefined' && idxText.includes('id="table-search-clear"') && idxText.includes('table-search-icon')) || !!document.getElementById('table-search-clear');
+    addTestResult(hasSearchElements,
+      'M-25A: index.html define el buscador #table-search con icono SVG y botón #table-search-clear');
+
+    const hasSearchCss = (!panelsCssTxt || (panelsCssTxt.includes('.table-search-wrap') && panelsCssTxt.includes('#table-search-clear')));
+    addTestResult(hasSearchCss,
+      'M-25A: panels.css implementa estilos para el contenedor .table-search-wrap y botón de limpieza rápida');
+
+    const hasSearchJs = (!mainJsText || (mainJsText.includes('tableSearchClear') && mainJsText.includes('updateTableSearchClear')));
+    addTestResult(hasSearchJs,
+      'M-25A: main.js y tables.js gestionan la reactividad y vaciado automático de #table-search');
+
+    const hasBtnTextSpans = (!idxText || (idxText.includes('span class="btn-text">Inventario</span>') && idxText.includes('span class="btn-text">Columnas</span>')));
+    addTestResult(hasBtnTextSpans,
+      'M-25A: index.html estructura los botones del panel inferior con span.btn-text y títulos accesibles');
+
+    const hasSecIconsCss = (!layoutCssTxt || (layoutCssTxt.includes('#btn-columns-menu .btn-text') && layoutCssTxt.includes('#btn-export-menu .btn-text')));
+    addTestResult(hasSecIconsCss,
+      'M-25A: layout.css oculta el texto de botones secundarios en <= 1200px para mostrar modo solo icono');
+
+    const hasPrimIconsCss = (!layoutCssTxt || (layoutCssTxt.includes('.bottom-header .tab-pill .btn-text') && layoutCssTxt.includes('#table-btn-add-device .btn-text')));
+    addTestResult(hasPrimIconsCss,
+      'M-25A: layout.css oculta texto de pestañas y botones primarios en <= 980px para máxima adaptabilidad');
+
+    const hasBottomResizer = (typeof idxText !== 'undefined' && idxText.includes('id="bottom-resizer"')) || !!document.getElementById('bottom-resizer');
+    addTestResult(hasBottomResizer,
+      'M-25A: index.html define el tirador interactivo #bottom-resizer');
+
+    const hasResizerCss = (!panelsCssTxt || (panelsCssTxt.includes('.bottom-resizer') && panelsCssTxt.includes('cursor: row-resize')));
+    addTestResult(hasResizerCss,
+      'M-25A: panels.css implementa estilos de tirador, cursor row-resize y feedback visual .is-resizing');
+
+    const hasResizerJs = (!mainJsText || (mainJsText.includes('bottom-resizer') && mainJsText.includes('RACK_BOTTOM_PANEL_HEIGHT')));
+    addTestResult(hasResizerJs,
+      'M-25A: main.js gestiona el arrastre fluido PointerEvents, límites min/max y persistencia en localStorage');
+
+    const hasMainToolbarSpans = (!idxText || (idxText.includes('id="cable-mode-label" class="btn-text">Trazar Cable</span>') && idxText.includes('id="right-panel-toggle-label" class="btn-text">Panel</span>')));
+    addTestResult(hasMainToolbarSpans,
+      'M-25A: index.html estructura .main-toolbar con span.btn-text y títulos descriptivos');
+
+    const hasMainToolbarIconsCss = (!layoutCssTxt || (layoutCssTxt.includes('.main-toolbar #btn-export-png .btn-text') && layoutCssTxt.includes('.main-toolbar #btn-cable-mode .btn-text')));
+    addTestResult(hasMainToolbarIconsCss,
+      'M-25A: layout.css colapsa textos a modo solo icono en .main-toolbar para evitar cortes en laptops y pantallas estrechas');
   }
 
   window.addEventListener('DOMContentLoaded', runAllTests);

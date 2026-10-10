@@ -1,3 +1,71 @@
+## [2026-10-10] Sidebar Unificado Fijo de Pantalla Completa (260px)
+
+### 🎨 Arquitectura de Layout e Interfaz (`#sidebar` y Catálogo Integrado)
+- **Unificación de Componentes en un Solo Panel Fijo (`index.html`):**
+  - Se reubicó `#catalog-flyout` dentro del elemento `<aside id="sidebar">` como un subpanel contiguo permanente, eliminando elementos flotantes sobre el lienzo y dependencias de persianas desfasadas.
+- **Alineación Vertical Continua de 260px (`css/variables.css` y `css/layout.css`):**
+  - Se fijó `--sidebar-w: 260px;` coincidiendo 1:1 con los 260px de la cabecera del logo (`.header-logo-area`), logrando una línea divisoria vertical uniforme de arriba a abajo.
+  - La columna `#sidebar` integra internamente dos secciones:
+    1. **Rail de Iconos (50px):** fondo `var(--bg-card1)` con borde derecho separador y botones de categorías interactivos con feedback de color acento.
+    2. **Panel de Catálogo (210px):** cabecera de categoría, acciones directas `+ Rack` y `+ Equipo`, buscador reactivo y lista de tarjetas de equipos siempre accesibles.
+  - Eliminación de la regla obsoleta `@media (max-width: 1024px) { #app { grid-template-columns: 60px 1fr; } }` que forzaba el colapso del sidebar a 60px en viewports compactos (como 833px).
+- **Lienzo Central 100% Despejado:**
+  - El área de trabajo `#main` inicia limpiamente a partir de x = 260px. Los racks, faceplates y el canvas de topología nunca quedan cubiertos ni comprimidos por paneles superpuestos.
+- **Contracción y Expansión Dinámica del Sidebar (`ARCHITECTURE_GUIDE.md` / `medidas_sidebar.md`):**
+  - Se habilitó la alternancia de 2 estados dinámicos del sidebar en [js/ui/catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js):
+    1. **Estado Expandido (`--sidebar-w: 260px`):** El sidebar despliega el panel de catálogo con el título de la categoría activa, el buscador y las tarjetas de equipos, junto al botón de cierre `✕` (`#btn-close-flyout`).
+    2. **Estado Contraído (`--sidebar-w: 50px`):** Al hacer clic en el botón de cierre `✕` (`#btn-close-flyout`) o al volver a pulsar la categoría activa en el rail, el panel de catálogo se oculta limpiamente y el sidebar se contrae a su rail compacto de 50px, devolviendo **210px adicionales de espacio horizontal al lienzo de racks (`#main`)**.
+  - Transición fluida CSS (`transition: width 0.25s, grid-template-columns 0.25s`) y emisión automática de evento `resize` para la reubicación perfecta de los racks y el canvas de topología.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada exitosamente con **396/396 pruebas aprobadas (100%)**.
+  - Versiones incrementadas a `v=44` en `index.html` y `style.css`, y `v40` en `service-worker.js`.
+
+## [2026-10-09] M-25A (Paso 3): Optimización del Panel Inferior y Tablas para Laptops
+
+### 💻 Interfaz, Responsive y Ergonomía (`M-25A`)
+- **Panel Inferior Adaptativo (`css/layout.css`):**
+  - Reducción calibrada de la altura del panel `#bottom` de 220px a **180px** en laptops (`<= 1366px`), devolviendo 40px críticos de espacio vertical al lienzo principal de racks.
+  - Compactación de padding horizontal de `.bottom-header` a 10px con espaciado de controles a 6px.
+  - Pestañas de inventario/conexiones (`.tab-pill`) con tipografía ajustada a 11px y padding de 4px 10px.
+  - Buscador de tablas `#table-search` reducido a 120px para asegurar que todos los botones de acción (Importar, Exportar, Columnas) convivan sin saltos de línea.
+- **Menú Desplegable de Datos (`#export-dropdown`) y Columnas (`#columns-dropdown`):**
+  - Fondo opaco sólido (`var(--bg-card)`) con sombra profunda proyectada para eliminar la transparencia semitranslúcida que provocaba que el texto de la tabla inferior se filtrara y se leyera como si estuviera encimado.
+- **Buscador Reactivo de Tablas con Limpieza Rápida (`Paso 3.3`):**
+  - Contenedor `.table-search-wrap` con icono vectorial SVG integrado a la izquierda sin superposición de texto (`padding: 0 22px 0 26px !important`).
+  - Botón interactivo `#table-search-clear` (`✕`) que aparece dinámicamente cuando hay texto escrito y permite vaciar la búsqueda y restablecer los registros de la tabla con un solo clic.
+  - Corrección de la regla global de normalización CSS para respetar la visibilidad dinámica (`display: none !important`) de botones inactivos según la pestaña (`#table-btn-add-device` vs `#table-btn-add-conn`).
+- **Modo Icono Compacto Progresivo (`Paso 3.4`):**
+  - Estructuración de botones del panel inferior envolviendo textos en `span.btn-text` y dotándolos de atributos `title` descriptivos.
+  - **Nivel 1 (`<= 1200px`):** Ocultamiento automático de texto en botones secundarios (`Columnas`, `Datos`, `Expandir`), mostrando únicamente sus iconos y contadores (`[ ▦ (18/18) ▼ ]`, `[ 📥 ▼ ]`, `[ ⛶ ]`), ahorrando más de 120px de barra.
+  - **Nivel 2 (`<= 980px`):** Ocultamiento automático de texto en pestañas (`Inventario`, `Conexiones`) y botón principal (`Añadir Equipo` / `+ Conexión`), transformándolos en botones limpios de solo icono sin perder accesibilidad.
+- **Redimensionamiento Manual Vertical Drag-to-Resize (`Paso 3.5`):**
+  - Tirador interactivo `#bottom-resizer` en la parte superior del panel inferior con cursor `row-resize` (`↕`) y resaltado de borde en color acento con brillo (`.is-resizing`).
+  - Arrastre fluido mediante `PointerEvents` con captura de puntero (`setPointerCapture`) soportando ratón y pantallas táctiles, acotado entre 120px y el 65% de la altura de la ventana (hasta 500px).
+  - Persistencia automática de la altura en `localStorage` (`RACK_BOTTOM_PANEL_HEIGHT`).
+  - Restablecimiento rápido a la altura estándar por defecto (200px en laptop / 220px normal) mediante doble clic sobre el tirador.
+- **Adaptabilidad Responsiva de la Barra de Herramientas Principal (`.main-toolbar`):**
+  - Estructuración de botones con `span.btn-text` y títulos descriptivos en `Estilo`, `Auto`, `PNG`, `Expandir` y `Panel`.
+  - Colapso progresivo a modo solo icono en anchos reducidos (`<= 1366px` y `<= 1100px`), recortando el ancho requerido de más de 720px a menos de 380px para evitar cualquier corte o desbordamiento al abrir paneles laterales en laptops.
+- **Aislamiento Estricto de Controles de Topología (`css/layout.css`):**
+  - Corrección de la regla de normalización matemática para incorporar `:not(.force-hide)`, asegurando que los botones de personalización de topología (`#btn-topo-style` y `#btn-topo-autoorder`) permanezcan completamente ocultos (`display: none !important`) en la Vista Física y solo se activen en la Vista de Topología, liberando más de 70px de espacio útil en la barra principal de racks.
+- **Protección Visual y Estabilidad en Árbol Outliner (`css/components/panels.css`):**
+  - Implementación de scrollbar ultra-delgado (5px con `scrollbar-width: thin; overflow-x: hidden !important`) para `#outliner-tree`, eliminando el salto de layout y el scrollbar nativo ancho al hacer hover en pantallas compactas.
+  - Los botones de acción rápida (`✏️ 🗑️`) ahora cuentan con fondo sólido card, sombra suave difuminada (`box-shadow: -6px 0 10px var(--bg-card)`), dimensiones fijas (18×18px) y micro-escala hover, asegurando que los nombres largos nunca queden encimados ni montados sobre la barra de desplazamiento.
+- **Inmutabilidad Dimensional del Panel Derecho e Inspector (`css/layout.css`):**
+  - Blindaje estricto de la grilla `#app` (`minmax(0, 1fr) var(--right-panel-w)`) y del panel lateral `#right-panel` (`width: var(--right-panel-w); min-width: 0; max-width: var(--right-panel-w); box-sizing: border-box;`).
+  - Fijación matemática de altura (24px para salas/racks y 22px para equipos) y elipsis obligatoria (`overflow: hidden; text-overflow: ellipsis; white-space: nowrap`) en cada fila del Outliner.
+  - Esto erradica al 100% el temblor (*layout jank*) y las fluctuaciones de tamaño: el panel derecho y la sección de Propiedades jamás vuelven a ensancharse ni a encogerse al pasar el puntero o ante nombres largos de salas, racks o equipos.
+- **Modo Compacto de Ranuras de Topología (`M-40` / `M-25A`):**
+  - En pantallas medianas y laptops (`<= 1100px`), las 5 ranuras horizontales de memoria (`#topo-slots-bar`) se contraen automáticamente a un botón chip desplegable inteligente `[ 👁️ ▾ | 💾 ]` con indicador de ranura activa.
+  - Esto ahorra **132px de ancho** en la barra de herramientas de topología, garantizando que los botones de exportación `[🖼️]`, pantalla completa `[⛶]` y colapso de panel `[🗔]` nunca queden cortados ni ocultos detrás del Outliner.
+- **Alineación Arquitectónica Fija del Logo y Catálogo (`css/layout.css`):**
+  - Se restauró el ancho fijo de **260px** en `.header-logo-area` para pantallas laptop y de escritorio, eliminando la contracción a 220px.
+  - Esto garantiza que la línea divisoria vertical del header coincida de forma exacta y continua con el borde derecho del panel de catálogo desplegado (50px barra de iconos + 210px catálogo flyout = 260px), sin ningún escalón visual roto.
+- **Testing Automatizado:**
+  - Grupo 25 actualizado en Node y Web Runner con **396 pruebas pasando al 100% de éxito (0 fallos)**.
+
+---
+
 ## [2026-10-09] Implementación de M-34: Creación Gráfica e Interactiva de Conexiones en Vista Física (Drag-to-Connect)
 
 ### 🔌 Vista Física, Cableado Interactivo y Ergonomía (`M-34`)

@@ -11,8 +11,13 @@ function applyRoleUI(user) {
   const isView = user.role === RackAuth.ROLES.VIEWER;
 
   // Badge en el header
-  badge.style.display = 'inline-block';
-  badge.innerHTML = isAdm ? '<i class="svg-icon icon-crown" style="width:12px;height:12px;margin-right:4px;"></i>Admin' : isView ? '<i class="svg-icon icon-eye" style="width:12px;height:12px;margin-right:4px;"></i>Espectador' : '<i class="svg-icon icon-edit" style="width:12px;height:12px;margin-right:4px;"></i>Editor';
+  badge.style.display = 'inline-flex';
+  badge.style.alignItems = 'center';
+  badge.innerHTML = isAdm 
+    ? '<i class="svg-icon icon-crown" style="width:12px;height:12px;margin-right:4px;"></i><span class="badge-text">Admin</span>' 
+    : isView 
+      ? '<i class="svg-icon icon-eye" style="width:12px;height:12px;margin-right:4px;"></i><span class="badge-text">Espectador</span>' 
+      : '<i class="svg-icon icon-edit" style="width:12px;height:12px;margin-right:4px;"></i><span class="badge-text">Editor</span>';
   badge.style.color = isAdm ? 'var(--cyan)' : isView ? 'var(--text-secondary)' : 'var(--accent)';
   badge.style.borderColor = isAdm ? 'var(--cyan)' : isView ? 'var(--border)' : 'var(--accent)';
   badge.style.background = isAdm ? 'rgba(34,211,238,0.1)' : isView ? 'rgba(100,116,139,0.1)' : 'var(--accent-glow)';
@@ -778,6 +783,12 @@ function initGlobalEvents() {
       topoSlotsBar.appendChild(btn);
     }
 
+    // Actualizar indicador compacto (para <= 1100px)
+    const compactNum = document.getElementById('topo-slots-compact-num');
+    if (compactNum) {
+      compactNum.textContent = activeSlot !== null ? `[${activeSlot + 1}]` : '';
+    }
+
     // 2. Renderizar lista detallada en el dropdown si existe
     if (topoSlotsList) {
       topoSlotsList.innerHTML = '';
@@ -909,8 +920,16 @@ function initGlobalEvents() {
       e.stopPropagation();
     });
 
+    const compactBtn = document.getElementById('topo-slots-compact-btn');
+    if (compactBtn) {
+      compactBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        btnTopoSlotsMenu.click();
+      });
+    }
+
     document.addEventListener('click', (e) => {
-      if (!topoSlotsDropdown.contains(e.target) && !btnTopoSlotsMenu.contains(e.target)) {
+      if (!topoSlotsDropdown.contains(e.target) && !btnTopoSlotsMenu.contains(e.target) && !(compactBtn && compactBtn.contains(e.target))) {
         topoSlotsDropdown.classList.add('hidden');
         btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
       }
@@ -1380,25 +1399,99 @@ function initGlobalEvents() {
     });
   });
 
-  let bottomCollapsed = true;
-  document.getElementById('bottom').style.height = '38px';
-  document.getElementById('btn-collapse-bottom').textContent = '▲';
+  // M-25A Paso 3.5: Redimensionamiento manual de altura (Drag-to-Resize)
+  const bottomResizer = document.getElementById('bottom-resizer');
+  const bottomPanel = document.getElementById('bottom');
+  const btnCollapseBottom = document.getElementById('btn-collapse-bottom');
 
-  document.getElementById('btn-collapse-bottom').addEventListener('click', () => {
-    bottomCollapsed = !bottomCollapsed;
-    const bot = document.getElementById('bottom');
-    if (bottomCollapsed) {
-      bot.style.height = '38px';
-      document.getElementById('btn-collapse-bottom').textContent = '▲';
-    } else {
-      bot.style.height = 'var(--bottom-h)';
-      document.getElementById('btn-collapse-bottom').textContent = '▼';
-      if (window._renderState && window._renderState.dirtyBottom) {
-        renderBottomPanel();
-        window._renderState.dirtyBottom = false;
-      }
+  const DEFAULT_BOTTOM_HEIGHT = window.innerWidth <= 1366 ? 200 : 220;
+  const STORAGE_KEY_BOTTOM_HEIGHT = 'RACK_BOTTOM_PANEL_HEIGHT';
+
+  let savedBottomH = parseInt(localStorage.getItem(STORAGE_KEY_BOTTOM_HEIGHT), 10);
+  let currentBottomH = (!isNaN(savedBottomH) && savedBottomH >= 120 && savedBottomH <= 500)
+    ? savedBottomH
+    : DEFAULT_BOTTOM_HEIGHT;
+
+  function setBottomHeight(h, save = true) {
+    if (!bottomPanel) return;
+    const maxHeight = Math.max(250, Math.floor((window.innerHeight || 800) * 0.65));
+    const clampedH = Math.max(120, Math.min(maxHeight, Math.min(500, Math.round(h))));
+    currentBottomH = clampedH;
+    if (document.documentElement && document.documentElement.style && typeof document.documentElement.style.setProperty === 'function') {
+      document.documentElement.style.setProperty('--bottom-h', `${clampedH}px`);
     }
-  });
+    if (!bottomCollapsed && !bottomPanel.classList.contains('fullscreen')) {
+      bottomPanel.style.height = `${clampedH}px`;
+    }
+    if (save) {
+      try { localStorage.setItem(STORAGE_KEY_BOTTOM_HEIGHT, clampedH); } catch(e) {}
+    }
+  }
+
+  // Inicializar --bottom-h con la altura guardada
+  if (document.documentElement && document.documentElement.style && typeof document.documentElement.style.setProperty === 'function') {
+    document.documentElement.style.setProperty('--bottom-h', `${currentBottomH}px`);
+  }
+
+  let bottomCollapsed = true;
+  if (bottomPanel) bottomPanel.style.height = '38px';
+  if (btnCollapseBottom) btnCollapseBottom.textContent = '▲';
+
+  if (btnCollapseBottom && bottomPanel) {
+    btnCollapseBottom.addEventListener('click', () => {
+      bottomCollapsed = !bottomCollapsed;
+      if (bottomCollapsed) {
+        bottomPanel.style.height = '38px';
+        btnCollapseBottom.textContent = '▲';
+      } else {
+        bottomPanel.style.height = `${currentBottomH}px`;
+        btnCollapseBottom.textContent = '▼';
+        if (window._renderState && window._renderState.dirtyBottom) {
+          renderBottomPanel();
+          window._renderState.dirtyBottom = false;
+        }
+      }
+    });
+  }
+
+  if (bottomResizer && bottomPanel) {
+    let isDragging = false;
+    let startY = 0;
+    let startH = 0;
+
+    bottomResizer.addEventListener('pointerdown', (e) => {
+      if (bottomCollapsed || bottomPanel.classList.contains('fullscreen')) return;
+      isDragging = true;
+      startY = e.clientY;
+      startH = bottomPanel.getBoundingClientRect().height;
+      bottomResizer.setPointerCapture(e.pointerId);
+      bottomResizer.classList.add('is-resizing');
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'row-resize';
+    });
+
+    bottomResizer.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      const deltaY = startY - e.clientY;
+      setBottomHeight(startH + deltaY, false);
+    });
+
+    const stopDragging = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      bottomResizer.classList.remove('is-resizing');
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+      setBottomHeight(currentBottomH, true);
+    };
+
+    bottomResizer.addEventListener('pointerup', stopDragging);
+    bottomResizer.addEventListener('pointercancel', stopDragging);
+
+    bottomResizer.addEventListener('dblclick', () => {
+      setBottomHeight(DEFAULT_BOTTOM_HEIGHT, true);
+    });
+  }
 
   document.getElementById('global-search').addEventListener('input', () => {
     renderPhysical();
@@ -1429,9 +1522,7 @@ function initGlobalEvents() {
   document.getElementById('btn-add-rack-nav')?.addEventListener('click', openAddRackModal);
   document.getElementById('btn-add-device-modal').addEventListener('click', openAddDeviceModal);
   const addDevTableBtn = document.getElementById('table-btn-add-device');
-  if(addDevTableBtn) addDevTableBtn.addEventListener('click', openAddDeviceModal);
-  const addPlacementTableBtn = document.getElementById('table-btn-add-placement');
-  if(addPlacementTableBtn) addPlacementTableBtn.addEventListener('click', () => openQuickPlacementModal(null));
+  if(addDevTableBtn) addDevTableBtn.addEventListener('click', () => openQuickPlacementModal(null));
   
   const checkboxCables = document.getElementById('checkbox-toggle-cables');
   if (checkboxCables) {
@@ -1461,23 +1552,103 @@ function initGlobalEvents() {
   document.getElementById('btn-undo').addEventListener('click', () => store.undo());
   document.getElementById('btn-redo').addEventListener('click', () => store.redo());
 
-  // Expand panel buttons
-  document.getElementById('btn-expand-main').addEventListener('click', (e) => {
-    const main = document.getElementById('main');
-    main.classList.toggle('fullscreen');
-    e.target.innerHTML = main.classList.contains('fullscreen') ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Contraer' : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Expandir';
-  });
+  const btnExpandMain = document.getElementById('btn-expand-main');
+  if (btnExpandMain) {
+    btnExpandMain.addEventListener('click', () => {
+      const main = document.getElementById('main');
+      if (!main) return;
+      const isFullscreen = main.classList.toggle('fullscreen');
+      btnExpandMain.innerHTML = isFullscreen
+        ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i><span class="btn-text">Contraer</span>'
+        : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i><span class="btn-text">Expandir</span>';
+      btnExpandMain.title = isFullscreen ? 'Contraer pantalla completa' : 'Expandir área de trabajo a pantalla completa';
+    });
+  }
 
-  document.getElementById('btn-expand-bottom').addEventListener('click', (e) => {
-    const bottom = document.getElementById('bottom');
-    bottom.classList.toggle('fullscreen');
-    e.target.innerHTML = bottom.classList.contains('fullscreen') ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Contraer' : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i>Expandir';
-  });
+  const btnExpandBottom = document.getElementById('btn-expand-bottom');
+  if (btnExpandBottom) {
+    btnExpandBottom.addEventListener('click', () => {
+      const bottom = document.getElementById('bottom');
+      if (!bottom) return;
+      const isFullscreen = bottom.classList.toggle('fullscreen');
+      btnExpandBottom.innerHTML = isFullscreen
+        ? '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i><span class="btn-text">Contraer</span>'
+        : '<i class="svg-icon icon-maximize" style="width:14px;height:14px;margin-right:4px;"></i><span class="btn-text">Expandir</span>';
+      btnExpandBottom.title = isFullscreen ? 'Contraer panel inferior' : 'Expandir o restaurar panel inferior';
+    });
+  }
+
+  // M-25A: Colapso/Expansión fluido del panel derecho (Drawer lateral)
+  const rightPanelBtn = document.getElementById('btn-toggle-right-panel');
+  if (rightPanelBtn) {
+    rightPanelBtn.addEventListener('click', () => {
+      const app = document.getElementById('app');
+      if (!app) return;
+      const isCollapsed = app.classList.toggle('right-panel-collapsed');
+      rightPanelBtn.classList.toggle('active', isCollapsed);
+      
+      const label = document.getElementById('right-panel-toggle-label');
+      if (label) {
+        label.textContent = isCollapsed ? 'Mostrar' : 'Panel';
+      }
+      rightPanelBtn.setAttribute('data-tip', isCollapsed ? 'Mostrar panel lateral (Outliner/Inspector)' : 'Ocultar panel lateral (Outliner/Inspector)');
+      
+      try {
+        sessionStorage.setItem('RACK_RIGHT_PANEL_COLLAPSED', isCollapsed ? '1' : '0');
+      } catch (err) { /* no-op */ }
+
+      // Disparar recálculo de geometría de topología si está activa
+      setTimeout(() => {
+        if (typeof window !== 'undefined' && window.currentView === 'topology' && typeof drawTopo === 'function') {
+          drawTopo();
+        }
+      }, 320);
+    });
+
+    // Restaurar preferencia previa de sesión
+    try {
+      if (sessionStorage.getItem('RACK_RIGHT_PANEL_COLLAPSED') === '1') {
+        const app = document.getElementById('app');
+        if (app) app.classList.add('right-panel-collapsed');
+        rightPanelBtn.classList.add('active');
+        const label = document.getElementById('right-panel-toggle-label');
+        if (label) label.textContent = 'Mostrar';
+        rightPanelBtn.setAttribute('data-tip', 'Mostrar panel lateral (Outliner/Inspector)');
+      }
+    } catch (err) { /* no-op */ }
+  }
 
 
 
   const tableSearch = document.getElementById('table-search');
-  if(tableSearch) tableSearch.addEventListener('input', renderBottomPanel);
+  const tableSearchClear = document.getElementById('table-search-clear');
+
+  function updateTableSearchClear() {
+    if (!tableSearchClear || !tableSearch) return;
+    if (tableSearch.value.trim().length > 0) {
+      tableSearchClear.classList.remove('hidden');
+    } else {
+      tableSearchClear.classList.add('hidden');
+    }
+  }
+
+  if (tableSearch) {
+    tableSearch.addEventListener('input', () => {
+      updateTableSearchClear();
+      renderBottomPanel();
+    });
+  }
+
+  if (tableSearchClear) {
+    tableSearchClear.addEventListener('click', () => {
+      if (tableSearch) {
+        tableSearch.value = '';
+        tableSearch.focus();
+      }
+      updateTableSearchClear();
+      renderBottomPanel();
+    });
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     // Theme initialization removed (now handled in <head> of index.html to prevent FOUC)

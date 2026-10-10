@@ -1913,6 +1913,53 @@ async function runTests() {
     'M-34: Faceplates en rack y piso incluyen botones data-connect-dev para iniciar cableado rápido');
 
   // ----------------------------------------------------
+  // GRUPO 25: Responsive Laptop y Panel Lateral Drawer (M-25A)
+  // ----------------------------------------------------
+  console.log('\n🔹 GRUPO 25: Responsive Laptop y Panel Lateral Drawer (M-25A)');
+  const indexSrc25 = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+  const layoutCss25 = fs.readFileSync(path.join(__dirname, '../css/layout.css'), 'utf8');
+  const panelsCss25 = fs.readFileSync(path.join(__dirname, '../css/components/panels.css'), 'utf8');
+  const tablesJs25 = fs.readFileSync(path.join(__dirname, '../js/ui/tables.js'), 'utf8');
+  const mainJs25 = fs.readFileSync(path.join(__dirname, '../js/main.js'), 'utf8');
+
+  assert(indexSrc25.includes('id="btn-toggle-right-panel"'),
+    'M-25A: index.html define el botón interactivo #btn-toggle-right-panel');
+  assert(layoutCss25.includes('#app.right-panel-collapsed'),
+    'M-25A: layout.css define la regla #app.right-panel-collapsed para colapso a 0px');
+  assert(mainJs25.includes('btn-toggle-right-panel') && mainJs25.includes('RACK_RIGHT_PANEL_COLLAPSED'),
+    'M-25A: main.js implementa el manejador de toggle y persistencia en sesión para el panel derecho');
+  assert(layoutCss25.includes('#bottom') && layoutCss25.includes('height: 200px'),
+    'M-25A: layout.css optimiza la altura del panel inferior (#bottom: 200px) para laptops');
+  assert(indexSrc25.includes('id="table-search"') && indexSrc25.includes('id="table-search-clear"') && indexSrc25.includes('table-search-icon'),
+    'M-25A: index.html define el buscador #table-search con icono SVG y botón #table-search-clear');
+  assert(panelsCss25.includes('.table-search-wrap') && panelsCss25.includes('#table-search-clear'),
+    'M-25A: panels.css implementa estilos para el contenedor .table-search-wrap y botón de limpieza rápida');
+  assert(mainJs25.includes('tableSearchClear') && tablesJs25.includes('table-search-clear'),
+    'M-25A: main.js y tables.js gestionan la reactividad y vaciado automático de #table-search');
+
+  // M-25A Paso 3.4: Modo icono compacto progresivo en botones del panel inferior
+  assert(indexSrc25.includes('span class="btn-text">Inventario</span>') && indexSrc25.includes('span class="btn-text">Añadir Equipo</span>') && indexSrc25.includes('span class="btn-text">Columnas</span>'),
+    'M-25A: index.html estructura los botones del panel inferior con span.btn-text y títulos accesibles');
+  assert(layoutCss25.includes('#btn-expand-bottom .btn-text') && layoutCss25.includes('#btn-columns-menu .btn-text') && layoutCss25.includes('#btn-export-menu .btn-text'),
+    'M-25A: layout.css oculta el texto de botones secundarios en <= 1200px para mostrar modo solo icono');
+  assert(layoutCss25.includes('.bottom-header .tab-pill .btn-text') && layoutCss25.includes('#table-btn-add-device .btn-text'),
+    'M-25A: layout.css oculta texto de pestañas y botones primarios en <= 980px para máxima adaptabilidad');
+
+  // M-25A Paso 3.5: Redimensionamiento manual de altura (Drag-to-Resize)
+  assert(indexSrc25.includes('id="bottom-resizer"'),
+    'M-25A: index.html define el tirador interactivo #bottom-resizer');
+  assert(panelsCss25.includes('.bottom-resizer') && panelsCss25.includes('cursor: row-resize'),
+    'M-25A: panels.css implementa estilos de tirador, cursor row-resize y feedback visual .is-resizing');
+  assert(mainJs25.includes('bottom-resizer') && mainJs25.includes('RACK_BOTTOM_PANEL_HEIGHT') && mainJs25.includes('setBottomHeight'),
+    'M-25A: main.js gestiona el arrastre fluido PointerEvents, límites min/max y persistencia en localStorage');
+
+  // M-25A: Modo icono compacto progresivo en barra de herramientas principal (.main-toolbar)
+  assert(indexSrc25.includes('id="cable-mode-label" class="btn-text">Trazar Cable</span>') && indexSrc25.includes('id="right-panel-toggle-label" class="btn-text">Panel</span>'),
+    'M-25A: index.html estructura .main-toolbar con span.btn-text y títulos descriptivos');
+  assert(layoutCss25.includes('.main-toolbar #btn-export-png .btn-text') && layoutCss25.includes('.main-toolbar #btn-cable-mode .btn-text'),
+    'M-25A: layout.css colapsa textos a modo solo icono en .main-toolbar para evitar cortes en laptops y pantallas estrechas');
+
+  // ----------------------------------------------------
   // RESUMEN FINAL
   // ----------------------------------------------------
   console.log('\n=================================================');

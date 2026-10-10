@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .glow-cyan { filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.7)); }
+      .glow-emerald { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.7)); }
+    </style>
+    <pattern id="grid-dots-m25a" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.8" fill="#1e293b" opacity="0.6"/>
+    </pattern>
+    <linearGradient id="bg-grad-m25a" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#070a12"/>
+    </linearGradient>
+    <linearGradient id="header-grad-m25a" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo General -->
+  <rect width="1100" height="680" fill="url(#bg-grad-m25a)" rx="16"/>
+  <rect width="1100" height="680" fill="url(#grid-dots-m25a)" rx="16"/>
+  <rect width="1100" height="680" fill="none" stroke="#1e293b" stroke-width="1.5" rx="16"/>
+
+  <!-- Cabecera de la Propuesta M-25A -->
+  <rect x="30" y="24" width="1040" height="60" rx="10" fill="url(#header-grad-m25a)" stroke="#334155" stroke-width="1"/>
+  <rect x="46" y="34" width="6" height="40" rx="3" fill="#38bdf8"/>
+  <text x="64" y="52" fill="#f8fafc" font-size="18" font-weight="700">PROPUESTA M-25A: DISENO ADAPTATIVO PARA LAPTOPS Y PANTALLAS MEDIANAS (1024px – 1366px)</text>
+  <text x="64" y="71" fill="#94a3b8" font-size="12">Optimizacion ergonomica: auto-colapso lateral a drawer, barra compacta sin desborde y altura elastica de racks</text>
+  
+  <rect x="910" y="38" width="144" height="32" rx="6" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="1"/>
+  <text x="982" y="58" fill="#38bdf8" font-size="11.5" font-weight="700" text-anchor="middle">M-25A ROADMAP</text>
+
+  <!-- ==================== COLUMNA IZQUIERDA: ESTADO ACTUAL (PROBLEMA) ==================== -->
+  <g transform="translate(30, 105)">
+    <rect width="490" height="420" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+    <rect x="0" y="0" width="490" height="32" rx="10" fill="#1e293b"/>
+    <rect x="12" y="10" width="10" height="10" rx="5" fill="#ef4444"/>
+    <rect x="28" y="10" width="10" height="10" rx="5" fill="#f59e0b"/>
+    <rect x="44" y="10" width="10" height="10" rx="5" fill="#10b981"/>
+    <text x="70" y="22" fill="#fca5a5" font-size="12" font-weight="700">ACTUAL: Laptop 1366x768 (Lienzo Comprimido y Saturado)</text>
+
+    <!-- Header saturado -->
+    <rect x="15" y="44" width="460" height="34" rx="4" fill="#151e32" stroke="#334155" stroke-width="1"/>
+    <text x="24" y="65" fill="#38bdf8" font-size="11" font-weight="700">LOGO</text>
+    <rect x="68" y="49" width="58" height="24" rx="3" fill="#1e293b"/>
+    <text x="76" y="65" fill="#94a3b8" font-size="9">Salas (120)</text>
+    <rect x="130" y="49" width="58" height="24" rx="3" fill="#1e293b"/>
+    <text x="138" y="65" fill="#94a3b8" font-size="9">Racks (120)</text>
+    <rect x="192" y="49" width="85" height="24" rx="3" fill="#1e293b"/>
+    <text x="198" y="65" fill="#94a3b8" font-size="9">Buscar [200px]</text>
+    <rect x="281" y="49" width="80" height="24" rx="3" fill="#ef4444" opacity="0.3"/>
+    <text x="287" y="65" fill="#f87171" font-size="9">DESBORDE</text>
+    <rect x="365" y="49" width="105" height="24" rx="3" fill="#1e293b"/>
+    <text x="372" y="65" fill="#64748b" font-size="9">Undo/Tema/Pin</text>
+
+    <!-- Sidebar 50px -->
+    <rect x="15" y="86" width="35" height="230" rx="4" fill="#151e32" stroke="#334155" stroke-width="1"/>
+    <text x="32" y="180" fill="#64748b" font-size="10" text-anchor="middle" transform="rotate(-90 32 180)">Sidebar (50px)</text>
+
+    <!-- Canvas Central: 280px util -->
+    <rect x="56" y="86" width="280" height="230" rx="4" fill="#0b1120" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="4 2"/>
+    <text x="196" y="108" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">Lienzo Central Solo ~600px Utiles</text>
+    
+    <rect x="70" y="125" width="110" height="150" rx="4" fill="#1a2235" stroke="#475569" stroke-width="1"/>
+    <text x="125" y="145" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">Rack 1 (280px)</text>
+    <text x="125" y="165" fill="#64748b" font-size="9" text-anchor="middle">Comprimido</text>
+
+    <rect x="190" y="125" width="110" height="150" rx="4" fill="#1a2235" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="245" y="145" fill="#f87171" font-size="10" font-weight="700" text-anchor="middle">Rack 2 (280px)</text>
+    <text x="245" y="165" fill="#ef4444" font-size="9" text-anchor="middle">CORTADO</text>
+
+    <!-- Panel Derecho Fijo 300px robando el 35% del ancho -->
+    <rect x="342" y="86" width="133" height="230" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="408" y="108" fill="#fca5a5" font-size="11" font-weight="700" text-anchor="middle">Right Panel (300px)</text>
+    <rect x="350" y="120" width="117" height="60" rx="3" fill="#0f172a"/>
+    <text x="408" y="150" fill="#94a3b8" font-size="9" text-anchor="middle">Outliner Fijo</text>
+    <rect x="350" y="188" width="117" height="80" rx="3" fill="#0f172a"/>
+    <text x="408" y="225" fill="#94a3b8" font-size="9" text-anchor="middle">Inspector Fijo</text>
+
+    <!-- Bottom Panel de 220px robando altura -->
+    <rect x="15" y="324" width="460" height="85" rx="4" fill="#151e32" stroke="#ef4444" stroke-width="1"/>
+    <text x="245" y="355" fill="#f87171" font-size="11" font-weight="700" text-anchor="middle">Bottom Panel (Fijo 220px) - Reduce altura vertical a &lt; 380px</text>
+    <text x="245" y="375" fill="#94a3b8" font-size="10" text-anchor="middle">Racks de 42U requieren scroll constante o alejarse al 50% de zoom</text>
+  </g>
+
+  <!-- ==================== COLUMNA DERECHA: PROPUESTA M-25A ==================== -->
+  <g transform="translate(580, 105)">
+    <rect width="490" height="420" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+    <rect x="0" y="0" width="490" height="32" rx="10" fill="#1e293b"/>
+    <rect x="12" y="10" width="10" height="10" rx="5" fill="#ef4444"/>
+    <rect x="28" y="10" width="10" height="10" rx="5" fill="#f59e0b"/>
+    <rect x="44" y="10" width="10" height="10" rx="5" fill="#10b981"/>
+    <text x="70" y="22" fill="#86efac" font-size="12" font-weight="700">M-25A: Laptop Adaptativa (Espaciosa, Fluida y Sin Desborde)</text>
+
+    <!-- Header Adaptativo Compacto -->
+    <rect x="15" y="44" width="460" height="34" rx="4" fill="#151e32" stroke="#10b981" stroke-width="1"/>
+    <text x="24" y="65" fill="#38bdf8" font-size="11" font-weight="700">LOGO</text>
+    <rect x="65" y="49" width="75" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="72" y="65" fill="#38bdf8" font-size="9">DC-Principal</text>
+    <rect x="145" y="49" width="75" height="24" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="152" y="65" fill="#38bdf8" font-size="9">RACK-101</text>
+    <rect x="225" y="49" width="28" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+    <text x="234" y="65" fill="#38bdf8" font-size="11">Q</text>
+    <rect x="258" y="49" width="95" height="24" rx="4" fill="#1e293b"/>
+    <text x="264" y="65" fill="#10b981" font-size="9.5" font-weight="600">Fisica | Topo</text>
+    <rect x="360" y="49" width="24" height="24" rx="4" fill="#1e293b"/>
+    <text x="367" y="65" fill="#94a3b8" font-size="10">&lt;</text>
+    <rect x="388" y="49" width="24" height="24" rx="4" fill="#1e293b"/>
+    <text x="395" y="65" fill="#94a3b8" font-size="10">&gt;</text>
+    <rect x="416" y="49" width="24" height="24" rx="4" fill="#1e293b"/>
+    <text x="423" y="65" fill="#f59e0b" font-size="10">T</text>
+    <rect x="444" y="49" width="24" height="24" rx="4" fill="#1e293b"/>
+    <text x="451" y="65" fill="#38bdf8" font-size="10">:</text>
+
+    <!-- Canvas Central Expandido: 392px UTILES -->
+    <rect x="15" y="86" width="32" height="240" rx="4" fill="#151e32" stroke="#334155" stroke-width="1"/>
+    <text x="31" y="185" fill="#94a3b8" font-size="10" text-anchor="middle" transform="rotate(-90 31 185)">Sidebar</text>
+
+    <rect x="52" y="86" width="392" height="240" rx="4" fill="#0b1120" stroke="#10b981" stroke-width="1.5"/>
+    <text x="248" y="108" fill="#10b981" font-size="11.5" font-weight="700" text-anchor="middle">Lienzo Amplio: 2 Racks Comodos + Cables</text>
+
+    <!-- Racks perfectamente lado a lado -->
+    <g transform="translate(65, 120)">
+      <rect width="165" height="195" rx="6" fill="#151e32" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect x="0" y="0" width="165" height="22" rx="6" fill="#1e293b"/>
+      <text x="82" y="15" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">RACK-101 (42U)</text>
+      <rect x="12" y="28" width="141" height="20" rx="2" fill="#0284c7"/>
+      <text x="82" y="42" fill="#fff" font-size="8.5" text-anchor="middle">Switch Core 48P</text>
+      <rect x="12" y="52" width="141" height="34" rx="2" fill="#059669"/>
+      <text x="82" y="73" fill="#fff" font-size="8.5" text-anchor="middle">Servidor 2U</text>
+      <rect x="12" y="90" width="141" height="20" rx="2" fill="#d97706"/>
+      <text x="82" y="104" fill="#fff" font-size="8.5" text-anchor="middle">Patch Panel ODF</text>
+    </g>
+
+    <g transform="translate(245, 120)">
+      <rect width="165" height="195" rx="6" fill="#151e32" stroke="#10b981" stroke-width="1.5"/>
+      <rect x="0" y="0" width="165" height="22" rx="6" fill="#1e293b"/>
+      <text x="82" y="15" fill="#10b981" font-size="10" font-weight="700" text-anchor="middle">RACK-102 (42U)</text>
+      <rect x="12" y="28" width="141" height="20" rx="2" fill="#0284c7"/>
+      <text x="82" y="42" fill="#fff" font-size="8.5" text-anchor="middle">Switch ToR Computo</text>
+      <rect x="12" y="52" width="141" height="34" rx="2" fill="#059669"/>
+      <text x="82" y="73" fill="#fff" font-size="8.5" text-anchor="middle">Servidor 2U</text>
+      <rect x="12" y="90" width="141" height="20" rx="2" fill="#7c3aed"/>
+      <text x="82" y="104" fill="#fff" font-size="8.5" text-anchor="middle">Storage SAN 4U</text>
+    </g>
+
+    <path d="M 177 148 C 210 130, 220 130, 257 148" stroke="#10b981" stroke-width="2.5" fill="none"/>
+
+    <!-- Drawer lateral colapsado 26px -->
+    <rect x="448" y="86" width="27" height="240" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="461" y="195" fill="#38bdf8" font-size="10.5" font-weight="700" text-anchor="middle" transform="rotate(-90 461 195)">&lt; INSPECTOR</text>
+
+    <!-- Bottom Panel Inteligente: 160px -->
+    <rect x="15" y="334" width="460" height="75" rx="4" fill="#151e32" stroke="#10b981" stroke-width="1"/>
+    <rect x="15" y="334" width="460" height="24" rx="4" fill="#1e293b"/>
+    <text x="30" y="350" fill="#38bdf8" font-size="9" font-weight="700">Dispositivos (12)</text>
+    <text x="110" y="350" fill="#94a3b8" font-size="9">Racks (2)</text>
+    <text x="160" y="350" fill="#94a3b8" font-size="9">Conexiones (18)</text>
+    <text x="245" y="380" fill="#86efac" font-size="10" font-weight="600" text-anchor="middle">Altura elastica 160px: maximiza espacio vertical en laptops 768px</text>
+  </g>
+
+  <!-- ==================== TARJETAS INFERIORES ==================== -->
+  <g transform="translate(30, 545)">
+    <rect x="0" y="0" width="245" height="110" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <text x="20" y="30" fill="#f8fafc" font-size="13" font-weight="700">1. Drawer Colapsable</text>
+    <text x="20" y="48" fill="#38bdf8" font-size="10.5">En anchos &lt;= 1280px</text>
+    <text x="20" y="72" fill="#94a3b8" font-size="11">El panel derecho se contrae a 26px</text>
+    <text x="20" y="88" fill="#94a3b8" font-size="11">Recupera 274px limpios para gabinetes</text>
+
+    <rect x="265" y="0" width="245" height="110" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <text x="285" y="30" fill="#f8fafc" font-size="13" font-weight="700">2. Toolbar Adaptativo</text>
+    <text x="285" y="48" fill="#10b981" font-size="10.5">Iconos y elipsis dinamica</text>
+    <text x="285" y="72" fill="#94a3b8" font-size="11">Buscador compacto expandible</text>
+    <text x="285" y="88" fill="#94a3b8" font-size="11">Botones compactos sin desbordar</text>
+
+    <rect x="530" y="0" width="245" height="110" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <text x="550" y="30" fill="#f8fafc" font-size="13" font-weight="700">3. Altura de Racks</text>
+    <text x="550" y="48" fill="#f59e0b" font-size="10.5">Optimizacion para 768px</text>
+    <text x="550" y="72" fill="#94a3b8" font-size="11">Bottom panel calibra a 160px</text>
+    <text x="550" y="88" fill="#94a3b8" font-size="11">&gt;500px libres para racks 42U</text>
+
+    <rect x="795" y="0" width="245" height="110" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="815" y="30" fill="#86efac" font-size="13" font-weight="700">4. Cierre Fase 3 (100%)</text>
+    <text x="815" y="48" fill="#10b981" font-size="10.5">9 de 9 tareas listas</text>
+    <text x="815" y="72" fill="#94a3b8" font-size="11">Culmina Fase 3 de navegacion</text>
+    <text x="815" y="88" fill="#94a3b8" font-size="11">Progreso global sube a 90.5%</text>
+  </g>
+</svg>

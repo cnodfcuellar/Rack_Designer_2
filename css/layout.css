@@ -4,7 +4,7 @@
 #app {
   display: grid;
   grid-template-rows: var(--header-h) minmax(0, 1fr) auto;
-  grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w);
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) var(--right-panel-w);
   grid-template-areas:
     "header header header"
     "sidebar main right-panel"
@@ -12,6 +12,10 @@
   height: 100vh;
   overflow: hidden;
   transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#app.right-panel-collapsed {
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) 0px;
 }
 
 #header {
@@ -50,6 +54,19 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 90;
+  width: var(--right-panel-w);
+  min-width: 0;
+  max-width: var(--right-panel-w);
+  box-sizing: border-box;
+  transition: opacity 0.25s ease, border-color 0.25s ease;
+}
+
+#app.right-panel-collapsed #right-panel {
+  opacity: 0;
+  pointer-events: none;
+  border-left-color: transparent;
+  width: 0;
+  max-width: 0;
 }
 
 .right-panel-section {
@@ -57,8 +74,12 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: flex 0.2s ease;
   min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  transition: flex 0.2s ease;
 }
 
 .right-panel-section.collapsed {
@@ -986,64 +1007,197 @@
 }
 
 /* ============================================================
+   LAPTOP & COMPACT DESKTOP (1024px – 1366px) — M-25A (Paso 1: Cabecera)
+============================================================ */
+@media (max-width: 1366px) {
+  .header-logo-area {
+    width: 260px;
+    padding: 0 16px;
+  }
+
+  .header-main-area {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .nav-dropdown-toggle {
+    max-width: clamp(100px, 11vw, 150px);
+    padding: 0 8px;
+  }
+
+  .view-tab {
+    padding: 5px 12px;
+  }
+
+  .h-search {
+    min-width: 32px;
+  }
+
+  .h-search input {
+    width: 140px;
+    padding: 4px 8px 4px 26px;
+  }
+
+  .h-search input:focus {
+    width: 200px;
+  }
+
+  .h-search::before {
+    left: 8px;
+  }
+
+  #btn-theme-toggle #theme-toggle-label {
+    display: none;
+  }
+
+  #btn-theme-toggle {
+    padding: 4px 8px !important;
+  }
+
+  .h-btn {
+    padding: 5px 10px;
+  }
+
+  /* M-25A Paso 3: Optimización de altura y toolbar para Panel Inferior (#bottom) */
+  #bottom {
+    height: 200px;
+  }
+
+  .bottom-header {
+    padding: 0 10px;
+    gap: 6px;
+    overflow: visible !important;
+    position: relative;
+    z-index: 100;
+  }
+
+  .bottom-header .btn-primary,
+  .bottom-header .h-btn {
+    white-space: nowrap !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    flex-shrink: 0;
+  }
+
+  .tab-pill {
+    padding: 4px 8px;
+    font-size: 11px;
+    white-space: nowrap !important;
+    flex-shrink: 0;
+  }
+
+  .table-search-wrap input#table-search {
+    width: 130px !important;
+    min-width: 110px !important;
+    flex-shrink: 0;
+  }
+  .table-search-wrap input#table-search:focus {
+    width: 145px !important;
+  }
+
+  /* M-25A: Modo icono compacto en la barra de herramientas principal para laptops */
+  .main-toolbar #btn-export-png .btn-text,
+  .main-toolbar #btn-expand-main .btn-text,
+  .main-toolbar #btn-toggle-right-panel .btn-text,
+  .main-toolbar #btn-topo-autoorder .btn-text,
+  .main-toolbar #btn-topo-style .btn-text {
+    display: none !important;
+  }
+
+  .main-toolbar #btn-export-png i,
+  .main-toolbar #btn-expand-main i,
+  .main-toolbar #btn-toggle-right-panel svg,
+  .main-toolbar #btn-topo-autoorder i,
+  .main-toolbar #btn-topo-style i {
+    margin-right: 0 !important;
+  }
+}
+
+/* M-25A: En pantallas estrechas (<= 1100px), colapsar también Trazar Cable, Cables, Ranuras y Rol de Usuario */
+@media (max-width: 1100px) {
+  .main-toolbar #btn-cable-mode .btn-text,
+  .main-toolbar #btn-toggle-cables .btn-text {
+    display: none !important;
+  }
+
+  .main-toolbar #btn-cable-mode i,
+  .main-toolbar #btn-toggle-cables i {
+    margin-right: 0 !important;
+  }
+
+  /* Colapsar texto de badge de usuario a solo icono en pantallas reducidas */
+  #user-badge .badge-text {
+    display: none !important;
+  }
+
+  #user-badge i {
+    margin-right: 0 !important;
+  }
+
+  #user-badge {
+    padding: 3px 6px !important;
+  }
+
+  /* Colapsar los 5 botones de slots de topología a un botón chip desplegable */
+  #topo-slots-bar,
+  .topo-slots-group .topo-slots-divider {
+    display: none !important;
+  }
+
+  .topo-slots-group .topo-slots-compact-only {
+    display: inline-flex !important;
+  }
+
+  .topo-slots-group {
+    padding: 2px 4px !important;
+    cursor: pointer;
+  }
+}
+
+/* Ocultar texto de pestañas de vista al reducir la ventana */
+@media (max-width: 1200px) {
+  .view-tab {
+    padding: 5px 8px;
+  }
+
+  .view-tab .view-tab-label {
+    display: none;
+  }
+
+  /* M-25A Paso 3.4: Modo icono compacto para botones secundarios del panel inferior */
+  #btn-expand-bottom .btn-text,
+  #btn-columns-menu .btn-text,
+  #btn-export-menu .btn-text {
+    display: none !important;
+  }
+
+  #btn-expand-bottom i,
+  #btn-columns-menu i,
+  #btn-export-menu svg {
+    margin-right: 0 !important;
+  }
+}
+
+/* M-25A Paso 3.4: Modo icono para pestañas y acciones principales en pantallas estrechas */
+@media (max-width: 980px) {
+  .bottom-header .tab-pill .btn-text,
+  #table-btn-add-device .btn-text,
+  #table-btn-add-conn .btn-text {
+    display: none !important;
+  }
+
+  .bottom-header .tab-pill svg,
+  #table-btn-add-device svg,
+  #table-btn-add-conn i {
+    margin-right: 0 !important;
+  }
+}
+
+/* ============================================================
    TABLET RESPONSIVENESS (1024px)
 ============================================================ */
 @media (max-width: 1024px) {
-  #app {
-    grid-template-columns: 60px 1fr;
-  }
-
-  .sb-title,
-  .cap-bar-wrap,
-  .stat-pill .value {
-    display: none;
-  }
-
-  .sb-stats {
-    flex-direction: column;
-  }
-
-  .sb-actions {
-    grid-template-columns: 1fr;
-  }
-
-  #btn-add-rack,
-  #btn-add-device-modal {
-    font-size: 0;
-    padding: 0;
-  }
-
-  #btn-add-rack::before {
-    content: "+R";
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  #btn-add-device-modal::before {
-    content: "+E";
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .cat-info,
-  .cat-size {
-    display: none;
-  }
-
-  .sb-search,
-  .sb-filter-tabs {
-    display: none;
-  }
-
-  .catalog-item {
-    justify-content: center;
-    padding: 6px;
-  }
-
-  .cat-icon {
-    width: 40px;
-    height: 40px;
-  }
+  /* Mantener sidebar fijo con dimensiones consistentes */
 }
 
 /* ============================================================
@@ -1330,16 +1484,16 @@
 }
 
 /* Normalizacion matematica estricta segun DESIGN.md */
-.btn-primary,
-.btn-secondary,
-.tab-pill,
-.h-btn,
-.room-tab,
-.view-tab,
-.filter-tab,
-.room-tab-add,
-.btn-cancel,
-.btn-confirm {
+.btn-primary:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.btn-secondary:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.tab-pill:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.h-btn:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.room-tab:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.view-tab:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.filter-tab:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.room-tab-add:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.btn-cancel:not(.hidden):not(.force-hide):not([style*="display: none"]),
+.btn-confirm:not(.hidden):not(.force-hide):not([style*="display: none"]) {
   height: 24px !important;
   padding: 0 10px !important;
   box-sizing: border-box !important;
@@ -1348,11 +1502,11 @@
   justify-content: center !important;
 }
 
-input[type="text"],
+input[type="text"]:not(#table-search),
 input[type="number"],
 input[type="password"],
 select,
-.bottom-header input {
+.bottom-header input:not(#table-search) {
   height: 24px !important;
   padding: 0 8px !important;
   line-height: 22px !important;
@@ -1410,12 +1564,20 @@ details[open]>.outliner-summary::before {
   transform: rotate(90deg);
 }
 
-/* Summary row layout */
+/* Summary row layout con altura y ancho inmutables */
 .outliner-summary {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 4px;
+  padding: 0 4px;
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box !important;
+  overflow: hidden;
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
@@ -1453,12 +1615,20 @@ details[open]>.outliner-summary::before {
   opacity: 0.85;
 }
 
-/* Device list item */
+/* Device list item con altura y ancho inmutables */
 .outliner-device {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 4px;
+  padding: 0 4px;
+  height: 22px !important;
+  min-height: 22px !important;
+  max-height: 22px !important;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box !important;
+  overflow: hidden;
   border-radius: 4px;
   font-size: 12px;
   color: var(--text-muted);
@@ -1476,29 +1646,58 @@ details[open]>.outliner-summary::before {
   height: 11px;
 }
 
+/* Protección de textos dentro de outliner para garantizar elipsis y evitar jank */
+.outliner-summary > div,
+.outliner-device > div {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.outliner-summary > div > span,
+.outliner-device > div > span {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+
 /* ============================================================
-   SIDEBAR ICONS & FLYOUT
+   SIDEBAR UNIFICADO & CATÁLOGO (DINÁMICO: 50px <-> 260px)
 ============================================================ */
 #sidebar {
   display: flex;
-  flex-direction: column;
-  width: 50px;
+  flex-direction: row;
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  max-width: var(--sidebar-w);
+  height: 100%;
   grid-area: sidebar;
-  justify-self: start;
   background: var(--bg-card);
   border-right: 1px solid var(--border);
-  z-index: 10;
+  z-index: 90;
+  overflow: hidden;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-icons {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 100%;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
   padding: 10px 0;
-  width: 100%;
   align-items: center;
   overflow-y: auto;
+  border-right: 1px solid var(--border);
+  background: var(--bg-card1);
+  flex-shrink: 0;
 }
 
 .sidebar-icons::-webkit-scrollbar {
@@ -1506,8 +1705,8 @@ details[open]>.outliner-summary::before {
 }
 
 .sb-category-btn {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius);
   background: transparent;
   border: 1px solid transparent;
@@ -1515,37 +1714,43 @@ details[open]>.outliner-summary::before {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.1s;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .sb-category-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border-color: var(--border);
 }
 
 .sb-category-btn.active {
   background: var(--bg-card2);
   border-color: var(--accent);
+  box-shadow: inset 0 0 8px var(--accent-glow);
 }
 
-/* Catalog Flyout */
+/* Catalog Panel integrado en sidebar */
 .catalog-flyout {
-  grid-area: sidebar;
-  justify-self: end;
+  position: static;
+  flex: 1;
   width: 210px;
+  min-width: 210px;
+  max-width: 210px;
   height: 100%;
   background: var(--bg-card);
-  border-right: 1px solid var(--border);
-  z-index: 50;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
+  overflow: hidden;
+  box-shadow: none;
+  border: none;
+  z-index: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* Estado contraído del catálogo */
+#sidebar.collapsed .catalog-flyout,
 .catalog-flyout.hidden {
-  transform: translateX(-10px);
-  opacity: 0;
-  pointer-events: none;
+  display: none !important;
 }
 
 .flyout-header {

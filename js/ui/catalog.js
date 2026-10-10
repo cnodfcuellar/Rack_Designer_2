@@ -134,7 +134,7 @@ const CATALOG_GROUPS = [
 ];
 window.CATALOG_GROUPS = CATALOG_GROUPS;
 
-let currentFlyoutCategory = null;
+let currentFlyoutCategory = 'all';
 
 function renderCategoryIcons() {
   const container = document.getElementById('sidebar-category-icons');
@@ -148,7 +148,7 @@ function renderCategoryIcons() {
       svgIcon = `<i class="svg-icon icon-${group.icon}"></i>`;
     }
     
-    const isActive = currentFlyoutCategory === group.id;
+    const isActive = (currentFlyoutCategory || 'all') === group.id;
     return `
       <div class="sb-category-btn ${isActive ? 'active' : ''}" 
            data-category="${escapeHTML(group.id)}" 
@@ -164,7 +164,9 @@ function renderCategoryIcons() {
   container.querySelectorAll('.sb-category-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const cat = btn.dataset.category;
-      if (currentFlyoutCategory === cat) {
+      const sidebar = document.getElementById('sidebar');
+      const isCollapsed = sidebar && sidebar.classList.contains('collapsed');
+      if (!isCollapsed && currentFlyoutCategory === cat) {
         closeFlyout();
       } else {
         openFlyout(cat);
@@ -174,25 +176,32 @@ function renderCategoryIcons() {
 }
 
 function openFlyout(category) {
+  currentFlyoutCategory = category || 'all';
   document.documentElement.style.setProperty('--sidebar-w', '260px');
-  setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
-  currentFlyoutCategory = category;
+  const sidebar = document.getElementById('sidebar');
   const flyout = document.getElementById('catalog-flyout');
-  const title = document.getElementById('flyout-title');
-  const group = CATALOG_GROUPS.find(g => g.id === category);
-  if (title) title.textContent = group ? group.name.toUpperCase() : category.toUpperCase();
+  if (sidebar) sidebar.classList.remove('collapsed');
   if (flyout) flyout.classList.remove('hidden');
+  
+  const title = document.getElementById('flyout-title');
+  const group = CATALOG_GROUPS.find(g => g.id === currentFlyoutCategory);
+  if (title) title.textContent = group ? group.name.toUpperCase() : 'TODOS LOS EQUIPOS';
+  
   renderCategoryIcons();
   renderCatalog();
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 260);
 }
 
 function closeFlyout() {
-  document.documentElement.style.setProperty('--sidebar-w', '50px');
-  setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
   currentFlyoutCategory = null;
+  document.documentElement.style.setProperty('--sidebar-w', '50px');
+  const sidebar = document.getElementById('sidebar');
   const flyout = document.getElementById('catalog-flyout');
-  if(flyout) flyout.classList.add('hidden');
+  if (sidebar) sidebar.classList.add('collapsed');
+  if (flyout) flyout.classList.add('hidden');
+  
   renderCategoryIcons();
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 260);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

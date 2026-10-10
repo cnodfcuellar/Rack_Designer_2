@@ -86,18 +86,46 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   border-color: var(--accent);
 }
 
-/* Inline hover actions for Outliner nodes (M-23) */
+/* Inline hover actions for Outliner nodes (M-23) con protección visual en ventanas compactas */
+#outliner-tree {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-light) transparent;
+}
+
+#outliner-tree::-webkit-scrollbar {
+  width: 5px;
+}
+
+#outliner-tree::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#outliner-tree::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}
+
 .outliner-summary,
 .outliner-device {
   position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+  padding-right: 6px;
 }
 
 .outliner-node-actions {
   display: none;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   margin-left: auto;
-  padding-right: 2px;
+  flex-shrink: 0;
+  padding: 1px 4px 1px 6px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  box-shadow: -6px 0 10px var(--bg-card);
+  z-index: 2;
 }
 
 .outliner-summary:hover .outliner-node-actions,
@@ -110,7 +138,9 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   border: none;
   color: var(--text-muted);
   cursor: pointer;
-  padding: 2px 4px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
   border-radius: 3px;
   font-size: 11px;
   line-height: 1;
@@ -118,15 +148,17 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .outliner-action-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   color: var(--text-primary);
+  transform: scale(1.1);
 }
 
 .outliner-action-btn.btn-del:hover {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.25);
   color: var(--red);
 }
 
@@ -361,23 +393,163 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 8px;
+  margin-top: 4px;
   width: 290px;
   max-width: 90vw;
   max-height: 165px;
   display: flex;
   flex-direction: column;
   z-index: 9999;
-  background: var(--bg-panel);
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.25);
   padding: 0;
   overflow: hidden;
 }
 
-#bottom.fullscreen #columns-dropdown {
+#export-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  width: 235px;
+  max-width: 90vw;
+  max-height: 155px;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.25);
+  padding: 4px 0;
+  overflow-y: auto;
+}
+
+#export-dropdown .dropdown-item {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+#export-dropdown .dropdown-item:hover {
+  background: var(--bg-card2);
+  color: var(--accent);
+}
+
+#export-dropdown .dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 3px 0;
+}
+
+#bottom.fullscreen #columns-dropdown,
+#bottom.fullscreen #export-dropdown {
   max-height: 380px;
+}
+
+/* ============================================================
+   TABLE SEARCH FILTER BAR (M-25A PASO 3.3)
+============================================================ */
+.table-search-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 1;
+}
+
+.table-search-wrap::before {
+  content: none !important;
+  display: none !important;
+}
+
+.table-search-wrap input#table-search {
+  height: 24px !important;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 0 22px 0 26px !important;
+  line-height: 22px !important;
+  border-radius: var(--radius);
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box !important;
+  width: 150px;
+}
+
+.table-search-wrap input#table-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+  width: 175px;
+}
+
+#table-search-clear {
+  position: absolute;
+  right: 5px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+
+#table-search-clear:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+#table-search-clear.hidden {
+  display: none !important;
+}
+
+/* ============================================================
+   BOTTOM PANEL DRAG-TO-RESIZE (M-25A PASO 3.5)
+============================================================ */
+.bottom-resizer {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: row-resize;
+  z-index: 105;
+  background: transparent;
+  transition: background 0.15s ease;
+}
+
+.bottom-resizer:hover,
+.bottom-resizer.is-resizing {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+#bottom {
+  position: relative;
+}
+
+#bottom.collapsed .bottom-resizer,
+#bottom.fullscreen .bottom-resizer {
+  display: none !important;
 }
 
 .columns-dropdown-header {

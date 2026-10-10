@@ -165,22 +165,27 @@ function renderBottomPanel() {
   if(!wrap) return;
   const searchInput = document.getElementById('table-search');
   const query = searchInput ? searchInput.value.toLowerCase() : '';
+  const searchClear = document.getElementById('table-search-clear');
+  if (searchClear && searchInput) {
+    if (searchInput.value.trim().length > 0) {
+      searchClear.classList.remove('hidden');
+    } else {
+      searchClear.classList.add('hidden');
+    }
+  }
   
   const btnDev = document.getElementById('table-btn-add-device');
-  const btnQP = document.getElementById('table-btn-add-placement');
   const btnConn = document.getElementById('table-btn-add-conn');
   
   updateColumnsBadge();
 
   if (activeTab === 'inventory') {
-    if (btnDev) btnDev.style.display = 'block';
-    if (btnQP) btnQP.style.display = 'block';
-    if (btnConn) btnConn.style.display = 'none';
+    if (btnDev) { btnDev.style.display = 'inline-flex'; btnDev.classList.remove('hidden'); }
+    if (btnConn) { btnConn.style.display = 'none'; btnConn.classList.add('hidden'); }
     renderInventoryTable(wrap, query);
   } else {
-    if (btnDev) btnDev.style.display = 'none';
-    if (btnQP) btnQP.style.display = 'none';
-    if (btnConn) btnConn.style.display = 'block';
+    if (btnDev) { btnDev.style.display = 'none'; btnDev.classList.add('hidden'); }
+    if (btnConn) { btnConn.style.display = 'inline-flex'; btnConn.classList.remove('hidden'); }
     renderConnectionsTable(wrap, query);
   }
 }
