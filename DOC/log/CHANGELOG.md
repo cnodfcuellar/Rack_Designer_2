@@ -1,3 +1,28 @@
+## [2026-10-10] Gestión de Proyecto — Cierre y Archivo Histórico de la Lista de Mejoras (mejoras.md)
+
+### 📁 Archivo Histórico y Eliminación de Lista Activa
+- **Archivo Preservado:**
+  - El catálogo histórico completo de las 41 propuestas de mejora (M-01 a M-41) fue resguardado formalmente en [doc/doc_md/historico/mejoras_archivadas.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md).
+- **Limpieza de Raíz y Reglas de Agente:**
+  - Se eliminó el archivo `mejoras.md` de la raíz del espacio de trabajo.
+  - Se removió la regla de recordatorio automático de inicio en [.agents/AGENTS.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/.agents/AGENTS.md), concluyendo el ciclo de mejoras pendientes.
+- **Sincronización del Memory Bank:**
+  - Actualizados [memory-bank/activeContext.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/activeContext.md) y [memory-bank/progress.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/progress.md) reflejando el cierre del ciclo de mejoras.
+
+## [2026-10-10] Topología — Menú de Vistas Guardadas Anclado Debajo del Botón sin Invadir el Inspector
+
+### 💾 Alineación Directa de Vistas Guardadas (#topo-slots-dropdown) bajo el Botón de Disquete
+- **Causa Raíz Diagnosticada:**
+  - En [css/components/panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css), persistía una regla `@media (min-width: 769px) { #topo-slots-dropdown { right: 0 !important; left: auto !important; } }` que forzaba al menú a ubicarse en el margen derecho absoluto del viewport (`right: 0px`).
+  - Al abrirse en resoluciones mayores a 768px con el panel derecho (Inspector / Outliner) desplegado, el menú de gestión de vistas quedaba incrustado detrás o encima del Inspector, en lugar de renderizarse bajo el grupo de slots.
+- **Solución y Anclaje Geométrico:**
+  - **Eliminación de `right: 0 !important`:** Se purgó la regla conflictiva en [css/components/panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css).
+  - **Cálculo de Espacio Disponible:** En [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js), `positionToolbarDropdown()` calcula dinámicamente el límite del canvas (`maxRight`) detectando el borde izquierdo de `#right-panel`.
+  - **Alineación Inteligente:** El menú se ancla a `left: rect.left` (directamente debajo del botón del disquete). Si desborda el límite hacia la derecha, se alinea por su borde derecho (`left = rect.right - menuWidth`) garantizando que permanezca siempre 100% visible en el lienzo principal y nunca detrás del Inspector.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ampliada a **398/398 pruebas aprobadas (100%)** con aserciones para verificar ausencia de `right: 0` y presencia de `positionToolbarDropdown`.
+  - Cache-busting actualizado a `v=56` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v52` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+
 ## [2026-10-10] Documentación — Sincronización Exhaustiva del Estado Actual y Especificaciones de Medidas Móviles
 
 ### 📐 Planos Vectoriales SVG de Ingeniería y Cotas Técnicas del Modo Móvil

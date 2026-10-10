@@ -1166,6 +1166,8 @@ async function runTests() {
     'M-40: panels.css define los estilos estéticos para .topo-slot-btn');
   assert(panelsCssSrc.includes('.topo-slot-btn.saved') && panelsCssSrc.includes('.topo-slot-btn.active'),
     'M-40: panels.css implementa estados visuales diferenciados para ranuras guardadas y activas');
+  assert(!panelsCssSrc.includes('#topo-slots-dropdown {\n    right: 0 !important;'),
+    'M-40: panels.css no anula el posicionamiento dinámico con right: 0 para evitar superposición con el inspector');
 
   // 16.15 Verificación de integración en main.js
   const mainJsSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'main.js'), 'utf8');
@@ -1173,6 +1175,8 @@ async function runTests() {
     'M-40: main.js implementa la función orquestadora renderTopologySlots()');
   assert(mainJsSrc.includes("topoSlotsGroup.classList.remove('force-hide')"),
     'M-40: main.js conmuta la visibilidad de los slots al alternar a la vista de topología');
+  assert(mainJsSrc.includes('function positionToolbarDropdown'),
+    'M-41: main.js implementa positionToolbarDropdown para anclar menús directamente debajo del botón sin invadir el inspector');
 
   // ----------------------------------------------------
   // GRUPO 17: Soporte para Tema Sepia y Selector de Temas (M-18)

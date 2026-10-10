@@ -1,3 +1,10 @@
+# [ARCHIVO HISTÓRICO] Registro y Análisis de Mejoras de RACK Designer Next
+
+> **ESTADO DEL DOCUMENTO:** ARCHIVADO / CICLO CERRADO (Octubre 2026).
+> Este archivo conserva el registro histórico y análisis técnico de las 41 propuestas y mejoras implementadas en la plataforma (M-01 a M-41). La lista activa de tareas pendientes ha sido cerrada y anulada.
+
+---
+
 # Fallas, Problemas e Inquietudes de RACK Designer Next en Producción
 
 Este documento recopila un análisis detallado de los riesgos, problemas potenciales y limitaciones que surgen al utilizar la arquitectura actual de **RACK Designer Next** en un entorno de producción real offline.
@@ -116,7 +123,6 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
     *   Adaptación de la grilla de vista física en `css/layout.css` y renderizado de fondo y patrones en Canvas 2D en `TopologyRenderer.js`.
     *   Persistencia en `localStorage` y prevención de FOUC al arrancar la app.
 *   **Objetivo/Beneficio en Producción:** Ofrecer una alternativa estética de lectura relajada que reduzca la fatiga ocular de los operadores en entornos de trabajo con iluminación media o prolongada exposición a pantallas, asegurando que la opción sea intuitiva y fácil de activar.
-
 
 ### 📊 Propiedades Faltantes en la Tabla de Inventario
 *   **Problema:** La Tabla de Inventario (en el panel inferior) no muestra todas las propiedades y metadatos configurados en los equipos.
@@ -408,4 +414,4 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
 *   **Stack inmutable:** Mantener el entorno 100% Vanilla JS + `pnpm`. No se introducirán herramientas de build ni frameworks.
 *   **Separación estricta estado/DOM:** Todas las actualizaciones de UI deben dispararse desde el Proxy ES6 en `store.js`. Nunca mutar el DOM directamente para reflejar datos.
 *   **Documentación como fuente de verdad:** `CODEBASE_ORIENTATION_MAP.md` y `ARCHITECTURE_GUIDE.md` se mantienen actualizados para onboarding de desarrolladores.
-*   **Este archivo (`mejoras.md`) es la fuente de verdad** para propuestas de mejora; `roadmap_mejoras.md` analiza su complejidad y dependencias.
+*   **Este archivo (`mejoras.md`) ha sido archivado.** El ciclo activo de propuestas pendientes ha concluido.

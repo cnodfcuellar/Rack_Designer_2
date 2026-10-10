@@ -173,6 +173,8 @@ Para evitar que los desplegables queden recortados por la cabecera del panel inf
 | **Botón Limpiar (`✕`)** | `#table-search-clear` | Dentro del popover | **`24px`** | **`24px`** | — |
 | **Menú Columnas** | `#columns-dropdown` | `fixed; bottom: 46px; right: 12px;` | máx `calc(100vw - 24px)` | máx `60vh` | **`10001`** |
 | **Menú Exportar** | `#export-dropdown` | `fixed; bottom: 46px; right: 12px;` | máx `calc(100vw - 24px)` | auto | **`10001`** |
+| **Menú Estilo Topología** | `#topo-style-dropdown` | `fixed; top: 100px; left: 50%; -50%` | máx **`340px`** | máx `calc(100vh - 120px)` | **`10001`** |
+| **Menú Vistas Guardadas (M-40)** | `#topo-slots-dropdown` | `fixed; top: 100px; left: 50%; -50%` | máx **`340px`** | máx `calc(100vh - 120px)` | **`10001`** |
 
 ---
 

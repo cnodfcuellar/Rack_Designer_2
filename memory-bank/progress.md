@@ -26,13 +26,9 @@
 ## Current Issues & Technical Debt
 - Ninguna falla crítica activa.
 
-## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 3 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (39 de 42 completadas, 92.8% global; **Fases 0, 1, 2, 3, 4 y 5 al 100%**):
-
-### Fase 6 — Experiencia Premium
-- Flexibilidad de ubicación sin restricciones arbitrarias (`M-35`).
-- Resolución de conflictos multiusuario (`M-07`).
-- Mejoras táctiles avanzadas en topología móvil (gestos multitáctiles pan/pinch).
+## What's Left to Build / Estado de Tareas
+- **Roadmap de Mejoras:** El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido cerrado y formalmente archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md).
+- **Estado Actual:** La aplicación se encuentra en un estado maduro y estable con 398 pruebas automatizadas al 100% de éxito, todas las fases operativas completadas e interfaces adaptativas en escritorio y móvil completamente implementadas. Nuevos desarrollos se abordarán bajo demanda del usuario.
 
 ---
 

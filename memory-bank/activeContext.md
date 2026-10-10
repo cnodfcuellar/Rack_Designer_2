@@ -10,16 +10,20 @@ El sistema cuenta ahora con:
 - Scroll horizontal táctil fluido en la cabecera inferior (`.bottom-header`) con scrollbar delgada de 4px y menús desacoplados (`position: fixed`).
 - Todas las ventanas modales adaptadas al 100% para móviles (≤ 768px y ≤ 480px), eliminando transparencias con fondo sólido `var(--bg-card)` y colapsando formularios a 1 columna.
 
-El foco activo continúa en el avance de las propuestas de mejora documentadas en [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) y [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md).
+El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido formalmente concluido y archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md). El archivo activo de la raíz ha sido eliminado y se retiraron las reglas de recordatorio automático en `.agents/AGENTS.md`.
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-10] Cierre y Archivo Histórico de Mejoras (mejoras.md):**
+  - Archivo histórico resguardado en `doc/doc_md/historico/mejoras_archivadas.md`.
+  - Eliminación de `mejoras.md` en la raíz.
+  - Eliminación del recordatorio de inicio en `.agents/AGENTS.md`.
 - **[2026-10-10] Implementación de Modo Móvil Integral y Optimización Responsiva (M-25A / M-25B):**
   - **Cajones Laterales Móviles:** Off-Canvas Drawers para Catálogo (`#sidebar`) e Inspector (`#right-panel`) con backdrop interactivo `#mobile-overlay`.
   - **Hoja Inferior Táctil (Bottom Sheet):** `#bottom` compacto a 38px por defecto con expansión suave a 72vh al pulsar pestañas, tirador o botón `▲`.
   - **Filtro de Lupa en Barra Inferior:** `#btn-toggle-table-search` con popover flotante anclado, filtrado reactivo y botón de limpieza `✕`.
   - **Scroll Horizontal Táctil en Cabecera Inferior:** `overflow-x: auto` con scrollbar delgada y desacoplamiento de menús flotantes (`position: fixed`).
   - **Modales 100% Opacos y Responsivos:** Sustitución de `var(--bg-panel)` por `var(--bg-card)` (eliminando transparencias), `min-width: 0 !important`, y colapso de grids a 1 columna.
-  - **Testing Automatizado:** Grupo 25 incorporado con 15 nuevas pruebas en `tests/integrity_check.cjs` (396 pruebas al 100% de éxito, 0 fallos).
+  - **Testing Automatizado:** Grupo 25 incorporado con 15 nuevas pruebas en `tests/integrity_check.cjs` (398 pruebas al 100% de éxito, 0 fallos).
 - **[2026-10-09] Implementación de M-33: Cableado Frontal vs. Trasero:**
   - **Extensión del Modelo (`js/store.js`):** Soporte de `sourceSide` y `targetSide` en conexiones, método `isPortOccupied` con discriminación de cara `portSide`, validación de colisiones con etiquetas de cara (`[Frontal]` / `[Trasero]`), método `swapConnectionDirection` con transposición simétrica de caras y `getDevicePorts` con atributo `side`.
   - **Formulario Interactivo (`index.html` y `CableModal.js`):** Selectores `#cable-src-side` y `#cable-dst-side`, sincronización automática según `mountSide`, soporte en botón Swap `#btn-cable-swap` y badges de estado en el selector de puertos.
@@ -28,13 +32,8 @@ El foco activo continúa en el avance de las propuestas de mejora documentadas e
   - **Testing Automatizado:** Grupo 23 incorporado con 10 nuevas pruebas en `tests/integrity_check.cjs` y `tests/index.html` (370 pruebas al 100% de éxito).
 
 ## Next Steps
-Continuar con el roadmap técnico ([`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) / [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md)):
-1. **Fase 3 — Ergonomía y Layout:**
-   - **M-25A:** Optimización adaptativa y responsive para pantallas de Desktop y Laptops medianas (1024px – 1366px).
-2. **Fase 6 — Colaboración y Resiliencia:**
-   - **M-35:** Flexibilidad de ubicación sin restricciones arbitrarias (Rack vs Piso/Frente).
-   - **M-07:** Resolución de conflictos multiusuario y versionado de proyectos.
-   - **M-25B:** Modo móvil y tablet (Standby / Baja prioridad).
+1. Mantenimiento del sistema y atención a nuevos requerimientos funcionales del usuario.
+2. Preservar la integridad del 100% en la suite de 398 pruebas automatizadas.
 
 ## Active Decisions & Considerations
 - **100% Vanilla JS + CSS3 + HTML5:** Arquitectura reactiva con Proxy nativo ES6 sin dependencias de compilación.

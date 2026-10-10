@@ -616,6 +616,49 @@ function initGlobalEvents() {
     });
   }
 
+  // M-41: Posicionamiento flotante desacoplado para menús de topología (.main-toolbar)
+  function positionToolbarDropdown(dropdown, triggerBtn) {
+    if (!dropdown || !triggerBtn || dropdown.classList.contains('hidden')) return;
+    if (window.innerWidth <= 768) {
+      dropdown.style.top = 'calc(var(--header-h, 56px) + 44px)';
+      dropdown.style.left = '50%';
+      dropdown.style.right = 'auto';
+      dropdown.style.transform = 'translateX(-50%)';
+      dropdown.style.margin = '0';
+      return;
+    }
+
+    const rect = triggerBtn.getBoundingClientRect();
+    const menuWidth = dropdown.offsetWidth || (dropdown.id === 'topo-slots-dropdown' ? 320 : 250);
+    
+    // Detectar si el panel derecho (Inspector/Outliner) está visible para no invadir su área
+    const rightPanel = document.getElementById('right-panel');
+    const appEl = document.getElementById('app');
+    const isRightPanelOpen = rightPanel && 
+      rightPanel.offsetWidth > 0 && 
+      !(appEl && appEl.classList.contains('right-panel-collapsed'));
+    
+    const maxRight = (isRightPanelOpen && rightPanel.getBoundingClientRect().left > 100)
+      ? rightPanel.getBoundingClientRect().left - 12
+      : window.innerWidth - 12;
+
+    dropdown.style.top = `${Math.round(rect.bottom + 6)}px`;
+    dropdown.style.transform = 'none';
+    dropdown.style.margin = '0';
+
+    let left = rect.left;
+    // Si desborda el límite disponible del canvas, alinear por la derecha del botón o ajustar
+    if (left + menuWidth > maxRight) {
+      left = Math.max(12, rect.right - menuWidth);
+      if (left + menuWidth > maxRight) {
+        left = Math.max(12, maxRight - menuWidth);
+      }
+    }
+
+    dropdown.style.left = `${Math.round(left)}px`;
+    dropdown.style.right = 'auto';
+  }
+
   if (btnTopoStyle && topoDropdown) {
     btnTopoStyle.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -627,6 +670,7 @@ function initGlobalEvents() {
         syncTopoStyleUI();
         topoDropdown.classList.remove('hidden');
         btnTopoStyle.setAttribute('aria-expanded', 'true');
+        positionToolbarDropdown(topoDropdown, btnTopoStyle);
       }
     });
 
@@ -647,6 +691,17 @@ function initGlobalEvents() {
         btnTopoStyle.setAttribute('aria-expanded', 'false');
       }
     });
+
+    window.addEventListener('resize', () => {
+      positionToolbarDropdown(topoDropdown, btnTopoStyle);
+    });
+
+    const tbEl = document.querySelector('.main-toolbar');
+    if (tbEl) {
+      tbEl.addEventListener('scroll', () => {
+        positionToolbarDropdown(topoDropdown, btnTopoStyle);
+      }, { passive: true });
+    }
   }
 
   if (btnOptCard) {
@@ -903,6 +958,7 @@ function initGlobalEvents() {
         renderTopologySlots();
         topoSlotsDropdown.classList.remove('hidden');
         btnTopoSlotsMenu.setAttribute('aria-expanded', 'true');
+        positionToolbarDropdown(topoSlotsDropdown, btnTopoSlotsMenu);
       } else {
         topoSlotsDropdown.classList.add('hidden');
         btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
@@ -934,6 +990,17 @@ function initGlobalEvents() {
         btnTopoSlotsMenu.setAttribute('aria-expanded', 'false');
       }
     });
+
+    window.addEventListener('resize', () => {
+      positionToolbarDropdown(topoSlotsDropdown, btnTopoSlotsMenu);
+    });
+
+    const tbEl = document.querySelector('.main-toolbar');
+    if (tbEl) {
+      tbEl.addEventListener('scroll', () => {
+        positionToolbarDropdown(topoSlotsDropdown, btnTopoSlotsMenu);
+      }, { passive: true });
+    }
   }
 
   if (btnTopoSlotsQuickSave) {

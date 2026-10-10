@@ -666,10 +666,7 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   user-select: none;
 }
 
-#topo-slots-dropdown {
-  right: 0 !important;
-  left: auto !important;
-}
+
 
 .topo-slot-btn {
   width: 22px;

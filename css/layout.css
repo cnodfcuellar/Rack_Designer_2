@@ -269,6 +269,34 @@
   display: none !important;
 }
 
+/* ============================================================
+   TOPOLOGY TOOLBAR DROPDOWNS (Estilo y Slots M-40 / M-41)
+   Desacoplados de .main-toolbar con position: fixed para evitar
+   recortes por overflow-x / overflow-y en desktop y modo móvil
+============================================================ */
+#topo-style-dropdown,
+#topo-slots-dropdown {
+  position: fixed !important;
+  z-index: 10001 !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg, 8px) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75) !important;
+  max-height: calc(100vh - 120px) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+#topo-style-dropdown {
+  width: 250px !important;
+  max-width: calc(100vw - 24px) !important;
+}
+
+#topo-slots-dropdown {
+  width: 320px !important;
+  max-width: calc(100vw - 24px) !important;
+}
+
 .dropdown-item {
   padding: 10px 16px;
   font-family: var(--font-ui);
@@ -1686,6 +1714,23 @@
     bottom: 46px !important;
     right: 12px !important;
     max-width: calc(100vw - 24px) !important;
+    z-index: 10001 !important;
+  }
+
+  /* Dropdowns de Topología flotantes en móvil para evitar recorte por overflow de .main-toolbar */
+  #topo-style-dropdown,
+  #topo-slots-dropdown {
+    position: fixed !important;
+    top: calc(var(--header-h, 56px) + 44px) !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    width: calc(100vw - 24px) !important;
+    max-width: 340px !important;
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
     z-index: 10001 !important;
   }
 
