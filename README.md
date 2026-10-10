@@ -9,7 +9,7 @@
 [![PWA Offline First](https://img.shields.io/badge/PWA-100%25%20Offline-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](service-worker.js)
 [![Web Crypto API](https://img.shields.io/badge/Cifrado-AES--GCM%20%7C%20SHA--256-blue?style=for-the-badge&logo=auth0&logoColor=white)](js/auth/crypto.js)
 [![Canvas 2D](https://img.shields.io/badge/Render-Canvas%202D%20%4060fps-00b4d8?style=for-the-badge)](js/ui/topology/TopologyRenderer.js)
-[![Tests Passing](https://img.shields.io/badge/Tests-360%2F360%20Passing-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white)](tests/index.html)
+[![Tests Passing](https://img.shields.io/badge/Tests-396%2F396%20Passing-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white)](tests/index.html)
 
 ---
 
@@ -136,6 +136,29 @@ El sistema incluye de fábrica demostraciones preconfiguradas para pruebas inmed
 
 ---
 
+### 9. 📱 Modo Móvil y Adaptabilidad PWA (Smartphones y Tablets)
+Experiencia táctil ergonómica y paridad funcional 100% en pantallas móviles (≤ 768px y ≤ 480px):
+- **Plano de Cotas y Medidas de Ingeniería:** Altura de cabecera `56px`, drawers laterales de `280px`, Bottom Sheet expandible de `38px` a `72vh`, racks de `240px` y modales de `96%` con fondo opaco y jerarquía estricta de z-index (`100` a `10001`).
+- **Cajones Laterales Off-Canvas:** Catálogo (`#sidebar`) e Inspector (`#right-panel`) como drawers de `280px` con backdrop interactivo oscuro (`background: rgba(0,0,0,0.55); z-index: 999;`) y apertura mediante botón hamburguesa `☰` o botón `👁`.
+- **Hoja Inferior Táctil (Bottom Sheet):** Panel de datos compacto a `38px` por defecto (dejando >80% de pantalla libre para el rack) con expansión suave a `72vh` (`.sheet-expanded`) al pulsar pestañas o tirador pill.
+- **Filtro de Lupa con Popover Flotante:** `#btn-toggle-table-search` con popover anclado (`position: fixed; z-index: 10001; bottom: 46px; right: 12px;`), autofoco y botón de limpieza `✕`.
+- **Desplazamiento Horizontal Fluido:** Barra inferior con `overflow-x: auto` táctil, scrollbar delgada de 4px y menús desacoplados (`position: fixed`).
+- **Modales 100% Opacos y Responsivos:** Fondo sólido en todos los temas (`var(--bg-card)`), ancho dinámico `width: 96%` y retículas colapsadas a 1 columna.
+
+#### 📐 Plano Técnico de Cotas y Medidas:
+![Cotas y Medidas Modo Móvil](doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
+
+#### 📱 Flujos de Pantalla en 4 Estados Móviles:
+![Modo Móvil 4 Estados](doc/doc_img/doc_svg/layout/layout_mobile_mode.svg)
+
+#### 🌐 Topología Móvil en Canvas 2D:
+![Topología Móvil y Gestos Táctiles](doc/doc_img/doc_svg/layout/layout_mobile_topology.svg)
+
+> 📘 Consulta la especificación técnica completa con cotas en: [doc/doc_md/medidas/medidas_mobile.md](doc/doc_md/medidas/medidas_mobile.md)
+
+
+---
+
 ## 🛠️ Stack Tecnológico y Arquitectura en 5 Capas
 
 | Componente | Tecnología | Propósito y Ventajas |
@@ -145,10 +168,10 @@ El sistema incluye de fábrica demostraciones preconfiguradas para pruebas inmed
 | **Estilos** | **CSS3 Puro (Variables + Grid)** | Arquitectura BEM modular, diseño fluido y temas dinámicos sin librerías como Tailwind. |
 | **Gráficos** | **Canvas 2D + W3C SVG 1.1** | Motor gráfico híbrido: SVG para precisión geométrica y Canvas para 60 FPS en grandes topologías. |
 | **Criptografía** | **Web Crypto API (SubtleCrypto)** | Cifrado simétrico AES-GCM 256 bits y PBKDF2 nativo en hardware del navegador. |
-| **Offline / PWA** | **Service Worker API** | Funcionamiento 100% offline y almacén en caché `rack-designer-next-cache-v3`. |
+| **Offline / PWA** | **Service Worker API** | Funcionamiento 100% offline y almacén en caché `rack-designer-next-cache-v50`. |
 | **Hojas de Cálculo** | **SheetJS (xlsx.full.min.js)** | Generación y parseo local de archivos Excel `.xlsx` y `.csv`. |
 | **Entorno IDE** | **Google Antigravity IDE** | Diseñado, optimizado y mantenido con estándares de ingeniería de Google Antigravity. |
-| **Aseguramiento** | **Suite de 360 Pruebas** | Verificación automatizada de consistencia de estado, criptografía y renderizado al 100% de éxito. |
+| **Aseguramiento** | **Suite de 396 Pruebas** | Verificación automatizada de consistencia de estado, criptografía y renderizado al 100% de éxito (25 grupos). |
 
 ![Arquitectura Integral en 5 Capas](doc/doc_img/doc_svg/architecture/architecture_current.svg)
 
@@ -195,4 +218,6 @@ Los diagramas visuales que documentan cada subsistema se encuentran en las sigui
 - 🏛️ **Guía de Arquitectura Paso a Paso:** [doc/doc_md/ARCHITECTURE_GUIDE.md](doc/doc_md/ARCHITECTURE_GUIDE.md)
 - 🗺️ **Mapa de Orientación del Código:** [doc/doc_md/CODEBASE_ORIENTATION_MAP.md](doc/doc_md/CODEBASE_ORIENTATION_MAP.md)
 - 📏 **Especificaciones de Medidas Físicas:** [doc/doc_md/medidas/](doc/doc_md/medidas/)
+- 📱 **Especificaciones y Medidas del Modo Móvil:** [doc/doc_md/medidas/medidas_mobile.md](doc/doc_md/medidas/medidas_mobile.md)
 - 📋 **Registro de Cambios del Proyecto:** [doc/log/CHANGELOG.md](doc/log/CHANGELOG.md)
+

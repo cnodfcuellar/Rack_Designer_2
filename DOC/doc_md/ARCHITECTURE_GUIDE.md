@@ -322,8 +322,8 @@ Rack_Designer_2/
 ├── memory-bank/                  ← Contexto persistente para agentes IA
 ├── json/                         ← Archivos JSON auxiliares (manifest.json)
 └── tests/
-    ├── index.html                ← Runner web interactivo de pruebas en navegador (335 tests en 21 grupos al 100%)
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (335 tests en 21 grupos al 100%)
+    ├── index.html                ← Runner web interactivo de pruebas en navegador (396 tests en 25 grupos al 100%)
+    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (396 tests en 25 grupos al 100%)
 ```
 
 **Ver diagrama:** `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (File Structure)
@@ -854,12 +854,15 @@ touch index.html css/style.css js/store.js js/main.js
 
 ## 14. Diagramas SVG del Proyecto
 
-Todos los diagramas están en `doc/doc_img/doc_svg/` (33 archivos):
+Todos los diagramas están en `doc/doc_img/doc_svg/`:
 
-### Diagramas de Layout
+### Diagramas de Layout y Modo Móvil
 
 | Archivo | Dimensiones | Contenido |
 |---|---|---|
+| [`layout/layout_mobile_dimensions.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg) | 1680×920 | **Plano de cotas y medidas de ingeniería:** Alturas, anchos, z-indexes y breakpoints táctiles |
+| [`layout/layout_mobile_mode.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg) | 1680×850 | **Arquitectura UX Modo Móvil (≤768px):** Lienzo, Catálogo drawer, Inspector y Bottom Sheet |
+| [`layout/layout_mobile_topology.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg) | 1280×840 | **Topología en Modo Móvil:** Canvas 2D con interacción táctil, zoom, pan y auto-orden |
 | `layout/layout_header.svg` | 1100×140 | Layout detallado del header |
 | `layout/layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
 | `layout/layout_main_canvas.svg` | 720×580 | Área principal con racks |
@@ -867,6 +870,21 @@ Todos los diagramas están en `doc/doc_img/doc_svg/` (33 archivos):
 | `layout/layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla |
 | `layout/layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
 | `layout/ui_layout_map.svg` | — | Mapa completo del layout UI |
+
+### 📐 Galería de Planos Visuales del Modo Móvil
+
+#### Plano de Cotas y Medidas de Ingeniería:
+![Plano de Cotas y Medidas](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
+
+#### Arquitectura de Flujos de Pantalla Móvil:
+![Flujos de Pantalla Modo Móvil](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg)
+
+#### Topología Canvas 2D en Pantallas Compactas:
+![Topología en Modo Móvil](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg)
+
+Consúltese también el documento técnico maestro: [medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md).
+
+
 
 ### Diagramas de Arquitectura
 
@@ -966,8 +984,9 @@ El proyecto RACK Designer Next es una app web vanilla que:
 7. **Drag & drop** nativo para colocar equipos y reordenar slots
 8. **3 roles** (Admin, Editor, Viewer) con SHA-256 + token de integridad
 9. **Exporta e Importa** masivamente en Excel (.xlsx) y CSV con detección reactiva de colisiones (M-21/M-22), PNG 1:1 Retina y JSON (.rack)
-10. **PWA** con Service Worker (`rack-designer-next-cache-v30`) para uso offline
+10. **PWA** con Service Worker (`rack-designer-next-cache-v50`) para uso offline
 11. **Doble Escenario Demo:** Datacenter TIA-942 y Campus Universitario UTN (10 salas, 13 racks, 162 equipos, 24 VLANs) mediante selector interactivo
-12. **Suite de Integridad Automatizada** con 381 pruebas en 24 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
+12. **Suite de Integridad Automatizada** con 396 pruebas en 25 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
+13. **Modo Móvil y Adaptabilidad PWA (M-25A/M-25B):** Drawers laterales off-canvas, Bottom Sheet (38px a 72vh), popover flotante para búsqueda y modales 100% opacos y responsivos.
 
 **La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.

@@ -1,3 +1,20 @@
+## [2026-10-10] Documentación — Sincronización Exhaustiva del Estado Actual y Especificaciones de Medidas Móviles
+
+### 📐 Planos Vectoriales SVG de Ingeniería y Cotas Técnicas del Modo Móvil
+- **Plano Vectorial Acotado (`layout_mobile_dimensions.svg`):**
+  - Creado plano técnico de 1680×920 px con cotas de ingeniería precisas: viewport `100vw` (≤768px / ≤480px), cabecera `56px`, drawers laterales de `280px` (`z-index: 1000`), backdrop overlay `rgba(0,0,0,0.55)` (`z-index: 999`), Bottom Sheet de `38px` a `72vh` (`z-index: 500`), popover flotante desacoplado a `bottom: 46px; right: 12px;` (`z-index: 10001`), racks a `240px` (1U = `24px`) y modales táctiles al `96%` con altura máxima de `92vh`.
+- **Documento Maestro de Especificaciones y Cotas ([medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md)):**
+  - Guía integral con tablas métricas por componente, matriz de breakpoints (`>1200px`, `≤1200px`, `≤980px`, `≤768px`, `≤480px`), jerarquía estricta de capas z-index (`100` a `10001`), cotas de todos los modales técnicos y áreas táctiles ergonómicas a 60 FPS.
+
+- **Galería Visual Integrada:**
+  - Embebidos en [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md), [USER_MANUAL.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/USER_MANUAL.md) y [README.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/README.md) los tres planos vectoriales del modo móvil:
+    - Plano de Cotas de Ingeniería: `layout_mobile_dimensions.svg` (1680×920)
+    - Flujos de Pantalla Móvil en 4 Estados: `layout_mobile_mode.svg` (1680×850)
+    - Topología Canvas 2D en Modo Móvil: `layout_mobile_topology.svg` (1280×840)
+- **Memory Bank y Guías Técnicas Sincronizados:**
+  - [systemPatterns.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/systemPatterns.md) y [activeContext.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/activeContext.md): Actualizados con la especificación métrica oficial y las 396 pruebas al 100%.
+
+
 ## [2026-10-10] Modo Móvil — Adaptación Responsiva Completa y Fondo Opaco para Todas las Ventanas Modales
 
 ### 📱 Formilarios y Cuadros de Diálogo 100% Adaptables y Legibles (≤ 768px y ≤ 480px)

@@ -20,21 +20,19 @@
 - **Plantillas Demo Profesionales:** Centro de Datos Empresarial (ANSI/TIA-942) y Campus Universitario UTN con red jerárquica de 3 capas (10 edificios, 13 gabinetes, 24 VLANs y direccionamiento 10.0.0.0/8) accesibles mediante el modal `#modal-demo-selection`.
 - **Cableado Frontal vs. Trasero (M-33):** Soporte integral en modelo de datos (`sourceSide`, `targetSide`: `'front' | 'rear'`), aislamiento de colisiones de puertos por cara física en equipos duales (`mountSide: 'both'`), transposición simétrica en inversión de enlaces (`swapConnectionDirection`), enriquecimiento visual en tabla de conexiones con insignias esmeralda/azul, selectores dedicados en modal `#modal-cable` e indexación física en trazado de cables según cara activa.
 - **Creación Gráfica e Interactiva de Conexiones (Drag-to-Connect) (M-34):** Modo interactivo activable mediante botón de toolbar `#btn-cable-mode`, cursor crosshair, trazado elástico de Bézier SVG en tiempo real (`#rubberband-interactive-cable`), botones rápidos `.dev-btn.connect` en carátulas de equipos en rack y periféricos de piso, y preselección inteligente de dispositivos en `CableModal.js`.
-- **Testing Automatizado Exhaustivo:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con **381 pruebas automáticas en 24 grupos pasando al 100% de éxito (0 fallas)**.
+- **Responsive Laptop & Modo Móvil Integral (M-25A / M-25B):** Implementación completa de Off-Canvas Drawers para Catálogo e Inspector con overlay interactivo (`#mobile-overlay`), panel inferior como Bottom Sheet compacto (38px inicial, 72vh expandido), filtro de tabla con popover flotante en lupa (`#btn-toggle-table-search`), scroll horizontal fluido en la cabecera del panel inferior (`.bottom-header`), y modales 100% opacos (`var(--bg-card)`) con colapso de formularios a 1 columna.
+- **Testing Automatizado Exhaustivo:** Suite de integridad `tests/integrity_check.cjs` y runner web `tests/index.html` con **396 pruebas automáticas en 25 grupos pasando al 100% de éxito (0 fallas)**.
 
 ## Current Issues & Technical Debt
-- **Adaptabilidad Responsive en Pantallas Medianas:** Ajustar layout para pantallas de 1024px a 1366px (`M-25A`).
+- Ninguna falla crítica activa.
 
 ## What's Left to Build (Roadmap de Mejoras Pendientes)
-Total de 5 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (37 de 42 completadas, 88.1% global; **Fases 0, 1, 2, 4 y 5 al 100%**):
-
-### Fase 3 — Ergonomía y Layout
-- Diseño adaptativo y responsive para modo Desktop / Laptops medianas (`M-25A`).
+Total de 3 tareas pendientes en [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md) y [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) (39 de 42 completadas, 92.8% global; **Fases 0, 1, 2, 3, 4 y 5 al 100%**):
 
 ### Fase 6 — Experiencia Premium
-- Modo móvil y tablet — *Baja prioridad* (`M-25B`).
 - Flexibilidad de ubicación sin restricciones arbitrarias (`M-35`).
 - Resolución de conflictos multiusuario (`M-07`).
+- Mejoras táctiles avanzadas en topología móvil (gestos multitáctiles pan/pinch).
 
 ---
 

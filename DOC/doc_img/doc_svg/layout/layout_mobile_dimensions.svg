@@ -1,0 +1,374 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 920" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .title { font-size: 20px; font-weight: 700; fill: #f0f4ff; letter-spacing: 0.5px; }
+      .subtitle { font-size: 13px; fill: #8b9ab8; }
+      .dim-line { stroke: #38bdf8; stroke-width: 1.2; stroke-dasharray: 3,3; }
+      .dim-solid { stroke: #38bdf8; stroke-width: 1.2; }
+      .dim-amber { stroke: #f59e0b; stroke-width: 1.2; }
+      .dim-pink { stroke: #ec4899; stroke-width: 1.2; }
+      .dim-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; fill: #38bdf8; }
+      .dim-label-amber { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; fill: #f59e0b; }
+      .dim-label-pink { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; fill: #ec4899; }
+      .box-tag { font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 700; fill: #ffffff; }
+    </style>
+
+    <!-- Marcadores de flechas para cotas -->
+    <marker id="arrowCian" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowPink" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#ec4899"/>
+    </marker>
+
+    <!-- Filtro sombra -->
+    <filter id="phoneShadow" x="-10%" y="-5%" width="120%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- FONDO GENERAL TÉCNICO -->
+  <rect width="1680" height="920" fill="#070a12"/>
+
+  <!-- CABECERA DE PLANO TÉCNICO -->
+  <g transform="translate(40, 30)">
+    <rect width="1600" height="64" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <circle cx="34" cy="32" r="16" fill="#38bdf8" fill-opacity="0.15"/>
+    <text x="34" y="38" text-anchor="middle" fill="#38bdf8" font-size="18" font-weight="bold">📐</text>
+    <text x="64" y="30" class="title">RACK DESIGNER NEXT — ESPECIFICACIÓN DE COTAS Y MEDIDAS (MODO MÓVIL)</text>
+    <text x="64" y="50" class="subtitle">Dimensiones exactas en px, %, vh y niveles z-index: Breakpoints (≤768px / ≤480px) • Drawers (280px) • Bottom Sheet (38px a 72vh) • Modales (96%)</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- COLUMNA 1: PLANO GENERAL DEL VIEWPORT Y NIVELES Z-INDEX        -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(40, 115)">
+    <!-- Título de sección -->
+    <rect width="490" height="28" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8"/>
+    <text x="245" y="19" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">1. VIEWPORT SMARTPHONE Y JERARQUÍA Z-INDEX</text>
+
+    <!-- Marco de smartphone acotado -->
+    <g transform="translate(45, 45)">
+      <!-- Cota superior de ancho total viewport -->
+      <line x1="0" y1="-18" x2="360" y2="-18" class="dim-solid" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+      <line x1="0" y1="-26" x2="0" y2="-10" stroke="#38bdf8" stroke-width="1"/>
+      <line x1="360" y1="-26" x2="360" y2="-10" stroke="#38bdf8" stroke-width="1"/>
+      <rect x="110" y="-28" width="140" height="18" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8"/>
+      <text x="180" y="-15" text-anchor="middle" class="dim-label">100vw (≤ 768px)</text>
+
+      <!-- Smartphone -->
+      <rect width="360" height="660" rx="32" fill="#0f172a" stroke="#334155" stroke-width="2.5" filter="url(#phoneShadow)"/>
+      <rect x="8" y="8" width="344" height="644" rx="24" fill="#0b0f19"/>
+
+      <!-- Header (56px) acotado -->
+      <g transform="translate(8, 28)">
+        <rect width="344" height="56" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+        <text x="16" y="32" fill="#38bdf8" font-size="15" font-weight="bold">☰</text>
+        <rect x="42" y="14" width="76" height="28" rx="4" fill="#1e293b"/>
+        <text x="80" y="32" text-anchor="middle" fill="#f0f4ff" font-size="11" font-weight="600">Sala 1 ▾</text>
+        <rect x="124" y="14" width="76" height="28" rx="4" fill="#1e293b"/>
+        <text x="162" y="32" text-anchor="middle" fill="#f0f4ff" font-size="11" font-weight="600">Rack 1 ▾</text>
+
+        <!-- Botón Inspector Sticky -->
+        <rect x="294" y="14" width="34" height="28" rx="4" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8"/>
+        <text x="311" y="32" text-anchor="middle" fill="#ffffff" font-size="13">👁</text>
+
+        <rect x="220" y="6" width="68" height="16" rx="3" fill="#10b981"/>
+        <text x="254" y="18" text-anchor="middle" class="box-tag">z-index: 100</text>
+      </g>
+
+      <!-- Cota de altura Header (56px) a la derecha -->
+      <line x1="365" y1="28" x2="365" y2="84" class="dim-solid" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+      <line x1="356" y1="28" x2="374" y2="28" stroke="#38bdf8" stroke-width="1"/>
+      <line x1="356" y1="84" x2="374" y2="84" stroke="#38bdf8" stroke-width="1"/>
+      <text x="382" y="60" class="dim-label">56px</text>
+
+      <!-- Main Lienzo (Flex: 1) -->
+      <g transform="translate(8, 88)">
+        <rect width="344" height="466" fill="#070c17" stroke="#1e293b" stroke-width="0.8"/>
+        <!-- Grilla tenue CAD -->
+        <path d="M 0 100 L 344 100 M 0 200 L 344 200 M 0 300 L 344 300 M 0 400 L 344 400" stroke="#1e293b" stroke-width="0.5"/>
+        <path d="M 80 0 L 80 466 M 160 0 L 160 466 M 240 0 L 240 466" stroke="#1e293b" stroke-width="0.5"/>
+
+        <!-- Rack dentro del canvas con cota de ancho (240px) -->
+        <g transform="translate(52, 24)">
+          <rect width="240" height="410" rx="4" fill="#111827" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="120" y="-8" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">GABINETE 42U</text>
+
+          <!-- Cota ancho Rack (240px) -->
+          <line x1="0" y1="418" x2="240" y2="418" class="dim-solid" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+          <line x1="0" y1="412" x2="0" y2="424" stroke="#38bdf8" stroke-width="1"/>
+          <line x1="240" y1="412" x2="240" y2="424" stroke="#38bdf8" stroke-width="1"/>
+          <text x="120" y="432" text-anchor="middle" class="dim-label">width: 240px (1U = 24px)</text>
+
+          <rect x="18" y="40" width="204" height="24" rx="2" fill="#0f172a" stroke="#334155"/>
+          <text x="26" y="56" fill="#38bdf8" font-size="10" class="mono">SW-CORE-48P (1U)</text>
+          <rect x="18" y="70" width="204" height="48" rx="2" fill="#182234" stroke="#334155"/>
+          <text x="26" y="98" fill="#f0f4ff" font-size="10" class="mono">SRV-PROD-01 (2U)</text>
+        </g>
+      </g>
+
+      <!-- Bottom Bar Colapsada (38px) acotada -->
+      <g transform="translate(8, 558)">
+        <rect width="344" height="38" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+        <!-- Pill handle (36x4px) -->
+        <rect x="154" y="4" width="36" height="4" rx="2" fill="#475569"/>
+        <text x="22" y="24" fill="#38bdf8" font-size="12">▲</text>
+        <rect x="44" y="8" width="70" height="22" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.6"/>
+        <text x="79" y="22" text-anchor="middle" fill="#38bdf8" font-size="9.5" font-weight="600">📊 Resumen</text>
+        <rect x="120" y="8" width="70" height="22" rx="4" fill="#0f172a"/>
+        <text x="155" y="22" text-anchor="middle" fill="#8b9ab8" font-size="9.5">🖥️ Equipos</text>
+        <rect x="196" y="8" width="60" height="22" rx="4" fill="#0f172a"/>
+        <text x="226" y="22" text-anchor="middle" fill="#8b9ab8" font-size="9.5">⚡ Cables</text>
+
+        <!-- Botón Lupa móvil -->
+        <rect x="298" y="4" width="30" height="30" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8"/>
+        <text x="313" y="23" text-anchor="middle" fill="#38bdf8" font-size="12">🔍</text>
+
+        <rect x="250" y="-12" width="68" height="16" rx="3" fill="#f59e0b"/>
+        <text x="284" y="-1" text-anchor="middle" class="box-tag">z-index: 500</text>
+      </g>
+
+      <!-- Cota de altura Bottom Colapsado (38px) -->
+      <line x1="365" y1="558" x2="365" y2="596" class="dim-amber" marker-start="url(#arrowAmber)" marker-end="url(#arrowAmber)"/>
+      <line x1="356" y1="558" x2="374" y2="558" stroke="#f59e0b" stroke-width="1"/>
+      <line x1="356" y1="596" x2="374" y2="596" stroke="#f59e0b" stroke-width="1"/>
+      <text x="382" y="581" class="dim-label-amber">38px</text>
+    </g>
+
+    <!-- Tabla explicativa de niveles Z-INDEX -->
+    <g transform="translate(10, 740)">
+      <rect width="470" height="100" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1"/>
+      <text x="16" y="22" fill="#38bdf8" font-size="11" font-weight="700">JERARQUÍA ESTRICTA DE CAPAS Z-INDEX:</text>
+      <text x="16" y="42" fill="#cbd5e1" font-size="10.5" class="mono">z-index: 10001 ➔ Popovers (#table-search, dropdowns fixed)</text>
+      <text x="16" y="60" fill="#cbd5e1" font-size="10.5" class="mono">z-index: 1000  ➔ Drawers (#sidebar.open, #right-panel.open)</text>
+      <text x="16" y="78" fill="#cbd5e1" font-size="10.5" class="mono">z-index: 999   ➔ Mobile Drawer Backdrop (Overlay oscuro 50%)</text>
+      <text x="16" y="94" fill="#cbd5e1" font-size="10.5" class="mono">z-index: 500   ➔ Bottom Sheet (#bottom) • z-index: 100 ➔ Header</text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- COLUMNA 2: DRAWERS OFF-CANVAS (280px) Y POPUPS DESACOPLADOS     -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(560, 115)">
+    <rect width="520" height="28" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="0.8"/>
+    <text x="260" y="19" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">2. DRAWERS OFF-CANVAS (280px) Y BÚSQUEDA POPUP</text>
+
+    <!-- Diagrama Drawer Desplegado -->
+    <g transform="translate(30, 45)">
+      <!-- Marco celular de referencia -->
+      <rect width="360" height="660" rx="32" fill="#0f172a" stroke="#334155" stroke-width="2.5" filter="url(#phoneShadow)"/>
+      <rect x="8" y="8" width="344" height="644" rx="24" fill="#0b0f19"/>
+
+      <!-- Backdrop oscuro (z-index 999) -->
+      <rect x="8" y="32" width="344" height="612" fill="#000000" fill-opacity="0.55"/>
+      <rect x="220" y="80" width="105" height="22" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="0.8"/>
+      <text x="272" y="95" text-anchor="middle" fill="#94a3b8" font-size="9" class="mono">Backdrop: rgba(0,0,0,0.5)</text>
+
+      <!-- CAJÓN DRAWER (280px) -->
+      <g transform="translate(8, 32)">
+        <rect width="280" height="612" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+        
+        <!-- Cota superior de ancho Drawer (280px) -->
+        <line x1="0" y1="-14" x2="280" y2="-14" class="dim-solid" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+        <line x1="0" y1="-20" x2="0" y2="-8" stroke="#38bdf8" stroke-width="1"/>
+        <line x1="280" y1="-20" x2="280" y2="-8" stroke="#38bdf8" stroke-width="1"/>
+        <rect x="70" y="-24" width="140" height="18" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8"/>
+        <text x="140" y="-11" text-anchor="middle" class="dim-label">width: 280px</text>
+
+        <!-- Cabecera del Drawer (48px) -->
+        <rect width="280" height="48" fill="#1e293b"/>
+        <text x="16" y="30" fill="#38bdf8" font-size="13" font-weight="700">CATÁLOGO / INSPECTOR</text>
+        <rect x="238" y="8" width="32" height="32" rx="6" fill="#0f172a" stroke="#f43f5e" stroke-width="0.8"/>
+        <text x="254" y="29" text-anchor="middle" fill="#f43f5e" font-size="16" font-weight="bold">✕</text>
+
+        <!-- Contenido del Drawer -->
+        <g transform="translate(14, 62)">
+          <rect width="252" height="32" rx="6" fill="#0b0f19" stroke="#334155"/>
+          <text x="10" y="21" fill="#64748b" font-size="11">🔍 Buscar equipos...</text>
+
+          <!-- Tarjetas táctiles -->
+          <g transform="translate(0, 48)">
+            <rect width="252" height="52" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+            <text x="12" y="22" fill="#f0f4ff" font-size="11" font-weight="600">Servidor Rack 1U</text>
+            <text x="12" y="38" fill="#8b9ab8" font-size="10" class="mono">Dell R640 • 450W</text>
+            <rect x="186" y="12" width="54" height="28" rx="4" fill="#0ea5e9"/>
+            <text x="213" y="30" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">+ Add</text>
+          </g>
+
+          <g transform="translate(0, 110)">
+            <rect width="252" height="52" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+            <text x="12" y="22" fill="#f0f4ff" font-size="11" font-weight="600">Switch ToR 48P</text>
+            <text x="12" y="38" fill="#8b9ab8" font-size="10" class="mono">Cisco Nexus • 350W</text>
+            <rect x="186" y="12" width="54" height="28" rx="4" fill="#0ea5e9"/>
+            <text x="213" y="30" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">+ Add</text>
+          </g>
+        </g>
+
+        <!-- Etiqueta Drawer z-index -->
+        <rect x="90" y="570" width="100" height="20" rx="4" fill="#10b981"/>
+        <text x="140" y="584" text-anchor="middle" class="box-tag">z-index: 1000</text>
+      </g>
+
+      <!-- Cota de distancia top (56px) -->
+      <line x1="-14" y1="0" x2="-14" y2="32" class="dim-solid" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+      <line x1="-20" y1="0" x2="-8" y2="0" stroke="#38bdf8" stroke-width="1"/>
+      <line x1="-20" y1="32" x2="-8" y2="32" stroke="#38bdf8" stroke-width="1"/>
+      <text x="-48" y="20" class="dim-label">56px</text>
+
+      <!-- DETALLE DEL POPOVER FLOTANTE DE BÚSQUEDA -->
+      <g transform="translate(60, 480)">
+        <!-- Caja Popover Desacoplado -->
+        <rect width="260" height="54" rx="8" fill="#0b0f19" stroke="#38bdf8" stroke-width="1.5" filter="url(#phoneShadow)"/>
+        <rect x="10" y="10" width="206" height="34" rx="5" fill="#111827" stroke="#0ea5e9" stroke-width="1"/>
+        <text x="22" y="32" fill="#f0f4ff" font-size="12" class="mono">Filtrar: switch_|</text>
+        <rect x="224" y="10" width="26" height="34" rx="4" fill="#1e293b"/>
+        <text x="237" y="32" text-anchor="middle" fill="#8b9ab8" font-size="13">✕</text>
+
+        <!-- Cotas Popover -->
+        <line x1="265" y1="0" x2="265" y2="54" class="dim-pink" marker-start="url(#arrowPink)" marker-end="url(#arrowPink)"/>
+        <text x="275" y="32" class="dim-label-pink">34px</text>
+
+        <rect x="160" y="-14" width="94" height="18" rx="3" fill="#ec4899"/>
+        <text x="207" y="-1" text-anchor="middle" class="box-tag">z-index: 10001</text>
+      </g>
+
+      <!-- Flecha de posición fija del popover -->
+      <path d="M 120 540 L 120 580 L 290 580" fill="none" stroke="#ec4899" stroke-width="1.2" stroke-dasharray="2,2" marker-end="url(#arrowPink)"/>
+      <text x="130" y="570" fill="#ec4899" font-size="9" font-weight="700" class="mono">bottom: 46px; right: 12px; position: fixed;</text>
+    </g>
+
+    <!-- Especificaciones de Transición -->
+    <g transform="translate(10, 740)">
+      <rect width="500" height="100" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1"/>
+      <text x="16" y="22" fill="#10b981" font-size="11" font-weight="700">COMPORTAMIENTO CINÉTICO OFF-CANVAS:</text>
+      <text x="16" y="42" fill="#cbd5e1" font-size="10.5" class="mono">Oculto: transform: translateX(±100%) (fuera del viewport)</text>
+      <text x="16" y="60" fill="#cbd5e1" font-size="10.5" class="mono">Activo (.open): transform: translateX(0) (deslizamiento fluido)</text>
+      <text x="16" y="78" fill="#cbd5e1" font-size="10.5" class="mono">Transición: 0.3s cubic-bezier(0.4, 0, 0.2, 1) sin jank ni lag</text>
+      <text x="16" y="94" fill="#cbd5e1" font-size="10.5" class="mono">Scrollbar nativa del drawer: width: 4px; overflow-y: auto;</text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- COLUMNA 3: BOTTOM SHEET EXPANDIDO (72vh) Y MODALES (96%)        -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(1110, 115)">
+    <rect width="530" height="28" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="0.8"/>
+    <text x="265" y="19" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">3. BOTTOM SHEET EXPANDIDO (72vh) Y MODALES TÁCTILES</text>
+
+    <!-- Diagrama Bottom Sheet a 72vh -->
+    <g transform="translate(35, 45)">
+      <!-- Marco celular de referencia -->
+      <rect width="360" height="660" rx="32" fill="#0f172a" stroke="#334155" stroke-width="2.5" filter="url(#phoneShadow)"/>
+      <rect x="8" y="8" width="344" height="644" rx="24" fill="#0b0f19"/>
+
+      <!-- Lienzo visible arriba atenuado (28vh) -->
+      <g transform="translate(8, 28)" opacity="0.4">
+        <rect width="344" height="150" fill="#070c17"/>
+        <text x="172" y="80" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="bold">Lienzo Visible Superior (28vh restante)</text>
+      </g>
+
+      <!-- Cota de altura 28vh superior -->
+      <line x1="365" y1="28" x2="365" y2="178" class="dim-line" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+      <text x="375" y="108" class="dim-label">~28vh</text>
+
+      <!-- BOTTOM SHEET EXPANDIDO (72vh) -->
+      <g transform="translate(8, 178)">
+        <rect width="344" height="466" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+
+        <!-- Cota de altura 72vh -->
+        <line x1="365" y1="0" x2="365" y2="466" class="dim-amber" marker-start="url(#arrowAmber)" marker-end="url(#arrowAmber)"/>
+        <line x1="356" y1="0" x2="374" y2="0" stroke="#f59e0b" stroke-width="1"/>
+        <line x1="356" y1="466" x2="374" y2="466" stroke="#f59e0b" stroke-width="1"/>
+        <text x="382" y="240" class="dim-label-amber">height: 72vh</text>
+
+        <!-- Pill handle táctil acotado (36x4px) -->
+        <g transform="translate(154, 8)">
+          <rect width="36" height="4" rx="2" fill="#64748b"/>
+          <line x1="0" y1="-6" x2="36" y2="-6" class="dim-solid" marker-start="url(#arrowCian)" marker-end="url(#arrowCian)"/>
+          <text x="18" y="-9" text-anchor="middle" class="dim-label" font-size="9">36×4px</text>
+        </g>
+
+        <!-- Cabecera de pestañas con scroll horizontal -->
+        <g transform="translate(14, 24)">
+          <text x="0" y="18" fill="#f0f4ff" font-size="13" font-weight="700">INVENTARIO TÉCNICO</text>
+          <rect x="286" y="0" width="30" height="26" rx="4" fill="#1e293b"/>
+          <text x="301" y="18" text-anchor="middle" fill="#f59e0b" font-size="12">▼</text>
+        </g>
+
+        <!-- Barra desplazable (overflow-x: auto) acotada -->
+        <g transform="translate(14, 58)">
+          <rect width="316" height="32" rx="4" fill="#1e293b" stroke="#374151" stroke-width="0.8"/>
+          <rect x="4" y="4" width="86" height="24" rx="3" fill="#0ea5e9"/>
+          <text x="47" y="20" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">Equipos (42)</text>
+          <rect x="94" y="4" width="86" height="24" rx="3" fill="#0f172a"/>
+          <text x="137" y="20" text-anchor="middle" fill="#8b9ab8" font-size="10.5">Conexiones</text>
+          <rect x="184" y="4" width="60" height="24" rx="3" fill="#0f172a"/>
+          <text x="214" y="20" text-anchor="middle" fill="#8b9ab8" font-size="10.5">CSV</text>
+          <rect x="248" y="4" width="60" height="24" rx="3" fill="#0f172a"/>
+          <text x="278" y="20" text-anchor="middle" fill="#8b9ab8" font-size="10.5">Excel</text>
+
+          <text x="230" y="-6" fill="#38bdf8" font-size="9" class="mono">overflow-x: auto ➔</text>
+        </g>
+
+        <!-- Tabla renderizada -->
+        <g transform="translate(14, 100)">
+          <rect width="316" height="24" fill="#1e293b"/>
+          <text x="8" y="16" fill="#38bdf8" font-size="10" font-weight="700">U#</text>
+          <text x="36" y="16" fill="#38bdf8" font-size="10" font-weight="700">DISPOSITIVO</text>
+          <text x="160" y="16" fill="#38bdf8" font-size="10" font-weight="700">IP</text>
+          <text x="260" y="16" fill="#38bdf8" font-size="10" font-weight="700">WATTS</text>
+
+          <rect y="24" width="316" height="30" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+          <text x="8" y="44" fill="#f59e0b" font-size="10" class="mono">U42</text>
+          <text x="36" y="44" fill="#f0f4ff" font-size="10" font-weight="600">PATCH-PANEL-01</text>
+          <text x="160" y="44" fill="#94a3b8" font-size="9.5" class="mono">—</text>
+          <text x="260" y="44" fill="#10b981" font-size="9.5" class="mono">0 W</text>
+
+          <rect y="54" width="316" height="30" fill="#131c31" stroke="#1e293b" stroke-width="0.5"/>
+          <text x="8" y="74" fill="#f59e0b" font-size="10" class="mono">U40</text>
+          <text x="36" y="74" fill="#f0f4ff" font-size="10" font-weight="600">SW-CORE-CBS350</text>
+          <text x="160" y="74" fill="#38bdf8" font-size="9.5" class="mono">192.168.1.1</text>
+          <text x="260" y="74" fill="#f59e0b" font-size="9.5" class="mono">350 W</text>
+
+          <rect y="84" width="316" height="30" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+          <text x="8" y="104" fill="#f59e0b" font-size="10" class="mono">U38</text>
+          <text x="36" y="104" fill="#f0f4ff" font-size="10" font-weight="600">SRV-PROD-DB01</text>
+          <text x="160" y="104" fill="#38bdf8" font-size="9.5" class="mono">192.168.1.50</text>
+          <text x="260" y="104" fill="#f43f5e" font-size="9.5" class="mono">750 W</text>
+        </g>
+
+        <!-- Indicador de sombra superior -->
+        <text x="172" y="430" text-anchor="middle" fill="#8b9ab8" font-size="9.5" class="mono">box-shadow: 0 -8px 28px rgba(0,0,0,0.7);</text>
+      </g>
+    </g>
+
+    <!-- Especificaciones de Modales Móviles -->
+    <g transform="translate(10, 740)">
+      <rect width="510" height="100" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1"/>
+      <text x="16" y="22" fill="#f59e0b" font-size="11" font-weight="700">COTAS DE VENTANAS MODALES EN SMARTPHONES:</text>
+      <text x="16" y="42" fill="#cbd5e1" font-size="10.5" class="mono">Ancho: width: 96% !important; max-width: calc(100vw - 16px);</text>
+      <text x="16" y="60" fill="#cbd5e1" font-size="10.5" class="mono">Alto máx: max-height: 92vh !important; overflow-y: auto;</text>
+      <text x="16" y="78" fill="#cbd5e1" font-size="10.5" class="mono">Fondo: background: var(--bg-card) (100% opaco, sin transparencia)</text>
+      <text x="16" y="94" fill="#cbd5e1" font-size="10.5" class="mono">Botones footer: flex: 1 1 100px; height: 30px; font-size: 12px;</text>
+    </g>
+  </g>
+
+  <!-- PIE GENERAL DE ESPECIFICACIONES -->
+  <g transform="translate(40, 868)">
+    <rect width="1600" height="38" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <text x="20" y="24" fill="#38bdf8" font-size="11" font-weight="700">📊 BREAKPOINTS OFICIALES:</text>
+    <text x="210" y="24" fill="#cbd5e1" font-size="11">● Desktop: &gt; 1200px (Full)</text>
+    <text x="430" y="24" fill="#cbd5e1" font-size="11">● Laptop Compacto: ≤ 1200px</text>
+    <text x="680" y="24" fill="#cbd5e1" font-size="11">● Tablet: ≤ 980px</text>
+    <text x="870" y="24" fill="#38bdf8" font-size="11" font-weight="700">● Smartphone PWA: ≤ 768px (Modo Móvil Activo)</text>
+    <text x="1270" y="24" fill="#f59e0b" font-size="11" font-weight="700">● Teléfono Ultra-Angosto: ≤ 480px</text>
+  </g>
+</svg>

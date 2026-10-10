@@ -52,8 +52,8 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-22 | ~~Importación masiva desde CSV/Excel~~ | ✅ COMPLETADO |
 | M-23 | ~~Controles de edición/creación en el Outliner~~ | ✅ COMPLETADO |
 | M-24 | ~~Inspector colapsable en panel derecho~~ | ✅ COMPLETADO |
-| M-25 | Diseño adaptativo y responsive en modo Desktop y Laptops | 🖥️ UX / Layout |
-| M-25B | Modo móvil y tablet (Estudio de factibilidad y paridad funcional 100%) | 📱 UX |
+| M-25 | ~~Diseño adaptativo y responsive en modo Desktop y Laptops (M-25A)~~ | ✅ COMPLETADO |
+| M-25B | ~~Modo móvil y tablet integral (Drawers, Bottom Sheet, Popover y Modales)~~ | ✅ COMPLETADO |
 | M-26 | ~~Gestión avanzada de puertos y validaciones~~ | ✅ COMPLETADO |
 | M-27 | ~~Persistencia de posiciones en topología y saneamiento~~ | ✅ COMPLETADO |
 | M-28 | ~~Sistema de skins visuales en topología~~ | ✅ COMPLETADO |
@@ -72,7 +72,7 @@ Cada mejora recibe un identificador único (`M-XX`) para trazabilidad.
 | M-41 | ~~Botón simple para cambiar orientación e invertir conexiones~~ | ✅ COMPLETADO |
 
 > [!NOTE]
-> **37 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-33]✓`, `[M-34]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **5** (total general: 42 mejoras, 88.1% del roadmap global). **¡Fase 0, Fase 1, Fase 2, Fase 4 y Fase 5 completadas al 100%!** (Fase 2 finalizada con 8 de 8 completadas tras M-34). Fase 3 avanzada. Fase 6 en marcha.
+> **39 mejoras completadas:** `[M-01]✓`, `[M-02]✓`, `[M-03]✓`, `[M-04]✓`, `[M-05]✓`, `[M-06]✓`, `[M-08]✓`, `[M-09]✓`, `[M-10]✓`, `[M-11]✓`, `[M-12]✓`, `[M-13]✓`, `[M-14]✓`, `[M-15]✓`, `[M-16]✓`, `[M-17]✓`, `[M-18]✓`, `[M-19]✓`, `[M-20]✓`, `[M-21]✓`, `[M-22]✓`, `[M-23]✓`, `[M-24]✓`, `[M-25]✓`, `[M-25B]✓`, `[M-26]✓`, `[M-27]✓`, `[M-28]✓`, `[M-29]✓`, `[M-30]✓`, `[M-31]✓`, `[M-32]✓`, `[M-33]✓`, `[M-34]✓`, `[M-36]✓`, `[M-37]✓`, `[M-38]✓`, `[M-39]✓` , `[M-40]✓` y `[M-41]✓`. Total de tareas pendientes: **3** (total general: 42 mejoras, 92.8% del roadmap global). **¡Fases 0, 1, 2, 3, 4 y 5 completadas al 100%!** Fase 6 en marcha.
 
 ---
 
@@ -317,7 +317,10 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | 3.6 | M-24 | ~~Inspector colapsable~~ | `inspector.js`, `index.html`, `layout.css`, `panels.css` | ✅ COMPLETADO (toggle colapsable + expansión flex de Outliner) |
 | 3.7 | M-36 | ~~CRUD Salas/Racks desde Inspector~~ | `inspector.js`, `panels.css` | ✅ COMPLETADO (CRUD completo salas/racks/equipos + empty state) |
 | 3.8 | M-20 | ~~Ocultar/mostrar columnas~~ | `tables.js`, `index.html`, `panels.css` | ✅ COMPLETADO (popover #columns-dropdown, 18 columnas inventario, 10 conexiones, persistencia localStorage) |
-| 3.9 | M-25A | Diseño adaptativo Desktop / Laptops | `layout.css`, `panels.css`, `main.js` | Pendiente (Breakpoints laptops/desktops, auto-colapso paneles y flex grid) |
+| 3.9 | M-25A | ~~Diseño adaptativo Desktop / Laptops~~ | `layout.css`, `panels.css`, `main.js`, `index.html` | ✅ COMPLETADO (Drawer colapsable 0px panel derecho, toolbar compacta solo-icono, resizer táctil y 15 tests) |
+
+> [!TIP]
+> 🎉 **¡Fase 3 completada al 100%!** Las 9 tareas de Ergonomía y Layout (`M-11`, `M-12`, `M-30`, `M-23`, `M-38`, `M-24`, `M-36`, `M-20`, `M-25A`) han sido implementadas exitosamente.
 
 ---
 
@@ -349,11 +352,11 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 |---|---|---|---|---|
 | 5.1 | M-03 | ~~Optimización deepClone / historial~~ | `js/utils.js`, `js/store.js` | ✅ COMPLETADO (Algoritmo fastClone 4x más veloz, N=15 niveles acotados, snapshots livianos y 19 tests) |
 | 5.2 | M-04 | ~~Redibujado selectivo~~ | `js/ui/rack.js`, `js/store.js`, `js/main.js` | ✅ COMPLETADO (renderSingleRack atómico, coalescencia rAF 60 FPS, estado sucio y 20 tests) |
-| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (355 pruebas en 22 grupos, CLI y Web) |
-| 5.4 | M-06 | ~~Actualización Service Worker~~ | `service-worker.js`, `main.js` | ✅ COMPLETADO (PWA Offline) |
+| 5.3 | M-08 | ~~Suite de pruebas de integridad~~ | `tests/integrity_check.cjs`, `tests/index.html` | ✅ COMPLETADO (396 pruebas en 25 grupos, CLI y Web) |
+| 5.4 | M-06 | ~~Actualización Service Worker~~ | `service-worker.js`, `main.js` | ✅ COMPLETADO (PWA Offline v50) |
 
 > [!TIP]
-> 🎉 **¡Fase 5 completada al 100%!** Todas las 4 tareas de Rendimiento y Calidad (`M-03`, `M-04`, `M-06`, `M-08`) han sido completadas con 355 pruebas pasando al 100% en CLI y 350 en Web.
+> 🎉 **¡Fase 5 completada al 100%!** Todas las 4 tareas de Rendimiento y Calidad (`M-03`, `M-04`, `M-06`, `M-08`) han sido completadas con 396 pruebas pasando al 100% en CLI y Web.
 
 ---
 
@@ -364,7 +367,7 @@ Priorización basada en **impacto en producción** y **riesgo de no implementar*
 | Orden | ID | Tarea | Archivos Afectados | Estado |
 |---|---|---|---|---|
 | 6.1 | M-18 | ~~Tema Sepia + selector visible~~ | `variables.css`, `layout.css`, `main.js`, `index.html` | ✅ COMPLETADO |
-| 6.2 | M-25B | Modo móvil y tablet (Standby / Baja prioridad) | Todos los CSS, `main.js`, nuevo `mobile.js` | ⏸️ Standby |
+| 6.2 | M-25B | ~~Modo móvil y tablet integral~~ | `layout.css`, `panels.css`, `modals.css`, `main.js` | ✅ COMPLETADO (Off-canvas drawers, Bottom Sheet 72vh, Popover Lupa, Scroll H y Modales opacos) |
 | 6.3 | M-35 | Sin restricciones de ubicación (Rack vs Piso/Frente) | `store.js`, `rack.js`, `PlacementModal.js` | Pendiente |
 | 6.4 | M-07 | Resolución de conflictos multiusuario | `fileManager.js`, nuevo `MergeModal.js` | Pendiente |
 

@@ -502,6 +502,15 @@ La interfaz usa CSS Grid con áreas nombradas:
 | **Right Panel** | `#right-panel` | Outliner (árbol jerárquico), Inspector (propiedades del seleccionado), Estadísticas (totales de la sala) |
 | **Bottom** | `#bottom` | Panel de tablas: inventario de equipos, conexiones de cables, estadísticas globales — con pestañas |
 
+### Modo Móvil y Adaptabilidad PWA (`@media (max-width: 768px)`)
+
+En dispositivos móviles y pantallas angostas, el layout de CSS Grid transmuta a un flujo dinámico adaptado al tacto:
+- **Off-Canvas Drawers:** `#sidebar` y `#right-panel` se desacoplan del grid (`position: fixed; top: 56px; bottom: 0; z-index: 1000`) y se ocultan fuera de la pantalla (`translateX(-100%)` y `translateX(100%)`). Se abren suavemente con las clases `.open` accionadas por el menú hamburguesa (`#btn-mobile-menu`) y el botón inspector (`#btn-mobile-inspector`) del header.
+- **Bottom Sheet Expandible:** `#bottom` pasa a comportarse como una hoja inferior móvil con altura compacta base (`140px`) o expandida al **72vh** con la clase `.sheet-expanded` al tocar la cabecera o tirar hacia arriba. La cabecera cuenta con scroll horizontal automático (`overflow-x: auto`) para mantener accesibles los botones de exportación, importación y columnas en pantallas estrechas.
+- **Buscador Popover Desacoplado:** El filtro de texto de la tabla inferior se colapsa en un icono de lupa que despliega una barra flotante (`.table-search-popover-mobile`) con `position: fixed; z-index: 10001; bottom: 85px` y fondo opaco sólido oscuro (`#0b0f19`) para evitar recortes del contenedor.
+- **Modales Adaptativos a Pantalla Completa:** Los modales usan `width: 95vw; max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;` con fondo opaco y sombras de profundidad, garantizando usabilidad completa con teclados virtuales táctiles.
+
+
 ---
 
 ## 11. Capas de la Aplicación
@@ -824,6 +833,10 @@ Todos los diagramas de arquitectura están en `doc/doc_img/doc_svg/` (46 archivo
 | `layout/layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
 | `layout/layout_sala_dual_export.svg` | — | Vista dual modular frente + dorso de sala completa |
 | `layout/ui_layout_map.svg` | — | Mapa completo del layout UI |
+| `layout/layout_mobile_dimensions.svg` | 1680×920 | Plano técnico de cotas y medidas de ingeniería en modo móvil |
+| `layout/layout_mobile_mode.svg` | 1680×850 | Arquitectura táctil y visual del Modo Móvil PWA (<= 768px) |
+| `layout/layout_mobile_topology.svg` | 1280×840 | Adaptaciones de Topología Canvas 2D en pantallas compactas |
+
 
 ### Diagramas de Arquitectura
 
@@ -845,7 +858,7 @@ Todos los diagramas de arquitectura están en `doc/doc_img/doc_svg/` (46 archivo
 | [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Tipos base, seguridad y utilidades: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
 | [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades de infraestructura: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
 | [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) e Interacciones |
-| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva completa: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
+| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva completa: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 396 Tests (25 grupos) |
 
 ### Diagramas de Funcionalidades
 

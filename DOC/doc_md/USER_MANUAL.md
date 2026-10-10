@@ -328,6 +328,66 @@ En la barra superior (cabecera), junto a los botones de Deshacer y Rehacer, disp
 
 ---
 
-¡Has completado tu capacitación básica! Ahora sabes cómo navegar por la aplicación, qué significan los conceptos, cómo arrastrar componentes y cómo estructurar cuartos enteros según tus necesidades del mundo real. 
+## 📱 Parte 9: Uso en Dispositivos Móviles y Tablets (Modo Tablet & Modo Móvil PWA)
+
+RACK Designer Next está optimizado para funcionar sin dificultades tanto en **tablets** (iPad, Galaxy Tab, etc.) como en **smartphones**, aprovechando al máximo cada pulgada de pantalla según la orientación del dispositivo.
+
+### 📐 9.1 Modo Tablet en Horizontal y Laptops (769px – 1200px)
+
+Cuando usas una tablet en orientación horizontal o una laptop compacta, la aplicación mantiene la cuadrícula completa de trabajo pero activa herramientas ergonómicas de espacio:
+
+1. **Colapso Rápido del Panel Derecho (`#btn-toggle-right-panel`):**
+   - En la esquina superior derecha del panel de Inspector/Árbol dispones de un botón dedicado para **ocultar o mostrar el panel derecho** con un solo toque o clic.
+   - Al colapsarlo, el panel se reduce a `0px`, otorgándole inmediatamente entre un **30% y un 40% más de espacio libre al lienzo de racks** para trabajar cómodamente sin tener que alejar el zoom.
+   - El estado colapsado se recuerda automáticamente en tu sesión.
+
+2. **Panel Inferior Compacto (200px):**
+   - La tabla inferior se reduce de sus 220px originales a **200px** para dejar mayor visibilidad vertical a los gabinetes.
+   - Los botones secundarios de exportación e importación (`CSV`, `Excel`, `Importar`) colapsan automáticamente su texto para mostrar solo sus iconos vectoriales, evitando desbordamientos horizontales.
+
+3. **Barra de Herramientas Inteligente:**
+   - La barra de herramientas del lienzo (`.main-toolbar`) colapsa las etiquetas de texto de los botones (`Zoom`, `Auto-Fit`, `Cables`, `Undo`), manteniendo iconos táctiles de alta definición para una experiencia limpia y despejada.
+
+---
+
+### 📲 9.2 Modo Móvil y Tablets en Vertical (≤ 768px y ≤ 480px)
+
+Al sostener la tablet en vertical o abrir la aplicación en un smartphone, la interfaz transmuta automáticamente a un diseño táctil nativo para el pulgar:
+
+#### Planos Visuales del Modo Móvil:
+- **Plano de Cotas y Medidas:** ![Cotas y Medidas](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
+- **Flujos de Pantalla Móvil:** ![Flujos Modo Móvil](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg)
+
+> 📏 Para consultar todas las cotas métricas y diagramas en detalle, revisa: [doc/doc_md/medidas/medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md)
+
+#### 1. Navegación con Cajones Deslizables (*Off-Canvas Drawers*)
+Los paneles laterales se desacoplan del diseño para no apretar el lienzo:
+- **Abrir Catálogo (☰):** Toca el botón de menú hamburguesa (34×34px) en la esquina superior izquierda de la cabecera. El catálogo se desliza suavemente cubriendo 280px con fondo oscuro.
+- **Abrir Inspector / Árbol (👁):** Toca el botón de ojo en la cabecera, o simplemente **toca cualquier gabinete o equipo en el lienzo**. El panel derecho se abrirá automáticamente mostrando las propiedades técnicas del elemento tocado.
+- **Cerrar un panel:** Toca el botón `✕` (32×32px) o toca cualquier parte del fondo oscuro (*backdrop*).
+
+#### 2. Panel Inferior como "Bottom Sheet" Deslizable
+La tabla de inventario se transforma en una hoja móvil deslizable:
+- **Modo Base Compacto (38px):** Permanece discretamente en la parte inferior, dejando **más del 80% de la pantalla totalmente despejada** para visualizar los racks.
+- **Expandir a Pantalla Completa (72vh):** Toca la cabecera, arrastra la barra de arrastre (*pill handle* de 36×4px) o **toca cualquier pestaña** (`Inventario` o `Conexiones`). El panel subirá fluidamente hasta cubrir el 72% de la pantalla (hasta 85vh).
+- **Contraer:** Toca nuevamente el botón `▼` o desliza hacia abajo.
+- **Scroll Horizontal de Herramientas:** La cabecera de la tabla cuenta con scroll horizontal táctil suave para acceder cómodamente a todos los botones (CSV, Excel, Importar, Columnas).
+
+#### 3. Búsqueda Flotante Táctil (Botón de Lupa 🔍)
+En pantallas compactas, el buscador no satura la barra de herramientas:
+- Toca el botón **🔍** para abrir una barra de búsqueda flotante desacoplada sobre el teclado táctil (`position: fixed; z-index: 10001;`).
+- Escribe el nombre o IP para filtrar la tabla en tiempo real.
+- Presiona `✕` para limpiar el filtro o pulsa fuera para cerrarla.
+
+#### 4. Ventanas Modales Adaptativas a Pantalla Completa
+Todos los modales técnicos (Conexiones, Edición de Equipos, Importación Masiva, etc.):
+- Ocupan el **96% del ancho** con bordes redondeados y **fondo 100% opaco y sólido** (`var(--bg-card)`), eliminando transparencias molestas.
+- Las retículas colapsan automáticamente a **1 columna única**, permitiendo rellenar campos y presionar botones cómodamente con el teclado virtual desplegado.
+
+
+---
+
+¡Has completado tu capacitación básica! Ahora sabes cómo navegar por la aplicación, qué significan los conceptos, cómo arrastrar componentes y cómo estructurar cuartos enteros según tus necesidades del mundo real, tanto en tu computadora de escritorio como en tu teléfono móvil. 
 
 Si te equivocas, recuerda usar la opción de **Deshacer (Undo)** con Ctrl+Z o simplemente seleccionar el equipo mal colocado y presionar el botón **Eliminar (Trash/Basurero)** en el Inspector (Panel Derecho).
+

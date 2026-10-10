@@ -163,3 +163,11 @@ grid
 └────────────────────────────────────────────────────────────────────────┘ ▼
 ◄─ 50px ─►◄────────────────────── 1fr ───────────────────────►◄─ 300px ──►
 ```
+
+---
+
+## 📱 4. Medidas y Cotas en Modo Móvil (Smartphones y Tablets)
+
+Para el desglose completo del esquema en smartphones y tablets (`≤ 768px` y `≤ 480px`), cajones *off-canvas* (`280px`), *Bottom Sheet* (`38px` a `72vh`), modales opacos (`96%`) y plano técnico acotado, consulta el documento específico:
+👉 **[medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md)**
+

@@ -1,17 +1,25 @@
 # Active Context
 
 ## Current Work Focus
-Se implementó con éxito **`M-34: Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect)`**, culminando al **100% la Fase 2 (Core de Datos y Puertos)**. La vista física cuenta con botón de modo cableado `#btn-cable-mode`, cursor crosshair, previsualización elástica con curva Bézier cúbica SVG en tiempo real (`#rubberband-interactive-cable`), botones rápidos de cableado `.dev-btn.connect` en carátulas de rack y periféricos de piso, y preselección inteligente de dispositivos de origen/destino al abrir `CableModal.js`. La suite de pruebas automatizadas se ha elevado a **381 pruebas con 100% de éxito (24 grupos, 0 fallos)** en paridad total CLI y Web.
+Se implementó con éxito **`M-25A: Responsive Laptop & Modo Móvil Integral (Drawers, Bottom Sheet, Filtro Lupa, Scroll Horizontal y Modales Opacos)`**, elevando la suite de integridad a **396 pruebas con 100% de éxito (25 grupos, 0 fallos)** en paridad total CLI y Web.
+
+El sistema cuenta ahora con:
+- Off-Canvas Drawers para Catálogo (`#sidebar`) e Inspector (`#right-panel`) con backdrop oscuro (`#mobile-overlay`) y jerarquía de capas optimizada (`z-index: 10000`).
+- Bottom Sheet reactivo en el panel inferior (`#bottom`), iniciando compacto a 38px y expandiéndose fluidamente a 72vh (`.sheet-expanded`).
+- Filtro de tabla inferior móvil modo solo lupa (`#btn-toggle-table-search`) con popover flotante, autofoco y limpieza rápida `✕`.
+- Scroll horizontal táctil fluido en la cabecera inferior (`.bottom-header`) con scrollbar delgada de 4px y menús desacoplados (`position: fixed`).
+- Todas las ventanas modales adaptadas al 100% para móviles (≤ 768px y ≤ 480px), eliminando transparencias con fondo sólido `var(--bg-card)` y colapsando formularios a 1 columna.
 
 El foco activo continúa en el avance de las propuestas de mejora documentadas en [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md) y [`roadmap_mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/roadmap_mejoras.md).
 
 ## Recent Changes (Octubre 2026)
-- **[2026-10-09] Implementación de M-34: Drag-to-Connect en Vista Física:**
-  - **Modo Cableado Interactivo (`rack.js`, `rack.css`):** Botón `#btn-cable-mode` en toolbar, cursor crosshair, trazado interactivo elástico con curva Bézier SVG (`rubberBandDash`), resaltado pulsante del equipo origen (`.cable-mode-source`).
-  - **Botones Directos en Carátulas:** `.dev-btn.connect` integrado en las acciones de equipos montados en rack y periféricos de piso (`faceplates.js`).
-  - **Integración con Modal:** Preselección automática e inteligente de origen y destino en `CableModal.js` para configuración inmediata sin errores de tipeo ni fricción.
-  - **Testing Automatizado:** Grupo 24 incorporado con 11 nuevas pruebas en `tests/integrity_check.cjs` y `tests/index.html` (381 pruebas al 100% de éxito, 0 fallos).
-  - **Hito de Fase:** Fase 2 completada al 100% (8 de 8 tareas). Progreso global del roadmap: 37 de 42 tareas (88.1%).
+- **[2026-10-10] Implementación de Modo Móvil Integral y Optimización Responsiva (M-25A / M-25B):**
+  - **Cajones Laterales Móviles:** Off-Canvas Drawers para Catálogo (`#sidebar`) e Inspector (`#right-panel`) con backdrop interactivo `#mobile-overlay`.
+  - **Hoja Inferior Táctil (Bottom Sheet):** `#bottom` compacto a 38px por defecto con expansión suave a 72vh al pulsar pestañas, tirador o botón `▲`.
+  - **Filtro de Lupa en Barra Inferior:** `#btn-toggle-table-search` con popover flotante anclado, filtrado reactivo y botón de limpieza `✕`.
+  - **Scroll Horizontal Táctil en Cabecera Inferior:** `overflow-x: auto` con scrollbar delgada y desacoplamiento de menús flotantes (`position: fixed`).
+  - **Modales 100% Opacos y Responsivos:** Sustitución de `var(--bg-panel)` por `var(--bg-card)` (eliminando transparencias), `min-width: 0 !important`, y colapso de grids a 1 columna.
+  - **Testing Automatizado:** Grupo 25 incorporado con 15 nuevas pruebas en `tests/integrity_check.cjs` (396 pruebas al 100% de éxito, 0 fallos).
 - **[2026-10-09] Implementación de M-33: Cableado Frontal vs. Trasero:**
   - **Extensión del Modelo (`js/store.js`):** Soporte de `sourceSide` y `targetSide` en conexiones, método `isPortOccupied` con discriminación de cara `portSide`, validación de colisiones con etiquetas de cara (`[Frontal]` / `[Trasero]`), método `swapConnectionDirection` con transposición simétrica de caras y `getDevicePorts` con atributo `side`.
   - **Formulario Interactivo (`index.html` y `CableModal.js`):** Selectores `#cable-src-side` y `#cable-dst-side`, sincronización automática según `mountSide`, soporte en botón Swap `#btn-cable-swap` y badges de estado en el selector de puertos.

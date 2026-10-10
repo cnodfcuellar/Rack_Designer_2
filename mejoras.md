@@ -325,56 +325,36 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
     *   **Seguridad contra Pérdidas:** Protege horas de diseño manual contra reorganizaciones accidentales o pruebas automáticas de layout.
     *   **Velocidad en Demostraciones y Auditorías:** Facilita cambiar de vista con un solo clic durante reuniones técnicas o revisiones de infraestructura.
 
-### 🔌 Sistema de Cableado Mejorado (Frontal vs Trasero)
-*   **Problema:** El sistema de cableado actual no distingue entre los equipos montados en la parte frontal y los equipos montados en la parte trasera del rack.
-*   **Propuesta de Mejora:** Mejorar el motor de enrutamiento y la gestión de puertos para que reconozca y gestione conexiones diferenciando claramente si los equipos están en el panel frontal o trasero.
-*   **Objetivo/Beneficio en Producción:** Mayor fidelidad a la realidad física del centro de datos y prevención de errores de diseño.
+### 🔌 [COMPLETADO] Sistema de Cableado Mejorado (Frontal vs Trasero) (M-33)
+*   **Estado:** Completado. Implementado al 100% y verificado con 10 pruebas automatizadas en el Grupo 23 de `tests/integrity_check.cjs`:
+    *   **Extensión de Modelo:** Persistencia de `sourceSide` y `targetSide` (`'front' | 'rear'`).
+    *   **Aislamiento de Colisiones de Puerto:** Detección precisa con `isPortOccupied(deviceId, portName, portSide)`, permitiendo reutilizar el mismo nombre de puerto en caras opuestas en equipos duales (`mountSide: 'both'`).
+    *   **Transposición Simétrica:** Inversión de enlace (`swapConnectionDirection`) que transpone tanto equipos como caras origen y destino.
+    *   **Formulario y Tabla:** Selectores `#cable-src-side` y `#cable-dst-side` en `CableModal.js` e insignias visuales esmeralda/azul en la tabla de conexiones.
 
-### 🪢 Creación Gráfica e Interactiva de Conexiones en la Vista Física (Drag-to-Connect)
-*   **Problema / Limitación Actual:** Actualmente, crear una conexión de red entre dos equipos requiere abrir un formulario modal (`CableModal`), buscar manualmente el equipo y puerto de origen en selectores de texto, y repetir el proceso para el equipo y puerto de destino. Este flujo resulta abstracto, lento y desconectado de la experiencia de manipulación visual de los racks.
-*   **Propuesta de Mejora:** Implementar un sistema de conexión visual directo e interactivo sobre el lienzo de la Vista Física, emulando la experiencia táctil de conectar un latiguillo (patch cord) en un datacenter real:
-    *   **Modo Cableado / Herramienta de Conexión:** Un botón de acción rápida en la barra de herramientas superior o atajo de teclado (p. ej. tecla `C`) para entrar en "Modo Conexión". Al activarse, los puertos y conectores disponibles en los equipos emiten un resplandor sutil (glow cian) indicando que son interactivos.
-    *   **Gesto Natural "Arrastrar para Conectar" (Drag & Connect):**
-        *   Hacer clic sostenido (o clic inicial) sobre un puerto o conector del equipo origen inicia el tendido del cable.
-        *   Una curva de cable dinámica y elástica (trazado bezier / rubber-band SVG en `#physical-cables-svg`) sigue la trayectoria del cursor en tiempo real con física suave.
-    *   **Atracción Magnética (Snap) y Validación Visual:**
-        *   Al acercar el cursor a un puerto de un equipo destino válido, el extremo del cable se "imanta" (snap magnético) automáticamente al conector objetivo.
-        *   **Feedback cromático:** Si el puerto está libre y es compatible, el indicador y el cable se iluminan en verde/cian con un tooltip informativo flotante (ej. *"Conectar Eth-1 a Switch Core 101"*); si el puerto está ocupado o incompatible, se ilumina en rojo con una advertencia explicativa.
-    *   **Selector Rápido de Puerto Flotante (Quick Port Flyout):** Si el usuario arrastra o suelta sobre un equipo sin seleccionar un pin/conector miniatura específico, se despliega un menú flotante ultra-rápido (popover) junto al equipo con sus puertos disponibles (y su tipo: Cobre, Fibra, VLAN), permitiendo elegir el puerto en un solo clic sin abrir modales pesados.
-    *   **Finalización Inmediata y Ajuste Rápido:** Al soltar o confirmar el puerto destino, la conexión se registra de inmediato en `store.js` y se re-enruta ortogonalmente por las canaletas físicas. Aparece una pastilla flotante temporal para seleccionar tipo de cable (Cat6, Fibra, DAC) o color con un clic. Presionar `Esc` cancela el tendido en cualquier instante.
-*   **Objetivo/Beneficio en Producción:** Transformar una tarea tediosa de ingreso de datos en una interacción visual intuitiva y natural, acelerando drásticamente el diseño de cableado de red y eliminando errores por selección incorrecta de IDs en listas desplegables.
+### 🪢 [COMPLETADO] Creación Gráfica e Interactiva de Conexiones en la Vista Física (Drag-to-Connect) (M-34)
+*   **Estado:** Completado. Implementado al 100% y verificado con 11 pruebas automatizadas en el Grupo 24 de `tests/integrity_check.cjs`:
+    *   **Modo Cableado Interactivo:** Botón `#btn-cable-mode` en la barra del lienzo, cursor crosshair y trazado elástico de curva Bézier cúbica SVG (`#rubberband-interactive-cable`) que sigue el puntero en tiempo real.
+    *   **Botones Rápidos en Carátulas:** Botón `.dev-btn.connect` integrado en equipos montados en rack y periféricos de piso (`faceplates.js`).
+    *   **Preselección Automática:** Detección de objetivo que transfiere automáticamente origen y destino al formulario modal `CableModal.js`.
 
-### 🔌 [COMPLETADO] Botón para Invertir y Cambiar Orientación de Conexiones (M-41)
-*   **Estado:** Completado. Implementado al 100% y validado con pruebas de integridad (265 pruebas con 0 fallos) e interacción en navegador:
-    *   **Botón Swap en Modal de Conexiones (`CableModal.js`):** Botón compacto `#btn-cable-swap` con icono vectorial SVG `.icon-swap` que intercambia instantáneamente equipos y puertos origen/destino recalculando puertos y colisiones sin cerrar el modal.
-    *   **Selector de Orientación (`#cable-orientation`):** Selector de canaleta Superior (Techo) e Inferior (Piso) en el modal, persistido en el modelo (`orientation: 'top' | 'bottom'`).
-    *   **Trazado Físico en `rack.js`:** Las conexiones inter-rack con orientación inferior descienden a la canaleta de piso técnico y ascienden limpiamente hacia el destino.
-    *   **Acciones en Tabla de Conexiones (`tables.js`):** Columna interactiva de Canaleta con toggle de 1 clic y botón de inversión de sentido directo por fila (`data-swap-conn`).
-*   **Problema / Necesidad:** Al documentar o modificar conexiones en el centro de datos, los operadores frecuentemente experimentaban dos fricciones comunes:
-    1. **Inversión de Sentido en el Formulario:** Si se seleccionan los equipos o puertos en orden inverso (por ejemplo, switch como origen y patch panel como destino, en lugar de patch panel hacia switch), el usuario debe reiniciar y reconfigurar manualmente los 4 selectores (`Equipo Origen`, `Puerto Origen`, `Equipo Destino`, `Puerto Destino`).
-    2. **Orientación de Canaleta Fija en Vista Física:** Actualmente, las conexiones entre gabinetes se trazan obligatoriamente por la bandeja aérea superior (*overhead tray*), sin permitir que cables específicos (como alimentación, tierra o cableado troncal bajo piso) se enruten por la canaleta inferior de piso técnico.
-*   **Propuesta de Mejora (Solución Simple y Sencilla):**
-    *   **Botón Rápido de Inversión (Swap Origen ⇄ Destino) en Modal de Cables (`CableModal.js`):**
-        *   Incorporar un botón compacto y accesible con icono vectorial SVG `icon-swap` (`⇄` o `⇅`) situado justo entre el bloque de *Equipo/Puerto Origen* y *Equipo/Puerto Destino*.
-        *   Con un solo clic, intercambia los valores de origen por los de destino y viceversa (`src` ⇄ `dst`), rellenando automáticamente las listas de puertos correspondientes y recalculando la validación de colisiones sin pérdida de datos.
-    *   **Selector Simple de Orientación de Canaleta (Superior / Inferior):**
-        *   Un control conmutador sencillo de 2 estados en el formulario de conexión:
-            *   ⬆️ **Canaleta Superior (Techo / Bandeja Aérea)**: El cable viaja por la parte superior de los gabinetes.
-            *   ⬇️ **Canaleta Inferior (Piso Técnico / Fondo)**: El cable desciende y viaja por el zócalo o pasillo inferior entre racks.
-        *   La propiedad se guarda en el modelo de conexión (`orientation: 'top' | 'bottom'`, por defecto `'top'`) y es respetada inmediatamente por el algoritmo de trazado SVG en `rack.js` (`drawPhysicalCables`).
-*   **Objetivo/Beneficio en Producción:**
-    *   **Máxima Simplicidad y Cero Fricción:** Ahorra decenas de clics al corregir o invertir la dirección lógica de enlaces de red con una interacción inmediata y directa.
-    *   **Fidelidad Física:** Permite representar fielmente instalaciones donde conviven canalizaciones aéreas de fibra óptica con canalizaciones bajo piso técnico para cobre o energía.
+### 🖥️ [COMPLETADO] Responsive Desktop, Laptops Medianas y Modo Móvil PWA (M-25A / M-25B)
+*   **Estado:** Completado. Implementado al 100% y certificado con 15 pruebas automatizadas en el Grupo 25 de `tests/integrity_check.cjs`:
+    *   **Drawer Colapsable del Panel Derecho:** Botón `#btn-toggle-right-panel`, colapso instantáneo a 0px (`#app.right-panel-collapsed`) y persistencia en sesión.
+    *   **Off-Canvas Drawers en Móviles (≤ 768px):** Catálogo (`#sidebar`) e Inspector (`#right-panel`) como cajones laterales de 85% (máx 320px) con fondo oscuro atenuado interactivo (`#mobile-overlay`) a `z-index: 10000`.
+    *   **Bottom Sheet en Panel Inferior:** Inicio compacto a 38px (dejando >80% de la pantalla para el rack) y expansión fluida a 72vh (`.sheet-expanded`) al pulsar pestañas, tirador táctil pill (`#bottom-resizer`) o botón `▲`.
+    *   **Buscador Compacto con Popover en Barra Inferior:** En móvil, `#table-search` se oculta por defecto mostrando solo el botón de lupa `#btn-toggle-table-search`. Al pulsar, despliega un popover flotante anclado (`position: fixed`) con autofoco y botón de limpieza `✕`.
+    *   **Scroll Horizontal Táctil en Cabecera Inferior:** `.bottom-header` con `overflow-x: auto` fluido, scrollbar táctil estilizada de 4px y menús desacoplados (`position: fixed`) para evitar recortes verticales.
+    *   **Modales 100% Opacos y Responsivos:** Sustitución de `var(--bg-panel)` por `var(--bg-card)` (eliminando transparencias en tema sepia/oscuro), `min-width: 0 !important;` y colapso automático de retículas de formulario a 1 columna.
 
-### 🔄 Eliminación de Restricciones de Ubicación (Rack vs Piso/Frente)
+### 📸 [COMPLETADO] Fidelidad Visual 1:1 en Exportación de Racks y Salas a PNG (M-37)
+*   **Estado:** Completado. Implementado al 100% y verificado con pruebas automatizadas:
+    *   Exportación Retina (2x) con `html2canvas` preservando la cuadrícula, carátulas de equipos y cables visibles en tiempo real. Fallback procedimental a Canvas 2D en entornos sin soporte.
+
+### 🔄 Eliminación de Restricciones de Ubicación (Rack vs Piso/Frente) (M-35)
 *   **Problema:** El sistema actual impone restricciones estrictas de tipología entre equipos diseñados para rack y equipos de piso o de frente, limitando la flexibilidad del diseño.
 *   **Propuesta de Mejora:** Cambios profundos en la arquitectura para eliminar estas restricciones. No debe haber ninguna restricción respecto a dónde se puede colocar un equipo (cualquier equipo debería poder montarse en rack, piso o frente). Esto requerirá reescribir fuertemente muchos menús, validaciones de arrastrar y soltar (drag & drop) y subsistemas de la aplicación.
 *   **Objetivo/Beneficio en Producción:** Flexibilidad absoluta para el arquitecto de infraestructura, permitiendo modelar escenarios no estandarizados o equipos híbridos que la lógica actual prohíbe.
-
-### 📸 Regresión en la Exportación de Racks y Salas a PNG
-*   **Problema:** Tras los últimos cambios estructurales y de estilos en la vista física, la función para exportar a imagen (PNG) se ha roto. Ya no es posible exportar un rack específico "1 a 1" (probablemente por fallos al capturar el contenedor o las caras del rack) ni tampoco funciona la exportación completa de la sala.
-*   **Requisito:** Al exportar la sala completa en vista física, **el archivo PNG generado debe incluir los cables visibles** si el switch de mostrar cables está activado en la interfaz en ese momento.
-*   **Prioridad:** **Crítica/Urgente**, ya que era un punto que estaba funcional y su pérdida impacta la capacidad de generar reportes.
 
 ---
 
@@ -397,27 +377,27 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
 9. Categoría "Todos" y agrupación "Network" en sidebar. *(→ Sección 6, 🔍 y 🔌)*
 10. Inspector colapsable, opciones de ordenamiento en Outliner. *(→ Sección 6, 🗂️ y 🔄)*
 11. Creación, edición y eliminación de salas y racks desde el Inspector. *(→ Sección 6, 🛠️)*
-12. Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect). *(→ Sección 6, 🪢)*
+12. Creación gráfica e interactiva de conexiones en vista física (Drag-to-Connect) (M-34). *(→ Sección 6, 🪢)* ✅ **[COMPLETADO 2026-10-09]**
 13. Botón para cambiar orientación e invertir conexiones en CableModal y vista física (M-41). *(→ Sección 6, 🔌)* ✅ **[COMPLETADO 2026-10-02]**
 
 ### Fase 3 — Topología Avanzada
-13. Persistencia de posiciones de nodos en la topología. *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO]**
-14. Layout en Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas y reubicación de dispositivos no conectados en la parte baja de racks y sala. *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO 2026-09-27]**
-15. Motor de temas y personalización visual en topología (transparencias, patrones de fondo, etiquetas duales IP/Nombre). *(→ Sección 6, 🎨)* ✅ **[COMPLETADO 2026-09-27]**
-16. Skins visuales personalizadas en topología (cards, imágenes personalizadas, estilos extendidos). *(→ Sección 6, 🖼️)*
+13. Persistencia de posiciones de nodos en la topología (M-27). *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO]**
+14. Layout en Árbol Jerárquico estilo Draw.io con conexiones ortogonales redondeadas y reubicación de dispositivos no conectados en la parte baja de racks y sala (M-32). *(→ Sección 6, 🕸️)* ✅ **[COMPLETADO 2026-09-27]**
+15. Motor de temas y personalización visual en topología (transparencias, patrones de fondo, etiquetas duales IP/Nombre) (M-29). *(→ Sección 6, 🎨)* ✅ **[COMPLETADO 2026-09-27]**
+16. Skins visuales personalizadas en topología (cards, imágenes personalizadas, estilos extendidos) (M-28). *(→ Sección 6, 🖼️)* ✅ **[COMPLETADO 2026-09-28]**
 17. Guardado y conmutación de 5 estados (slots de posiciones) de topología (M-40). *(→ Sección 6, 💾)* ✅ **[COMPLETADO 2026-10-02]**
 
 ### Fase 4 — Exportación y Colaboración
-16. Plantilla completa de exportación con todos los campos. *(→ Sección 6, 📋)*
-17. Importación masiva CSV/Excel con validación y resolución de conflictos. *(→ Sección 6, 📥)*
-18. Ocultar/mostrar columnas en tablas con persistencia. *(→ Sección 6, ⚙️)*
-19. Fidelidad visual 1:1 en exportación de imágenes PNG con html2canvas (racks, cables y piso). *(→ Sección 6, 📸)*
+16. Plantilla completa de exportación con todos los campos (M-21). *(→ Sección 6, 📋)* ✅ **[COMPLETADO]**
+17. Importación masiva CSV/Excel con validación y resolución de conflictos (M-22). *(→ Sección 6, 📥)* ✅ **[COMPLETADO]**
+18. Ocultar/mostrar columnas en tablas con persistencia (M-20). *(→ Sección 6, ⚙️)* ✅ **[COMPLETADO]**
+19. Fidelidad visual 1:1 en exportación de imágenes PNG con html2canvas (racks, cables y piso) (M-37). *(→ Sección 6, 📸)* ✅ **[COMPLETADO]**
 20. **[NUEVO]** Exportación de la sala y gabinetes a formato **SVG** puro (escalable sin pérdida de calidad). Debe ser exacto (1 a 1) y respetar el tema actual de la aplicación (Claro/Oscuro).
 21. **[NUEVO]** Exportación de la sala a formato **PDF Vectorial**, ideal para imprimir planos e informes del Datacenter. Debe ser exacto (1 a 1) y respetar el tema actual de la aplicación.
 
 ### Fase 5 — Responsive y Avanzado
-20. Rediseño completo para móvil/tablet (media queries, gestos, bottom nav). *(→ Sección 6, 📱)*
-21. Tema Sepia y visibilidad del theme toggler. *(→ Sección 6, 🎨)*
+20. Rediseño completo para escritorio compacto, laptops y modo móvil/tablet (M-25A / M-25B). *(→ Sección 6, 📱)* ✅ **[COMPLETADO 2026-10-10]**
+21. Tema Sepia y visibilidad del theme toggler (M-18). *(→ Sección 6, 🎨)* ✅ **[COMPLETADO]**
 
 ---
 
