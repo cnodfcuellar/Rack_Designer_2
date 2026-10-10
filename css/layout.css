@@ -1461,19 +1461,75 @@
   }
 
   #sidebar {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 85%;
-    max-width: 320px;
-    height: 100vh;
-    z-index: 9999;
-    transition: left 0.3s ease;
-    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5);
+    position: fixed !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 85% !important;
+    max-width: 320px !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    z-index: 10000 !important;
+    transition: left 0.3s ease !important;
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.5) !important;
+    background: var(--bg-panel) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow: hidden !important;
   }
 
   #sidebar.open {
-    left: 0;
+    left: 0 !important;
+  }
+
+  #sidebar.open #sidebar-category-icons {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #sidebar.open #catalog-flyout {
+    display: flex !important;
+    width: calc(100% - 50px) !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+  }
+
+  #right-panel {
+    position: fixed !important;
+    top: 0 !important;
+    right: -100% !important;
+    width: 85% !important;
+    max-width: 320px !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    z-index: 10000 !important;
+    transition: right 0.3s ease !important;
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.5) !important;
+    background: var(--bg-panel) !important;
+    border-left: 1px solid var(--border) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+
+  #right-panel.open {
+    right: 0 !important;
+  }
+
+  .mobile-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-card2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 13px;
+    flex-shrink: 0;
   }
 
   #main {
@@ -1487,10 +1543,36 @@
 
   #bottom {
     min-width: 0;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+  }
+
+  #bottom.sheet-expanded {
+    height: 72vh !important;
+    max-height: 80vh !important;
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.7);
   }
 
   #bottom.fullscreen {
-    height: 85vh !important;
+    height: 88vh !important;
+  }
+
+  .bottom-resizer {
+    height: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bottom-resizer::after {
+    content: '';
+    width: 38px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-highlight);
+    opacity: 0.8;
   }
 
   /* Make toolbars scrollable horizontally instead of wrapping awkwardly */
@@ -1544,28 +1626,109 @@
     min-width: 600px;
   }
 
-  /* Bottom controls scrollable */
+  /* Bottom controls scrollable solo en modo móvil */
   .bottom-header {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    width: 100%;
-    padding: 6px 16px;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x !important;
+    width: 100% !important;
+    padding: 6px 12px 8px 12px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--border-highlight, rgba(255, 255, 255, 0.25)) transparent !important;
+  }
+
+  .bottom-header::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+
+  .bottom-header::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.15) !important;
+    border-radius: 2px !important;
+  }
+
+  .bottom-header::-webkit-scrollbar-thumb {
+    background: var(--border-highlight, rgba(255, 255, 255, 0.3)) !important;
+    border-radius: 2px !important;
+  }
+
+  .bottom-header::-webkit-scrollbar-thumb:hover {
+    background: var(--accent) !important;
   }
 
   .bottom-header .spacer {
-    display: none;
+    display: none !important;
+  }
+
+  .bottom-header > * {
+    flex-shrink: 0 !important;
   }
 
   .bottom-header .h-btn,
   .bottom-header .btn-primary {
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-right: 8px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    margin-right: 6px !important;
   }
 
   .tab-pills {
-    flex-shrink: 0;
-    margin-right: 8px;
+    flex-shrink: 0 !important;
+    margin-right: 6px !important;
+  }
+
+  /* Dropdowns flotantes en móvil para evitar recorte por overflow horizontal */
+  #columns-dropdown,
+  #export-dropdown {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 46px !important;
+    right: 12px !important;
+    max-width: calc(100vw - 24px) !important;
+    z-index: 10001 !important;
+  }
+
+  /* Filtro de tabla en móvil: solo icono de lupa con popover flotante igual que el header */
+  #btn-toggle-table-search {
+    display: inline-flex !important;
+    height: 24px;
+    padding: 0 8px;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  #btn-toggle-table-search:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  #table-search-input-wrap {
+    display: none !important;
+  }
+
+  #table-search-wrap.is-open #table-search-input-wrap {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 46px !important;
+    right: 12px !important;
+    width: 240px !important;
+    max-width: calc(100vw - 24px) !important;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 8px;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.55);
+    z-index: 10001 !important;
+  }
+
+  #table-search-wrap.is-open input#table-search {
+    width: 100% !important;
   }
 
   /* Modals */
@@ -1929,4 +2092,8 @@ details[open]>.outliner-summary::before {
 
 .flyout-search input:focus {
   border-color: var(--accent);
+}
+
+.mobile-drawer-header {
+  display: none;
 }

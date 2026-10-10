@@ -471,6 +471,17 @@ table.data-table td input.cell-edit.error { border-color: var(--red); box-shadow
   display: none !important;
 }
 
+.table-search-toggle,
+#btn-toggle-table-search {
+  display: none;
+}
+
+.table-search-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
 .table-search-wrap input#table-search {
   height: 24px !important;
   background: var(--bg-card2);

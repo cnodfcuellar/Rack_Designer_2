@@ -1,0 +1,397 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 850" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap');
+      text { font-family: 'Outfit', -apple-system, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', monospace; }
+      .title { font-size: 20px; font-weight: 700; fill: #f0f4ff; letter-spacing: 0.5px; }
+      .subtitle { font-size: 13px; fill: #8b9ab8; }
+      .badge { font-size: 10px; font-weight: 600; fill: #38bdf8; }
+    </style>
+
+    <!-- Patrón de puntos para el lienzo del rack -->
+    <pattern id="canvasDotsMob" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="0.75" fill="#38bdf8" opacity="0.18"/>
+    </pattern>
+
+    <!-- Filtros de sombra -->
+    <filter id="phoneShadow" x="-10%" y="-5%" width="120%" height="115%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <filter id="drawerShadow" x="-20%" y="-5%" width="140%" height="110%">
+      <feDropShadow dx="4" dy="0" stdDeviation="12" flood-color="#000000" flood-opacity="0.75"/>
+    </filter>
+    <filter id="drawerRightShadow" x="-5%" y="-5%" width="140%" height="110%">
+      <feDropShadow dx="-6" dy="0" stdDeviation="14" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+    <filter id="sheetShadow" x="-5%" y="-20%" width="110%" height="140%">
+      <feDropShadow dx="0" dy="-8" stdDeviation="16" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- FONDO GENERAL DE LA GUÍA -->
+  <rect width="1680" height="850" fill="#070a12"/>
+
+  <!-- CABECERA DE LA DOCUMENTACIÓN -->
+  <g transform="translate(40, 36)">
+    <rect width="1600" height="60" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <circle cx="32" cy="30" r="14" fill="#38bdf8" fill-opacity="0.15"/>
+    <text x="32" y="35" text-anchor="middle" fill="#38bdf8" font-size="15" font-weight="bold">📱</text>
+    <text x="60" y="28" class="title">RACK DESIGNER NEXT — ARQUITECTURA UX MODO MÓVIL (≤ 768px)</text>
+    <text x="60" y="48" class="subtitle">Flujos completos: Lienzo Principal • Cajón Izquierdo (Catálogo) • Cajón Derecho (Inspector) • Hoja Inferior (Tabla)</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ESTADO 1: LIENZO PRINCIPAL (DEFAULT)                           -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(40, 120)">
+    <rect x="0" y="0" width="370" height="28" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8"/>
+    <text x="185" y="18" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">1. LIENZO PRINCIPAL (DEFAULT)</text>
+
+    <g transform="translate(15, 38)" filter="url(#phoneShadow)">
+      <rect width="340" height="610" rx="36" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+      <rect x="8" y="8" width="324" height="594" rx="28" fill="#0b0f19"/>
+      <rect x="120" y="14" width="100" height="12" rx="6" fill="#1e293b"/>
+
+      <!-- Header Móvil -->
+      <g transform="translate(8, 32)">
+        <rect width="324" height="46" fill="#111827" stroke="#1f2937" stroke-width="0.8"/>
+        <rect x="10" y="8" width="30" height="30" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="0.8"/>
+        <text x="25" y="27" text-anchor="middle" fill="#38bdf8" font-size="16">☰</text>
+
+        <g transform="translate(48, 10)">
+          <rect width="84" height="26" rx="4" fill="#1e293b" stroke="#374151" stroke-width="0.6"/>
+          <text x="8" y="17" fill="#f0f4ff" font-size="11" font-weight="600">Sala 1 ▾</text>
+        </g>
+        <g transform="translate(138, 10)">
+          <rect width="84" height="26" rx="4" fill="#1e293b" stroke="#374151" stroke-width="0.6"/>
+          <text x="8" y="17" fill="#f0f4ff" font-size="11" font-weight="600">Rack 1 ▾</text>
+        </g>
+
+        <rect x="250" y="10" width="28" height="26" rx="4" fill="#1e293b"/>
+        <text x="264" y="27" text-anchor="middle" fill="#94a3b8" font-size="12">🔍</text>
+        <rect x="282" y="10" width="32" height="26" rx="4" fill="#1e293b"/>
+        <text x="298" y="27" text-anchor="middle" fill="#94a3b8" font-size="12">⚙</text>
+      </g>
+
+      <!-- Toolbar horizontal deslizable -->
+      <g transform="translate(14, 84)">
+        <rect width="312" height="34" rx="6" fill="#1e293b" fill-opacity="0.95" stroke="#334155" stroke-width="0.8"/>
+        <rect x="6" y="5" width="24" height="24" rx="4" fill="#0f172a"/>
+        <text x="18" y="21" text-anchor="middle" fill="#8b9ab8" font-size="12">🔍</text>
+        <rect x="34" y="5" width="24" height="24" rx="4" fill="#0f172a"/>
+        <text x="46" y="21" text-anchor="middle" fill="#8b9ab8" font-size="11">↺</text>
+        <rect x="62" y="5" width="24" height="24" rx="4" fill="#0f172a"/>
+        <text x="74" y="21" text-anchor="middle" fill="#38bdf8" font-size="11">⚡</text>
+        <rect x="90" y="5" width="40" height="24" rx="4" fill="#0f172a"/>
+        <text x="110" y="21" text-anchor="middle" fill="#10b981" font-size="10" class="mono">100%</text>
+        
+        <text x="180" y="21" fill="#64748b" font-size="9" class="mono">deslizar ➔</text>
+
+        <!-- Botón Sticky Inspector (Disparador) -->
+        <rect x="272" y="4" width="34" height="26" rx="4" fill="#0284c7" stroke="#38bdf8" stroke-width="0.8"/>
+        <text x="289" y="21" text-anchor="middle" fill="#ffffff" font-size="12">👁</text>
+      </g>
+
+      <!-- Lienzo con Rack visible -->
+      <g transform="translate(14, 126)">
+        <rect width="312" height="428" rx="6" fill="#090d16" stroke="#1f2937" stroke-width="1"/>
+        <rect width="312" height="428" fill="url(#canvasDotsMob)"/>
+
+        <g transform="translate(76, 20)">
+          <rect width="160" height="380" rx="4" fill="#111827" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="80" y="-8" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">RACK 01 — 42U</text>
+
+          <line x1="16" y1="0" x2="16" y2="380" stroke="#374151" stroke-width="1"/>
+          <line x1="144" y1="0" x2="144" y2="380" stroke="#374151" stroke-width="1"/>
+
+          <!-- Dispositivo tocable (highlight) -->
+          <g>
+            <rect x="18" y="47" width="124" height="24" rx="2" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="24" y="63" fill="#38bdf8" font-size="9" font-weight="600" class="mono">SW-CORE-48P</text>
+            <circle cx="128" cy="59" r="3" fill="#10b981"/>
+            <!-- Indicador de toque -->
+            <circle cx="80" cy="59" r="8" fill="#38bdf8" fill-opacity="0.3" stroke="#38bdf8" stroke-dasharray="2,2"/>
+            <text x="80" y="40" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">👆 TAP AQUÍ</text>
+          </g>
+
+          <rect x="18" y="85" width="124" height="36" rx="2" fill="#182234" stroke="#334155" stroke-width="0.8"/>
+          <text x="24" y="106" fill="#f0f4ff" font-size="9" font-weight="600" class="mono">SRV-PROD-DB01</text>
+
+          <rect x="18" y="125" width="124" height="36" rx="2" fill="#182234" stroke="#334155" stroke-width="0.8"/>
+          <text x="24" y="146" fill="#f0f4ff" font-size="9" font-weight="600" class="mono">SRV-PROD-APP01</text>
+
+          <rect x="18" y="310" width="124" height="52" rx="2" fill="#111827" stroke="#f59e0b" stroke-width="1"/>
+          <text x="24" y="338" fill="#f59e0b" font-size="9" font-weight="700" class="mono">APC SMART-UPS</text>
+        </g>
+      </g>
+
+      <!-- Bottom Bar compacta -->
+      <g transform="translate(8, 558)">
+        <rect width="324" height="38" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+        <rect x="142" y="4" width="40" height="3.5" rx="2" fill="#475569"/>
+        <g transform="translate(10, 10)">
+          <rect x="0" y="2" width="22" height="20" rx="3" fill="#1e293b"/>
+          <text x="11" y="16" text-anchor="middle" fill="#38bdf8" font-size="11">▲</text>
+          <rect x="30" y="2" width="80" height="20" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.6"/>
+          <text x="70" y="15" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">📊 Resumen</text>
+          <rect x="116" y="2" width="84" height="20" rx="4" fill="#0f172a"/>
+          <text x="158" y="15" text-anchor="middle" fill="#8b9ab8" font-size="10">🖥️ Equipos</text>
+          <rect x="206" y="2" width="84" height="20" rx="4" fill="#0f172a"/>
+          <text x="248" y="15" text-anchor="middle" fill="#8b9ab8" font-size="10">⚡ Conex.</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ESTADO 2: CATÁLOGO EN CAJÓN IZQUIERDO (DRAWER ☰)               -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(450, 120)">
+    <rect x="0" y="0" width="370" height="28" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="0.8"/>
+    <text x="185" y="18" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">2. CAJÓN DE CATÁLOGO (DRAWER ☰)</text>
+
+    <g transform="translate(15, 38)" filter="url(#phoneShadow)">
+      <rect width="340" height="610" rx="36" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+      <rect x="8" y="8" width="324" height="594" rx="28" fill="#0b0f19"/>
+      <rect x="120" y="14" width="100" height="12" rx="6" fill="#1e293b"/>
+
+      <!-- Overlay oscuro -->
+      <rect x="8" y="32" width="324" height="564" fill="#000000" fill-opacity="0.75"/>
+
+      <!-- Drawer Izquierdo -->
+      <g transform="translate(8, 32)" filter="url(#drawerShadow)">
+        <rect width="280" height="564" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+        <rect width="280" height="46" fill="#1e293b"/>
+        <text x="16" y="28" fill="#38bdf8" font-size="13" font-weight="700">CATÁLOGO DE EQUIPOS</text>
+        <rect x="238" y="8" width="30" height="30" rx="6" fill="#0f172a" stroke="#374151" stroke-width="0.8"/>
+        <text x="253" y="28" text-anchor="middle" fill="#f43f5e" font-size="16" font-weight="bold">✕</text>
+
+        <g transform="translate(14, 56)">
+          <rect width="252" height="30" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+          <text x="10" y="20" fill="#64748b" font-size="11">🔍 Buscar componentes...</text>
+        </g>
+
+        <g transform="translate(0, 96)">
+          <rect width="48" height="468" fill="#0b0f19" stroke="#1e293b" stroke-width="0.8"/>
+          <g transform="translate(8, 12)">
+            <rect width="32" height="32" rx="6" fill="#0284c7"/>
+            <text x="16" y="21" text-anchor="middle" fill="#fff" font-size="13">🖥️</text>
+          </g>
+          <g transform="translate(8, 52)">
+            <rect width="32" height="32" rx="6" fill="#1e293b"/>
+            <text x="16" y="21" text-anchor="middle" fill="#8b9ab8" font-size="13">🔀</text>
+          </g>
+
+          <g transform="translate(56, 10)">
+            <text x="6" y="10" fill="#38bdf8" font-size="11" font-weight="700">SERVIDORES (RACKEABLES)</text>
+            <g transform="translate(4, 18)">
+              <rect width="210" height="48" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+              <text x="10" y="18" fill="#f0f4ff" font-size="11" font-weight="600">Servidor 1U (Dell R640)</text>
+              <text x="10" y="34" fill="#8b9ab8" font-size="9.5" class="mono">1U • 450W</text>
+              <rect x="164" y="12" width="38" height="24" rx="4" fill="#0ea5e9"/>
+              <text x="183" y="27" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">+ Add</text>
+            </g>
+            <g transform="translate(4, 74)">
+              <rect width="210" height="48" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+              <text x="10" y="18" fill="#f0f4ff" font-size="11" font-weight="600">Servidor 2U (Dell R740)</text>
+              <text x="10" y="34" fill="#8b9ab8" font-size="9.5" class="mono">2U • 750W</text>
+              <rect x="164" y="12" width="38" height="24" rx="4" fill="#0ea5e9"/>
+              <text x="183" y="27" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">+ Add</text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ESTADO 3: INSPECTOR / PROPIEDADES (DRAWER DERECHO)              -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(860, 120)">
+    <rect x="0" y="0" width="370" height="28" rx="6" fill="#1e293b" stroke="#ec4899" stroke-width="0.8"/>
+    <text x="185" y="18" text-anchor="middle" fill="#ec4899" font-size="12" font-weight="700">3. INSPECTOR DE EQUIPO (DRAWER DERECHO)</text>
+
+    <g transform="translate(15, 38)" filter="url(#phoneShadow)">
+      <rect width="340" height="610" rx="36" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+      <rect x="8" y="8" width="324" height="594" rx="28" fill="#0b0f19"/>
+      <rect x="120" y="14" width="100" height="12" rx="6" fill="#1e293b"/>
+
+      <!-- Overlay oscuro que atenúa el fondo izquierdo -->
+      <rect x="8" y="32" width="324" height="564" fill="#000000" fill-opacity="0.75"/>
+
+      <!-- CAJÓN DERECHO: INSPECTOR (DRAWER DE 290px) -->
+      <g transform="translate(42, 32)" filter="url(#drawerRightShadow)">
+        <rect width="290" height="564" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+
+        <!-- Header del Inspector con botón cerrar -->
+        <rect width="290" height="46" fill="#1e293b"/>
+        <!-- Botón Cerrar ✕ a la izquierda o derecha -->
+        <rect x="10" y="8" width="30" height="30" rx="6" fill="#0f172a" stroke="#374151" stroke-width="0.8"/>
+        <text x="25" y="28" text-anchor="middle" fill="#f43f5e" font-size="16" font-weight="bold">✕</text>
+        <text x="48" y="28" fill="#38bdf8" font-size="13" font-weight="700">INSPECTOR DE EQUIPO</text>
+
+        <!-- Subtabs del Inspector (Propiedades / Puertos / Árbol) -->
+        <g transform="translate(12, 54)">
+          <rect x="0" y="0" width="86" height="26" rx="4" fill="#0284c7"/>
+          <text x="43" y="17" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="700">Propiedades</text>
+          <rect x="92" y="0" width="86" height="26" rx="4" fill="#1e293b"/>
+          <text x="135" y="17" text-anchor="middle" fill="#8b9ab8" font-size="10.5">Puertos (48)</text>
+          <rect x="184" y="0" width="82" height="26" rx="4" fill="#1e293b"/>
+          <text x="225" y="17" text-anchor="middle" fill="#8b9ab8" font-size="10.5">Árbol Rack</text>
+        </g>
+
+        <!-- Formulario Táctil del Inspector -->
+        <g transform="translate(14, 92)">
+          <!-- Banner del Dispositivo Seleccionado -->
+          <rect width="262" height="44" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+          <text x="12" y="18" fill="#f0f4ff" font-size="12" font-weight="700">SW-CORE-48P</text>
+          <text x="12" y="34" fill="#38bdf8" font-size="10" class="mono">Switch 1U • Cisco CBS350</text>
+          <rect x="195" y="10" width="55" height="22" rx="4" fill="#10b981" fill-opacity="0.2"/>
+          <text x="222" y="24" text-anchor="middle" fill="#10b981" font-size="9" font-weight="bold">EN LÍNEA</text>
+
+          <!-- Campo 1: Nombre / Etiqueta -->
+          <g transform="translate(0, 56)">
+            <text x="2" y="10" fill="#8b9ab8" font-size="10" font-weight="600">NOMBRE / HOSTNAME</text>
+            <rect y="16" width="262" height="30" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+            <text x="10" y="36" fill="#f0f4ff" font-size="11" class="mono">SW-CORE-48P</text>
+          </g>
+
+          <!-- Campo 2: Posición U y Rack -->
+          <g transform="translate(0, 114)">
+            <g>
+              <text x="2" y="10" fill="#8b9ab8" font-size="10" font-weight="600">POSICIÓN U</text>
+              <rect y="16" width="124" height="30" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+              <text x="10" y="36" fill="#f59e0b" font-size="11" font-weight="700" class="mono">U38 (1U)</text>
+            </g>
+            <g transform="translate(138, 0)">
+              <text x="2" y="10" fill="#8b9ab8" font-size="10" font-weight="600">CONSUMO (W)</text>
+              <rect y="16" width="124" height="30" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+              <text x="10" y="36" fill="#10b981" font-size="11" class="mono">350 W</text>
+            </g>
+          </g>
+
+          <!-- Campo 3: Dirección IP & VLAN -->
+          <g transform="translate(0, 172)">
+            <g>
+              <text x="2" y="10" fill="#8b9ab8" font-size="10" font-weight="600">DIRECCIÓN IP</text>
+              <rect y="16" width="150" height="30" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+              <text x="10" y="36" fill="#f0f4ff" font-size="11" class="mono">192.168.10.1</text>
+            </g>
+            <g transform="translate(160, 0)">
+              <text x="2" y="10" fill="#8b9ab8" font-size="10" font-weight="600">VLAN MGMT</text>
+              <rect y="16" width="102" height="30" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+              <text x="10" y="36" fill="#f0f4ff" font-size="11" class="mono">VLAN 99</text>
+            </g>
+          </g>
+
+          <!-- Resumen de Puertos y Cables -->
+          <g transform="translate(0, 230)">
+            <text x="2" y="10" fill="#8b9ab8" font-size="10" font-weight="600">ESTADO DE PUERTOS (48 RJ45 + 4 SFP+)</text>
+            <rect y="16" width="262" height="42" rx="5" fill="#0b0f19" stroke="#334155" stroke-width="0.8"/>
+            <text x="10" y="34" fill="#10b981" font-size="10" font-weight="bold">● 24 Conectados</text>
+            <text x="120" y="34" fill="#64748b" font-size="10">○ 28 Libres</text>
+            <text x="10" y="48" fill="#38bdf8" font-size="9" class="mono">Puertos PoE activos: 16 (180W)</text>
+          </g>
+
+          <!-- Botones de Acción Táctiles (Mover / Conectar / Borrar) -->
+          <g transform="translate(0, 305)">
+            <rect width="126" height="34" rx="5" fill="#0284c7"/>
+            <text x="63" y="21" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">⚡ Conectar</text>
+
+            <rect x="136" width="126" height="34" rx="5" fill="#1e293b" stroke="#f43f5e" stroke-width="0.8"/>
+            <text x="199" y="21" text-anchor="middle" fill="#f43f5e" font-size="11" font-weight="700">🗑️ Quitar U</text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ESTADO 4: TABLA / DATOS EXPANDIDA (BOTTOM SHEET)               -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(1270, 120)">
+    <rect x="0" y="0" width="370" height="28" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="0.8"/>
+    <text x="185" y="18" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">4. TABLA DE DATOS (BOTTOM SHEET ▲)</text>
+
+    <g transform="translate(15, 38)" filter="url(#phoneShadow)">
+      <rect width="340" height="610" rx="36" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+      <rect x="8" y="8" width="324" height="594" rx="28" fill="#0b0f19"/>
+      <rect x="120" y="14" width="100" height="12" rx="6" fill="#1e293b"/>
+
+      <!-- Lienzo visible arriba atenuado -->
+      <g transform="translate(14, 40)" opacity="0.3">
+        <rect width="312" height="150" rx="6" fill="#090d16" stroke="#1f2937" stroke-width="1"/>
+        <text x="156" y="80" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="bold">RACK 01 (Lienzo atenuado)</text>
+      </g>
+
+      <!-- Bottom Sheet Expandida -->
+      <g transform="translate(8, 175)" filter="url(#sheetShadow)">
+        <rect width="324" height="421" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+        <rect x="137" y="8" width="50" height="4" rx="2" fill="#64748b"/>
+
+        <g transform="translate(14, 20)">
+          <text x="0" y="16" fill="#f0f4ff" font-size="13" font-weight="700">INVENTARIO &amp; CONEXIONES</text>
+          <rect x="264" y="0" width="32" height="24" rx="4" fill="#1e293b" stroke="#374151" stroke-width="0.8"/>
+          <text x="280" y="16" text-anchor="middle" fill="#f59e0b" font-size="12">▼</text>
+        </g>
+
+        <g transform="translate(14, 52)">
+          <rect x="0" y="0" width="94" height="26" rx="4" fill="#0ea5e9"/>
+          <text x="47" y="17" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">Equipos (4)</text>
+          <rect x="100" y="0" width="94" height="26" rx="4" fill="#1e293b"/>
+          <text x="147" y="17" text-anchor="middle" fill="#8b9ab8" font-size="11">Conexiones (8)</text>
+          <rect x="200" y="0" width="94" height="26" rx="4" fill="#1e293b"/>
+          <text x="247" y="17" text-anchor="middle" fill="#8b9ab8" font-size="11">Energía/PDU</text>
+        </g>
+
+        <!-- Tabla -->
+        <g transform="translate(14, 88)">
+          <rect width="296" height="24" fill="#1e293b"/>
+          <text x="10" y="16" fill="#38bdf8" font-size="10" font-weight="700">POS</text>
+          <text x="44" y="16" fill="#38bdf8" font-size="10" font-weight="700">NOMBRE</text>
+          <text x="160" y="16" fill="#38bdf8" font-size="10" font-weight="700">TIPO</text>
+          <text x="240" y="16" fill="#38bdf8" font-size="10" font-weight="700">W</text>
+
+          <rect y="24" width="296" height="28" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+          <text x="10" y="42" fill="#f59e0b" font-size="10" class="mono">U40</text>
+          <text x="44" y="42" fill="#f0f4ff" font-size="10" font-weight="600">PP-CAT6-01</text>
+          <text x="160" y="42" fill="#94a3b8" font-size="9.5">Patch Panel</text>
+          <text x="240" y="42" fill="#10b981" font-size="9.5" class="mono">0</text>
+
+          <rect y="52" width="296" height="28" fill="#131c31" stroke="#1e293b" stroke-width="0.5"/>
+          <text x="10" y="70" fill="#f59e0b" font-size="10" class="mono">U38</text>
+          <text x="44" y="70" fill="#f0f4ff" font-size="10" font-weight="600">SW-CORE-48P</text>
+          <text x="160" y="70" fill="#94a3b8" font-size="9.5">Switch Core</text>
+          <text x="240" y="70" fill="#f59e0b" font-size="9.5" class="mono">350</text>
+
+          <rect y="80" width="296" height="28" fill="#0f172a" stroke="#1e293b" stroke-width="0.5"/>
+          <text x="10" y="98" fill="#f59e0b" font-size="10" class="mono">U32</text>
+          <text x="44" y="98" fill="#f0f4ff" font-size="10" font-weight="600">SRV-PROD-DB</text>
+          <text x="160" y="98" fill="#94a3b8" font-size="9.5">Servidor DB</text>
+          <text x="240" y="98" fill="#f43f5e" font-size="9.5" class="mono">750</text>
+        </g>
+
+        <!-- Barra de métricas -->
+        <g transform="translate(14, 305)">
+          <rect width="296" height="34" rx="6" fill="#1e293b" stroke="#374151" stroke-width="0.8"/>
+          <text x="12" y="21" fill="#8b9ab8" font-size="10">Potencia:</text>
+          <text x="65" y="21" fill="#f59e0b" font-size="11" font-weight="700" class="mono">4,420 W</text>
+          <text x="160" y="21" fill="#8b9ab8" font-size="10">Ocupación:</text>
+          <text x="220" y="21" fill="#38bdf8" font-size="11" font-weight="700" class="mono">11 / 42 U (26%)</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- PIE DE DIAGRAMA: CUÁNDO APARECE EL INSPECTOR -->
+  <g transform="translate(40, 792)">
+    <rect width="1600" height="38" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <text x="20" y="23" fill="#ec4899" font-size="11" font-weight="700">⚡ ¿CUÁNDO APARECE EL INSPECTOR EN MÓVIL?:</text>
+    <text x="310" y="23" fill="#cbd5e1" font-size="11">1. Al tocar (TAP) cualquier equipo en el Rack.</text>
+    <text x="620" y="23" fill="#cbd5e1" font-size="11">2. Al pulsar el botón [👁] en la barra de herramientas.</text>
+    <text x="1000" y="23" fill="#cbd5e1" font-size="11">3. Al tocar "Editar" en la tabla de datos.</text>
+    <text x="1350" y="23" fill="#38bdf8" font-size="11" font-weight="600">Cierre: con botón [✕] o swipe derecho.</text>
+  </g>
+</svg>

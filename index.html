@@ -22,7 +22,7 @@
 <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=47">
+<link rel="stylesheet" href="css/style.css?v=54">
 <script>
   (function() {
     var savedTheme = localStorage.getItem('theme');
@@ -325,6 +325,10 @@
 
   <!-- RIGHT PANEL (Outliner & Stats) -->
   <aside id="right-panel">
+    <div class="mobile-drawer-header" id="right-panel-mobile-header">
+      <span class="mobile-drawer-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>Inspector y Árbol</span>
+      <button class="flyout-tool-btn" id="btn-close-right-panel" title="Cerrar panel"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
+    </div>
     <div class="right-panel-section" id="outliner-section">
       <div class="panel-header" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="document.getElementById('outliner-section').classList.toggle('collapsed')">
         <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:6px; opacity:0.7;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Outliner</span>
@@ -409,10 +413,15 @@
       <div class="spacer"></div>
       <button class="btn-primary" id="table-btn-add-device" title="Añadir Equipo (Colocación rápida en rack o piso)" style="margin-right:8px; display:inline-flex;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg><span class="btn-text">Añadir Equipo</span></button>
       <button class="btn-primary" id="table-btn-add-conn" title="Crear nueva conexión física" style="margin-right:8px; display:none;"><i class="svg-icon icon-link" style="width:13px; height:13px; margin-right:4px;"></i><span class="btn-text">+ Conexión</span></button>
-      <div class="h-search table-search-wrap" style="position: relative; display: inline-flex; align-items: center; margin-right: 8px;">
-        <svg class="table-search-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 8px; color: var(--text-muted); pointer-events: none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="table-search" placeholder="Filtrar…" autocomplete="off" style="width: 150px;">
-        <button type="button" id="table-search-clear" class="hidden" title="Limpiar filtro" aria-label="Limpiar filtro">✕</button>
+      <div class="h-search table-search-wrap" id="table-search-wrap" style="position: relative; display: inline-flex; align-items: center; margin-right: 8px;">
+        <button type="button" class="h-btn table-search-toggle" id="btn-toggle-table-search" title="Filtrar tabla" aria-label="Abrir filtro de tabla">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <div class="table-search-input-wrap" id="table-search-input-wrap">
+          <svg class="table-search-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 8px; color: var(--text-muted); pointer-events: none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="table-search" placeholder="Filtrar…" autocomplete="off" style="width: 150px;">
+          <button type="button" id="table-search-clear" class="hidden" title="Limpiar filtro" aria-label="Limpiar filtro">✕</button>
+        </div>
       </div>
       <div class="dropdown-wrap" id="columns-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
         <button class="h-btn" id="btn-columns-menu" aria-haspopup="true" title="Configurar columnas visibles"><i class="svg-icon icon-grid" style="width:13px; height:13px; margin-right:4px;"></i><span class="btn-text">Columnas</span> <span id="columns-count-badge" style="font-size:10px; opacity:0.8; margin-left:2px;"></span> ▼</button>

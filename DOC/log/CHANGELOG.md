@@ -1,3 +1,91 @@
+## [2026-10-10] Modo Móvil — Adaptación Responsiva Completa y Fondo Opaco para Todas las Ventanas Modales
+
+### 📱 Formilarios y Cuadros de Diálogo 100% Adaptables y Legibles (≤ 768px y ≤ 480px)
+- **Eliminación Total de Transparencia (`background: var(--bg-card)`):**
+  - Se corrigió el fondo de [.modal](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/modals.css), sustituyendo el translúcido `var(--bg-panel)` (que contenía canal alfa al 80% en los temas sepia y oscuro) por `var(--bg-card)` (100% opaco y sólido en todos los temas).
+  - Se reforzó `.modal-overlay` con `background: rgba(0, 0, 0, 0.78)` y filtro `backdrop-filter: blur(4px)` para impedir que los textos de fondo se transparenten tras los modales.
+- **Eliminación del Desbordamiento Horizontal (`min-width: 0 !important`):**
+  - Se eliminó el `min-width: 380px` en pantallas móviles (≤ 768px y ≤ 480px), ajustando el ancho dinámico al `96%` con `max-width: calc(100vw - 16px)` y `max-height: 92vh`, garantizando que quepan incluso en pantallas ultra-angostas.
+- **Colapso a 1 Columna en Todos los Grids de Formularios:**
+  - Todas las retículas de campos (`.form-grid` y selectores inline de 2 y 3 columnas como en `#modal-cable` y `#modal-device`) colapsan automáticamente a `grid-template-columns: 1fr !important; gap: 8px !important;`.
+- **Botones de Acción Táctiles y Ergonómicos (`.modal-footer`):**
+  - Los botones de `Cancelar` e `Instalar / Guardar` ahora tienen `flex: 1 1 100px; height: 30px; font-size: 12px;` adaptándose automáticamente sin desbordarse.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada con **396/396 pruebas aprobadas (100%)**.
+  - Versiones actualizadas a `v=54` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v50` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+
+## [2026-10-10] Modo Móvil — Scroll Horizontal Fluido en Cabecera del Panel Inferior
+
+### ↔️ Navegación Táctil Completa de Opciones en Barra Inferior (≤ 768px)
+- **Habilitación de Scroll Horizontal Táctil (`.bottom-header`):**
+  - Se configuró `overflow-x: auto !important; overflow-y: hidden !important; -webkit-overflow-scrolling: touch !important; touch-action: pan-x !important;` en [.bottom-header](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/layout.css), anulando el `overflow: visible !important` heredado de la regla de pantallas intermedias.
+  - Se previno el aplastamiento de controles con `flex-shrink: 0 !important;` en todos los hijos y botones directos.
+- **Barra de Desplazamiento Táctil Estilizada:**
+  - Habilitada una scrollbar horizontal sutil de 4px (`scrollbar-width: thin !important;`) con track translúcido y pulgar suave para indicar la posición del desplazamiento sin obstruir los botones.
+- **Desacoplamiento Flotante de Menús Desplegables (`position: fixed`):**
+  - `#columns-dropdown`, `#export-dropdown` y el popover del filtro de búsqueda `#table-search-input-wrap` se desacoplaron del flujo con `position: fixed !important; bottom: 46px !important; right: 12px !important; z-index: 10001 !important;`, garantizando que nunca se recorten verticalmente al abrirse dentro de la cabecera con scroll horizontal.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada con **396/396 pruebas aprobadas (100%)**.
+  - Versiones actualizadas a `v=53` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v49` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+
+## [2026-10-10] Modo Móvil — Filtro Compacto de Tabla Inferior con Lupa y Popover Flotante
+
+### 🔍 Filtro Táctil Idéntico al Header en Smartphones (≤ 768px)
+- **Modo Solo Lupa por Defecto (`#btn-toggle-table-search`):**
+  - En resoluciones móviles (≤ 768px), el input completo de búsqueda de la tabla inferior se oculta y en su lugar se presenta únicamente el botón de lupa `#btn-toggle-table-search`.
+  - Se eliminó el `!important` residual de la regla de escritorio en [panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css) para permitir que la regla `@media (max-width: 768px)` en [layout.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/layout.css) active el botón de lupa de forma nativa y limpia.
+- **Popover Flotante de Búsqueda (`#table-search-wrap.is-open`):**
+  - Al presionar la lupa `#btn-toggle-table-search`, se despliega un popover flotante anclado sobre la barra inferior (`bottom: calc(100% + 6px); right: 0; width: 220px;`) con sombra de elevación `box-shadow: 0 -8px 24px rgba(0,0,0,0.55);`.
+  - El input `#table-search` recibe foco inmediato y selección de texto para comenzar a escribir al instante.
+- **Filtrado en Tiempo Real y Limpieza Rápida:**
+  - El filtrado de filas de inventario y conexiones se ejecuta reactivamente con cada tecla pulsada.
+  - El botón `#table-search-clear` (`✕`) aparece automáticamente cuando hay texto para vaciar el filtro con un solo toque táctil.
+- **Cierre Ergonómico:**
+  - Se cierra automáticamente al presionar la tecla `Escape` o al hacer clic/tap en cualquier área fuera del contenedor flotante.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada con **396/396 pruebas aprobadas (100%)**.
+  - Versiones actualizadas a `v=52` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v48` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+
+## [2026-10-10] Modo Móvil — Paso 2: Hoja Inferior (Bottom Sheet para Datos y Métricas)
+
+### 📊 Experiencia de Auditoría e Inventario en Smartphones (≤ 768px)
+- **Panel Inferior Colapsable por Defecto (38px):**
+  - `#bottom` permanece en modo compacto de 38px en la base de la pantalla, dejando >80% de la altura útil totalmente despejada para ver y manipular el rack físico.
+  - El botón `#btn-collapse-bottom` muestra `▲` indicando que se puede desplegar.
+- **Expansión Fluida a Bottom Sheet (72vh):**
+  - Al pulsar `▲`, el panel inferior sube con animación suave (`transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);`) y clase `.sheet-expanded` alcanzando el 72% de la pantalla (`72vh`) con sombra flotante `box-shadow: 0 -8px 28px rgba(0,0,0,0.7);`.
+  - El botón alterna automáticamente a `▼` para volver a minimizarlo a 38px con un toque.
+- **Apertura Táctil Contextual por Pestañas:**
+  - Al tocar cualquier pestaña (`Inventario` o `Conexiones`), si el panel inferior estaba colapsado, **se expande automáticamente** sin exigir presionar la flecha.
+- **Tirador Táctil Pill Handle (`#bottom-resizer`):**
+  - Estilizado como una barra pill táctil centrada (`38px x 4px`) que permite alternar la expansión/colapso con un solo toque sobre la manija.
+- **Validación y Cache-Busting:**
+  - Comprobado en vivo en el navegador: colapso inicial a 38px, expansión a 455px (72vh), cambio reactivo entre Inventario y Conexiones, y minimizado a 38px.
+  - Suite de integridad ejecutada exitosamente con **396/396 pruebas aprobadas (100%)**.
+  - Versiones incrementadas a `v=50` en `index.html` y `style.css`, y `cache-v46` en `service-worker.js`.
+
+## [2026-10-10] Modo Móvil — Paso 1: Cajones Laterales (Drawers) y Fondo Atenuado (Overlay)
+
+### 📱 Experiencia Táctil y Arquitectura Responsive (≤ 768px)
+- **Diagramas de Diseño Oficiales Creados:**
+  - [layout_mobile_mode.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg): Diagrama arquitectónico integral de los 4 estados móviles (Lienzo Principal, Catálogo Drawer, Inspector Drawer y Tabla Bottom Sheet).
+  - [layout_mobile_topology.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg): Diagrama táctil para la vista de Topología de Red en Canvas 2D con gestos multitáctiles.
+  - [diseno_modo_movil.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/diseno_modo_movil.md): Especificación técnica completa de la interacción móvil.
+- **Cajón Lateral Izquierdo de Catálogo (`#sidebar`):**
+  - Implementado como *Off-Canvas Drawer* de 85% de ancho (máximo 320px) con `position: fixed !important; left: -100% !important; z-index: 10000 !important; transition: left 0.3s ease; box-shadow: 10px 0 20px rgba(0,0,0,0.5);`.
+  - **Corrección de Stacking Context:** Se elevó `z-index: 10000 !important` para situarse por encima del fondo atenuado `#mobile-overlay` (`z-index: 9998`), corrigiendo el problema de apariencia opaca e inaccesibilidad táctil donde el overlay bloqueaba los clics sobre las categorías y equipos.
+  - Al abrirse (`#sidebar.open`), despliega tanto el riel de categorías de 50px como el panel completo de equipos (`#catalog-flyout`) con `display: flex !important; width: calc(100% - 50px) !important; overflow-y: auto !important;`.
+  - El botón `[☰]` (`#mobile-menu-btn`) abre el catálogo con la categoría activa lista para agregar equipos.
+- **Cajón Lateral Derecho de Inspector y Árbol (`#right-panel`):**
+  - Implementado como *Off-Canvas Drawer* con `position: fixed !important; top: 0 !important; right: -100% !important; width: 85% !important; max-width: 320px !important; z-index: 10000 !important; transition: right 0.3s ease; box-shadow: -10px 0 20px rgba(0,0,0,0.5);`.
+  - Incorporada cabecera móvil `.mobile-drawer-header` (`#right-panel-mobile-header`) con título y botón de cierre táctil `[✕]` (`#btn-close-right-panel`).
+  - Al pulsar el botón `[👁]` (`#btn-toggle-right-panel`) en la toolbar móvil o al seleccionar un dispositivo en el lienzo del rack, el inspector se despliega automáticamente para editar sus propiedades.
+- **Backdrop y Cierre Sincronizado (`#mobile-overlay`):**
+  - Función centralizada `window.closeMobileDrawers()` que cierra ambos cajones y oculta el overlay oscuro al hacer tap fuera o pulsar cualquiera de los botones `[✕]`.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada exitosamente con **396/396 pruebas aprobadas (100%)**.
+  - Versiones incrementadas a `v=49` en `index.html` y `style.css`, y `cache-v45` en `service-worker.js`.
+
 ## [2026-10-10] Bloqueo Estricto de Scroll Vertical y Deslizamiento Horizontal en Barra del Lienzo
 
 ### 🚀 Ergonomía de Herramientas del Lienzo (`.main-toolbar`)

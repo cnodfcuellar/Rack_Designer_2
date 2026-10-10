@@ -200,6 +200,10 @@ function closeFlyout() {
   if (sidebar) sidebar.classList.add('collapsed');
   if (flyout) flyout.classList.add('hidden');
   
+  if (typeof window !== 'undefined' && window.innerWidth <= 768 && typeof window.closeMobileDrawers === 'function') {
+    window.closeMobileDrawers();
+  }
+
   renderCategoryIcons();
   setTimeout(() => window.dispatchEvent(new Event('resize')), 260);
 }

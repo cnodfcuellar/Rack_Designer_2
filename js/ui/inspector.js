@@ -138,6 +138,11 @@ window.renderInspector = function(entityType, entityId) {
     return;
   }
 
+  // En móvil (<=768px), desplegar automáticamente el Drawer derecho si se seleccionó una entidad
+  if (typeof window !== 'undefined' && window.innerWidth <= 768 && typeof window.openMobileRightPanel === 'function') {
+    window.openMobileRightPanel();
+  }
+
   if (entityType === 'device') {
     const dev = data.devices.find(d => d.id === entityId);
     if (!dev) {
