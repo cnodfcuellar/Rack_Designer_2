@@ -209,7 +209,38 @@ document.addEventListener('DOMContentLoaded', () => {
   if(closeBtn) closeBtn.addEventListener('click', closeFlyout);
   
   const searchInput = document.getElementById('catalog-search');
-  if(searchInput) searchInput.addEventListener('input', renderCatalog);
+  const searchWrap = document.getElementById('catalog-search-wrap');
+  const toggleBtn = document.getElementById('btn-toggle-catalog-search');
+  const clearBtn = document.getElementById('btn-clear-catalog-search');
+
+  if (toggleBtn && searchWrap) {
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = searchWrap.classList.toggle('is-open');
+      if (isOpen && searchInput) {
+        searchInput.focus();
+        searchInput.select();
+      }
+    });
+  }
+
+  if(searchInput) {
+    searchInput.addEventListener('input', () => {
+      if (clearBtn) {
+        clearBtn.style.display = searchInput.value ? 'block' : 'none';
+      }
+      renderCatalog();
+    });
+  }
+
+  if (clearBtn && searchInput) {
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      clearBtn.style.display = 'none';
+      renderCatalog();
+      searchInput.focus();
+    });
+  }
+
   renderCategoryIcons();
 });
 

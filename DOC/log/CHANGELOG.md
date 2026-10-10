@@ -1,3 +1,21 @@
+## [2026-10-10] Buscadores Compactos Responsivos: Modo Solo Icono de Lupa en Ventanas Pequeñas
+
+### 🔍 Experiencia de Usuario y Optimización Responsive (`#header`, `#sidebar` y `#bottom`)
+- **Buscador Global del Header (`#h-search-wrap`):**
+  - **Pantalla Completa / Escritorio (`> 1100px`):** El campo de búsqueda permanece visible y limpio en la barra de herramientas (`#global-search`), con el botón toggle oculto (`display: none !important`).
+  - **Ventanas Pequeñas / Tablet (`<= 1100px`):** Se oculta el campo de texto completo y **únicamente se muestra el icono de lupa `[ 🔍 ]`** (`#btn-toggle-global-search`), eliminando cualquier competencia de espacio horizontal con los selectores de salas, racks, pestañas de vistas y botones de acción.
+  - **Despliegue Flotante Interactivo:** Al pulsar la lupa (o presionar `Ctrl+F`), se despliega una ventana flotante anclada al botón con sombra y bordes redondeados, aplicando `focus()` automático en el input.
+  - **Cierre Rápido y Ergonómico:** Se cierra automáticamente al presionar `Escape`, al hacer clic fuera del contenedor o mediante su botón de limpieza `✕` (`#btn-clear-global-search`).
+- **Buscador de Equipos en el Catálogo (`#catalog-search-wrap`):**
+  - **Pantalla Completa (`> 1100px`):** Campo de texto visible normalmente bajo los botones `+ Rack` y `+ Equipo`.
+  - **Ventanas Pequeñas / Compactas (`<= 1100px`):** El campo de búsqueda permanece plegado por defecto para **ahorrar ~40px de espacio vertical** y maximizar la visibilidad de las tarjetas de equipos en el sidebar.
+  - **Alternancia por Lupa:** El botón de lupa `[ 🔍 ]` en la cabecera del catálogo (`#btn-toggle-catalog-search`) expande suavemente el input con su botón de limpieza `✕`.
+- **Filtro de la Tabla Inferior (`#table-search`):**
+  - Placeholder simplificado a `"Filtrar…"` y ancho elástico con `clamp(120px, 14vw, 150px)` para evitar que el texto se recorte como `"Filtrar tabl"` en pantallas estrechas.
+- **Validación y Cache-Busting:**
+  - Suite de integridad ejecutada exitosamente con **396/396 pruebas aprobadas (100%)**.
+  - Versiones incrementadas a `v=45` en `index.html` y `style.css`, y `v41` en `service-worker.js`.
+
 ## [2026-10-10] Sidebar Unificado Fijo de Pantalla Completa (260px)
 
 ### 🎨 Arquitectura de Layout e Interfaz (`#sidebar` y Catálogo Integrado)

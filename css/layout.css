@@ -513,31 +513,23 @@
 
 .h-search {
   position: relative;
+  display: flex;
+  align-items: center;
   flex-shrink: 1;
-  min-width: 120px;
 }
 
-.h-search input {
-  background: var(--bg-card2);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  padding: 4px 10px 4px 30px;
-  border-radius: var(--radius);
-  width: 200px;
-  max-width: 100%;
-  outline: none;
-  transition: all 0.2s;
+.h-search-toggle,
+#btn-toggle-global-search {
+  display: none !important;
 }
 
-.h-search input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-glow);
-  width: 240px;
+.h-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.h-search::before {
+.h-search-input-wrap::before {
   content: '⌕';
   position: absolute;
   left: 9px;
@@ -546,6 +538,89 @@
   color: var(--text-muted);
   font-size: var(--text-md);
   pointer-events: none;
+}
+
+#header .h-search input {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: 4px 22px 4px 26px;
+  border-radius: var(--radius);
+  width: 200px;
+  max-width: 100%;
+  outline: none;
+  transition: all 0.2s;
+}
+
+#header .h-search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+  width: 230px;
+}
+
+.h-search-clear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.h-search-clear:hover {
+  color: var(--text-primary);
+}
+
+.flyout-tool-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.flyout-tool-btn:hover {
+  background: var(--bg-hover, rgba(255, 255, 255, 0.06));
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+#btn-toggle-catalog-search {
+  display: none;
+}
+
+.flyout-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+}
+
+.flyout-search-clear {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 11px;
 }
 
 .h-btn {
@@ -1029,21 +1104,17 @@
     padding: 5px 12px;
   }
 
-  .h-search {
+  #header .h-search {
     min-width: 32px;
   }
 
-  .h-search input {
+  #header .h-search input {
     width: 140px;
-    padding: 4px 8px 4px 26px;
+    padding: 4px 8px 4px 24px;
   }
 
-  .h-search input:focus {
-    width: 200px;
-  }
-
-  .h-search::before {
-    left: 8px;
+  #header .h-search input:focus {
+    width: 180px;
   }
 
   #btn-theme-toggle #theme-toggle-label {
@@ -1087,8 +1158,8 @@
   }
 
   .table-search-wrap input#table-search {
-    width: 130px !important;
-    min-width: 110px !important;
+    width: clamp(120px, 14vw, 150px) !important;
+    min-width: 100px !important;
     flex-shrink: 0;
   }
   .table-search-wrap input#table-search:focus {
@@ -1151,6 +1222,46 @@
   .topo-slots-group {
     padding: 2px 4px !important;
     cursor: pointer;
+  }
+
+  /* M-25A: En pantallas pequeñas (<= 1100px), SOLO debe verse el icono de lupa */
+  #btn-toggle-global-search {
+    display: inline-flex !important;
+  }
+
+  #h-search-input-wrap {
+    display: none !important;
+  }
+
+  #h-search-wrap.is-open #h-search-input-wrap {
+    display: flex !important;
+    position: absolute;
+    top: calc(var(--header-h) - 4px);
+    right: 0;
+    width: 250px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+  }
+
+  #h-search-wrap.is-open #global-search {
+    width: 100% !important;
+  }
+
+  /* Catálogo: en pantallas pequeñas solo se ve la lupa en el header del catálogo */
+  #btn-toggle-catalog-search {
+    display: inline-flex !important;
+  }
+
+  #catalog-search-wrap {
+    display: none !important;
+  }
+
+  #catalog-search-wrap.is-open {
+    display: flex !important;
   }
 }
 

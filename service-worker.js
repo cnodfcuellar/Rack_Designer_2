@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rack-designer-next-cache-v40';
+const CACHE_NAME = 'rack-designer-next-cache-v41';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

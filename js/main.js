@@ -1493,8 +1493,47 @@ function initGlobalEvents() {
     });
   }
 
-  document.getElementById('global-search').addEventListener('input', () => {
-    renderPhysical();
+  const globalSearchInput = document.getElementById('global-search');
+  const globalSearchWrap = document.getElementById('h-search-wrap');
+  const btnToggleGlobalSearch = document.getElementById('btn-toggle-global-search');
+  const btnClearGlobalSearch = document.getElementById('btn-clear-global-search');
+
+  if (globalSearchInput) {
+    globalSearchInput.addEventListener('input', () => {
+      if (btnClearGlobalSearch) {
+        btnClearGlobalSearch.style.display = globalSearchInput.value ? 'block' : 'none';
+      }
+      renderPhysical();
+    });
+  }
+
+  if (btnToggleGlobalSearch && globalSearchWrap) {
+    btnToggleGlobalSearch.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = globalSearchWrap.classList.toggle('is-open');
+      if (isOpen && globalSearchInput) {
+        globalSearchInput.focus();
+        globalSearchInput.select();
+      }
+    });
+  }
+
+  if (btnClearGlobalSearch && globalSearchInput) {
+    btnClearGlobalSearch.addEventListener('click', (e) => {
+      e.stopPropagation();
+      globalSearchInput.value = '';
+      btnClearGlobalSearch.style.display = 'none';
+      renderPhysical();
+      globalSearchInput.focus();
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (globalSearchWrap && globalSearchWrap.classList.contains('is-open')) {
+      if (!globalSearchWrap.contains(e.target)) {
+        globalSearchWrap.classList.remove('is-open');
+      }
+    }
   });
 
   document.querySelectorAll('.filter-tab').forEach(tab => {
@@ -1657,10 +1696,22 @@ function initGlobalEvents() {
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); store.undo(); }
     if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); store.redo(); }
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
+      const searchWrap = document.getElementById('h-search-wrap');
+      const searchInput = document.getElementById('global-search');
+      if (searchWrap && searchInput) {
+        e.preventDefault();
+        searchWrap.classList.add('is-open');
+        searchInput.focus();
+        searchInput.select();
+      }
+    }
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
       const ctxMenu = document.getElementById('ctx-menu');
       if(ctxMenu) ctxMenu.classList.add('hidden');
+      const searchWrap = document.getElementById('h-search-wrap');
+      if (searchWrap) searchWrap.classList.remove('is-open');
     }
   });
 

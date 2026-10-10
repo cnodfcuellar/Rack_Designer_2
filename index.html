@@ -22,7 +22,7 @@
 <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=44">
+<link rel="stylesheet" href="css/style.css?v=45">
 <script>
   (function() {
     var savedTheme = localStorage.getItem('theme');
@@ -112,8 +112,14 @@
       </div>
 
       <div class="spacer"></div>
-      <div class="h-search">
-        <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
+      <div class="h-search" id="h-search-wrap">
+        <button class="h-btn h-search-toggle tooltip tooltip-bottom" id="btn-toggle-global-search" data-tip="Buscar (Ctrl+F)" aria-label="Abrir buscador">
+          <i class="svg-icon icon-search" style="width:13px; height:13px;"></i>
+        </button>
+        <div class="h-search-input-wrap" id="h-search-input-wrap">
+          <input type="text" id="global-search" placeholder="Buscar equipo, IP, MAC…">
+          <button class="h-search-clear" id="btn-clear-global-search" title="Limpiar" style="display:none;">✕</button>
+        </div>
       </div>
       <div class="h-btn-group">
         <button class="h-btn tooltip tooltip-bottom" id="btn-undo" data-tip="Deshacer (Ctrl+Z)" aria-label="Deshacer acción" disabled>↩</button>
@@ -138,14 +144,18 @@
     <div id="catalog-flyout" class="catalog-flyout">
       <div class="flyout-header">
         <span id="flyout-title">TODOS LOS EQUIPOS</span>
-        <button id="btn-close-flyout" title="Contraer catálogo" style="background:transparent; border:none; color:var(--text-secondary); font-size:16px; cursor:pointer; padding:4px; display:flex; align-items:center; justify-content:center;"><i class="svg-icon icon-x" style="width:14px; height:14px;"></i></button>
+        <div style="display:flex; align-items:center; gap:4px;">
+          <button id="btn-toggle-catalog-search" class="flyout-tool-btn" title="Buscar en catálogo"><i class="svg-icon icon-search" style="width:13px; height:13px;"></i></button>
+          <button id="btn-close-flyout" class="flyout-tool-btn" title="Contraer catálogo"><i class="svg-icon icon-x" style="width:13px; height:13px;"></i></button>
+        </div>
       </div>
       <div class="flyout-actions">
         <button class="btn-primary" id="btn-add-rack">+ Rack</button>
         <button class="btn-secondary" id="btn-add-device-modal">+ Equipo</button>
       </div>
-      <div class="flyout-search">
+      <div class="flyout-search" id="catalog-search-wrap">
         <input type="text" id="catalog-search" placeholder="Buscar equipo...">
+        <button id="btn-clear-catalog-search" class="flyout-search-clear" title="Limpiar" style="display:none;">✕</button>
       </div>
       <div class="catalog" id="catalog"></div>
     </div>
@@ -401,7 +411,7 @@
       <button class="btn-primary" id="table-btn-add-conn" title="Crear nueva conexión física" style="margin-right:8px; display:none;"><i class="svg-icon icon-link" style="width:13px; height:13px; margin-right:4px;"></i><span class="btn-text">+ Conexión</span></button>
       <div class="h-search table-search-wrap" style="position: relative; display: inline-flex; align-items: center; margin-right: 8px;">
         <svg class="table-search-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 8px; color: var(--text-muted); pointer-events: none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="table-search" placeholder="Filtrar tabla…" autocomplete="off" style="width: 150px;">
+        <input type="text" id="table-search" placeholder="Filtrar…" autocomplete="off" style="width: 150px;">
         <button type="button" id="table-search-clear" class="hidden" title="Limpiar filtro" aria-label="Limpiar filtro">✕</button>
       </div>
       <div class="dropdown-wrap" id="columns-menu-wrap" style="position: relative; display: inline-block; margin-right: 8px;">
