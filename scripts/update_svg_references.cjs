@@ -19,7 +19,7 @@ console.log(subdirs.join(', '));
 // Archivos a actualizar
 const filesToUpdate = [
   path.join(rootDir, 'doc', 'doc_md', 'USER_MANUAL.md'),
-  path.join(rootDir, 'doc', 'propuestas_gallery.html'),
+  path.join(rootDir, 'doc', 'temp', 'propuestas_gallery.html'),
   path.join(rootDir, 'doc', 'doc_md', 'ARCHITECTURE_GUIDE.md'),
   path.join(rootDir, 'doc', 'doc_md', 'CODEBASE_ORIENTATION_MAP.md'),
   path.join(rootDir, '.agents', 'AGENTS.md'),

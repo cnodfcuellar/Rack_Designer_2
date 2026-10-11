@@ -23,3 +23,7 @@ Desktop.ini
 .backup/
 .kilo/
 .agents/
+
+# Archivos y borradores temporales de documentación
+doc/temp/
+DOC/temp/

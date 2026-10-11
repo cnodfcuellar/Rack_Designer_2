@@ -9,7 +9,7 @@
 [![PWA Offline First](https://img.shields.io/badge/PWA-100%25%20Offline-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](service-worker.js)
 [![Web Crypto API](https://img.shields.io/badge/Cifrado-AES--GCM%20%7C%20SHA--256-blue?style=for-the-badge&logo=auth0&logoColor=white)](js/auth/crypto.js)
 [![Canvas 2D](https://img.shields.io/badge/Render-Canvas%202D%20%4060fps-00b4d8?style=for-the-badge)](js/ui/topology/TopologyRenderer.js)
-[![Tests Passing](https://img.shields.io/badge/Tests-396%2F396%20Passing-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white)](tests/index.html)
+[![Tests Passing](https://img.shields.io/badge/Tests-398%2F398%20Passing-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white)](tests/index.html)
 
 ---
 

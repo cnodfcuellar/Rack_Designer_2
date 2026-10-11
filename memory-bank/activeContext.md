@@ -13,6 +13,10 @@ El sistema cuenta ahora con:
 El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido formalmente concluido y archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md). El archivo activo de la raíz ha sido eliminado y se retiraron las reglas de recordatorio automático en `.agents/AGENTS.md`.
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-11] Infraestructura & Git — Optimización de .gitignore y Auditoría de Repositorio:**
+  - Configuración exhaustiva de `.gitignore` para producción y repositorios públicos (filtrado de cachés Python, `.tempmediaStorage/`, artefactos OS y logs).
+  - Creación de `.py/read_all_files.py` con verificación exitosa de 276 archivos al 100%.
+  - Suite de integridad 100% OK con 398 pruebas en 25 grupos sin fallos.
 - **[2026-10-10] Cierre y Archivo Histórico de Mejoras (mejoras.md):**
   - Archivo histórico resguardado en `doc/doc_md/historico/mejoras_archivadas.md`.
   - Eliminación de `mejoras.md` en la raíz.

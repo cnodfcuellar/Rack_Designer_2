@@ -5,7 +5,7 @@ const root = path.resolve(__dirname, '..');
 const filesToCheck = [
   path.join(root, 'doc', 'doc_img', 'doc_svg', 'README.md'),
   path.join(root, 'doc', 'doc_md', 'USER_MANUAL.md'),
-  path.join(root, 'doc', 'propuestas_gallery.html'),
+  path.join(root, 'doc', 'temp', 'propuestas_gallery.html'),
   path.join(root, 'doc', 'doc_md', 'ARCHITECTURE_GUIDE.md'),
   path.join(root, 'doc', 'doc_md', 'CODEBASE_ORIENTATION_MAP.md'),
   path.join(root, 'README.md')
