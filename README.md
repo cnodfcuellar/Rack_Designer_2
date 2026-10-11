@@ -52,11 +52,9 @@ Permite a arquitectos de infraestructura, ingenieros de redes y técnicos de ope
 - **Soporte de Medios:** Cableado de Cobre (UTP/STP Cat6a), Fibra Óptica Monomodo (SM) y Multimodo (MM), y cables DAC de conexión directa.
 - **Conexión Táctil Drag-to-Connect:** Conecta puertos arrastrando el cursor o dedo directamente de extremo a extremo.
 
-![Bicanalidad Segregada Techo y Piso](doc/doc_img/doc_svg/propuestas/enrutamiento_equipos_piso_y_racks.svg)
+![Lienzo Físico Oficial y Canalizaciones](doc/doc_img/doc_svg/layout/layout_main_canvas.svg)
 
-![Canastillo Aéreo Superior](doc/doc_img/doc_svg/propuestas/propuesta_1_canastillo_aereo.svg)
-
-![Cableado Táctil Drag to Connect](doc/doc_img/doc_svg/propuestas/propuesta_drag_to_connect.svg)
+![Flujo Técnico de Conexión y Colocación Drag-to-Connect](doc/doc_img/doc_svg/flows/drag_drop_flow.svg)
 
 ---
 
@@ -71,7 +69,7 @@ Permite a arquitectos de infraestructura, ingenieros de redes y técnicos de ope
 
 ![Topología de Red Canvas 2D](doc/doc_img/doc_svg/layout/layout_topology.svg)
 
-![Smart Focus y Resaltado de Enlaces](doc/doc_img/doc_svg/propuestas/propuesta_3_cables_interactivos_hover.svg)
+![Arquitectura del Motor de Topología](doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg)
 
 ---
 
@@ -121,7 +119,7 @@ Diseñado para adaptarse a cualquier entorno operativo y condición de iluminaci
 
 ![Sistema de Exportación e Importación](doc/doc_img/doc_svg/flows/export_system.svg)
 
-![Importación Masiva desde Archivos Excel](doc/doc_img/doc_svg/propuestas/propuesta_importacion_masiva_excel.svg)
+![Gestor de Archivos y Comunicación de Datos](doc/doc_img/doc_svg/flows/file_manager_api.svg)
 
 ![Panel Inferior de Datos y Tablas](doc/doc_img/doc_svg/layout/layout_bottom_panel.svg)
 

@@ -1,3 +1,13 @@
+## [2026-10-11] Documentación & Presentación — Consolidación de Planos Oficiales en README.md
+
+### 🏛️ Sustitución de Diagramas de Propuestas por Planos Técnicos Oficiales
+- **Erradicación de Enlaces a `propuestas/`:**
+  - Se sustituyeron todas las ilustraciones de prototipos preliminares en [README.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/README.md) por planos definitivos de ingeniería.
+  - **Bicanalidad y Conectividad:** Integrados [layout/layout_main_canvas.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_main_canvas.svg) y [flows/drag_drop_flow.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/flows/drag_drop_flow.svg).
+  - **Topología Lógica:** Integrado [erd/erd_03_topology_engine.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) en sustitución de bocetos de hover.
+  - **Gestión de Archivos y Datos:** Integrado [flows/file_manager_api.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/flows/file_manager_api.svg) en reemplazo de prototipos de importación.
+- **Verificación:** 100% de enlaces SVG validados mediante `scripts/verify_svg_links.cjs`.
+
 ## [2026-10-11] Infraestructura & Git — Optimización de .gitignore para Producción y Repositorios Públicos
 
 ### 🛡️ Blindaje de Repositorio y Filtro de Exclusiones
