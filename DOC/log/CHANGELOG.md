@@ -1,3 +1,14 @@
+## [2026-10-11] Infraestructura & Git — Optimización de .gitignore para Producción y Repositorios Públicos
+
+### 🛡️ Blindaje de Repositorio y Filtro de Exclusiones
+- **Configuración de .gitignore Ampliada:**
+  - Exclusión sistemática de cachés de Python (`__pycache__/`, `*.py[cod]`, entornos `.venv/`).
+  - Filtrado de artefactos del sistema operativo (`Thumbs.db`, `Desktop.ini`, `.DS_Store`).
+  - Bloqueo de logs temporales (`*.log`) y almacenamiento temporal de capturas (`.tempmediaStorage/`).
+  - Preservación íntegra de activos de producción: `index.html`, `service-worker.js`, `manifest.json`, `css/`, `js/`, `assets/`, `tests/` y documentación `doc/`.
+- **Herramientas de Auditoría:**
+  - Incorporado [.py/read_all_files.py](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/.py/read_all_files.py) para verificación y lectura integral de archivos del repositorio.
+
 ## [2026-10-10] Gestión de Proyecto — Cierre y Archivo Histórico de la Lista de Mejoras (mejoras.md)
 
 ### 📁 Archivo Histórico y Eliminación de Lista Activa
