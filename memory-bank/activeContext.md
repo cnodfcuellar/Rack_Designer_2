@@ -13,6 +13,13 @@ El sistema cuenta ahora con:
 El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido formalmente concluido y archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](../doc/doc_md/historico/mejoras_archivadas.md). El archivo activo de la raíz ha sido eliminado y se retiraron las reglas de recordatorio automático en `.agents/AGENTS.md`.
 
 ## Recent Changes (Octubre 2026)
+- **[2026-10-11] Arquitectura & Documentación — Modernización Integral de ARCHITECTURE_GUIDE.md (v3.0 Master):**
+  - Reestructuración formal como Documento Maestro de Arquitectura de Sistemas (SAD / C4 Model).
+  - Eliminación de etiquetas HTML incompatibles (`div`) y reemplazo de ASCII art por diagramas Mermaid nativos y tablas estructuradas.
+  - Incrustación de 23 planos vectoriales oficiales SVG (`architecture/`, `flows/`, `erd/`, `layout/`, `propuestas/`).
+  - Sincronización de métricas reales del sistema: 398 pruebas (100% éxito), Service Worker v52, 30 plantillas en 8 familias y backlog histórico M-01 a M-41 archivado.
+- **[2026-10-11] Documentación & Portabilidad — Relativización Total de Rutas en la Documentación:**
+  - Creación de `.py/fix_local_links.py` y corrección de 209 enlaces en 15 documentos de `file:///c:/...` a rutas relativas portables (`../doc_img/...`).
 - **[2026-10-11] Infraestructura & Git — Optimización de .gitignore y Auditoría de Repositorio:**
   - Configuración exhaustiva de `.gitignore` para producción y repositorios públicos (filtrado de cachés Python, `.tempmediaStorage/`, artefactos OS y logs).
   - Creación de `.py/read_all_files.py` con verificación exitosa de 276 archivos al 100%.

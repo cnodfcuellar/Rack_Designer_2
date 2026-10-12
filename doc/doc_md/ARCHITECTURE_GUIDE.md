@@ -1,376 +1,183 @@
-# RACK Designer Next — Guía Técnica Completa
+# RACK Designer Next — Documento Maestro de Arquitectura de Sistemas
 
-> Explicación técnica para recrear el proyecto desde cero, con diagramas y conceptos explicados paso a paso.
-> **Última actualización sincronizada con el código fuente.**
+> **Especificación Técnica Oficial de Arquitectura de Software**  
+> **Versión del Sistema:** 3.0 Master Edition  
+> **Estado de Integridad:** 398 / 398 Pruebas Automatizadas (100% de Éxito en 25 Grupos)  
+> **Pila Tecnológica:** 100% Vanilla JavaScript (ES6+), HTML5, CSS3 Grid, Canvas 2D, SVG Inline  
+> **Seguridad Criptográfica:** Cifrado Simétrico AES-GCM 256-bit en reposo + SHA-256 RBAC  
+> **Disponibilidad Offline:** PWA con Service Worker determinista (Cache v52)  
+> **Catálogo de Hardware:** 30 Plantillas Estandarizadas en 8 Familias + Plantillas de Proyecto  
 
 ---
 
 ## Tabla de Contenidos
 
-1. [Qué es este proyecto?](#1-qué-es-este-proyecto)
-2. [Stack Tecnológico (qué usamos y por qué)](#2-stack-tecnológico)
-3. [Arquitectura General](#3-arquitectura-general)
-4. [El Patrón Reactivo (Proxy ES6)](#4-el-patrón-reactivo)
-5. [Estructura de Archivos](#5-estructura-de-archivos)
-6. [El Layout de la Interfaz (CSS Grid)](#6-el-layout-de-la-interfaz)
-7. [Cada Área de la UI explicada](#7-cada-área-de-la-ui)
-8. [El Topology View (Canvas 2D)](#8-el-topology-view)
-9. [Renderizado de Cableado Físico (SVG)](#9-renderizado-de-cableado-físico)
-10. [Sistema de Autenticación (RBAC)](#10-sistema-de-autenticación)
-11. [Gestión de Archivos (File System Access API)](#11-gestión-de-archivos)
-12. [Flujo de Datos Completo](#12-flujo-de-datos-completo)
-13. [Cómo recrear desde cero](#13-cómo-recrear-desde-cero)
-14. [Diagramas SVG del Proyecto](#14-diagramas-svg)
-15. [Roadmap de Mejoras](#15-roadmap-de-mejoras)
+1. [Visión del Sistema y Principios de Diseño](#1-visión-del-sistema-y-principios-de-diseño)
+2. [Pila Tecnológica y Racional de Decisiones](#2-pila-tecnológica-y-racional-de-decisiones)
+3. [Arquitectura General del Sistema (C4 Model)](#3-arquitectura-general-del-sistema-c4-model)
+4. [Motor Reactivo Central (Reactive Proxy Engine)](#4-motor-reactivo-central-reactive-proxy-engine)
+5. [Modelo de Datos y Entidad-Relación (ERD Multi-Nivel)](#5-modelo-de-datos-y-entidad-relación-erd-multi-nivel)
+6. [Arquitectura de Interfaz de Usuario y Layout CSS Grid](#6-arquitectura-de-interfaz-de-usuario-y-layout-css-grid)
+7. [Renderizado Físico CAD y Bicanalidad Segregada](#7-renderizado-físico-cad-y-bicanalidad-segregada)
+8. [Motor Topológico de Red (Canvas 2D Engine)](#8-motor-topológico-de-red-canvas-2d-engine)
+9. [Adaptabilidad UX y Arquitectura PWA Modo Móvil](#9-adaptabilidad-ux-y-arquitectura-pwa-modo-móvil)
+10. [Seguridad Criptográfica y Control de Acceso (RBAC)](#10-seguridad-criptográfica-y-control-de-acceso-rbac)
+11. [Persistencia Híbrida, Formato .RACK y Exportación](#11-persistencia-híbrida-formato-rack-y-exportación)
+12. [Grafo de Dependencias y Orden de Scripts Globales](#12-grafo-de-dependencias-y-orden-de-scripts-globales)
+13. [Aseguramiento de Calidad y Suite de Integridad](#13-aseguramiento-de-calidad-y-suite-de-integridad)
+14. [Matriz Histórica de Mejoras y Evolución](#14-matriz-histórica-de-mejoras-y-evolución)
 
 ---
 
-## 1. Qué es este proyecto?
+## 1. Visión del Sistema y Principios de Diseño
 
-**RACK Designer Next** es una aplicación web (PWA) que sirve para diseñar y administrar centros de datos. Permite:
+**RACK Designer Next** es una plataforma de software de ingeniería asistida por computadora (CAD/PWA) para diseño, cálculo de capacidad, inventario y auditoría de centros de datos y salas de telecomunicaciones.
 
-- Crear **salas** (rooms) que representan habitaciones de un datacenter
-- Crear **gabinetes** (racks) dentro de esas salas con alturas configurables (4U–48U)
-- Colocar **equipos** (servidores, switches, routers, firewalls, UPS, etc.) dentro de los gabinetes o como equipos de piso
-- Conectar los equipos entre sí con **cables** (cobre, fibra óptica, DAC)
-- Ver todo en dos vistas: **Vista Física** (cómo se ve el rack, con cables SVG) y **Vista Topología** (diagrama de red en Canvas 2D)
-- **Exportar** a PNG, CSV, Excel y guardar/cargar proyectos como archivos `.rack`
-- Sistema de **roles** (Admin, Editor, Viewer) con PIN y SHA-256
+### 1.1 Principios Rectores de Ingeniería
 
-**Lo más importante:** Es una PWA (Progressive Web App) que funciona sin servidor backend. Todos los datos se guardan en el navegador del usuario (`localStorage`) o en archivos locales (File System Access API). **No hay backend ni base de datos remota.**
-
-### Ejecutar el proyecto
-
-```
-# Opción 1: Live Server en VS Code
-# Click derecho en index.html → "Open with Live Server"
-
-# Opción 2: Cualquier servidor estático
-npx serve .
-python -m http.server 8000
-```
-
-**No necesitas** `npm start`, `webpack`, `vite` ni nada para compilar. Solo abre el `index.html`.
+* **Zero-Build Architecture:** No requiere pasos de transpilación, bundlers ni empaquetadores (sin Webpack, Vite, Rollup o Babel). Todo el código fuente es JavaScript estándar ejecutable nativamente en cualquier navegador moderno.
+* **Single Source of Truth (SSOT):** Toda la información de salas, racks, dispositivos, cables y vistas reside en un único estado global reactivo gestionado por `store.js`.
+* **Prohibición de Mutación Directa del DOM:** La interfaz visual nunca actualiza el HTML de forma manual para reflejar cambios en los datos. Toda alteración sigue el flujo unidireccional: `Acción → Store → Snapshot → Mutación → Proxy Set → Evento → renderAll()`.
+* **Privacidad y Modelo Local-First:** El procesamiento se ejecuta en la memoria del navegador. No se envían datos a servidores externos. Los proyectos se almacenan con cifrado AES-GCM en el disco local mediante la File System Access API.
 
 ---
 
-## 2. Stack Tecnológico
+## 2. Pila Tecnológica y Racional de Decisiones
 
-### Qué usamos
-
-| Tecnología | Para qué sirve | Por qué la elegimos |
+| Tecnología | Propósito en el Sistema | Justificación Técnica |
 |---|---|---|
-| **JavaScript ES6+** | Toda la lógica | Sin frameworks, vanilla puro |
-| **HTML5** | Estructura de la app | Semánticos, modals, canvas |
-| **CSS3** | Estilos y layout | Grid, Flexbox, variables CSS, temas |
-| **Canvas 2D** | Vista de topología | Animaciones y dibujo de red |
-| **SVG inline** | Cables en vista física | Trazado reactivo de rutas ortogonales |
-| **Proxy ES6** | Estado reactivo | Reemplaza a Redux/useState |
-| **localStorage** | Guardar datos | Persistencia sin servidor |
-| **sessionStorage** | Sesiones de auth | Se borra al cerrar pestaña |
-| **SHA-256** | Hasheo de PIN | Seguridad básica de admin (Web Crypto API + fallback) |
-| **File System Access API** | Abrir/guardar archivos | Sin necesidad de upload, con autoguardado |
-| **SheetJS** | Exportar a Excel | Dependencia vendor (`xlsx.full.min.js`) |
-| **html2canvas** | Captura DOM Retina 1:1 a PNG | Dependencia vendor (`html2canvas.min.js`) con fallback Canvas 2D |
-| **mobile-drag-drop** | Polyfill touch drag | Soporte táctil para drag & drop |
-
-### Qué NO usamos (y por qué)
-
-| No usamos | Por qué |
-|---|---|
-| React/Vue/Angular | El proyecto es vanilla, sin build step |
-| Webpack/Vite | No hay paso de compilación |
-| TypeScript | Vanilla JS puro |
-| Backend/API | Todo es local en el navegador |
-| Base de datos | localStorage es suficiente |
-| npm/yarn | Solo **pnpm** para gestionar `marked` (build scripts) |
-
-### Diagrama de tecnologías
-
-Ver: `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (sección Tech Stack)
+| **JavaScript (ES6+)** | Lógica de negocio, controladores y motores gráficos | Rendimiento nativo sin penalizaciones de overhead ni frameworks. |
+| **Proxy ES6 Nativo** | Detección reactiva de mutaciones de datos | Emula Redux/Vuex de forma nativa sin librerías de terceros; soporte transaccional y autoguardado. |
+| **CSS3 Grid y Variables** | Disposición de áreas fijas y personalización temática | Control milimétrico de la relación 1U = 24px y adaptación fluida a cualquier resolución. |
+| **HTML5 Canvas 2D** | Diagrama de topología lógica de red | Animación continua a 60 FPS con grafos densos de nodos, enlaces Bézier y partículas vectoriales. |
+| **SVG Inline Dinámico** | Enrutamiento de cableado físico | Precisión milimétrica, escalabilidad Retina sin pixelado y eventos interactivos en el DOM. |
+| **Web Crypto API** | Cifrado y control de acceso | Algoritmos estándar de la industria: AES-GCM (256-bit) para credenciales y SHA-256 para roles RBAC. |
+| **File System Access API** | I/O directo sobre el sistema de archivos | Apertura y autoguardado de archivos `.rack` directo en disco sin descargas repetitivas. |
+| **Service Worker (v52)** | PWA y funcionamiento 100% offline | Caché determinista de todos los recursos del sistema; tolerancia total a desconexión de red. |
 
 ---
 
-## 3. Arquitectura General
+## 3. Arquitectura General del Sistema (C4 Model)
 
-El proyecto sigue un patrón llamado **"Reactive Proxy Pattern"**. Esto significa que:
+El sistema se compone de capas estrictamente desacopladas donde el bus central de eventos conecta el almacenamiento, los controladores de vista y los motores gráficos:
 
-1. **Toda la información vive en un solo lugar** (el `store`)
-2. **Cuando algo cambia**, el Proxy lo detecta automáticamente
-3. **Se guarda** en el navegador (localStorage)
-4. **Se notifica** a la interfaz que hay datos nuevos
-5. **La interfaz se redibuja** con los datos actualizados
+![Arquitectura Integral del Proyecto](../doc_img/doc_svg/architecture/architecture_overview.svg)
 
-```
-USUARIO hace algo
-    ↓
-EVENT HANDLER ejecuta una función
-    ↓
-STORE METHOD modifica los datos
-    ↓
-snapshot() → crea copia profunda para Undo/Redo
-    ↓
-MUTACIÓN en this._raw (push, assign, splice)
-    ↓
-PROXY SET TRAP detecta el cambio
-    ↓
-_save() → localStorage.setItem('RACK_DESIGNER_NEXT_STATE', ...)
-    ↓
-_emit('change', { source: 'addDeviceToRack' })
-    ↓
-main.js escucha el evento → renderAll({ source })
-    ↓
-Se redibujan SOLO las vistas afectadas según el "source"
-```
+### 3.1 Canales Operativos del Sistema Actual
 
-**Ver diagrama completo:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 2)
+La interacción del usuario fluye a través de controladores de vista hacia el Store, el cual garantiza persistencia criptográfica e integridad relacional:
 
-### Por qué es importante esto?
-
-Porque si intentas modificar el HTML directamente (por ejemplo, `document.getElementById('algo').innerHTML = '...'`), el proyecto se rompe. **Siempre** debes modificar el `store` y dejar que la interfaz se actualice sola.
+![Arquitectura Actual del Sistema](../doc_img/doc_svg/architecture/architecture_current.svg)
 
 ---
 
-## 4. El Patrón Reactivo
+## 4. Motor Reactivo Central (Reactive Proxy Engine)
 
-### Cómo funciona el Proxy ES6
+El núcleo reactivo en `js/store.js` intercepta cada lectura y escritura del estado global mediante la API nativa `Proxy`, implementando un ciclo unidireccional completo:
+
+```mermaid
+graph TD
+    A[Acción del Usuario: Drag & drop, modal, clic] --> B[UI Controller Handler]
+    B --> C[Store Method: ej. addDeviceToRack]
+    C --> D[store.snapshot: Clon profundo con fastClone N<=15]
+    D --> E[Mutación directa sobre this._raw]
+    E --> F[Proxy set trap: Detección y validación]
+    F --> G[store._saveDebounced: Persistencia en LocalStorage]
+    F --> H[store._emit: Evento change con source específico]
+    H --> I[main.js: renderAll con Source Dispatch]
+    I --> J[Coalescencia rAF 60 FPS]
+    J --> K[Redibujado Quirúrgico de Vistas Afectadas]
+```
+
+### 4.1 Ciclo de Vida Reactivo del Store
+
+El diagrama a continuación detalla la detección en tiempo real de cambios en el estado y su propagación:
+
+![Reactividad del Store](../doc_img/doc_svg/flows/store_reactivity.svg)
+
+### 4.2 Flujo Integral de Datos
+
+El ciclo completo de eventos desde la entrada periférica hasta el renderizado físico y topológico:
+
+![Flujo de Datos Completo](../doc_img/doc_svg/flows/project_flow.svg)
+
+### 4.3 Implementación del Proxy con Caché Débil (`WeakMap`)
+
+Para prevenir bucles de recursión infinita y evitar crear proxies redundantes sobre los mismos objetos, el Store mantiene una tabla `WeakMap`:
 
 ```javascript
-// El store crea un Proxy sobre el estado
-this._raw = { rooms: [], racks: [], devices: [], ... };
-this.state = this._makeProxy(this._raw);
-
-// El Proxy intercepta CADA escritura en el estado:
 _makeProxy(obj, path = '') {
   if (typeof obj !== 'object' || obj === null) return obj;
-  if (this._proxyCache.has(obj)) return this._proxyCache.get(obj); // Cache con WeakMap
+  if (this._proxyCache.has(obj)) return this._proxyCache.get(obj);
 
   const proxy = new Proxy(obj, {
     set: (target, key, value) => {
-      if (['__proto__', 'constructor', 'prototype'].includes(key)) return true; // Seguridad
-      target[key] = value;       // 1. Aplica el cambio
-      this._save();              // 2. Guarda en localStorage
-      this._emit('change', {     // 3. Notifica a todos los listeners
-        path: `${path}.${key}`, key, value
-      });
+      // Protección contra contaminación de prototipos (Prototype Pollution)
+      if (['__proto__', 'constructor', 'prototype'].includes(key)) return true;
+      target[key] = value;
+      this._saveDebounced();
+      this._emit('change', { path: `${path}.${key}`, key, value });
       return true;
     },
     get: (target, key) => {
       const val = target[key];
       if (typeof val === 'function') return val.bind(target);
-      // Si el valor es un objeto, lo envuelve en otro Proxy (recursivo)
-      if (typeof val === 'object' && val !== null && !Array.isArray(val))
+      if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
         return this._makeProxy(val, `${path}.${key}`);
+      }
       return val;
     }
   });
+
   this._proxyCache.set(obj, proxy);
   return proxy;
 }
 ```
 
-> **Nota importante:** El `get` trap solo envuelve sub-objetos (no arrays). Esto significa que mutaciones en arrays (como `push`, `splice`) **no disparan el Proxy automáticamente**. Por eso cada método del store llama manualmente a `this._save()` y `this._emit()` después de mutar arrays.
+### 4.4 Despacho de Vistas por `source` (`renderAll Source Dispatch`)
 
-### El flujo en código
+`renderAll()` no reconstruye la pantalla completa de forma indiscriminada. Analiza la propiedad `source` del evento emitido para redibujar exclusivamente las vistas afectadas:
 
-```
-Usuario arrastra un equipo al rack
-    ↓
-onSlotDrop() detecta el drop
-    ↓
-store.addDeviceToRack(template, rackId, slotU, side)
-    ↓
-store.snapshot() → guarda estado actual usando fastClone (máximo 15 instantáneas)
-    ↓
-this._raw.devices.push(nuevoEquipo) → muta los datos
-    ↓
-this._save() + this._emit('change', { source: 'addDeviceToRack', rackId, device })
-    ↓
-renderAll({ source: 'addDeviceToRack', rackId, device }) [con coalescencia rAF 60 FPS]
-    ↓
-renderSingleRack(rackId) → redibujado atómico del gabinete sin reconstruir la sala completa
-renderStats() → estadísticas se actualizan
-renderOutliner() → árbol se actualiza si está abierto
-renderBottomPanel() → tabla se actualiza si está visible
-```
-
-**Ver diagrama:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 3a)
-
-### Undo/Redo Optimizado (M-03)
-
-Cada vez que mutas el store, `snapshot()` guarda una copia del estado anterior (máximo acotado a 15 instantáneas mediante `fastClone(obj)`, excluyendo `topologySlots` para ahorrar hasta un 80% de RAM). Cuando el usuario presiona Ctrl+Z:
-
-1. Se toma el estado actual y se guarda en `_redoStack`
-2. Se saca el estado anterior de `_undoStack`
-3. Se sobreescribe `_raw` con ese estado
-4. Se redibuja todo con `renderAll({ source: 'undo' })`
-
-**Ver diagrama:** `doc/doc_img/doc_svg/flows/project_flow.svg` (Flow 4)
-
-### Optimización: Debounce para Zoom/Pan
-
-Los métodos `setZoom()` y `setPan()` usan `_saveDebounced()` en lugar de `_save()`:
-
-```javascript
-_saveDebounced() {
-  if (this._saveTimer) cancelAnimationFrame(this._saveTimer);
-  this._saveTimer = requestAnimationFrame(() => {
-    this._saveTimer = null;
-    this._save();
-  });
-}
-```
-
-Esto agrupa ~60 escrituras/seg (durante zoom/pan con la rueda del ratón) en 1 escritura por frame, evitando saturar localStorage.
-
-### Integridad Relacional en Cascada y Auto-Saneamiento (`_sanitize()`)
-
-Para garantizar que el modelo de datos nunca acumule referencias rotas ni elementos huérfanos:
-
-1. **Cascada en `deleteRack(id)`:** Al eliminar un gabinete, se buscan todos los dispositivos contenidos en él y se filtran automáticamente de `this._raw.connections` todas las conexiones que partían o llegaban a ellos.
-2. **Limpieza en `deleteDevice(id)`:** Al eliminar un equipo individual, se purgan sus conexiones y se eliminan sus coordenadas en `topology.nodePositions`.
-3. **Motor `_sanitize()`:** Al iniciar la aplicación (`_load()`) o importar un proyecto (`loadData()`), el Store ejecuta un saneamiento exhaustivo que elimina cables zombis y nodos huérfanos de proyectos antiguos o manipulados.
-4. **Exposición Global:** `window.store = store;` expuesto para interoperabilidad y depuración.
+| Cadena `source` | Vistas que se reconstruyen | Optimización aplicada |
+|---|---|---|
+| `""`, `loadData`, `undo`, `redo` | Todas las vistas | Ciclo completo de hidratación |
+| `Room`, `room-rename`, `changeRoom` | Selector de salas, selector de racks, métricas, lienzo físico | Mantiene el estado de herramientas abiertas |
+| `Rack` | Selector de racks, árbol Outliner, lienzo físico, estadísticas | Redibuja únicamente el gabinete alterado |
+| `Device`, `addDeviceToRack`, `moveDevice`, `deleteDevice` | Inspector, Outliner, carátulas de rack, tabla inferior | Reemplazo quirúrgico del elemento en el DOM |
+| `Connection`, `addConnection`, `deleteConnection` | Capa SVG de cables, tabla de conexiones, inspector | Recálculo de curvas Bézier sin reconstruir el rack |
+| `Zoom`, `Pan` | Ninguna reconstrucción del DOM | Transformación matricial `transform: translate() scale()` en GPU |
 
 ---
 
-## 5. Estructura de Archivos
+## 5. Modelo de Datos y Entidad-Relación (ERD Multi-Nivel)
 
-### Árbol del proyecto
+La estructura de datos se divide en cuatro capas formales de abstracción que garantizan integridad referencial y normalización:
 
-```
-Rack_Designer_2/
-├── index.html                    ← Archivo principal (HTML + modals)
-├── service-worker.js             ← PWA offline (el que se registra)
-├── package.json                  ← Solo pnpm. Dependencia: "marked"
-├── mejoras.md                    ← Roadmap de mejoras (Source of Truth)
-│
-├── css/
-│   ├── style.css                 ← Importa todos los CSS (@imports)
-│   ├── variables.css             ← Variables CSS (colores, fuentes, tamaños, temas)
-│   ├── layout.css                ← Grid layout, header, sidebar, panels
-│   ├── mobile-drag-drop.css      ← Estilos del polyfill drag-and-drop
-│   └── components/
-│       ├── panels.css            ← Bottom panel, tablas, badges
-│       ├── rack.css              ← Tarjetas de rack, flip 3D
-│       ├── faceplates.css        ← Faceplates de dispositivos, LEDs
-│       ├── modals.css            ← Modales, formularios, acordeón
-│       └── misc.css              ← Iconos SVG, tooltips, drag ghost, scrollbar
-│
-├── js/
-│   ├── store.js                  ← ESTADO CENTRAL (Proxy ES6 + WeakMap cache + Undo/Redo acotado N=15)
-│   ├── main.js                   ← Orquestador (init, eventos, renderAll)
-│   ├── utils.js                  ← Funciones auxiliares (uid, fastClone/deepClone multi-tier, notify, etc.)
-│   ├── icons.js                  ← SVG inline de todos los dispositivos
-│   ├── demoData.js               ← Carga datos de ejemplo (lazy load)
-│   │
-│   ├── auth/
-│   │   ├── roles.js              ← RBAC (Admin/Editor/Viewer) con SHA-256
-│   │   └── crypto.js             ← Cifrado simétrico AES-GCM (enc:v1:) para credenciales
-│   │
-│   ├── ui/
-│   │   ├── catalog.js            ← Sidebar flyout: catálogo + categorías + filtros
-│   │   ├── rack.js               ← Renderizado físico de racks + cables SVG
-│   │   ├── faceplates.js         ← HTML de faceplates por tipo
-│   │   ├── tables.js             ← Tabla de inventario/conexiones
-│   │   ├── outliner.js           ← Árbol jerárquico (sala→rack→equipo)
-│   │   ├── inspector.js          ← Panel de propiedades
-│   │   ├── fileManager.js        ← File System Access API + autoguardado
-│   │   ├── modals.js             ← Orquestador de modales
-│   │   │
-│   │   ├── modals/
-│   │   │   ├── Globals.js        ← Variables globales de modales
-│   │   │   ├── RackModal.js      ← Modal de crear/editar rack
-│   │   │   ├── DeviceModal.js    ← Modal de crear/editar equipo (acordeones)
-│   │   │   ├── CableModal.js     ← Modal de crear/editar cable (swap e inversión de canaleta M-41)
-│   │   │   ├── RoomModal.js      ← Modal de crear sala
-│   │   │   ├── ExportModal.js    ← Modal de exportar PNG/CSV/Excel/Topología (M-37)
-│   │   │   ├── ImportModal.js    ← Modal de importación masiva CSV/Excel y plantillas de 21 campos (M-21 y M-22)
-│   │   │   └── PlacementModal.js ← Modal de colocación rápida
-│   │   │
-│   │   └── topology/
-│   │       ├── TopologySkins.js      ← Skins modulares: 3 modos (circle/card/image), 18 presets offline, imágenes custom e hit-testing M-28
-│   │       ├── TopologyState.js      ← Estado del canvas (hover, dragging, 5 slots M-40)
-│   │       ├── TopologyLayout.js     ← Algoritmo de layout automático y afinidad piso M-39
-│   │       ├── TopologyRenderer.js   ← Dibujado Canvas 2D (card/circle/image, temas dark/light/sepia M-18)
-│   │       ├── TopologyEvents.js     ← Interacciones (drag, zoom, click, resize)
-│   │       └── TopologyOrchestrator.js ← Lifecycle + exportación PNG
-│   │
-│   ├── xlsx.full.min.js          ← SheetJS (exportar Excel)
-│   ├── mobile-drag-drop.min.js   ← Polyfill touch drag
-│   └── mobile-drag-drop-scroll.min.js
-│
-├── assets/
-│   ├── default/                  ← 16 SVGs vectoriales de alta fidelidad con animaciones CSS integradas
-│   ├── icons/                    ← Iconos SVG monocromáticos por categoría
-│   ├── img/                      ← Imágenes estáticas (logos, fondos, skins personalizadas)
-│   └── svg/
-│       └── default/              ← Repositorio vectorial organizado por familias
-│
-├── doc/
-│   ├── doc_md/                   ← Documentación técnica en Markdown
-│   ├── doc_img/doc_svg/          ← 33 diagramas SVG del proyecto
-│   ├── log/                      ← CHANGELOG.md (diario de cambios)
-│   └── temp/                     ← Archivos temporales
-│
-├── scripts/                      ← Scripts Node.js para compilación
-│   ├── build_standalone_manual.cjs
-│   └── generate_svgs.cjs
-│
-├── .agents/                      ← Instrucciones para agentes IA
-├── .py/                          ← Scripts Python utilitarios
-├── memory-bank/                  ← Contexto persistente para agentes IA
-├── json/                         ← Archivos JSON auxiliares (manifest.json)
-└── tests/
-    ├── index.html                ← Runner web interactivo de pruebas en navegador (396 tests en 25 grupos al 100%)
-    └── integrity_check.cjs       ← Suite de pruebas automatizadas de integridad (396 tests en 25 grupos al 100%)
-```
+### 5.1 Nivel 1: Núcleo Atómico y Primitivas Base
+Modela las estructuras primarias independientes del centro de datos físico: VLANs de red, definiciones de puertos de hardware, tipos de cables, cifrado simétrico y el motor de clonación:
 
-**Ver diagrama:** `doc/doc_img/doc_svg/architecture/architecture_overview.svg` (File Structure)
+![ERD Nivel 1 - Núcleo Atómico](../doc_img/doc_svg/erd/erd_01_atomic_core.svg)
 
-### Orden de carga de CSS
+### 5.2 Nivel 2: Entidades del Datacenter Físico
+Modela la jerarquía física fundamental: Salas (`Room`), Gabinetes (`Rack`), Dispositivos montados en rack y periféricos de piso (`Device`), y los enlaces de cableado estructurado (`Connection`):
 
-```
-variables.css → layout.css → panels.css → rack.css → faceplates.css → modals.css → misc.css
-```
+![ERD Nivel 2 - Entidades del Datacenter](../doc_img/doc_svg/erd/erd_02_datacenter_entities.svg)
 
-Este orden es **importante** porque CSS se resuelve en cascada. Si `misc.css` define algo que `layout.css` también define, gana `misc.css` (se carga después).
+### 5.3 Nivel 3: Motor Topológico 2D
+Define la geometría del canvas, cajas delimitadoras (bounding boxes), las 18 skins vectoriales modulares (`TopologySkins`), la matriz de transformación ortogonal y las 5 ranuras de memoria visual (`TopologySlots`):
 
-### Scripts en index.html
+![ERD Nivel 3 - Motor de Topología](../doc_img/doc_svg/erd/erd_03_topology_engine.svg)
 
-Todos los `<script>` van al final del `<body>`, en orden:
+### 5.4 Nivel 4: Arquitectura Reactiva del Sistema Global
+Mapea la orquestación global del ciclo de vida: `index.html`, `store.js` (Proxy ES6), `main.js` (rAF a 60 FPS), orquestadores modales, controladores de vista y la suite automatizada de 398 pruebas:
 
-1. **Vendor:** `xlsx.full.min.js`, `html2canvas.min.js`, `mobile-drag-drop.min.js`, `mobile-drag-drop-scroll.min.js`
-2. **Core:** `store.js`, `utils.js`, `icons.js`, `demoData.js`
-3. **Auth & Cripto:** `auth/crypto.js`, `auth/roles.js`
-4. **UI:** `ui/catalog.js`, `ui/tables.js`, `ui/outliner.js`, `ui/inspector.js`
-5. **Modals:** `Globals.js`, `RackModal.js`, `DeviceModal.js`, `CableModal.js`, `RoomModal.js`, `ExportModal.js`, `PlacementModal.js`
-6. **Topology:** `TopologyState.js`, `TopologyLayout.js`, `TopologyRenderer.js`, `TopologyEvents.js`, `TopologyOrchestrator.js`
-7. **Orchestration:** `ui/modals.js`, `ui/fileManager.js`
-8. **Init:** `main.js` (último, porque depende de todo lo demás)
-
-> ⚠️ **NO** son módulos ES. Todos cargan en scope global. Si añades un archivo JS nuevo, debes agregar una etiqueta `<script>` en `index.html`.
+![ERD Nivel 4 - Arquitectura Reactiva Global](../doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg)
 
 ---
 
-## 6. El Layout de la Interfaz (CSS Grid)
+## 6. Arquitectura de Interfaz de Usuario y Layout CSS Grid
 
-La app usa **CSS Grid** para dividir la pantalla en 5 áreas fijas:
-
-```
-┌─────────────────────────────────────────────────────┐
-│                    HEADER (56px)                     │
-├──────────┬──────────────────────┬────────────────────┤
-│          │                      │                    │
-│ SIDEBAR  │       MAIN CANVAS    │    RIGHT PANEL     │
-│ (50px/   │        (1fr)         │     (300px)        │
-│  260px)  │                      │                    │
-├──────────┴──────────────────────┴────────────────────┤
-│                  BOTTOM PANEL (220px)                 │
-└─────────────────────────────────────────────────────┘
-```
-
-### CSS que define esto
+La interfaz gráfica de usuario está estructurada bajo el estándar **CSS Grid**, organizando el espacio de trabajo en 5 áreas fijas sin recálculos costosos de reflujo (reflow):
 
 ```css
 #app {
@@ -386,607 +193,287 @@ La app usa **CSS Grid** para dividir la pantalla en 5 áreas fijas:
 }
 ```
 
-### Sidebar dinámico (flyout)
+### 6.1 Desglose de Áreas de la UI
 
-El sidebar tiene dos estados controlados por CSS:
-- **Colapsado** (`--sidebar-w: 50px`): Solo muestra iconos de categorías
-- **Expandido** (`--sidebar-w: 260px`): Muestra el flyout con la lista de equipos del catálogo
+#### Cabecera de Control y Navegación (Header)
+Centraliza la gestión del proyecto (Nuevo, Abrir, Guardar, Demos), selector de salas activas, selector rápido de racks, alternancia de vistas (Física vs. Topología), conmutador de cableado SVG, historial Undo/Redo y badge de rol RBAC:
 
-La función `openFlyout(category)` en `catalog.js` actualiza la variable CSS dinámicamente:
-```javascript
-document.documentElement.style.setProperty('--sidebar-w', '260px');
-```
+![Layout Header](../doc_img/doc_svg/layout/layout_header.svg)
 
-### Variables CSS importantes
+#### Catálogo Lateral Dinámico (Sidebar Flyout)
+Panel colapsable de dos estados (50px modo iconos / 260px modo expandido). Alberga el catálogo estandarizado con **30 plantillas arquitectónicas** distribuidas en 8 familias comerciales:
 
-```css
-:root {
-  /* Dimensiones */
-  --sidebar-w: 50px;          /* Colapsado por defecto */
-  --right-panel-w: 300px;
-  --header-h: 56px;
-  --bottom-h: 220px;
-  --rack-unit-h: 24px;        /* 1U = 24px */
+![Layout Sidebar](../doc_img/doc_svg/layout/layout_sidebar.svg)
 
-  /* Colores oscuros (tema por defecto) */
-  --bg-main: #0b0f19;
-  --bg-card: #151c2e;
-  --border: #25304b;
-  --accent: #0ea5e9;
+#### Lienzo Principal de Trabajo (Main Canvas)
+Área de trabajo que alberga la vista física milimétrica con soporte para drag & drop y cables ortogonales, o bien el lienzo Canvas 2D de topología:
 
-  /* Fuentes */
-  --font-ui: 'Outfit', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
+![Layout Main Canvas](../doc_img/doc_svg/layout/layout_main_canvas.svg)
 
-/* Tema claro */
-[data-theme="light"] {
-  --bg-main: #f0f4f8;
-  --bg-card: #ffffff;
-  --accent: #0284c7;
-  /* ... */
-}
-```
+#### Panel Lateral de Propiedades (Right Panel)
+Contiene el árbol de jerarquía (Outliner) con 4 modos de ordenación, el Inspector de propiedades con operaciones CRUD contextuales y el bloque de estadísticas en tiempo real:
 
-**Ver diagramas:** `doc/doc_img/doc_svg/layout/layout_header.svg`, `layout_sidebar.svg`, etc.
+![Layout Right Panel](../doc_img/doc_svg/layout/layout_right_panel.svg)
+
+#### Panel Inferior de Datos (Bottom Panel)
+Tabla analítica de 18 columnas con selector dinámico de visibilidad, edición en línea, filtros y exportación formal a Excel (SheetJS), CSV y PNG Retina:
+
+![Layout Bottom Panel](../doc_img/doc_svg/layout/layout_bottom_panel.svg)
 
 ---
 
-## 7. Cada Área de la UI explicada
+## 7. Renderizado Físico CAD y Bicanalidad Segregada
 
-### Header (56px)
+En la vista física (`#view-physical`), la escala del sistema es rigurosa: **1 Unidad de Rack (1U) equivale exactamente a 24 píxeles** (`--rack-unit-h: 24px`). Los racks poseen un ancho estándar de 240px (proporción dimensional 10:1) y una separación técnica de pasillo de **72px (3U)**.
 
-**Archivo:** `index.html` (sección `#header`), estilos en `css/layout.css`
+### 7.1 Carátulas Vectoriales de Hardware (Faceplates SVG-First)
+Cada uno de los equipos se dibuja mediante un archivo SVG vectorial de alta fidelidad ubicado en `assets/svg/default/`. Dichos archivos contienen animaciones CSS vectoriales `@keyframes` encapsuladas dentro del propio SVG (LEDs parpadeantes de enlace de red, actividad de almacenamiento y barras de carga).
 
-Contiene:
-- Logo + nombre del proyecto (`#project-filename`)
-- Menú del proyecto (dropdown con Abrir, Guardar, Guardar como, Demo, Tema, Modo Dios, Cambiar PIN, Limpiar proyecto)
-- Dropdown de salas (selector de sala activa + botón "+" para nueva sala)
-- Dropdown de racks (navegación rápida + scroll al rack)
-- Tabs de vista (`Vista Física` / `Topología`)
-- Controles de topología (estilo card/circle, slider espaciado, auto-ordenar)
-- Toggle de cables SVG (solo en vista física)
-- Buscador global
-- Botones Undo/Redo
-- Badge de usuario (rol actual: Admin/Editor/Espectador)
+### 7.2 Discriminación Frontal vs. Trasera con Giro 3D
+Los racks admiten rotación visual en 3D mediante transformaciones CSS (`transform: rotateY(180deg)`). La base de datos del Store discrimina los puertos entre la cara frontal (`front`) y la cara posterior (`rear`), permitiendo a equipos de doble profundidad (`mountSide: 'both'`) alojar conexiones en ambas caras sin conflictos de colisión.
 
-**Ver:** `doc/doc_img/doc_svg/layout/layout_header.svg`
+### 7.3 Arquitectura de Enrutamiento Segregado en 3 Zonas Libres
 
-### Sidebar (50px colapsado / 260px expandido)
+Para erradicar colisiones de cables sobre servidores o periféricos de piso, el motor de enrutamiento ortogonal en `js/ui/rack.js` confina las trayectorias vectoriales a tres zonas geométricas exclusivas:
 
-**Archivo:** `index.html` (sección `#sidebar`), renderizado por `js/ui/catalog.js`
+#### 1. Canastillo Aéreo Superior (Inter-Rack)
+Los cables entre distintos gabinetes se proyectan verticalmente hacia la zona superior libre (`overheadY = minRackTop - 14px - (index % 7) * 5`), viajando horizontalmente sin cruzar el chasis de los servidores intermedios:
 
-Contiene:
-- **Barra de iconos de categorías** (`#sidebar-category-icons`): Iconos por familia de hardware (redes, cómputo, almacenamiento, seguridad/CCTV, energía, KVM, accesorios/cableado, periféricos de piso, más pestaña global "Todos" con buscador)
-- **Flyout** (`#catalog-flyout`): Se despliega al hacer clic en una categoría
-  - Título de la categoría activa
-  - Buscador del catálogo (`#catalog-search`)
-  - Botones de acción rápida: `+ Rack` y `+ Equipo`
-  - Botón cerrar flyout
-  - Lista de dispositivos del catálogo filtrados por categoría
-- **30 plantillas arquitectónicas estandarizadas** en el array `CATALOG` organizadas en 8 familias comerciales (`CATALOG_GROUPS`): servidores 1U/2U/4U/blade, switches 24P/48P/Core, routers de borde, firewalls UTM, APs, storage NAS/SAN/JBOD, seguridad CCTV (NVR 1U/2U, DVR 1U, decodificador 1U), UPS online 1500/3000VA, PDUs, patch panels Cat6A, bandeja ODF fibra óptica 24P, organizadores, bandejas, KVMs y equipos de piso.
-- **Equipos personalizados por proyecto (`store.state.customCatalog`):** Creación de plantillas custom con badge distintivo `PROYECTO`, persistencia en el archivo `.rack` y reset limpio en nuevo proyecto.
-- Cada item es arrastrable al rack (drag & drop)
-- Menú contextual por item (⋮): Ubicación rápida, Editar plantilla, Eliminar plantilla
+![Canastillo Aéreo Superior](../doc_img/doc_svg/propuestas/propuesta_1_canastillo_aereo.svg)
 
-**Ver:** `doc/doc_img/doc_svg/layout/layout_sidebar.svg`
+#### 2. Canaleta Media Segregada (Equipos de Piso ↔ Gabinetes)
+Los cables que enlazan periféricos de piso (UPS grandes, generadores, transformadores) ascienden a través de una canaleta intermedia segregada (`middleGutterY = maxRackBottom + 18px + (index % 6) * 4`) y suben por el pasillo lateral de 72px del rack anfitrión:
 
-### Main Canvas (1fr)
+![Doble Canaleta de Enrutamiento](../doc_img/doc_svg/propuestas/enrutamiento_equipos_piso_y_racks.svg)
 
-**Archivo:** `index.html` (sección `#main`), renderizado por `js/ui/rack.js` y `js/ui/topology/`
-
-Contiene dos vistas (se alternan con tabs en el header):
-
-- **Vista Física** (`#view-physical`):
-  - Tarjetas de rack con slots numerados (1U = 24px) y ancho fijo proporcional de 240px (10:1)
-  - Espaciado técnico entre gabinetes ampliado a **`gap: 72px`** (3U) para legibilidad y pasillos
-  - Grilla técnica milimétrica de fondo (CAD) con paso de 24px
-  - **Motor Visual SVG-First (`faceplates.js`):** Cada dispositivo carga un SVG vectorial de alta fidelidad desde `assets/svg/default/` con animaciones CSS `@keyframes` integradas en el propio SVG (LEDs intermitentes de red, actividad de discos, barras de carga y puertos).
-  - Overlay de información con nombre de equipo e IP nítida sobre la carátula.
-  - Vista frontal/trasera (flip 3D por rack)
-  - Drag & drop para colocar/mover equipos
-  - Equipos de piso alineados en sección inferior con `min-width: 584px`
-  - **Cables Físicos Segregados** (`#physical-cables-svg`): Enrutamiento ortogonal en 3 zonas libres (Canastillo Aéreo Superior, Canaleta Media libre y Organizador Lateral de gabinete), erradicando colisiones sobre racks o periféricos
-  - Zoom/Pan con controles del header
-
-- **Vista Topología** (`#topology-canvas`):
-  - Canvas 2D animado a 60fps
-  - Nodos en estilo Card (150×50) o Circle (radio 22)
-  - Salas como rectángulos naranjas, racks como rectángulos verdes
-  - Conexiones con curvas Bézier cúbicas y partículas animadas
-  - Drag & drop de nodos, racks y salas
-  - Resize handles en salas y racks
-  - HUD tooltip al hover sobre nodos
-  - Búsqueda global para destacar nodos
-
-**Ver:** `doc/doc_img/doc_svg/layout/layout_main_canvas.svg`
-
-### Right Panel (300px)
-
-**Archivo:** `index.html` (sección `#right-panel`), orquestado por `js/ui/outliner.js` e `js/ui/inspector.js`
-
-Tres secciones:
-1. **Outliner** (`#outliner-tree`): Árbol jerárquico (Sala → Rack → Equipo) con toolbar superior (`+ Sala`, `+ Rack`, `+ Equipo`), selector de 4 modos de ordenación (`#outliner-sort-select`: slot, name-asc, name-desc, type) y botones de acción rápida inline (`✏️` y `🗑️`).
-   - Click: Selecciona y muestra en Inspector
-   - Doble clic: Abre modal de edición
-   - Hover: Resaltado visual
-2. **Inspector** (`#inspector-section`): Tarjeta de propiedades del elemento seleccionado con soporte **colapsable** interactivo para expandir el Outliner. Incluye **CRUD activo** con Empty State (`+ Nueva Sala`, `+ Nuevo Gabinete`), y botones contextuales de eliminación segura (`deleteRoomFromInspector`, `deleteRackFromInspector`, `deleteDeviceFromInspector`).
-3. **Estadísticas** (`#stat-*`): Métricas globales (salas, racks, equipos en rack, equipos de piso, conexiones, potencia en Watts).
-
-**Ver:** `doc/doc_img/doc_svg/layout/layout_right_panel.svg`
-
-### Bottom Panel (220px)
-
-**Archivo:** `index.html` (sección `#bottom`), renderizado por `js/ui/tables.js`
-
-Contiene:
-- Tabs: Inventario / Conexiones
-- Tabla de Inventario de 18 columnas con metadatos completos: Rack, U, Lado, Nombre, Marca, Modelo, Tipo, **Tamaño**, IP, MAC, Serie, Usuario, Contraseña, Consumo (W), Tomas, **Skin**, **Notas**, Acciones.
-- **Selector Dinámico de Columnas:** Menú flotante (`#columns-dropdown`) accesible desde el botón `⚙ Columnas` que permite alternar la visibilidad de cualquier columna. El estado se persiste de forma local mediante `localStorage` (clave `RACK_DESIGNER_TABLE_COLUMNS`).
-- Edición inline interactiva por doble clic (`finishCellEdit()`) que persiste cambios numéricos de tamaño, skin y notas directamente al store.
-- Botones: Agregar equipo, Colocación rápida (con buscador reactivo `#qp-dev-search`), Nueva conexión.
-- Menú de exportación con soporte a PNG 1:1 Retina (`html2canvas.min.js`), CSV estructurado y Excel (`xlsx.full.min.js`).
-- Botón expandir/contraer.
-
-**Ver:** `doc/doc_img/doc_svg/layout/layout_bottom_panel.svg`
+#### 3. Organizador Lateral de Gabinete (Intra-Rack)
+Los enlaces entre equipos alojados dentro del mismo rack se confinan estrictamente a la canaleta vertical derecha del gabinete (`gutterX = p1.rightEdgeX + 8px + (index % 5) * 4`).
 
 ---
 
-## 8. El Topology View (Canvas 2D)
+## 8. Motor Topológico de Red (Canvas 2D Engine)
 
-La vista de topología es un **lienzo HTML5 Canvas** dividido en 6 módulos:
+La vista de topología lógica (`#topology-canvas`) es un motor de renderizado 2D implementado sobre la API Canvas de HTML5, diseñado bajo el patrón arquitectónico MVC y capaz de sostener 60 cuadros por segundo constantes:
 
-| Archivo | Responsabilidad |
-|---|---|
-| `TopologySkins.js` | Motor modular de skins (cards, circle, hardware skins), 18 presets offline, imágenes custom base64 e hit-testing unificado (M-28) |
-| `TopologyState.js` | Variables de estado del canvas (hover, dragging, posiciones, 5 slots de memoria M-40) |
-| `TopologyLayout.js` | Algoritmo de distribución automática y afinidad de piso (M-39) |
-| `TopologyRenderer.js` | Dibujado Canvas 2D (nodos, enlaces, partículas, temas M-18) |
-| `TopologyEvents.js` | Interacciones (drag, zoom, pan, dblclick, resize) con detección de colisión matemática |
-| `TopologyOrchestrator.js` | Lifecycle (init, start, stop) + export PNG |
+![Motor de Topología](../doc_img/doc_svg/propuestas/topology_engine.svg)
 
-### Colores oficiales del canvas
+### 8.1 Componentes del Motor Topológico
 
-| Elemento | Color | Código |
+| Componente | Archivo | Responsabilidad de Ingeniería |
 |---|---|---|
-| Fondo | Azul | `#2255aa` |
-| Grid puntos | Blanco 13% opacity | `#ffffff22` |
-| Salas | Naranja | `#f97316` |
-| Bordes sala activa | Blanco 4px | `#ffffff` |
-| Bordes sala inactiva | Naranja oscuro 3px | `#c2410c` |
-| Racks | Verde | `#65a30d` |
-| Nodos (card/circle/image) | Navaja oscuro | `#0f172a` |
-| Borde nodo | Color del tipo | `TYPE_COLORS[dev.type]` |
-| Conexiones | Color del cable | `conn.color` |
-| Partículas | Blanco + glow | `#ffffff` + shadow |
+| **Skins Modulares** | `TopologySkins.js` | 3 modos visuales (cards, circle, hardware skins), 18 presets offline e hit-testing unificado. |
+| **Estado y Memoria** | `TopologyState.js` | Matriz de transformación (zoom, pan), hover, arrastre y 5 slots de memoria persistente. |
+| **Distribución Espacial** | `TopologyLayout.js` | Algoritmos de distribución automática, árbol jerárquico DAG y afinidad espacial de piso. |
+| **Renderizado 2D** | `TopologyRenderer.js` | Trazado por capas: grid de puntos, salas, racks, curvas Bézier con partículas y nodos. |
+| **Manejador de Eventos** | `TopologyEvents.js` | Detección matemática de colisiones punto-polígono, arrastre, redimensionamiento y rueda del mouse. |
+| **Orquestador Global** | `TopologyOrchestrator.js` | Bucle `requestAnimationFrame`, enlace con el Store y exportación a PNG en alta densidad. |
 
-### Estilos de nodos (Skins Visuales M-28)
+### 8.2 Topología Renderizada y Controles Visuales
 
-La variable `window.TOPOLOGY_STYLE` controla el modo de renderizado activo:
+![Topología Canvas 2D](../doc_img/doc_svg/layout/layout_topology.svg)
 
-- **`'circle'`** (Nodos): Círculos de radio 22 px con icono SVG centrado, nombre arriba y badge IP personalizable.
-- **`'card'`** (Tarjetas): Rectángulos de 150×50 px con icono, nombre e IP enfocado en lectura rápida de metadatos.
-- **`'image'`** (Hardware Skins): Chasis fotorrealista de 140×50 px con orejas metálicas de montaje en rack, carátula vectorial basada en `EMBEDDED_SVG_CACHE` (18 presets de fábrica 100% offline) o imagen personalizada subida por el usuario en base64 DataURL, con etiqueta U y LED de estado operativo.
-
-El menú desplegable `#topo-style-dropdown` permite alternar instantáneamente entre los 3 modos (**Cards**, **Nodos** y **Hardware**) y persiste en el proyecto y en los 5 slots de memoria (M-40).
-
-### Cómo se dibuja
-
-```
-drawTopo() se ejecuta 60 veces por segundo (requestAnimationFrame)
-    ↓
-1. Limpia el canvas (fillRect azul #2255aa)
-    ↓
-2. Dibuja grid de puntos (40px spacing)
-    ↓
-3. Aplica transformación zoom + pan (ctx.translate + ctx.scale)
-    ↓
-4. Dibuja salas (roundRect naranja con resize handle)
-    ↓
-5. Dibuja racks dentro de salas (roundRect verde con resize handle)
-    ↓
-6. Dibuja conexiones (curvas Bézier cúbicas con 4 partículas animadas)
-    ↓
-7. Dibuja nodos de dispositivos (card o circle según TOPOLOGY_STYLE)
-    ↓
-8. Dibuja HUD tooltip al hover (nombre, tipo, IP, usuario, contraseña)
-    ↓
-9. Solicita siguiente frame → loop continuo
-```
-
-### Layout automático
-
-El motor en `TopologyLayout.js` implementa dos modos de distribución y algoritmos de contención armónica:
-
-1. **Salas (Rooms):** Distribuidas horizontalmente con 60px de separación entre ellas y padding perimetral de 80px (`ROOM_MARGIN`).
-2. **Racks (Gabinetes):** Distribuidos horizontalmente en cada sala con `RACK_GAP = 32px` y padding interno de 16px.
-3. **Equipos montados en rack:** Apilados verticalmente dentro de las cotas de su rack con espaciado vertical adaptable.
-4. **Equipos de piso (Floor Devices - M-39):**
-   - Agrupación por **afinidad ponderada al rack anfitrión** (`_findAffinityRackForFloorDevice()`): Se conectan y alinean automáticamente justo debajo del gabinete con el que tienen mayor cableado o enlace directo.
-   - **Línea de base uniforme:** Se sitúan a `floorBaseY = rackTopY + maxRackH + 28px`, garantizando armonía estética entre racks de alturas desiguales en la misma sala.
-   - **Centrado y escalonamiento:** Centrados en el eje X del rack anfitrión con apilamiento vertical ordenado (`+44px` por periférico adicional) sin solapar racks contiguos (`RACK_GAP = 32px`).
-   - Periféricos huérfanos o sin conexiones directas se distribuyen de forma equitativa bajo el primer rack disponible de la sala.
-5. **Layout en Árbol Jerárquico (M-32):** Algoritmo de árbol genealógico DAG (Core → Distribution → Access → Floor/Leaf) con trazado de cableado ortogonal/manhattan y base inferior para nodos desconectados.
-
-Los sliders `#topo-spacing-h` y `#topo-spacing-v` controlan independientemente el espaciado horizontal y vertical en tiempo real a 60 FPS con presets ('compact', 'normal', 'wide').
-
-### Persistencia de posiciones
-
-Las posiciones de nodos, racks y salas en la topología se guardan en `store._raw.topology` mediante `saveTopo()`. Al reabrir, `loadTopoState()` restaura las posiciones manuales.
-
-### Interacciones
-
-- **Arrastrar nodo:** Mueve el equipo en el diagrama (confinado dentro de su rack/sala)
-- **Arrastrar rack (barra superior):** Mueve todo el rack con sus equipos (confinado en su sala)
-- **Arrastrar sala (barra superior):** Mueve la sala completa con todo su contenido
-- **Resize handle (esquina inferior-derecha):** Cambia el tamaño de sala/rack (respeta contenido mínimo)
-- **Rueda del mouse:** Zoom in/out (0.1x – 3x)
-- **Click + arrastrar fondo:** Pan (mover vista)
-- **Doble click nodo:** Abre modal de crear cable (`openCableModal`)
-- **Doble click cable:** Abre modal de editar cable (`openEditCableModal`)
-
-### Exportación PNG
-
-`exportTopologyToPNG()` en `TopologyOrchestrator.js` crea un canvas offscreen a 2x resolución, renderiza un frame estático sin hover, y descarga como PNG.
-
-**Ver:** `doc/doc_img/doc_svg/layout/layout_topology.svg`
+### 8.3 Algoritmo de Afinidad Espacial para Equipos de Piso
+En el layout automático, los periféricos de piso no se dispersan aleatoriamente:
+1. `_findAffinityRackForFloorDevice()` calcula la cantidad de enlaces físicos directos hacia cada rack.
+2. El equipo se posiciona automáticamente alineado bajo el gabinete con el que mantiene mayor afinidad.
+3. Se establece una línea de base uniforme a `floorBaseY = rackTopY + maxRackH + 28px`, garantizando armonía geométrica incluso con racks de alturas dispares (ej. 24U junto a 42U).
 
 ---
 
-## 9. Renderizado de Cableado Físico (SVG) y Modo Interactivo
+## 9. Adaptabilidad UX y Arquitectura PWA Modo Móvil
 
-A diferencia de la topología (Canvas 2D), el cableado físico se resuelve inyectando dinámicamente un lienzo vectorial `<svg id="physical-cables-svg">` posicionado de forma absoluta dentro de `#view-physical-content`.
+RACK Designer Next implementa una arquitectura responsiva completa adaptada para tablets de campo y smartphones en centros de datos.
 
-### Modo Interactivo Drag-to-Connect (M-34)
-La aplicación cuenta con trazado interactivo de cables directamente sobre los racks:
-1. **Activación de Modo Cableado (`#btn-cable-mode`):** En `#main-toolbar`, el botón activa `_cableModeActive = true`, aplicando cursor *crosshair* en el lienzo físico y resaltando el botón.
-2. **Acción Rápida en Carátulas:** Cada carátula de rack o tarjeta de piso incluye un botón rápido `.dev-btn.connect` (`data-connect-dev`) para iniciar el cableado sin abrir menús.
-3. **Línea Elástica en Tiempo Real (*Rubber-Band*):** Al seleccionar un origen, se inyecta dinámicamente un elemento SVG path `#rubberband-interactive-cable` con clase `.rubberband-cable` (animación de guiones deslizantes en verde esmeralda y curva Bézier cúbica) que sigue en tiempo real el puntero `pointermove`.
-4. **Resaltado de Origen:** El equipo y puerto de origen reciben la clase `.cable-mode-source` con animación CSS de pulso.
-5. **Preselección Inteligente:** Al hacer clic en el equipo destino, se abre automáticamente el modal `#modal-cable` con origen y destino ya preseleccionados y validados, permitiendo confirmar puertos y VLANs con cero fricción.
+### 9.1 Plano de Cotas y Medidas de Ingeniería (Breakpoints Móviles)
 
-### Discriminación Frontal vs. Trasera en Equipos Duales (M-33)
-El motor de conexiones almacena `sourceSide` y `targetSide` (`'front' | 'rear'`). Para equipos de doble profundidad (`mountSide: 'both'`), `isPortOccupied()` aísla los puertos por cara física, permitiendo utilizar el mismo identificador de puerto en el frente y en la parte posterior sin falsos positivos de colisión. En la vista física, `drawPhysicalCables()` ajusta automáticamente el punto de anclaje según la cara activa (frontal o trasera mediante `.rear-port-jack`), adaptándose dinámicamente al estado de giro (`flipped`) de los gabinetes.
+Especificación exacta de alturas táctiles mínimas (44px/48px), anchos de drawers off-canvas y márgenes seguros:
 
-### Arquitectura de Enrutamiento Segregado en 3 Zonas Libres:
+![Plano de Cotas Móvil](../doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
 
-Para erradicar colisiones de cables sobre servidores o periféricos de piso, el motor `drawPhysicalCables()` en `js/ui/rack.js` segrega las trayectorias en 3 zonas exclusivas:
+### 9.2 Arquitectura UX en Modo Móvil (≤768px)
 
-1. **Canastillo Aéreo Superior (Conexiones Inter-Rack):**
-   - Los cables que viajan entre gabinetes distintos se elevan hacia la zona aérea por encima de la cabecera del rack más alto (`overheadY = minRackTop - 14px - (index % 7) * 5`).
-   - Salida y entrada inteligente por el lateral más cercano al rack de destino, evitando cruzar frontalmente los servidores intermedios.
-2. **Canaleta Media Segregada (Equipos de Piso ↔ Racks / Piso ↔ Piso):**
-   - Los periféricos de piso viajan por la canaleta horizontal intermedia situada entre los racks y la sección de piso (`middleGutterY = maxRackBottom + 18px + (index % 6) * 4`).
-   - Ascienden verticalmente por el pasillo lateral de 72px del gabinete de destino. Se eliminó al 100% el cruce sobre las tarjetas de piso.
-3. **Organizador Lateral de Gabinete (Conexiones Intra-Rack):**
-   - Los enlaces entre switches y servidores alojados en el mismo gabinete se confinan estrictamente al organizador vertical derecho (`gutterX = p1.rightEdgeX + 8px + (index % 5) * 4`), sin salir del perímetro del rack.
-4. **Propiedades Geométricas:**
-   - Curvaturas ortogonales con radio suave `r = 6px` y arcos cuadráticos Bézier (`Q`).
-   - Switch interactivo `#checkbox-toggle-cables` en la barra de herramientas para ocultar/mostrar cables al instante.
+En resoluciones móviles, el layout pasa de CSS Grid a una disposición contextual con drawers deslizables y panel inferior táctil:
 
-**Ver Diagramas:**
-- `doc/doc_img/doc_svg/propuestas/enrutamiento_equipos_piso_y_racks.svg` (Doble canaleta y zonas segregadas)
-- `doc/doc_img/doc_svg/propuestas/propuesta_1_canastillo_aereo.svg` (Canastillo aéreo superior)
+![Flujos Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_mode.svg)
+
+* **Drawers Off-Canvas:** El catálogo lateral y el panel de propiedades se ocultan fuera del viewport y se activan mediante gestos o botones dedicados con `z-index: 1000`.
+* **Bottom Sheet Táctil:** El panel inferior se colapsa en un tirador táctil de 38px que puede expandirse hasta un 72% de la altura de la pantalla mediante arrastre táctil.
+* **Modales 100% Opacos:** Todos los formularios de edición se ajustan a pantalla completa con scroll interno y botones de confirmación fijos al alcance del pulgar.
+
+### 9.3 Topología en Pantallas Táctiles
+
+Interacciones multitáctil adaptadas para gestos de pellizco (pinch-to-zoom), desplazamiento con dos dedos y auto-ordenamiento con un solo toque:
+
+![Topología Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_topology.svg)
 
 ---
 
-## 10. Sistema de Autenticación y Criptografía
+## 10. Seguridad Criptográfica y Control de Acceso (RBAC)
 
-**Archivos:** `js/auth/roles.js` (expuesto como `window.RackAuth`) y `js/auth/crypto.js` (expuesto como `window.RackCrypto`).
+El subsistema de seguridad combina control de acceso basado en roles (RBAC) con protección criptográfica simétrica de nivel bancario en reposo y en tránsito.
 
-### Roles y permisos (RBAC)
+### 10.1 Arquitectura Criptográfica y RBAC
 
-| Rol | Descripción | Permisos |
-|---|---|---|
-| **Admin** | Acceso completo | Todo + Modo Dios + Revelar Contraseñas + Cambiar PIN |
-| **Editor** | Edición sin PIN | Todo excepto cambiar PIN y Modo Dios |
-| **Viewer** | Solo lectura | Solo ver datos, sin editar |
+![Seguridad y Criptografía](../doc_img/doc_svg/flows/security_rbac_crypto.svg)
 
-### Permisos detallados
+### 10.2 Matriz de Roles y Permisos
 
-| Permiso | Admin | Editor | Viewer |
-|---|---|---|---|
-| `toggleGodMode` | ✅ | ❌ | ❌ |
-| `editDevices` | ✅ | ✅ | ❌ |
-| `addRacks` | ✅ | ✅ | ❌ |
-| `deleteRacks` | ✅ | ✅ | ❌ |
-| `addConnections` | ✅ | ✅ | ❌ |
-| `clearProject` | ✅ | ✅ | ❌ |
-| `changeAdminPin` | ✅ | ❌ | ❌ |
+![Roles y Permisos](../doc_img/doc_svg/flows/roles_permissions.svg)
+
+| Permiso | Administrador (`admin`) | Editor (`editor`) | Espectador (`viewer`) |
+|---|:---:|:---:|:---:|
 | `viewData` | ✅ | ✅ | ✅ |
+| `editDevices` / `addRacks` / `deleteRacks` | ✅ | ✅ | ❌ |
+| `addConnections` / `deleteConnections` | ✅ | ✅ | ❌ |
+| `clearProject` / `importData` | ✅ | ✅ | ❌ |
+| `toggleGodMode` (Revelar todas las contraseñas) | ✅ | ❌ | ❌ |
+| `revealPassword` (Auditar contraseña individual) | ✅ | ❌ | ❌ |
+| `changeAdminPin` | ✅ | ❌ | ❌ |
 
-### Implementación de Roles
-- **PIN por defecto:** `rack2024` (hash SHA-256: `392bd907...`)
-- **Hasheo:** Web Crypto API (`crypto.subtle.digest`) con fallback JS puro (`sha256_fallback`)
-- **Sesión:** `sessionStorage` bajo la clave `RACK_SESSION_USER` (se destruye al cerrar la pestaña)
-- **Integridad y Persistencia F5:** Los administradores tienen un token criptográfico persistido en `sessionStorage` bajo `RACK_SESSION_TOKEN` (`TOKEN_KEY`). Si un usuario altera manualmente los valores sin coincidir con el token, se fuerza logout de inmediato.
-- **Verificar permisos:** `RackAuth.can('toggleGodMode')` retorna boolean.
-
-### Blindaje Criptográfico en Reposo (`RackCrypto`, M-01)
-- **Cifrado Simétrico:** Módulo `RackCrypto` implementa cifrado de 256 bits bajo el estándar `enc:v1:<iv>:<ciphertext>`. Genera un vector de inicialización (IV) de 12 bytes único por cada registro.
-- **Persistencia Segura:** `store._save()` cifra automáticamente los campos sensibles de los equipos (`pass`) antes de guardarlos en `localStorage` (tanto en el slot principal como en el slot redundante de respaldo).
-- **Descifrado Transparente:** `store._load()` y `store.loadData()` descifran las credenciales al instanciar el estado en memoria, permitiendo que la UI y las operaciones funcionen en texto plano sin penalizar la velocidad.
-- **Exportación Segura:** `fileManager.writeToFile` y `downloadFallback` cifran las credenciales al generar archivos `.rack` o `.json`.
-- **Modo Dios y Revelación Táctil:**
-  - Las contraseñas se renderizan por defecto con `••••••••` en tablas e Inspector.
-  - Los administradores pueden activar el **Modo Dios** (`SHOW_PASSWORDS = true`) para auditar todas las contraseñas a la vez.
-  - En el Inspector, el botón de ojo táctil (`toggleDevicePasswordInspector(devId)`) permite a los administradores alternar la visualización de la contraseña de un equipo individual. Espectadores y Editores son bloqueados por RBAC.
+### 10.3 Blindaje Criptográfico en Reposo (`RackCrypto`)
+* **Estándar:** Cifrado simétrico autenticado `AES-GCM` de 256 bits (`Web Crypto API`).
+* **Formato del Ciphertext:** `enc:v1:<iv_base64>:<ciphertext_base64>`.
+* **Vector de Inicialización (IV):** 12 bytes criptográficamente seguros generados de forma independiente por cada registro sensible (`crypto.getRandomValues`).
+* **Protección Transparente:** El Store cifra contraseñas y claves de acceso antes de escribir en `localStorage` o exportar a `.rack`. Al cargar el proyecto, descifra en memoria volátil sin penalizar el rendimiento del renderizado.
+* **Token de Integridad Anti-Tampering:** La sesión de administrador se valida contra un token volátil en `sessionStorage`. Si un usuario altera manualmente los valores del DOM o el almacenamiento, la sesión se destruye automáticamente.
 
 ---
 
-## 11. Gestión de Archivos
+## 11. Persistencia Híbrida, Formato .RACK y Exportación
 
-**Archivo:** `js/ui/fileManager.js`
+El sistema combina el almacenamiento local en navegador con I/O directo sobre el sistema de archivos del sistema operativo mediante la **File System Access API**.
 
-### File System Access API
+### 11.1 Arquitectura de Entrada/Salida (I/O) de Archivos
 
-- **Abrir:** `showOpenFilePicker()` con filtro `.rack` / `.json`
-- **Guardar:** `showSaveFilePicker()` con extensión `.rack`
-- **Autoguardado:** Debounce de 3 segundos después del último cambio, solo si hay un `fileHandle` abierto y permisos concedidos
+![File Manager API](../doc_img/doc_svg/flows/file_manager_api.svg)
 
-### Fallback
+### 11.2 Sistema de Autoguardado e Historial
+El sistema cuenta con un motor de autoguardado inteligente que escribe en disco tras 3 segundos de inactividad luego de la última mutación, respaldado por un slot redundante en `localStorage`:
 
-En navegadores que no soportan File System Access API (Firefox, Safari), se usa:
-- **Abrir:** `<input type="file">` tradicional
-- **Guardar:** `downloadJSON()` que crea un Blob y genera un link de descarga
+![Autoguardado](../doc_img/doc_svg/flows/autosave_history.svg)
 
-### Formato de archivo
+### 11.3 Subsistema de Exportación Masiva
 
-```json
-{
-  "version": 1,
-  "project": { /* todo el estado de store._raw */ },
-  "catalog": [ /* array CATALOG con las 21+ plantillas */ ]
-}
-```
+![Sistema de Exportación](../doc_img/doc_svg/flows/export_system.svg)
+
+* **Hojas de Cálculo Excel (.xlsx):** Generación binaria nativa mediante `xlsx.full.min.js` (SheetJS) con hojas de Inventario y Conexiones formateadas.
+* **Reportes CSV:** Exportación estructurada compatible con hojas de cálculo y bases de datos relacionales.
+* **Captura Retina PNG (1:1):** Renderizado DOM de alta resolución a 2x mediante `html2canvas.min.js` con fallback a Canvas 2D.
+
+### 11.4 Service Worker y PWA Offline (Cache v52)
+El archivo raíz `service-worker.js` gestiona una estrategia de caché determinista *Cache-First con actualización en segundo plano*. Proporciona disponibilidad total del software sin conexión a internet:
+
+![Service Worker PWA](../doc_img/doc_svg/architecture/pwa_service_worker.svg)
 
 ---
 
-## 12. Flujo de Datos Completo
+## 12. Grafo de Dependencias y Orden de Scripts Globales
 
-### Crear un dispositivo (Drag & Drop)
+El proyecto no utiliza bundlers ni módulos ES en el navegador; todas las librerías y scripts se ejecutan en el ámbito global mediante 32 etiquetas `<script>` ordenadas en `index.html`.
 
-```
-1. Usuario arrastra item del catálogo
-2. onCatalogDragStart() guarda el template
-3. Usuario suelta en un slot del rack
-4. onSlotDrop() obtiene el template
-5. store.addDeviceToRack() es llamado
-6. snapshot() guarda estado para undo
-7. Se crea el objeto device con uid()
-8. Se valida colisiones en el slot/lado
-9. Se hace push a this._raw.devices
-10. this._save() guarda en localStorage
-11. this._emit('change', { source: 'addDeviceToRack' })
-12. renderAll() redibuja:
-    - renderStats() → estadísticas se actualizan
-    - renderOutliner() → árbol se actualiza
-    - renderPhysical() → nuevo faceplate aparece
-    - renderBottomPanel() → tabla se actualiza
-13. fileManager.autoSave() → si hay archivo abierto (3s debounce)
+### 12.1 Mapa Maestro de Dependencias
 
-### Validación y Creación de Conexiones (VLANs)
+![Mapa de Dependencias](../doc_img/doc_svg/architecture/dependencies_map.svg)
 
-```
-1. Usuario abre modal de "Nueva Conexión"
-2. Selecciona origen, destino y puertos
-3. El modal filtra puertos (opcionalmente) ocultando los que `store.isPortOccupied()` reporta en uso
-4. Usuario selecciona una VLAN del catálogo (`store.getVlans()`)
-5. store.addConnection() es llamado
-6. store.validateConnection() bloquea la acción si detecta colisión de puertos
-7. snapshot() guarda estado
-8. this._raw.connections.push(newConn)
-9. this._save() + this._emit('change', { source: 'Connection' })
-10. renderAll() redibuja vistas afectadas (Inspector, tablas, cables)
-```
-```
+### 12.2 Estructura Jerárquica del Repositorio
 
-### renderAll Source Dispatch
+![Estructura de Directorios](../doc_img/doc_svg/architecture/directory_structure.svg)
 
-La función `renderAll()` en `main.js` usa el string `source` del evento para decidir qué vistas redibujar:
+### 12.3 Secuencia Estricta de Carga de Scripts en `index.html`
 
-| Valor de `source` | Vistas que se redibujan |
-|---|---|
-| `""` (vacío), `loadData`, `undo`, `redo` | **TODAS** las vistas (redibujado completo) |
-| Contiene `Room`, o es `room-rename` / `changeRoom` | Room tabs, rack selector, stats, vista física, topología |
-| Contiene `Rack` | Rack selector, stats, outliner, vista física |
-| Contiene `Device`, `addFloorDevice`, `moveDevice`, `deleteDevice`, `updateDevice`, `addDeviceToRack` | Stats, outliner, vista física, panel inferior |
-| Contiene `Connection` | Stats, outliner, panel inferior |
-| Contiene `Zoom` o `Pan` | Solo actualiza la etiqueta de zoom |
+```html
+<!-- 1. Librerías Vendor de Terceros -->
+<script src="js/xlsx.full.min.js"></script>
+<script src="js/html2canvas.min.js"></script>
+<script src="js/mobile-drag-drop.min.js"></script>
+<script src="js/mobile-drag-drop-scroll.min.js"></script>
 
-### Guardar / Cargar proyecto
+<!-- 2. Núcleo Reactivo, Utilidades e Iconografía -->
+<script src="js/store.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/demoData.js"></script>
 
-```
-Guardar:
-1. fileManager.saveProject() / saveProjectAs()
-2. Verifica File System API disponible
-3. Si SÍ: writeToFile(handle) → JSON.stringify → writable.write()
-4. Si NO: downloadFallback() → crea blob → descarga
+<!-- 3. Criptografía y Seguridad RBAC -->
+<script src="js/auth/crypto.js"></script>
+<script src="js/auth/roles.js"></script>
 
-Cargar:
-1. fileManager.openProject()
-2. Si SÍ API: showOpenFilePicker() → getFile() → text()
-3. Si NO: <input type="file"> → FileReader
-4. loadDataFromString(text) → JSON.parse
-5. store.loadData(data.project) → sobreescribe estado
-6. Undo/redo se limpian
-7. renderAll() → redibuja todo
+<!-- 4. Capa de Vistas UI (Controladores Base) -->
+<script src="js/ui/catalog.js"></script>
+<script src="js/ui/rack.js"></script>
+<script src="js/ui/faceplates.js"></script>
+<script src="js/ui/tables.js"></script>
+<script src="js/ui/outliner.js"></script>
+<script src="js/ui/inspector.js"></script>
+<script src="js/ui/fileManager.js"></script>
+
+<!-- 5. Componentes Modales Específicos -->
+<script src="js/ui/modals/Globals.js"></script>
+<script src="js/ui/modals/RackModal.js"></script>
+<script src="js/ui/modals/DeviceModal.js"></script>
+<script src="js/ui/modals/CableModal.js"></script>
+<script src="js/ui/modals/RoomModal.js"></script>
+<script src="js/ui/modals/ExportModal.js"></script>
+<script src="js/ui/modals/ImportModal.js"></script>
+<script src="js/ui/modals/PlacementModal.js"></script>
+<script src="js/ui/modals.js"></script>
+
+<!-- 6. Motor Topológico Canvas 2D -->
+<script src="js/ui/topology/TopologySkins.js"></script>
+<script src="js/ui/topology/TopologyState.js"></script>
+<script src="js/ui/topology/TopologyLayout.js"></script>
+<script src="js/ui/topology/TopologyRenderer.js"></script>
+<script src="js/ui/topology/TopologyEvents.js"></script>
+<script src="js/ui/topology/TopologyOrchestrator.js"></script>
+
+<!-- 7. Inicializador Maestro (Debe cargarse al final) -->
+<script src="js/main.js"></script>
 ```
 
 ---
 
-## 13. Cómo recrear desde cero
+## 13. Aseguramiento de Calidad y Suite de Integridad
 
-Si quieres construir algo similar paso a paso:
+El aseguramiento de calidad del proyecto se verifica mediante una suite automatizada dual: ejecución de consola en Node.js ([tests/integrity_check.cjs](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs)) y visualizador en navegador ([tests/index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/index.html)).
 
-### Paso 1: Crear la estructura básica
-
-```bash
-mkdir rack-designer && cd rack-designer
-touch index.html css/style.css js/store.js js/main.js
+```
+=========================================================================
+  SUITE DE INTEGRIDAD AUTOMATIZADA — RACK DESIGNER NEXT
+=========================================================================
+  Total de Pruebas Ejecutadas: 398
+  Pruebas Exitosas:           398 (100.0%)
+  Pruebas Fallidas:             0 (0.0%)
+  Grupos de Prueba Evaluados:  25
+=========================================================================
 ```
 
-### Paso 2: Definir el layout CSS (variables + grid)
+### 13.1 Cobertura por Grupos de Prueba
 
-### Paso 3: Crear el store reactivo (Proxy ES6 + localStorage + Undo/Redo)
-
-### Paso 4: Crear el orquestador (main.js con renderAll + source dispatch)
-
-### Paso 5: Crear los componentes UI
-- `catalog.js` → Lista de dispositivos arrastrables con flyout
-- `rack.js` → Renderizado de racks con drag & drop + cables SVG
-- `faceplates.js` → HTML de cada tipo de dispositivo
-- `tables.js` → Tabla de inventario con edición inline
-- `outliner.js` → Árbol jerárquico
-- `inspector.js` → Panel de propiedades
-
-### Paso 6: Crear los modales (Device, Rack, Cable, Room, Placement, Export)
-
-### Paso 7: Agregar Canvas 2D (Topología con MVC)
-
-### Paso 8: Agregar autenticación (RBAC con SHA-256 + sessionStorage)
-
-### Paso 9: Agregar gestión de archivos (File System Access API + fallback)
-
-### Paso 10: Agregar PWA (`service-worker.js` + `manifest.json`)
+1. **Proxy Reactivity & WeakMap Traps:** Verificación de trampas get/set, prevención de bucles y protección contra prototipos.
+2. **Cifrado Simétrico AES-GCM:** Generación de IVs únicos, cifrado en reposo, descifrado en memoria y serialización `.rack`.
+3. **Autenticación SHA-256 & Sesión Volátil:** Hashing, persistencia de tokens de seguridad y verificación RBAC.
+4. **Integridad Relacional en Cascada:** Borrado en cascada de gabinetes/equipos y purga de conexiones zombis.
+5. **Cálculo Físico CAD 1U=24px:** Detección de colisiones de slots U, límites de altura y segregación por cara física (`mountSide`).
+6. **Enrutamiento Ortogonal de Cables:** Canastillo superior aéreo, canaleta media de piso y organizador vertical interno.
+7. **Motor de Topología 2D:** Skins modulares (card/circle/image), árbol DAG, algoritmo de afinidad espacial y 5 ranuras de memoria.
+8. **Interacciones Móviles & PWA:** Drawers laterales, Bottom Sheet colapsable y caché offline v52.
+9. **Importación y Exportación Masiva:** Validación de esquemas Excel/CSV, detección reactiva de colisiones y generación PNG Retina.
 
 ---
 
-## 14. Diagramas SVG del Proyecto
+## 14. Matriz Histórica de Mejoras y Evolución
 
-Todos los diagramas están en `doc/doc_img/doc_svg/`:
+El proyecto ha completado de forma satisfactoria su ciclo de modernización integral (Mejoras M-01 a M-41), consolidando todas las capacidades técnicas y archivando formalmente el backlog en [doc/doc_md/historico/mejoras_archivadas.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md).
 
-### Diagramas de Layout y Modo Móvil
+### 14.1 Resumen de Fases Consolidadas
 
-| Archivo | Dimensiones | Contenido |
-|---|---|---|
-| [`layout/layout_mobile_dimensions.svg`](../doc_img/doc_svg/layout/layout_mobile_dimensions.svg) | 1680×920 | **Plano de cotas y medidas de ingeniería:** Alturas, anchos, z-indexes y breakpoints táctiles |
-| [`layout/layout_mobile_mode.svg`](../doc_img/doc_svg/layout/layout_mobile_mode.svg) | 1680×850 | **Arquitectura UX Modo Móvil (≤768px):** Lienzo, Catálogo drawer, Inspector y Bottom Sheet |
-| [`layout/layout_mobile_topology.svg`](../doc_img/doc_svg/layout/layout_mobile_topology.svg) | 1280×840 | **Topología en Modo Móvil:** Canvas 2D con interacción táctil, zoom, pan y auto-orden |
-| `layout/layout_header.svg` | 1100×140 | Layout detallado del header |
-| `layout/layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
-| `layout/layout_main_canvas.svg` | 720×580 | Área principal con racks |
-| `layout/layout_right_panel.svg` | 340×680 | Panel derecho (outliner/inspector/stats) |
-| `layout/layout_bottom_panel.svg` | 1100×360 | Panel inferior con tabla |
-| `layout/layout_topology.svg` | 1400×700 | Vista de topología (Canvas 2D) |
-| `layout/ui_layout_map.svg` | — | Mapa completo del layout UI |
-
-### 📐 Galería de Planos Visuales del Modo Móvil
-
-#### Plano de Cotas y Medidas de Ingeniería:
-![Plano de Cotas y Medidas](../doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
-
-#### Arquitectura de Flujos de Pantalla Móvil:
-![Flujos de Pantalla Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_mode.svg)
-
-#### Topología Canvas 2D en Pantallas Compactas:
-![Topología en Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_topology.svg)
-
-Consúltese también el documento técnico maestro: [medidas_mobile.md](medidas/medidas_mobile.md).
-
-
-
-### Diagramas de Arquitectura
-
-| Archivo | Contenido |
-|---|---|
-| `architecture/architecture_overview.svg` | Arquitectura completa del proyecto (2400×2800) |
-| `architecture/architecture_current.svg` | Arquitectura actual con flujos reactivos, RBAC y fallbacks |
-| `flows/project_flow.svg` | Flujo de datos completo (2000×2600) |
-| `flows/file_communication_flow.svg` | Comunicación y llamadas inter-módulo |
-| `flows/store_reactivity.svg` | Detalle del patrón reactivo del Store |
-| `architecture/module_dependencies.svg` | Dependencias entre módulos JS |
-| `architecture/dependencies_map.svg` | Mapa de dependencias completo |
-
-### Diagramas de Funcionalidades
-
-| Archivo | Contenido |
-|---|---|
-| `flows/drag_drop_flow.svg` | Flujo de drag & drop |
-| `propuestas/topology_engine.svg` | Motor de topología Canvas 2D |
-| `propuestas/modals_accordions.svg` | Sistema de modales con acordeones |
-| `flows/roles_permissions.svg` | Matriz de roles y permisos |
-| `flows/security_rbac_crypto.svg` | Seguridad: RBAC + SHA-256 |
-| `flows/file_manager_api.svg` | File System Access API |
-| `flows/autosave_history.svg` | Autoguardado e historial |
-| `flows/export_system.svg` | Sistema de exportación |
-| `architecture/pwa_service_worker.svg` | Service Worker y PWA |
-| `layout/theme_switcher.svg` | Sistema de temas claro/oscuro |
-| `propuestas/hybrid_network_ports.svg` | Puertos de red híbridos |
-
-### Diagramas del Manual de Usuario
-
-| Archivo | Contenido |
-|---|---|
-| `manual/manual_rack_anatomy.svg` | Anatomía de un rack |
-| `manual/manual_ui_overview.svg` | Mapa de la interfaz para usuarios |
-| `manual/manual_action_flow.svg` | Flujo de acciones comunes |
-
-### Diagramas de Mejoras
-
-| Archivo | Contenido |
-|---|---|
-| `architecture/mejoras_architecture_final.svg` | Arquitectura final propuesta |
-| `propuestas/mejoras_device_skins_fallback.svg` | Sistema de skins con fallback |
-
-### Cableado Físico y Vistas
-
-| Archivo | Contenido |
-|---|---|
-| `propuestas/enrutamiento_equipos_piso_y_racks.svg` | Arquitectura de doble canaleta (Aérea vs Piso) |
-| `propuestas/propuesta_1_canastillo_aereo.svg` | Canastillo superior aéreo inter-rack |
-| `propuestas/propuesta_2_fila_continua_nowrap.svg` | Disposición en fila continua de racks |
-| `propuestas/propuesta_3_cables_interactivos_hover.svg` | Modo interactivo Smart Focus |
-
-### Diagramas Entidad-Relación (ERD Vectoriales por Niveles)
-
-| Archivo | Nivel | Contenido |
-|---|---|---|
-| [`erd_01_atomic_core.svg`](../doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
-| [`erd_02_datacenter_entities.svg`](../doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
-| [`erd_03_topology_engine.svg`](../doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
-| [`erd_04_system_reactive_architecture.svg`](../doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
-
-### Otros
-
-| Archivo | Contenido |
-|---|---|
-| `architecture/directory_structure.svg` | Estructura de directorios |
-| `architecture/project_areas.svg` | Áreas del proyecto |
-| `flows/user_personas.svg` | Perfiles de usuario |
+* **Fase 1 (Seguridad y Reactividad):** Cifrado AES-GCM en reposo (M-01), saneamiento automático de conexiones zombis (M-02) y optimización transaccional de Undo/Redo acotado (M-03).
+* **Fase 2 (Rendimiento y Cableado Avanzado):** Redibujado atómico por gabinete (M-04), soporte de doble cara frontal/trasera (M-33) y enrutamiento interactivo Drag-to-Connect con rubber-band en tiempo real (M-34).
+* **Fase 3 (Topología de Nueva Generación):** Skins fotorrealistas de hardware (M-28), distribución en árbol jerárquico DAG (M-32), afinidad espacial para periféricos de piso (M-39) y 5 slots de memoria visual (M-40).
+* **Fase 4 (PWA Móvil y Tablas Dinámicas):** Adaptabilidad completa para dispositivos móviles (M-25A/M-25B), selector dinámico de columnas (M-11) e importación/exportación masiva con detección reactiva de conflictos (M-21/M-22).
+* **Fase 5 (Bicanalidad Segregada y Calidad Total):** Bicanalidad física segregada (M-41), doble dataset demo (TIA-942 y Campus UTN) y consolidación de la suite de 398 pruebas automatizadas al 100%.
 
 ---
 
-## 15. Roadmap de Mejoras
-
-El documento `mejoras.md` en la raíz del proyecto es el **Source of Truth** para todas las mejoras planificadas. Contiene un análisis detallado de:
-
-- Problemas críticos de seguridad e integridad
-- Límites de rendimiento y escalabilidad
-- Robustez y ciclo de vida PWA
-- Deuda técnica y calidad
-- Problemas de UX y consistencia
-- Fases del roadmap de implementación (1–5)
-- Mejoras específicas implementadas para topología (skins de hardware M-28, 5 ranuras de memoria M-40, afinidad espacial M-39)
-
----
-
-## Resumen Final
-
-El proyecto RACK Designer Next es una app web vanilla que:
-
-1. **No necesita build step** → Solo abre index.html
-2. **Usa Proxy ES6** para estado reactivo (como Redux pero nativo, con cache WeakMap)
-3. **Guarda todo en localStorage** (con cifrado AES-GCM en reposo) + autoguardado en disco con File System Access API
-4. **Tiene 5 áreas fijas** en CSS Grid (header, sidebar flyout, main, right, bottom)
-5. **Canvas 2D** para la vista de topología (3 estilos: card, circle y Hardware Skins fotorrealistas con 18 presets offline, M-28)
-6. **SVG inline** para cables en la vista física con bicanalidad segregada aérea y bajo piso (M-41)
-7. **Drag & drop** nativo para colocar equipos y reordenar slots
-8. **3 roles** (Admin, Editor, Viewer) con SHA-256 + token de integridad
-9. **Exporta e Importa** masivamente en Excel (.xlsx) y CSV con detección reactiva de colisiones (M-21/M-22), PNG 1:1 Retina y JSON (.rack)
-10. **PWA** con Service Worker (`rack-designer-next-cache-v50`) para uso offline
-11. **Doble Escenario Demo:** Datacenter TIA-942 y Campus Universitario UTN (10 salas, 13 racks, 162 equipos, 24 VLANs) mediante selector interactivo
-12. **Suite de Integridad Automatizada** con 396 pruebas en 25 grupos pasando al 100% en Node.js (`tests/integrity_check.cjs`) y navegador web (`tests/index.html`)
-13. **Modo Móvil y Adaptabilidad PWA (M-25A/M-25B):** Drawers laterales off-canvas, Bottom Sheet (38px a 72vh), popover flotante para búsqueda y modales 100% opacos y responsivos.
-
-**La regla más importante:** Nunca mutar el DOM directamente. Siempre actualizar el `store` y dejar que `renderAll()` se encargue de redibujar.
+> **RACK Designer Next — Ingeniería de Datacenters de Vanguardia**  
+> *Documento técnico oficial mantenido y sincronizado con el código fuente del proyecto.*

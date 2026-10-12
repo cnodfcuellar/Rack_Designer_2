@@ -1,3 +1,20 @@
+## [2026-10-11] Arquitectura & Documentación — Modernización Integral de la Guía de Arquitectura (v3.0 Master)
+
+### 📐 Reingeniería Editorial de ARCHITECTURE_GUIDE.md
+- **Transformación de Documento a Estándar SAD (Software Architecture Document):**
+  - Reestructurado [ARCHITECTURE_GUIDE.md](../doc_md/ARCHITECTURE_GUIDE.md) bajo el modelo C4 y especificaciones formales de arquitectura de sistemas.
+  - Erradicado el formato informal de apunte o blog; adoptado tono riguroso de ingeniería con insignias técnicas, métricas y especificaciones de memoria y rendimiento.
+- **Incrustación de 23 Planos Vectoriales Oficiales SVG:**
+  - Embebidos directamente en el cuerpo del documento los diagramas maestros: [architecture_overview.svg](../doc_img/doc_svg/architecture/architecture_overview.svg), [architecture_current.svg](../doc_img/doc_svg/architecture/architecture_current.svg), [project_flow.svg](../doc_img/doc_svg/flows/project_flow.svg), [store_reactivity.svg](../doc_img/doc_svg/flows/store_reactivity.svg) y los cuatro niveles completos del Modelo Entidad-Relación ([erd_01](../doc_img/doc_svg/erd/erd_01_atomic_core.svg) a [erd_04](../doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg)).
+  - Integrados planos de enrutamiento físico segregado ([propuesta_1_canastillo_aereo.svg](../doc_img/doc_svg/propuestas/propuesta_1_canastillo_aereo.svg) y [enrutamiento_equipos_piso_y_racks.svg](../doc_img/doc_svg/propuestas/enrutamiento_equipos_piso_y_racks.svg)).
+  - Integradas las especificaciones visuales de las 5 áreas de UI y del modo táctil móvil (cotas, flujos y topología compacta).
+- **Sincronización Total de Cifras y Estado del Sistema:**
+  - Actualizada la suite de integridad a **398/398 pruebas pasando al 100%** en 25 grupos.
+  - Actualizada la versión de Service Worker / PWA a **Cache v52**.
+  - Documentado el catálogo ampliado de **30 plantillas en 8 familias comerciales** y el archivo definitivo del ciclo de mejoras (M-01 a M-41).
+- **Validación Automatizada:**
+  - Verificado que el 100% de los enlaces a imágenes SVG existen y resuelven correctamente mediante `scripts/verify_svg_links.cjs`.
+
 ## [2026-10-11] Documentación & Portabilidad — Relativización Total de Rutas en la Documentación
 
 ### 🌐 Erradicación de Enlaces Locales Absolutos (file:///)
