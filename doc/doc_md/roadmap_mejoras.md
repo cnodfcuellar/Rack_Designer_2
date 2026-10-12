@@ -2,7 +2,7 @@
 
 > Documento maestro para el equipo de desarrollo. Contiene el análisis de complejidad, la priorización estratégica, las fases de implementación y el diagrama de arquitectura final.
 >
-> **Fuente de requisitos:** [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md)
+> **Fuente de requisitos:** [mejoras.md](../../mejoras.md)
 > **Fecha de creación:** 2026-07-27
 > **Última actualización:** 2026-10-05
 > **Estado del sistema:** En producción (35 de 42 mejoras completadas, 83.3% del roadmap global)

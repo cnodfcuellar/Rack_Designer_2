@@ -27,7 +27,7 @@
 - Ninguna falla crítica activa.
 
 ## What's Left to Build / Estado de Tareas
-- **Roadmap de Mejoras:** El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido cerrado y formalmente archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md).
+- **Roadmap de Mejoras:** El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido cerrado y formalmente archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](../doc/doc_md/historico/mejoras_archivadas.md).
 - **Estado Actual:** La aplicación se encuentra en un estado maduro y estable con 398 pruebas automatizadas al 100% de éxito, todas las fases operativas completadas e interfaces adaptativas en escritorio y móvil completamente implementadas. Nuevos desarrollos se abordarán bajo demanda del usuario.
 
 ---

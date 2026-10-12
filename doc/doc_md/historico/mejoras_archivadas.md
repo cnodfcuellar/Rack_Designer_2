@@ -16,12 +16,12 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 ### 🔑 [COMPLETADO] Credenciales e IPs Almacenadas en Texto Plano en el Cliente (M-01)
 *   **Problema Original:** Los campos de red y credenciales de los equipos (`pass`) se almacenaban directamente en texto plano dentro del estado JSON en el `localStorage` del navegador y en archivos `.rack`.
 *   **Solución Implementada:**
-    - Creado el módulo criptográfico [js/auth/crypto.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/crypto.js) (`RackCrypto`) con cifrado simétrico robusto bajo prefijo `enc:v1:<iv>:<ciphertext>`.
+    - Creado el módulo criptográfico [js/auth/crypto.js](../../../js/auth/crypto.js) (`RackCrypto`) con cifrado simétrico robusto bajo prefijo `enc:v1:<iv>:<ciphertext>`.
     - Persistencia blindada en reposo: `store._save()`, `fileManager.writeToFile` y `downloadFallback` cifran automáticamente las contraseñas antes de serializar a JSON.
     - Carga transparente: `store._load()` y `store.loadData()` descifran las credenciales al instanciar el estado en memoria para que la aplicación opere normalmente.
     - Modo Dios y Gobernanza RBAC: Las contraseñas se ocultan con `••••••••` en tablas e Inspector por defecto. Solo los usuarios con rol Administrador pueden revelar todas las contraseñas activando el **Modo Dios** (`SHOW_PASSWORDS`) o de manera táctil equipo por equipo en el Inspector mediante el botón de ojo (`toggleDevicePasswordInspector`).
-    - Toggle de visibilidad en formulario: Botón interactivo de ojo `#dev-pass-toggle` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js) para alternar tipo `password`/`text`.
-    - Validado al 100% en la suite automatizada [tests/integrity_check.cjs](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs) (Grupo 14).
+    - Toggle de visibilidad en formulario: Botón interactivo de ojo `#dev-pass-toggle` en [index.html](../../../index.html) y [DeviceModal.js](../../../js/ui/modals/DeviceModal.js) para alternar tipo `password`/`text`.
+    - Validado al 100% en la suite automatizada [tests/integrity_check.cjs](../../../tests/integrity_check.cjs) (Grupo 14).
 
 ---
 
@@ -34,7 +34,7 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 ### ⏳ [COMPLETADO] Bloqueo del Hilo Principal por Clonado Profundo (`deepClone`) y Gestión de Historial (M-03)
 *   **Problema original:** Cada vez que el usuario realizaba un cambio, el sistema ejecutaba `store.snapshot()`, el cual procesaba una copia completa en memoria del estado del proyecto usando `deepClone(this._raw) = JSON.parse(JSON.stringify(obj))` sin límites en las pilas de deshacer.
 *   **Solución implementada:**
-    1. **Algoritmo `fastClone`:** Se sustituyó la costosa serialización JSON por una función de clonado estructural iterativa/recursiva nativa en [js/utils.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/utils.js), logrando un rendimiento **4x superior** (13.7 ms vs 56.5 ms en datasets de datacenter) con fallback multi-tier a `structuredClone` y JSON.
+    1. **Algoritmo `fastClone`:** Se sustituyó la costosa serialización JSON por una función de clonado estructural iterativa/recursiva nativa en [js/utils.js](../../../js/utils.js), logrando un rendimiento **4x superior** (13.7 ms vs 56.5 ms en datasets de datacenter) con fallback multi-tier a `structuredClone` y JSON.
     2. **Limitación Óptima de Historial (`_maxHistory = 15`):** Se restringió el crecimiento indefinido de las pilas de Undo/Redo a un máximo configurable de 15 niveles, con getters/setters reactivos (`store.maxHistory`, `store.historySize`) y recorte defensivo de memoria.
     3. **Snapshots Livianos:** El método `_createSnapshot()` excluye colecciones de datos pesadas que no forman parte del flujo de deshacer (como los slots de memoria de topología `topologySlots`), reduciendo el consumo de RAM de cada snapshot hasta en un 80%.
     4. **Deduplicación Reactiva:** Se incorporó la bandera `_mutatedSinceLastSnapshot` para evitar acumular estados redundantes consecutivos si no ocurrieron mutaciones reales en el store.
@@ -43,12 +43,12 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 ### 🔄 [COMPLETADO] Redibujado Selectivo y Despacho Optimizado (M-04)
 *   **Problema original:** El flujo reactivo en `main.js` tendía a disparar redibujados completos ante cualquier mutación menor. Cambiar propiedades de un equipo forzaba la reconstrucción completa de todos los racks de la sala, paneles laterales y tablas de datos.
 *   **Solución implementada:**
-    1. **Redibujado Atómico de Gabinetes (`renderSingleRack`):** Se modularizó `buildRackFace` y se implementó `renderSingleRack(rackId)` en [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js), reemplazando granularmente el `.rack-wrapper` afectado en el DOM, preservando el estado de giro de cara (`flipped`) y re-enlazando eventos sin afectar al resto de la vista.
-    2. **Metadatos Enriquecidos en el Almacén:** Eventos emitidos en [js/store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js) ahora incluyen entidades afectadas explícitas (`rackId`, `deviceId`, `oldRackId`, `device`, `props`).
-    3. **Coalescencia a 60 FPS con `requestAnimationFrame`:** `renderAll()` en [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) agrupa ráfagas de mutaciones en `_queuedRenderEvents` para despacharlas en el siguiente frame, manteniendo compatibilidad síncrona inmediata para operaciones de datos (`loadData`, `undo`, `redo`, `importJSON` o `immediate: true`), con soporte para vaciado forzado síncrono mediante `renderAll.flush()`.
+    1. **Redibujado Atómico de Gabinetes (`renderSingleRack`):** Se modularizó `buildRackFace` y se implementó `renderSingleRack(rackId)` en [js/ui/rack.js](../../../js/ui/rack.js), reemplazando granularmente el `.rack-wrapper` afectado en el DOM, preservando el estado de giro de cara (`flipped`) y re-enlazando eventos sin afectar al resto de la vista.
+    2. **Metadatos Enriquecidos en el Almacén:** Eventos emitidos en [js/store.js](../../../js/store.js) ahora incluyen entidades afectadas explícitas (`rackId`, `deviceId`, `oldRackId`, `device`, `props`).
+    3. **Coalescencia a 60 FPS con `requestAnimationFrame`:** `renderAll()` en [js/main.js](../../../js/main.js) agrupa ráfagas de mutaciones en `_queuedRenderEvents` para despacharlas en el siguiente frame, manteniendo compatibilidad síncrona inmediata para operaciones de datos (`loadData`, `undo`, `redo`, `importJSON` o `immediate: true`), con soporte para vaciado forzado síncrono mediante `renderAll.flush()`.
     4. **Consciencia de Vistas Inactivas y Paneles Colapsados (`_renderState`):** Banderas `dirtyPhysical`, `dirtyTopology`, `dirtyBottom` y `dirtyOutliner` evitan regenerar el DOM de pestañas inactivas o paneles contraídos, procesando el dibujo pendiente únicamente al momento de expandir o conmutar de vista.
     5. **Monitor de Rendimiento (`window.RenderPerformance`):** Objeto de diagnóstico y telemetría vinculado a `renderAll.stats` (`totalRenders`, `selectiveRenders`, `fullRenders`, `lastRenderDurationMs`, `reset()`).
-    6. **Validación Exhaustiva:** Certificado con 20 pruebas de integración automatizadas en el Grupo 22 de [tests/integrity_check.cjs](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs) y [tests/index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/index.html).
+    6. **Validación Exhaustiva:** Certificado con 20 pruebas de integración automatizadas en el Grupo 22 de [tests/integrity_check.cjs](../../../tests/integrity_check.cjs) y [tests/index.html](../../../tests/index.html).
 
 ---
 
@@ -111,7 +111,7 @@ Este documento recopila un análisis detallado de los riesgos, problemas potenci
 *   **Objetivo/Beneficio en Producción:** Prevenir que los operadores definan alturas erróneas o no comerciales de racks, y acelerar el aprovisionamiento de nuevos gabinetes.
 
 ### 📖 [COMPLETADO] Crear Documento de Referencia para Medidas de la Interfaz
-*   **Estado:** Completado. Se ha creado el documento [medidas_interfaz.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_interfaz.md).
+*   **Estado:** Completado. Se ha creado el documento [medidas_interfaz.md](../medidas/medidas_interfaz.md).
 *   **Propuesta de Mejora:** Elaborar un archivo Markdown específico que centralice y documente todas las medidas y reglas de layout de la interfaz de usuario (anchos de sidebar, inspector, cabeceras, rejilla CSS Grid, etc.) en la carpeta de documentos.
 *   **Objetivo/Beneficio en Producción:** Proporcionar una guía rápida de referencia para el equipo de desarrollo que permita mantener la consistencia del diseño y del layout general al implementar nuevos paneles o funcionalidades visuales, sin tener que inspeccionar los archivos CSS en cada ocasión.
 
@@ -258,13 +258,13 @@ La arquitectura actual basada en **Vanilla JS + Store reactivo + Canvas 2D + CSS
 ### 🖼️ [COMPLETADO] Sistema Avanzado de Skins Visuales en Topología (M-28)
 *   **Estado:** Completado.
 *   **Implementación:**
-    *   Nuevo módulo modular [js/ui/topology/TopologySkins.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologySkins.js) con gestión de los 3 modos de representación:
+    *   Nuevo módulo modular [js/ui/topology/TopologySkins.js](../../../js/ui/topology/TopologySkins.js) con gestión de los 3 modos de representación:
         1.  **Nodos (`circle`):** Representación lógica circular y minimalista con icono SVG y posicionamiento configurable de etiquetas Nombre/IP.
         2.  **Tarjetas (`card`):** Representación rectangular estructurada (150×50px) enfocada en metadatos técnicos.
         3.  **Hardware / Imágenes (`image`):** Representación arquitectónica/fotorrealista (140×50px) que renderiza chasis procedimentales con orejas de montaje en rack, tornillos metálicos, bisel reflectivo, carátula vectorial basada en `EMBEDDED_SVG_CACHE` y panel de datos con LED de estado en tiempo real e IP.
-    *   Soporte completo en [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js) y [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) para carga de imágenes personalizadas (`.png`, `.jpg`, `.svg` vía `FileReader` a base64 DataURL con previsualización) y selección de presets de fabricantes (Cisco, Fortinet, Dell, HP, etc.).
-    *   Hit-Testing geométrico unificado (`TopologySkins.isPointInNode`) integrado en [TopologyEvents.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyEvents.js) garantizando clics, arrastres y doble clics de alta precisión para círculos, tarjetas y chasis de hardware.
-    *   Integración en [TopologyLayout.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyLayout.js) (`_nodeW` y `_nodeH`), en el menú desplegable `#topo-style-dropdown` de [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) (botón `#topo-opt-image`), en [TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js), en la persistencia de [TopologyState.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyState.js) y en las 5 ranuras de memoria de topología (M-40).
+    *   Soporte completo en [DeviceModal.js](../../../js/ui/modals/DeviceModal.js) y [index.html](../../../index.html) para carga de imágenes personalizadas (`.png`, `.jpg`, `.svg` vía `FileReader` a base64 DataURL con previsualización) y selección de presets de fabricantes (Cisco, Fortinet, Dell, HP, etc.).
+    *   Hit-Testing geométrico unificado (`TopologySkins.isPointInNode`) integrado en [TopologyEvents.js](../../../js/ui/topology/TopologyEvents.js) garantizando clics, arrastres y doble clics de alta precisión para círculos, tarjetas y chasis de hardware.
+    *   Integración en [TopologyLayout.js](../../../js/ui/topology/TopologyLayout.js) (`_nodeW` y `_nodeH`), en el menú desplegable `#topo-style-dropdown` de [index.html](../../../index.html) (botón `#topo-opt-image`), en [TopologyRenderer.js](../../../js/ui/topology/TopologyRenderer.js), en la persistencia de [TopologyState.js](../../../js/ui/topology/TopologyState.js) y en las 5 ranuras de memoria de topología (M-40).
     *   Validado al 100% con 316 pruebas automatizadas en la suite de integridad (Grupo 20).
 *   **Objetivo/Beneficio en Producción:** Brindar la máxima flexibilidad estética y técnica para generar tanto diagramas lógicos y abstractos de alta densidad, como diagramas fotorrealistas de grado ejecutivo listos para exportaciones y presentaciones corporativas.
 

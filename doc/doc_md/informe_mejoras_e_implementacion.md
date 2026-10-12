@@ -7,7 +7,7 @@
 
 **RACK Designer Next** es una herramienta PWA de diseño y documentación de infraestructura de centros de datos (DCIM) 100% offline, desarrollada en Vanilla JavaScript con reactividad basada en Proxies ES6.
 
-A partir del análisis exhaustivo documentado en [`mejoras.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md), se identificaron tanto cuellos de botella críticos de producción (seguridad en almacenamiento, límites de memoria y riesgos de pérdida silenciosa) como oportunidades de evolución que transforman la herramienta de un catálogo estático a un **estudio de diseño interactivo de alta fidelidad**.
+A partir del análisis exhaustivo documentado en [`mejoras.md`](../../mejoras.md), se identificaron tanto cuellos de botella críticos de producción (seguridad en almacenamiento, límites de memoria y riesgos de pérdida silenciosa) como oportunidades de evolución que transforman la herramienta de un catálogo estático a un **estudio de diseño interactivo de alta fidelidad**.
 
 Este informe consolida todas las mejoras, analiza su valor transformador mediante diagramas arquitectónicos y establece un **Diagrama de Implementación por Fases**.
 

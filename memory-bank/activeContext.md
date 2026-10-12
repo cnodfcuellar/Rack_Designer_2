@@ -10,7 +10,7 @@ El sistema cuenta ahora con:
 - Scroll horizontal táctil fluido en la cabecera inferior (`.bottom-header`) con scrollbar delgada de 4px y menús desacoplados (`position: fixed`).
 - Todas las ventanas modales adaptadas al 100% para móviles (≤ 768px y ≤ 480px), eliminando transparencias con fondo sólido `var(--bg-card)` y colapsando formularios a 1 columna.
 
-El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido formalmente concluido y archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md). El archivo activo de la raíz ha sido eliminado y se retiraron las reglas de recordatorio automático en `.agents/AGENTS.md`.
+El ciclo activo de propuestas de mejora (`mejoras.md`) ha sido formalmente concluido y archivado en [`doc/doc_md/historico/mejoras_archivadas.md`](../doc/doc_md/historico/mejoras_archivadas.md). El archivo activo de la raíz ha sido eliminado y se retiraron las reglas de recordatorio automático en `.agents/AGENTS.md`.
 
 ## Recent Changes (Octubre 2026)
 - **[2026-10-11] Infraestructura & Git — Optimización de .gitignore y Auditoría de Repositorio:**

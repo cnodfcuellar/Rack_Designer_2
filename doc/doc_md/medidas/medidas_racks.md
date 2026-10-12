@@ -6,7 +6,7 @@ Este documento detalla el esquema de dimensiones, alturas y anchos utilizado par
 
 ## 1. Unidad Base de Medida (U)
 
-La altura de los equipos y ranuras dentro del rack se rige por la variable CSS `--rack-unit-h`, definida en [variables.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/variables.css):
+La altura de los equipos y ranuras dentro del rack se rige por la variable CSS `--rack-unit-h`, definida en [variables.css](../../../css/variables.css):
 
 *   **1 U (Unidad de Rack) = 24px**
 

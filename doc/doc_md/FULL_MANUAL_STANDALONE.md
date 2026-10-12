@@ -1256,10 +1256,10 @@ Todos los diagramas están en `doc/doc_img/doc_svg/` (33 archivos):
 
 | Archivo | Nivel | Contenido |
 |---|---|---|
-| [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
-| [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
-| [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
-| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
+| [`erd_01_atomic_core.svg`](../doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
+| [`erd_02_datacenter_entities.svg`](../doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
+| [`erd_03_topology_engine.svg`](../doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
+| [`erd_04_system_reactive_architecture.svg`](../doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
 
 ### Otros
 

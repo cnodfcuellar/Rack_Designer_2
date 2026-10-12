@@ -355,10 +355,10 @@ Cuando usas una tablet en orientación horizontal o una laptop compacta, la apli
 Al sostener la tablet en vertical o abrir la aplicación en un smartphone, la interfaz transmuta automáticamente a un diseño táctil nativo para el pulgar:
 
 #### Planos Visuales del Modo Móvil:
-- **Plano de Cotas y Medidas:** ![Cotas y Medidas](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
-- **Flujos de Pantalla Móvil:** ![Flujos Modo Móvil](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg)
+- **Plano de Cotas y Medidas:** ![Cotas y Medidas](../doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
+- **Flujos de Pantalla Móvil:** ![Flujos Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_mode.svg)
 
-> 📏 Para consultar todas las cotas métricas y diagramas en detalle, revisa: [doc/doc_md/medidas/medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md)
+> 📏 Para consultar todas las cotas métricas y diagramas en detalle, revisa: [doc/doc_md/medidas/medidas_mobile.md](medidas/medidas_mobile.md)
 
 #### 1. Navegación con Cajones Deslizables (*Off-Canvas Drawers*)
 Los paneles laterales se desacoplan del diseño para no apretar el lienzo:

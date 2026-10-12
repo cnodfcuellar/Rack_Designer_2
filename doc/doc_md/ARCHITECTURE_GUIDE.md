@@ -860,9 +860,9 @@ Todos los diagramas están en `doc/doc_img/doc_svg/`:
 
 | Archivo | Dimensiones | Contenido |
 |---|---|---|
-| [`layout/layout_mobile_dimensions.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg) | 1680×920 | **Plano de cotas y medidas de ingeniería:** Alturas, anchos, z-indexes y breakpoints táctiles |
-| [`layout/layout_mobile_mode.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg) | 1680×850 | **Arquitectura UX Modo Móvil (≤768px):** Lienzo, Catálogo drawer, Inspector y Bottom Sheet |
-| [`layout/layout_mobile_topology.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg) | 1280×840 | **Topología en Modo Móvil:** Canvas 2D con interacción táctil, zoom, pan y auto-orden |
+| [`layout/layout_mobile_dimensions.svg`](../doc_img/doc_svg/layout/layout_mobile_dimensions.svg) | 1680×920 | **Plano de cotas y medidas de ingeniería:** Alturas, anchos, z-indexes y breakpoints táctiles |
+| [`layout/layout_mobile_mode.svg`](../doc_img/doc_svg/layout/layout_mobile_mode.svg) | 1680×850 | **Arquitectura UX Modo Móvil (≤768px):** Lienzo, Catálogo drawer, Inspector y Bottom Sheet |
+| [`layout/layout_mobile_topology.svg`](../doc_img/doc_svg/layout/layout_mobile_topology.svg) | 1280×840 | **Topología en Modo Móvil:** Canvas 2D con interacción táctil, zoom, pan y auto-orden |
 | `layout/layout_header.svg` | 1100×140 | Layout detallado del header |
 | `layout/layout_sidebar.svg` | 360×780 | Sidebar con catálogo de equipos |
 | `layout/layout_main_canvas.svg` | 720×580 | Área principal con racks |
@@ -874,15 +874,15 @@ Todos los diagramas están en `doc/doc_img/doc_svg/`:
 ### 📐 Galería de Planos Visuales del Modo Móvil
 
 #### Plano de Cotas y Medidas de Ingeniería:
-![Plano de Cotas y Medidas](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
+![Plano de Cotas y Medidas](../doc_img/doc_svg/layout/layout_mobile_dimensions.svg)
 
 #### Arquitectura de Flujos de Pantalla Móvil:
-![Flujos de Pantalla Modo Móvil](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg)
+![Flujos de Pantalla Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_mode.svg)
 
 #### Topología Canvas 2D en Pantallas Compactas:
-![Topología en Modo Móvil](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg)
+![Topología en Modo Móvil](../doc_img/doc_svg/layout/layout_mobile_topology.svg)
 
-Consúltese también el documento técnico maestro: [medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md).
+Consúltese también el documento técnico maestro: [medidas_mobile.md](medidas/medidas_mobile.md).
 
 
 
@@ -942,10 +942,10 @@ Consúltese también el documento técnico maestro: [medidas_mobile.md](file:///
 
 | Archivo | Nivel | Contenido |
 |---|---|---|
-| [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
-| [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
-| [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
-| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
+| [`erd_01_atomic_core.svg`](../doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Primitivas base: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
+| [`erd_02_datacenter_entities.svg`](../doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades físicas: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
+| [`erd_03_topology_engine.svg`](../doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) |
+| [`erd_04_system_reactive_architecture.svg`](../doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 360 Tests |
 
 ### Otros
 

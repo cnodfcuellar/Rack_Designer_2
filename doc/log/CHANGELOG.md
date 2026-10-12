@@ -1,11 +1,20 @@
+## [2026-10-11] Documentación & Portabilidad — Relativización Total de Rutas en la Documentación
+
+### 🌐 Erradicación de Enlaces Locales Absolutos (file:///)
+- **Diagnóstico y Corrección Automatizada:**
+  - Se identificaron enlaces que incluían rutas absolutas locales (`file:///c:/Users/...`), las cuales fallaban al visualizarse de forma remota en GitHub.
+  - Implementado [.py/fix_local_links.py](../../.py/fix_local_links.py) que escaneó y convirtió automáticamente **209 enlaces en 15 documentos** ([USER_MANUAL.md](../doc_md/USER_MANUAL.md), [ARCHITECTURE_GUIDE.md](../doc_md/ARCHITECTURE_GUIDE.md), [medidas_mobile.md](../doc_md/medidas/medidas_mobile.md), etc.) a rutas relativas portables (`../doc_img/...`).
+- **Compatibilidad Multi-Plataforma:**
+  - Los enlaces e imágenes ahora funcionan idénticamente en GitHub remoto, servidores web, entornos offline y clones locales en cualquier sistema operativo.
+
 ## [2026-10-11] Documentación & Presentación — Consolidación de Planos Oficiales en README.md
 
 ### 🏛️ Sustitución de Diagramas de Propuestas por Planos Técnicos Oficiales
 - **Erradicación de Enlaces a `propuestas/`:**
-  - Se sustituyeron todas las ilustraciones de prototipos preliminares en [README.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/README.md) por planos definitivos de ingeniería.
-  - **Bicanalidad y Conectividad:** Integrados [layout/layout_main_canvas.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_main_canvas.svg) y [flows/drag_drop_flow.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/flows/drag_drop_flow.svg).
-  - **Topología Lógica:** Integrado [erd/erd_03_topology_engine.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) en sustitución de bocetos de hover.
-  - **Gestión de Archivos y Datos:** Integrado [flows/file_manager_api.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/flows/file_manager_api.svg) en reemplazo de prototipos de importación.
+  - Se sustituyeron todas las ilustraciones de prototipos preliminares en [README.md](../../README.md) por planos definitivos de ingeniería.
+  - **Bicanalidad y Conectividad:** Integrados [layout/layout_main_canvas.svg](../doc_img/doc_svg/layout/layout_main_canvas.svg) y [flows/drag_drop_flow.svg](../doc_img/doc_svg/flows/drag_drop_flow.svg).
+  - **Topología Lógica:** Integrado [erd/erd_03_topology_engine.svg](../doc_img/doc_svg/erd/erd_03_topology_engine.svg) en sustitución de bocetos de hover.
+  - **Gestión de Archivos y Datos:** Integrado [flows/file_manager_api.svg](../doc_img/doc_svg/flows/file_manager_api.svg) en reemplazo de prototipos de importación.
 - **Verificación:** 100% de enlaces SVG validados mediante `scripts/verify_svg_links.cjs`.
 
 ## [2026-10-11] Infraestructura & Git — Optimización de .gitignore para Producción y Repositorios Públicos
@@ -17,55 +26,55 @@
   - Bloqueo de logs temporales (`*.log`) y almacenamiento temporal de capturas (`.tempmediaStorage/`).
   - Preservación íntegra de activos de producción: `index.html`, `service-worker.js`, `manifest.json`, `css/`, `js/`, `assets/`, `tests/` y documentación `doc/`.
 - **Herramientas de Auditoría:**
-  - Incorporado [.py/read_all_files.py](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/.py/read_all_files.py) para verificación y lectura integral de archivos del repositorio.
+  - Incorporado [.py/read_all_files.py](../../.py/read_all_files.py) para verificación y lectura integral de archivos del repositorio.
 
 ## [2026-10-10] Gestión de Proyecto — Cierre y Archivo Histórico de la Lista de Mejoras (mejoras.md)
 
 ### 📁 Archivo Histórico y Eliminación de Lista Activa
 - **Archivo Preservado:**
-  - El catálogo histórico completo de las 41 propuestas de mejora (M-01 a M-41) fue resguardado formalmente en [doc/doc_md/historico/mejoras_archivadas.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/historico/mejoras_archivadas.md).
+  - El catálogo histórico completo de las 41 propuestas de mejora (M-01 a M-41) fue resguardado formalmente en [doc/doc_md/historico/mejoras_archivadas.md](../doc_md/historico/mejoras_archivadas.md).
 - **Limpieza de Raíz y Reglas de Agente:**
   - Se eliminó el archivo `mejoras.md` de la raíz del espacio de trabajo.
-  - Se removió la regla de recordatorio automático de inicio en [.agents/AGENTS.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/.agents/AGENTS.md), concluyendo el ciclo de mejoras pendientes.
+  - Se removió la regla de recordatorio automático de inicio en [.agents/AGENTS.md](../../.agents/AGENTS.md), concluyendo el ciclo de mejoras pendientes.
 - **Sincronización del Memory Bank:**
-  - Actualizados [memory-bank/activeContext.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/activeContext.md) y [memory-bank/progress.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/progress.md) reflejando el cierre del ciclo de mejoras.
+  - Actualizados [memory-bank/activeContext.md](../../memory-bank/activeContext.md) y [memory-bank/progress.md](../../memory-bank/progress.md) reflejando el cierre del ciclo de mejoras.
 
 ## [2026-10-10] Topología — Menú de Vistas Guardadas Anclado Debajo del Botón sin Invadir el Inspector
 
 ### 💾 Alineación Directa de Vistas Guardadas (#topo-slots-dropdown) bajo el Botón de Disquete
 - **Causa Raíz Diagnosticada:**
-  - En [css/components/panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css), persistía una regla `@media (min-width: 769px) { #topo-slots-dropdown { right: 0 !important; left: auto !important; } }` que forzaba al menú a ubicarse en el margen derecho absoluto del viewport (`right: 0px`).
+  - En [css/components/panels.css](../../css/components/panels.css), persistía una regla `@media (min-width: 769px) { #topo-slots-dropdown { right: 0 !important; left: auto !important; } }` que forzaba al menú a ubicarse en el margen derecho absoluto del viewport (`right: 0px`).
   - Al abrirse en resoluciones mayores a 768px con el panel derecho (Inspector / Outliner) desplegado, el menú de gestión de vistas quedaba incrustado detrás o encima del Inspector, en lugar de renderizarse bajo el grupo de slots.
 - **Solución y Anclaje Geométrico:**
-  - **Eliminación de `right: 0 !important`:** Se purgó la regla conflictiva en [css/components/panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css).
-  - **Cálculo de Espacio Disponible:** En [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js), `positionToolbarDropdown()` calcula dinámicamente el límite del canvas (`maxRight`) detectando el borde izquierdo de `#right-panel`.
+  - **Eliminación de `right: 0 !important`:** Se purgó la regla conflictiva en [css/components/panels.css](../../css/components/panels.css).
+  - **Cálculo de Espacio Disponible:** En [js/main.js](../../js/main.js), `positionToolbarDropdown()` calcula dinámicamente el límite del canvas (`maxRight`) detectando el borde izquierdo de `#right-panel`.
   - **Alineación Inteligente:** El menú se ancla a `left: rect.left` (directamente debajo del botón del disquete). Si desborda el límite hacia la derecha, se alinea por su borde derecho (`left = rect.right - menuWidth`) garantizando que permanezca siempre 100% visible en el lienzo principal y nunca detrás del Inspector.
 - **Validación y Cache-Busting:**
   - Suite de integridad ampliada a **398/398 pruebas aprobadas (100%)** con aserciones para verificar ausencia de `right: 0` y presencia de `positionToolbarDropdown`.
-  - Cache-busting actualizado a `v=56` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v52` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+  - Cache-busting actualizado a `v=56` en [index.html](../../index.html) y `cache-v52` en [service-worker.js](../../service-worker.js).
 
 ## [2026-10-10] Documentación — Sincronización Exhaustiva del Estado Actual y Especificaciones de Medidas Móviles
 
 ### 📐 Planos Vectoriales SVG de Ingeniería y Cotas Técnicas del Modo Móvil
 - **Plano Vectorial Acotado (`layout_mobile_dimensions.svg`):**
   - Creado plano técnico de 1680×920 px con cotas de ingeniería precisas: viewport `100vw` (≤768px / ≤480px), cabecera `56px`, drawers laterales de `280px` (`z-index: 1000`), backdrop overlay `rgba(0,0,0,0.55)` (`z-index: 999`), Bottom Sheet de `38px` a `72vh` (`z-index: 500`), popover flotante desacoplado a `bottom: 46px; right: 12px;` (`z-index: 10001`), racks a `240px` (1U = `24px`) y modales táctiles al `96%` con altura máxima de `92vh`.
-- **Documento Maestro de Especificaciones y Cotas ([medidas_mobile.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/medidas/medidas_mobile.md)):**
+- **Documento Maestro de Especificaciones y Cotas ([medidas_mobile.md](../doc_md/medidas/medidas_mobile.md)):**
   - Guía integral con tablas métricas por componente, matriz de breakpoints (`>1200px`, `≤1200px`, `≤980px`, `≤768px`, `≤480px`), jerarquía estricta de capas z-index (`100` a `10001`), cotas de todos los modales técnicos y áreas táctiles ergonómicas a 60 FPS.
 
 - **Galería Visual Integrada:**
-  - Embebidos en [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md), [USER_MANUAL.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/USER_MANUAL.md) y [README.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/README.md) los tres planos vectoriales del modo móvil:
+  - Embebidos en [ARCHITECTURE_GUIDE.md](../doc_md/ARCHITECTURE_GUIDE.md), [USER_MANUAL.md](../doc_md/USER_MANUAL.md) y [README.md](../../README.md) los tres planos vectoriales del modo móvil:
     - Plano de Cotas de Ingeniería: `layout_mobile_dimensions.svg` (1680×920)
     - Flujos de Pantalla Móvil en 4 Estados: `layout_mobile_mode.svg` (1680×850)
     - Topología Canvas 2D en Modo Móvil: `layout_mobile_topology.svg` (1280×840)
 - **Memory Bank y Guías Técnicas Sincronizados:**
-  - [systemPatterns.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/systemPatterns.md) y [activeContext.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/memory-bank/activeContext.md): Actualizados con la especificación métrica oficial y las 396 pruebas al 100%.
+  - [systemPatterns.md](../../memory-bank/systemPatterns.md) y [activeContext.md](../../memory-bank/activeContext.md): Actualizados con la especificación métrica oficial y las 396 pruebas al 100%.
 
 
 ## [2026-10-10] Modo Móvil — Adaptación Responsiva Completa y Fondo Opaco para Todas las Ventanas Modales
 
 ### 📱 Formilarios y Cuadros de Diálogo 100% Adaptables y Legibles (≤ 768px y ≤ 480px)
 - **Eliminación Total de Transparencia (`background: var(--bg-card)`):**
-  - Se corrigió el fondo de [.modal](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/modals.css), sustituyendo el translúcido `var(--bg-panel)` (que contenía canal alfa al 80% en los temas sepia y oscuro) por `var(--bg-card)` (100% opaco y sólido en todos los temas).
+  - Se corrigió el fondo de [.modal](../../css/components/modals.css), sustituyendo el translúcido `var(--bg-panel)` (que contenía canal alfa al 80% en los temas sepia y oscuro) por `var(--bg-card)` (100% opaco y sólido en todos los temas).
   - Se reforzó `.modal-overlay` con `background: rgba(0, 0, 0, 0.78)` y filtro `backdrop-filter: blur(4px)` para impedir que los textos de fondo se transparenten tras los modales.
 - **Eliminación del Desbordamiento Horizontal (`min-width: 0 !important`):**
   - Se eliminó el `min-width: 380px` en pantallas móviles (≤ 768px y ≤ 480px), ajustando el ancho dinámico al `96%` con `max-width: calc(100vw - 16px)` y `max-height: 92vh`, garantizando que quepan incluso en pantallas ultra-angostas.
@@ -75,13 +84,13 @@
   - Los botones de `Cancelar` e `Instalar / Guardar` ahora tienen `flex: 1 1 100px; height: 30px; font-size: 12px;` adaptándose automáticamente sin desbordarse.
 - **Validación y Cache-Busting:**
   - Suite de integridad ejecutada con **396/396 pruebas aprobadas (100%)**.
-  - Versiones actualizadas a `v=54` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v50` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+  - Versiones actualizadas a `v=54` en [index.html](../../index.html) y `cache-v50` en [service-worker.js](../../service-worker.js).
 
 ## [2026-10-10] Modo Móvil — Scroll Horizontal Fluido en Cabecera del Panel Inferior
 
 ### ↔️ Navegación Táctil Completa de Opciones en Barra Inferior (≤ 768px)
 - **Habilitación de Scroll Horizontal Táctil (`.bottom-header`):**
-  - Se configuró `overflow-x: auto !important; overflow-y: hidden !important; -webkit-overflow-scrolling: touch !important; touch-action: pan-x !important;` en [.bottom-header](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/layout.css), anulando el `overflow: visible !important` heredado de la regla de pantallas intermedias.
+  - Se configuró `overflow-x: auto !important; overflow-y: hidden !important; -webkit-overflow-scrolling: touch !important; touch-action: pan-x !important;` en [.bottom-header](../../css/layout.css), anulando el `overflow: visible !important` heredado de la regla de pantallas intermedias.
   - Se previno el aplastamiento de controles con `flex-shrink: 0 !important;` en todos los hijos y botones directos.
 - **Barra de Desplazamiento Táctil Estilizada:**
   - Habilitada una scrollbar horizontal sutil de 4px (`scrollbar-width: thin !important;`) con track translúcido y pulgar suave para indicar la posición del desplazamiento sin obstruir los botones.
@@ -89,14 +98,14 @@
   - `#columns-dropdown`, `#export-dropdown` y el popover del filtro de búsqueda `#table-search-input-wrap` se desacoplaron del flujo con `position: fixed !important; bottom: 46px !important; right: 12px !important; z-index: 10001 !important;`, garantizando que nunca se recorten verticalmente al abrirse dentro de la cabecera con scroll horizontal.
 - **Validación y Cache-Busting:**
   - Suite de integridad ejecutada con **396/396 pruebas aprobadas (100%)**.
-  - Versiones actualizadas a `v=53` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v49` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+  - Versiones actualizadas a `v=53` en [index.html](../../index.html) y `cache-v49` en [service-worker.js](../../service-worker.js).
 
 ## [2026-10-10] Modo Móvil — Filtro Compacto de Tabla Inferior con Lupa y Popover Flotante
 
 ### 🔍 Filtro Táctil Idéntico al Header en Smartphones (≤ 768px)
 - **Modo Solo Lupa por Defecto (`#btn-toggle-table-search`):**
   - En resoluciones móviles (≤ 768px), el input completo de búsqueda de la tabla inferior se oculta y en su lugar se presenta únicamente el botón de lupa `#btn-toggle-table-search`.
-  - Se eliminó el `!important` residual de la regla de escritorio en [panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css) para permitir que la regla `@media (max-width: 768px)` en [layout.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/layout.css) active el botón de lupa de forma nativa y limpia.
+  - Se eliminó el `!important` residual de la regla de escritorio en [panels.css](../../css/components/panels.css) para permitir que la regla `@media (max-width: 768px)` en [layout.css](../../css/layout.css) active el botón de lupa de forma nativa y limpia.
 - **Popover Flotante de Búsqueda (`#table-search-wrap.is-open`):**
   - Al presionar la lupa `#btn-toggle-table-search`, se despliega un popover flotante anclado sobre la barra inferior (`bottom: calc(100% + 6px); right: 0; width: 220px;`) con sombra de elevación `box-shadow: 0 -8px 24px rgba(0,0,0,0.55);`.
   - El input `#table-search` recibe foco inmediato y selección de texto para comenzar a escribir al instante.
@@ -107,7 +116,7 @@
   - Se cierra automáticamente al presionar la tecla `Escape` o al hacer clic/tap en cualquier área fuera del contenedor flotante.
 - **Validación y Cache-Busting:**
   - Suite de integridad ejecutada con **396/396 pruebas aprobadas (100%)**.
-  - Versiones actualizadas a `v=52` en [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) y `cache-v48` en [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js).
+  - Versiones actualizadas a `v=52` en [index.html](../../index.html) y `cache-v48` en [service-worker.js](../../service-worker.js).
 
 ## [2026-10-10] Modo Móvil — Paso 2: Hoja Inferior (Bottom Sheet para Datos y Métricas)
 
@@ -131,9 +140,9 @@
 
 ### 📱 Experiencia Táctil y Arquitectura Responsive (≤ 768px)
 - **Diagramas de Diseño Oficiales Creados:**
-  - [layout_mobile_mode.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg): Diagrama arquitectónico integral de los 4 estados móviles (Lienzo Principal, Catálogo Drawer, Inspector Drawer y Tabla Bottom Sheet).
-  - [layout_mobile_topology.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg): Diagrama táctil para la vista de Topología de Red en Canvas 2D con gestos multitáctiles.
-  - [diseno_modo_movil.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/diseno_modo_movil.md): Especificación técnica completa de la interacción móvil.
+  - [layout_mobile_mode.svg](../doc_img/doc_svg/layout/layout_mobile_mode.svg): Diagrama arquitectónico integral de los 4 estados móviles (Lienzo Principal, Catálogo Drawer, Inspector Drawer y Tabla Bottom Sheet).
+  - [layout_mobile_topology.svg](../doc_img/doc_svg/layout/layout_mobile_topology.svg): Diagrama táctil para la vista de Topología de Red en Canvas 2D con gestos multitáctiles.
+  - [diseno_modo_movil.md](../../diseno_modo_movil.md): Especificación técnica completa de la interacción móvil.
 - **Cajón Lateral Izquierdo de Catálogo (`#sidebar`):**
   - Implementado como *Off-Canvas Drawer* de 85% de ancho (máximo 320px) con `position: fixed !important; left: -100% !important; z-index: 10000 !important; transition: left 0.3s ease; box-shadow: 10px 0 20px rgba(0,0,0,0.5);`.
   - **Corrección de Stacking Context:** Se elevó `z-index: 10000 !important` para situarse por encima del fondo atenuado `#mobile-overlay` (`z-index: 9998`), corrigiendo el problema de apariencia opaca e inaccesibilidad táctil donde el overlay bloqueaba los clics sobre las categorías y equipos.
@@ -154,7 +163,7 @@
 ### 🚀 Ergonomía de Herramientas del Lienzo (`.main-toolbar`)
 - **Bloqueo de Desplazamiento Vertical (`touch-action: pan-x`):**
   - Se fijó la altura de `.main-toolbar` a 42px con `box-sizing: border-box; overflow-y: hidden !important; touch-action: pan-x !important; overscroll-behavior: none !important;`, impidiendo cualquier movimiento vertical al deslizar en tablets o pantallas táctiles.
-  - Se interceptó el evento `wheel` en [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) para anular el scroll vertical (`e.preventDefault()`) y convertir cualquier movimiento de rueda en desplazamiento 100% horizontal (`scrollLeft`).
+  - Se interceptó el evento `wheel` en [js/main.js](../../js/main.js) para anular el scroll vertical (`e.preventDefault()`) y convertir cualquier movimiento de rueda en desplazamiento 100% horizontal (`scrollLeft`).
   - Se añadió un listener de control en el evento `scroll` para asegurar que `scrollTop` se mantenga siempre en `0` pase lo que pase.
 - **Botón de Panel Siempre Accesible (`#btn-toggle-right-panel`):**
   - Se ancló fijamente a la derecha con `position: sticky; right: 0; z-index: 20;` y una sombra sutil proyectada hacia la izquierda (`box-shadow: -6px 0 12px var(--bg-main)`).
@@ -195,7 +204,7 @@
 - **Lienzo Central 100% Despejado:**
   - El área de trabajo `#main` inicia limpiamente a partir de x = 260px. Los racks, faceplates y el canvas de topología nunca quedan cubiertos ni comprimidos por paneles superpuestos.
 - **Contracción y Expansión Dinámica del Sidebar (`ARCHITECTURE_GUIDE.md` / `medidas_sidebar.md`):**
-  - Se habilitó la alternancia de 2 estados dinámicos del sidebar en [js/ui/catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js):
+  - Se habilitó la alternancia de 2 estados dinámicos del sidebar en [js/ui/catalog.js](../../js/ui/catalog.js):
     1. **Estado Expandido (`--sidebar-w: 260px`):** El sidebar despliega el panel de catálogo con el título de la categoría activa, el buscador y las tarjetas de equipos, junto al botón de cierre `✕` (`#btn-close-flyout`).
     2. **Estado Contraído (`--sidebar-w: 50px`):** Al hacer clic en el botón de cierre `✕` (`#btn-close-flyout`) o al volver a pulsar la categoría activa en el rail, el panel de catálogo se oculta limpiamente y el sidebar se contrae a su rail compacto de 50px, devolviendo **210px adicionales de espacio horizontal al lienzo de racks (`#main`)**.
   - Transición fluida CSS (`transition: width 0.25s, grid-template-columns 0.25s`) y emisión automática de evento `resize` para la reubicación perfecta de los racks y el canvas de topología.
@@ -301,25 +310,25 @@
 ### 📐 Documentación y Diagramación Vectorial (`doc/doc_img/doc_svg/architecture/`)
 - **`assets/img/` (Galería Completa de 19 Skins Vectoriales Isométricas):**
   - Creados y optimizados 19 archivos SVG de alta definición recreando fielmente el estilo artístico isométrico (proyección 30°, iluminación facetada en 3 planos, paleta carbón/cian con acentos luminosos y sombras de suelo):
-    1. [desktop_workstation_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/desktop_workstation_iso.svg): Estación de trabajo PC (rediseñada con torre nítida, monitor slim con reflejo diagonal y teclado con barra espaciadora clara).
-    2. [router_modem_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/router_modem_iso.svg): Router/módem de telecomunicaciones con antena vertical, LEDs y 5 puertos RJ45.
-    3. [cctv_camera_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/cctv_camera_iso.svg): Cámara de seguridad CCTV tipo bala con lente turquesa y brazo articulado.
-    4. [server_rack_open_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/server_rack_open_iso.svg): Gabinete de servidores con puerta batiente abierta a 90°, bahías SAN y LEDs.
-    5. [telecom_tower_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/telecom_tower_iso.svg): Torre de transmisión inalámbrica con crucetas metálicas, baliza roja y ondas de radio.
-    6. [laptop_client_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/laptop_client_iso.svg): Computadora portátil cliente con bisel de pantalla, teclado y trackpad.
-    7. [database_storage_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/database_storage_iso.svg): Cilindros de almacenamiento y base de datos masiva en tres colores (rojo, marino y cian).
-    8. [switch_24p_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/switch_24p_iso.svg): Switch de red 1U (rediseñado con frente amplio, matriz clara de puertos RJ45 con LEDs y jaulas SFP+ plateadas).
-    9. [ups_power_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/ups_power_iso.svg): Sistema ininterrumpido de energía (UPS) con pantalla LCD de voltaje y módulo de baterías.
-    10. [pdu_power_strip_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/pdu_power_strip_iso.svg): Regleta PDU vertical 0U con tomas IEC C13, display de amperaje y cable trifásico.
-    11. [firewall_shield_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/firewall_shield_iso.svg): Firewall de seguridad perimetral (rediseñado con chasis rojo UTM y escudo protector vertical azul con candado reconocible).
-    12. [access_point_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/access_point_iso.svg): Punto de acceso Wi-Fi de techo tipo plato con anillo LED cian luminoso.
-    13. [nvr_recorder_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/nvr_recorder_iso.svg): Grabador NVR para videovigilancia CCTV con bahías SATA y 8 puertos PoE.
-    14. [nas_storage_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/nas_storage_iso.svg): Servidor NAS de almacenamiento en torre con 4 bahías hot-swap y pestillos metálicos.
-    15. [decoder_box_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/decoder_box_iso.svg): Decodificador de TV / Streaming con pantalla digital de canal y salidas HDMI.
-    16. [voip_phone_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/voip_phone_iso.svg): Teléfono IP VoIP (rediseñado con base angular limpia, teclado matricial contrastado, LCD y auricular separado con cable en espiral).
-    17. [network_printer_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/network_printer_iso.svg): Impresora multifuncional láser con escáner, pantalla táctil y hoja impresa en salida.
-    18. [datacenter_door_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/datacenter_door_iso.svg): Puerta de acceso a datacenter (rediseñada con marco de acero proporcional, puerta de cristal cian entreabierta, barra antipánico y control RFID lateral).
-    19. [vehicle_barrier_iso.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/assets/img/vehicle_barrier_iso.svg): Barrera vehicular / talanquera con gabinete naranja, baliza ámbar y pluma reflectiva.
+    1. [desktop_workstation_iso.svg](../../assets/img/desktop_workstation_iso.svg): Estación de trabajo PC (rediseñada con torre nítida, monitor slim con reflejo diagonal y teclado con barra espaciadora clara).
+    2. [router_modem_iso.svg](../../assets/img/router_modem_iso.svg): Router/módem de telecomunicaciones con antena vertical, LEDs y 5 puertos RJ45.
+    3. [cctv_camera_iso.svg](../../assets/img/cctv_camera_iso.svg): Cámara de seguridad CCTV tipo bala con lente turquesa y brazo articulado.
+    4. [server_rack_open_iso.svg](../../assets/img/server_rack_open_iso.svg): Gabinete de servidores con puerta batiente abierta a 90°, bahías SAN y LEDs.
+    5. [telecom_tower_iso.svg](../../assets/img/telecom_tower_iso.svg): Torre de transmisión inalámbrica con crucetas metálicas, baliza roja y ondas de radio.
+    6. [laptop_client_iso.svg](../../assets/img/laptop_client_iso.svg): Computadora portátil cliente con bisel de pantalla, teclado y trackpad.
+    7. [database_storage_iso.svg](../../assets/img/database_storage_iso.svg): Cilindros de almacenamiento y base de datos masiva en tres colores (rojo, marino y cian).
+    8. [switch_24p_iso.svg](../../assets/img/switch_24p_iso.svg): Switch de red 1U (rediseñado con frente amplio, matriz clara de puertos RJ45 con LEDs y jaulas SFP+ plateadas).
+    9. [ups_power_iso.svg](../../assets/img/ups_power_iso.svg): Sistema ininterrumpido de energía (UPS) con pantalla LCD de voltaje y módulo de baterías.
+    10. [pdu_power_strip_iso.svg](../../assets/img/pdu_power_strip_iso.svg): Regleta PDU vertical 0U con tomas IEC C13, display de amperaje y cable trifásico.
+    11. [firewall_shield_iso.svg](../../assets/img/firewall_shield_iso.svg): Firewall de seguridad perimetral (rediseñado con chasis rojo UTM y escudo protector vertical azul con candado reconocible).
+    12. [access_point_iso.svg](../../assets/img/access_point_iso.svg): Punto de acceso Wi-Fi de techo tipo plato con anillo LED cian luminoso.
+    13. [nvr_recorder_iso.svg](../../assets/img/nvr_recorder_iso.svg): Grabador NVR para videovigilancia CCTV con bahías SATA y 8 puertos PoE.
+    14. [nas_storage_iso.svg](../../assets/img/nas_storage_iso.svg): Servidor NAS de almacenamiento en torre con 4 bahías hot-swap y pestillos metálicos.
+    15. [decoder_box_iso.svg](../../assets/img/decoder_box_iso.svg): Decodificador de TV / Streaming con pantalla digital de canal y salidas HDMI.
+    16. [voip_phone_iso.svg](../../assets/img/voip_phone_iso.svg): Teléfono IP VoIP (rediseñado con base angular limpia, teclado matricial contrastado, LCD y auricular separado con cable en espiral).
+    17. [network_printer_iso.svg](../../assets/img/network_printer_iso.svg): Impresora multifuncional láser con escáner, pantalla táctil y hoja impresa en salida.
+    18. [datacenter_door_iso.svg](../../assets/img/datacenter_door_iso.svg): Puerta de acceso a datacenter (rediseñada con marco de acero proporcional, puerta de cristal cian entreabierta, barra antipánico y control RFID lateral).
+    19. [vehicle_barrier_iso.svg](../../assets/img/vehicle_barrier_iso.svg): Barrera vehicular / talanquera con gabinete naranja, baliza ámbar y pluma reflectiva.
   - Disponibles para uso inmediato en el campo "Archivo Skin (`assets/img/`)" de los formularios de equipos.
 - **`codemap_grafo_completo.svg`:**
   - Creado grafo vectorial ultra detallado (2400x1600 px) del **Codemap de Orientación de la Base de Código**, con estética Datacenter Dark Mode.
@@ -820,7 +829,7 @@
 - **Compilador Autónomo de Código (`generate_code_bundle.cjs`):**
   - Script en Node.js que recorre y empaqueta de forma determinista la totalidad de los 42 archivos de código fuente propios del proyecto.
   - Genera automáticamente métricas, descripción técnica de cada archivo, índice navegable con enlaces ancla y bloques de código con resaltado de sintaxis nativo.
-- **Documento Técnico de Aprendizaje ([`CODIGO_COMPLETO_PROYECTO.md`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/CODIGO_COMPLETO_PROYECTO.md)):**
+- **Documento Técnico de Aprendizaje ([`CODIGO_COMPLETO_PROYECTO.md`](../doc_md/CODIGO_COMPLETO_PROYECTO.md)):**
   - **18.921 líneas totales** (18.129 líneas de código limpio + metadatos y guía de estudio) en un solo archivo Markdown de 837 KB.
   - Clasificado en 11 capas arquitectónicas (PWA, HTML, CSS modular, Store/Proxy, Cripto/RBAC, UI, Modales, Topología Canvas 2D, Orquestador `main.js`, Suite de Pruebas y Scripts).
   - Incluye guía pedagógica para estudiar la reactividad sin frameworks, Undo/Redo, cifrado cliente AES-GCM y motor de topología.
@@ -1160,12 +1169,12 @@
 
 ### Sistema de Diseño y Legibilidad (`css/components/faceplates.css`, `css/components/rack.css`, `js/ui/topology/TopologyRenderer.js`)
 - **Sombras de Contraste Técnico en Carátulas (`text-shadow`):**
-  - Se implementó una sombra oscura de doble capa (`text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.9);`) sobre `.faceplate-label.dev-title` en [css/components/faceplates.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/faceplates.css).
+  - Se implementó una sombra oscura de doble capa (`text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.9);`) sobre `.faceplate-label.dev-title` en [css/components/faceplates.css](../../css/components/faceplates.css).
   - Esto garantiza que los títulos de los dispositivos montados en rack resalten nítidamente sobre las texturas vectoriales de los faceplates (rejillas, tornillos, degradados de metal y LEDs).
 - **Vista Trasera y Dispositivos de Piso:**
-  - Se aplicó la misma regla de sombreado a `.rear-slot-body .rear-device-name` en [css/components/rack.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/rack.css) y a `.floor-device-name` en [css/components/faceplates.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/faceplates.css).
+  - Se aplicó la misma regla de sombreado a `.rear-slot-body .rear-device-name` en [css/components/rack.css](../../css/components/rack.css) y a `.floor-device-name` en [css/components/faceplates.css](../../css/components/faceplates.css).
 - **Vista de Topología (Canvas 2D):**
-  - En [js/ui/topology/TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js), se integró sombreado por hardware en el lienzo Canvas (`ctx.shadowColor = 'rgba(0, 0, 0, 0.95)'`, `ctx.shadowBlur = 6`, `ctx.shadowOffsetY = 1`) para los nombres de los nodos tanto en modo Círculo como en modo Tarjeta.
+  - En [js/ui/topology/TopologyRenderer.js](../../js/ui/topology/TopologyRenderer.js), se integró sombreado por hardware en el lienzo Canvas (`ctx.shadowColor = 'rgba(0, 0, 0, 0.95)'`, `ctx.shadowBlur = 6`, `ctx.shadowOffsetY = 1`) para los nombres de los nodos tanto en modo Círculo como en modo Tarjeta.
 
 ---
 
@@ -1361,7 +1370,7 @@
 
 ### Controles de Interfaz y Zoom Global (`js/main.js`, `service-worker.js`)
 - **Pasos Lineales de 10% en Botones de Zoom:**
-  - En [js/main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js#L228-L237), se reemplazó el multiplicador geométrico de 20% (`* 1.2` y `/ 1.2`) por incrementos/decrementos aritméticos redondeados de `0.1` (10% exacto: 100% -> 110%, 120% / 100% -> 90%, 80%).
+  - En [js/main.js](../../js/main.js#L228-L237), se reemplazó el multiplicador geométrico de 20% (`* 1.2` y `/ 1.2`) por incrementos/decrementos aritméticos redondeados de `0.1` (10% exacto: 100% -> 110%, 120% / 100% -> 90%, 80%).
 - **Service Worker v20:**
   - Incremento de caché a `rack-designer-next-cache-v20` para refresco inmediato en navegador.
 
@@ -1371,7 +1380,7 @@
 
 ### Renderizado Físico y Visibilidad de Cableado (`js/ui/rack.js`, `service-worker.js`)
 - **Ajuste Directo de Separación:**
-  - Se configuró la separación entre gabinetes en `gap: 48px;` en `#view-physical-content` y `#racks-area` de [js/ui/rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js#L127-L132) conforme a la instrucción directa del usuario.
+  - Se configuró la separación entre gabinetes en `gap: 48px;` en `#view-physical-content` y `#racks-area` de [js/ui/rack.js](../../js/ui/rack.js#L127-L132) conforme a la instrucción directa del usuario.
 - **Service Worker v19:**
   - Incremento de caché a `rack-designer-next-cache-v19` para refresco inmediato en navegador.
 
@@ -1982,14 +1991,14 @@
 
 ### Saneamiento de Estructura y CÃ³digo Muerto
 - **EliminaciÃ³n de Directorios Residuales:** Eliminada la carpeta vacÃ­a `js/core/` y la carpeta `js/service/` (junto con su archivo duplicado inactivo `service-worker.js`).
-- **Limpieza de DocumentaciÃ³n:** Actualizado el archivo [README.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/README.md) y las reglas en [AGENTS.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/AGENTS.md) para remover referencias obsoletas a `js/models/`, `js/api/` y `js/core/`, sincronizando los manuales tÃ©cnicos con el estado real del repositorio.
+- **Limpieza de DocumentaciÃ³n:** Actualizado el archivo [README.md](../../README.md) y las reglas en [AGENTS.md](../../AGENTS.md) para remover referencias obsoletas a `js/models/`, `js/api/` y `js/core/`, sincronizando los manuales tÃ©cnicos con el estado real del repositorio.
 
 ### DocumentaciÃ³n de Usuario y Ayudas Visuales
-- **Reescritura del Manual de Usuario:** Redactado un manual de usuario completo y amigable para principiantes en [USER_MANUAL.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/USER_MANUAL.md).
+- **Reescritura del Manual de Usuario:** Redactado un manual de usuario completo y amigable para principiantes en [USER_MANUAL.md](../doc_md/USER_MANUAL.md).
 - **Esquemas de Ayuda Visual (SVGs):** Creados 3 diagramas didÃ¡cticos embebidos en el manual:
-  - [manual_ui_overview.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/manual_ui_overview.svg) (corregido segÃºn el CSS Grid de la interfaz real del proyecto).
-  - [manual_rack_anatomy.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/manual_rack_anatomy.svg) (explicaciÃ³n de racks y unidades U).
-  - [manual_action_flow.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/manual_action_flow.svg) (flujo interactivo bÃ¡sico).
+  - [manual_ui_overview.svg](../doc_img/doc_svg/manual_ui_overview.svg) (corregido segÃºn el CSS Grid de la interfaz real del proyecto).
+  - [manual_rack_anatomy.svg](../doc_img/doc_svg/manual_rack_anatomy.svg) (explicaciÃ³n de racks y unidades U).
+  - [manual_action_flow.svg](../doc_img/doc_svg/manual_action_flow.svg) (flujo interactivo bÃ¡sico).
 - **Tutoriales Paso a Paso:** AÃ±adidas guÃ­as para 3 escenarios de diseÃ±o reales (HÃ­brido, Solo Racks, y Solo Piso).
 
 ---
@@ -2000,8 +2009,8 @@
 - **Integridad de SesiÃ³n y Hashing SHA-256 en contextos inseguros:** En `js/auth/roles.js`, se implementÃ³ una funciÃ³n pura de JS `sha256_fallback` y un generador UUID aleatorio alternativo. Esto previene fallos fatales e interrupciones en el login al ejecutar la aplicaciÃ³n en entornos no seguros (como a travÃ©s de una IP de red local `http://192.168.x.x` o mediante el protocolo local `file://`), garantizando el funcionamiento offline al 100%.
 
 ### AlineaciÃ³n del Sistema de DiseÃ±o (Compliance con DESIGN.md)
-- **Diagrama de Arquitectura Actual:** Creado un nuevo diagrama SVG en [architecture_current.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/architecture_current.svg) que documenta las capas del sistema, flujos de datos reactivos del Store, y los nuevos mecanismos de integridad/seguridad local. Vinculado en [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md).
-- **Diagrama de Flujo de ComunicaciÃ³n:** Creado un nuevo diagrama de flujo en [file_communication_flow.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/file_communication_flow.svg) detallando la comunicaciÃ³n inter-mÃ³dulo, llamadas a mutadores del Store, eventos de reactividad y disparo del render pipeline. Vinculado en [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md).
+- **Diagrama de Arquitectura Actual:** Creado un nuevo diagrama SVG en [architecture_current.svg](../doc_img/doc_svg/architecture_current.svg) que documenta las capas del sistema, flujos de datos reactivos del Store, y los nuevos mecanismos de integridad/seguridad local. Vinculado en [ARCHITECTURE_GUIDE.md](../doc_md/ARCHITECTURE_GUIDE.md).
+- **Diagrama de Flujo de ComunicaciÃ³n:** Creado un nuevo diagrama de flujo en [file_communication_flow.svg](../doc_img/doc_svg/file_communication_flow.svg) detallando la comunicaciÃ³n inter-mÃ³dulo, llamadas a mutadores del Store, eventos de reactividad y disparo del render pipeline. Vinculado en [ARCHITECTURE_GUIDE.md](../doc_md/ARCHITECTURE_GUIDE.md).
 - **RefactorizaciÃ³n del Modal de Cambio de PIN:** Se eliminaron los estilos inline en el elemento `#modal-change-pin` dentro de `index.html` y se asignaron clases estÃ¡ndar `.modal`, `.form-row`, `.btn-confirm` y `.btn-cancel`. Esto asegura consistencia visual de botones de 24px de altura y proporciona compatibilidad automÃ¡tica y nativa con el **Tema Claro**.
 - **Variables CSS Indefinidas:** Reemplazadas las llamadas a `var(--text)` por `var(--text-primary)` en `layout.css`, `outliner.js` e `inspector.js`. Reemplazadas las referencias a `var(--blue)` por la variable estÃ¡ndar de acento cian `var(--accent)` en `layout.css` e `inspector.js`.
 - **Limpieza de variables obsoletas:** Eliminada la variable redundante `--purple` en `variables.css`. Se actualizaron los estilos de badges de usuario en `js/main.js` para usar `var(--accent)` y `var(--accent-glow)`.

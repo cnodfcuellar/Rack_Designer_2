@@ -230,22 +230,22 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
 ### 10.1. Errores Críticos y de Lógica de Negocio Resueltos
 
 #### A. Persistencia de la Sesión de Administrador ante Recarga F5
-* **Archivo:** [`js/auth/roles.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js)
+* **Archivo:** [`js/auth/roles.js`](../../js/auth/roles.js)
 * **Diagnóstico previo:** El token de integridad residía en una variable de memoria heap (`let _sessionToken = null`). Al pulsar F5, la memoria se reiniciaba a `null`, pero `sessionStorage` retenía al usuario, provocando que la validación fallara forzando un `logout()`.
 * **Solución aplicada:** Sincronización del token criptográfico bajo `sessionStorage.getItem('RACK_SESSION_TOKEN')` (`TOKEN_KEY`). Ahora la sesión de Administrador persiste legítimamente ante recargas (F5) en la misma pestaña pero se destruye de inmediato al cerrar la pestaña o el navegador (`SESSION_EXPIRATION = VOLATILE`).
 
 #### B. Cascada de Eliminación de Conexiones Huérfanas
-* **Archivo:** [`js/store.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js)
+* **Archivo:** [`js/store.js`](../../js/store.js)
 * **Diagnóstico previo:** `deleteRack(id)` eliminaba el rack y sus dispositivos, pero dejaba los cables asociados en `this._raw.connections`, provocando referencias rotas a IDs inexistentes.
 * **Solución aplicada:** Se implementó el filtrado automático en cascada de `this._raw.connections` para purgar todas las conexiones conectadas a cualquier equipo del gabinete eliminado.
 
 #### C. Limpieza de Coordenadas Residuales en Topología
-* **Archivo:** [`js/store.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js)
+* **Archivo:** [`js/store.js`](../../js/store.js)
 * **Diagnóstico previo:** `deleteDevice(id)` no limpiaba `topology.nodePositions`, acumulando coordenadas de nodos zombi en el almacenamiento.
 * **Solución aplicada:** Se integró la invocación a `this._cleanTopologyPositions({ deviceIds: [id] })` dentro de `deleteDevice()`.
 
 #### D. Motor de Auto-Saneamiento Activo (`_sanitize()`)
-* **Archivo:** [`js/store.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js)
+* **Archivo:** [`js/store.js`](../../js/store.js)
 * **Solución aplicada:** Se incorporó la función `_sanitize()`, la cual se ejecuta automáticamente tanto al arrancar la aplicación (`_load()`) como al importar proyectos (`loadData()`). Detecta y purga de inmediato cualquier cable o posición de topología que apunte a un equipo inexistente, desinfectando automáticamente proyectos antiguos o corruptos.
 
 ---
@@ -253,26 +253,26 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
 ### 10.2. Mejoras de Robustez y Estabilidad en UI
 
 #### A. Tolerancia a Fallos en Tablas
-* **Archivo:** [`js/ui/tables.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js)
+* **Archivo:** [`js/ui/tables.js`](../../js/ui/tables.js)
 * **Solución aplicada:** `renderInventoryTable` y `renderConnectionsTable` resuelven preventivamente el contenedor con `wrap = wrap || document.getElementById('bottom-table-wrap')`, eliminando cualquier riesgo de excepción `TypeError` si son llamadas sin argumentos.
 
 #### B. Protección contra Inyecciones en el Inspector
-* **Archivo:** [`js/ui/inspector.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js)
+* **Archivo:** [`js/ui/inspector.js`](../../js/ui/inspector.js)
 * **Solución aplicada:** Comprobación de tipo y sanitización del identificador del dispositivo en el botón de edición rápida: `if(typeof openEditDeviceModal === 'function') openEditDeviceModal('${escapeHTML(dev.id)}')`.
 
 #### C. Exposición Global de `window.store`
-* **Archivo:** [`js/store.js`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js)
+* **Archivo:** [`js/store.js`](../../js/store.js)
 * **Solución aplicada:** Se vinculó explícitamente `window.store = store;` al final del módulo para garantizar interoperabilidad y soporte de depuración.
 
 #### D. Orden Determinista de Carga de Scripts
-* **Archivo:** [`index.html`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html)
+* **Archivo:** [`index.html`](../../index.html)
 * **Solución aplicada:** Se reubicó `<script src="js/auth/roles.js"></script>` para cargarse inmediatamente después de `store.js` y antes de los módulos visuales de UI (`catalog.js`, `faceplates.js`), cumpliendo estrictamente con la especificación de `AGENTS.md`.
 
 ---
 
 ### 10.3. Suite Automatizada de Pruebas de Integridad
 
-* **Archivo:** [`tests/integrity_check.cjs`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/tests/integrity_check.cjs)
+* **Archivo:** [`tests/integrity_check.cjs`](../../tests/integrity_check.cjs)
 * **Estado:** Totalmente operativa y ejecutable mediante `node tests/integrity_check.cjs`.
 * **Resultados de Validación:** **381 de 381 pruebas aprobadas (100% verde) en 24 grupos completos**:
   1. Autenticación RBAC, hashing SHA-256 y persistencia ante F5.
@@ -305,4 +305,4 @@ Tras una auditoría exhaustiva tanto estática como dinámica, se identificaron 
 ---
 
 > [!NOTE]
-> **Estado de la Plataforma:** El sistema se encuentra 100% verificado, con 0 errores en consola en runtime y con todas sus dependencias de datos consolidadas. Se puede continuar con la implementación del plan de mejoras detallado en [mejoras.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/mejoras.md).
+> **Estado de la Plataforma:** El sistema se encuentra 100% verificado, con 0 errores en consola en runtime y con todas sus dependencias de datos consolidadas. Se puede continuar con la implementación del plan de mejoras detallado en [mejoras.md](../../mejoras.md).

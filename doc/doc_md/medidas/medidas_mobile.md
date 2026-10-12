@@ -420,6 +420,6 @@ Nivel     1: Lienzo Principal de Datacenter (#main, racks y cables)
 
 Los planos visuales SVG que acompañan a esta especificación se encuentran ubicados en `doc/doc_img/doc_svg/layout/`:
 
-1. 📐 **[layout_mobile_dimensions.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_dimensions.svg):** Plano de cotas técnicas de ingeniería (1680×920 px).
-2. 📱 **[layout_mobile_mode.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_mode.svg):** Flujos completos de interacción en 4 estados de pantalla (1680×850 px).
-3. 🌐 **[layout_mobile_topology.svg](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/layout/layout_mobile_topology.svg):** Topología Canvas 2D en pantallas compactas con gestos táctiles (1280×840 px).
+1. 📐 **[layout_mobile_dimensions.svg](../../doc_img/doc_svg/layout/layout_mobile_dimensions.svg):** Plano de cotas técnicas de ingeniería (1680×920 px).
+2. 📱 **[layout_mobile_mode.svg](../../doc_img/doc_svg/layout/layout_mobile_mode.svg):** Flujos completos de interacción en 4 estados de pantalla (1680×850 px).
+3. 🌐 **[layout_mobile_topology.svg](../../doc_img/doc_svg/layout/layout_mobile_topology.svg):** Topología Canvas 2D en pantallas compactas con gestos táctiles (1280×840 px).

@@ -235,61 +235,61 @@ Cada archivo, qué hace, y cuándo necesitas tocarlo:
 
 | Archivo | Tamaño | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|:---|
-| [store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js) | ~16 KB | Estado global, Proxy reactivo, Undo/Redo acotado (límite `_maxHistory = 15`, deduplicación O(1), snapshots livianos sin `topologySlots`, `estimateHistoryMemory()`, M-03), persistencia localStorage, métodos CRUD, gestión de 5 slots de topología (`topologySlots`, M-40), inversión y conmutación de canaleta de conexiones (M-41) | Cuando agregas un nuevo tipo de dato al estado o un nuevo método de mutación |
-| [main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) | ~30 KB | Inicialización (`init()`), despacho de eventos globales, `renderAll()`, cambio de vistas, selector de temas (Oscuro/Claro/Sepia con `applyTheme`, `toggleThemeCycle`, M-18), renderizado de slots de topología (`renderTopologySlots`, M-40) | Cuando conectas un nuevo botón del UI, cambias la lógica de renderizado, o agregas una nueva vista |
-| [utils.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/utils.js) | ~5 KB | Utilidades puras: clonado ultra-rápido `fastClone()` (4x más veloz que JSON), `deepClone()` multi-tier escalonado (M-03), `uid()`, `notify()`, `escapeHTML()`, `downloadJSON()`, `customConfirm()`, `getDeviceLocation()` | Cuando necesitas una función utilitaria nueva que no pertenece a ningún componente |
-| [icons.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/icons.js) | ~15 KB | Objeto `SVG_ICONS` con iconos SVG inline como strings | Cuando agregas un nuevo tipo de equipo que necesita su propio icono |
-| [demoData.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/demoData.js) | ~25 KB | Funciones de datos demo: `loadDemoData()` (Datacenter TIA-942) y `loadUniversityDemoData()` (Campus Universitario UTN con 10 edificios/salas, 13 racks, 162 dispositivos, 24 VLANs y 97 enlaces), respaldadas por `#modal-demo-selection` | Cuando actualizas o agregas escenarios de demostración |
+| [store.js](../../js/store.js) | ~16 KB | Estado global, Proxy reactivo, Undo/Redo acotado (límite `_maxHistory = 15`, deduplicación O(1), snapshots livianos sin `topologySlots`, `estimateHistoryMemory()`, M-03), persistencia localStorage, métodos CRUD, gestión de 5 slots de topología (`topologySlots`, M-40), inversión y conmutación de canaleta de conexiones (M-41) | Cuando agregas un nuevo tipo de dato al estado o un nuevo método de mutación |
+| [main.js](../../js/main.js) | ~30 KB | Inicialización (`init()`), despacho de eventos globales, `renderAll()`, cambio de vistas, selector de temas (Oscuro/Claro/Sepia con `applyTheme`, `toggleThemeCycle`, M-18), renderizado de slots de topología (`renderTopologySlots`, M-40) | Cuando conectas un nuevo botón del UI, cambias la lógica de renderizado, o agregas una nueva vista |
+| [utils.js](../../js/utils.js) | ~5 KB | Utilidades puras: clonado ultra-rápido `fastClone()` (4x más veloz que JSON), `deepClone()` multi-tier escalonado (M-03), `uid()`, `notify()`, `escapeHTML()`, `downloadJSON()`, `customConfirm()`, `getDeviceLocation()` | Cuando necesitas una función utilitaria nueva que no pertenece a ningún componente |
+| [icons.js](../../js/icons.js) | ~15 KB | Objeto `SVG_ICONS` con iconos SVG inline como strings | Cuando agregas un nuevo tipo de equipo que necesita su propio icono |
+| [demoData.js](../../js/demoData.js) | ~25 KB | Funciones de datos demo: `loadDemoData()` (Datacenter TIA-942) y `loadUniversityDemoData()` (Campus Universitario UTN con 10 edificios/salas, 13 racks, 162 dispositivos, 24 VLANs y 97 enlaces), respaldadas por `#modal-demo-selection` | Cuando actualizas o agregas escenarios de demostración |
 
 ### Archivos de Autenticación y Seguridad (js/auth/)
 
 | Archivo | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|
-| [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js) | RBAC completo: hasheo SHA-256, login por PIN, 3 roles (Admin/Editor/Viewer), permisos con `RackAuth.can('acción')`, sesión protegida en sessionStorage (`RACK_SESSION_USER` y `RACK_SESSION_TOKEN`) con persistencia ante recarga F5 | Cuando necesitas agregar un nuevo permiso o rol |
-| [crypto.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/crypto.js) | Módulo criptográfico `RackCrypto`: cifrado simétrico robusto bajo formato `enc:v1:<iv>:<ciphertext>` para credenciales en reposo (`localStorage` y `.rack`), soporte universal navegador/Node.js | Cuando modificas el algoritmo de cifrado, salt o campos sensibles protegidos |
+| [roles.js](../../js/auth/roles.js) | RBAC completo: hasheo SHA-256, login por PIN, 3 roles (Admin/Editor/Viewer), permisos con `RackAuth.can('acción')`, sesión protegida en sessionStorage (`RACK_SESSION_USER` y `RACK_SESSION_TOKEN`) con persistencia ante recarga F5 | Cuando necesitas agregar un nuevo permiso o rol |
+| [crypto.js](../../js/auth/crypto.js) | Módulo criptográfico `RackCrypto`: cifrado simétrico robusto bajo formato `enc:v1:<iv>:<ciphertext>` para credenciales en reposo (`localStorage` y `.rack`), soporte universal navegador/Node.js | Cuando modificas el algoritmo de cifrado, salt o campos sensibles protegidos |
 
 ### Archivos de Interfaz (js/ui/)
 
 | Archivo | Tamaño | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|:---|
-| [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) | ~18 KB | Define el array `CATALOG` (30 plantillas arquitectónicas en 8 familias `CATALOG_GROUPS`), gestión de `customCatalog`, categoría "Todos" con buscador reactivo | Cuando agregas nuevos tipos de equipos al catálogo o modificas la sidebar |
-| [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) | ~38 KB | Renderizado de la vista física: chasis de racks con gap de 72px, ranuras de 240px fijas (10:1), grilla CAD 24px, alineación de piso 584px, enrutamiento bicanal SVG de cables (bandeja aérea superior o canaleta inferior bajo piso técnico `maxRackBottom + 14`, M-41) y redibujado selectivo granular de gabinetes `renderSingleRack(rackId)` con preservación de estado flipped (M-04) | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
-| [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) | ~5 KB | Motor visual SVG-First: mapea tipos de equipos a gráficos SVG animados en `assets/svg/default/`, genera overlays de texto y anclajes `data-port` | Cuando agregas soporte para un nuevo tipo de SVG o cambias la resolución de assets visuales |
-| [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) | ~15 KB | Panel inferior: tablas de inventario (columnas configurables con modal, edición inline `dblclick`) y tabla de conexiones con columna interactiva `Canaleta` (`⬆️ Techo` ⇄ `⬇️ Piso`) y acción rápida por fila `data-swap-conn` (M-41) | Cuando modificas las columnas de las tablas o agregas nuevas pestañas de datos |
-| [outliner.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/outliner.js) | ~9 KB | Panel derecho: árbol jerárquico (Sala > Rack > Equipo), toolbar superior (`+ Sala`, `+ Rack`, `+ Equipo`), selector de ordenamiento (4 modos) y botones inline `✏️`/`🗑️` | Cuando cambias la estructura jerárquica o agregas acciones al árbol |
-| [inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js) | ~13 KB | Panel derecho: tarjeta de inspección colapsable con soporte CRUD integral para Salas/Racks/Equipos y Empty State proactivo | Cuando agregas nuevos campos a los equipos que deben mostrarse |
-| [fileManager.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/fileManager.js) | ~6 KB | Abrir/Guardar proyectos con File System Access API, autoguardado con debounce de 3 segundos | Cuando modificas la lógica de persistencia en disco |
-| [modals.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals.js) | ~0.2 KB | Inicializador central de todos los modales (`initModals()`) | Cuando agregas un nuevo modal y necesitas inicializarlo |
+| [catalog.js](../../js/ui/catalog.js) | ~18 KB | Define el array `CATALOG` (30 plantillas arquitectónicas en 8 familias `CATALOG_GROUPS`), gestión de `customCatalog`, categoría "Todos" con buscador reactivo | Cuando agregas nuevos tipos de equipos al catálogo o modificas la sidebar |
+| [rack.js](../../js/ui/rack.js) | ~38 KB | Renderizado de la vista física: chasis de racks con gap de 72px, ranuras de 240px fijas (10:1), grilla CAD 24px, alineación de piso 584px, enrutamiento bicanal SVG de cables (bandeja aérea superior o canaleta inferior bajo piso técnico `maxRackBottom + 14`, M-41) y redibujado selectivo granular de gabinetes `renderSingleRack(rackId)` con preservación de estado flipped (M-04) | Cuando modificas la apariencia del rack, la lógica de inserción, o el enrutamiento visual de cables |
+| [faceplates.js](../../js/ui/faceplates.js) | ~5 KB | Motor visual SVG-First: mapea tipos de equipos a gráficos SVG animados en `assets/svg/default/`, genera overlays de texto y anclajes `data-port` | Cuando agregas soporte para un nuevo tipo de SVG o cambias la resolución de assets visuales |
+| [tables.js](../../js/ui/tables.js) | ~15 KB | Panel inferior: tablas de inventario (columnas configurables con modal, edición inline `dblclick`) y tabla de conexiones con columna interactiva `Canaleta` (`⬆️ Techo` ⇄ `⬇️ Piso`) y acción rápida por fila `data-swap-conn` (M-41) | Cuando modificas las columnas de las tablas o agregas nuevas pestañas de datos |
+| [outliner.js](../../js/ui/outliner.js) | ~9 KB | Panel derecho: árbol jerárquico (Sala > Rack > Equipo), toolbar superior (`+ Sala`, `+ Rack`, `+ Equipo`), selector de ordenamiento (4 modos) y botones inline `✏️`/`🗑️` | Cuando cambias la estructura jerárquica o agregas acciones al árbol |
+| [inspector.js](../../js/ui/inspector.js) | ~13 KB | Panel derecho: tarjeta de inspección colapsable con soporte CRUD integral para Salas/Racks/Equipos y Empty State proactivo | Cuando agregas nuevos campos a los equipos que deben mostrarse |
+| [fileManager.js](../../js/ui/fileManager.js) | ~6 KB | Abrir/Guardar proyectos con File System Access API, autoguardado con debounce de 3 segundos | Cuando modificas la lógica de persistencia en disco |
+| [modals.js](../../js/ui/modals.js) | ~0.2 KB | Inicializador central de todos los modales (`initModals()`) | Cuando agregas un nuevo modal y necesitas inicializarlo |
 
 ### Archivos de Modales (js/ui/modals/)
 
 | Archivo | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|
-| [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js) | Formulario completo para agregar/editar equipos con acordeones colapsables (red, auth con botón de revelación `#dev-pass-toggle`, energía, puertos, notas, skin) | Cuando agregas campos nuevos al formulario de equipos |
-| [CableModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/CableModal.js) | Formulario para crear/editar conexiones de cables entre equipos, con selectores agrupados por sala/rack, botón de inversión `#btn-cable-swap` (con microanimación 180° e intercambio reactivo) y selector de canaleta `#cable-orientation` (Superior / Inferior, M-41) | Cuando cambias la lógica de conexión o agregas tipos de cable |
-| [RackModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/RackModal.js) | Formulario para agregar/editar gabinetes (nombre, altura, color) | Cuando agregas propiedades nuevas a los racks |
-| [RoomModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/RoomModal.js) | Formulario para agregar/renombrar salas | Cuando modificas las propiedades de las salas |
-| [PlacementModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/PlacementModal.js) | Colocación rápida asistida: incluye buscador en tiempo real (`#qp-dev-search` con `filterQPCatalog`) para asignar equipos a slots disponibles | Cuando cambias el flujo de colocación rápida |
-| [ExportModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/ExportModal.js) | Exportación gráfica 1:1 a PNG mediante `html2canvas.min.js` a escala Retina sobre `#090d17` con fallback a Canvas 2D, exportación CSV/Excel y PNG de topología | Cuando agregas nuevos formatos de exportación |
-| [ImportModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/ImportModal.js) | Modal de importación masiva de equipos (`#modal-import-devices`) con drag & drop, detección reactiva de colisiones físicas, resolución de conflictos (omitir/renombrar/sobrescribir), auto-creación de racks, generación de plantillas completas de 21 columnas en Excel/CSV (M-21) y rollback atómico con Undo/Redo (M-22) | Cuando amplías las reglas de validación o agregas nuevos campos a la plantilla de importación |
-| [Globals.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/Globals.js) | Variables globales compartidas entre modales (`editingDeviceId`, `editingCatalogId`, `FLOOR_TYPES`) | Cuando necesitas compartir estado entre modales |
+| [DeviceModal.js](../../js/ui/modals/DeviceModal.js) | Formulario completo para agregar/editar equipos con acordeones colapsables (red, auth con botón de revelación `#dev-pass-toggle`, energía, puertos, notas, skin) | Cuando agregas campos nuevos al formulario de equipos |
+| [CableModal.js](../../js/ui/modals/CableModal.js) | Formulario para crear/editar conexiones de cables entre equipos, con selectores agrupados por sala/rack, botón de inversión `#btn-cable-swap` (con microanimación 180° e intercambio reactivo) y selector de canaleta `#cable-orientation` (Superior / Inferior, M-41) | Cuando cambias la lógica de conexión o agregas tipos de cable |
+| [RackModal.js](../../js/ui/modals/RackModal.js) | Formulario para agregar/editar gabinetes (nombre, altura, color) | Cuando agregas propiedades nuevas a los racks |
+| [RoomModal.js](../../js/ui/modals/RoomModal.js) | Formulario para agregar/renombrar salas | Cuando modificas las propiedades de las salas |
+| [PlacementModal.js](../../js/ui/modals/PlacementModal.js) | Colocación rápida asistida: incluye buscador en tiempo real (`#qp-dev-search` con `filterQPCatalog`) para asignar equipos a slots disponibles | Cuando cambias el flujo de colocación rápida |
+| [ExportModal.js](../../js/ui/modals/ExportModal.js) | Exportación gráfica 1:1 a PNG mediante `html2canvas.min.js` a escala Retina sobre `#090d17` con fallback a Canvas 2D, exportación CSV/Excel y PNG de topología | Cuando agregas nuevos formatos de exportación |
+| [ImportModal.js](../../js/ui/modals/ImportModal.js) | Modal de importación masiva de equipos (`#modal-import-devices`) con drag & drop, detección reactiva de colisiones físicas, resolución de conflictos (omitir/renombrar/sobrescribir), auto-creación de racks, generación de plantillas completas de 21 columnas en Excel/CSV (M-21) y rollback atómico con Undo/Redo (M-22) | Cuando amplías las reglas de validación o agregas nuevos campos a la plantilla de importación |
+| [Globals.js](../../js/ui/modals/Globals.js) | Variables globales compartidas entre modales (`editingDeviceId`, `editingCatalogId`, `FLOOR_TYPES`) | Cuando necesitas compartir estado entre modales |
 
 ### Motor de Topología (js/ui/topology/)
 
 | Archivo | Responsabilidad | ¿Cuándo lo toco? |
 |:---|:---|:---|
-| [TopologySkins.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologySkins.js) | Motor modular de skins para Canvas 2D: renderizado fotorrealista de hardware (`renderHardwareNode`), 18 presets vectoriales en `EMBEDDED_SVG_CACHE`, soporte de imágenes custom base64, dimensiones dinámicas y hit-testing geométrico unificado (`isPointInNode`, M-28) | Cuando agregas nuevos presets de hardware, modificas el renderizado de chasis o cambias la geometría de colisión de nodos |
-| [TopologyState.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyState.js) | Estado local del canvas: nodo hover, nodo arrastrado, posición del mouse, sliders H/V y helpers globales para los 5 slots de memoria (`applyTopologySlot`, `saveCurrentToTopologySlot`, `clearTopologySlot`, `renameTopologySlot`, M-40) | Cuando agregas interacciones nuevas al canvas o gestión de estados de topología |
-| [TopologyLayout.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyLayout.js) | Algoritmo de distribución de nodos: layout canónico con afinidad de piso por rack anfitrión (`_findAffinityRackForFloorDevice()`, M-39), layout jerárquico DAG (M-32), `initTopoPositions()`, `autoOrderTopo()`, `recalcTopoSpacing()` | Cuando cambias cómo se posicionan automáticamente los nodos y racks |
-| [TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js) | Dibujado en Canvas 2D: nodos, enlaces, partículas de animación, fondo adaptativo dinámico según tema (oscuro, claro y sepia cálido `#f5eee1`, M-18) | Cuando cambias la apariencia visual de la topología |
-| [TopologyEvents.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyEvents.js) | Manejo de eventos del canvas: arrastrar nodos, zoom con rueda, pan, click derecho, hover | Cuando agregas interacciones nuevas al diagrama de red |
-| [TopologyOrchestrator.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyOrchestrator.js) | Ciclo de vida del canvas: `initTopology()`, `startTopo()`, `stopTopo()`, `resizeCanvas()` | Cuando cambias cómo se inicializa o destruye la vista de topología |
+| [TopologySkins.js](../../js/ui/topology/TopologySkins.js) | Motor modular de skins para Canvas 2D: renderizado fotorrealista de hardware (`renderHardwareNode`), 18 presets vectoriales en `EMBEDDED_SVG_CACHE`, soporte de imágenes custom base64, dimensiones dinámicas y hit-testing geométrico unificado (`isPointInNode`, M-28) | Cuando agregas nuevos presets de hardware, modificas el renderizado de chasis o cambias la geometría de colisión de nodos |
+| [TopologyState.js](../../js/ui/topology/TopologyState.js) | Estado local del canvas: nodo hover, nodo arrastrado, posición del mouse, sliders H/V y helpers globales para los 5 slots de memoria (`applyTopologySlot`, `saveCurrentToTopologySlot`, `clearTopologySlot`, `renameTopologySlot`, M-40) | Cuando agregas interacciones nuevas al canvas o gestión de estados de topología |
+| [TopologyLayout.js](../../js/ui/topology/TopologyLayout.js) | Algoritmo de distribución de nodos: layout canónico con afinidad de piso por rack anfitrión (`_findAffinityRackForFloorDevice()`, M-39), layout jerárquico DAG (M-32), `initTopoPositions()`, `autoOrderTopo()`, `recalcTopoSpacing()` | Cuando cambias cómo se posicionan automáticamente los nodos y racks |
+| [TopologyRenderer.js](../../js/ui/topology/TopologyRenderer.js) | Dibujado en Canvas 2D: nodos, enlaces, partículas de animación, fondo adaptativo dinámico según tema (oscuro, claro y sepia cálido `#f5eee1`, M-18) | Cuando cambias la apariencia visual de la topología |
+| [TopologyEvents.js](../../js/ui/topology/TopologyEvents.js) | Manejo de eventos del canvas: arrastrar nodos, zoom con rueda, pan, click derecho, hover | Cuando agregas interacciones nuevas al diagrama de red |
+| [TopologyOrchestrator.js](../../js/ui/topology/TopologyOrchestrator.js) | Ciclo de vida del canvas: `initTopology()`, `startTopo()`, `stopTopo()`, `resizeCanvas()` | Cuando cambias cómo se inicializa o destruye la vista de topología |
 
 ---
 
 ## 7. El Store: Cerebro de la Aplicación
 
-El archivo más importante del proyecto es [store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js). Entiéndelo bien antes de tocar cualquier cosa.
+El archivo más importante del proyecto es [store.js](../../js/store.js). Entiéndelo bien antes de tocar cualquier cosa.
 
 ### Estructura del Estado Global
 
@@ -395,7 +395,7 @@ _makeProxy(obj, path = '') {
 
 ## 8. El Ciclo de Renderizado
 
-La función `renderAll()` en [main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js#L159-L210) usa el string `source` del evento para decidir qué vistas redibujar:
+La función `renderAll()` en [main.js](../../js/main.js#L159-L210) usa el string `source` del evento para decidir qué vistas redibujar:
 
 | Valor de `source` | Vistas que se redibujan |
 |:---|:---|
@@ -427,7 +427,7 @@ La función `renderAll()` en [main.js](file:///c:/Users/admin/.gemini/antigravit
 
 ### Cadena de Importación
 
-El archivo raíz [style.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/style.css) solo contiene `@import` en este orden:
+El archivo raíz [style.css](../../css/style.css) solo contiene `@import` en este orden:
 
 ```
 variables.css → layout.css → panels.css → rack.css → faceplates.css → modals.css → misc.css
@@ -439,13 +439,13 @@ variables.css → layout.css → panels.css → rack.css → faceplates.css → 
 
 | Archivo | ¿Qué contiene? | ¿Cuándo lo toco? |
 |:---|:---|:---|
-| [variables.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/variables.css) | Variables CSS (`--bg-main`, `--accent`, `--font-ui`, etc.), tema oscuro por defecto, tema claro `[data-theme="light"]` y tema pergamino cálido `[data-theme="sepia"]` (M-18) | Cuando cambias colores, fuentes, tokens de temas o dimensiones base |
-| [layout.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/layout.css) | Layout principal (CSS Grid del `#app`), header, sidebar, área principal, scroll, grilla CAD adaptativa a temas | Cuando cambias la estructura de la interfaz o la rejilla de trabajo |
-| [panels.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/panels.css) | Estilos de paneles laterales (derecho e inferior) y botones de ranuras `.topo-slot-btn` (M-40) | Cuando modificas la apariencia de outliner/inspector/stats o slots de topología |
-| [rack.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/rack.css) | Estilos del chasis de rack: slots, guías de unidades, colores, animaciones 3D flip | Cuando cambias la apariencia del rack |
-| [faceplates.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/faceplates.css) | Estilos de cada tipo de equipo (server, switch, firewall...) dentro del rack | Cuando creas un nuevo tipo de equipo visual |
-| [modals.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/modals.css) | Estilos de ventanas modales (overlay, animación scale-in, footer, botones) | Cuando creas un nuevo modal o cambias su apariencia |
-| [misc.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/misc.css) | Notificaciones (toast), tooltips, máscaras de iconos vectoriales monocromáticos (`.icon-swap`, `.icon-coffee`, `.icon-eye`), animaciones, utilidades | Cuando necesitas iconos técnicos nuevos o estilos transversales |
+| [variables.css](../../css/variables.css) | Variables CSS (`--bg-main`, `--accent`, `--font-ui`, etc.), tema oscuro por defecto, tema claro `[data-theme="light"]` y tema pergamino cálido `[data-theme="sepia"]` (M-18) | Cuando cambias colores, fuentes, tokens de temas o dimensiones base |
+| [layout.css](../../css/layout.css) | Layout principal (CSS Grid del `#app`), header, sidebar, área principal, scroll, grilla CAD adaptativa a temas | Cuando cambias la estructura de la interfaz o la rejilla de trabajo |
+| [panels.css](../../css/components/panels.css) | Estilos de paneles laterales (derecho e inferior) y botones de ranuras `.topo-slot-btn` (M-40) | Cuando modificas la apariencia de outliner/inspector/stats o slots de topología |
+| [rack.css](../../css/components/rack.css) | Estilos del chasis de rack: slots, guías de unidades, colores, animaciones 3D flip | Cuando cambias la apariencia del rack |
+| [faceplates.css](../../css/components/faceplates.css) | Estilos de cada tipo de equipo (server, switch, firewall...) dentro del rack | Cuando creas un nuevo tipo de equipo visual |
+| [modals.css](../../css/components/modals.css) | Estilos de ventanas modales (overlay, animación scale-in, footer, botones) | Cuando creas un nuevo modal o cambias su apariencia |
+| [misc.css](../../css/components/misc.css) | Notificaciones (toast), tooltips, máscaras de iconos vectoriales monocromáticos (`.icon-swap`, `.icon-coffee`, `.icon-eye`), animaciones, utilidades | Cuando necesitas iconos técnicos nuevos o estilos transversales |
 
 ### Variables CSS Clave
 
@@ -524,21 +524,21 @@ Formada por los archivos bajo `js/ui/` e `index.html`.
 
 ### B. Capa de Estado y Lógica (State & Logic Layer)
 
-Gestionada por [store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js).
+Gestionada por [store.js](../../js/store.js).
 
 - **Responsabilidad**: Mantener la verdad única (*single source of truth*) de todos los datos.
 - **Características**: Validación de colisiones (al insertar equipos), eliminación en cascada (al borrar salas), historial Undo/Redo (30 snapshots), persistencia automática.
 
 ### C. Capa de Persistencia (Persistence & I/O Layer)
 
-Gestionada por [store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js) (localStorage) y [fileManager.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/fileManager.js) (disco).
+Gestionada por [store.js](../../js/store.js) (localStorage) y [fileManager.js](../../js/ui/fileManager.js) (disco).
 
 - **localStorage**: Se guarda en cada mutación bajo la clave `'RACK_DESIGNER_NEXT_STATE'`.
 - **File System Access API**: `fileManager.autoSave()` aplica un debounce de 3 segundos. Si el usuario tiene un archivo abierto (`fileHandle`), reescribe ese archivo automáticamente.
 
 ### D. Capa de Seguridad (Security Layer)
 
-Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js).
+Gestionada por [roles.js](../../js/auth/roles.js).
 
 - **Roles**: Admin (todo), Editor (todo excepto cambiar PIN), Viewer (solo lectura).
 - **PIN por defecto**: `rack2024` (hash SHA-256 almacenado en localStorage).
@@ -616,73 +616,73 @@ Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rac
 
 ### 🆕 Agregar un nuevo tipo de equipo al catálogo
 
-1. **Archivo:** [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) → Agrega un nuevo objeto al array `CATALOG` (línea ~1-22).
-2. **Archivo:** [catalog.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/catalog.js) → Agrega el tipo al objeto `TYPE_COLORS` (línea ~25-31).
-3. **Archivo:** [icons.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/icons.js) → Agrega el SVG inline del nuevo icono.
-4. **Archivo:** [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) → Crea la plantilla visual del equipo en el rack.
-5. **Archivo:** [faceplates.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/faceplates.css) → Agrega los estilos visuales.
+1. **Archivo:** [catalog.js](../../js/ui/catalog.js) → Agrega un nuevo objeto al array `CATALOG` (línea ~1-22).
+2. **Archivo:** [catalog.js](../../js/ui/catalog.js) → Agrega el tipo al objeto `TYPE_COLORS` (línea ~25-31).
+3. **Archivo:** [icons.js](../../js/icons.js) → Agrega el SVG inline del nuevo icono.
+4. **Archivo:** [faceplates.js](../../js/ui/faceplates.js) → Crea la plantilla visual del equipo en el rack.
+5. **Archivo:** [faceplates.css](../../css/components/faceplates.css) → Agrega los estilos visuales.
 6. **Archivo:** `assets/icons/` → Coloca el archivo SVG del icono.
 
 ### 🎨 Cambiar colores o el tema visual
 
-1. **Archivo:** [variables.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/variables.css) → Modifica las variables CSS en `:root` (oscuro) o `[data-theme="light"]` (claro).
+1. **Archivo:** [variables.css](../../css/variables.css) → Modifica las variables CSS en `:root` (oscuro) o `[data-theme="light"]` (claro).
 
 ### 📊 Agregar una nueva columna a la tabla de inventario
 
-1. **Archivo:** [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) → Busca la función que genera las filas de la tabla y agrega el `<td>` con el dato.
-2. Si el dato es nuevo, agrégalo primero al estado en [store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js) y al formulario en [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js).
+1. **Archivo:** [tables.js](../../js/ui/tables.js) → Busca la función que genera las filas de la tabla y agrega el `<td>` con el dato.
+2. Si el dato es nuevo, agrégalo primero al estado en [store.js](../../js/store.js) y al formulario en [DeviceModal.js](../../js/ui/modals/DeviceModal.js).
 
 ### 🔐 Agregar un nuevo permiso
 
-1. **Archivo:** [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/auth/roles.js) → Busca la tabla de permisos (objeto que mapea acciones a roles) y agrega la nueva acción.
+1. **Archivo:** [roles.js](../../js/auth/roles.js) → Busca la tabla de permisos (objeto que mapea acciones a roles) y agrega la nueva acción.
 2. **Uso:** En cualquier parte del código, checa con `if (RackAuth.can('tuNuevaAccion')) { ... }`.
 
 ### 🪟 Crear un nuevo modal
 
-1. **HTML:** En [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) → Agrega el markup del modal (copia la estructura de uno existente como `#modal-device`).
+1. **HTML:** En [index.html](../../index.html) → Agrega el markup del modal (copia la estructura de uno existente como `#modal-device`).
 2. **JS:** Crea `js/ui/modals/TuModal.js` con la función `openTuModal()` y la lógica del formulario.
-3. **Script:** En [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) → Agrega `<script src="js/ui/modals/TuModal.js"></script>` **antes** de `modals.js`.
-4. **Init:** En [modals.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals.js) → Llama a la inicialización de tu modal dentro de `initModals()`.
-5. **CSS:** Agrega estilos específicos en [modals.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/components/modals.css).
+3. **Script:** En [index.html](../../index.html) → Agrega `<script src="js/ui/modals/TuModal.js"></script>` **antes** de `modals.js`.
+4. **Init:** En [modals.js](../../js/ui/modals.js) → Llama a la inicialización de tu modal dentro de `initModals()`.
+5. **CSS:** Agrega estilos específicos en [modals.css](../../css/components/modals.css).
 
 ### 📤 Agregar un nuevo formato de exportación
 
-1. **Archivo:** [ExportModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/ExportModal.js) → Agrega un nuevo botón y su handler.
+1. **Archivo:** [ExportModal.js](../../js/ui/modals/ExportModal.js) → Agrega un nuevo botón y su handler.
 2. Si necesitas una librería externa, agrégala como `<script>` en `index.html`.
 
 ### 🗂️ Agregar un nuevo campo a los equipos
 
-1. **Estado:** [store.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/store.js) → Agrega el campo a `addDeviceToRack()` y `addFloorDevice()`.
-2. **Formulario:** [DeviceModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/DeviceModal.js) → Agrega el input al formulario.
-3. **HTML:** [index.html](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/index.html) → Agrega el campo al markup del modal `#modal-device`.
-4. **Inspector:** [inspector.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/inspector.js) → Muestra el campo en la tarjeta de propiedades.
-5. **Tabla:** [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js) → Agrega la columna a la tabla del panel inferior.
+1. **Estado:** [store.js](../../js/store.js) → Agrega el campo a `addDeviceToRack()` y `addFloorDevice()`.
+2. **Formulario:** [DeviceModal.js](../../js/ui/modals/DeviceModal.js) → Agrega el input al formulario.
+3. **HTML:** [index.html](../../index.html) → Agrega el campo al markup del modal `#modal-device`.
+4. **Inspector:** [inspector.js](../../js/ui/inspector.js) → Muestra el campo en la tarjeta de propiedades.
+5. **Tabla:** [tables.js](../../js/ui/tables.js) → Agrega la columna a la tabla del panel inferior.
 
 ### 🔄 Agregar una nueva fuente de renderizado al Store
 
 1. **Store:** En tu nuevo método del store, emite con `this._emit('change', { source: 'tuNuevoSource' })`.
-2. **Main:** En [main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js) → Agrega la condición en `renderAll()` (líneas ~159-210) para que tu fuente redibuje las vistas correctas.
+2. **Main:** En [main.js](../../js/main.js) → Agrega la condición en `renderAll()` (líneas ~159-210) para que tu fuente redibuje las vistas correctas.
 
 ### 🎨 Agregar o personalizar la apariencia gráfica (SVG) de un equipo
 
 1. **Crear el archivo SVG:** Coloca el archivo en `assets/svg/default/`. 
    - Tamaño base: `viewBox="0 0 240 24"` para equipos 1U o `viewBox="0 0 240 48"` para 2U.
    - Si deseas LEDs intermitentes o efectos, incluye bloques `<style>` con animaciones `@keyframes` nativas dentro del propio SVG.
-2. **Asociar el SVG en el motor visual:** En [faceplates.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/faceplates.js) → Actualiza la función `getSvgFaceplatePath(device)` para que devuelva la ruta de tu nuevo SVG según el `device.type` o `device.size`.
-3. **PWA offline:** En [service-worker.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/service-worker.js) → Agrega la ruta del nuevo SVG en el array `ASSETS_TO_CACHE` para garantizar disponibilidad sin conexión.
+2. **Asociar el SVG en el motor visual:** En [faceplates.js](../../js/ui/faceplates.js) → Actualiza la función `getSvgFaceplatePath(device)` para que devuelva la ruta de tu nuevo SVG según el `device.type` o `device.size`.
+3. **PWA offline:** En [service-worker.js](../../service-worker.js) → Agrega la ruta del nuevo SVG en el array `ASSETS_TO_CACHE` para garantizar disponibilidad sin conexión.
 
 ### 🔌 Invertir una conexión o conmutar su canaleta (M-41)
 
-1. **Desde la interfaz visual / modal:** En [CableModal.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/modals/CableModal.js), presiona `#btn-cable-swap` para intercambiar origen y destino sin perder los selectores, o cambia `#cable-orientation` para elegir entre `top` (Canaleta Superior/Techo) o `bottom` (Canaleta Inferior/Piso Técnico).
-2. **Desde la tabla de datos:** En [tables.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/tables.js), haz clic en el botón de la columna `Canaleta` (`⬆️ Techo` ⇄ `⬇️ Piso`) o en el botón `data-swap-conn` de la columna de Acciones.
-3. **Desde código:** Llama a `store.swapConnectionDirection(connectionId)` o `store.toggleConnectionOrientation(connectionId)`. El motor SVG en [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) enrutará inmediatamente los cables inferiores por el zócalo técnico.
+1. **Desde la interfaz visual / modal:** En [CableModal.js](../../js/ui/modals/CableModal.js), presiona `#btn-cable-swap` para intercambiar origen y destino sin perder los selectores, o cambia `#cable-orientation` para elegir entre `top` (Canaleta Superior/Techo) o `bottom` (Canaleta Inferior/Piso Técnico).
+2. **Desde la tabla de datos:** En [tables.js](../../js/ui/tables.js), haz clic en el botón de la columna `Canaleta` (`⬆️ Techo` ⇄ `⬇️ Piso`) o en el botón `data-swap-conn` de la columna de Acciones.
+3. **Desde código:** Llama a `store.swapConnectionDirection(connectionId)` o `store.toggleConnectionOrientation(connectionId)`. El motor SVG en [rack.js](../../js/ui/rack.js) enrutará inmediatamente los cables inferiores por el zócalo técnico.
 
 ### ⚡ Conectar equipos interactivamente en la vista física (M-34 Drag-to-Connect)
 
 1. **Activar Modo Cableado:** Clic en `#btn-cable-mode` en `#main-toolbar` o clic en el botón directo `.dev-btn.connect` (`data-connect-dev`) en el frente de cualquier equipo.
 2. **Trazado Dinámico:** El sistema ancla el origen y dibuja una curva Bézier SVG elástica `#rubberband-interactive-cable` que sigue el puntero en tiempo real (`onCablePointerMove`).
 3. **Completar y Guardar:** Al hacer clic sobre el equipo destino, se abre automáticamente `#modal-cable` con ambos equipos preseleccionados y validados.
-4. **API y Funciones Globales en [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js):**
+4. **API y Funciones Globales en [rack.js](../../js/ui/rack.js):**
    - `toggleInteractiveCableMode()`: Alterna el modo.
    - `startInteractiveCableFromDevice(deviceId, portName, portSide)`: Fija el origen.
    - `handleInteractiveCableTarget(targetDeviceId)`: Finaliza y abre el modal.
@@ -692,13 +692,13 @@ Gestionada por [roles.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rac
 
 1. **En el Modal:** Configura los selectores `#cable-src-side` y `#cable-dst-side` (`'front'` o `'rear'`).
 2. **En el Store:** `store.addConnection(...)` persiste `sourceSide` y `targetSide`. `isPortOccupied(deviceId, portName, excludeId, portSide)` verifica la disponibilidad aislando los puertos por cara física en equipos de doble profundidad (`mountSide: 'both'`).
-3. **En el Trazado Físico:** [rack.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/rack.js) ancla la conexión a la cara frontal o al jack posterior `.rear-port-jack` según la cara activa y el estado de rotación 3D del gabinete.
+3. **En el Trazado Físico:** [rack.js](../../js/ui/rack.js) ancla la conexión a la cara frontal o al jack posterior `.rear-port-jack` según la cara activa y el estado de rotación 3D del gabinete.
 
 ### 🌓 Cambiar temas o extender la paleta de colores (M-18)
 
-1. **Variables CSS:** En [variables.css](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/css/variables.css), agrega o ajusta los tokens bajo el selector del tema (ej. `[data-theme="sepia"]`).
+1. **Variables CSS:** En [variables.css](../../css/variables.css), agrega o ajusta los tokens bajo el selector del tema (ej. `[data-theme="sepia"]`).
 2. **API Global:** Utiliza `window.applyTheme('dark' | 'light' | 'sepia')` o cicla con `window.toggleThemeCycle()`.
-3. **Canvas 2D:** Si el tema afecta la topología, actualiza [TopologyRenderer.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/ui/topology/TopologyRenderer.js) para pintar el fondo y patrones concordantes.
+3. **Canvas 2D:** Si el tema afecta la topología, actualiza [TopologyRenderer.js](../../js/ui/topology/TopologyRenderer.js) para pintar el fondo y patrones concordantes.
 
 ### 🗺️ Guardar y restaurar vistas en los slots de topología (M-40)
 
@@ -778,7 +778,7 @@ miNuevoMetodo(id, props) {
 
 **Problema:** Tu método del store emite un `source` que `renderAll()` no reconoce.
 
-**Solución:** Agrega tu nuevo `source` a las condiciones de `renderAll()` en [main.js](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/js/main.js#L159-L210), o usa un source existente que cubra las vistas que necesitas.
+**Solución:** Agrega tu nuevo `source` a las condiciones de `renderAll()` en [main.js](../../js/main.js#L159-L210), o usa un source existente que cubra las vistas que necesitas.
 
 ### ❌ Error 5: "Usé import/export y nada funciona"
 
@@ -855,10 +855,10 @@ Todos los diagramas de arquitectura están en `doc/doc_img/doc_svg/` (46 archivo
 
 | Archivo | Nivel | Contenido |
 |:---|:---|:---|
-| [`erd_01_atomic_core.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Tipos base, seguridad y utilidades: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
-| [`erd_02_datacenter_entities.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades de infraestructura: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
-| [`erd_03_topology_engine.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) e Interacciones |
-| [`erd_04_system_reactive_architecture.svg`](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva completa: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 396 Tests (25 grupos) |
+| [`erd_01_atomic_core.svg`](../doc_img/doc_svg/erd/erd_01_atomic_core.svg) | Nivel 1 (Atómico) | Tipos base, seguridad y utilidades: VLAN, Port, CableType, RackAuth, Session, RackCrypto y Utils_FastClone |
+| [`erd_02_datacenter_entities.svg`](../doc_img/doc_svg/erd/erd_02_datacenter_entities.svg) | Nivel 2 (Datacenter) | Entidades de infraestructura: Room, Rack, Device, Connection, CustomCatalogItem y proyección a UI física |
+| [`erd_03_topology_engine.svg`](../doc_img/doc_svg/erd/erd_03_topology_engine.svg) | Nivel 3 (Topología 2D) | Motor Canvas 2D: TopologyState, Geometrías (Node, Rack, Room), TopologySkins (M-28), 5 TopologySlots (M-40) e Interacciones |
+| [`erd_04_system_reactive_architecture.svg`](../doc_img/doc_svg/erd/erd_04_system_reactive_architecture.svg) | Nivel 4 (Sistema Global) | Arquitectura reactiva completa: index.html, store.js (Proxy ES6), main.js (rAF 60 FPS, renderSingleRack), UI Views, Modales y Suite 396 Tests (25 grupos) |
 
 ### Diagramas de Funcionalidades
 
@@ -910,4 +910,4 @@ Todos los diagramas de arquitectura están en `doc/doc_img/doc_svg/` (46 archivo
 | `architecture/project_areas.svg` | Áreas del proyecto |
 | `flows/user_personas.svg` | Perfiles de usuario |
 
-También consulta: [ARCHITECTURE_GUIDE.md](file:///c:/Users/admin/.gemini/antigravity/scratch/Rack_Designer_2/doc/doc_md/ARCHITECTURE_GUIDE.md) para una explicación paso a paso de la arquitectura.
+También consulta: [ARCHITECTURE_GUIDE.md](ARCHITECTURE_GUIDE.md) para una explicación paso a paso de la arquitectura.
